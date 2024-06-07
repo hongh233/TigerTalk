@@ -1,8 +1,8 @@
-package com.example.Tiger_Talks.backend.controller;
+package com.group2.Tiger_Talks.backend.controller;
 
 
-import com.example.Tiger_Talks.backend.model.User.UserTemplate;
-import com.example.Tiger_Talks.backend.service.SignUpService;
+import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
+import com.group2.Tiger_Talks.backend.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

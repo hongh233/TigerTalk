@@ -1,4 +1,4 @@
-package com.example.Tiger_Talks.backend.model.User;
+package com.group2.Tiger_Talks.backend.model.User;
 
 import jakarta.persistence.*;
 
@@ -9,6 +9,14 @@ public class User {
     @Id
     @Column(name = B_00)
     private int B00;
+
+    @OneToOne
+    @JoinColumn(referencedColumnName = User.B_00)
+    private UserProfile userProfile;
+
+    @OneToOne
+    @JoinColumn(referencedColumnName = User.B_00)
+    private UserTemplate userTemplate;
 
     public User(int b00, UserProfile userProfile, UserTemplate userTemplate) {
         B00 = b00;
@@ -42,12 +50,4 @@ public class User {
     public void setUserTemplate(UserTemplate userTemplate) {
         this.userTemplate = userTemplate;
     }
-
-    @OneToOne
-    @JoinColumn(referencedColumnName = User.B_00)
-    private UserProfile userProfile;
-
-    @OneToOne
-    @JoinColumn(referencedColumnName = User.B_00)
-    private UserTemplate userTemplate;
 }

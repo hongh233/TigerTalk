@@ -1,4 +1,4 @@
-package com.example.Tiger_Talks.backend.model.User;
+package com.group2.Tiger_Talks.backend.model.User;
 
 
 import jakarta.persistence.*;
@@ -9,11 +9,8 @@ public class UserProfile {
 
     @Id
     @Column(name = User.B_00)
-    int B00;
-
-    @OneToOne
     @JoinColumn(referencedColumnName = User.B_00)
-    private User user;
+    int B00;
 
     private int phone_number;
     private String bio;
@@ -22,14 +19,12 @@ public class UserProfile {
     private Status status;
 
     public UserProfile(int B00,
-                       User user,
                        int phone_number,
                        String bio,
                        Role role,
                        String postal_code,
                        Status status) {
         this.B00 = B00;
-        this.user = user;
         this.phone_number = phone_number;
         this.bio = bio;
         this.role = role;

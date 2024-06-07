@@ -1,4 +1,4 @@
-package com.example.Tiger_Talks;
+package com.group2.Tiger_Talks;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,8 +1,8 @@
-package com.example.Tiger_Talks.backend.service.impl;
+package com.group2.Tiger_Talks.backend.service.impl;
 
-import com.example.Tiger_Talks.backend.service.UserTemplateService;
-import com.example.Tiger_Talks.backend.model.User.UserTemplate;
-import com.example.Tiger_Talks.backend.service.SignUpService;
+import com.group2.Tiger_Talks.backend.service.UserTemplateService;
+import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
+import com.group2.Tiger_Talks.backend.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

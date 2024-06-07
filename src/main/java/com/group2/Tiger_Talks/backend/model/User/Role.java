@@ -1,4 +1,4 @@
-package com.example.Tiger_Talks.backend.model.User;
+package com.group2.Tiger_Talks.backend.model.User;
 
 
 public enum Role {

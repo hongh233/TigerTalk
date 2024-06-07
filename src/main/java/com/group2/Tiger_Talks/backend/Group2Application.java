@@ -1,4 +1,4 @@
-package com.example.Tiger_Talks.backend;
+package com.group2.Tiger_Talks.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

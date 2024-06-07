@@ -1,6 +1,6 @@
-package com.example.Tiger_Talks.backend.service;
+package com.group2.Tiger_Talks.backend.service;
 
-import com.example.Tiger_Talks.backend.model.User.UserTemplate;
+import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 
 import java.util.List;
 import java.util.Optional;

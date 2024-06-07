@@ -1,4 +1,4 @@
-package com.example.Tiger_Talks.backend.model.User;
+package com.group2.Tiger_Talks.backend.model.User;
 
 
 import jakarta.persistence.*;
@@ -9,26 +9,11 @@ public class UserTemplate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
-    @Override
-    public String toString() {
-        return "UserTemplate{" +
-                "\nuserId=" + userId +
-                ",\n userName='" + userName + '\'' +
-                ",\n B00=" + B00 +
-                ",\n hashedPassword='" + hashedPassword + '\'' +
-                ",\n firstName='" + firstName + '\'' +
-                ",\n lastName='" + lastName + '\'' +
-                ",\n age=" + age +
-                ",\n email='" + email + '\'' +
-                ",\n gender='" + gender + '\'' +
-                ",\n isValidated=" + isValidated +
-                "\n}\n";
-    }
-
     @Column(unique = true)
     private String userName;
 
     @Column(unique = true, name = User.B_00)
+    @JoinColumn(referencedColumnName = User.B_00)
     private int B00;
 
     private String hashedPassword;
@@ -44,21 +29,33 @@ public class UserTemplate {
                         String lastName,
                         int age,
                         String gender,
-                        String hashedPassword,
-                        String email,
-                        boolean isValidated) {
+                        String password,
+                        String email) {
         this.userName = userName;
-        this.hashedPassword = hashedPassword;
+        this.hashedPassword = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.email = email;
         this.gender = gender;
-        this.isValidated = isValidated;
     }
 
     public UserTemplate() {
+    }
 
+    private String toString_() {
+        return "UserTemplate{" +
+                "\nuserId=" + userId +
+                ",\n userName='" + userName + '\'' +
+                ",\n B00=" + B00 +
+                ",\n hashedPassword='" + hashedPassword + '\'' +
+                ",\n firstName='" + firstName + '\'' +
+                ",\n lastName='" + lastName + '\'' +
+                ",\n age=" + age +
+                ",\n email='" + email + '\'' +
+                ",\n gender='" + gender + '\'' +
+                ",\n isValidated=" + isValidated +
+                "\n}\n";
     }
 
     public int getUserId() {
