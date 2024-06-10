@@ -2,24 +2,30 @@ package com.group2.Tiger_Talks.backend.controller;
 
 
 import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
-import com.group2.Tiger_Talks.backend.service.SignUpService;
+import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/signUp")
 public class SignUpController {
 
     @Autowired
-    SignUpService signUpService;
+    private SignUpService signUpService;  // register
 
 
     @PostMapping("/userSignUp")
-    public String signUp(@RequestBody UserTemplate user_basics) {
-        return signUpService.trySaveUser(user_basics)
-                .orElse("Successfully saved user to database");
+    public ResponseEntity<String> signUp(@RequestBody UserTemplate userTemplate) {
+        Optional<String> result = signUpService.signUpUserTemplate(userTemplate);
+        if (result.isEmpty()) {
+            return ResponseEntity.ok("Successfully saved user to database");
+        } else {
+            return ResponseEntity.badRequest().body(result.get());
+        }
     }
 
     @GetMapping("/getAllUserTemplates")

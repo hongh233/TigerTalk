@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.service;
+package com.group2.Tiger_Talks.backend.service.Authentication;
 
 import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 
@@ -11,7 +11,7 @@ public interface SignUpService {
      * @param userTemplate The user template to save
      * @return Returns an error as a string of any else returns an empty optional
      */
-    Optional<String> trySaveUser(UserTemplate userTemplate);
+    public Optional<String> signUpUserTemplate(UserTemplate userTemplate);
 
-    List<UserTemplate> getAllUserTemplates();
+    public List<UserTemplate> getAllUserTemplates();
 }
