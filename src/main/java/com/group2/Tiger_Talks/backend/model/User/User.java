@@ -1,53 +1,76 @@
 package com.group2.Tiger_Talks.backend.model.User;
-
 import jakarta.persistence.*;
 
-
 @Entity
+@Table(name = "user")
 public class User {
-    static final String B_00 = "B00";
-    @Id
-    @Column(name = B_00)
-    private int B00;
 
-    @OneToOne
-    @JoinColumn(referencedColumnName = User.B_00)
+    @Id
+    private Integer userId;     // PK | FK
+    @Column(unique = true)
+    private String userName;
+    private String role;        // student / instructor / employee
+    private String status;      // away / busy / available
+
+
+    // PK -> FK setting
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserProfile userProfile;
 
+
+    // FK setting
     @OneToOne
-    @JoinColumn(referencedColumnName = User.B_00)
+    @MapsId
+    @JoinColumn(name = "userId")
     private UserTemplate userTemplate;
 
-    public User(int b00, UserProfile userProfile, UserTemplate userTemplate) {
-        B00 = b00;
-        this.userProfile = userProfile;
+
+    public User(String userName, String role, String status, UserTemplate userTemplate) {
+        this.userName = userName;
+        this.role = role;
+        this.status = status;
+        this.userProfile = null;
         this.userTemplate = userTemplate;
     }
 
     public User() {
     }
 
-    public int getB00() {
-        return B00;
+    public int getUserId() {
+        return userId;
     }
-
-    public void setB00(int b00) {
-        B00 = b00;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
-
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public UserProfile getUserProfile() {
         return userProfile;
     }
-
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
-
     public UserTemplate getUserTemplate() {
         return userTemplate;
     }
-
     public void setUserTemplate(UserTemplate userTemplate) {
         this.userTemplate = userTemplate;
     }
+
 }

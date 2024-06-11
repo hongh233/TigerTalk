@@ -15,9 +15,10 @@ public interface UserTemplateRepository extends JpaRepository<UserTemplate, Inte
      * @param userId UserId to search by
      * @return An optional of a user template if one was found
      */
-    Optional<UserTemplate> findUserTemplateByUserId(int userId);
+    Optional<UserTemplate> findUserTemplateByUserId(Integer userId);
 
+    Optional<UserTemplate> findUserTemplateByEmail(String email);
 
-    Optional<UserTemplate> findUserTemplateByUserName(String email);
+    Optional<UserTemplate> findUserTemplateByBannerID(String bannerId);
 
 }
