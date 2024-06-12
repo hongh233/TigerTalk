@@ -1,9 +1,11 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
-import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
-import com.group2.Tiger_Talks.backend.service.User.UserTemplateService;
+import com.group2.Tiger_Talks.backend.model.User.UserLevel;
+import com.group2.Tiger_Talks.backend.model.User.UserStatus;
 import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
+import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
+import com.group2.Tiger_Talks.backend.service.User.UserTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +15,6 @@ import java.util.regex.Pattern;
 
 @Service
 public class SignUpServiceImpl implements SignUpService {
-    @Autowired
-    private UserTemplateRepository userTemplateRepository;
-    @Autowired
-    private UserTemplateService userTemplateService;
-
     private static final Pattern PASSWORD_NORM =
             Pattern.compile(
                     "^(?=.*[a-z])" +
@@ -31,6 +28,10 @@ public class SignUpServiceImpl implements SignUpService {
                             "@" +
                             "[A-Za-z0-9.]*" +
                             "dal\\.ca$");
+    @Autowired
+    private UserTemplateRepository userTemplateRepository;
+    @Autowired
+    private UserTemplateService userTemplateService;
 
     @Override
     public Optional<String> signUpUserTemplate(UserTemplate userTemplate) {
@@ -51,8 +52,8 @@ public class SignUpServiceImpl implements SignUpService {
             return Optional.of("BannerID has already existed!");
         }
 
-        userTemplate.setStatus("pending");
-        userTemplate.setUserLevel("user");
+        userTemplate.setStatus(UserStatus.PENDING);
+        userTemplate.setUserLevel(UserLevel.USER);
         userTemplateService.createUserTemplate(userTemplate);
         return Optional.empty();
     }
@@ -61,8 +62,6 @@ public class SignUpServiceImpl implements SignUpService {
     public List<UserTemplate> getAllUserTemplates() {
         return userTemplateService.getAllUserTemplates();
     }
-
-
 
 
 }
