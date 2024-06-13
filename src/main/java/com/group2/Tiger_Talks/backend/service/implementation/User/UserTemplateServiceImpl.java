@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserTemplateServiceImpl implements UserTemplateService {
@@ -25,14 +26,14 @@ public class UserTemplateServiceImpl implements UserTemplateService {
 
     @Override
 
-    public UserTemplate getUserTemplateById(Integer userId) {
-        return userTemplateRepository.findById(userId).orElse(null);
+    public Optional<UserTemplate> getUserTemplateByEmail(String email) {
+        return userTemplateRepository.findById(email);
     }
 
     @Override
 
-    public void deleteUserTemplateById(Integer userId) {
-        userTemplateRepository.deleteById(userId);
+    public void deleteUserTemplateByEmail(String email) {
+        userTemplateRepository.deleteById(email);
     }
 
     @Override

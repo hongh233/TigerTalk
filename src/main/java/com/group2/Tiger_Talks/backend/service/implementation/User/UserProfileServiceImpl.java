@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
@@ -24,13 +25,13 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserProfile getUserProfileById(Integer userId) {
-        return userProfileRepository.findById(userId).orElse(null);
+    public Optional<UserProfile> getUserProfileByEmail(String email) {
+        return userProfileRepository.findById(email);
     }
 
     @Override
-    public void deleteUserProfileById(Integer userId) {
-        userProfileRepository.deleteById(userId);
+    public void deleteUserProfileByEmail(String email) {
+        userProfileRepository.deleteById(email);
     }
 
     @Override
