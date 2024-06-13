@@ -19,13 +19,9 @@ public class LoginController {
     private LogInService logInService;
 
     @PostMapping("/userLogIn")
-    public ResponseEntity<String> logIn(@RequestParam String email, @RequestParam String password) {
-        Optional<UserTemplate> result = logInService.logInUserTemplate(email, password);
-        if (result.isPresent()) {
-            return ResponseEntity.ok("Welcome, " + result.get().getEmail());
-        } else {
-            return ResponseEntity.status(401).body("invalid email or password.");
-        }
+    public ResponseEntity<String> logIn(@RequestParam("email") String email, @RequestParam("password") String password) {
+        return logInService.logInUserTemplate(email, password)
+                .map(userTemplate -> ResponseEntity.ok("Welcome, " + userTemplate.getEmail()))
+                .orElseGet(() -> ResponseEntity.status(401).body("invalid email or password."));
     }
-
 }

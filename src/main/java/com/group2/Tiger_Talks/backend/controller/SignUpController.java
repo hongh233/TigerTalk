@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/signUp")
@@ -20,16 +19,13 @@ public class SignUpController {
 
     @PostMapping("/userSignUp")
     public ResponseEntity<String> signUp(@RequestBody UserTemplate userTemplate) {
-        Optional<String> result = signUpService.signUpUserTemplate(userTemplate);
-        if (result.isEmpty()) {
-            return ResponseEntity.ok("Successfully saved user to database");
-        } else {
-            return ResponseEntity.badRequest().body(result.get());
-        }
+        return signUpService.signUpUserTemplate(userTemplate)
+                .map(err -> ResponseEntity.badRequest().body(err))
+                .orElseGet(() -> ResponseEntity.ok("Successfully saved user to database"));
     }
 
     @GetMapping("/getAllUserTemplates")
-    public List<UserTemplate> getAllUserTemplates(){
+    public List<UserTemplate> getAllUserTemplates() {
         return signUpService.getAllUserTemplates();
     }
 }
