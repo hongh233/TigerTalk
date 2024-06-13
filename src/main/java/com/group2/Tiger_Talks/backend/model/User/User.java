@@ -6,7 +6,8 @@ import jakarta.persistence.*;
 public class User {
 
     @Id
-    private Integer userId;     // PK | FK
+    private String email;     // PK | FK
+
     @Column(unique = true)
     private String userName;
     private String role;        // student / instructor / employee
@@ -21,11 +22,12 @@ public class User {
     // FK setting
     @OneToOne
     @MapsId
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "email")
     private UserTemplate userTemplate;
 
 
-    public User(String userName, String role, String status, UserTemplate userTemplate) {
+    public User(String email,String userName, String role, String status, UserTemplate userTemplate) {
+        this.email = email;
         this.userName = userName;
         this.role = role;
         this.status = status;
@@ -36,12 +38,6 @@ public class User {
     public User() {
     }
 
-    public int getUserId() {
-        return userId;
-    }
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
     public String getUserName() {
         return userName;
     }

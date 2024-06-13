@@ -7,15 +7,16 @@ import java.util.Optional;
 
 public interface UserTemplateService {
 
-    public UserTemplate createUserTemplate(UserTemplate userTemplate);
+    UserTemplate createUserTemplate(UserTemplate userTemplate);
 
 
-    public List<UserTemplate> getAllUserTemplates();
+    List<UserTemplate> getAllUserTemplates();
 
-    public UserTemplate getUserTemplateById(Integer userId);
+    Optional<UserTemplate> getUserTemplateByEmail(String email);
 
-    public void deleteUserTemplateById(Integer userId);
-    public UserTemplate updateUserTemplate(UserTemplate userTemplate);
+    void deleteUserTemplateByEmail(String email);
+
+    UserTemplate updateUserTemplate(UserTemplate userTemplate);
 
 
 }

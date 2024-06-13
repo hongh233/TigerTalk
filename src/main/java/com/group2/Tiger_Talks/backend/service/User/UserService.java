@@ -5,9 +5,13 @@ import com.group2.Tiger_Talks.backend.model.User.User;
 import java.util.List;
 
 public interface UserService {
-    public User createUser(User user);
-    public List<User> getAllUsers();
-    public User getUserById(Integer userId);
-    public void deleteUserById(Integer userId);
-    public User updateUser(User user);
+    User createUser(User user);
+
+    List<User> getAllUsers();
+
+    User getUserByEmail(String email);
+
+    void deleteUserByEmail(String email);
+
+    User updateUser(User user);
 }

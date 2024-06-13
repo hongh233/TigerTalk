@@ -1,13 +1,13 @@
 package com.group2.Tiger_Talks.backend.model.User;
 
 public enum UserStatus {
-    BLOCK,
+    BLOCKED,
     PENDING,
     ACTIVE;
 
     public static UserStatus fromString(String str) {
         return switch (str.toLowerCase()) {
-            case "block" -> BLOCK;
+            case "blocked" -> BLOCKED;
             case "pending" -> PENDING;
             case "active" -> ACTIVE;
             default -> throw new IllegalArgumentException("Unknown status: " + str);
