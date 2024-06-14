@@ -1,0 +1,14 @@
+
+.profile-settings-nav{
+    width: 15%;
+}
+.profile-settings-wrapper{
+    display: flex;
+    padding-top: 4%;
+}
+
+.profile-settings-form{
+    width: 30%;
+    padding-top: 5%;
+    margin: 0 auto;
+}

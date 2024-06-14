@@ -1,0 +1,29 @@
+.group-page {
+    display: flex;
+    background-color: #f0f2f5;
+  }
+  .group-nav{
+    height: 100vh;
+    width: 15%;
+  }
+  .group-content {
+    padding-top: 5%;
+    height: 100vh;
+    width: 80%;
+    padding-left: 20px;
+  
+  }
+  
+  @media (max-width: 768px) {
+    .group-navbar {
+      position: static;
+      width: 100%;
+      height: auto;
+    }
+  
+    .group-content {
+      margin-left: 0;
+      padding: 10px;
+    }
+  }
+  

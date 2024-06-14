@@ -1,0 +1,14 @@
+
+.group-create-nav{
+    width: 15%;
+}
+.group-create-wrapper{
+    display: flex;
+    padding-top: 4%;
+}
+
+.group-create-form{
+    width: 30%;
+    padding-top: 5%;
+    margin: 0 auto;
+}

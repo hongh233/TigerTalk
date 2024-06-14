@@ -1,0 +1,39 @@
+.comment {
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+}
+
+.comment-profile-picture {
+  width: 30px;
+  height: 30px;
+  background-color: #ddd;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comment-user-details {
+  flex: 1;
+}
+
+.comment-user-details h4 {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.comment-user-details p {
+  margin: 0;
+  color: #888;
+  font-size: 0.75rem;
+}
+
+.comment-content {
+  margin-top: 5px;
+  padding-left: 20px;
+  font-size: 14px;
+}
