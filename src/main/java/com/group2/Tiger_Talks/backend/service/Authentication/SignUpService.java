@@ -8,10 +8,11 @@ import java.util.Optional;
 public interface SignUpService {
     /**
      * Tries to save a user to a database
+     *
      * @param userTemplate The user template to save
      * @return Returns an error as a string of any else returns an empty optional
      */
-    public Optional<String> signUpUserTemplate(UserTemplate userTemplate);
+    Optional<String> signUpUserTemplate(UserTemplate userTemplate);
 
-    public List<UserTemplate> getAllUserTemplates();
+    List<UserTemplate> getAllUserTemplates();
 }
