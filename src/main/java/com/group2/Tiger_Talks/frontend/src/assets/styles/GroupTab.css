@@ -1,0 +1,66 @@
+.group-tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.group-tab-button {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.group-tab-button:hover {
+  background-color: #ddd;
+}
+
+.group-tab-button svg {
+  margin-right: 10px;
+}
+
+.group-tab-dropdown {
+  max-height: 0;
+   width: inherit;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  margin-bottom: 15px;
+ 
+}
+
+.group-tab-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin: 5px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  color: #333;
+}
+
+.group-tab-dropdown p,
+.group-tab-dropdown .group-tab-item {
+  padding: 10px;
+  margin: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.group-tab-dropdown p:last-child,
+.group-tab-dropdown .notification-item:last-child {
+  border-bottom: none;
+}
+
+.group-tab-dropdown.show {
+  max-height: 200px; /* Adjust this height based on the content */
+}

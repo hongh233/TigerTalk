@@ -1,0 +1,12 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-details {
+  width: 60%;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-top: 20px;
+}

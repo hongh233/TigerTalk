@@ -1,0 +1,15 @@
+.notification-button {
+  position: relative;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.notification-icon {
+  font-size: 24px;
+  color: #17a2b8;;
+  cursor: pointer;
+}
+
+.notification-icon:hover {
+  color: #0056b3;
+}

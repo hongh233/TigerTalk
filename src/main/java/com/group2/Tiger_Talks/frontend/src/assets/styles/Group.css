@@ -1,0 +1,43 @@
+.group {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .group-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .group-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin-right: 10px;
+  }
+  
+  .group-creator-details a {
+    margin: 0;
+    font-size: 1rem;
+  }
+  
+  .group-creator-details p {
+    margin: 0;
+    color: #888;
+    font-size: 0.875rem;
+  }
+  
+  .group-description {
+    margin-bottom: 10px;
+  }
+  
+  .group-footer {
+    display: flex;
+  }
+  
+  
