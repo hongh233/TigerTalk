@@ -39,5 +39,9 @@
   },
   "devDependencies": {
     "react-router-dom": "^6.23.1"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }

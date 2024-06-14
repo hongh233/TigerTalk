@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/logIn/passwordReset")
 public class PasswordResetController {
 
-
     @Autowired
     private PasswordResetService passwordResetService;
 
-    @PostMapping("/sendToken")
+    @PostMapping("/resetPassword")
     public ResponseEntity<String> resetPassword(@RequestParam ForgotPasswordDTO passwordDTO) {
         return passwordResetService.resetPassword(passwordDTO)
                 .map(err -> ResponseEntity.status(404).body(err))

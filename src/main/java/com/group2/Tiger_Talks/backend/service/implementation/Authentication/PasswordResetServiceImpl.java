@@ -68,7 +68,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     public Optional<String> resetPassword(ForgotPasswordDTO passwordDTO) {
         return userTemplateRepository.findUserTemplateByEmail(passwordDTO.email())
                 .map(userTemplate -> {
-                    userTemplate.setPassword(passwordDTO.passwordToRestTo());
+                    userTemplate.setPassword(passwordDTO.password());
                     return Optional.<String>empty();
                 })
                 .orElseGet(() ->
