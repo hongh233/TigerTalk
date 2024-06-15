@@ -14,10 +14,12 @@ import java.util.Optional;
 
 @Service
 public class PasswordResetServiceImpl implements PasswordResetService {
-    private final static String PASSWORD_RESET_SUBJECT = "Reset your passwordToRestTo for your account";
+    private final static String PASSWORD_RESET_SUBJECT = "Reset your password for your account";
     private final static String PASSWORD_RESET_MESSAGE = """
-            Enter this code to reset your passwordToRestTo
+            Enter this code to reset your password
+                       \s
             %s
+                       \s
             The code will expire after %d minutes.""";
 
     @Autowired
@@ -45,7 +47,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         simpleMailMessage.setTo(email);
         simpleMailMessage.setSubject(PASSWORD_RESET_SUBJECT);
         simpleMailMessage.setText(PASSWORD_RESET_MESSAGE.formatted(
-                passwordToken.getToken(), PasswordToken.VALID_TIMER
+                passwordToken.getToken(), PasswordToken.EXPIRATION_MINUTES
         ));
 
         // Send the message
@@ -59,9 +61,11 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         return passwordTokenRepository.findPasswordTokenByToken(token)
                 .map(retrievedToken -> {
                     passwordTokenRepository.deleteById(retrievedToken.getId());
+                    if (retrievedToken.isTokenExpired())
+                        return Optional.of("Token is has exceeded its time limit and is now expired");
                     return Optional.<String>empty();
                 })
-                .orElseGet(() -> Optional.of("Token is expired / Invalid try resending the mail"));
+                .orElseGet(() -> Optional.of("Token is expired / invalid. Try resending the mail"));
     }
 
     @Override
@@ -69,6 +73,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         return userTemplateRepository.findUserTemplateByEmail(passwordDTO.email())
                 .map(userTemplate -> {
                     userTemplate.setPassword(passwordDTO.password());
+                    userTemplateRepository.save(userTemplate);
                     return Optional.<String>empty();
                 })
                 .orElseGet(() ->

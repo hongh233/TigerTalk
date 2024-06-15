@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 public class PasswordToken {
-    static final byte VALID_TIMER = 2;
+    static final byte EXPIRATION_MINUTES = 10;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,5 +49,10 @@ public class PasswordToken {
 
     public Long getId() {
         return id;
+    }
+
+    public boolean isTokenExpired() {
+        LocalDateTime expirationTime = timestamp.plusMinutes(EXPIRATION_MINUTES);
+        return LocalDateTime.now().isAfter(expirationTime);
     }
 }

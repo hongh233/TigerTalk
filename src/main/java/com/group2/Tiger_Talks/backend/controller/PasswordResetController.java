@@ -14,7 +14,7 @@ public class PasswordResetController {
     private PasswordResetService passwordResetService;
 
     @PostMapping("/resetPassword")
-    public ResponseEntity<String> resetPassword(@RequestParam ForgotPasswordDTO passwordDTO) {
+    public ResponseEntity<String> resetPassword(@RequestBody ForgotPasswordDTO passwordDTO) {
         return passwordResetService.resetPassword(passwordDTO)
                 .map(err -> ResponseEntity.status(404).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Password was successfully reset"));
@@ -24,7 +24,7 @@ public class PasswordResetController {
     public ResponseEntity<String> sendToken(@RequestParam("email") String email) {
         return passwordResetService.createAndSendResetMail(email)
                 .map(err -> ResponseEntity.status(404).body(err))
-                .orElseGet(() -> ResponseEntity.ok("Email was sent successfully to " + email + " for resetting your passwordToRestTo"));
+                .orElseGet(() -> ResponseEntity.ok("Email was sent successfully to " + email + " for resetting your password"));
     }
 
     @PostMapping("/checkToken/{token}")
