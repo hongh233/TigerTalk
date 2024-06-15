@@ -15,7 +15,7 @@ public interface PasswordResetService {
     Optional<String> validateToken(String token);
 
     /**
-     * Resets passwordToRestTo for the given user
+     * Resets password for the given user
      *
      * @param passwordDTO The email for said user
      * @return An error if one was encountered
@@ -23,7 +23,7 @@ public interface PasswordResetService {
     Optional<String> resetPassword(ForgotPasswordDTO passwordDTO);
 
     /**
-     * Constructs a passwordToRestTo OTP token that would be sent to the user's email
+     * Constructs a password OTP token that would be sent to the user's email
      *
      * @param email The email to be sent too
      */

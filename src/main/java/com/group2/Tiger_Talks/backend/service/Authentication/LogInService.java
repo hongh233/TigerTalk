@@ -9,7 +9,7 @@ public interface LogInService {
      * Logs a user into the app
      *
      * @param email    The email used for logging in
-     * @param password The passwordToRestTo used for logging in
+     * @param password The password used for logging in
      * @return A user profile if login was successful
      */
     Optional<UserTemplate> logInUserTemplate(String email, String password);

@@ -5,13 +5,17 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "user_profile")
 public class UserProfile {
+    public static String PUBLIC = "public";
+    public static String PROTECTED = "protected";
+    public static String PRIVATE = "private";
+
     @Id
     private String email;             // PK | FK
     private String personalInterest;
     private String location;
     private String postalCode;
     private String biography;
-    private PeopleAccessLevel peopleAccessLevel;  // public / protected / private
+    private String peopleAccessLevel;  // public / protected / private
     private String phoneNumber;
 
     // FK setting
@@ -38,7 +42,7 @@ public class UserProfile {
         this.postalCode = postalCode;
         this.biography = biography;
         this.phoneNumber = phoneNumber;
-        this.peopleAccessLevel = PeopleAccessLevel.fromString(peopleAccessLevel);
+        this.peopleAccessLevel = peopleAccessLevel;
         this.user = user;
     }
 
@@ -74,12 +78,12 @@ public class UserProfile {
         this.biography = biography;
     }
 
-    public PeopleAccessLevel getPeopleAccessLevel() {
+    public String getPeopleAccessLevel() {
         return peopleAccessLevel;
     }
 
     public void setPeopleAccessLevel(String peopleAccessLevel) {
-        this.peopleAccessLevel = PeopleAccessLevel.fromString(peopleAccessLevel);
+        this.peopleAccessLevel = peopleAccessLevel;
     }
 
     public User getUser() {
