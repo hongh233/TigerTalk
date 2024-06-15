@@ -7,9 +7,6 @@ import java.util.Optional;
 
 public interface UserTemplateService {
 
-    UserTemplate createUserTemplate(UserTemplate userTemplate);
-
-
     List<UserTemplate> getAllUserTemplates();
 
     Optional<UserTemplate> getUserTemplateByEmail(String email);

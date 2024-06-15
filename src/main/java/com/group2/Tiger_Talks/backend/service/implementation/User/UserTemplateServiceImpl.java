@@ -11,13 +11,9 @@ import java.util.Optional;
 
 @Service
 public class UserTemplateServiceImpl implements UserTemplateService {
+
     @Autowired
     private UserTemplateRepository userTemplateRepository;
-
-    @Override
-    public UserTemplate createUserTemplate(UserTemplate userTemplate) {
-        return userTemplateRepository.save(userTemplate);
-    }
 
     @Override
     public List<UserTemplate> getAllUserTemplates() {

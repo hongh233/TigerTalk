@@ -1,4 +1,5 @@
 package com.group2.Tiger_Talks.backend.model.User;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,11 +9,8 @@ public class User {
     @Id
     private String email;     // PK | FK
 
-    @Column(unique = true)
-    private String userName;
     private String role;        // student / instructor / employee
     private String status;      // away / busy / available
-
 
     // PK -> FK setting
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -26,9 +24,8 @@ public class User {
     private UserTemplate userTemplate;
 
 
-    public User(String email,String userName, String role, String status, UserTemplate userTemplate) {
+    public User(String email,  String role, String status, UserTemplate userTemplate) {
         this.email = email;
-        this.userName = userName;
         this.role = role;
         this.status = status;
         this.userProfile = null;
@@ -38,33 +35,34 @@ public class User {
     public User() {
     }
 
-    public String getUserName() {
-        return userName;
-    }
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
     public String getRole() {
         return role;
     }
+
     public void setRole(String role) {
         this.role = role;
     }
+
     public String getStatus() {
         return status;
     }
+
     public void setStatus(String status) {
         this.status = status;
     }
+
     public UserProfile getUserProfile() {
         return userProfile;
     }
+
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
+
     public UserTemplate getUserTemplate() {
         return userTemplate;
     }
+
     public void setUserTemplate(UserTemplate userTemplate) {
         this.userTemplate = userTemplate;
     }

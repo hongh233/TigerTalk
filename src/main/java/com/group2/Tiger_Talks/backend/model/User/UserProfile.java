@@ -8,16 +8,11 @@ public class UserProfile {
     @Id
     private String email;             // PK | FK
     private String personalInterest;
-    private String phoneNumber;
-    private Integer age;
-    private String gender;
     private String location;
     private String postalCode;
     private String biography;
     private PeopleAccessLevel peopleAccessLevel;  // public / protected / private
-    private String firstName;
-    private String lastName;
-
+    private String phoneNumber;
 
     // FK setting
     @OneToOne
@@ -31,27 +26,19 @@ public class UserProfile {
 
     public UserProfile(String email,
                        String personalInterest,
-                       String phoneNumber,
-                       Integer age,
-                       String gender,
                        String location,
                        String postalCode,
                        String biography,
                        String peopleAccessLevel,
-                       String firstName,
-                       String lastName,
+                       String phoneNumber,
                        User user) {
         this.email = email;
         this.personalInterest = personalInterest;
-        this.phoneNumber = phoneNumber;
-        this.age = age;
-        this.gender = gender;
         this.location = location;
         this.postalCode = postalCode;
         this.biography = biography;
+        this.phoneNumber = phoneNumber;
         this.peopleAccessLevel = PeopleAccessLevel.fromString(peopleAccessLevel);
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.user = user;
     }
 
@@ -61,30 +48,6 @@ public class UserProfile {
 
     public void setPersonalInterest(String personalInterest) {
         this.personalInterest = personalInterest;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getLocation() {
@@ -119,22 +82,6 @@ public class UserProfile {
         this.peopleAccessLevel = PeopleAccessLevel.fromString(peopleAccessLevel);
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public User getUser() {
         return user;
     }
@@ -145,6 +92,14 @@ public class UserProfile {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
 

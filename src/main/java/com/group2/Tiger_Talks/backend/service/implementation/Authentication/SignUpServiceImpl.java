@@ -1,7 +1,5 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
-import com.group2.Tiger_Talks.backend.model.User.UserLevel;
-import com.group2.Tiger_Talks.backend.model.User.UserStatus;
 import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
@@ -45,16 +43,19 @@ public class SignUpServiceImpl implements SignUpService {
         }
 
         if (userTemplateRepository.findUserTemplateByEmail(userTemplate.getEmail()).isPresent()) {
-            return Optional.of("Email has already existed!");
+            return Optional.of("Email already existed!");
         }
 
-        if (userTemplateRepository.findUserTemplateByBannerID(userTemplate.getBannerID()).isPresent()) {
-            return Optional.of("BannerID has already existed!");
+        if(userTemplateRepository.findUserTemplateByUserName(userTemplate.getUserName()).isPresent()) {
+            return Optional.of("Username already existed!");
         }
 
-        userTemplate.setStatus(UserStatus.PENDING);
-        userTemplate.setUserLevel(UserLevel.USER);
-        userTemplateService.createUserTemplate(userTemplate);
+        userTemplate.setStatus(UserTemplate.PENDING);
+        userTemplate.setUserLevel(UserTemplate.USER);
+
+
+
+        userTemplateRepository.save(userTemplate);
         return Optional.empty();
     }
 
