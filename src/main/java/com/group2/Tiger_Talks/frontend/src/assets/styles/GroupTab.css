@@ -40,7 +40,6 @@
 
 .group-tab-item {
   background-color: #f9f9f9;
-  border: 1px solid #ddd;
   border-radius: 4px;
   padding: 10px 15px;
   margin: 5px 0;
@@ -57,10 +56,66 @@
 }
 
 .group-tab-dropdown p:last-child,
-.group-tab-dropdown .notification-item:last-child {
+.group-tab-dropdown {
   border-bottom: none;
 }
 
 .group-tab-dropdown.show {
-  max-height: 200px; /* Adjust this height based on the content */
+  max-height: 200px; 
 }
+
+
+
+@media (max-width: 768px) {
+  .group-tab {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .text-hide{
+    display: none;
+  }
+
+  .group-tab-button {
+    margin-bottom: 0;
+    color: #fff;
+  }
+  .navbar a:hover {
+    background-color: #333;
+  }
+
+
+  .group-tab-dropdown {
+
+    max-width: 0;
+    height: inherit;
+    overflow: hidden;
+    transition: max-width 0.3s ease;
+
+    display: flex;
+    flex-direction: row;
+    background-color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-bottom: 0;
+   
+  }
+  .group-tab-dropdown a {
+    background-color: #333;
+    flex-direction: row;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-bottom: 0;
+   
+  }
+
+  .group-tab button:hover {
+    background-color: #939191;
+  }
+
+  .group-tab-dropdown.show {
+    max-width: 200px; 
+  }
+
+  
+}
+

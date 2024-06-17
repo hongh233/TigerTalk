@@ -27,13 +27,15 @@ const groups = [
 const GroupPage = () => (
   <div className="group-page">
     <Header/>
-    <div className="group-nav">
-      <NavBar/>
+    <div className='content'>
+      <div className="group-nav">
+        <NavBar/>
+      </div>
+      <div className="group-content">
+        {groups.map(group => <Group key={group.id} group={group} />)}
+      </div>
     </div>
-    <div className="group-content">
-      {groups.map(group => <Group key={group.id} group={group} />)}
-    </div>
-   
+  
   </div>
 );
 
