@@ -16,8 +16,12 @@ public class FriendController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addFriend(@RequestParam String senderEmail, @RequestParam String receiverEmail) {
-        friendService.sendFriendRequest(senderEmail, receiverEmail);
-        return ResponseEntity.ok("Friend request sent.");
+        try {
+            friendService.sendFriendRequest(senderEmail, receiverEmail);
+            return ResponseEntity.ok("Friend request sent.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/accept")
@@ -32,7 +36,7 @@ public class FriendController {
         return ResponseEntity.ok("Friend request rejected.");
     }
 
-    @GetMapping("/all")
+    @GetMapping("/getAll")
     public ResponseEntity<?> getAllFriends(@RequestParam String email) {
         List<Friendship> friends = friendService.getAllFriends(email);
         return ResponseEntity.ok(friends);

@@ -8,5 +8,15 @@ import java.util.Optional;
 
 public interface FriendshipRequestRepository extends JpaRepository<FriendshipRequest, Integer> {
     List<FriendshipRequest> findByUserFriendshipReceiverAndStatus(String userFriendshipReceiver, String status);
-    Optional<FriendshipRequest> findByUserFriendshipSenderAndUserFriendshipReceiver(String userFriendshipSender, String userFriendshipReceiver);
+
+
+    // find an exact friend request depend on sender and receiver
+    Optional<FriendshipRequest> findByUserFriendshipSenderAndUserFriendshipReceiver(
+            String userFriendshipSender,
+            String userFriendshipReceiver);
+
+    Optional<FriendshipRequest> findByUserFriendshipSenderAndUserFriendshipReceiverAndStatus(
+            String userFriendshipSender,
+            String userFriendshipReceiver,
+            String status);
 }

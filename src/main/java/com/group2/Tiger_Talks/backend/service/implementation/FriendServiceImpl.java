@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FriendServiceImpl implements FriendService {
@@ -31,11 +32,35 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public void sendFriendRequest(String senderEmail, String receiverEmail) {
-        if (friendshipRequestRepository
-                .findByUserFriendshipSenderAndUserFriendshipReceiver(senderEmail, receiverEmail)
-                .isPresent()) {
-            throw new IllegalArgumentException("Friend request has already existed!");
+        // check if friendship has already existed
+        if (friendshipRepository
+                .findByUserFriendshipSenderAndUserFriendshipReceiverOrUserFriendshipReceiverAndUserFriendshipSender(
+                        senderEmail,
+                        receiverEmail,
+                        receiverEmail,
+                        senderEmail).isPresent()) {
+            throw new IllegalArgumentException("Friendship already exists between these users.");
         }
+
+        // check if friend request is pending
+        if (friendshipRequestRepository
+                .findByUserFriendshipSenderAndUserFriendshipReceiverAndStatus(
+                        senderEmail,
+                        receiverEmail,
+                        "pending").isPresent()) {
+            throw new IllegalArgumentException("Pending friend request already exists between these users.");
+        }
+
+        // check if friend request has been approved
+        if (friendshipRequestRepository
+                .findByUserFriendshipSenderAndUserFriendshipReceiverAndStatus(
+                        senderEmail,
+                        receiverEmail,
+                        "approved").isPresent()) {
+            throw new IllegalArgumentException("Approved friend request already exists between these users.");
+        }
+
+        // save new friend request
         friendshipRequestRepository.save(new FriendshipRequest(senderEmail, receiverEmail, "2024/06/19/00:00:00"));
     }
 
