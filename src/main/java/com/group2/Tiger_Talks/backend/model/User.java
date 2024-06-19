@@ -11,7 +11,6 @@ public class User {
 
     @Id
     private String email;     // PK | FK
-
     private String role;        // student / instructor / employee
     private String status;      // away / busy / available
 
