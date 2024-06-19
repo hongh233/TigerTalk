@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.Authentication;
 
-import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
+import com.group2.Tiger_Talks.backend.model.UserTemplate;
 
 import java.util.Optional;
 

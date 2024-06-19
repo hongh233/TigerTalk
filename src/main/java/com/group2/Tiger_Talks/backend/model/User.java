@@ -1,6 +1,9 @@
-package com.group2.Tiger_Talks.backend.model.User;
+package com.group2.Tiger_Talks.backend.model;
 
 import jakarta.persistence.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "user")
@@ -11,6 +14,10 @@ public class User {
 
     private String role;        // student / instructor / employee
     private String status;      // away / busy / available
+
+
+    // Integer: friendship id, we could use this id to quickly search friendship
+    private Map<Integer, User> friendsList;
 
     // PK -> FK setting
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -24,12 +31,13 @@ public class User {
     private UserTemplate userTemplate;
 
 
-    public User(String email,  String role, String status, UserTemplate userTemplate) {
+    public User(String email, String role, String status, UserTemplate userTemplate) {
         this.email = email;
         this.role = role;
         this.status = status;
         this.userProfile = null;
         this.userTemplate = userTemplate;
+        this.friendsList = new HashMap<>();
     }
 
     public User() {
@@ -65,6 +73,14 @@ public class User {
 
     public void setUserTemplate(UserTemplate userTemplate) {
         this.userTemplate = userTemplate;
+    }
+
+    public Map<Integer, User> getFriendsList() {
+        return this.friendsList;
+    }
+
+    public void setFriendsList(Map<Integer, User> friendsList) {
+        this.friendsList = friendsList;
     }
 
 }
