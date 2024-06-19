@@ -16,9 +16,6 @@ public class User {
     private String status;      // away / busy / available
 
 
-    // Integer: friendship id, we could use this id to quickly search friendship
-    private Map<Integer, User> friendsList;
-
     // PK -> FK setting
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserProfile userProfile;
@@ -37,7 +34,6 @@ public class User {
         this.status = status;
         this.userProfile = null;
         this.userTemplate = userTemplate;
-        this.friendsList = new HashMap<>();
     }
 
     public User() {
@@ -75,12 +71,5 @@ public class User {
         this.userTemplate = userTemplate;
     }
 
-    public Map<Integer, User> getFriendsList() {
-        return this.friendsList;
-    }
-
-    public void setFriendsList(Map<Integer, User> friendsList) {
-        this.friendsList = friendsList;
-    }
 
 }

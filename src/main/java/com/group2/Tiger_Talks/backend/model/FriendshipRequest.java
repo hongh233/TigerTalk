@@ -1,9 +1,9 @@
 package com.group2.Tiger_Talks.backend.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "friendship_request")
 public class FriendshipRequest {
 
     @Id

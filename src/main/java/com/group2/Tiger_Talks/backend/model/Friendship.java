@@ -16,6 +16,8 @@ public class Friendship {
     private String userFriendshipSender;   // email
     private String userFriendshipReceiver;  // email
     private String createTime;              // yyyy/mm/dd/00:00:00
+
+    @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messageList;
 
     public Friendship(String userFriendshipSender, String userFriendshipReceiver, String createTime) {

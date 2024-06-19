@@ -4,7 +4,9 @@ import com.group2.Tiger_Talks.backend.model.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.repsitory.Friendship.FriendshipRequestRepository;
 import com.group2.Tiger_Talks.backend.service.Friend.RejectFriendService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RejectFriendServiceImpl implements RejectFriendService {
     @Autowired
     private FriendshipRequestRepository friendshipRequestRepository;
