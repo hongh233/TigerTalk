@@ -1,9 +1,6 @@
-package com.group2.Tiger_Talks.backend.model;
+package com.group2.Tiger_Talks.backend.model.User;
 
 import jakarta.persistence.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Entity
 @Table(name = "user")

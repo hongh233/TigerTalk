@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.User;
 
-import com.group2.Tiger_Talks.backend.model.User;
+import com.group2.Tiger_Talks.backend.model.User.User;
 
 import java.util.List;
 

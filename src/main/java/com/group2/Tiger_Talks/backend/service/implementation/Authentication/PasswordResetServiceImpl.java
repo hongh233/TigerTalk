@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
-import com.group2.Tiger_Talks.backend.model.UserTemplate;
+import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 import com.group2.Tiger_Talks.backend.repsitory.PasswordTokenRepository;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;

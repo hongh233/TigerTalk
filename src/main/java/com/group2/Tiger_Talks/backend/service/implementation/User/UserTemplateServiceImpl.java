@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.implementation.User;
 
-import com.group2.Tiger_Talks.backend.model.UserTemplate;
+import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.User.UserTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;

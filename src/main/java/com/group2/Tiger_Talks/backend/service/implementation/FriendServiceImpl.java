@@ -1,13 +1,14 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
-import com.group2.Tiger_Talks.backend.model.Friendship;
-import com.group2.Tiger_Talks.backend.model.FriendshipRequest;
-import com.group2.Tiger_Talks.backend.repsitory.Friendship.FriendshipRepository;
-import com.group2.Tiger_Talks.backend.repsitory.Friendship.FriendshipRequestRepository;
-import com.group2.Tiger_Talks.backend.service.FriendService;
+import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
+import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.repsitory.Socials.FriendshipRepository;
+import com.group2.Tiger_Talks.backend.repsitory.Socials.FriendshipRequestRepository;
+import com.group2.Tiger_Talks.backend.service.Socials.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,20 +22,21 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public void acceptFriendRequest(Integer friendshipRequestId) {
-        FriendshipRequest request = friendshipRequestRepository.findById(friendshipRequestId).orElseThrow();
+        FriendshipRequest request = friendshipRequestRepository.findById(friendshipRequestId)
+                .orElseThrow(() -> new IllegalStateException("No friend request exists for this ID"));
         request.setStatus("approved");
         friendshipRequestRepository.save(request);
         friendshipRepository.save(new Friendship(
                 request.getUserFriendshipSender(),
                 request.getUserFriendshipReceiver(),
-                "2024/06/19/00:00:00"));
+                LocalDate.now()));
     }
 
     @Override
     public void sendFriendRequest(String senderEmail, String receiverEmail) {
         // check if friendship has already existed
         if (friendshipRepository
-                .findByUserFriendshipSenderAndUserFriendshipReceiverOrUserFriendshipReceiverAndUserFriendshipSender(
+                .findBySendersEmailAndReceiversEmailOrReceiversEmailAndSendersEmail(
                         senderEmail,
                         receiverEmail,
                         receiverEmail,
@@ -61,17 +63,26 @@ public class FriendServiceImpl implements FriendService {
         }
 
         // save new friend request
-        friendshipRequestRepository.save(new FriendshipRequest(senderEmail, receiverEmail, "2024/06/19/00:00:00"));
+        friendshipRequestRepository.save(new FriendshipRequest(
+                senderEmail,
+                receiverEmail,
+                LocalDate.now())
+        );
     }
 
     @Override
-    public void rejectFriendRequest(Integer friendshipRequestId) {
-        friendshipRequestRepository.findById(friendshipRequestId).orElseThrow().setStatus("rejected");
-        friendshipRequestRepository.save(friendshipRequestRepository.findById(friendshipRequestId).orElseThrow());
+    public Optional<String> rejectFriendRequest(Integer friendshipRequestId) {
+        return friendshipRequestRepository.findById(friendshipRequestId)
+                .map(friendshipId -> {
+                    friendshipId.setStatus("rejected");
+                    friendshipRequestRepository.save(friendshipId);
+                    return Optional.<String>empty();
+                })
+                .orElseGet(() -> Optional.of("Cannot send Message as the user does not exist"));
     }
 
     @Override
     public List<Friendship> getAllFriends(String email) {
-        return friendshipRepository.findByUserFriendshipSenderOrUserFriendshipReceiver(email, email);
+        return friendshipRepository.findBySendersEmailOrReceiversEmail(email, email);
     }
 }

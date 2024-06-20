@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller;
 
-import com.group2.Tiger_Talks.backend.model.Friendship;
-import com.group2.Tiger_Talks.backend.service.FriendService;
+import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
+import com.group2.Tiger_Talks.backend.service.Socials.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +26,19 @@ public class FriendController {
 
     @PostMapping("/accept")
     public ResponseEntity<?> acceptFriend(@RequestParam Integer friendshipRequestId) {
-        friendService.acceptFriendRequest(friendshipRequestId);
-        return ResponseEntity.ok("Friend request accepted.");
+        try {
+            friendService.acceptFriendRequest(friendshipRequestId);
+            return ResponseEntity.ok("Friend request accepted.");
+        } catch (IllegalStateException err) {
+            return ResponseEntity.status(404).body(err);
+        }
     }
 
     @PostMapping("/reject")
     public ResponseEntity<?> rejectFriend(@RequestParam Integer friendshipRequestId) {
-        friendService.rejectFriendRequest(friendshipRequestId);
-        return ResponseEntity.ok("Friend request rejected.");
+        return friendService.rejectFriendRequest(friendshipRequestId)
+                .map(err -> ResponseEntity.status(404).body("Friend request rejected."))
+                .orElseGet(() -> ResponseEntity.ok("Removed friend"));
     }
 
     @GetMapping("/getAll")

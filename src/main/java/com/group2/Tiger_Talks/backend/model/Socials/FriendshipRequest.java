@@ -1,6 +1,8 @@
-package com.group2.Tiger_Talks.backend.model;
+package com.group2.Tiger_Talks.backend.model.Socials;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "friendship_request")
@@ -11,13 +13,13 @@ public class FriendshipRequest {
     private Integer friendshipRequestId;
     private String userFriendshipSender;   // email
     private String userFriendshipReceiver;  // email
-    private String createTime;              // yyyy/mm/dd/00:00:00
+    private LocalDate createTime;              // yyyy/mm/dd/00:00:00
     private String status;          // approved/ refused / pending
 
 
     public FriendshipRequest(String userFriendshipSender,
                              String userFriendshipReceiver,
-                             String createTime) {
+                             LocalDate createTime) {
         this.userFriendshipSender = userFriendshipSender;
         this.userFriendshipReceiver = userFriendshipReceiver;
         this.createTime = createTime;
@@ -50,11 +52,11 @@ public class FriendshipRequest {
         this.userFriendshipReceiver = userFriendshipReceiver;
     }
 
-    public String getCreateTime() {
+    public LocalDate getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(LocalDate createTime) {
         this.createTime = createTime;
     }
 
