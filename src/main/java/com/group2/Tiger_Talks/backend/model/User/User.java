@@ -8,9 +8,9 @@ public class User {
 
     @Id
     private String email;     // PK | FK
-
     private String role;        // student / instructor / employee
     private String status;      // away / busy / available
+
 
     // PK -> FK setting
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -24,7 +24,7 @@ public class User {
     private UserTemplate userTemplate;
 
 
-    public User(String email,  String role, String status, UserTemplate userTemplate) {
+    public User(String email, String role, String status, UserTemplate userTemplate) {
         this.email = email;
         this.role = role;
         this.status = status;
@@ -66,5 +66,6 @@ public class User {
     public void setUserTemplate(UserTemplate userTemplate) {
         this.userTemplate = userTemplate;
     }
+
 
 }
