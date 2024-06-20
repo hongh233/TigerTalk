@@ -27,13 +27,16 @@ const posts = [
 const ProfilePage = () => (
   <div className="profile-page">
     <Header/>
-    <div className="profile-nav">
-       <ProfileNavBar user={user} />
+    <div className='profile-content'>
+      <div className="profile-nav">
+        <ProfileNavBar user={user}/>
+      </div>
+    
+      <div className="profile-main-content">
+        {posts.map(post => <Post key={post.id} post={post} />)}
+      </div>
     </div>
-   
-    <div className="profile-content">
-      {posts.map(post => <Post key={post.id} post={post} />)}
-    </div>
+
   </div>
 );
 

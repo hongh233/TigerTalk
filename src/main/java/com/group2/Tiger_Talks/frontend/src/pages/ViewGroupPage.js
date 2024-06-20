@@ -1,7 +1,7 @@
 import React from 'react';
 import Post from '../components/Post';
 import Header from '../components/Header';
-import '../assets/styles/ViewGroupPage.css';
+import '../assets/styles/GroupPage.css';
 import GroupNavBar from '../components/GroupNavBar';
 
 
@@ -23,13 +23,16 @@ const posts = [
 const ViewGroupPage = () => (
   <div className="group-page">
     <Header/>
-    <div className="group-nav">
-       <GroupNavBar/>
+    <div className="content">
+      <div className="group-nav">
+        <GroupNavBar/>
+      </div>
+    
+      <div className="group-content">
+        {posts.map(post => <Post key={post.id} post={post} />)}
+      </div>
     </div>
-   
-    <div className="group-content">
-      {posts.map(post => <Post key={post.id} post={post} />)}
-    </div>
+
   </div>
 );
 

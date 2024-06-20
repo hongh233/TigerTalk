@@ -1,11 +1,10 @@
-.group-navbar {
-    padding-top: 5%;
-    background-color: #f7f7f7;
-    height: 100vh;
+  .group-links {
     width: 15%;
     position: fixed;
-    
-  
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+
   }
   
   .group-links a {
@@ -14,10 +13,9 @@
     padding: 10px 15px;
     color: #333;
     text-decoration: none;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     border-radius: 4px;
     transition: background-color 0.3s;
-    border-bottom: 1px solid #ddd;
   }
   
   .group-links a svg {
@@ -27,5 +25,32 @@
   .group-links a:hover {
     background-color: #ddd;
     border-radius: 4px;
+  }
+  
+
+
+  @media (max-width: 768px) {
+    .group-links {
+      flex: 1; 
+      flex-direction: row;
+      justify-content: space-between;
+      left:35%;
+      transform: translateY(-30%);
+      position: fixed;
+      z-index: 1100;
+      margin-top: 0;
+    }
+    .text-hide{
+      display: none;
+    }
+  
+    .group-navbar a {
+      margin-bottom: 0;
+      color: #fff;
+    }
+    .group-navbar a:hover {
+      background-color: #939191;
+    }
+    
   }
   

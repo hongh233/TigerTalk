@@ -3,6 +3,7 @@
   position: fixed;
   display: flex;
   flex-direction: column;
+  margin-top: 3%;
 }
 
 .navbar a {
@@ -16,10 +17,6 @@
   transition: background-color 0.3s;
 }
 
-.navbar a.active {
-  background-color: #e6e6e6;
-  font-weight: bold;
-}
 
 .navbar a:hover {
   background-color: #ddd;
@@ -31,14 +28,28 @@
 
 @media (max-width: 768px) {
   .navbar {
+    flex: 1; 
     flex-direction: row;
-    justify-content: space-around;
-    width: 100%;
-    height: auto;
-    position: relative;
+    justify-content: space-between;
+    left:35%;
+    transform: translateY(-30%);
+    position: fixed;
+    z-index: 1100;
+    margin-top: 0;
+  }
+  .text-hide{
+    display: none;
   }
 
   .navbar a {
     margin-bottom: 0;
+    color: #fff;
   }
+  .navbar a:hover {
+    background-color: #939191;
+  }
+  
 }
+
+
+

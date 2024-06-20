@@ -6,9 +6,9 @@ import GroupTab from './GroupTab';
 const GroupNavBar = () => (
   <nav className="group-navbar">
     <div className="group-links">
-      <a href="/"><FaHome />Home</a>
+      <a href="/"><FaHome /><span className='text-hide'>Home</span></a>
       <GroupTab/>
-      <a href="/login"><FaSignOutAlt />Logout</a>
+      <a href="/login"><FaSignOutAlt /><span className='text-hide'>Logout</span></a>
     </div>
   </nav>
 );

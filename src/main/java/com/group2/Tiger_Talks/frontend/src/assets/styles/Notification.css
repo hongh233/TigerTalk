@@ -24,3 +24,15 @@
 .notification-popup li:last-child {
   border-bottom: none;
 }
+
+
+
+@media (max-width: 768px) {
+  .notification-popup {
+    position: fixed;
+    top: 5%;
+    z-index: 1200;
+    width: 150px;
+    left:65%
+  }
+}
