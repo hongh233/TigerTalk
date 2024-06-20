@@ -4,7 +4,7 @@ import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 import com.group2.Tiger_Talks.backend.repsitory.User.PasswordTokenRepository;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;
-import com.group2.Tiger_Talks.backend.service.DTO.ForgotPasswordDTO;
+import com.group2.Tiger_Talks.backend.model.User.DTO.ForgotPasswordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
