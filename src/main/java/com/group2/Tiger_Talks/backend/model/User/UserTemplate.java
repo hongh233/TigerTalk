@@ -152,5 +152,13 @@ public class UserTemplate {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public boolean isValidated() {
+        return isValidated;
+    }
+
+    public void setValidated(boolean validated) {
+        isValidated = validated;
+    }
 }
 
