@@ -1,12 +1,12 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
+import com.group2.Tiger_Talks.backend.model.User.DTO.ForgotPasswordDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 import com.group2.Tiger_Talks.backend.repsitory.PasswordTokenRepository;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;
-import com.group2.Tiger_Talks.backend.model.User.DTO.ForgotPasswordDTO;
+import com.group2.Tiger_Talks.backend.service.implementation.utils.MailClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -42,16 +42,15 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         PasswordToken passwordToken = PasswordToken.createPasswordResetToken(email);
         passwordTokenRepository.save(passwordToken);
 
-        // Construct the message to send
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject(PASSWORD_RESET_SUBJECT);
-        simpleMailMessage.setText(PASSWORD_RESET_MESSAGE.formatted(
-                passwordToken.getToken(), PasswordToken.EXPIRATION_MINUTES
-        ));
-
-        // Send the message
-        passwordResetMailer.send(simpleMailMessage);
+        // Construct the message and send
+        new MailClient(
+                new String[]{email},
+                "tigerTalks@gmail.com",
+                PASSWORD_RESET_SUBJECT,
+                PASSWORD_RESET_MESSAGE.formatted(
+                        passwordToken.getToken(), PasswordToken.EXPIRATION_MINUTES
+                )
+        ).sendMail(passwordResetMailer);
 
         return Optional.empty();
     }
