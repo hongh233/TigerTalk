@@ -20,12 +20,20 @@ public class SignUpServiceImpl implements SignUpService {
                             "(?=.*[0-9])" +
                             "(?=.*[!\"#$%&'()*+,\\-./:;<=>?@\\[\\\\\\]^_`{|}~])" +
                             "[a-zA-Z0-9!\"#$%&'()*+,\\-./:;<=>?@\\[\\\\\\]^_`{|}~]{8,}$");
+    private static final Pattern PASSWORD_NORM_LENGTH =
+            Pattern.compile("^.{8,}$");
+    private static final Pattern PASSWORD_NORM_UPPERCASE =
+            Pattern.compile("^(?=.*[A-Z]).+$");
+    private static final Pattern PASSWORD_NORM_LOWERCASE =
+            Pattern.compile("^(?=.*[a-z]).+$");
+    private static final Pattern PASSWORD_NORM_NUMBER =
+            Pattern.compile("^(?=.*[0-9]).+$");
+    private static final Pattern PASSWORD_NORM_SPECIAL_CHARACTER =
+            Pattern.compile("^(?=.*[!\"#$%&'()*+,\\-./:;<=>?@\\[\\\\\\]^_`{|}~]).+$");
+
     private static final Pattern EMAIL_NORM =
             Pattern.compile(
-                    "^[A-Za-z0-9]+" +
-                            "@" +
-                            "[A-Za-z0-9.]*" +
-                            "dal\\.ca$");
+                    "^[A-Za-z0-9]+" + "@dal\\.ca$");
     @Autowired
     private UserTemplateRepository userTemplateRepository;
     @Autowired
@@ -33,28 +41,33 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     public Optional<String> signUpUserTemplate(UserTemplate userTemplate) {
-        if (!EMAIL_NORM.matcher(userTemplate.getEmail()).matches()) {
-            return Optional.of("Invalid email address. Please user dal email address!");
-        }
-
-        if (!PASSWORD_NORM.matcher(userTemplate.getPassword()).matches()) {
-            return Optional.of("Password must have a minimum length of 8 characters, " +
-                    "at least 1 uppercase character, 1 lowercase character, 1 number and 1 special character.");
-        }
-
-        if (userTemplateRepository.findUserTemplateByEmail(userTemplate.getEmail()).isPresent()) {
-            return Optional.of("Email already existed!");
-        }
 
         if(userTemplateRepository.findUserTemplateByUserName(userTemplate.getUserName()).isPresent()) {
-            return Optional.of("Username already existed!");
+            return Optional.of("Username has already existed!");
         }
-
+        if (!EMAIL_NORM.matcher(userTemplate.getEmail()).matches()) {
+            return Optional.of("Invalid email address. Please use dal email address!");
+        }
+        if (userTemplateRepository.findUserTemplateByEmail(userTemplate.getEmail()).isPresent()) {
+            return Optional.of("Email has already existed!");
+        }
+        if (!PASSWORD_NORM_LENGTH.matcher(userTemplate.getPassword()).matches()) {
+            return Optional.of("Password must have a minimum length of 8 characters.");
+        }
+        if (!PASSWORD_NORM_UPPERCASE.matcher(userTemplate.getPassword()).matches()) {
+            return Optional.of("Password must have at least 1 uppercase character.");
+        }
+        if (!PASSWORD_NORM_LOWERCASE.matcher(userTemplate.getPassword()).matches()) {
+            return Optional.of("Password must have at least 1 lowercase character.");
+        }
+        if (!PASSWORD_NORM_NUMBER.matcher(userTemplate.getPassword()).matches()) {
+            return Optional.of("Password must have at least 1 number.");
+        }
+        if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(userTemplate.getPassword()).matches()) {
+            return Optional.of("Password must have at least 1 special character.");
+        }
         userTemplate.setStatus(UserTemplate.PENDING);
         userTemplate.setUserLevel(UserTemplate.USER);
-
-
-
         userTemplateRepository.save(userTemplate);
         return Optional.empty();
     }
