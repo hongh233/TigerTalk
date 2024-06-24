@@ -16,7 +16,7 @@ public class SignUpController {
     @Autowired
     private SignUpService signUpService;  // register
 
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/userSignUp")
     public ResponseEntity<String> signUp(@RequestBody UserTemplate userTemplate) {
         return signUpService.signUpUserTemplate(userTemplate)
@@ -24,6 +24,7 @@ public class SignUpController {
                 .orElseGet(() -> ResponseEntity.ok("Successfully saved user to database"));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getAllUserTemplates")
     public List<UserTemplate> getAllUserTemplates() {
         return signUpService.getAllUserTemplates();

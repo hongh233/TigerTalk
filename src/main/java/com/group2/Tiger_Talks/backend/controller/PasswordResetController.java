@@ -13,6 +13,7 @@ public class PasswordResetController {
     @Autowired
     private PasswordResetService passwordResetService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/resetPassword")
     public ResponseEntity<String> resetPassword(@RequestBody ForgotPasswordDTO passwordDTO) {
         return passwordResetService.resetPassword(passwordDTO)
@@ -20,6 +21,7 @@ public class PasswordResetController {
                 .orElseGet(() -> ResponseEntity.ok("Password was successfully reset"));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/sendToken")
     public ResponseEntity<String> sendToken(@RequestParam("email") String email) {
         return passwordResetService.createAndSendResetMail(email)
@@ -27,6 +29,7 @@ public class PasswordResetController {
                 .orElseGet(() -> ResponseEntity.ok("Email was sent successfully to " + email + " for resetting your password"));
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/checkToken/{token}")
     public ResponseEntity<String> validateToken(@PathVariable("token") String token) {
         return passwordResetService.validateToken(token)

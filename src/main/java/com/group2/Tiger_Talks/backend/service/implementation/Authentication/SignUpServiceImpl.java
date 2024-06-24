@@ -42,8 +42,14 @@ public class SignUpServiceImpl implements SignUpService {
     @Override
     public Optional<String> signUpUserTemplate(UserTemplate userTemplate) {
 
-        if(userTemplateRepository.findUserTemplateByUserName(userTemplate.getUserName()).isPresent()) {
+        if (userTemplateRepository.findUserTemplateByUserName(userTemplate.getUserName()).isPresent()) {
             return Optional.of("Username has already existed!");
+        }
+        if (userTemplate.getBannerID() < 0 || userTemplate.getBannerID() > 999999) {
+            return Optional.of("Invalid Banner ID. Please input number between 0-999999");
+        }
+        if (userTemplateRepository.findUserTemplateByBannerID(userTemplate.getBannerID()).isPresent()) {
+            return Optional.of("Banner ID has already existed!");
         }
         if (!EMAIL_NORM.matcher(userTemplate.getEmail()).matches()) {
             return Optional.of("Invalid email address. Please use dal email address!");
