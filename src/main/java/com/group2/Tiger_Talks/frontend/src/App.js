@@ -7,7 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import GroupPage from "./pages/GroupPage";
 import CreateGroupPage from './pages/CreateGroupPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
-import ForgotPassword from './pages/ForgotPasswordPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ViewGroupPage from './pages/ViewGroupPage';
 import './assets/styles/App.css';
 
@@ -23,7 +23,7 @@ const App = () => (
       <Route path="group/" element={<GroupPage />} />
       <Route path="/group/creategroup" element={<CreateGroupPage />} />
       <Route path="/group/viewgroup/:groupId" element={<ViewGroupPage />} />
-      <Route path="/forgot-password" element={<ForgotPassword/>}/>
+      <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
     </Routes>
   </Router>
 );

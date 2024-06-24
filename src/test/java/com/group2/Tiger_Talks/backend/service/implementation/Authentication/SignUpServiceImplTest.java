@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -18,24 +17,35 @@ import static org.mockito.Mockito.when;
 
 
 public class SignUpServiceImplTest {
+    private String[] securityQuestion = {
+            "What was your favourite book as a child?",
+            "In what city were you born?",
+            "What is your favorite movie?"};
+    private String[] securityQuestionAnswer = {"ABC", "DEF", "ASD"};
 
     private UserTemplate userTemplate_valid1 = new UserTemplate(
             "Kirigaya",
             "Kazuto",
             16,
-            "Kirito",
             "male",
+            "Kirito",
+            951084,
             "kirito122@dal.ca",
-            "Aa1@aaaa");
+            "Aa1@aaaa",
+            securityQuestionAnswer,
+            securityQuestion);
 
     private UserTemplate userTemplate_valid2 = new UserTemplate(
             "Yuukii",
             "Asunaa",
             18,
-            "Asuna",
             "female",
+            "Asuna",
+            103759,
             "asuna233@dal.ca",
-            "Dd2$dddd");
+            "Dd2$dddd",
+            securityQuestionAnswer,
+            securityQuestion);
     @Mock
     private UserTemplateRepository userTemplateRepository;
 
@@ -64,6 +74,23 @@ public class SignUpServiceImplTest {
     }
 
     @Test
+    public void signUpUserTemplate_invalidBannerID() {
+        userTemplate_valid1.setBannerID(1111111);
+        assertEquals(Optional.of("Invalid Banner ID. Please input number between 0-999999"),
+                signUpService.signUpUserTemplate(userTemplate_valid1));
+    }
+
+    @Test
+    public void signUpUserTemplate_existedBannerID() {
+        // simulate bannerID 951084 is in database
+        when(userTemplateRepository.findUserTemplateByBannerID(951084)).
+                thenReturn(Optional.of(userTemplate_valid1));
+        userTemplate_valid2.setBannerID(951084);
+        assertEquals(Optional.of("Banner ID has already existed!"),
+                signUpService.signUpUserTemplate(userTemplate_valid2));
+    }
+
+    @Test
     public void signUpUserTemplate_invalidEmail() {
         userTemplate_valid1.setEmail("invalidEmail@gmail.com");
         assertEquals(Optional.of("Invalid email address. Please use dal email address!"),
@@ -75,7 +102,6 @@ public class SignUpServiceImplTest {
         // simulate email kirito122@dal.ca is in database
         when(userTemplateRepository.findUserTemplateByEmail("kirito122@dal.ca"))
                 .thenReturn(Optional.of(userTemplate_valid1));
-
         userTemplate_valid2.setEmail("kirito122@dal.ca");
         assertEquals(Optional.of("Email has already existed!"),
                 signUpService.signUpUserTemplate(userTemplate_valid2));

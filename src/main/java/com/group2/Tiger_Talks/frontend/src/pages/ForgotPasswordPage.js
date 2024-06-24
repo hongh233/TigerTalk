@@ -1,5 +1,6 @@
 import React ,{useState}from "react"
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 const ForgotPasswordPage = ()=>{
@@ -7,29 +8,49 @@ const ForgotPasswordPage = ()=>{
         email: '',
     });
     const [errors, setErrors] = useState({});
-
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e)=>{
-        const {name,value}=e.target;
-        setForm({
-            ...form,
-            [name]:value
-        })
+      const {name,value}=e.target;
+      setForm({
+          ...form,
+          [name]:value
+      });
     }
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors(errors);
-    if (Object.keys(errors).length === 0) {
-      // Simulate a successful sign-up
-      alert('Signed up successfully');
-      navigate('/login');
+    setErrors({});
+    setMessage('');
+
+    if (!form.email) {
+      setErrors({ email: 'Email is required' });
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:8085/api/logIn/passwordReset/sendToken', null, {
+        params: {
+          email: form.email
+        }
+      });
+      setMessage(response.data);
+      alert('Password reset email sent successfully');
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setErrors({ email: "Email not found" });
+      } else {
+        setErrors({ email: "An error occurred during sending email. Please try again later." });
+      }
     }
   };
+
     return (
     <div className="signup-page">
       <div className="signup-container">
         <h1>Forgot Password</h1>
+        {message && <p>{message}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
