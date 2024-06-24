@@ -7,8 +7,11 @@ import ProfilePage from './pages/ProfilePage';
 import GroupPage from "./pages/GroupPage";
 import CreateGroupPage from './pages/CreateGroupPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import SecurityQuestionsPage from './pages/SecurityQuestionsPage';
+import EmailVerificationPage from './pages/EmailVerificationPage';
 import ViewGroupPage from './pages/ViewGroupPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import './assets/styles/App.css';
 
 const App = () => (
@@ -24,6 +27,9 @@ const App = () => (
       <Route path="/group/creategroup" element={<CreateGroupPage />} />
       <Route path="/group/viewgroup/:groupId" element={<ViewGroupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+      <Route path="/securityQuestions" element={<SecurityQuestionsPage />} />
+      <Route path="/emailVerification" element={<EmailVerificationPage />} />
+      <Route path="/resetPassword" element={<ResetPasswordPage />} />
     </Routes>
   </Router>
 );

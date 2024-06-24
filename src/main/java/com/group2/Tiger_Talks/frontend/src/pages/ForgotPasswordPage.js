@@ -1,74 +1,82 @@
-import React ,{useState}from "react"
-import { Link, useNavigate } from 'react-router-dom';
+import React ,{useState} from "react"
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import "../assets/styles/ForgotPasswordPage.css"
 
 
-const ForgotPasswordPage = ()=>{
-    const [form, setForm] = useState({
-        email: '',
-    });
+const ForgotPasswordPage = () => {
+    const [email, setEmail] = useState('');
     const [errors, setErrors] = useState({});
-    const [message, setMessage] = useState('');
+    const [step, setStep] = useState(1);
     const navigate = useNavigate();
 
-    const handleChange = (e)=>{
-      const {name,value}=e.target;
-      setForm({
-          ...form,
-          [name]:value
-      });
-    }
+    const handleChange = (e) => {
+      setEmail(e.target.value);
+    };
 
-    const handleSubmit = async (e) => {
-    e.preventDefault();
-    setErrors({});
-    setMessage('');
-
-    if (!form.email) {
-      setErrors({ email: 'Email is required' });
-      return;
-    }
-
-    try {
-      const response = await axios.post('http://localhost:8085/api/logIn/passwordReset/sendToken', null, {
-        params: {
-          email: form.email
+    const handleNext = async () => {
+      setErrors({});
+      if (!email) {
+        setErrors({ email: 'Email is required' });
+        return;
+      }
+  
+      try {
+        const response = await axios.post('http://localhost:8085/api/logIn/passwordReset/validateEmailExist', null, {
+          params: { email }
+        });
+        if (response.data === "Email exists and is valid.") {
+          setStep(2);
         }
-      });
-      setMessage(response.data);
-      alert('Password reset email sent successfully');
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setErrors({ email: "Email not found" });
-      } else {
+      } catch (error) {
+        if (error.response && error.response.status === 400) {
+          setErrors({ email: error.response.data });
+        } else {
+          setErrors({ email: "An error occurred during email validation. Please try again later." });
+        }
+      }
+    };
+  
+    const handleSecurityQuestions = () => {
+      navigate('/securityQuestions', { state: { email } });
+    };
+  
+    const handleEmailVerification = async () => {
+      try {
+        await axios.post('http://localhost:8085/api/logIn/passwordReset/sendToken', null, {
+          params: { email }
+        });
+        navigate('/emailVerification', { state: { email } });
+      } catch (error) {
         setErrors({ email: "An error occurred during sending email. Please try again later." });
       }
-    }
-  };
-
+    };
+  
     return (
-    <div className="signup-page">
-      <div className="signup-container">
-        <h1>Forgot Password</h1>
-        {message && <p>{message}</p>}
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
+      <div className="forgot-password-page">
+        {step === 1 && (
+          <div className="forgot-password-card">
+            <h1>Forgot Password</h1>
             <input
               type="email"
               name="email"
-              placeholder="Email"
-              value={form.email}
+              placeholder="Enter your email"
+              value={email}
               onChange={handleChange}
             />
+            <button onClick={handleNext}>Next Step</button>
             {errors.email && <p className="error">{errors.email}</p>}
           </div>
-          <button type="submit">Send to email</button>
-        </form>
-    
+        )}
+        {step === 2 && (
+          <div className="forgot-password-card verification-options-container">
+            <h1>Identity Verification</h1>
+            <button onClick={handleEmailVerification}>Email Verification</button>
+            <button onClick={handleSecurityQuestions}>Ask Security Questions</button>
+          </div>
+        )}
       </div>
-    </div>
-  );
-};
-
+    );
+  };
 
 export default ForgotPasswordPage;
