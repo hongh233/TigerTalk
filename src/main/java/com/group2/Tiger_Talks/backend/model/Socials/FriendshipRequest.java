@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "friendship_request")
 public class FriendshipRequest {
 
     @Id

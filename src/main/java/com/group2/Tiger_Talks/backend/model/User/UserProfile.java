@@ -4,13 +4,12 @@ import com.group2.Tiger_Talks.backend.model.Utils.ProfileAccessLevel;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user_profile")
 public class UserProfile {
 
     @Id
     private String email;             // PK | FK
 
-    @Column(name = "user_name", unique = true)
+    @Column(unique = true)
     private String userName;
 
     private String personalInterest;

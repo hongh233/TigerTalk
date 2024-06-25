@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name = "user_template")
 public class UserTemplate {
     @Id
     private String email;
