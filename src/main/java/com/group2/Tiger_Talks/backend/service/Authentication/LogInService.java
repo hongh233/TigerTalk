@@ -14,5 +14,11 @@ public interface LogInService {
      */
     Optional<UserTemplate> logInUserTemplate(String email, String password);
 
+    /**
+     * Retrieves a user by email from the database
+     *
+     * @param email The email to find user by
+     * @return A numberplate if one was found
+     */
     Optional<UserTemplate> getUserByEmail(String email);
 }
