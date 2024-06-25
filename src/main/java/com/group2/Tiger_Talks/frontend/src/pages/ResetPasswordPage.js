@@ -32,7 +32,7 @@ const ResetPasswordPage = () => {
         password: newPassword,
       });
       alert(response.data);
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       setErrors({ general: error.response.data });
     }
