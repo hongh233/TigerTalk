@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import static com.group2.Tiger_Talks.backend.model.Utils.B00.MAX;
-import static com.group2.Tiger_Talks.backend.model.Utils.B00.MIN;
-
 @Service
 public class SignUpServiceImpl implements SignUpService {
     private static final Pattern PASSWORD_NORM =
@@ -44,16 +41,6 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     public Optional<String> signUpUserTemplate(UserTemplate userTemplate) {
-
-        if (userTemplateRepository.findUserTemplateByUserName(userTemplate.getUserName()).isPresent()) {
-            return Optional.of("Username has already existed!");
-        }
-        if ((userTemplate.getBannerID() < MIN) || (userTemplate.getBannerID() > MAX)) {
-            return Optional.of("Invalid Banner ID. Please input number between 0-999999");
-        }
-        if (userTemplateRepository.findUserTemplateByBannerID(userTemplate.getBannerID()).isPresent()) {
-            return Optional.of("Banner ID has already existed!");
-        }
         if (!EMAIL_NORM.matcher(userTemplate.getEmail()).matches()) {
             return Optional.of("Invalid email address. Please use dal email address!");
         }
