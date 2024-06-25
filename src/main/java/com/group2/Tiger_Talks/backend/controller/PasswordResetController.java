@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
+
 @RestController
 @RequestMapping("/api/logIn")
 public class PasswordResetController {
@@ -13,17 +15,15 @@ public class PasswordResetController {
     @Autowired
     private PasswordResetService passwordResetService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("passwordReset/validateEmailExist")
     public ResponseEntity<String> validateEmailExist(@RequestParam("email") String email) {
-        if (passwordResetService.validateEmailExist(email).isPresent()) {
-            return ResponseEntity.status(400).body(passwordResetService.validateEmailExist(email).get());
-        } else {
-            return ResponseEntity.ok("Email exists and is valid.");
-        }
+        return passwordResetService.validateEmailExist(email)
+                .map(err -> ResponseEntity.status(400).body(err))
+                .orElseGet(() -> ResponseEntity.ok("Email exists and is valid."));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("passwordReset/resetPassword")
     public ResponseEntity<String> resetPassword(@RequestBody ForgotPasswordDTO passwordDTO) {
         return passwordResetService.resetPassword(passwordDTO)
@@ -31,7 +31,7 @@ public class PasswordResetController {
                 .orElseGet(() -> ResponseEntity.ok("Password was successfully reset"));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("passwordReset/sendToken")
     public ResponseEntity<String> sendToken(@RequestParam("email") String email) {
         return passwordResetService.createAndSendResetMail(email)
@@ -39,7 +39,7 @@ public class PasswordResetController {
                 .orElseGet(() -> ResponseEntity.ok("Email was sent successfully to " + email + " for resetting your password"));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("passwordReset/checkToken/{token}")
     public ResponseEntity<String> validateToken(@PathVariable("token") String token) {
         return passwordResetService.validateToken(token)
@@ -47,7 +47,7 @@ public class PasswordResetController {
                 .orElseGet(() -> ResponseEntity.ok("Token validated successfully"));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("passwordReset/verifySecurityAnswers")
     public ResponseEntity<String> verifySecurityAnswers(
             @RequestParam("email") String email,
@@ -59,12 +59,11 @@ public class PasswordResetController {
                 .orElseGet(() -> ResponseEntity.ok("Security questions verified successfully."));
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @GetMapping("passwordReset/getSecurityQuestions")
     public ResponseEntity<String[]> getSecurityQuestions(@RequestParam("email") String email) {
         return ResponseEntity.ok(passwordResetService.getSecurityQuestions(email));
     }
-
 
 
 }
