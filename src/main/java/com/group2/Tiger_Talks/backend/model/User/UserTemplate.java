@@ -6,12 +6,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "user_template")
 public class UserTemplate {
-    public static final String ADMIN = "admin";
-    public static final String USER = "user";
-    public static final String BLOCKED = "blocked";
-    public static final String PENDING = "pending";
-    public static final String ACTIVE = "active";
-
     @Id
     private String email;
 
@@ -27,8 +21,8 @@ public class UserTemplate {
     private String firstName;
     private String lastName;
     private boolean isValidated = false;
-    private String[] securityQuestions;
-    private String[] securityQuestionsAnswer;
+    private String securityQuestions;
+    private String securityQuestionsAnswer;
     private String role = "default";        // default / student / instructor / employee
     private boolean isOnline = false;
 
@@ -44,8 +38,8 @@ public class UserTemplate {
                         int bannerID,
                         String email,
                         String password,
-                        String[] securityQuestionsAnswer,
-                        String[] securityQuestions) {
+                        String securityQuestionsAnswer,
+                        String securityQuestions) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -167,19 +161,19 @@ public class UserTemplate {
         isValidated = validated;
     }
 
-    public String[] getSecurityQuestionsAnswer() {
+    public String getSecurityQuestionsAnswer() {
         return securityQuestionsAnswer;
     }
 
-    public void setSecurityQuestionsAnswer(String[] securityQuestionsAnswer) {
+    public void setSecurityQuestionsAnswer(String securityQuestionsAnswer) {
         this.securityQuestionsAnswer = securityQuestionsAnswer;
     }
 
-    public String[] getSecurityQuestions() {
+    public String getSecurityQuestions() {
         return securityQuestions;
     }
 
-    public void setSecurityQuestions(String[] securityQuestions) {
+    public void setSecurityQuestions(String securityQuestions) {
         this.securityQuestions = securityQuestions;
     }
 

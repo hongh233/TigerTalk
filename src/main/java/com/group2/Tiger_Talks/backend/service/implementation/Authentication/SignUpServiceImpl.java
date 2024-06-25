@@ -1,6 +1,8 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
 import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
+import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
+import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
 import com.group2.Tiger_Talks.backend.service.User.UserTemplateService;
@@ -72,8 +74,8 @@ public class SignUpServiceImpl implements SignUpService {
         if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(userTemplate.getPassword()).matches()) {
             return Optional.of("Password must have at least 1 special character.");
         }
-        userTemplate.setStatus(UserTemplate.PENDING);
-        userTemplate.setUserLevel(UserTemplate.USER);
+        userTemplate.setStatus(UserStatus.PENDING);
+        userTemplate.setUserLevel(UserLevel.USER);
         userTemplateRepository.save(userTemplate);
         return Optional.empty();
     }
