@@ -7,10 +7,11 @@ import java.util.Optional;
 
 public interface SignUpService {
     /**
-     * Tries to save a user to a database
-     *
+     * Try to save a userTemplate to a database, ensure unique userName,
+     * valid and unique BannerID, valid-form and unique email and valid-form password
      * @param userTemplate The user template to save
-     * @return Returns an error as a string of any else returns an empty optional
+     * @return String as error message,
+     *         otherwise returns an empty optional
      */
     Optional<String> signUpUserTemplate(UserTemplate userTemplate);
 

@@ -6,7 +6,7 @@ import '../assets/styles/Header.css';
 const Header = () => (
   <header className="header">
     <h1>
-      <a href="/" className="home-link">Tiger Talks</a>
+      <a href="/main" className="home-link">Tiger Talks</a>
     </h1>
       <NotificationButton />
     <div className="search-bar">

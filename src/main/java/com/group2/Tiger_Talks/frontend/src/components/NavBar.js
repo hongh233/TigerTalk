@@ -5,14 +5,14 @@ import GroupTab from './GroupTab';
 import '../assets/styles/NavBar.css';
 const NavBar = () => (
   <nav className="navbar">
-    <NavLink to="/">
+    <NavLink to="/main">
       <FaHome /><span className='text-hide'> Home</span>
     </NavLink>
     <GroupTab/>
     <NavLink to="/profile">
       <FaUser /><span className='text-hide'>Account</span> 
     </NavLink>
-    <NavLink to="/login">
+    <NavLink to="/">
       <FaSignOutAlt /> <span className='text-hide'>Logout</span> 
     </NavLink>
   </nav>

@@ -6,7 +6,7 @@ const Comment = ({ comment }) => (
     <div className="comment-header">
       <div className="comment-profile-picture"></div>
       <div className="comment-user-details">
-        <h4>{comment.username}</h4>
+        <h4>{comment.userName}</h4>
         <p>{comment.time}</p>
       </div>
     </div>

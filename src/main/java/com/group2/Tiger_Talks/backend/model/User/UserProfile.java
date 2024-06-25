@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "user_profile")
 public class UserProfile {
-    public static String PUBLIC = "public";
-    public static String PROTECTED = "protected";
-    public static String PRIVATE = "private";
 
     @Id
     private String email;             // PK | FK
@@ -22,7 +19,7 @@ public class UserProfile {
     @OneToOne
     @MapsId
     @JoinColumn(name = "email")
-    private User user;
+    private UserTemplate userTemplate;
 
 
     public UserProfile() {
@@ -35,7 +32,7 @@ public class UserProfile {
                        String biography,
                        String peopleAccessLevel,
                        String phoneNumber,
-                       User user) {
+                       UserTemplate userTemplate) {
         this.email = email;
         this.personalInterest = personalInterest;
         this.location = location;
@@ -43,7 +40,7 @@ public class UserProfile {
         this.biography = biography;
         this.phoneNumber = phoneNumber;
         this.peopleAccessLevel = peopleAccessLevel;
-        this.user = user;
+        this.userTemplate = userTemplate;
     }
 
     public String getPersonalInterest() {
@@ -86,12 +83,12 @@ public class UserProfile {
         this.peopleAccessLevel = peopleAccessLevel;
     }
 
-    public User getUser() {
-        return user;
+    public UserTemplate getUserTemplate() {
+        return userTemplate;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserTemplate(UserTemplate userTemplate) {
+        this.userTemplate = userTemplate;
     }
 
     public String getEmail() {
