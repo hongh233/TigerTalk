@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-public class PasswordToken {
+public class PasswordTokenImpl {
     static final byte EXPIRATION_MINUTES = 10;
 
     @Id
@@ -22,17 +22,17 @@ public class PasswordToken {
 
     private LocalDateTime timestamp;
 
-    private PasswordToken(String token, LocalDateTime timestamp, String email) {
+    private PasswordTokenImpl(String token, LocalDateTime timestamp, String email) {
         this.token = token;
         this.timestamp = timestamp;
         this.email = email;
     }
 
-    public PasswordToken() {
+    public PasswordTokenImpl() {
     }
 
-    public static PasswordToken createPasswordResetToken(String email) {
-        return new PasswordToken(
+    public static PasswordTokenImpl createPasswordResetToken(String email) {
+        return new PasswordTokenImpl(
                 UUID.randomUUID().toString(),
                 LocalDateTime.now(),
                 email

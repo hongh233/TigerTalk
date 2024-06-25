@@ -1,6 +1,5 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
-import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 import com.group2.Tiger_Talks.backend.repsitory.PasswordTokenRepository;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;
@@ -10,7 +9,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -63,7 +61,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     public Optional<String> createAndSendResetMail(String email) {
 
         // Create a request token that will be used
-        PasswordToken passwordToken = PasswordToken.createPasswordResetToken(email);
+        PasswordTokenImpl passwordToken = PasswordTokenImpl.createPasswordResetToken(email);
         passwordTokenRepository.save(passwordToken);
 
         // Construct the message to send
@@ -71,7 +69,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         simpleMailMessage.setTo(email);
         simpleMailMessage.setSubject(PASSWORD_RESET_SUBJECT);
         simpleMailMessage.setText(PASSWORD_RESET_MESSAGE.formatted(
-                passwordToken.getToken(), PasswordToken.EXPIRATION_MINUTES
+                passwordToken.getToken(), PasswordTokenImpl.EXPIRATION_MINUTES
         ));
 
         // Send the message
@@ -111,13 +109,13 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         }
 
         return userTemplateRepository.findUserTemplateByEmail(passwordDTO.email())
-            .map(userTemplate -> {
-                userTemplate.setPassword(passwordDTO.password());
-                userTemplateRepository.save(userTemplate);
-                return Optional.<String>empty();
-            })
-            .orElseGet(() -> Optional.of("An error has occurred when resting your password. The email used no longer belongs to any account")
-            );
+                .map(userTemplate -> {
+                    userTemplate.setPassword(passwordDTO.password());
+                    userTemplateRepository.save(userTemplate);
+                    return Optional.<String>empty();
+                })
+                .orElseGet(() -> Optional.of("An error has occurred when resting your password. The email used no longer belongs to any account")
+                );
     }
 
     @Override
