@@ -1,16 +1,18 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
+import com.group2.Tiger_Talks.backend.model.User.DTO.ForgotPasswordDTO;
 import com.group2.Tiger_Talks.backend.repsitory.PasswordTokenRepository;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;
-import com.group2.Tiger_Talks.backend.service.DTO.ForgotPasswordDTO;
+import com.group2.Tiger_Talks.backend.service.implementation.utils.MailClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.regex.Pattern;
+
+import static com.group2.Tiger_Talks.backend.model.Utils.COMPANY_EMAIL;
 
 /* !!!   We don't need to check the email since we have validateEmailExist method
  *       in this class to check the email, we assume before each action we will run the validateEmailExist
@@ -64,16 +66,14 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         PasswordTokenImpl passwordToken = PasswordTokenImpl.createPasswordResetToken(email);
         passwordTokenRepository.save(passwordToken);
 
-        // Construct the message to send
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject(PASSWORD_RESET_SUBJECT);
-        simpleMailMessage.setText(PASSWORD_RESET_MESSAGE.formatted(
-                passwordToken.getToken(), PasswordTokenImpl.EXPIRATION_MINUTES
-        ));
+        // Send mail for OTP token
+        new MailClient(new String[]{email},
+                COMPANY_EMAIL,
+                PASSWORD_RESET_SUBJECT,
+                PASSWORD_RESET_MESSAGE.formatted(
+                        passwordToken.getToken(), PasswordTokenImpl.EXPIRATION_MINUTES
+                )).sendMail(passwordResetMailer);
 
-        // Send the message
-        passwordResetMailer.send(simpleMailMessage);
 
         return Optional.empty();
     }
