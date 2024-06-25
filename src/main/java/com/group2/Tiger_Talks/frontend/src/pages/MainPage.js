@@ -9,7 +9,7 @@ import '../assets/styles/Main.css';
 
 const examplePost = {
   likes:0,
-  username: 'User',
+  userName: 'User',
   time: '2 hours ago',
   content: 'Lorem ipsum, This is dummy text to show the content of a post, might be text, or image, of video'
 };

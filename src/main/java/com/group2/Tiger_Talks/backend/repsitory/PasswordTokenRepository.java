@@ -1,12 +1,12 @@
 package com.group2.Tiger_Talks.backend.repsitory;
 
-import com.group2.Tiger_Talks.backend.service.implementation.Authentication.PasswordToken;
+import com.group2.Tiger_Talks.backend.service.implementation.Authentication.PasswordTokenImpl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface PasswordTokenRepository extends JpaRepository<PasswordToken, Long> {
-    Optional<PasswordToken> findPasswordTokenByToken(String token);
+public interface PasswordTokenRepository extends JpaRepository<PasswordTokenImpl, Long> {
+    Optional<PasswordTokenImpl> findPasswordTokenByToken(String token);
 }

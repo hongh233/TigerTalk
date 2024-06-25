@@ -1,64 +1,68 @@
 package com.group2.Tiger_Talks.backend.model.User;
 
+import com.group2.Tiger_Talks.backend.model.Utils.Role;
+import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
+import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import jakarta.persistence.*;
 
 
 @Entity
 @Table(name = "user_template")
 public class UserTemplate {
-    public static final String ADMIN = "admin";
-    public static final String USER = "user";
-    public static final String BLOCKED = "blocked";
-    public static final String PENDING = "pending";
-    public static final String ACTIVE = "active";
     @Id
     private String email;
 
-    @Column(unique = true)
+    @Column(name = "user_name", unique = true)
     private String userName;
-
+    @Column(unique = true)
     private int bannerID;    // B00XXXXXX (X represents integer from 0 to 9)
     private String password;
-    private String userLevel;   // admin / user
-    private String status;      // blocked / pending / active
-    private Integer age;
+    private String userLevel = UserLevel.USER;   // admin / user
+    private String status = UserStatus.PENDING;      // blocked / pending / active
+    private int age;
     private String gender;
     private String firstName;
     private String lastName;
-    private boolean isValidated;
+    private boolean isValidated = false;
+    private String[] securityQuestions;
+    private String[] securityQuestionsAnswer;
+    private String role = Role.DEFAULT;        // default / student / instructor / employee
+    private boolean isOnline = false;
+
 
     @OneToOne(mappedBy = "userTemplate", cascade = CascadeType.ALL, orphanRemoval = true)
-    private User user;
+    private UserProfile userProfile = null;
 
     public UserTemplate(String firstName,
                         String lastName,
                         Integer age,
-                        String userName,
                         String gender,
+                        String userName,
+                        int bannerID,
                         String email,
-                        String password) {
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.age = age;
-        this.gender = gender;
+                        String password,
+                        String[] securityQuestionsAnswer,
+                        String[] securityQuestions) {
         this.firstName = firstName;
         this.lastName = lastName;
-
-        // Default values
-        this.isValidated = false;
-        this.user = null;
-        this.bannerID = -1;
+        this.age = age;
+        this.gender = gender;
+        this.userName = userName;
+        this.bannerID = bannerID;
+        this.email = email;
+        this.password = password;
+        this.securityQuestionsAnswer = securityQuestionsAnswer;
+        this.securityQuestions = securityQuestions;
     }
 
     public UserTemplate() {
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -136,14 +140,13 @@ public class UserTemplate {
         this.status = status;
     }
 
-    public User getUser() {
-        return user;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
-
 
     public String getUserName() {
         return userName;
@@ -152,5 +155,46 @@ public class UserTemplate {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public boolean isValidated() {
+        return isValidated;
+    }
+
+    public void setValidated(boolean validated) {
+        isValidated = validated;
+    }
+
+    public String[] getSecurityQuestionsAnswer() {
+        return securityQuestionsAnswer;
+    }
+
+    public void setSecurityQuestionsAnswer(String[] securityQuestionsAnswer) {
+        this.securityQuestionsAnswer = securityQuestionsAnswer;
+    }
+
+    public String[] getSecurityQuestions() {
+        return securityQuestions;
+    }
+
+    public void setSecurityQuestions(String[] securityQuestions) {
+        this.securityQuestions = securityQuestions;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
+
 }
 

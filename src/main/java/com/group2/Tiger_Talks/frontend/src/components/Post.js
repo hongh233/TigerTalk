@@ -20,7 +20,7 @@ const Post = ({ post }) => {
     if (newComment.trim() === '') return;
 
     const newCommentObj = {
-      username: 'Current User',
+      userName: 'Current User',
       time: new Date().toLocaleString(),
       content: newComment,
     };

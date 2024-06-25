@@ -11,8 +11,10 @@
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  width: 450px;
   text-align: center;
+  overflow-y: auto;
+  max-height: 80vh;
 }
 
 .signup-container h1 {
@@ -38,7 +40,14 @@ input, select {
   border-radius: 4px;
   color: #333;
   transition: border-color 0.3s;
+  box-sizing: border-box;
 }
+
+select {
+  margin-bottom: 10px;
+}
+
+
 option{
   color:#333;
 }
