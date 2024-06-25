@@ -13,7 +13,7 @@ const SecurityQuestionsPage = () => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await axios.get('http://localhost:8085/api/logIn/passwordReset/getSecurityQuestions', {
+        const response = await axios.get('http://localhost:8085/api/passwordReset/getSecurityQuestions', {
           params: { email }
         });
         setQuestions(response.data);
@@ -32,7 +32,7 @@ const SecurityQuestionsPage = () => {
     e.preventDefault();
     setErrors({});
     try {
-      await axios.post('http://localhost:8085/api/logIn/passwordReset/verifySecurityAnswers', null,{
+      await axios.post('http://localhost:8085/api/passwordReset/verifySecurityAnswers', null,{
         params: {
             email,
             answer1: answers.answer1,

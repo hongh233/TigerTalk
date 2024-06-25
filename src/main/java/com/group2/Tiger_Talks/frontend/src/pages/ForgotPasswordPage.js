@@ -22,7 +22,7 @@ const ForgotPasswordPage = () => {
       }
   
       try {
-        const response = await axios.post('http://localhost:8085/api/logIn/passwordReset/validateEmailExist', null, {
+        const response = await axios.post('http://localhost:8085/api/passwordReset/validateEmailExist', null, {
           params: { email }
         });
         if (response.data === "Email exists and is valid.") {
@@ -43,7 +43,7 @@ const ForgotPasswordPage = () => {
   
     const handleEmailVerification = async () => {
       try {
-        await axios.post('http://localhost:8085/api/logIn/passwordReset/sendToken', null, {
+        await axios.post('http://localhost:8085/api/passwordReset/sendToken', null, {
           params: { email }
         });
         navigate('/emailVerification', { state: { email } });

@@ -17,7 +17,7 @@ const EmailVerificationPage = () => {
     e.preventDefault();
     setErrors({});
     try {
-      await axios.post(`http://localhost:8085/api/logIn/passwordReset/checkToken/${code}`, {
+      await axios.post(`http://localhost:8085/api/passwordReset/checkToken/${code}`, {
         email
       });
       alert('Email has verified! You can now reset your password!');
