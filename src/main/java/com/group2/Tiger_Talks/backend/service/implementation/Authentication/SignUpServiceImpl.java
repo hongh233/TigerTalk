@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import static com.group2.Tiger_Talks.backend.model.Utils.BOO_MAX;
+import static com.group2.Tiger_Talks.backend.model.Utils.BOO_MIN;
+
 @Service
 public class SignUpServiceImpl implements SignUpService {
     private static final Pattern PASSWORD_NORM =
@@ -47,7 +50,7 @@ public class SignUpServiceImpl implements SignUpService {
         if (userTemplateRepository.findUserTemplateByUserName(userTemplate.getUserName()).isPresent()) {
             return Optional.of("Username has already existed!");
         }
-        if (userTemplate.getBannerID() < 0 || userTemplate.getBannerID() > 999999) {
+        if ((userTemplate.getBannerID() < BOO_MIN) || (userTemplate.getBannerID() > BOO_MAX)) {
             return Optional.of("Invalid Banner ID. Please input number between 0-999999");
         }
         if (userTemplateRepository.findUserTemplateByBannerID(userTemplate.getBannerID()).isPresent()) {
