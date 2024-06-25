@@ -1,5 +1,8 @@
 package com.group2.Tiger_Talks.backend.model.User;
 
+import com.group2.Tiger_Talks.backend.model.Utils.Role;
+import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
+import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import jakarta.persistence.*;
 
 
@@ -14,8 +17,8 @@ public class UserTemplate {
     @Column(unique = true)
     private int bannerID;    // B00XXXXXX (X represents integer from 0 to 9)
     private String password;
-    private String userLevel;   // admin / user
-    private String status;      // blocked / pending / active
+    private String userLevel = UserLevel.USER;   // admin / user
+    private String status = UserStatus.PENDING;      // blocked / pending / active
     private int age;
     private String gender;
     private String firstName;
@@ -23,7 +26,7 @@ public class UserTemplate {
     private boolean isValidated = false;
     private String[] securityQuestions;
     private String[] securityQuestionsAnswer;
-    private String role = "default";        // default / student / instructor / employee
+    private String role = Role.DEFAULT;        // default / student / instructor / employee
     private boolean isOnline = false;
 
 

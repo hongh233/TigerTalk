@@ -1,8 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
 import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
-import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
-import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
 import com.group2.Tiger_Talks.backend.service.User.UserTemplateService;
@@ -13,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import static com.group2.Tiger_Talks.backend.model.Utils.BOO_MAX;
-import static com.group2.Tiger_Talks.backend.model.Utils.BOO_MIN;
+import static com.group2.Tiger_Talks.backend.model.Utils.B00.MAX;
+import static com.group2.Tiger_Talks.backend.model.Utils.B00.MIN;
 
 @Service
 public class SignUpServiceImpl implements SignUpService {
@@ -50,7 +48,7 @@ public class SignUpServiceImpl implements SignUpService {
         if (userTemplateRepository.findUserTemplateByUserName(userTemplate.getUserName()).isPresent()) {
             return Optional.of("Username has already existed!");
         }
-        if ((userTemplate.getBannerID() < BOO_MIN) || (userTemplate.getBannerID() > BOO_MAX)) {
+        if ((userTemplate.getBannerID() < MIN) || (userTemplate.getBannerID() > MAX)) {
             return Optional.of("Invalid Banner ID. Please input number between 0-999999");
         }
         if (userTemplateRepository.findUserTemplateByBannerID(userTemplate.getBannerID()).isPresent()) {
@@ -77,8 +75,6 @@ public class SignUpServiceImpl implements SignUpService {
         if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(userTemplate.getPassword()).matches()) {
             return Optional.of("Password must have at least 1 special character.");
         }
-        userTemplate.setStatus(UserStatus.PENDING);
-        userTemplate.setUserLevel(UserLevel.USER);
         userTemplateRepository.save(userTemplate);
         return Optional.empty();
     }
