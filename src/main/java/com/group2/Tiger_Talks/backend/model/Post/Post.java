@@ -1,10 +1,10 @@
 package com.group2.Tiger_Talks.backend.model.Post;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "post")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,12 +14,13 @@ public class Post {
     private String content;
     private LocalDateTime timestamp;
 
-    public Post() {}
+    public Post() {
+    }
 
-    public Post(String userEmail, String content, LocalDateTime timestamp) {
+    public Post(String userEmail, String content) {
         this.userEmail = userEmail;
         this.content = content;
-        this.timestamp = timestamp;
+        this.timestamp = LocalDateTime.now();
     }
 
     public Integer getPostId() {

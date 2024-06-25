@@ -22,7 +22,7 @@ public class PostService {
     }
 
     public Post createPost(String userEmail, String content) {
-        Post post = new Post(userEmail, content, LocalDateTime.now());
+        Post post = new Post(userEmail, content);
         return postRepository.save(post);
     }
 }
