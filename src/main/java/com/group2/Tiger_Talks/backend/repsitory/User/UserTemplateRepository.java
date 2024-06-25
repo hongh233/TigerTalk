@@ -11,8 +11,4 @@ public interface UserTemplateRepository extends JpaRepository<UserTemplate, Stri
 
     Optional<UserTemplate> findUserTemplateByEmail(String email);
 
-    Optional<UserTemplate> findUserTemplateByBannerID(int bannerId);
-
-    Optional<UserTemplate> findUserTemplateByUserName(String userName);
-
 }
