@@ -13,11 +13,11 @@ const ProfileNavBar = ({ user }) => (
       </div>
     </div>
     <div className="profile-links">
-      <a href="/"><FaHome /><span className='text-hide'>Home</span></a>
+      <a href="/main"><FaHome /><span className='text-hide'>Home</span></a>
       <a href="/profile/1"><FaHammer /><span className='text-hide'>Profile Setting</span></a>
       
       <GroupTab/>
-      <a href="/login"><FaSignOutAlt /><span className='text-hide'>Logout</span></a>
+      <a href="/"><FaSignOutAlt /><span className='text-hide'>Logout</span></a>
     </div>
   </nav>
 );

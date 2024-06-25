@@ -18,15 +18,15 @@ const App = () => (
   
   <Router>
     <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/main" element={<MainPage />} />
+      <Route path="/" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/profile/1" element={<ProfileSettingsPage />} />
       <Route path="group/" element={<GroupPage />} />
       <Route path="/group/creategroup" element={<CreateGroupPage />} />
       <Route path="/group/viewgroup/:groupId" element={<ViewGroupPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+      <Route path="/forgotPassword" element={<ForgotPasswordPage/>}/>
       <Route path="/securityQuestions" element={<SecurityQuestionsPage />} />
       <Route path="/emailVerification" element={<EmailVerificationPage />} />
       <Route path="/resetPassword" element={<ResetPasswordPage />} />

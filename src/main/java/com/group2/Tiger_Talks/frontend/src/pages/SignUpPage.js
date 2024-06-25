@@ -81,7 +81,7 @@ const SignUpPage = () => {
     setErrors(errors);
     if (Object.keys(errors).length === 0) {
       try {
-        const response = await axios.post('http://localhost:8085/api/signUp/userSignUp', {
+        await axios.post('http://localhost:8085/api/signUp/userSignUp', {
           firstName: form.firstName,
           lastName: form.lastName,
           age: form.age,
@@ -92,9 +92,9 @@ const SignUpPage = () => {
           password: form.password,
           securityQuestionsAnswer: [form.securityAnswer1, form.securityAnswer2, form.securityAnswer3],
           securityQuestions: [form.securityQuestion1, form.securityQuestion2, form.securityQuestion3]
-      });
-      alert('Sign up successfully');
-      navigate('/login');
+        });
+        alert('Sign up successfully');
+        navigate('/login');
     } catch (error) {
       if (error.response && error.response.data) {
         const serverErrors = {};
@@ -147,6 +147,7 @@ const SignUpPage = () => {
       <div className="signup-container">
         <h1>Create Your Account</h1>
         <form onSubmit={handleSubmit}>
+
            <div className="form-group">
             <input
               type="text"
@@ -157,6 +158,7 @@ const SignUpPage = () => {
             />
             {errors.firstName && <p className="error">{errors.firstName}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="text"
@@ -167,6 +169,7 @@ const SignUpPage = () => {
             />
             {errors.lastName && <p className="error">{errors.lastName}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="text"
@@ -177,6 +180,7 @@ const SignUpPage = () => {
             />
             {errors.age && <p className="error">{errors.age}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="text"
@@ -187,6 +191,7 @@ const SignUpPage = () => {
             />
             {errors.userName && <p className="error">{errors.userName}</p>}
           </div>
+
           <div className="form-group">
             <select
               name="gender"
@@ -200,6 +205,7 @@ const SignUpPage = () => {
             </select>
             {errors.gender && <p className="error">{errors.gender}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="text"
@@ -210,6 +216,7 @@ const SignUpPage = () => {
             />
             {errors.bannerID && <p className="error">{errors.bannerID}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="email"
@@ -220,6 +227,7 @@ const SignUpPage = () => {
             />
             {errors.email && <p className="error">{errors.email}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="password"
@@ -230,6 +238,7 @@ const SignUpPage = () => {
             />
             {errors.password && <p className="error">{errors.password}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="password"
@@ -254,6 +263,7 @@ const SignUpPage = () => {
             </select>
             {errors.securityQuestion1 && <p className="error">{errors.securityQuestion1}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="text"
@@ -264,6 +274,7 @@ const SignUpPage = () => {
             />
             {errors.securityAnswer1 && <p className="error">{errors.securityAnswer1}</p>}
           </div>
+
           <div className="form-group">
             <select
               name="securityQuestion2"
@@ -277,6 +288,7 @@ const SignUpPage = () => {
             </select>
             {errors.securityQuestion2 && <p className="error">{errors.securityQuestion2}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="text"
@@ -287,6 +299,7 @@ const SignUpPage = () => {
             />
             {errors.securityAnswer2 && <p className="error">{errors.securityAnswer2}</p>}
           </div>
+
           <div className="form-group">
             <select
               name="securityQuestion3"
@@ -300,6 +313,7 @@ const SignUpPage = () => {
             </select>
             {errors.securityQuestion3 && <p className="error">{errors.securityQuestion3}</p>}
           </div>
+
           <div className="form-group">
             <input
               type="text"
@@ -314,7 +328,7 @@ const SignUpPage = () => {
           <button type="submit">Sign Up</button>
         </form>
         <p>
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to="/">Login</Link>
         </p>
       </div>
     </div>

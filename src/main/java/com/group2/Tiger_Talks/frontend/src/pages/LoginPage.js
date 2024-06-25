@@ -22,7 +22,7 @@ const LoginPage = () => {
       });
       localStorage.setItem('user', JSON.stringify(response.data));
       alert('Log in successfully');
-      navigate('/'); // main
+      navigate('/main'); // main
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setError('Invalid email or password.');
@@ -37,10 +37,12 @@ const LoginPage = () => {
     <div className="login-card">
       <h2>Welcome Back</h2>
       <p>Login with Email and Password</p>
+
       {error && 
         <div className="error-message">
           <p>{error}</p>
         </div>}
+
       <form onSubmit={handleSubmit}>
         <label>Email</label>
         <input 
@@ -49,7 +51,7 @@ const LoginPage = () => {
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
-          />
+        />
         
         <label>Password</label>
         <input 
@@ -58,12 +60,12 @@ const LoginPage = () => {
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
-          />
+        />
         
         <button type="submit">Login</button>
       </form>
       <div className="additional-links">
-        <Link to="/forgot-password">Forgot Password?</Link>
+        <Link to="/forgotPassword">Forgot Password?</Link>
         <p>New User? <Link to="/signup">Sign Up Here Instead</Link></p>
       </div>
     </div>
