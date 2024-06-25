@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { FaThumbsUp, FaComment, FaShare } from 'react-icons/fa';
 import Comment from './Comment';
@@ -70,3 +71,4 @@ const Post = ({ post }) => {
 };
 
 export default Post;
+
