@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller;
 
 import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;
-import com.group2.Tiger_Talks.backend.service.DTO.ForgotPasswordDTO;
+import com.group2.Tiger_Talks.backend.model.User.DTO.ForgotPasswordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
