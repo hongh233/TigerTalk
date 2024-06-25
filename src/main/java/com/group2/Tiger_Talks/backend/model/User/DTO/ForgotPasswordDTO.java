@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.service.DTO;
+package com.group2.Tiger_Talks.backend.model.User.DTO;
 
 public record ForgotPasswordDTO(
         String email,

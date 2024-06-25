@@ -25,25 +25,24 @@ public class FriendController {
     }
 
     @PostMapping("/accept")
-    public ResponseEntity<?> acceptFriend(@RequestParam Integer friendshipRequestId) {
+    public ResponseEntity<String> acceptFriend(@RequestParam Integer friendshipRequestId) {
         try {
             friendService.acceptFriendRequest(friendshipRequestId);
             return ResponseEntity.ok("Friend request accepted.");
         } catch (IllegalStateException err) {
-            return ResponseEntity.status(404).body(err);
+            return ResponseEntity.status(404).body(err.getMessage());
         }
     }
 
     @PostMapping("/reject")
-    public ResponseEntity<?> rejectFriend(@RequestParam Integer friendshipRequestId) {
+    public ResponseEntity<String> rejectFriend(@RequestParam Integer friendshipRequestId) {
         return friendService.rejectFriendRequest(friendshipRequestId)
-                .map(err -> ResponseEntity.status(404).body("Friend request rejected."))
+                .map(err -> ResponseEntity.status(404).body("Friend request rejected. \n"+ err))
                 .orElseGet(() -> ResponseEntity.ok("Removed friend"));
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<?> getAllFriends(@RequestParam String email) {
-        List<Friendship> friends = friendService.getAllFriends(email);
-        return ResponseEntity.ok(friends);
+    public ResponseEntity<List<Friendship>> getAllFriends(@RequestParam String email) {
+        return ResponseEntity.ok(friendService.getAllFriends(email));
     }
 }

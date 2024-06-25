@@ -1,49 +1,61 @@
 package com.group2.Tiger_Talks.backend.model.User;
 
+import com.group2.Tiger_Talks.backend.model.Utils.ProfileAccessLevel;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "user_profile")
 public class UserProfile {
-    public static String PUBLIC = "public";
-    public static String PROTECTED = "protected";
-    public static String PRIVATE = "private";
 
     @Id
     private String email;             // PK | FK
+
+    @Column(name = "user_name", unique = true)
+    private String userName;
+
     private String personalInterest;
+
     private String location;
+
     private String postalCode;
+
     private String biography;
-    private String peopleAccessLevel;  // public / protected / private
+
+    private String profileAccessLevel = ProfileAccessLevel.PRIVATE;  // public / protected / private
+
     private String phoneNumber;
+
+    private int age;
+
+    private String gender;
+
+    private String firstName;
+
+    private String lastName;
 
     // FK setting
     @OneToOne
     @MapsId
     @JoinColumn(name = "email")
-    private User user;
+    private UserTemplate userTemplate;
 
 
     public UserProfile() {
     }
 
-    public UserProfile(String email,
-                       String personalInterest,
-                       String location,
-                       String postalCode,
-                       String biography,
-                       String peopleAccessLevel,
-                       String phoneNumber,
-                       User user) {
+    public UserProfile(String userName, String email, String personalInterest, String location, String postalCode, String biography, String phoneNumber, int age, String gender, String firstName, String lastName, UserTemplate userTemplate) {
+        this.userName = userName;
         this.email = email;
         this.personalInterest = personalInterest;
         this.location = location;
         this.postalCode = postalCode;
         this.biography = biography;
         this.phoneNumber = phoneNumber;
-        this.peopleAccessLevel = peopleAccessLevel;
-        this.user = user;
+        this.age = age;
+        this.gender = gender;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userTemplate = userTemplate;
     }
 
     public String getPersonalInterest() {
@@ -78,20 +90,20 @@ public class UserProfile {
         this.biography = biography;
     }
 
-    public String getPeopleAccessLevel() {
-        return peopleAccessLevel;
+    public String getProfileAccessLevel() {
+        return profileAccessLevel;
     }
 
-    public void setPeopleAccessLevel(String peopleAccessLevel) {
-        this.peopleAccessLevel = peopleAccessLevel;
+    public void setProfileAccessLevel(String peopleAccessLevel) {
+        this.profileAccessLevel = peopleAccessLevel;
     }
 
-    public User getUser() {
-        return user;
+    public UserTemplate getUserTemplate() {
+        return userTemplate;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserTemplate(UserTemplate userTemplate) {
+        this.userTemplate = userTemplate;
     }
 
     public String getEmail() {
@@ -105,5 +117,45 @@ public class UserProfile {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-}
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+}
+ 

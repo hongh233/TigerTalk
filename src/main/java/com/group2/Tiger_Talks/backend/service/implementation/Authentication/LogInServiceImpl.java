@@ -17,13 +17,11 @@ public class LogInServiceImpl implements LogInService {
     @Override
     public Optional<UserTemplate> logInUserTemplate(String email, String password) {
         Optional<UserTemplate> userTemp = userTemplateRepository.findUserTemplateByEmail(email);
-        if (userTemp.isPresent()) {
-            UserTemplate user = userTemp.get();
-            if (user.getPassword().equals(password)) {
-                return Optional.of(user);
-            }
+        if (userTemp.isPresent() && userTemp.get().getPassword().equals(password)) {
+            return userTemp;
+        } else {
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
     public Optional<UserTemplate> getUserByEmail(String email) {
