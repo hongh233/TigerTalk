@@ -5,9 +5,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "user_profile")
 public class UserProfile {
-    public static String PUBLIC = "public";
-    public static String PROTECTED = "protected";
-    public static String PRIVATE = "private";
 
     @Id
     private String email;             // PK | FK
