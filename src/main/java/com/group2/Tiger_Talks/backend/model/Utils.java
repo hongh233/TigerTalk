@@ -2,12 +2,13 @@ package com.group2.Tiger_Talks.backend.model;
 
 public final class Utils {
     public static final String CROSS_ORIGIN_HOST_NAME = "http://localhost:3000";
+    public static final String COMPANY_EMAIL = "test@dal.ca";
 
-    public static final class B00 {
-        public static final int MIN = 0;
-        public static final int MAX = 999999;
+    public static final class ProfileAccessLevel {
+        public static final String PUBLIC = "public";          // Everyone can see your profile
+        public static final String PROTECTED = "protected";    // Only friends can see your profile
+        public static final String PRIVATE = "private";        // No one can see your profile
     }
-
 
     public static final class UserLevel {
         public static final String ADMIN = "admin";
@@ -26,6 +27,4 @@ public final class Utils {
         public static final String PENDING = "pending";
         public static final String ACTIVE = "active";
     }
-
-
 }
