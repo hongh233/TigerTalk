@@ -58,17 +58,36 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     @Override
     public Optional<String> createAndSendResetMail(String email) {
 
+        // Validate email existence
+        Optional<String> validationError = validateEmailExist(email);
+        if (validationError.isPresent()) {
+            return validationError;
+        }
+
         // Create a request token that will be used
         PasswordTokenImpl passwordToken = PasswordTokenImpl.createPasswordResetToken(email);
         passwordTokenRepository.save(passwordToken);
 
+
+        String subject = "Password Reset Request";
+        String messageContent = String.format(
+                "Enter this code to reset your password:\n\n%s\n\nThe code will expire after %d minutes.",
+                passwordToken.getToken(), PasswordTokenImpl.EXPIRATION_MINUTES
+        );
+
         // Send mail for OTP token
-        new MailClient(new String[]{email},
-                COMPANY_EMAIL,
-                PASSWORD_RESET_SUBJECT,
-                PASSWORD_RESET_MESSAGE.formatted(
-                        passwordToken.getToken(), PasswordTokenImpl.EXPIRATION_MINUTES
-                )).sendMail(passwordResetMailer);
+        try {
+            new MailClient(
+                    new String[]{email},
+                    COMPANY_EMAIL,
+                    subject,
+                    messageContent
+            ).sendMail(passwordResetMailer);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.of("Failed to send email. Please try again.");
+        }
+
 
         return Optional.empty();
     }
