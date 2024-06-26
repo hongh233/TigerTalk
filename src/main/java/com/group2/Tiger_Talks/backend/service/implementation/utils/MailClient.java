@@ -5,6 +5,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import java.util.Optional;
+
 public class MailClient {
     final private String sendFrom;
     final private String[] sendTo;
@@ -18,7 +20,7 @@ public class MailClient {
         this.messageContent = messageContent;
     }
 
-    public void sendMail(JavaMailSender javaMailSender) {
+    public Optional<String> sendMail(JavaMailSender javaMailSender) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -27,8 +29,10 @@ public class MailClient {
             helper.setSubject(subject);
             helper.setText(messageContent, true);
             javaMailSender.send(mimeMessage);
+            return Optional.empty();
         } catch (Exception e) {
             e.printStackTrace();
+            return Optional.of("Failed to send email. Please try again.");
         }
     }
 }
