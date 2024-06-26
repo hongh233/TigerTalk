@@ -10,14 +10,18 @@ import java.util.Optional;
 
 public interface FriendshipRequestRepository extends JpaRepository<FriendshipRequest, Integer> {
 
-    List<FriendshipRequest> findByReceiver(@Param("receiver") UserProfile receiver);
+    List<FriendshipRequest> findByReceiver(
+            @Param("receiver") UserProfile receiver
+    );
 
 
     /*  When the sendersEmail and receiversEmail are different,
      *  we are finding a specific friendship request between two person
      *  unidirectional: (sender ---> receiver)
      */
-    Optional<FriendshipRequest> findBySenderAndReceiver(UserProfile sender, UserProfile receiver
+    Optional<FriendshipRequest> findBySenderAndReceiver(
+           @Param("sender")  UserProfile sender,
+           @Param("receiver")  UserProfile receiver
     );
 
 
@@ -25,5 +29,10 @@ public interface FriendshipRequestRepository extends JpaRepository<FriendshipReq
      *  we are finding a specific friendship request between two person
      *  bidirectional: (sender <--> receiver)
      */
-    Optional<FriendshipRequest> findBySenderAndReceiverOrReceiverAndSender(UserProfile sender1, UserProfile receiver1, UserProfile sender2, UserProfile receiver2);
+    Optional<FriendshipRequest> findBySenderAndReceiverOrReceiverAndSender(
+            @Param("sender1") UserProfile sender1,
+            @Param("receiver1") UserProfile receiver1,
+            @Param("sender2") UserProfile sender2,
+            @Param("receiver2") UserProfile receiver2);
+
 }

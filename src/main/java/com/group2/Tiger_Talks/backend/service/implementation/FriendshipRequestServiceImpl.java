@@ -42,7 +42,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
             return Optional.of("Friendship request has already existed between these users.");
         }
 
-        friendshipRequestRepository.save(new FriendshipRequest(sender, receiver, LocalDate.now()));
+        friendshipRequestRepository.save(new FriendshipRequest(sender, receiver));
         return Optional.empty();
     }
 
