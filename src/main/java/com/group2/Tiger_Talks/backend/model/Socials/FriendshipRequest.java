@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Socials;
 
+import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -11,21 +12,27 @@ public class FriendshipRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer friendshipRequestId;
-    private String userFriendshipSender;   // email
-    private String userFriendshipReceiver;  // email
+
+    @ManyToOne
+    @JoinColumn(name = "sender_email", referencedColumnName = "email")
+    private UserTemplate sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_email", referencedColumnName = "email")
+    private UserTemplate receiver;
+
+
     private LocalDate createTime;              // yyyy/mm/dd/00:00:00
-    private String status;          // approved/ refused / pending
 
 
-    public FriendshipRequest(String userFriendshipSender,
-                             String userFriendshipReceiver,
+    public FriendshipRequest(UserTemplate sender,
+                             UserTemplate receiver,
                              LocalDate createTime) {
-        this.userFriendshipSender = userFriendshipSender;
-        this.userFriendshipReceiver = userFriendshipReceiver;
+        this.sender = sender;
+        this.receiver = receiver;
         this.createTime = createTime;
-        this.status = "pending";
     }
-    public FriendshipRequest(){}
+    public FriendshipRequest() {}
 
 
     public Integer getFriendshipRequestId() {
@@ -36,20 +43,20 @@ public class FriendshipRequest {
         this.friendshipRequestId = friendshipRequestId;
     }
 
-    public String getUserFriendshipSender() {
-        return userFriendshipSender;
+    public UserTemplate getSender() {
+        return sender;
     }
 
-    public void setUserFriendshipSender(String userFriendshipSender) {
-        this.userFriendshipSender = userFriendshipSender;
+    public void setSender(UserTemplate userFriendshipSender) {
+        this.sender = userFriendshipSender;
     }
 
-    public String getUserFriendshipReceiver() {
-        return userFriendshipReceiver;
+    public UserTemplate getReceiver() {
+        return receiver;
     }
 
-    public void setUserFriendshipReceiver(String userFriendshipReceiver) {
-        this.userFriendshipReceiver = userFriendshipReceiver;
+    public void setReceiver(UserTemplate userFriendshipReceiver) {
+        this.receiver = userFriendshipReceiver;
     }
 
     public LocalDate getCreateTime() {
@@ -58,14 +65,6 @@ public class FriendshipRequest {
 
     public void setCreateTime(LocalDate createTime) {
         this.createTime = createTime;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
 }
