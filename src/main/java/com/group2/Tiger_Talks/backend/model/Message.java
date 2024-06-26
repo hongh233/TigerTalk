@@ -4,7 +4,6 @@ import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "message")
 public class Message {
 
     @Id
