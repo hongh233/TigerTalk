@@ -18,6 +18,12 @@ public class LoginController {
     private LogInService logInService;
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    @PostMapping("/userLogOut")
+    public void logOut(@RequestParam("email") String email) {
+        logInService.logOut(email);
+    }
+
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("/userLogIn")
     public ResponseEntity<?> logIn(@RequestParam("email") String email, @RequestParam("password") String password) {
         Optional<UserProfile> userProfileOptional = logInService.logInUser(email, password);
