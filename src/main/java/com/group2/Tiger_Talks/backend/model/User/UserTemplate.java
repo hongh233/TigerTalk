@@ -5,6 +5,8 @@ import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
 import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import jakarta.persistence.*;
 
+import java.util.Optional;
+
 
 @Entity
 @Table(name = "user_template")
@@ -12,8 +14,6 @@ public class UserTemplate {
     @Id
     private String email;
 
-
-    @Column(unique = true)
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
     private String status = UserStatus.PENDING;      // blocked / pending / active
@@ -129,5 +129,13 @@ public class UserTemplate {
         isOnline = online;
     }
 
+    public Optional<String> findAnswerForSecurityQuestion(String securityQuestion) {
+        for (int i = 0; i < securityQuestions.length; i++) {
+            if (securityQuestions[i].equals(securityQuestion)) {
+                return Optional.of(securityQuestionsAnswer[i]);
+            }
+        }
+        return Optional.empty();
+    }
 }
 
