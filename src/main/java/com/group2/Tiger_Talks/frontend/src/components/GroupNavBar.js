@@ -5,7 +5,7 @@ import GroupTab from './GroupTab';
 
 const GroupNavBar = () => {
   const handleLogOut = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
   };
   return (
     <nav className="group-navbar">
