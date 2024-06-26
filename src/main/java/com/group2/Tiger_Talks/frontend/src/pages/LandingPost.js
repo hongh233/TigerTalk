@@ -21,7 +21,7 @@ const LandingPage = () => {
                 .catch(error => {
                     console.error('There was an error fetching the posts!', error);
                 });
-            /*
+            
             axios.get(`/recommendations?userEmail=${email}`)
                 .then(response => {
                     setRecommendations(response.data);
@@ -29,7 +29,7 @@ const LandingPage = () => {
                 .catch(error => {
                     console.error('There was an error fetching the recommendations!', error);
                 });
-           */     
+               
         }
     }, []);
 
@@ -49,7 +49,7 @@ const LandingPage = () => {
                     </div>
                 ))}
             </div>
-
+            
             <h1>Friend Recommendations</h1>
             <div>
                 {recommendations.map(email => (

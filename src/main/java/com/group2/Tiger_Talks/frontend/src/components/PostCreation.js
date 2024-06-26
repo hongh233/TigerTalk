@@ -1,19 +1,116 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import '../assets/styles/PostCreation.css';
 
-const PostCreation = () => (
-  <div className="post-creation">
-    <div className="profile-picture"></div>
-    <textarea placeholder="What's Happening?"></textarea>
-    <div className="location-and-image">
-      <input type="text" placeholder="Want to add Location?" />
-      <div className="image-upload">
-        <span>+</span>
+import { useNavigate } from 'react-router-dom';
+
+//const PostCreation = () => {
+  const PostCreation = ({ addPost }) => {  
+  const [postContent, setPostContent] = useState('');
+  
+  const [tagInput, setTagInput] = useState('');
+  const [tags, setTags] = useState([]);
+  const navigate = useNavigate();
+  
+  /*
+  const handleInputChange = (event) => {
+    setPostContent(event.target.value);
+    console.log(event.target.value);
+  };
+  */
+
+  const handleInputChange = (event) => {
+    const content = event.target.value;
+    setPostContent(content);
+
+    // Extract tags from the content
+    const extractedTags = content.match(/@\w+/g) || [];
+    setTags(extractedTags);
+  };
+
+  const handleTagInputChange = (event) => {
+    setTagInput(event.target.value);
+  };
+  
+  /*
+  const createPost = () => {
+    console.log('Post content:', postContent);
+    console.log('Tags:', tags);
+  };
+  */
+
+  const createPost = () => {
+    addPost(postContent, tags);
+    setPostContent('');
+    setTags([]);
+  };
+
+  const handleAddTag = () => {
+    const updatedContent = `${postContent} ${tagInput}`;
+    setPostContent(updatedContent);
+    setTagInput('');
+    handleInputChange({ target: { value: updatedContent } });
+  };
+
+  const handleTagClick = (tag) => {
+    const username = tag.substring(1); // Remove the '@' from the tag
+    navigate(`/friends`);
+  };
+  
+  /*
+  const renderPostContent = (content) => {
+    const parts = content.split(/(@\w+)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('@')) {
+        return (
+          <span 
+            key={index} 
+            className="tag" 
+            onClick={() => handleTagClick(part)}
+            style={{ color: 'blue', cursor: 'pointer' }}
+          >
+            {part}
+          </span>
+        );
+      } else {
+        return part;
+      }
+    });
+  };
+  */
+
+  return (
+    <div className="post-creation">
+      <div className="profile-picture"></div>
+      <textarea 
+        placeholder="What's Happening?" 
+        value={postContent}
+        onChange={handleInputChange}
+      ></textarea>
+      <div className="location-and-image">
+        {/*TODO: {Raphael} Add tags to posts */}
+        <input 
+          type="text" 
+          placeholder="Want to tag someone?" 
+          value={tagInput}
+          onChange={handleTagInputChange}
+        />
+        <button onClick={handleAddTag}>+</button>
+        <div className="image-upload">
+          <span>+</span>
+        </div>
       </div>
+      <button className="post-button" onClick={createPost}>Post</button>
+      <div className="tags">
+        {/*tags.map((tag, index) => (
+          <span key={index} className="tag" onClick={() => handleTagClick(tag)}>
+            {tag}
+          </span>
+        ))*/}
+      </div>
+      <p>{/*renderPostContent(postContent)*/}</p>
     </div>
-    <button className="post-button">Post</button>
-  </div>
-);
+  );
+};
 
 export default PostCreation;
+

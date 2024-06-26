@@ -29,6 +29,31 @@ const Post = ({ post }) => {
     setNewComment('');
   };
 
+  const handleTagClick = (tag) => {
+    // Define what happens when a tag is clicked
+    console.log(`Tag clicked: ${tag}`);
+  };
+
+  const renderPostContent = (content) => {
+    const parts = content.split(/(@\w+)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('@')) {
+        return (
+          <span 
+            key={index} 
+            className="tag" 
+            onClick={() => handleTagClick(part)}
+            style={{ color: 'blue', cursor: 'pointer' }}
+          >
+            {part}
+          </span>
+        );
+      } else {
+        return part;
+      }
+    });
+  };
+
   return (
     <div className="post">
       <div className="post-header">

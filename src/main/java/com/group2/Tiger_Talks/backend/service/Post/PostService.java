@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.time.LocalDateTime;
 
 @Service
 public class PostService {
@@ -22,7 +21,7 @@ public class PostService {
     }
 
     public Post createPost(String userEmail, String content) {
-        Post post = new Post(userEmail, content, LocalDateTime.now());
+        Post post = new Post(userEmail, content);
         return postRepository.save(post);
     }
 }

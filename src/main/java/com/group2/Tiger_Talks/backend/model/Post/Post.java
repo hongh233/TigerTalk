@@ -16,10 +16,10 @@ public class Post {
 
     public Post() {}
 
-    public Post(String userEmail, String content, LocalDateTime timestamp) {
+    public Post(String userEmail, String content) {
         this.userEmail = userEmail;
         this.content = content;
-        this.timestamp = timestamp;
+        this.timestamp = LocalDateTime.now();
     }
 
     public Integer getPostId() {

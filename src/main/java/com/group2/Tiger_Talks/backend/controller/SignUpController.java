@@ -1,7 +1,6 @@
 package com.group2.Tiger_Talks.backend.controller;
 
-
-import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
+import com.group2.Tiger_Talks.backend.model.UserProfile;
 import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +19,15 @@ public class SignUpController {
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("/userSignUp")
-    public ResponseEntity<String> signUp(@RequestBody UserTemplate userTemplate) {
-        return signUpService.signUpUserTemplate(userTemplate)
+    public ResponseEntity<String> signUp(@RequestBody UserProfile userProfile) {
+        return signUpService.signUpUserProfile(userProfile)
                 .map(err -> ResponseEntity.badRequest().body(err))
                 .orElseGet(() -> ResponseEntity.ok("Successfully saved user to database"));
     }
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
-    @GetMapping("/getAllUserTemplates")
-    public List<UserTemplate> getAllUserTemplates() {
-        return signUpService.getAllUserTemplates();
+    @GetMapping("/getAllUserProfiles")
+    public List<UserProfile> getAllUserProfiles() {
+        return signUpService.getAllUserProfiles();
     }
 }
