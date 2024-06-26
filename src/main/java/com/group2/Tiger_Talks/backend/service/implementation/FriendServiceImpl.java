@@ -2,8 +2,8 @@ package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
-import com.group2.Tiger_Talks.backend.repsitory.Socials.FriendshipRepository;
-import com.group2.Tiger_Talks.backend.repsitory.Socials.FriendshipRequestRepository;
+import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
+import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRequestRepository;
 import com.group2.Tiger_Talks.backend.service.Socials.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
