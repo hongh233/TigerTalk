@@ -1,8 +1,8 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
 import com.group2.Tiger_Talks.backend.model.User.DTO.ForgotPasswordDTO;
-import com.group2.Tiger_Talks.backend.repsitory.PasswordTokenRepository;
-import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
+import com.group2.Tiger_Talks.backend.repository.PasswordTokenRepository;
+import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;
 import com.group2.Tiger_Talks.backend.service.implementation.utils.MailClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,6 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.COMPANY_EMAIL;
-
-/* !!!   We don't need to check the email since we have validateEmailExist method
- *       in this class to check the email, we assume before each action we will run the validateEmailExist
- */
 
 @Service
 public class PasswordResetServiceImpl implements PasswordResetService {
@@ -45,13 +41,13 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     private final static String PASSWORD_RESET_SUBJECT = "Reset your password for your account";
     private final static String PASSWORD_RESET_MESSAGE = """
             Enter this code to reset your password
-                       \s
+                       
             %s
-                       \s
+                       
             The code will expire after %d minutes.""";
 
     @Autowired
-    private UserTemplateRepository userTemplateRepository;
+    private UserProfileRepository userRepository;
 
     @Autowired
     private PasswordTokenRepository passwordTokenRepository;
@@ -93,7 +89,6 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         }
 
 
-
         return Optional.empty();
     }
 
@@ -103,7 +98,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
                 .map(retrievedToken -> {
                     passwordTokenRepository.deleteById(retrievedToken.getId());
                     if (retrievedToken.isTokenExpired())
-                        return Optional.of("Token is has exceeded its time limit and is now expired");
+                        return Optional.of("Token has exceeded its time limit and is now expired");
                     return Optional.<String>empty();
                 })
                 .orElseGet(() -> Optional.of("Token is expired / invalid. Try resending the mail"));
@@ -127,14 +122,13 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             return Optional.of("Password must have at least 1 special character.");
         }
 
-        return userTemplateRepository.findUserTemplateByEmail(passwordDTO.email())
-                .map(userTemplate -> {
-                    userTemplate.setPassword(passwordDTO.password());
-                    userTemplateRepository.save(userTemplate);
+        return userRepository.findById(passwordDTO.email())
+                .map(user -> {
+                    user.setPassword(passwordDTO.password());
+                    userRepository.save(user);
                     return Optional.<String>empty();
                 })
-                .orElseGet(() -> Optional.of("An error has occurred when resting your password. The email used no longer belongs to any account")
-                );
+                .orElseGet(() -> Optional.of("An error occurred while resetting your password. The email used no longer belongs to any account"));
     }
 
     @Override
@@ -142,24 +136,27 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         if (!EMAIL_NORM.matcher(email).matches()) {
             return Optional.of("Invalid email address. Please use dal email address!");
         }
-        if (userTemplateRepository.findUserTemplateByEmail(email).isEmpty()) {
+        if (userRepository.findById(email).isEmpty()) {
             return Optional.of("Email does not exist in our system!");
         }
         return Optional.empty();
     }
 
     @Override
-    public Optional<String> verifySecurityAnswers(String email, String answer1, String answer2, String answer3) {
-        String[] correctAnswers = userTemplateRepository.findUserTemplateByEmail(email).get().getSecurityQuestionsAnswer();
-        if (!(correctAnswers[0].equals(answer1) && correctAnswers[1].equals(answer2) && correctAnswers[2].equals(answer3))) {
-            return Optional.of("Security questions answers are incorrect.");
-        }
-        return Optional.empty();
+    public Optional<String> verifySecurityAnswers(String email, String question, String questionAnswer) {
+        return userRepository.findById(email)
+                .map(userProfile -> userProfile.findAnswerForSecurityQuestion(question)
+                        .map(answer ->
+                                (answer.equals(questionAnswer))
+                                        ? Optional.<String>empty()
+                                        : Optional.of("Security questions answers are incorrect.")
+                        ).orElseGet(() -> Optional.of("Fatal Error: Answer doesn't exist for this question"))
+                )
+                .orElseGet(() -> Optional.of("Fatal Error: Cannot find email specified in the database"));
     }
 
     @Override
     public String[] getSecurityQuestions(String email) {
-        return userTemplateRepository.findUserTemplateByEmail(email).get().getSecurityQuestions();
+        return userRepository.findById(email).get().getSecurityQuestions();
     }
-
 }

@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Socials;
 
-import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
+import com.group2.Tiger_Talks.backend.model.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -15,18 +15,18 @@ public class FriendshipRequest {
 
     @ManyToOne
     @JoinColumn(name = "sender_email", referencedColumnName = "email")
-    private UserTemplate sender;
+    private UserProfile sender;
 
     @ManyToOne
     @JoinColumn(name = "receiver_email", referencedColumnName = "email")
-    private UserTemplate receiver;
+    private UserProfile receiver;
 
 
     private LocalDate createTime;              // yyyy/mm/dd/00:00:00
 
 
-    public FriendshipRequest(UserTemplate sender,
-                             UserTemplate receiver,
+    public FriendshipRequest(UserProfile sender,
+                             UserProfile receiver,
                              LocalDate createTime) {
         this.sender = sender;
         this.receiver = receiver;
@@ -43,19 +43,19 @@ public class FriendshipRequest {
         this.friendshipRequestId = friendshipRequestId;
     }
 
-    public UserTemplate getSender() {
+    public UserProfile getSender() {
         return sender;
     }
 
-    public void setSender(UserTemplate userFriendshipSender) {
+    public void setSender(UserProfile userFriendshipSender) {
         this.sender = userFriendshipSender;
     }
 
-    public UserTemplate getReceiver() {
+    public UserProfile getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(UserTemplate userFriendshipReceiver) {
+    public void setReceiver(UserProfile userFriendshipReceiver) {
         this.receiver = userFriendshipReceiver;
     }
 

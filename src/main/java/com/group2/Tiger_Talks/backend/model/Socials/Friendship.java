@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.model.Socials;
 
 import com.group2.Tiger_Talks.backend.model.Message;
-import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
+import com.group2.Tiger_Talks.backend.model.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -18,18 +18,18 @@ public class Friendship {
 
     @ManyToOne
     @JoinColumn(name = "sender_email", referencedColumnName = "email")
-    private UserTemplate sender;
+    private UserProfile sender;
 
     @ManyToOne
     @JoinColumn(name = "receiver_email", referencedColumnName = "email")
-    private UserTemplate receiver;
+    private UserProfile receiver;
 
     private LocalDate createTime;         // yyyy/mm/dd/00:00:00
 
     @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messageList;
 
-    public Friendship(UserTemplate sender, UserTemplate receiver, LocalDate createTime) {
+    public Friendship(UserProfile sender, UserProfile receiver, LocalDate createTime) {
         this.sender = sender;
         this.receiver = receiver;
         this.createTime = createTime;
@@ -48,19 +48,19 @@ public class Friendship {
         this.friendshipId = friendshipId;
     }
 
-    public UserTemplate getSender() {
+    public UserProfile getSender() {
         return sender;
     }
 
-    public void setSender(UserTemplate userFriendshipSender) {
+    public void setSender(UserProfile userFriendshipSender) {
         this.sender = userFriendshipSender;
     }
 
-    public UserTemplate getReceiver() {
+    public UserProfile getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(UserTemplate userFriendshipReceiver) {
+    public void setReceiver(UserProfile userFriendshipReceiver) {
         this.receiver = userFriendshipReceiver;
     }
 
