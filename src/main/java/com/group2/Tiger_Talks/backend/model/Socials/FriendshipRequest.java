@@ -26,11 +26,10 @@ public class FriendshipRequest {
 
 
     public FriendshipRequest(UserProfile sender,
-                             UserProfile receiver,
-                             LocalDate createTime) {
+                             UserProfile receiver) {
         this.sender = sender;
         this.receiver = receiver;
-        this.createTime = createTime;
+        this.createTime = LocalDate.now();
     }
     public FriendshipRequest() {}
 
