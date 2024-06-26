@@ -9,8 +9,7 @@ import jakarta.persistence.*;
 import java.util.Optional;
 
 @Entity
-@Table(name = "user")
-public class    UserProfile {
+public class UserProfile {
     @Id
     private String email;
 
@@ -23,7 +22,7 @@ public class    UserProfile {
     private String role = Role.DEFAULT;        // default / student / instructor / employee
     private boolean isOnline = false;
 
-    @Column(name = "user_name", unique = true)
+    @Column(unique = true)
     private String userName;
 
     private String personalInterest;
@@ -37,30 +36,20 @@ public class    UserProfile {
     private String firstName;
     private String lastName;
 
-    public UserProfile(String email,
-                       String password,
-                       String[] securityQuestionsAnswer,
-                       String[] securityQuestions,
-                       String userName,
-                       String personalInterest,
-                       String location,
-                       String postalCode,
-                       String biography,
-                       String phoneNumber,
+    public UserProfile(String firstName,
+                       String lastName,
                        int age,
                        String gender,
-                       String firstName,
-                       String lastName) {
+                       String userName,
+                       String email,
+                       String password,
+                       String[] securityQuestionsAnswer,
+                       String[] securityQuestions) {
         this.email = email;
         this.password = password;
         this.securityQuestionsAnswer = securityQuestionsAnswer;
         this.securityQuestions = securityQuestions;
         this.userName = userName;
-        this.personalInterest = personalInterest;
-        this.location = location;
-        this.postalCode = postalCode;
-        this.biography = biography;
-        this.phoneNumber = phoneNumber;
         this.age = age;
         this.gender = gender;
         this.firstName = firstName;
@@ -70,24 +59,9 @@ public class    UserProfile {
     public UserProfile() {
     }
 
-    private String toString_() {
-        return "user{" +
-                ",\n email='" + email + '\'' +
-                ",\n password='" + password + '\'' +
-                ",\n userLevel='" + userLevel + '\'' +
-                ",\n status='" + status + '\'' +
-                ",\n userName='" + userName + '\'' +
-                ",\n personalInterest='" + personalInterest + '\'' +
-                ",\n location='" + location + '\'' +
-                ",\n postalCode='" + postalCode + '\'' +
-                ",\n biography='" + biography + '\'' +
-                ",\n profileAccessLevel='" + profileAccessLevel + '\'' +
-                ",\n phoneNumber='" + phoneNumber + '\'' +
-                ",\n age='" + age + '\'' +
-                ",\n gender='" + gender + '\'' +
-                ",\n firstName='" + firstName + '\'' +
-                ",\n lastName='" + lastName + '\'' +
-                "\n}\n";
+    @Override
+    public String toString() {
+        return STR."user{,\n email='\{email}\{'\''},\n password='\{password}\{'\''},\n userLevel='\{userLevel}\{'\''},\n status='\{status}\{'\''},\n userName='\{userName}\{'\''},\n personalInterest='\{personalInterest}\{'\''},\n location='\{location}\{'\''},\n postalCode='\{postalCode}\{'\''},\n biography='\{biography}\{'\''},\n profileAccessLevel='\{profileAccessLevel}\{'\''},\n phoneNumber='\{phoneNumber}\{'\''},\n age='\{age}\{'\''},\n gender='\{gender}\{'\''},\n firstName='\{firstName}\{'\''},\n lastName='\{lastName}\{'\''}\n}\n";
     }
 
     // Getters and setters
