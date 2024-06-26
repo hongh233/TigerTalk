@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.repsitory.Socials;
+package com.group2.Tiger_Talks.backend.repository.Socials;
 
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
