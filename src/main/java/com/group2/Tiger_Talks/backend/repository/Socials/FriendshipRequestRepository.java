@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.repsitory.Socials;
+package com.group2.Tiger_Talks.backend.repository.Socials;
 
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
