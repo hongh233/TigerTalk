@@ -21,6 +21,7 @@ const App = () => (
 	<UserProvider>
 		<Router>
 			<Routes>
+
 				<Route path="/main" element={<MainPage />} />
 				<Route path="/" element={<LoginPage />} />
 				<Route path="/signup" element={<SignUpPage />} />
