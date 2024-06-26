@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller;
 
-import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;
 import com.group2.Tiger_Talks.backend.model.User.DTO.ForgotPasswordDTO;
+import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,10 +51,9 @@ public class PasswordResetController {
     @PostMapping("/verifySecurityAnswers")
     public ResponseEntity<String> verifySecurityAnswers(
             @RequestParam("email") String email,
-            @RequestParam("answer1") String answer1,
-            @RequestParam("answer2") String answer2,
-            @RequestParam("answer3") String answer3) {
-        return passwordResetService.verifySecurityAnswers(email, answer1, answer2, answer3)
+            @RequestParam("question") String question,
+            @RequestParam("questionAnswer") String questionAnswer) {
+        return passwordResetService.verifySecurityAnswers(email, question, questionAnswer)
                 .map(err -> ResponseEntity.status(400).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Security questions verified successfully."));
     }
@@ -64,6 +63,4 @@ public class PasswordResetController {
     public ResponseEntity<String[]> getSecurityQuestions(@RequestParam("email") String email) {
         return ResponseEntity.ok(passwordResetService.getSecurityQuestions(email));
     }
-
-
 }

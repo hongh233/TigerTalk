@@ -130,12 +130,16 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     }
 
     @Override
-    public Optional<String> verifySecurityAnswers(String email, String answer1, String answer2, String answer3) {
-        String[] correctAnswers = userTemplateRepository.findUserTemplateByEmail(email).get().getSecurityQuestionsAnswer();
-        if (!(correctAnswers[0].equals(answer1) && correctAnswers[1].equals(answer2) && correctAnswers[2].equals(answer3))) {
-            return Optional.of("Security questions answers are incorrect.");
-        }
-        return Optional.empty();
+    public Optional<String> verifySecurityAnswers(String email, String question, String questionAnswer) {
+        return userTemplateRepository.findUserTemplateByEmail(email)
+                .map(userTemplate -> userTemplate.findAnswerForSecurityQuestion(question)
+                        .map(answer ->
+                                (answer.equals(questionAnswer))
+                                        ? Optional.<String>empty()
+                                        : Optional.of("Security questions answers are incorrect.")
+                        ).orElseGet(() -> Optional.of("Fatal Error: Answer doesnt exist for this question"))
+                )
+                .orElseGet(() -> Optional.of("Fatal Error: Cannot find email specified in the database"));
     }
 
     @Override

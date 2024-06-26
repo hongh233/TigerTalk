@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Entity
@@ -16,8 +17,6 @@ public class UserTemplate {
     @Id
     private String email;
 
-
-    @Column(unique = true)
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
     private String status = UserStatus.PENDING;      // blocked / pending / active
@@ -153,6 +152,15 @@ public class UserTemplate {
 
     public void setReceivedFriendshipRequests(List<FriendshipRequest> receivedFriendshipRequests) {
         this.receivedFriendshipRequests = receivedFriendshipRequests;
+    }
+
+    public Optional<String> findAnswerForSecurityQuestion(String securityQuestion) {
+        for (int i = 0; i < securityQuestions.length; i++) {
+            if (securityQuestions[i].equals(securityQuestion)) {
+                return Optional.of(securityQuestionsAnswer[i]);
+            }
+        }
+        return Optional.empty();
     }
 
 }

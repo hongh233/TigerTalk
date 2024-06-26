@@ -31,22 +31,21 @@ public interface PasswordResetService {
 
     /**
      * validate whether the email is in the database and in correct form
+     *
      * @param email The email to be sent too
      * @return error message if email is not in the database or not in correct form
-     *         empty if email exist and correct
+     * empty if email exist and correct
      */
     Optional<String> validateEmailExist(String email);
 
 
     /**
-     *
-     * @param email   user email
-     * @param answer1 security answer 1
-     * @param answer2 security answer 2
-     * @param answer3 security answer 3
+     * @param email          user email
+     * @param question       security question
+     * @param questionAnswer security question answer
      * @return error message if answer is not correct empty if correct
      */
-    Optional<String> verifySecurityAnswers(String email, String answer1, String answer2, String answer3);
+    Optional<String> verifySecurityAnswers(String email, String question, String questionAnswer);
 
     String[] getSecurityQuestions(String email);
 }
