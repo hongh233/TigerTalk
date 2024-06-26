@@ -1,9 +1,13 @@
 package com.group2.Tiger_Talks.backend.model.User;
 
+import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.Utils.Role;
 import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
 import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import jakarta.persistence.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 
 @Entity
@@ -26,6 +30,12 @@ public class UserTemplate {
 
     @OneToOne(mappedBy = "userTemplate", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserProfile userProfile = null;
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendshipRequest> sentFriendshipRequests = new LinkedList<>();
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendshipRequest> receivedFriendshipRequests = new LinkedList<>();
 
     public UserTemplate(String email,
                         String password,
@@ -127,6 +137,22 @@ public class UserTemplate {
 
     public void setOnline(boolean online) {
         isOnline = online;
+    }
+
+    public List<FriendshipRequest> getSentFriendshipRequests() {
+        return sentFriendshipRequests;
+    }
+
+    public void setSentFriendshipRequests(List<FriendshipRequest> sentFriendshipRequests) {
+        this.sentFriendshipRequests = sentFriendshipRequests;
+    }
+
+    public List<FriendshipRequest> getReceivedFriendshipRequests() {
+        return receivedFriendshipRequests;
+    }
+
+    public void setReceivedFriendshipRequests(List<FriendshipRequest> receivedFriendshipRequests) {
+        this.receivedFriendshipRequests = receivedFriendshipRequests;
     }
 
 }
