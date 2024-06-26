@@ -59,11 +59,6 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    @Override
-    public String toString() {
-        return STR."user{,\n email='\{email}\{'\''},\n password='\{password}\{'\''},\n userLevel='\{userLevel}\{'\''},\n status='\{status}\{'\''},\n userName='\{userName}\{'\''},\n personalInterest='\{personalInterest}\{'\''},\n location='\{location}\{'\''},\n postalCode='\{postalCode}\{'\''},\n biography='\{biography}\{'\''},\n profileAccessLevel='\{profileAccessLevel}\{'\''},\n phoneNumber='\{phoneNumber}\{'\''},\n age='\{age}\{'\''},\n gender='\{gender}\{'\''},\n firstName='\{firstName}\{'\''},\n lastName='\{lastName}\{'\''}\n}\n";
-    }
-
     // Getters and setters
 
     public String getEmail() {

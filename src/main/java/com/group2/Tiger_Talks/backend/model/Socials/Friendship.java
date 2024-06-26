@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.model.Socials;
 
 import com.group2.Tiger_Talks.backend.model.Message;
+import com.group2.Tiger_Talks.backend.model.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -15,17 +16,23 @@ public class Friendship {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer friendshipId;
 
-    private String sendersEmail;
-    private String receiversEmail;
-    private LocalDate timeSent;         // yyyy/mm/dd/00:00:00
+    @ManyToOne
+    @JoinColumn(name = "sender_email", referencedColumnName = "email")
+    private UserProfile sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_email", referencedColumnName = "email")
+    private UserProfile receiver;
+
+    private LocalDate createTime;         // yyyy/mm/dd/00:00:00
 
     @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messageList;
 
-    public Friendship(String sendersEmail, String receiversEmail, LocalDate timeSent) {
-        this.sendersEmail = sendersEmail;
-        this.receiversEmail = receiversEmail;
-        this.timeSent = timeSent;
+    public Friendship(UserProfile sender, UserProfile receiver, LocalDate createTime) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.createTime = createTime;
         this.messageList = new LinkedList<>();
     }
 
@@ -41,28 +48,28 @@ public class Friendship {
         this.friendshipId = friendshipId;
     }
 
-    public String getSendersEmail() {
-        return sendersEmail;
+    public UserProfile getSender() {
+        return sender;
     }
 
-    public void setSendersEmail(String userFriendshipSender) {
-        this.sendersEmail = userFriendshipSender;
+    public void setSender(UserProfile userFriendshipSender) {
+        this.sender = userFriendshipSender;
     }
 
-    public String getReceiversEmail() {
-        return receiversEmail;
+    public UserProfile getReceiver() {
+        return receiver;
     }
 
-    public void setReceiversEmail(String userFriendshipReceiver) {
-        this.receiversEmail = userFriendshipReceiver;
+    public void setReceiver(UserProfile userFriendshipReceiver) {
+        this.receiver = userFriendshipReceiver;
     }
 
-    public LocalDate getTimeSent() {
-        return timeSent;
+    public LocalDate getCreateTime() {
+        return createTime;
     }
 
-    public void setTimeSent(LocalDate createTime) {
-        this.timeSent = createTime;
+    public void setCreateTime(LocalDate createTime) {
+        this.createTime = createTime;
     }
 
     public List<Message> getMessageList() {
