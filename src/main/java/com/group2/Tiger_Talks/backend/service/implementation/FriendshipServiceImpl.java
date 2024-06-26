@@ -6,7 +6,6 @@ import com.group2.Tiger_Talks.backend.model.User.UserTemplate;
 import com.group2.Tiger_Talks.backend.repsitory.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repsitory.Socials.FriendshipRequestRepository;
 import com.group2.Tiger_Talks.backend.repsitory.User.UserTemplateRepository;
-import com.group2.Tiger_Talks.backend.service.Socials.FriendService;
 import com.group2.Tiger_Talks.backend.service.Socials.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

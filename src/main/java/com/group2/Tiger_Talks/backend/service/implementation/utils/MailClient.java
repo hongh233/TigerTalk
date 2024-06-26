@@ -1,7 +1,9 @@
 package com.group2.Tiger_Talks.backend.service.implementation.utils;
 
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
 public class MailClient {
     final private String sendFrom;
@@ -17,11 +19,16 @@ public class MailClient {
     }
 
     public void sendMail(JavaMailSender javaMailSender) {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(sendTo);
-        simpleMailMessage.setFrom(sendFrom);
-        simpleMailMessage.setSubject(subject);
-        simpleMailMessage.setText(messageContent);
-        javaMailSender.send(simpleMailMessage);
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setFrom(sendFrom);
+            helper.setTo(sendTo);
+            helper.setSubject(subject);
+            helper.setText(messageContent, true);
+            javaMailSender.send(mimeMessage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
