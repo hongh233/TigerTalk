@@ -1,0 +1,27 @@
+.authentication-fail-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+  }
+  
+  .authentication-fail-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 400px;
+    text-align: center;
+  }
+  
+  .authentication-fail-card h1 {
+    margin-bottom: 10px;
+    color: #17a2b8;
+  }
+  .authentication-fail-card button {
+    background-color: #fd7e14;
+  }
+  .authentication-fail-card button:hover {
+    background-color: #dc6a10;
+  }
