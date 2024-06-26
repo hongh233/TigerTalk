@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../assets/styles/Login.css';
 
-const LoginPage = () => {
+const LoginPage = ({setIsLoggedIn}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,6 +21,7 @@ const LoginPage = () => {
         }
       });
       localStorage.setItem('user', JSON.stringify(response.data));
+      setIsLoggedIn(true);
       alert('Log in successfully');
       navigate('/main'); // main
     } catch (error) {
