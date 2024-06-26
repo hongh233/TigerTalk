@@ -105,7 +105,7 @@ const SignUpPage = () => {
 					],
 				});
 				alert("Sign up successfully");
-				navigate("/login");
+				navigate("/");
 			} catch (error) {
 				if (error.response && error.response.data) {
 					const serverErrors = {};
