@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.service.Socials;
+package com.group2.Tiger_Talks.backend.service;
 
 import java.util.Optional;
 

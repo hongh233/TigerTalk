@@ -7,6 +7,7 @@ import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
 import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import com.group2.Tiger_Talks.backend.model.Utils.ProfileAccessLevel;
 import jakarta.persistence.*;
+import org.apache.catalina.User;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +32,9 @@ public class UserProfile {
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notificationList = new LinkedList<>();
+
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> postList = new LinkedList<>();
 
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
@@ -284,6 +288,22 @@ public class UserProfile {
     }
 
 
+    public List<Post> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(List<Post> postList) {
+        this.postList = postList;
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
+    }
+
     public Optional<String> findAnswerForSecurityQuestion(String securityQuestion) {
         for (int i = 0; i < securityQuestions.length; i++) {
             if (securityQuestions[i].equals(securityQuestion)) {
@@ -291,5 +311,16 @@ public class UserProfile {
             }
         }
         return Optional.empty();
+    }
+
+    public List<UserProfile> getAllFriends() {
+        List<UserProfile> friends = new LinkedList<>();
+        for (Friendship friendship : senderFriendshipList) {
+            friends.add(friendship.getReceiver());
+        }
+        for (Friendship friendship : receiverFriendshipList) {
+            friends.add(friendship.getSender());
+        }
+        return friends;
     }
 }

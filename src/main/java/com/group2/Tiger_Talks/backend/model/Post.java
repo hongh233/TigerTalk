@@ -1,5 +1,6 @@
-package com.group2.Tiger_Talks.backend.model.Post;
+package com.group2.Tiger_Talks.backend.model;
 
+import com.group2.Tiger_Talks.backend.model.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -10,17 +11,23 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer postId;
 
-    private String userEmail;
+    @ManyToOne
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
+    private UserProfile userProfile;
+
     private String content;
     private LocalDateTime timestamp;
+
+    private int numOfLike;
 
     public Post() {
     }
 
-    public Post(String userEmail, String content) {
-        this.userEmail = userEmail;
+    public Post(UserProfile userProfile, String content) {
+        this.userProfile = userProfile;
         this.content = content;
         this.timestamp = LocalDateTime.now();
+        this.numOfLike = 0;
     }
 
     public Integer getPostId() {
@@ -29,14 +36,6 @@ public class Post {
 
     public void setPostId(Integer postId) {
         this.postId = postId;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
     }
 
     public String getContent() {
@@ -54,4 +53,21 @@ public class Post {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    public int getNumOfLike() {
+        return numOfLike;
+    }
+
+    public void setNumOfLike(int numOfLike) {
+        this.numOfLike = numOfLike;
+    }
+
 }
