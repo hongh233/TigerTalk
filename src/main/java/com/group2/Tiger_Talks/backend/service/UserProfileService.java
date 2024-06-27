@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.service.User;
+package com.group2.Tiger_Talks.backend.service;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import java.util.List;
