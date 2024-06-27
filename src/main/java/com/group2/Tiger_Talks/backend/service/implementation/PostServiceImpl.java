@@ -29,7 +29,7 @@ public class PostServiceImpl implements PostService {
                 postList.addAll(friend.getPostList());
             }
             // sorted by time
-            postList.sort(Comparator.comparing(Post::getTimestamp).reversed());
+            postList.sort(Comparator.comparing(Post::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
             return postList;
         }
         return new LinkedList<>();
@@ -44,7 +44,7 @@ public class PostServiceImpl implements PostService {
             postList.addAll(friend.getPostList());
         }
         // sorted by time
-        postList.sort(Comparator.comparing(Post::getTimestamp).reversed());
+        postList.sort(Comparator.comparing(Post::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
         return postList;
     }
 
@@ -58,7 +58,7 @@ public class PostServiceImpl implements PostService {
                 postList.addAll(friend.getPostList());
             }
             // sorted by time
-            postList.sort(Comparator.comparing(Post::getTimestamp).reversed());
+            postList.sort(Comparator.comparing(Post::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
             return postList;
         }
         return new LinkedList<>();
@@ -73,7 +73,7 @@ public class PostServiceImpl implements PostService {
             postList.addAll(friend.getPostList());
         }
         // sorted by time
-        postList.sort(Comparator.comparing(Post::getTimestamp).reversed());
+        postList.sort(Comparator.comparing(Post::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
         return postList;
     }
 
