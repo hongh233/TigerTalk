@@ -10,35 +10,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.COMPANY_EMAIL;
+import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 import static com.group2.Tiger_Talks.backend.service.implementation.Authentication.PasswordTokenImpl.EXPIRATION_MINUTES;
 
 @Service
 public class PasswordResetServiceImpl implements PasswordResetService {
-
-    private static final Pattern PASSWORD_NORM =
-            Pattern.compile(
-                    "^(?=.*[a-z])" +
-                            "(?=.*[A-Z])" +
-                            "(?=.*[0-9])" +
-                            "(?=.*[!\"#$%&'()*+,\\-./:;<=>?@\\[\\\\\\]^_`{|}~])" +
-                            "[a-zA-Z0-9!\"#$%&'()*+,\\-./:;<=>?@\\[\\\\\\]^_`{|}~]{8,}$");
-    private static final Pattern PASSWORD_NORM_LENGTH =
-            Pattern.compile("^.{8,}$");
-    private static final Pattern PASSWORD_NORM_UPPERCASE =
-            Pattern.compile("^(?=.*[A-Z]).+$");
-    private static final Pattern PASSWORD_NORM_LOWERCASE =
-            Pattern.compile("^(?=.*[a-z]).+$");
-    private static final Pattern PASSWORD_NORM_NUMBER =
-            Pattern.compile("^(?=.*[0-9]).+$");
-    private static final Pattern PASSWORD_NORM_SPECIAL_CHARACTER =
-            Pattern.compile("^(?=.*[!\"#$%&'()*+,\\-./:;<=>?@\\[\\\\\\]^_`{|}~]).+$");
-
-    private static final Pattern EMAIL_NORM =
-            Pattern.compile(
-                    "^[A-Za-z0-9]+" + "@dal\\.ca$");
     private final static String PASSWORD_RESET_SUBJECT = "Reset your password for your account";
     private final static String PASSWORD_RESET_MESSAGE = """
             Enter this code to reset your password.
