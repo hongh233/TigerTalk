@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.model.Post;
+package com.group2.Tiger_Talks.backend.model;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import jakarta.persistence.*;
