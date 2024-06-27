@@ -17,6 +17,9 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import { UserProvider } from "./context/UserContext";
 import "./assets/styles/App.css";
 
+import PostCreation from "./components/PostCreation";
+import Post from "./components/Post";
+
 const App = () => (
 	<UserProvider>
 		<Router>
@@ -37,7 +40,42 @@ const App = () => (
 			</Routes>
 		</Router>
 	</UserProvider>
-)
+);
+
+const MainPageWithPosts = () => {
+	const [posts, setPosts] = React.useState([]);
+  
+	const addPost = (postContent, tags) => {
+	  const newPost = {
+		content: postContent,
+		tags: tags,
+		username: 'Current User', // Replace with actual username logic
+		time: new Date().toLocaleString(),
+		likes: 0,
+		comments: [],
+	  };
+	  setPosts([newPost, ...posts]);
+	};
+  
+	return (
+	  <MainPageContent posts={posts} addPost={addPost} />
+	);
+  };
+  
+  const MainPageContent = ({ posts, addPost }) => (
+	<div className="main-page">
+	  <div className="post-creation-section">
+		<PostCreation addPost={addPost} />
+	  </div>
+	  <div className="post-list">
+		{posts.map((post, index) => (
+		  <Post key={index} post={post} />
+		))}
+	  </div>
+	</div>
+  );
+
+  
 
 export default App;
 

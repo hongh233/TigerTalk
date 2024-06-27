@@ -4,7 +4,7 @@ import '../assets/styles/PostCreation.css';
 import { useNavigate } from 'react-router-dom';
 
 //const PostCreation = () => {
-  const PostCreation = ({ addPost }) => {  
+const PostCreation = ({ addPost }) => {  
   const [postContent, setPostContent] = useState('');
   
   const [tagInput, setTagInput] = useState('');
@@ -39,9 +39,10 @@ import { useNavigate } from 'react-router-dom';
   */
 
   const createPost = () => {
-    addPost(postContent, tags);
-    setPostContent('');
-    setTags([]);
+    console.log('Post content:', postContent);
+    console.log('Tags:', tags);
+    addPost(postContent, tags); // Call addPost passed via props
+    setPostContent(''); // Clear the post content after creating the post
   };
 
   const handleAddTag = () => {
