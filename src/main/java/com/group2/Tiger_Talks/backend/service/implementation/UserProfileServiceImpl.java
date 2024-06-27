@@ -15,6 +15,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+
     @Override
     public UserProfile createUserProfile(UserProfile userProfile) {
         return userProfileRepository.save(userProfile);
@@ -32,7 +33,12 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public void deleteUserProfileByEmail(String email) {
-        userProfileRepository.deleteById(email);
+        Optional<UserProfile> userProfile = userProfileRepository.findById(email);
+        if (userProfile.isPresent()) {
+            userProfileRepository.deleteById(email);
+        } else {
+            throw new RuntimeException("User profile with email " + email + " not found.");
+        }
     }
 
     @Override
