@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.Post;
 
-import com.group2.Tiger_Talks.backend.model.Post.Post;
+import com.group2.Tiger_Talks.backend.model.Post;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
