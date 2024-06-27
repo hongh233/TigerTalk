@@ -24,7 +24,6 @@ const LoginPage = () => {
 				}
 			);
 			console.log("Response:", response);
-			localStorage.setItem("user", JSON.stringify(response.data));
 			setUser(response.data);
 			alert("Log in successfully");
 			navigate("/main");

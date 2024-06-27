@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
+
     @Autowired
     private UserProfileRepository userProfileRepository;
 
@@ -26,7 +27,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public Optional<UserProfile> getUserProfileByEmail(String email) {
-        return userProfileRepository.findById(email);
+        return userProfileRepository.findUserProfileByEmail(email);
     }
 
     @Override

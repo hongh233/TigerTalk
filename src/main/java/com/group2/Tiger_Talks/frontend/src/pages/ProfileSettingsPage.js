@@ -1,18 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import ProfileNavBar from "../components/ProfileNavBar";
 import "../assets/styles/ProfileSettingsPage.css";
+import { useUser } from "../context/UserContext";
+import axios from "axios";
 
 const ProfileSettingsPage = () => {
+	const { user, setUser } = useUser();
 	const [form, setForm] = useState({
+		id: "",
+		email: "",
 		firstName: "",
 		lastName: "",
-		email: "",
+		biography: "",
 		age: "",
 		gender: "",
-		profilePicture: "",
 	});
 	const [errors, setErrors] = useState({});
+
+	useEffect(() => {
+		if (user) {
+			setForm({
+				id: user.id || "",
+				email: user.email || "",
+				firstName: user.firstName || "",
+				lastName: user.lastName || "",
+				biography: user.biography || "",
+				age: user.age || "",
+				gender: user.gender || "",
+			});
+		}
+	}, [user]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -22,37 +40,45 @@ const ProfileSettingsPage = () => {
 		});
 	};
 
-	const handleFileChange = (e) => {
-		setForm({
-			...form,
-			profilePicture: e.target.files[0],
-		});
-	};
-
-	const validate = () => {
-		let errors = {};
-		if (!form.firstName) errors.firstName = "First name is required";
-		if (!form.lastName) errors.lastName = "Last name is required";
-		if (!form.email) errors.email = "Email is required";
-		if (!form.age) errors.age = "Age is required";
-		if (!form.gender) errors.gender = "Gender is required";
-		return errors;
-	};
-
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const errors = validate();
-		setErrors(errors);
-		if (Object.keys(errors).length === 0) {
+		setErrors({});
+
+		const updatedUser = { ...user, ...form }; // Merge the existing user object with the updated form data
+
+		try {
+			const response = await axios.put(
+				"http://localhost:8085/api/user/update",
+				updatedUser,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
 			alert("Profile updated successfully");
+			setUser(response.data);
+		} catch (error) {
+			if (error.response && error.response.data) {
+				setErrors(error.response.data);
+			} else {
+				alert(
+					"An error occurred while updating the profile. Please try again later."
+				);
+			}
 		}
 	};
+
+	if (!user) {
+		return <div>Loading...</div>;
+	}
+
 	return (
 		<div className="profile-settings-container">
 			<Header />
 			<div className="profile-settings-wrapper">
 				<div className="profile-settings-nav">
-					<ProfileNavBar />
+					{user && <ProfileNavBar user={user} />}
 				</div>
 
 				<form className="profile-settings-form" onSubmit={handleSubmit}>
@@ -79,15 +105,15 @@ const ProfileSettingsPage = () => {
 						{errors.lastName && <p className="error">{errors.lastName}</p>}
 					</div>
 					<div className="form-group">
-						<label>Email</label>
+						<label>Bio</label>
 						<input
-							type="email"
-							name="email"
-							placeholder="Email"
-							value={form.email}
+							type="text"
+							name="biography"
+							placeholder="Bio"
+							value={form.biography}
 							onChange={handleChange}
 						/>
-						{errors.email && <p className="error">{errors.email}</p>}
+						{errors.biography && <p className="error">{errors.biography}</p>}
 					</div>
 					<div className="form-group">
 						<label>Age</label>
@@ -109,14 +135,6 @@ const ProfileSettingsPage = () => {
 							<option value="other">Other</option>
 						</select>
 						{errors.gender && <p className="error">{errors.gender}</p>}
-					</div>
-					<div className="form-group">
-						<label>Profile Picture</label>
-						<input
-							type="file"
-							name="profilePicture"
-							onChange={handleFileChange}
-						/>
 					</div>
 					<button type="submit">Update Profile</button>
 				</form>

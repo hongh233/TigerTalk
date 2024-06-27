@@ -18,7 +18,23 @@ const ProfileNavBar = ({ user }) => {
 					<p>{user.email}</p>
 				</div>
 			</div>
-
+			<div className="profile-detail-container">
+				{user.biography && (
+					<div className="profile-detail">
+						<strong>Bio:</strong> <span>{user.biography}</span>
+					</div>
+				)}
+				{user.age && (
+					<div className="profile-detail">
+						<strong>Age:</strong> <span>{user.age}</span>
+					</div>
+				)}
+				{user.gender && (
+					<div className="profile-detail">
+						<strong>Gender:</strong> <span>{user.gender}</span>
+					</div>
+				)}
+			</div>
 			<div className="profile-links">
 				<a href="/main">
 					<FaHome />
