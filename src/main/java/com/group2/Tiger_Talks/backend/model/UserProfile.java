@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.Utils.Role;
@@ -34,6 +35,7 @@ public class UserProfile {
     private List<Notification> notificationList = new LinkedList<>();
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Post> postList = new LinkedList<>();
 
     private String password;
