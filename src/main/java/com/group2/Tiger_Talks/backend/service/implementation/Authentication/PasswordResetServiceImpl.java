@@ -26,7 +26,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             The code will expire after %d minutes.""";
 
     @Autowired
-    private UserProfileRepository userRepository;
+    private UserProfileRepository userProfileRepository;
 
     @Autowired
     private PasswordTokenRepository passwordTokenRepository;
@@ -86,10 +86,10 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             return Optional.of("Password must have at least 1 special character.");
         }
 
-        return userRepository.findById(passwordDTO.email())
+        return userProfileRepository.findById(passwordDTO.email())
                 .map(user -> {
                     user.setPassword(passwordDTO.password());
-                    userRepository.save(user);
+                    userProfileRepository.save(user);
                     return Optional.<String>empty();
                 })
                 .orElseGet(() -> Optional.of("An error occurred while resetting your password. The email used no longer belongs to any account"));
@@ -100,7 +100,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         if (!EMAIL_NORM.matcher(email).matches()) {
             return Optional.of("Invalid email address. Please use dal email address!");
         }
-        if (userRepository.findById(email).isEmpty()) {
+        if (userProfileRepository.findById(email).isEmpty()) {
             return Optional.of("Email does not exist in our system!");
         }
         return Optional.empty();
@@ -108,7 +108,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
     @Override
     public Optional<String> verifySecurityAnswers(String email, String question, String questionAnswer) {
-        return userRepository.findById(email)
+        return userProfileRepository.findById(email)
                 .map(userProfile -> userProfile.findAnswerForSecurityQuestion(question)
                         .map(answer ->
                                 (answer.equals(questionAnswer))
@@ -121,6 +121,6 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
     @Override
     public String[] getSecurityQuestions(String email) {
-        return userRepository.findById(email).get().getSecurityQuestions();
+        return userProfileRepository.findById(email).get().getSecurityQuestions();
     }
 }

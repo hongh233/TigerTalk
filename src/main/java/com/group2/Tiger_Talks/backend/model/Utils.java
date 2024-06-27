@@ -37,5 +37,6 @@ public final class Utils {
         public static final Pattern PASSWORD_NORM_NUMBER = Pattern.compile("^(?=.*[0-9]).+$");
         public static final Pattern PASSWORD_NORM_SPECIAL_CHARACTER = Pattern.compile("^(?=.*[!\"#$%&'()*+,\\-./:;<=>?@\\[\\\\\\]^_`{|}~]).+$");
         public static final Pattern EMAIL_NORM = Pattern.compile("^[A-Za-z0-9]+" + "@dal\\.ca$");
+        public static final Pattern NAME_NORM = Pattern.compile("^[A-Za-z]*$");
     }
 }

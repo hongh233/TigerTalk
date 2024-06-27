@@ -16,15 +16,14 @@ public class LogInServiceImpl implements LogInService {
 
     @Override
     public Optional<UserProfile> logInUser(String email, String password) {
-        Optional<UserProfile> userOpt = userRepository.findById(email);
-        if (userOpt.isPresent() && userOpt.get().getPassword().equals(password)) {
-            // Set user to be online
-            userOpt.get().setOnline(true);
-            userRepository.save(userOpt.get());
-            return userOpt;
-        } else {
-            return Optional.empty();
-        }
+        return userRepository.findById(email)
+                .map(userProfile -> {
+                    if (userProfile.getPassword().equals(password)) {
+                        userProfile.setOnline(true);
+                        userRepository.save(userProfile);
+                        return Optional.of(userProfile);
+                    } else return Optional.<UserProfile>empty();
+                }).orElseGet(Optional::empty);
     }
 
     @Override
