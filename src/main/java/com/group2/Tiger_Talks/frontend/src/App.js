@@ -38,7 +38,7 @@ const AppRoutes = () => {
 		<Router>
 			<Routes>
 				<Route path="/main" element={isLoggedIn ? <MainPage /> : <AuthenticationFailPage />} />
-				<Route path="/" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+				<Route path="/" element={<LoginPage />} />
 				<Route path="/signup" element={<SignUpPage />} />
 				<Route path="/profile" element={isLoggedIn ? <ProfilePage /> : <AuthenticationFailPage />} />
 				<Route path="/profile/1" element={isLoggedIn ? <ProfileSettingsPage /> : <AuthenticationFailPage />} />
