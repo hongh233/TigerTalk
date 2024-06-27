@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaThumbsUp, FaComment, FaShare } from 'react-icons/fa';
 import Comment from './Comment';
 import '../assets/styles/Post.css';
@@ -7,6 +9,7 @@ const Post = ({ post }) => {
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments || []);
   const [newComment, setNewComment] = useState('');
+  const navigate = useNavigate();
 
   const handleLike = () => {
     setLikes(likes + 1);
@@ -27,6 +30,38 @@ const Post = ({ post }) => {
     setComments([...comments, newCommentObj]);
     setNewComment('');
   };
+  
+  /*
+  const handleTagClick = (tag) => {
+    // Define what happens when a tag is clicked
+    console.log(`Tag clicked: ${tag}`);
+  };
+  */
+  
+  const handleTagClick = (tag) => {
+    const username = tag.substring(1); // Remove the '@' from the tag
+    navigate(`/friends`);
+  };
+
+  const renderPostContent = (content) => {
+    const parts = content.split(/(@\w+)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('@')) {
+        return (
+          <span 
+            key={index} 
+            className="tag" 
+            onClick={() => handleTagClick(part)}
+            style={{ color: 'blue', cursor: 'pointer' }}
+          >
+            {part}
+          </span>
+        );
+      } else {
+        return part;
+      }
+    });
+  };
 
   return (
     <div className="post">
@@ -38,7 +73,8 @@ const Post = ({ post }) => {
         </div>
       </div>
       <div className="post-content">
-        <p>{post.content}</p>
+        {/*<p>{post.content}</p>*/}
+        <p>{renderPostContent(post.content)}</p>
       </div>
       <div className="post-footer">
         <button className="post-button" onClick={handleLike}>
@@ -70,3 +106,4 @@ const Post = ({ post }) => {
 };
 
 export default Post;
+

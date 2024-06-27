@@ -5,5 +5,6 @@ import java.util.Optional;
 
 public interface LogInService {
     Optional<UserProfile> logInUser(String email, String password);
+    void logOut(String email);
     Optional<UserProfile> getUserByEmail(String email);
 }

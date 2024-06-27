@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.COMPANY_EMAIL;
+import static com.group2.Tiger_Talks.backend.service.implementation.Authentication.PasswordTokenImpl.EXPIRATION_MINUTES;
 
 @Service
 public class PasswordResetServiceImpl implements PasswordResetService {
@@ -40,10 +41,10 @@ public class PasswordResetServiceImpl implements PasswordResetService {
                     "^[A-Za-z0-9]+" + "@dal\\.ca$");
     private final static String PASSWORD_RESET_SUBJECT = "Reset your password for your account";
     private final static String PASSWORD_RESET_MESSAGE = """
-            Enter this code to reset your password
-                       
-            %s
-                       
+            Enter this code to reset your password.
+            \n
+            %s.
+            \n
             The code will expire after %d minutes.""";
 
     @Autowired
@@ -58,19 +59,23 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     @Override
     public Optional<String> createAndSendResetMail(String email) {
 
+        // Validate email existence
+        Optional<String> validationError = validateEmailExist(email);
+        if (validationError.isPresent()) {
+            return validationError;
+        }
+
         // Create a request token that will be used
         PasswordTokenImpl passwordToken = PasswordTokenImpl.createPasswordResetToken(email);
         passwordTokenRepository.save(passwordToken);
 
         // Send mail for OTP token
-        new MailClient(new String[]{email},
+        return new MailClient(
+                new String[]{email},
                 COMPANY_EMAIL,
                 PASSWORD_RESET_SUBJECT,
-                PASSWORD_RESET_MESSAGE.formatted(
-                        passwordToken.getToken(), PasswordTokenImpl.EXPIRATION_MINUTES
-                )).sendMail(passwordResetMailer);
-
-        return Optional.empty();
+                PASSWORD_RESET_MESSAGE.formatted(passwordToken.getToken(), EXPIRATION_MINUTES)
+        ).sendMail(passwordResetMailer);
     }
 
     @Override

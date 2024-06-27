@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
+
 @RestController
 @RequestMapping("/friendships")
 public class FriendshipController {
@@ -15,11 +17,13 @@ public class FriendshipController {
     @Autowired
     private FriendshipService friendshipService;
 
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @GetMapping("/getAll")
     public ResponseEntity<List<Friendship>> getAllFriends(@RequestParam String email) {
         return ResponseEntity.ok(friendshipService.getAllFriends(email));
     }
 
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @DeleteMapping("/deleteByEmail")
     public ResponseEntity<String> deleteFriendshipByEmail(@RequestParam String senderEmail, @RequestParam String receiverEmail) {
         return friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail)
@@ -27,6 +31,7 @@ public class FriendshipController {
                 .orElseGet(() -> ResponseEntity.ok("Friendship is successfully deleted."));
     }
 
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @DeleteMapping("/deleteById")
     public ResponseEntity<String> deleteFriendshipById(@RequestParam Integer friendshipId) {
         return friendshipService.deleteFriendshipById(friendshipId)

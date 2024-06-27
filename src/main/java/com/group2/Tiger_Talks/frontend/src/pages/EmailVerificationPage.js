@@ -23,7 +23,7 @@ const EmailVerificationPage = () => {
       alert('Email has verified! You can now reset your password!');
       navigate('/resetPassword', { state: { email } });
     } catch (error) {
-      setErrors({ general: 'Verification failed. Please try again.' });
+      setErrors({ general: error.response.data });
     }
   };
 

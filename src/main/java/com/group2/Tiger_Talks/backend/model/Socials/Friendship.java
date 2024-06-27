@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@Table(name = "friendship")
 public class Friendship {
 
     @Id
@@ -27,13 +26,12 @@ public class Friendship {
     private LocalDate createTime;         // yyyy/mm/dd/00:00:00
 
     @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> messageList;
+    private List<Message> messageList = new LinkedList<>();
 
     public Friendship(UserProfile sender, UserProfile receiver, LocalDate createTime) {
         this.sender = sender;
         this.receiver = receiver;
         this.createTime = createTime;
-        this.messageList = new LinkedList<>();
     }
 
     public Friendship() {

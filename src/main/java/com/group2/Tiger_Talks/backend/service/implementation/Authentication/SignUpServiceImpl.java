@@ -39,6 +39,9 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     public Optional<String> signUpUserProfile(UserProfile userProfile) {
+        if (userProfileRepository.findUserProfileByUserName(userProfile.getUserName()).isPresent()) {
+            return Optional.of("Username has already existed!");
+        }
         if (!EMAIL_NORM.matcher(userProfile.getEmail()).matches()) {
             return Optional.of("Invalid email address. Please use dal email address!");
         }

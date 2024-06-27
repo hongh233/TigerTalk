@@ -1,17 +1,36 @@
 package com.group2.Tiger_Talks.backend.model;
 
+import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
+import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.Utils.Role;
 import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
 import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import com.group2.Tiger_Talks.backend.model.Utils.ProfileAccessLevel;
 import jakarta.persistence.*;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
 public class UserProfile {
     @Id
     private String email;
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Friendship> senderFriendshipList = new LinkedList<>();
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Friendship> receiverFriendshipList = new LinkedList<>();
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendshipRequest> senderFriendshipRequestList = new LinkedList<>();
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FriendshipRequest> receiverFriendshipRequestList = new LinkedList<>();
+
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notificationList = new LinkedList<>();
 
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
@@ -224,13 +243,46 @@ public class UserProfile {
         this.lastName = lastName;
     }
 
-    public String getProfilePictureUrl() {
-        return profilePictureUrl;
+    public List<Friendship> getSenderFriendshipList() {
+        return senderFriendshipList;
     }
 
-    public void setProfilePictureUrl(String profilePictureUrl) {
-        this.profilePictureUrl = profilePictureUrl;
+    public void setSenderFriendshipList(List<Friendship> senderFriendshipList) {
+        this.senderFriendshipList = senderFriendshipList;
     }
+
+    public List<Friendship> getReceiverFriendshipList() {
+        return receiverFriendshipList;
+    }
+
+    public void setReceiverFriendshipList(List<Friendship> receiverFriendshipList) {
+        this.receiverFriendshipList = receiverFriendshipList;
+    }
+
+    public List<FriendshipRequest> getSenderFriendshipRequestList() {
+        return senderFriendshipRequestList;
+    }
+
+    public void setSenderFriendshipRequestList(List<FriendshipRequest> senderFriendshipRequestList) {
+        this.senderFriendshipRequestList = senderFriendshipRequestList;
+    }
+
+    public List<FriendshipRequest> getReceiverFriendshipRequestList() {
+        return receiverFriendshipRequestList;
+    }
+
+    public void setReceiverFriendshipRequestList(List<FriendshipRequest> receiverFriendshipRequestList) {
+        this.receiverFriendshipRequestList = receiverFriendshipRequestList;
+    }
+
+    public List<Notification> getNotificationList() {
+        return notificationList;
+    }
+
+    public void setNotificationList(List<Notification> notificationList) {
+        this.notificationList = notificationList;
+    }
+
 
     public Optional<String> findAnswerForSecurityQuestion(String securityQuestion) {
         for (int i = 0; i < securityQuestions.length; i++) {
