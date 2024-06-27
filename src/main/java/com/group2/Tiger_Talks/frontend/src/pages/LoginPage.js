@@ -23,7 +23,6 @@ const LoginPage = () => {
 					params: { email, password },
 				}
 			);
-			console.log("Response:", response);
 			localStorage.setItem("user", JSON.stringify(response.data));
 			setUser(response.data);
 			alert("Log in successfully");
