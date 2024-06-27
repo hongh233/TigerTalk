@@ -6,6 +6,12 @@
 	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 	font-family: "Arial", sans-serif;
 }
+.profile-user-picture img {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	object-fit: cover;
+}
 
 .profile-header {
 	display: flex;

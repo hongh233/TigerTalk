@@ -10,7 +10,11 @@ const ProfileNavBar = ({ user }) => {
 	return (
 		<nav className="profile-navbar">
 			<div className="profile-header">
-				<div className="profile-user-picture"></div>
+				<div className="profile-user-picture">
+					{user.profilePictureUrl && (
+						<img src={user.profilePictureUrl} alt="Profile" />
+					)}
+				</div>
 				<div className="profile-info">
 					<h3>
 						{user.firstName} {user.lastName}

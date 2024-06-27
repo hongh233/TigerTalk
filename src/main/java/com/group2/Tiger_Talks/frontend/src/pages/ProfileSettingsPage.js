@@ -15,8 +15,10 @@ const ProfileSettingsPage = () => {
 		biography: "",
 		age: "",
 		gender: "",
+		profilePictureUrl: "",
 	});
 	const [errors, setErrors] = useState({});
+	const [uploading, setUploading] = useState(false);
 
 	useEffect(() => {
 		if (user) {
@@ -28,6 +30,7 @@ const ProfileSettingsPage = () => {
 				biography: user.biography || "",
 				age: user.age || "",
 				gender: user.gender || "",
+				profilePictureUrl: user.profilePictureUrl || "",
 			});
 		}
 	}, [user]);
@@ -40,12 +43,36 @@ const ProfileSettingsPage = () => {
 		});
 	};
 
+	const handleFileChange = async (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			setUploading(true);
+			const formData = new FormData();
+			formData.append("file", file);
+			formData.append("upload_preset", "tiger_talks"); // replace with your own upload preset
+
+			try {
+				const response = await axios.post(
+					"https://api.cloudinary.com/v1_1/dp4j9a7ry/image/upload", // replace YOUR_CLOUD_NAME
+					formData
+				);
+				const imageUrl = response.data.secure_url;
+				setForm({
+					...form,
+					profilePictureUrl: imageUrl,
+				});
+				setUploading(false);
+			} catch (error) {
+				console.error("Error uploading image:", error);
+				setUploading(false);
+			}
+		}
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setErrors({});
-
-		const updatedUser = { ...user, ...form }; // Merge the existing user object with the updated form data
-
+		const updatedUser = { ...user, ...form };
 		try {
 			const response = await axios.put(
 				"http://localhost:8085/api/user/update",
@@ -57,6 +84,7 @@ const ProfileSettingsPage = () => {
 				}
 			);
 			alert("Profile updated successfully");
+			console.log(response.data);
 			setUser(response.data);
 		} catch (error) {
 			if (error.response && error.response.data) {
@@ -136,7 +164,21 @@ const ProfileSettingsPage = () => {
 						</select>
 						{errors.gender && <p className="error">{errors.gender}</p>}
 					</div>
-					<button type="submit">Update Profile</button>
+					<div className="form-group">
+						<label>Profile Picture</label>
+						<input
+							type="file"
+							name="profilePicture"
+							onChange={handleFileChange}
+						/>
+						{uploading && <p>Uploading...</p>}
+						{form.profilePictureUrl && (
+							<img src={form.profilePictureUrl} alt="Profile" width="100" />
+						)}
+					</div>
+					<button type="submit" disabled={uploading}>
+						{uploading ? "Uploading..." : "Update Profile"}
+					</button>
 				</form>
 			</div>
 		</div>
