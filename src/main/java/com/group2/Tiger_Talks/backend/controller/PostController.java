@@ -20,8 +20,8 @@ public class PostController {
     private PostService postService;
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
-    @GetMapping("/getPostForUserAndFriends/email")
-    public ResponseEntity<List<Post>> getPostsForUserAndFriends(@RequestParam String email) {
+    @GetMapping("/getPostForUserAndFriends/{email}")
+    public ResponseEntity<List<Post>> getPostsForUserAndFriends(@PathVariable String email) {
         return ResponseEntity.ok(postService.getPostsForUserAndFriends(email));
     }
 
@@ -32,8 +32,8 @@ public class PostController {
     }
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
-    @GetMapping("/getPostForUser/email")
-    public ResponseEntity<List<Post>> getPostsForUser(@RequestParam String email) {
+    @GetMapping("/getPostForUser/{email}")
+    public ResponseEntity<List<Post>> getPostsForUser(@PathVariable String email) {
         return ResponseEntity.ok(postService.getPostsForUser(email));
     }
 
@@ -52,8 +52,8 @@ public class PostController {
     }
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
-    @DeleteMapping("/deleteById")
-    public ResponseEntity<String> deletePostById(@RequestParam Integer postId) {
+    @DeleteMapping("/delete/{postId}")
+    public ResponseEntity<String> deletePostById(@PathVariable Integer postId) {
         return postService.deletePostById(postId)
                 .map(err -> ResponseEntity.badRequest().body(err))
                 .orElseGet(() -> ResponseEntity.ok("Post deleted successfully."));

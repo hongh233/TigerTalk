@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.model;
 
-import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -13,10 +13,13 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
+    @JsonBackReference
     private UserProfile userProfile;
 
     private String content;
-    private LocalDateTime timestamp;
+
+    @Column(nullable = false)
+    private LocalDateTime timestamp = LocalDateTime.now();
 
     private int numOfLike;
 
@@ -26,7 +29,6 @@ public class Post {
     public Post(UserProfile userProfile, String content) {
         this.userProfile = userProfile;
         this.content = content;
-        this.timestamp = LocalDateTime.now();
         this.numOfLike = 0;
     }
 
