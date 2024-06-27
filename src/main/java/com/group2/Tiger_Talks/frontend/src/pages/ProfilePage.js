@@ -24,8 +24,6 @@ const posts = [
 
 const ProfilePage = () => {
 	const { user } = useUser();
-	console.log(user);
-
 	return (
 		<div className="profile-page">
 			<Header />
