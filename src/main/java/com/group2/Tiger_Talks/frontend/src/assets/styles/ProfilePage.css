@@ -1,42 +1,40 @@
 .profile-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f0f2f5;
-  height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #f0f2f5;
+	height: 100vh;
 }
-.profile-nav{
-  height: 100vh;
-    width: 15%;
+.profile-nav {
+	height: 100vh;
+	width: 15%;
 }
 
-.profile-content{
-  margin-top: 4%;
-  display: flex;
-  width: 100vw; 
-  height: 100vh;
-  overflow: auto;
-  
+.profile-content {
+	margin-top: 4%;
+	display: flex;
+	width: 100vw;
+	height: 100vh;
+	overflow: auto;
 }
 .profile-main-content {
-  padding-top: 5%;
-  height: 100vh;
-  width: 80%;
-  padding-left: 20px;
-
+	padding-top: 5%;
+	height: 100vh;
+	width: 80%;
+	padding-left: 20px;
 }
 
 @media (max-width: 768px) {
-  .profile-navbar {
-    position: static;
-    width: 100%;
-    height: auto;
-  }
+	.profile-navbar {
+		position: static;
+		width: 100%;
+		height: auto;
+	}
 
-  .profile-main-content {
-    margin-left: 0;
-    padding: 10px;
-    margin-top:16%;
-    padding-left: 0;
-  }
+	.profile-main-content {
+		margin-left: 0;
+		padding: 10px;
+		margin-top: 16%;
+		padding-left: 0;
+	}
 }

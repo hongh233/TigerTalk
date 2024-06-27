@@ -55,6 +55,8 @@ public class UserProfile {
     private String firstName;
     private String lastName;
 
+    private String profilePictureUrl;
+
     public UserProfile(String firstName,
                        String lastName,
                        int age,
@@ -73,6 +75,7 @@ public class UserProfile {
         this.gender = gender;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.profilePictureUrl = profilePictureUrl;
     }
 
     public UserProfile() {
