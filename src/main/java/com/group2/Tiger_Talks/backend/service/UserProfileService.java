@@ -9,5 +9,5 @@ public interface UserProfileService {
     List<UserProfile> getAllUserProfiles();
     Optional<UserProfile> getUserProfileByEmail(String email);
     void deleteUserProfileByEmail(String email);
-    UserProfile updateUserProfile(UserProfile userProfile);
+    Optional<String> updateUserProfile(UserProfile userProfile);
 }

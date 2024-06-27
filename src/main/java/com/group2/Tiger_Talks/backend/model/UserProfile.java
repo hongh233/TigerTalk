@@ -2,16 +2,18 @@ package com.group2.Tiger_Talks.backend.model;
 
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.model.Utils.ProfileAccessLevel;
 import com.group2.Tiger_Talks.backend.model.Utils.Role;
 import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
 import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
-import com.group2.Tiger_Talks.backend.model.Utils.ProfileAccessLevel;
+import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
-import org.apache.catalina.User;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Entity
 public class UserProfile {
@@ -86,6 +88,43 @@ public class UserProfile {
     }
 
     // Getters and setters
+
+    public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
+        if (!NAME_NORM.matcher(userProfile.getFirstName()).matches()) {
+            return Optional.of("First name must contain no symbols");
+        }
+        if (!NAME_NORM.matcher(userProfile.getLastName()).matches()) {
+            return Optional.of("Last name must contain no symbols");
+        }
+        if (userProfile.getAge() <= 0) {
+            return Optional.of("Age must be grater than 0");
+        }
+        if (!EMAIL_NORM.matcher(userProfile.getEmail()).matches()) {
+            return Optional.of("Invalid email address. Please use dal email address!");
+        }
+        if (isNewUser && userProfileRepository.findUserProfileByUserName(userProfile.getUserName()).isPresent()) {
+            return Optional.of("Username has already existed!");
+        }
+        if (isNewUser && userProfileRepository.existsById(userProfile.getEmail())) {
+            return Optional.of("Email has already existed!");
+        }
+        if (!PASSWORD_NORM_LENGTH.matcher(userProfile.getPassword()).matches()) {
+            return Optional.of("Password must have a minimum length of 8 characters.");
+        }
+        if (!PASSWORD_NORM_UPPERCASE.matcher(userProfile.getPassword()).matches()) {
+            return Optional.of("Password must have at least 1 uppercase character.");
+        }
+        if (!PASSWORD_NORM_LOWERCASE.matcher(userProfile.getPassword()).matches()) {
+            return Optional.of("Password must have at least 1 lowercase character.");
+        }
+        if (!PASSWORD_NORM_NUMBER.matcher(userProfile.getPassword()).matches()) {
+            return Optional.of("Password must have at least 1 number.");
+        }
+        if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(userProfile.getPassword()).matches()) {
+            return Optional.of("Password must have at least 1 special character.");
+        }
+        return Optional.empty();
+    }
 
     public String getEmail() {
         return email;
@@ -286,7 +325,6 @@ public class UserProfile {
     public void setNotificationList(List<Notification> notificationList) {
         this.notificationList = notificationList;
     }
-
 
     public List<Post> getPostList() {
         return postList;

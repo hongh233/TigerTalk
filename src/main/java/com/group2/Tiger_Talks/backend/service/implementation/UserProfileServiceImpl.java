@@ -36,7 +36,12 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserProfile updateUserProfile(UserProfile userProfile) {
-        return userProfileRepository.save(userProfile);
+    public Optional<String> updateUserProfile(UserProfile userProfile) {
+        return UserProfile.verifyBasics(userProfile, userProfileRepository, false)
+                .map(Optional::of)
+                .orElseGet(() -> {
+                    userProfileRepository.save(userProfile);
+                    return Optional.empty();
+                });
     }
 }

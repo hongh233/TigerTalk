@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
 
 @RestController
@@ -18,11 +20,11 @@ public class UserController {
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody UserProfile userProfile) {
-        UserProfile updatedUserProfile = userProfileService.updateUserProfile(userProfile);
-        if (updatedUserProfile != null) {
-            return ResponseEntity.ok(updatedUserProfile);
+        Optional<String> err = userProfileService.updateUserProfile(userProfile);
+        if (err.isPresent()) {
+            return ResponseEntity.status(400).body(err.get());
         } else {
-            return ResponseEntity.status(400).body("Unable to update user data.");
+            return ResponseEntity.ok(userProfile);
         }
     }
 }

@@ -30,8 +30,7 @@ public class MailClient {
             helper.setText(messageContent, true);
             javaMailSender.send(mimeMessage);
             return Optional.empty();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception _) {
             return Optional.of("Failed to send email. Please try again.");
         }
     }
