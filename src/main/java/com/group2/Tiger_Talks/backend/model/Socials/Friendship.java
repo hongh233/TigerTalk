@@ -28,10 +28,11 @@ public class Friendship {
     @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messageList = new LinkedList<>();
 
-    public Friendship(UserProfile sender, UserProfile receiver, LocalDate createTime) {
+    public Friendship(UserProfile sender,
+                      UserProfile receiver) {
         this.sender = sender;
         this.receiver = receiver;
-        this.createTime = createTime;
+        this.createTime = LocalDate.now();
     }
 
     public Friendship() {

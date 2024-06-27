@@ -53,8 +53,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         friendshipRepository.save(
                 new Friendship(
                 friendshipRequest.getSender(),
-                friendshipRequest.getReceiver(),
-                LocalDate.now())
+                friendshipRequest.getReceiver())
         );
         friendshipRequestRepository.delete(friendshipRequest);
         return Optional.empty();
