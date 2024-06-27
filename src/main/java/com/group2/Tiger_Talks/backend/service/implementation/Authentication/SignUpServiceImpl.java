@@ -19,7 +19,7 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     public Optional<String> signUpUserProfile(UserProfile userProfile) {
-        if (NAME_NORM.matcher(userProfile.getFirstName()).matches()){
+        if (!NAME_NORM.matcher(userProfile.getFirstName()).matches()){
             return Optional.of("First name must contain no symbols");
         }
         if (!EMAIL_NORM.matcher(userProfile.getEmail()).matches()) {
