@@ -5,14 +5,6 @@ import NavBar from '../components/NavBar';
 import Post from '../components/Post';
 import PostCreation from '../components/PostCreation';
 import '../assets/styles/Main.css';
-import { useNavigate } from 'react-router-dom';
-
-const examplePost = {
-    likes: 0,
-    userName: 'User',
-    time: '2 hours ago',
-    content: 'Lorem ipsum, This is dummy text to show the content of a post, might be text, or image, of video'
-};
 
 
 const MainPage = () => {
