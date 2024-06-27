@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@Table(name = "friendship")
 public class Friendship {
 
     @Id
