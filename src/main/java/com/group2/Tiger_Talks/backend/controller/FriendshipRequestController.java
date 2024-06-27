@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.controller;
 
-import com.group2.Tiger_Talks.backend.service.Socials.FriendshipRequestService;
+import com.group2.Tiger_Talks.backend.service.FriendshipRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

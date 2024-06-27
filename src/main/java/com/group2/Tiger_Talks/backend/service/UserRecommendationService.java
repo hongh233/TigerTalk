@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.service.Post;
+package com.group2.Tiger_Talks.backend.service;
 
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
