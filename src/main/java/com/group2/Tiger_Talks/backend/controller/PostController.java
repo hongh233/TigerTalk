@@ -68,4 +68,12 @@ public class PostController {
                 .orElseGet(() -> ResponseEntity.ok("Post deleted successfully."));
     }
 
+
+    @PutMapping("update/{postId}")
+    public ResponseEntity<String> updatePostById(@PathVariable Integer postId, @RequestBody Post post) {
+        Optional<String> postServiceOptional = postService.updatePostById(postId, post);
+        return postServiceOptional.map(ResponseEntity::ok).orElseGet(()
+                -> ResponseEntity.status(401).body("Failed to update post"));
+    }
+
 }
