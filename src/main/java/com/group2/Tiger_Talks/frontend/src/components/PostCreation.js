@@ -53,7 +53,7 @@ const PostCreation = ({ addPost }) => {
   };
 
   const handleTagClick = (tag) => {
-    const username = tag.substring(1); // Remove the '@' from the tag
+    const userName = tag.substring(1); // Remove the '@' from the tag
     navigate(`/friends`);
   };
   

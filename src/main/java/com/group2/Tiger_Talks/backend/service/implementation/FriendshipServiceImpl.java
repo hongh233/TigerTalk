@@ -51,7 +51,7 @@ public class FriendshipServiceImpl implements FriendshipService {
             friendshipRepository.delete(friendship.get());
             return Optional.empty();
         } else {
-            return Optional.of("Friendship " + friendshipId + "does not exist!");
+            return Optional.of("Friendship id " + friendshipId + " does not exist!");
         }
     }
 

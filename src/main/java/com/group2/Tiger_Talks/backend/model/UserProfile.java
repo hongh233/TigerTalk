@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
@@ -17,20 +18,25 @@ import java.util.Optional;
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserProfile {
     @Id
     private String email;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "sender-friendship")
     private List<Friendship> senderFriendshipList = new LinkedList<>();
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "receiver-friendship")
     private List<Friendship> receiverFriendshipList = new LinkedList<>();
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "sender-friendship-request")
     private List<FriendshipRequest> senderFriendshipRequestList = new LinkedList<>();
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "receiver-friendship-request")
     private List<FriendshipRequest> receiverFriendshipRequestList = new LinkedList<>();
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)

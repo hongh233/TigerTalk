@@ -31,13 +31,17 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         UserProfile receiver = userProfileRepository.findUserProfileByEmail(receiverEmail)
                 .orElseThrow(() -> new IllegalStateException("Receiver not found"));
 
-        if (friendshipRepository.findBySenderAndReceiverOrReceiverAndSender(
-                sender, receiver, receiver, sender).isPresent()) {
+        if (friendshipRepository.findBySenderAndReceiver(sender, receiver).isPresent()) {
+            return Optional.of("Friendship has already existed between these users.");
+        }
+        if (friendshipRepository.findBySenderAndReceiver(receiver, sender).isPresent()) {
             return Optional.of("Friendship has already existed between these users.");
         }
 
-        if (friendshipRequestRepository.findBySenderAndReceiverOrReceiverAndSender(
-                sender, receiver, receiver, sender).isPresent()) {
+        if (friendshipRequestRepository.findBySenderAndReceiver(sender, receiver).isPresent()) {
+            return Optional.of("Friendship request has already existed between these users.");
+        }
+        if (friendshipRequestRepository.findBySenderAndReceiver(receiver, sender).isPresent()) {
             return Optional.of("Friendship request has already existed between these users.");
         }
 
