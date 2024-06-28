@@ -63,7 +63,6 @@ const MainPage = () => {
         axios.post('http://localhost:8085/posts/create', newPost)
             .then(response => {
                 setPosts([newPost, ...posts]);
-                setMessage('Post are created successfully');
                 setReload(!reload);
             })
             .catch(error => {
