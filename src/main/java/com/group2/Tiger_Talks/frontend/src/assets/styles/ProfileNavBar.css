@@ -106,8 +106,19 @@
 	}
 
 	.profile-links {
+		flex: 1; 
 		flex-direction: row;
-		justify-content: space-around;
-		padding: 10px;
+		left:37%;
+		transform: translateY(-550%);
+		position: fixed;
+		z-index: 1100;
+		margin-top: 0;
+	}
+	.profile-links a {
+		margin-bottom: 0;
+		color: #fff;
+	}
+	.profile-links a:hover {
+		background-color: #939191;
 	}
 }
