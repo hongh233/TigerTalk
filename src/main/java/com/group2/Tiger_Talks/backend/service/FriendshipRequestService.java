@@ -1,6 +1,5 @@
 package com.group2.Tiger_Talks.backend.service;
 
-import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequestDTO;
 
 import java.util.List;

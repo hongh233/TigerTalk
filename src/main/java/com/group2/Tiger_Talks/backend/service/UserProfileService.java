@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.service;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public interface UserProfileService {
      * @return an Optional containing the UserProfile if found, or empty if not found
      */
     Optional<UserProfile> getUserProfileByEmail(String email);
+
     /**
      * Deletes a UserProfile by email.
      *
@@ -34,6 +36,7 @@ public interface UserProfileService {
      * @throws RuntimeException if the UserProfile with the given email is not found
      */
     void deleteUserProfileByEmail(String email);
+
     /**
      * Updates an existing UserProfile.
      *

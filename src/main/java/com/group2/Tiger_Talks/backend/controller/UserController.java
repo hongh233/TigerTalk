@@ -20,12 +20,12 @@ public class UserController {
     private UserProfileService userProfileService;
 
 
-
     @PostMapping("/createProfile")
     public ResponseEntity<UserProfile> createUserProfile(@RequestBody UserProfile userProfile) {
         UserProfile createdUserProfile = userProfileService.createUserProfile(userProfile);
         return ResponseEntity.ok(createdUserProfile);
     }
+
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody UserProfile userProfile) {
         Optional<String> err = userProfileService.updateUserProfile(userProfile);
@@ -35,6 +35,7 @@ public class UserController {
             return ResponseEntity.ok(userProfile);
         }
     }
+
     /**
      * Retrieves all user profiles.
      *
@@ -79,10 +80,9 @@ public class UserController {
             return ResponseEntity.ok("User profile with email " + email + " deleted successfully.");
         }
         //Maybe make a custom exception for not finding the profile
-        catch(RuntimeException e){
+        catch (RuntimeException e) {
             return ResponseEntity.status(404).body(e.getMessage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(400).body("Failed to delete user profile with email " + email + ": "
                     + e.getMessage());
         }

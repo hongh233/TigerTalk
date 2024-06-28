@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import UserList from '../components/UserList';
@@ -10,16 +10,16 @@ const AdminPage = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get('http://localhost:8085/api/user/getAllProfiles');
-          setData(response.data); 
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      };
-      fetchData();
-    }, []); 
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8085/api/user/getAllProfiles');
+                setData(response.data);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const handleEnableDisableUsers = async () => {
         try {
@@ -33,7 +33,7 @@ const AdminPage = () => {
             setData(prevData =>
                 prevData.map(user =>
                     selectedUsers.includes(user.email)
-                        ? { ...user, validated: !user.validated }
+                        ? {...user, validated: !user.validated}
                         : user
                 )
             );
@@ -71,18 +71,19 @@ const AdminPage = () => {
                     <NavBar/>
                 </div>
                 <div className="admin-content">
-                    <UserList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} setData={setData} data={data}/>
+                    <UserList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} setData={setData}
+                              data={data}/>
                     <div className="admin-buttons">
-                        <button 
+                        <button
                             className="delete-user-button"
-                            disabled={selectedUsers.length === 0} 
+                            disabled={selectedUsers.length === 0}
                             onClick={handleDeleteUsers}
                         >
                             Delete Users
                         </button>
-                        <button 
-                            className="toggle-user-button" 
-                            disabled={selectedUsers.length === 0} 
+                        <button
+                            className="toggle-user-button"
+                            disabled={selectedUsers.length === 0}
                             onClick={handleEnableDisableUsers}
                         >
                             Enable/Disable Users

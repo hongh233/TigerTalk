@@ -1,54 +1,56 @@
 .navbar {
-  width: 15%;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  margin-top: 3%;
+    width: 15%;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
 }
 
 .navbar a {
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-  color: #333;
-  text-decoration: none;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
 
 .navbar a:hover {
-  background-color: #ddd;
+    background-color: #ddd;
 }
 
 .navbar a svg {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    flex: 1; 
-    flex-direction: row;
-    justify-content: space-between;
-    left:35%;
-    transform: translateY(-30%);
-    position: fixed;
-    z-index: 1100;
-    margin-top: 0;
-  }
-  .text-hide{
-    display: none;
-  }
+    .navbar {
+        flex: 1;
+        flex-direction: row;
+        justify-content: space-between;
+        left: 35%;
+        transform: translateY(-30%);
+        position: fixed;
+        z-index: 1100;
+        margin-top: 0;
+    }
 
-  .navbar a {
-    margin-bottom: 0;
-    color: #fff;
-  }
-  .navbar a:hover {
-    background-color: #939191;
-  }
-  
+    .text-hide {
+        display: none;
+    }
+
+    .navbar a {
+        margin-bottom: 0;
+        color: #fff;
+    }
+
+    .navbar a:hover {
+        background-color: #939191;
+    }
+
 }
 
 

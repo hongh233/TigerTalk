@@ -69,8 +69,8 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
                 .orElseThrow(() -> new IllegalStateException("friendship request ID does not exist!"));
         friendshipRepository.save(
                 new Friendship(
-                friendshipRequest.getSender(),
-                friendshipRequest.getReceiver())
+                        friendshipRequest.getSender(),
+                        friendshipRequest.getReceiver())
         );
         friendshipRequestRepository.delete(friendshipRequest);
         return Optional.empty();

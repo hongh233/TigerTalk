@@ -21,7 +21,8 @@ public class Message {
         this.messageContent = messageContent;
     }
 
-    public Message() {}
+    public Message() {
+    }
 
     public Integer getMessageId() {
         return messageId;

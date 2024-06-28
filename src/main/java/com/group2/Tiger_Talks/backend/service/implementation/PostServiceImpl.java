@@ -9,7 +9,10 @@ import com.group2.Tiger_Talks.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,7 +96,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Optional<String> updatePostById(Integer postId,Post post){
+    public Optional<String> updatePostById(Integer postId, Post post) {
         Optional<Post> postOptional = postRepository.findById(postId);
         if (postOptional.isPresent()) {
             Post existingPost = postOptional.get();

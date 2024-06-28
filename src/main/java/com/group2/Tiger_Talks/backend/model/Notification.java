@@ -22,7 +22,8 @@ public class Notification {
     @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
     private UserProfile userProfile;
 
-    public Notification() {}
+    public Notification() {
+    }
 
     public Notification(UserProfile userProfile,
                         String content,

@@ -1,86 +1,86 @@
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
 }
 
 .login-card {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  width: 400px;
-  text-align: center;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
 }
 
 .login-card h2 {
-  margin-bottom: 10px;
-  color: #17a2b8;
+    margin-bottom: 10px;
+    color: #17a2b8;
 }
 
 .login-card p {
-  margin: 10px 0;
-  color: #6c757d;
+    margin: 10px 0;
+    color: #6c757d;
 }
 
 .error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  border: 1px solid #f5c6cb;
-  border-radius: 4px;
-  margin-bottom: 15px;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 15px;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 form label {
-  text-align: left;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #495057;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #495057;
 }
 
 form input {
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 16px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
 }
 
 form button {
-  padding: 10px;
-  background-color: #fd7e14;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
+    padding: 10px;
+    background-color: #fd7e14;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 form button:hover {
-  background-color: #dc6a10;
+    background-color: #dc6a10;
 }
 
 .additional-links {
-  margin-top: 15px;
+    margin-top: 15px;
 }
 
 .additional-links a {
-  color: #007bff;
-  text-decoration: none;
+    color: #007bff;
+    text-decoration: none;
 }
 
 .additional-links a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .additional-links p {
-  margin: 5px 0;
+    margin: 5px 0;
 }

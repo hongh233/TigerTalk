@@ -1,12 +1,12 @@
 import React from "react"
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import '../assets/styles/AuthenticationFailPage.css';
 
 const AuthenticationFailPage = () => {
     const navigate = useNavigate();
 
     const handleLogIn = () => {
-      navigate('/');
+        navigate('/');
     };
     return (
         <div className="authentication-fail-page">
@@ -16,6 +16,6 @@ const AuthenticationFailPage = () => {
             </div>
         </div>
     );
-  };
+};
 
 export default AuthenticationFailPage;

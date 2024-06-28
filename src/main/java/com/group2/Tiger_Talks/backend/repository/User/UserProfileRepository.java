@@ -1,7 +1,6 @@
 package com.group2.Tiger_Talks.backend.repository.User;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
-import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

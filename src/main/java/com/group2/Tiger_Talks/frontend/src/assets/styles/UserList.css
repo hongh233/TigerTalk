@@ -1,31 +1,31 @@
 .table-container {
     flex: 1;
     overflow-y: auto;
-  }
-  
-  table {
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
-  }
-  
-  th, td {
+}
+
+th, td {
     border: 1px solid #ddd;
     padding: 8px;
-  }
-  
-  th {
+}
+
+th {
     background-color: #f2f2f2;
     text-align: left;
-  }
-  
-  button {
+}
+
+button {
     padding: 5px 10px;
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #45a049;
-  }
+}

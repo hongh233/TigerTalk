@@ -1,7 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Socials;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import jakarta.persistence.*;
 
@@ -34,7 +33,9 @@ public class FriendshipRequest {
         this.sender = sender;
         this.receiver = receiver;
     }
-    public FriendshipRequest() {}
+
+    public FriendshipRequest() {
+    }
 
 
     public Integer getFriendshipRequestId() {

@@ -18,7 +18,7 @@ public class FriendshipDTO {
         this.receiverEmail = friendship.getReceiver().getEmail();
         this.receiverName = friendship.getReceiver().getUserName();
         this.senderProfilePictureUrl = friendship.getSender().getProfilePictureUrl();
-        this.receiverProfilePictureUrl= friendship.getReceiver().getProfilePictureUrl();
+        this.receiverProfilePictureUrl = friendship.getReceiver().getProfilePictureUrl();
     }
 
     public Integer getId() {

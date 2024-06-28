@@ -1,93 +1,94 @@
 .signup-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f0f2f5;
 }
 
 .signup-container {
-  background: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 450px;
-  text-align: center;
-  overflow-y: auto;
-  max-height: 80vh;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    text-align: center;
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
 .signup-container h1 {
-  margin-bottom: 20px;
-  color: #333;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group {
-  margin-bottom: 15px;
- 
+    margin-bottom: 15px;
+
 }
 
 input, select {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  color: #333;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
 }
 
 select {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 
-option{
-  color:#333;
+option {
+    color: #333;
 }
+
 input:focus, select:focus {
-  border-color: #6a11cb;
-  outline: none;
+    border-color: #6a11cb;
+    outline: none;
 }
 
 button {
-  padding: 15px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #6a11cb;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #6a11cb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #2575fc;
+    background-color: #2575fc;
 }
 
 .error {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
-  text-align: left;
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
 }
 
 p {
-  margin-top: 20px;
-  color: #333;
+    margin-top: 20px;
+    color: #333;
 }
 
 p a {
-  color: #6a11cb;
-  text-decoration: none;
+    color: #6a11cb;
+    text-decoration: none;
 }
 
 p a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }

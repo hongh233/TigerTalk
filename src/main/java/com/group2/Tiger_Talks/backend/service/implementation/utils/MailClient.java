@@ -1,7 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.implementation.utils;
 
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 

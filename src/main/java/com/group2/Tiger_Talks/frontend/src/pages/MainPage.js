@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { UserProvider, useUser } from "../context/UserContext";
-import { useLocation } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useUser} from "../context/UserContext";
+import {useLocation} from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import Post from '../components/Post';
@@ -12,9 +12,9 @@ const MainPage = () => {
     const location = useLocation();
     const [message, setMessage] = useState('');
     const [posts, setPosts] = useState([]);
-    const [reload,setReload]=useState(false);
+    const [reload, setReload] = useState(false);
     // const userProfile = location.state?.userProfile;
-    const { user } = useUser();
+    const {user} = useUser();
     useEffect(() => {
         if (user) {
             axios.get(`http://localhost:8085/posts/getPostForUserAndFriends/${user.email}`)
@@ -36,7 +36,7 @@ const MainPage = () => {
                 });
         }
 
-    }, [user,reload]);
+    }, [user, reload]);
 
 
     const addPost = (postContent, tags) => {
@@ -69,7 +69,7 @@ const MainPage = () => {
                 console.error('There was an error creating the post!', error);
                 setMessage('Error creating post');
             });
-            
+
     };
 
     // if (!userProfile) {
@@ -78,18 +78,18 @@ const MainPage = () => {
 
     return (
         <div className="main-page">
-            <Header />
+            <Header/>
             <div className="content">
                 <div className="sidebar">
-                    <NavBar />
+                    <NavBar/>
                 </div>
                 <div className="main-content">
                     <div className="post-creation-section">
-                        <PostCreation addPost={addPost} />
+                        <PostCreation addPost={addPost}/>
                     </div>
                     <div className="post-list">
                         {posts.map((post, index) => (
-                            <Post key={index} post={post} />
+                            <Post key={index} post={post}/>
                         ))}
                     </div>
                     <p>{message}</p>

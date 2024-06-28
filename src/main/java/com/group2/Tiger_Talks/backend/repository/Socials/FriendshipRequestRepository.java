@@ -2,7 +2,6 @@ package com.group2.Tiger_Talks.backend.repository.Socials;
 
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
-import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -21,8 +20,8 @@ public interface FriendshipRequestRepository extends JpaRepository<FriendshipReq
      *  unidirectional: (sender ---> receiver)
      */
     Optional<FriendshipRequest> findBySenderAndReceiver(
-           @Param("sender")  UserProfile sender,
-           @Param("receiver")  UserProfile receiver
+            @Param("sender") UserProfile sender,
+            @Param("receiver") UserProfile receiver
     );
 
 

@@ -16,7 +16,6 @@ public class SignUpServiceImpl implements SignUpService {
     private UserProfileRepository userProfileRepository;
 
 
-
     @Override
     public Optional<String> signUpUserProfile(UserProfile userProfile) {
         return UserProfile.verifyBasics(userProfile, userProfileRepository, true)

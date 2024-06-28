@@ -1,5 +1,5 @@
 
-.profile-settings-container{
+.profile-settings-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,18 +7,19 @@
     height: 100vh;
 }
 
-.profile-settings-nav{
+.profile-settings-nav {
     width: 15%;
 }
-.profile-settings-wrapper{
+
+.profile-settings-wrapper {
     margin-top: 4%;
     display: flex;
-    width: 100vw; 
+    width: 100vw;
     height: 100vh;
     overflow: auto;
 }
 
-.profile-settings-form{
+.profile-settings-form {
     width: 55%;
     padding-top: 5%;
     margin: 0 auto;
@@ -26,13 +27,13 @@
 
 @media (max-width: 768px) {
     .profile-settings-nav {
-		position: static;
-        width:25%;
-		padding:20px;
-	}
-  
-    .profile-settings-form {
-      padding: 10px;
-      margin-top:15%;
+        position: static;
+        width: 25%;
+        padding: 20px;
     }
-  }
+
+    .profile-settings-form {
+        padding: 10px;
+        margin-top: 15%;
+    }
+}

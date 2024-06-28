@@ -1,73 +1,73 @@
 .profile-settings-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f0f2f5;
 }
 
 .profile-settings-container {
-  background: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
 }
 
 .profile-settings-container h1 {
-  margin-bottom: 20px;
-  color: #333;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group {
-  margin-bottom: 15px;
-  text-align: left;
+    margin-bottom: 15px;
+    text-align: left;
 }
 
 label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #333;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
 }
 
 input, select {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: border-color 0.3s;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
 }
 
 input:focus, select:focus {
-  border-color: #6a11cb;
-  outline: none;
+    border-color: #6a11cb;
+    outline: none;
 }
 
 button {
-  padding: 15px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #6a11cb;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #6a11cb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #2575fc;
+    background-color: #2575fc;
 }
 
 .error {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
 }
