@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Socials;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.group2.Tiger_Talks.backend.model.Message;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import jakarta.persistence.*;
@@ -17,13 +18,15 @@ public class Friendship {
 
     @ManyToOne
     @JoinColumn(name = "sender_email", referencedColumnName = "email")
+    @JsonBackReference(value = "sender-friendship")
     private UserProfile sender;
 
     @ManyToOne
     @JoinColumn(name = "receiver_email", referencedColumnName = "email")
+    @JsonBackReference(value = "receiver-friendship")
     private UserProfile receiver;
 
-    private LocalDate createTime;         // yyyy/mm/dd/00:00:00
+    private LocalDate createTime = LocalDate.now();         // yyyy/mm/dd/00:00:00
 
     @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messageList = new LinkedList<>();
@@ -32,7 +35,6 @@ public class Friendship {
                       UserProfile receiver) {
         this.sender = sender;
         this.receiver = receiver;
-        this.createTime = LocalDate.now();
     }
 
     public Friendship() {

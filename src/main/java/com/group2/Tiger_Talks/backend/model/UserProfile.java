@@ -20,15 +20,19 @@ public class UserProfile {
     private String email;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "sender-friendship")
     private List<Friendship> senderFriendshipList = new LinkedList<>();
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "receiver-friendship")
     private List<Friendship> receiverFriendshipList = new LinkedList<>();
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "sender-friendship-request")
     private List<FriendshipRequest> senderFriendshipRequestList = new LinkedList<>();
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "receiver-friendship-request")
     private List<FriendshipRequest> receiverFriendshipRequestList = new LinkedList<>();
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)

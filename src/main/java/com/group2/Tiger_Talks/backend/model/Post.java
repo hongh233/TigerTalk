@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
     @JsonBackReference
+    @JsonManagedReference
     private UserProfile userProfile;
 
     private String content;
