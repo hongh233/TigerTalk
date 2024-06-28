@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "../assets/styles/UserList.css";
 
-const UserList = ({ selectedUsers, setSelectedUsers }) => {
-  const [data, setData] = useState([
-    { email: 'email1', firstName: 'User One', lastName: 'T', role: 'Role One', isAdmin: false, isEnabled: true },
-    { email: 'email2', firstName: 'User Two', lastName: 'T', role: 'Role Two', isAdmin: true, isEnabled: false },
-    { email: 'email3', firstName: 'User Three', lastName: 'T', role: 'Role Three', isAdmin: false, isEnabled: true },
-  ]);
-
+const UserList = ({ selectedUsers, setSelectedUsers,data,setData }) => {
   const handleAdminChange = (email) => {
     setData(prevData =>
       prevData.map(user =>
-        user.email === email ? { ...user, isAdmin: !user.isAdmin } : user
+        user.email === email ? { ...user, userLevel: user.userLevel==='admin'?'user':'admin' } : user
       )
     );
     console.log(`Admin status changed for user ${email}`);
@@ -55,11 +49,11 @@ const UserList = ({ selectedUsers, setSelectedUsers }) => {
               <td>
                 <input
                   type="checkbox"
-                  checked={user.isAdmin}
+                  checked={user.userLevel==="admin"}
                   onChange={() => handleAdminChange(user.email)}
                 />
               </td>
-              <td>{user.isEnabled ? 'Enabled' : 'Disabled'}</td>
+              <td>{user.isValidated ? 'Enabled' : 'Disabled'}</td>
             </tr>
           ))}
         </tbody>

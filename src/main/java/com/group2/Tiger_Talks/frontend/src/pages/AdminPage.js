@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import UserList from '../components/UserList';
+import axios from 'axios';
 import '../assets/styles/AdminPage.css';
 
 const AdminPage = () => {
     const [selectedUsers, setSelectedUsers] = useState([]);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('http://localhost:8085/api/user/getAllProfiles');
+          setData(response.data); 
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
+      fetchData();
+    }, []); 
 
     const handleEnableDisableUsers = () => {
         console.log('Toggling status for users:', selectedUsers);
@@ -20,7 +34,7 @@ const AdminPage = () => {
                     <NavBar/>
                 </div>
                 <div className="admin-content">
-                    <UserList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers}/>
+                    <UserList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} setData={setData} data={data}/>
                     <div className="admin-buttons">
                         <button 
                             className="add-user-button"
