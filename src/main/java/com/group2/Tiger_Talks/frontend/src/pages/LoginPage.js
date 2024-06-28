@@ -23,10 +23,11 @@ const LoginPage = () => {
 					params: { email, password },
 				}
 			);
-			localStorage.setItem("user", JSON.stringify(response.data));
-			setUser(response.data);
+			const userProfile = response.data;
+			localStorage.setItem("user", JSON.stringify(userProfile));
+			setUser(userProfile);
 			alert("Log in successfully");
-			navigate("/main");
+			navigate("/main", { state: { userProfile }});
 		} catch (error) {
 			if (error.response && error.response.status === 401) {
 				setError("Invalid email or password.");
