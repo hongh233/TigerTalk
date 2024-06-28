@@ -7,6 +7,7 @@ import MainPage from "./pages/MainPage";
 import ProfilePage from "./pages/ProfilePage";
 import GroupPage from "./pages/GroupPage";
 import CreateGroupPage from "./pages/CreateGroupPage";
+import AdminPage from './pages/AdminPage';
 import ProfileSettingsPage from "./pages/ProfileSettingsPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import SecurityQuestionsPage from "./pages/SecurityQuestionsPage";
@@ -34,24 +35,25 @@ const AppRoutes = () => {
 		setIsLoggedIn(!!user);
 	}, [user]);
 
-	return (
-		<Router>
-			<Routes>
-				<Route path="/main" element={isLoggedIn ? <MainPage /> : <AuthenticationFailPage />} />
-				<Route path="/" element={<LoginPage />} />
-				<Route path="/signup" element={<SignUpPage />} />
-				<Route path="/profile" element={isLoggedIn ? <ProfilePage /> : <AuthenticationFailPage />} />
-				<Route path="/profile/1" element={isLoggedIn ? <ProfileSettingsPage /> : <AuthenticationFailPage />} />
-				<Route path="/group" element={isLoggedIn ? <GroupPage /> : <AuthenticationFailPage />} />
-				<Route path="/group/creategroup" element={isLoggedIn ? <CreateGroupPage /> : <AuthenticationFailPage />} />
-				<Route path="/group/viewgroup/:groupId" element={isLoggedIn ? <ViewGroupPage /> : <AuthenticationFailPage />} />
-				<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-				<Route path="/securityQuestions" element={<SecurityQuestionsPage />} />
-				<Route path="/emailVerification" element={<EmailVerificationPage />} />
-				<Route path="/resetPassword" element={<ResetPasswordPage />} />
-			</Routes>
-		</Router>
-	);
+  return (
+    <Router>
+      <Routes>
+        <Route path="/main" element={isLoggedIn ? <MainPage /> : <AuthenticationFailPage />} />
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/profile" element={isLoggedIn ? <ProfilePage /> : <AuthenticationFailPage />} />
+        <Route path="/profile/1" element={isLoggedIn ? <ProfileSettingsPage /> : <AuthenticationFailPage />} />
+        <Route path="/group" element={isLoggedIn ? <GroupPage /> : <AuthenticationFailPage />} />
+        <Route path="/group/creategroup" element={isLoggedIn ? <CreateGroupPage /> : <AuthenticationFailPage />} />
+        <Route path="/group/viewgroup/:groupId" element={isLoggedIn ? <ViewGroupPage /> : <AuthenticationFailPage />} />
+        <Route path="/admin" element={isLoggedIn ? <AdminPage /> : <AuthenticationFailPage />} />
+        <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+        <Route path="/securityQuestions" element={<SecurityQuestionsPage />} />
+        <Route path="/emailVerification" element={<EmailVerificationPage />} />
+        <Route path="/resetPassword" element={<ResetPasswordPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

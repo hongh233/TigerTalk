@@ -1,5 +1,5 @@
 import React from "react";
-import { FaHome, FaHammer, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaHammer, FaSignOutAlt,FaUserShield } from "react-icons/fa";
 import "../assets/styles/ProfileNavBar.css";
 import GroupTab from "./GroupTab";
 
@@ -50,6 +50,13 @@ const ProfileNavBar = ({ user }) => {
 				</a>
 
 				<GroupTab />
+				{
+					user.userLevel === "admin" &&
+					<a href="/admin" >
+						<FaUserShield />
+						<span className='text-hide'>Admin</span>
+					</a>
+				}
 				<a href="/" onClick={handleLogOut}>
 					<FaSignOutAlt />
 					<span className="text-hide">Logout</span>
