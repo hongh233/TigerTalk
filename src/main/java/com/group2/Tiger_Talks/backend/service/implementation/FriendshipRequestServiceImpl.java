@@ -2,6 +2,7 @@ package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequestDTO;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRequestRepository;
@@ -10,7 +11,9 @@ import com.group2.Tiger_Talks.backend.service.FriendshipRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FriendshipRequestServiceImpl implements FriendshipRequestService {
@@ -23,6 +26,17 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+
+    // We have E->A, D->A, get(A) will get E, D
+    @Override
+    public List<FriendshipRequestDTO> getAllFriendRequests(String email) {
+        UserProfile user = userProfileRepository.findUserProfileByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+        return friendshipRequestRepository.findByReceiver(user).stream()
+                .map(FriendshipRequestDTO::new)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public Optional<String> sendFriendshipRequest(String senderEmail, String receiverEmail) {
@@ -61,8 +75,6 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         friendshipRequestRepository.delete(friendshipRequest);
         return Optional.empty();
     }
-
-
 
     @Override
     public Optional<String> rejectFriendshipRequest(Integer friendshipRequestId) {
