@@ -14,8 +14,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
-    @JsonBackReference
-    @JsonManagedReference
+    @JsonBackReference("userPost")
     private UserProfile userProfile;
 
     private String content;

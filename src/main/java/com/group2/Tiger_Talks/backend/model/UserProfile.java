@@ -39,7 +39,7 @@ public class UserProfile {
     private List<Notification> notificationList = new LinkedList<>();
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("userPost")
     private List<Post> postList = new LinkedList<>();
 
     private String password;
