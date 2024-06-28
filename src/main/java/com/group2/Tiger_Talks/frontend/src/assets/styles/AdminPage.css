@@ -32,7 +32,7 @@
   margin-top: 10px;
 }
 
-.add-user-button,
+.delete-user-button,
 .toggle-user-button {
   padding: 10px 20px;
   background-color: #007bff;
@@ -42,11 +42,12 @@
   border-radius: 4px;
 }
 
-.add-user-button:hover,
+.delete-user-button:hover,
 .toggle-user-button:hover {
   background-color: #0056b3;
 }
 
+.delete-user-button:disabled,
 .toggle-user-button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;

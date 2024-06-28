@@ -1,14 +1,24 @@
 import React from 'react';
+import axios from 'axios';
 import "../assets/styles/UserList.css";
 
 const UserList = ({ selectedUsers, setSelectedUsers,data,setData }) => {
-  const handleAdminChange = (email) => {
-    setData(prevData =>
-      prevData.map(user =>
-        user.email === email ? { ...user, userLevel: user.userLevel==='admin'?'user':'admin' } : user
-      )
-    );
-    console.log(`Admin status changed for user ${email}`);
+  const handleAdminChange =async (email) => {
+    try {
+        const userToUpdate = data.find(user => user.email === email);
+        const updatedUser = { ...userToUpdate, userLevel: userToUpdate.userLevel==='admin'?'user':'admin' };
+        await axios.put(`http://localhost:8085/api/user/update`, updatedUser);
+        
+        setData(prevData =>
+          prevData.map(user =>
+            user.email === email ? updatedUser : user
+          )
+        );
+  
+        console.log(`Admin status changed for user ${email}`);
+      } catch (error) {
+        console.error('Error updating admin status:', error);
+      }
   };
 
   const handleSelectUser = (email) => {
@@ -53,7 +63,7 @@ const UserList = ({ selectedUsers, setSelectedUsers,data,setData }) => {
                   onChange={() => handleAdminChange(user.email)}
                 />
               </td>
-              <td>{user.isValidated ? 'Enabled' : 'Disabled'}</td>
+              <td>{user.validated ? 'Enabled' : 'Disabled'}</td>
             </tr>
           ))}
         </tbody>
