@@ -14,7 +14,7 @@ import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
-public class UserController {
+public class UserProfileController {
 
     @Autowired
     private UserProfileService userProfileService;
@@ -28,6 +28,7 @@ public class UserController {
 
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody UserProfile userProfile) {
+        System.out.println(userProfile.getAllFriends());
         Optional<String> err = userProfileService.updateUserProfile(userProfile);
         if (err.isPresent()) {
             return ResponseEntity.status(400).body(err.get());

@@ -9,11 +9,9 @@ import com.group2.Tiger_Talks.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -27,20 +25,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostDTO> getPostsForUserAndFriends(String email) {
         return userProfileRepository.findById(email)
-                .map(userProfile -> {
-                    List<PostDTO> postDTOList = userProfile.getPostList().stream()
-                            .map(PostDTO::new)
-                            .collect(Collectors.toCollection(LinkedList::new));
-
-                    userProfile.getAllFriends().forEach(friend ->
-                            postDTOList.addAll(friend.getPostList().stream()
-                                    .map(PostDTO::new)
-                                    .toList())
-                    );
-                    postDTOList.sort(Comparator.comparing(PostDTO::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
-                    return postDTOList;
-                })
-                .orElseGet(LinkedList::new);
+                .map(userProfile -> Stream.concat(
+                                        userProfile.getPostList().stream(),
+                                        userProfile.getAllFriends().stream()
+                                                .flatMap(friend -> friend.getPostList().stream())
+                                ).map(PostDTO::new)
+                                .sorted(
+                                        Comparator.comparing(PostDTO::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder()))
+                                                .reversed()
+                                ).toList()
+                ).orElseGet(Collections::emptyList);
     }
 
     @Override
