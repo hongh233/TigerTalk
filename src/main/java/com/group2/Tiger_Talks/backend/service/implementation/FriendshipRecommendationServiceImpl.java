@@ -7,9 +7,7 @@ import com.group2.Tiger_Talks.backend.service.FriendshipRecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,23 +17,26 @@ public class FriendshipRecommendationServiceImpl implements FriendshipRecommenda
     private UserProfileRepository userProfileRepository;
 
     public List<UserProfileDTO> recommendFriends(String email, int numOfFriends) {
+        // Retrieve the user's profile and their list of friends
+        return userProfileRepository.findById(email)
+                .map(myProfile -> {
+                    // Assumes getAllFriends() returns a List<UserProfile>
+                    List<UserProfile> allMyFriends = myProfile.getAllFriends();
 
-        if (userProfileRepository.findById(email).isPresent()) {
-            // get all potential friends
-            List<UserProfile> potentialFriends = userProfileRepository.findAll().stream()
-                    .filter(user -> !(userProfileRepository.findById(email).get().getAllFriends())
-                            .contains(user) && !user.getEmail().equals(email))
-                    .collect(Collectors.toList());
+                    // Get all potential friends, except for current friends and the user themselves
+                    List<UserProfile> potentialFriends = userProfileRepository.findAll().stream()
+                            .filter(userProfile -> !allMyFriends.contains(userProfile) || !userProfile.getEmail().equals(email))
+                            .collect(Collectors.toList());
 
-            // make it random
-            Collections.shuffle(potentialFriends);
+                    // make it random
+                    Collections.shuffle(potentialFriends);
 
-            // choose the first n friends
-            return potentialFriends.stream()
-                    .limit(numOfFriends)
-                    .map(UserProfileDTO::new)
-                    .collect(Collectors.toList());
-        }
-        return new LinkedList<>();
+                    // Return the first 'numOfFriends' users as recommendations, mapped to DTOs
+                    return potentialFriends.stream()
+                            .limit(numOfFriends)
+                            .map(UserProfileDTO::new)
+                            .collect(Collectors.toList());
+                })
+                .orElseGet(LinkedList::new); // Return an empty list if user profile is not found
     }
 }

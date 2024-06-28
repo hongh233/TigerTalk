@@ -18,8 +18,8 @@ public class FriendshipRecommendationController {
     private FriendshipRecommendationService friendRecommendationService;
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
-    @GetMapping("/recommendFriends/{email}")
-    public ResponseEntity<List<UserProfileDTO>> recommendFriends(@PathVariable String email, @RequestParam int numOfFriends) {
+    @GetMapping("/recommendFriends/{email}/{numOfFriends}")
+    public ResponseEntity<List<UserProfileDTO>> recommendFriends(@PathVariable String email, @PathVariable int numOfFriends) {
         List<UserProfileDTO> recommendedFriends = friendRecommendationService.recommendFriends(email, numOfFriends);
         return ResponseEntity.ok(recommendedFriends);
     }
