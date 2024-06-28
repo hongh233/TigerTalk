@@ -30,6 +30,12 @@ public final class Utils {
         public static final String ACTIVE = "active";
     }
 
+    public static final class OnlineStatus {
+        public static final String AVAILABLE = "available";
+        public static final String BUSY = "busy";
+        public static final String AWAY = "away";
+    }
+
     public static final class RegexCheck {
         public static final Pattern PASSWORD_NORM_LENGTH = Pattern.compile("^.{8,}$");
         public static final Pattern PASSWORD_NORM_UPPERCASE = Pattern.compile("^(?=.*[A-Z]).+$");
