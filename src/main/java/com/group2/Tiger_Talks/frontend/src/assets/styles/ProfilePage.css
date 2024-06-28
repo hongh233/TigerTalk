@@ -25,16 +25,17 @@
 }
 
 @media (max-width: 768px) {
-	.profile-navbar {
+	.profile-nav {
 		position: static;
 		width: 100%;
-		height: auto;
+		height: 150vh;
+		padding:20px;
 	}
 
 	.profile-main-content {
 		margin-left: 0;
 		padding: 10px;
 		margin-top: 16%;
-		padding-left: 0;
+		width: 55%;
 	}
 }
