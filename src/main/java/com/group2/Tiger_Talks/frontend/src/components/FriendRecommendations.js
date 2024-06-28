@@ -6,11 +6,11 @@ import '../assets/styles/FriendRecommendations.css';
 const FriendRecommendations = () => {
     const { user } = useUser();
     const [recommendations, setRecommendations] = React.useState([]);
-    const numOfFriends = 2;
+    const numOfFriends = 1;
 
     React.useEffect(() => {
         if (user) {
-            axios.get(`http://localhost:8085/friendships/recommendFriends/${user.email}`, {
+            axios.get(`http://localhost:8085/friendships/recommendFriends/${user.email}/${numOfFriends}`, {
                 params: {
                     numOfFriends: numOfFriends
                 }
