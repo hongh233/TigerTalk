@@ -11,9 +11,7 @@ import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
@@ -31,10 +29,12 @@ public class UserProfile {
     @JsonManagedReference(value = "receiver-friendship")
     private List<Friendship> receiverFriendshipList = new LinkedList<>();
 
+    // User Sending req to others
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "sender-friendship-request")
     private List<FriendshipRequest> senderFriendshipRequestList = new LinkedList<>();
 
+    // User Receiving req from others
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "receiver-friendship-request")
     private List<FriendshipRequest> receiverFriendshipRequestList = new LinkedList<>();
@@ -368,5 +368,18 @@ public class UserProfile {
             friends.add(friendship.getSender());
         }
         return friends;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserProfile other = (UserProfile) o;
+        return this.email.equals(other.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(email);
     }
 }
