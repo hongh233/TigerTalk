@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { UserProvider, useUser } from "../context/UserContext";
 import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import NavBar from '../components/NavBar';
@@ -12,7 +13,7 @@ const MainPage = () => {
     const [message, setMessage] = useState('');
     const [posts, setPosts] = useState([]);
     const userProfile = location.state?.userProfile;
-    
+    const { user } = useUser();
     useEffect(() => {
         if (userProfile) {
             axios.get(`http://localhost:8085/posts/getPostForUserAndFriends/${userProfile.email}`)
@@ -65,9 +66,9 @@ const MainPage = () => {
             
     };
 
-    if (!userProfile) {
-        return <div>Loading...</div>;
-    }
+    // if (!userProfile) {
+    //     return <div>Loading...</div>;
+    // }
 
     return (
         <div className="main-page">
