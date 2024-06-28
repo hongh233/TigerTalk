@@ -66,7 +66,9 @@ const Post = ({ post }) => {
   return (
       <div className="post">
         <div className="post-header">
-          <div className="profile-picture"></div>
+          <div className="profile-picture">
+            {post.profileProfileURL && (<img src={post.profileProfileURL} alt="avatar"/>)}
+          </div>
           <div className="post-user-details">
             <h3>{post.userProfileUserName}</h3> {/* Display the username here */}
             <p>{post.timestamp}</p>

@@ -12,11 +12,12 @@ const MainPage = () => {
     const location = useLocation();
     const [message, setMessage] = useState('');
     const [posts, setPosts] = useState([]);
-    const userProfile = location.state?.userProfile;
+    const [reload,setReload]=useState(false);
+    // const userProfile = location.state?.userProfile;
     const { user } = useUser();
     useEffect(() => {
-        if (userProfile) {
-            axios.get(`http://localhost:8085/posts/getPostForUserAndFriends/${userProfile.email}`)
+        if (user) {
+            axios.get(`http://localhost:8085/posts/getPostForUserAndFriends/${user.email}`)
                 .then(response => {
                     const transformedPosts = response.data.map(post => ({
                         id: post.postId,
@@ -24,7 +25,8 @@ const MainPage = () => {
                         timestamp: post.timestamp,
                         userProfileUserName: post.userProfileUserName,
                         likes: post.numOfLike,
-                        comments: []
+                        comments: [],
+                        profileProfileURL: post.profileProfileURL
                     }));
                     console.log('Transformed Posts:', transformedPosts);
                     setPosts(transformedPosts);
@@ -33,10 +35,12 @@ const MainPage = () => {
                     console.error('There was an error on posts!', error);
                 });
         }
-    }, [userProfile]);
+
+    }, [user,reload]);
+
 
     const addPost = (postContent, tags) => {
-        if (!userProfile) {
+        if (!user) {
             setMessage('User profile are not successfully loaded');
             return;
         }
@@ -44,20 +48,22 @@ const MainPage = () => {
         const newPost = {
             content: postContent,
             userProfile: {
-                email: userProfile.email,
-                UserName: userProfile.UserName,
+                email: user.email,
+                UserName: user.userName,
             },
-            UserName: userProfile.UserName,
+            UserName: user.userName,
             timestamp: new Date().toISOString(),
             likes: 0,
             comments: []
         };
+        console.log(newPost);
 
         // Save the new post to the database
         axios.post('http://localhost:8085/posts/create', newPost)
             .then(response => {
                 setPosts([newPost, ...posts]);
                 setMessage('Post are created successfully');
+                setReload(!reload);
             })
             .catch(error => {
                 console.error('There was an error creating the post!', error);

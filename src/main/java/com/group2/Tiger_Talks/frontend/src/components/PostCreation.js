@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import '../assets/styles/PostCreation.css';
-
+import { UserProvider, useUser } from "../context/UserContext";
 import { useNavigate } from 'react-router-dom';
 
 //const PostCreation = () => {
-const PostCreation = ({ addPost }) => {  
+const PostCreation = ({ addPost }) => {
   const [postContent, setPostContent] = useState('');
-  
   const [tagInput, setTagInput] = useState('');
   const [tags, setTags] = useState([]);
   const navigate = useNavigate();
-  
+   const { user } = useUser();
+   console.log(user);
   /*
   const handleInputChange = (event) => {
     setPostContent(event.target.value);
@@ -30,7 +30,7 @@ const PostCreation = ({ addPost }) => {
   const handleTagInputChange = (event) => {
     setTagInput(event.target.value);
   };
-  
+
   /*
   const createPost = () => {
     console.log('Post content:', postContent);
@@ -56,7 +56,7 @@ const PostCreation = ({ addPost }) => {
     const userName = tag.substring(1); // Remove the '@' from the tag
     navigate(`/friends`);
   };
-  
+
   /*
   const renderPostContent = (content) => {
     const parts = content.split(/(@\w+)/g);
@@ -80,36 +80,40 @@ const PostCreation = ({ addPost }) => {
   */
 
   return (
-    <div className="post-creation">
-      <div className="profile-picture"></div>
-      <textarea 
-        placeholder="What's Happening?" 
-        value={postContent}
-        onChange={handleInputChange}
-      ></textarea>
-      <div className="location-and-image">
-        {/*TODO: {Raphael} Add tags to posts */}
-        <input 
-          type="text" 
-          placeholder="Want to tag someone?" 
-          value={tagInput}
-          onChange={handleTagInputChange}
-        />
-        <button onClick={handleAddTag}>+</button>
-        <div className="image-upload">
-          <span>+</span>
-        </div>
-      </div>
-      <button className="post-button" onClick={createPost}>Post</button>
-      <div className="tags">
-        {/*tags.map((tag, index) => (
+      <>
+        {user && <div className="post-creation">
+          <div className="profile-picture">
+             {user.profilePictureUrl && (<img src={user.profilePictureUrl} alt="avatar"/>)}
+          </div>
+          <textarea
+              placeholder="What's Happening?"
+              value={postContent}
+              onChange={handleInputChange}
+          ></textarea>
+          <div className="location-and-image">
+            {/*TODO: {Raphael} Add tags to posts */}
+            <input
+                type="text"
+                placeholder="Want to tag someone?"
+                value={tagInput}
+                onChange={handleTagInputChange}
+            />
+            <button onClick={handleAddTag}>+</button>
+            <div className="image-upload">
+              <span>+</span>
+            </div>
+          </div>
+          <button className="post-button" onClick={createPost}>Post</button>
+          <div className="tags">
+            {/*tags.map((tag, index) => (
           <span key={index} className="tag" onClick={() => handleTagClick(tag)}>
             {tag}
           </span>
         ))*/}
-      </div>
-      <p>{/*renderPostContent(postContent)*/}</p>
-    </div>
+          </div>
+          <p>{/*renderPostContent(postContent)*/}</p>
+        </div>}
+      </>
   );
 };
 
