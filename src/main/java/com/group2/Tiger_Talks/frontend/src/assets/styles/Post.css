@@ -89,3 +89,16 @@
 .add-comment button:hover {
   background-color: #0056b3;
 }
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .post-button {
+    font-size: 0.75rem; 
+    padding: 0.6em 1em; 
+  }
+
+  .add-comment button {
+    padding: 0.4em 0.8em; 
+  }
+}
