@@ -1,8 +1,14 @@
 package com.group2.Tiger_Talks.backend.service;
 
+import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequestDTO;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface FriendshipRequestService {
+
+    List<FriendshipRequestDTO> getAllFriendRequests(String email);
 
     /**
      * Send a friendship request: (sender ---> receiver)

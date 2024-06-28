@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller;
 
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
+import com.group2.Tiger_Talks.backend.model.Socials.FriendshipDTO;
 import com.group2.Tiger_Talks.backend.service.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class FriendshipController {
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @GetMapping("/getAll")
-    public ResponseEntity<List<Friendship>> getAllFriends(@RequestParam String email) {
+    public ResponseEntity<List<FriendshipDTO>> getAllFriends(@RequestParam String email) {
         return ResponseEntity.ok(friendshipService.getAllFriends(email));
     }
 

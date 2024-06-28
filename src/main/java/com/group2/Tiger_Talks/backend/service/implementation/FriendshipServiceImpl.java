@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
+import com.group2.Tiger_Talks.backend.model.Socials.FriendshipDTO;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FriendshipServiceImpl implements FriendshipService {
@@ -21,10 +23,12 @@ public class FriendshipServiceImpl implements FriendshipService {
     private UserProfileRepository userProfileRepository;
 
     @Override
-    public List<Friendship> getAllFriends(String email) {
+    public List<FriendshipDTO> getAllFriends(String email) {
         UserProfile user = userProfileRepository.findUserProfileByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("does not found user"));
-        return friendshipRepository.findBySenderOrReceiver(user, user);
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+        return friendshipRepository.findBySenderOrReceiver(user, user).stream()
+                .map(FriendshipDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override

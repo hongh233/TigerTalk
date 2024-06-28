@@ -1,9 +1,12 @@
 package com.group2.Tiger_Talks.backend.controller;
 
+import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequestDTO;
 import com.group2.Tiger_Talks.backend.service.FriendshipRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
 
@@ -13,6 +16,12 @@ public class FriendshipRequestController {
 
     @Autowired
     private FriendshipRequestService friendshipRequestService;
+
+    @GetMapping("/{email}")
+    public ResponseEntity<List<FriendshipRequestDTO>> getAllFriendRequests(@PathVariable String email) {
+        List<FriendshipRequestDTO> requests = friendshipRequestService.getAllFriendRequests(email);
+        return ResponseEntity.ok(requests);
+    }
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("/send")
