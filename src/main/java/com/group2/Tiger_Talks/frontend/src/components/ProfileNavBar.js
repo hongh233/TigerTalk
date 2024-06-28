@@ -46,7 +46,7 @@ const ProfileNavBar = ({ user }) => {
 					<FaHome />
 					<span className="text-hide">Home</span>
 				</a>
-				<a href="/profile/1">
+				<a href="/profile/edit">
 					<FaHammer />
 					<span className="text-hide">Profile Setting</span>
 				</a>
