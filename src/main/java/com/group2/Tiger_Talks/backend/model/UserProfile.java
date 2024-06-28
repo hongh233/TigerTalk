@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserProfile {
     @Id
     private String email;
@@ -39,7 +41,7 @@ public class UserProfile {
     private List<Notification> notificationList = new LinkedList<>();
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference("userPost")
+    @JsonManagedReference
     private List<Post> postList = new LinkedList<>();
 
     private String password;

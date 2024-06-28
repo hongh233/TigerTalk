@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.Post;
+import com.group2.Tiger_Talks.backend.model.PostDTO;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -20,61 +22,44 @@ public class PostServiceImpl implements PostService {
     private UserProfileRepository userProfileRepository;
 
     @Override
-    public List<Post> getPostsForUserAndFriends(String email) {
-        if (userProfileRepository.findById(email).isPresent()) {
-            // add user posts from itself
-            List<Post> postList = new LinkedList<>(userProfileRepository.findById(email).get().getPostList());
-            // add user's friend posts
-            for (UserProfile friend : userProfileRepository.findById(email).get().getAllFriends()) {
-                postList.addAll(friend.getPostList());
-            }
-            // sorted by time
-            postList.sort(Comparator.comparing(Post::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
-            return postList;
-        }
-        return new LinkedList<>();
+    public List<PostDTO> getPostsForUserAndFriends(String email) {
+        return userProfileRepository.findById(email)
+                .map(userProfile -> {
+                    List<PostDTO> postDTOList = userProfile.getPostList().stream()
+                            .map(PostDTO::new)
+                            .collect(Collectors.toCollection(LinkedList::new));
+
+                    userProfile.getAllFriends().forEach(friend ->
+                            postDTOList.addAll(friend.getPostList().stream()
+                                    .map(PostDTO::new)
+                                    .toList())
+                    );
+                    postDTOList.sort(Comparator.comparing(PostDTO::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
+                    return postDTOList;
+                })
+                .orElseGet(LinkedList::new);
     }
 
     @Override
-    public List<Post> getPostsForUserAndFriends(UserProfile userProfile) {
-        // add user posts from itself
-        List<Post> postList = new LinkedList<>(userProfile.getPostList());
-        // add user's friend posts
-        for (UserProfile friend : userProfile.getAllFriends()) {
-            postList.addAll(friend.getPostList());
-        }
-        // sorted by time
-        postList.sort(Comparator.comparing(Post::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
-        return postList;
+    public List<PostDTO> getPostsForUserAndFriends(UserProfile userProfile) {
+        return getPostsForUserAndFriends(userProfile.getEmail());
     }
 
     @Override
-    public List<Post> getPostsForUser(String email) {
-        if (userProfileRepository.findById(email).isPresent()) {
-            // add empty
-            List<Post> postList = new LinkedList<>();
-            // add user's friend posts
-            for (UserProfile friend : userProfileRepository.findById(email).get().getAllFriends()) {
-                postList.addAll(friend.getPostList());
-            }
-            // sorted by time
-            postList.sort(Comparator.comparing(Post::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
-            return postList;
-        }
-        return new LinkedList<>();
+    public List<PostDTO> getPostsForUser(String email) {
+        return userProfileRepository.findById(email)
+                .map(userProfile -> userProfile.getPostList().stream()
+                        .map(PostDTO::new)
+                        .sorted(Comparator.comparing(PostDTO::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed())
+                        .collect(Collectors.toCollection(LinkedList::new))
+                )
+                .orElseGet(LinkedList::new);
     }
 
+
     @Override
-    public List<Post> getPostsForUser(UserProfile userProfile) {
-        // add empty
-        List<Post> postList = new LinkedList<>();
-        // add user's friend posts
-        for (UserProfile friend : userProfile.getAllFriends()) {
-            postList.addAll(friend.getPostList());
-        }
-        // sorted by time
-        postList.sort(Comparator.comparing(Post::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed());
-        return postList;
+    public List<PostDTO> getPostsForUser(UserProfile userProfile) {
+        return getPostsForUser(userProfile.getEmail());
     }
 
     @Override

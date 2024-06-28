@@ -1,12 +1,14 @@
 package com.group2.Tiger_Talks.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +16,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
-    @JsonBackReference("userPost")
+    @JsonBackReference
     private UserProfile userProfile;
 
     private String content;
