@@ -1,4 +1,4 @@
-.group-page {
+.friend-request-list-page {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -6,7 +6,7 @@
 	height: 100vh;
 }
 
-.group-nav {
+.friend-request-list-nav {
 	width: 15%;
 }
 
@@ -17,20 +17,26 @@
 	height: 100vh;
 	overflow: auto;
 }
+.no-friend-requests {
+	text-align: center;
+	margin-top: 20px;
+	font-size: 18px;
+	color: #555;
+}
 
-.group-content {
+.friend-request-list-content {
 	width: 75%;
 	border-radius: 8px;
 }
 
 @media (max-width: 768px) {
-	.group-navbar {
+	.friend-request-list-navbar {
 		position: static;
 		width: 100%;
 		height: auto;
 	}
 
-	.group-content {
+	.friend-request-list-content {
 		margin-left: 0;
 		padding: 10px;
 		margin-top: 14%;

@@ -26,15 +26,30 @@ public class Friendship {
     @JsonBackReference(value = "receiver-friendship")
     private UserProfile receiver;
 
-    private LocalDate createTime = LocalDate.now();         // yyyy/mm/dd/00:00:00
-
     @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messageList = new LinkedList<>();
 
+    private String senderEmailTemp;
+    private String receiverEmailTemp;
+
+    private String senderProfilePictureUrlTemp;
+    private String receiverProfilePictureUrlTemp;
+
+    private String senderUserNameTemp;
+    private String receiverUserNameTemp;
+
+    private LocalDate createTime = LocalDate.now();         // yyyy/mm/dd/00:00:00
+
     public Friendship(UserProfile sender,
-                      UserProfile receiver) {
+                        UserProfile receiver) {
         this.sender = sender;
         this.receiver = receiver;
+        this.senderEmailTemp = sender.getEmail();
+        this.receiverEmailTemp = receiver.getEmail();
+        this.senderProfilePictureUrlTemp = sender.getProfilePictureUrl();
+        this.receiverProfilePictureUrlTemp = receiver.getProfilePictureUrl();
+        this.senderUserNameTemp = sender.getUserName();
+        this.receiverUserNameTemp = receiver.getUserName();
     }
 
     public Friendship() {
@@ -81,4 +96,52 @@ public class Friendship {
         this.messageList = messageList;
     }
 
+    public String getSenderEmailTemp() {
+        return senderEmailTemp;
+    }
+
+    public void setSenderEmailTemp(String senderEmail) {
+        this.senderEmailTemp = senderEmail;
+    }
+
+    public String getReceiverEmailTemp() {
+        return receiverEmailTemp;
+    }
+
+    public void setReceiverEmailTemp(String receiverEmail) {
+        this.receiverEmailTemp = receiverEmail;
+    }
+
+
+    public String getSenderProfilePictureUrlTemp() {
+        return senderProfilePictureUrlTemp;
+    }
+
+    public void setSenderProfilePictureUrlTemp(String senderProfilePictureUrlTemp) {
+        this.senderProfilePictureUrlTemp = senderProfilePictureUrlTemp;
+    }
+
+    public String getReceiverProfilePictureUrlTemp() {
+        return receiverProfilePictureUrlTemp;
+    }
+
+    public void setReceiverProfilePictureUrlTemp(String receiverProfilePictureUrlTemp) {
+        this.receiverProfilePictureUrlTemp = receiverProfilePictureUrlTemp;
+    }
+
+    public String getSenderUserNameTemp() {
+        return senderUserNameTemp;
+    }
+
+    public void setSenderUserNameTemp(String senderUserNameTemp) {
+        this.senderUserNameTemp = senderUserNameTemp;
+    }
+
+    public String getReceiverUserNameTemp() {
+        return receiverUserNameTemp;
+    }
+
+    public void setReceiverUserNameTemp(String receiverUserNameTemp) {
+        this.receiverUserNameTemp = receiverUserNameTemp;
+    }
 }
