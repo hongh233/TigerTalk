@@ -1,0 +1,19 @@
+.friend-recommendations {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.friend-recommendations h3 {
+    color: #333;
+}
+
+.friend-recommendations ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.friend-recommendations li {
+    margin-bottom: 10px;
+}

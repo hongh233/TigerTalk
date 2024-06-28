@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import NavBar from '../components/NavBar';
 import Post from '../components/Post';
 import PostCreation from '../components/PostCreation';
+import FriendRecommendations from '../components/FriendRecommendations';
 import '../assets/styles/Main.css';
 import axios from 'axios';
 
@@ -87,6 +88,7 @@ const MainPage = () => {
                     <div className="post-creation-section">
                         <PostCreation addPost={addPost}/>
                     </div>
+                    <FriendRecommendations />
                     <div className="post-list">
                         {posts.map((post, index) => (
                             <Post key={index} post={post}/>
