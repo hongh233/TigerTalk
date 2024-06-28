@@ -40,8 +40,8 @@ public class FriendshipServiceImplTest {
     }
 
     @Test
-    public void testGetAllFriends_UserNotFound() {
-        String email = "user@example.com";
+    public void testGetAllFriendsUserNotFound() {
+        String email = "user@dal.ca";
         when(userProfileRepository.findUserProfileByEmail(email)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(IllegalStateException.class, () -> {
@@ -51,8 +51,8 @@ public class FriendshipServiceImplTest {
     }
 
     @Test
-    public void testGetAllFriends_Success() {
-        String email = "user@example.com";
+    public void testGetAllFriendsSuccess() {
+        String email = "user@dal.ca";
         UserProfile user = new UserProfile();
         user.setEmail(email);
         when(userProfileRepository.findUserProfileByEmail(email)).thenReturn(Optional.of(user));
@@ -71,9 +71,9 @@ public class FriendshipServiceImplTest {
     }
 
     @Test
-    public void testDeleteFriendshipByEmail_Success() {
-        String senderEmail = "sender@example.com";
-        String receiverEmail = "receiver@example.com";
+    public void testDeleteFriendshipByEmailSuccess() {
+        String senderEmail = "sender@dal.ca";
+        String receiverEmail = "receiver@dal.ca";
         UserProfile sender = new UserProfile();
         sender.setEmail(senderEmail);
         UserProfile receiver = new UserProfile();
@@ -95,9 +95,9 @@ public class FriendshipServiceImplTest {
     }
 
     @Test
-    public void testDeleteFriendshipByEmail_NoFriendship() {
-        String senderEmail = "sender@example.com";
-        String receiverEmail = "receiver@example.com";
+    public void testDeleteFriendshipByEmailNoFriendship() {
+        String senderEmail = "sender@dal.ca";
+        String receiverEmail = "receiver@dal.ca";
         UserProfile sender = new UserProfile();
         sender.setEmail(senderEmail);
         UserProfile receiver = new UserProfile();
@@ -116,8 +116,48 @@ public class FriendshipServiceImplTest {
         verify(friendshipRepository, never()).delete(any(Friendship.class));
     }
 
+
     @Test
-    public void testDeleteFriendshipById_Success() {
+    public void testDeleteFriendshipByEmailSenderNotFound() {
+        String senderEmail = "sender@dal.ca";
+        String receiverEmail = "receiver@dal.ca";
+
+        when(userProfileRepository.findUserProfileByEmail(senderEmail)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail);
+        });
+
+        assertEquals("Sender not found", exception.getMessage(), "Expected exception message not found");
+        verify(userProfileRepository, times(1)).findUserProfileByEmail(senderEmail);
+        verify(userProfileRepository, never()).findUserProfileByEmail(receiverEmail);
+        verify(friendshipRepository, never()).findBySenderAndReceiverOrReceiverAndSender(any(), any(), any(), any());
+        verify(friendshipRepository, never()).delete(any(Friendship.class));
+    }
+
+    @Test
+    public void testDeleteFriendshipByEmailReceiverNotFound() {
+        String senderEmail = "sender@dal.ca";
+        String receiverEmail = "receiver@dal.ca";
+        UserProfile sender = new UserProfile();
+        sender.setEmail(senderEmail);
+
+        when(userProfileRepository.findUserProfileByEmail(senderEmail)).thenReturn(Optional.of(sender));
+        when(userProfileRepository.findUserProfileByEmail(receiverEmail)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail);
+        });
+
+        assertEquals("Receiver not found", exception.getMessage(), "Expected exception message not found");
+        verify(userProfileRepository, times(1)).findUserProfileByEmail(senderEmail);
+        verify(userProfileRepository, times(1)).findUserProfileByEmail(receiverEmail);
+        verify(friendshipRepository, never()).findBySenderAndReceiverOrReceiverAndSender(any(), any(), any(), any());
+        verify(friendshipRepository, never()).delete(any(Friendship.class));
+    }
+
+    @Test
+    public void testDeleteFriendshipByIdSuccess() {
         int friendshipId = 1;
         Friendship friendship = new Friendship();
         friendship.setFriendshipId(friendshipId);
@@ -131,7 +171,7 @@ public class FriendshipServiceImplTest {
     }
 
     @Test
-    public void testDeleteFriendshipById_NotFound() {
+    public void testDeleteFriendshipByIdNotFound() {
         int friendshipId = 1;
 
         when(friendshipRepository.findById(friendshipId)).thenReturn(Optional.empty());
