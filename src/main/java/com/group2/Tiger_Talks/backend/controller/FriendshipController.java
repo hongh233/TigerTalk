@@ -19,8 +19,8 @@ public class FriendshipController {
     private FriendshipService friendshipService;
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
-    @GetMapping("/getAll")
-    public ResponseEntity<List<FriendshipDTO>> getAllFriends(@RequestParam String email) {
+    @GetMapping("/{email}")
+    public ResponseEntity<List<FriendshipDTO>> getAllFriends(@PathVariable String email) {
         return ResponseEntity.ok(friendshipService.getAllFriends(email));
     }
 
