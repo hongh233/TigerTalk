@@ -43,13 +43,11 @@ public class UserProfileController {
      * @return ResponseEntity with a list of all user profiles or an error message
      */
     @GetMapping("/getAllProfiles")
-    public ResponseEntity<?> getAllUserProfiles() {
-        try {
-            List<UserProfile> userProfiles = userProfileService.getAllUserProfiles();
-            return ResponseEntity.ok(userProfiles);
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body("Unable to retrieve user profiles: " + e.getMessage());
-        }
+    public List<UserProfileDTO> getAllUserProfiles() {
+            return userProfileService.getAllUserProfiles()
+                    .stream()
+                    .map(UserProfileDTO::new)
+                    .toList();
     }
 
     /**

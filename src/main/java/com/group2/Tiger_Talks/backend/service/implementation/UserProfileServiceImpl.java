@@ -54,7 +54,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public Optional<String> updateUserProfile(UserProfileDTO userProfileDTO) {
-        return UserProfile.verifyBasics(userProfileDTO, userProfileRepository, false)
+        return UserProfileDTO.verifyBasics(userProfileDTO, userProfileRepository, false)
                 .or(() -> userProfileRepository.findUserProfileByEmail(userProfileDTO.email())
                         .map(userProfile -> {
                             userProfile.updateProfile(userProfileDTO);
