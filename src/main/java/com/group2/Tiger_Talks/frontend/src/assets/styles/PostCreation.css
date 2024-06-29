@@ -9,11 +9,22 @@
     margin-bottom: 20px;
 }
 
+.post-user-details h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
 .profile-picture {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     background-color: #ccc;
+    margin-bottom: 10px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
 }
 

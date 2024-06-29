@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface FriendshipService {
 
+    List<UserProfileFriendshipDTO> getAllFriendsDTO(String email);
+
     /**
      * Retrieves all users friends
      *

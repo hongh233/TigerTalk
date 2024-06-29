@@ -82,8 +82,13 @@ const PostCreation = ({addPost}) => {
     return (
         <>
             {user && <div className="post-creation">
-                <div className="profile-picture">
-                    {user.profilePictureUrl && (<img src={user.profilePictureUrl} alt="avatar"/>)}
+                <div className="post-header">
+                    <div className="profile-picture">
+                        {user.profilePictureUrl && (<img src={user.profilePictureUrl} alt="avatar"/>)}
+                    </div>
+                    <div className="post-user-details">
+                        {user && <h2>{user.userName}</h2>}
+                    </div>
                 </div>
                 <textarea
                     placeholder="What's Happening?"

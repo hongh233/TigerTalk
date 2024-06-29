@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
-import com.group2.Tiger_Talks.backend.model.Utils.ProfileAccessLevel;
-import com.group2.Tiger_Talks.backend.model.Utils.Role;
-import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
-import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
+import com.group2.Tiger_Talks.backend.model.Utils.*;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
@@ -31,10 +31,12 @@ public class UserProfile {
     @JsonManagedReference(value = "receiver-friendship")
     private List<Friendship> receiverFriendshipList = new LinkedList<>();
 
+    // User Sending req to others
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "sender-friendship-request")
     private List<FriendshipRequest> senderFriendshipRequestList = new LinkedList<>();
 
+    // User Receiving req from others
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "receiver-friendship-request")
     private List<FriendshipRequest> receiverFriendshipRequestList = new LinkedList<>();
@@ -53,7 +55,7 @@ public class UserProfile {
     private String[] securityQuestions;
     private String[] securityQuestionsAnswer;
     private String role = Role.DEFAULT;        // default / student / instructor / employee
-    private boolean isOnline = false;
+    private String onlineStatus = OnlineStatus.AWAY;
 
     @Column(unique = true)
     private String userName;
@@ -198,12 +200,12 @@ public class UserProfile {
         this.role = role;
     }
 
-    public boolean isOnline() {
-        return isOnline;
+    public String getOnlineStatus() {
+        return onlineStatus;
     }
 
-    public void setOnline(boolean online) {
-        isOnline = online;
+    public void setOnlineStatus(String onlineStatus) {
+        this.onlineStatus = onlineStatus;
     }
 
     public String getUserName() {
@@ -360,13 +362,22 @@ public class UserProfile {
     }
 
     public List<UserProfile> getAllFriends() {
-        List<UserProfile> friends = new LinkedList<>();
-        for (Friendship friendship : senderFriendshipList) {
-            friends.add(friendship.getReceiver());
-        }
-        for (Friendship friendship : receiverFriendshipList) {
-            friends.add(friendship.getSender());
-        }
-        return friends;
+        return Stream.concat(
+                senderFriendshipList.stream().map(Friendship::getReceiver),
+                receiverFriendshipList.stream().map(Friendship::getSender)
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserProfile other = (UserProfile) o;
+        return this.email.equals(other.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(email);
     }
 }
