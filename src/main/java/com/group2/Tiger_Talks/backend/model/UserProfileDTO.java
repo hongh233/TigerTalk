@@ -12,7 +12,7 @@ public record UserProfileDTO(
         int age,
         String email,
         String status,
-        boolean isValidated,
+        boolean validated,
         String role,
         String onlineStatus,
         String userName,
@@ -67,5 +67,26 @@ public record UserProfileDTO(
             return Optional.of("Email has already existed!");
         }
         return Optional.empty();
+    }
+
+    @Override
+    public String toString() {
+        return "UserProfileDTO{" +
+                "\n age=" + age +
+                ",\n email='" + email + '\'' +
+                ",\n status='" + status + '\'' +
+                ",\n validated=" + validated +
+                ",\n role='" + role + '\'' +
+                ",\n onlineStatus='" + onlineStatus + '\'' +
+                ",\n userName='" + userName + '\'' +
+                ",\n biography='" + biography + '\'' +
+                ",\n profileAccessLevel='" + profileAccessLevel + '\'' +
+                ",\n gender='" + gender + '\'' +
+                ",\n firstName='" + firstName + '\'' +
+                ",\n lastName='" + lastName + '\'' +
+                ",\n profilePictureUrl='" + profilePictureUrl + '\'' +
+                ",\n userLevel='" + userLevel + '\'' +
+                ",\n friends=" + friends +
+                "\n}";
     }
 }

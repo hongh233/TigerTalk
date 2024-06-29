@@ -56,7 +56,7 @@ public class UserProfile implements UserProfileData {
     private String[] securityQuestions;
     private String[] securityQuestionsAnswer;
     private String role = Role.DEFAULT;        // default / student / instructor / employee
-    private String onlineStatus = OnlineStatus.AWAY;
+    private String onlineStatus = OnlineStatus.OFFLINE;
 
     @Column(unique = true)
     private String userName;
@@ -141,7 +141,7 @@ public class UserProfile implements UserProfileData {
         this.age = userProfileDTO.age();
         this.email = userProfileDTO.email();
         this.status = userProfileDTO.status();
-        this.isValidated = userProfileDTO.isValidated();
+        this.isValidated = userProfileDTO.validated();
         this.role = userProfileDTO.role();
         this.onlineStatus = userProfileDTO.onlineStatus();
         this.userName = userProfileDTO.userName();
@@ -150,6 +150,7 @@ public class UserProfile implements UserProfileData {
         this.gender = userProfileDTO.gender();
         this.firstName = userProfileDTO.firstName();
         this.lastName = userProfileDTO.lastName();
+        this.userLevel = userProfileDTO.userLevel();
         this.profilePictureUrl = userProfileDTO.profilePictureUrl();
     }
 

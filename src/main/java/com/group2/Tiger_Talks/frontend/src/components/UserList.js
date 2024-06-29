@@ -1,76 +1,77 @@
-import React from "react";
-import axios from "axios";
+import React from 'react';
+import axios from 'axios';
 import "../assets/styles/UserList.css";
 
-const UserList = ({ selectedUsers, setSelectedUsers, data, setData }) => {
-	const handleAdminChange = async (email) => {
-		try {
-			const userToUpdate = data.find((user) => user.email === email);
-			const updatedUser = {
-				...userToUpdate,
-				userLevel: userToUpdate.userLevel === "admin" ? "user" : "admin",
-			};
-			await axios.put(`http://localhost:8085/api/user/update`, updatedUser);
+const UserList = ({selectedUsers, setSelectedUsers, data, setData}) => {
+    const handleAdminChange = async (email) => {
+        try {
+            const userToUpdate = data.find(user => user.email === email);
+            const updatedUser = {...userToUpdate, userLevel: userToUpdate.userLevel === 'admin' ? 'user' : 'admin'};
+            await axios.put(`http://localhost:8085/api/user/update`, updatedUser);
 
-			setData((prevData) =>
-				prevData.map((user) => (user.email === email ? updatedUser : user))
-			);
+            setData(prevData =>
+                prevData.map(user =>
+                    user.email === email ? updatedUser : user
+                )
+            );
 
-			console.log(`Admin status changed for user ${email}`);
-		} catch (error) {
-			console.error("Error updating admin status:", error);
-		}
-	};
+            console.log(`Admin status changed for user ${email}`);
+        } catch (error) {
+            console.error('Error updating admin status:', error);
+        }
+    };
 
-	const handleSelectUser = (email) => {
-		setSelectedUsers((prevSelected) =>
-			prevSelected.includes(email)
-				? prevSelected.filter((userEmail) => userEmail !== email)
-				: [...prevSelected, email]
-		);
-	};
-	return (
-		<div className="table-container">
-			<table>
-				<thead>
-					<tr>
-						<th>Select</th>
-						<th>Email</th>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Role</th>
-						<th>Admin</th>
-						<th>Validation</th>
-					</tr>
-				</thead>
-				<tbody>
-					{data.map((user) => (
-						<tr key={user.email}>
-							<td>
-								<input
-									type="checkbox"
-									checked={selectedUsers.includes(user.email)}
-									onChange={() => handleSelectUser(user.email)}
-								/>
-							</td>
-							<td>{user.email}</td>
-							<td>{user.firstName}</td>
-							<td>{user.lastName}</td>
-							<td>{user.role}</td>
-							<td>
-								<input
-									type="checkbox"
-									checked={user.userLevel === "admin"}
-									onChange={() => handleAdminChange(user.email)}
-								/>
-							</td>
-							<td>{user.validated ? "Enabled" : "Disabled"}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
-	);
+    const handleSelectUser = (email) => {
+        setSelectedUsers(prevSelected =>
+            prevSelected.includes(email)
+                ? prevSelected.filter(userEmail => userEmail !== email)
+                : [...prevSelected, email]
+        );
+    };
+    return (
+        <div className="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Email</th>
+                    <th>User Name</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Role</th>
+                    <th>Admin</th>
+                    <th>Validation</th>
+                </tr>
+                </thead>
+                <tbody>
+                {data.map((user) => (
+                    <tr key={user.email}>
+                        <td>
+                            <input
+                                type="checkbox"
+                                checked={selectedUsers.includes(user.email)}
+                                onChange={() => handleSelectUser(user.email)}
+                            />
+                        </td>
+                        <td>{user.email}</td>
+                        <td>{user.userName}</td>
+                        <td>{user.firstName}</td>
+                        <td>{user.lastName}</td>
+                        <td>{user.role}</td>
+                        <td>
+                            <input
+                                type="checkbox"
+                                checked={user.userLevel === "admin"}
+                                onChange={() => handleAdminChange(user.email)}
+                            />
+                        </td>
+                        <td>{user.validated ? 'Enabled' : 'Disabled'}</td>
+                    </tr>
+                ))}
+                </tbody>
+            </table>
+        </div>
+    );
 };
 
 export default UserList;

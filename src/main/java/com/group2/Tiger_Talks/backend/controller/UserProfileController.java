@@ -28,12 +28,13 @@ public class UserProfileController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody UserProfileDTO userProfile) {
-        Optional<String> err = userProfileService.updateUserProfile(userProfile);
+    public ResponseEntity<?> updateUser(@RequestBody UserProfileDTO userProfileDTO) {
+        System.out.println(userProfileDTO);
+        Optional<String> err = userProfileService.updateUserProfile(userProfileDTO);
         if (err.isPresent()) {
             return ResponseEntity.status(400).body(err.get());
         } else {
-            return ResponseEntity.ok(userProfile);
+            return ResponseEntity.ok(userProfileDTO);
         }
     }
 

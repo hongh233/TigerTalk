@@ -31,9 +31,10 @@ public final class Utils {
     }
 
     public static final class OnlineStatus {
-        public static final String AVAILABLE = "available"; // Offline
+        public static final String AVAILABLE = "available"; // Online
         public static final String BUSY = "busy";
-        public static final String AWAY = "away";           // Offline
+        public static final String AWAY = "away";
+        public static final String OFFLINE = "offline";     // Offline
     }
 
     public static final class RegexCheck {
