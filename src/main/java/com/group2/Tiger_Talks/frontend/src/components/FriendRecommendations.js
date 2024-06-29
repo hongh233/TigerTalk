@@ -6,7 +6,7 @@ import '../assets/styles/FriendRecommendations.css';
 const FriendRecommendations = () => {
     const { user } = useUser();
     const [recommendations, setRecommendations] = React.useState([]);
-    const numOfFriends = 1;
+    const numOfFriends = 4;
 
     React.useEffect(() => {
         if (user) {
@@ -30,7 +30,7 @@ const FriendRecommendations = () => {
             <ul>
                 {recommendations.map((friend, index) => (
                     <li key={index}>
-                        {friend.userName} - {friend.email}
+                        <a href={`/profile/${friend.email}`}>{friend.userName} - {friend.email}</a>
                     </li>
                 ))}
             </ul>
