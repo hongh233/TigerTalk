@@ -53,7 +53,7 @@ public class FriendshipServiceImpl implements FriendshipService {
                 .orElseThrow(() -> new IllegalStateException("Receiver not found"));
 
         Optional<Friendship> friendship = friendshipRepository.
-                findBySenderAndReceiverOrReceiverAndSender(sender, receiver, receiver, sender);
+                findBySenderAndReceiver(sender, receiver);
         if (friendship.isPresent()) {
             friendshipRepository.delete(friendship.get());
             return Optional.empty();

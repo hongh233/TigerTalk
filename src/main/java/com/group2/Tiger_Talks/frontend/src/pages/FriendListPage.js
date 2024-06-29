@@ -22,6 +22,7 @@ const FriendListPage = () => {
 						`http://localhost:8085/friendships/DTO/${user.email}`
 					);
 					setFriends(response.data);
+					console.log(response.data);
 					// dispatch({ type: "SET_FRIEND", payload: response.data });
 				} catch (error) {
 					console.error("Failed to fetch friend requests", error);
