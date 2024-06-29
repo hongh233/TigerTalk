@@ -55,7 +55,7 @@ public class UserProfile {
     private String[] securityQuestions;
     private String[] securityQuestionsAnswer;
     private String role = Role.DEFAULT;        // default / student / instructor / employee
-    private String onlineStatus = OnlineStatus.AWAY;
+    private String onlineStatus = OnlineStatus.OFFLINE;
 
     @Column(unique = true)
     private String userName;

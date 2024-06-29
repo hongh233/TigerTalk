@@ -34,7 +34,7 @@ public class LogInServiceImpl implements LogInService {
     public void logOut(String email) {
         userRepository.findById(email)
                 .map(userProfile -> {
-                    userProfile.setOnlineStatus(OnlineStatus.AWAY);
+                    userProfile.setOnlineStatus(OnlineStatus.OFFLINE);
                     return userRepository.save(userProfile);
                 });
     }
