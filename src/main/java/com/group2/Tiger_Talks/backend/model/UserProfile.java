@@ -140,7 +140,7 @@ public class UserProfile {
         this.age = userProfileDTO.age();
         this.email = userProfileDTO.email();
         this.status = userProfileDTO.status();
-        this.isValidated = userProfileDTO.isValidated();
+        this.isValidated = userProfileDTO.validated();
         this.role = userProfileDTO.role();
         this.onlineStatus = userProfileDTO.onlineStatus();
         this.userName = userProfileDTO.userName();
@@ -149,6 +149,7 @@ public class UserProfile {
         this.gender = userProfileDTO.gender();
         this.firstName = userProfileDTO.firstName();
         this.lastName = userProfileDTO.lastName();
+        this.userLevel = userProfileDTO.userLevel();
         this.profilePictureUrl = userProfileDTO.profilePictureUrl();
     }
 
