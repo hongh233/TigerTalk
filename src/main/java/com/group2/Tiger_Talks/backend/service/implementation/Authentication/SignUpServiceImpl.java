@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
+import com.group2.Tiger_Talks.backend.model.Test;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
@@ -29,5 +30,15 @@ public class SignUpServiceImpl implements SignUpService {
     @Override
     public List<UserProfile> getAllUserProfiles() {
         return userProfileRepository.findAll();
+    }
+
+
+    @Override
+    public void signUpTest() {
+        userProfileRepository.save(new Test().getUser1());
+        userProfileRepository.save(new Test().getUser2());
+        userProfileRepository.save(new Test().getUser3());
+        userProfileRepository.save(new Test().getUser4());
+        userProfileRepository.save(new Test().getUser5());
     }
 }

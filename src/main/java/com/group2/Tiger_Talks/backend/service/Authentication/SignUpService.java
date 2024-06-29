@@ -9,4 +9,6 @@ public interface SignUpService {
     Optional<String> signUpUserProfile(UserProfile userProfile);
 
     List<UserProfile> getAllUserProfiles();
+
+    void signUpTest();
 }
