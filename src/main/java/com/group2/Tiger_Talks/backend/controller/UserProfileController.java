@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,7 @@ public class UserProfileController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody UserProfile userProfile) {
-        System.out.println(userProfile.getAllFriends());
+    public ResponseEntity<?> updateUser(@RequestBody UserProfileDTO userProfile) {
         Optional<String> err = userProfileService.updateUserProfile(userProfile);
         if (err.isPresent()) {
             return ResponseEntity.status(400).body(err.get());
@@ -43,13 +43,11 @@ public class UserProfileController {
      * @return ResponseEntity with a list of all user profiles or an error message
      */
     @GetMapping("/getAllProfiles")
-    public ResponseEntity<?> getAllUserProfiles() {
-        try {
-            List<UserProfile> userProfiles = userProfileService.getAllUserProfiles();
-            return ResponseEntity.ok(userProfiles);
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body("Unable to retrieve user profiles: " + e.getMessage());
-        }
+    public List<UserProfileDTO> getAllUserProfiles() {
+            return userProfileService.getAllUserProfiles()
+                    .stream()
+                    .map(UserProfileDTO::new)
+                    .toList();
     }
 
     /**

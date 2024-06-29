@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface FriendshipService {
 
-    List<UserProfileFriendshipDTO> getAllFriendsDTO(String email);
 
     /**
      * Retrieves all users friends
@@ -17,6 +16,9 @@ public interface FriendshipService {
      * @return List of friendships.
      */
     List<FriendshipDTO> getAllFriends(String email);
+
+
+    List<UserProfileFriendshipDTO> getAllFriendsDTO(String email);
 
     /**
      * Delete a friendship by email: sender <--> receiver.

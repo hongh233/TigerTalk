@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.model.Utils.OnlineStatus;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.LogInService;
@@ -16,14 +17,16 @@ public class LogInServiceImpl implements LogInService {
     private UserProfileRepository userRepository;
 
     @Override
-    public Optional<UserProfile> logInUser(String email, String password) {
+    public Optional<UserProfileDTO> logInUser(String email, String password) {
         return userRepository.findById(email)
                 .map(userProfile -> {
                     if (userProfile.getPassword().equals(password)) {
                         userProfile.setOnlineStatus(OnlineStatus.AVAILABLE);
                         userRepository.save(userProfile);
-                        return Optional.of(userProfile);
-                    } else return Optional.<UserProfile>empty();
+                        return Optional.of(new UserProfileDTO(userProfile));
+                    } else {
+                        return Optional.<UserProfileDTO>empty();
+                    }
                 }).orElseGet(Optional::empty);
     }
 

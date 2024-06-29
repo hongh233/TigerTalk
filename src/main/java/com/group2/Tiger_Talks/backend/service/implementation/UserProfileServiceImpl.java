@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,16 @@ public class UserProfileServiceImpl implements UserProfileService {
                     userProfileRepository.save(userProfile);
                     return Optional.empty();
                 });
+    }
+
+    @Override
+    public Optional<String> updateUserProfile(UserProfileDTO userProfileDTO) {
+        return UserProfileDTO.verifyBasics(userProfileDTO, userProfileRepository, false)
+                .or(() -> userProfileRepository.findUserProfileByEmail(userProfileDTO.email())
+                        .map(userProfile -> {
+                            userProfile.updateProfile(userProfileDTO);
+                            userProfileRepository.save(userProfile);
+                            return Optional.<String>empty();
+                        }).orElseGet(() -> Optional.of("Could not find user profile")));
     }
 }

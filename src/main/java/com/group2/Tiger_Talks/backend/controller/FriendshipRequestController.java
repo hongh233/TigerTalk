@@ -33,7 +33,7 @@ public class FriendshipRequestController {
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("/accept")
-    public ResponseEntity<String> acceptFriendRequest(@RequestParam Integer friendshipRequestId) {
+    public ResponseEntity<String> acceptFriendRequest(@RequestParam("id") Integer friendshipRequestId) {
         return friendshipRequestService.acceptFriendshipRequest(friendshipRequestId)
                 .map(err -> ResponseEntity.status(404).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Friend request has been accepted."));
@@ -41,7 +41,7 @@ public class FriendshipRequestController {
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @PostMapping("/reject")
-    public ResponseEntity<String> rejectFriendRequest(@RequestParam Integer friendshipRequestId) {
+    public ResponseEntity<String> rejectFriendRequest(@RequestParam("id") Integer friendshipRequestId) {
         return friendshipRequestService.rejectFriendshipRequest(friendshipRequestId)
                 .map(err -> ResponseEntity.status(404).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Friend request has been rejected."));

@@ -136,6 +136,23 @@ public class UserProfile {
         return Optional.empty();
     }
 
+    public void updateProfile(UserProfileDTO userProfileDTO) {
+        this.age = userProfileDTO.age();
+        this.email = userProfileDTO.email();
+        this.status = userProfileDTO.status();
+        this.isValidated = userProfileDTO.isValidated();
+        this.role = userProfileDTO.role();
+        this.onlineStatus = userProfileDTO.onlineStatus();
+        this.userName = userProfileDTO.userName();
+        this.biography = userProfileDTO.biography();
+        this.profileAccessLevel = userProfileDTO.profileAccessLevel();
+        this.gender = userProfileDTO.gender();
+        this.firstName = userProfileDTO.firstName();
+        this.lastName = userProfileDTO.lastName();
+        this.profilePictureUrl = userProfileDTO.profilePictureUrl();
+    }
+
+
     public String getEmail() {
         return email;
     }
