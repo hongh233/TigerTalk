@@ -200,7 +200,7 @@ public class UserProfile {
         this.role = role;
     }
 
-    public String isOnlineStatus() {
+    public String getOnlineStatus() {
         return onlineStatus;
     }
 

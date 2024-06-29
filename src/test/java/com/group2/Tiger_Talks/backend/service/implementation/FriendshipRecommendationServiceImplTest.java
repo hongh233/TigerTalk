@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
-import com.group2.Tiger_Talks.backend.model.UserProfileDTO;
+import com.group2.Tiger_Talks.backend.model.UserProfilePostDTO;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,7 +61,7 @@ public class FriendshipRecommendationServiceImplTest {
         when(userProfileRepository.findById("test@dal.ca")).thenReturn(Optional.of(currentUser));
         when(userProfileRepository.findAll()).thenReturn(allUsers);
         
-        List<UserProfileDTO> recommendedFriends = recommendationService.recommendFriends("test@dal.ca", 2);
+        List<UserProfilePostDTO> recommendedFriends = recommendationService.recommendFriends("test@dal.ca", 2);
         
         assertEquals(2, recommendedFriends.size(), "The number of recommended friends should be 2");
     }
@@ -70,7 +70,7 @@ public class FriendshipRecommendationServiceImplTest {
     public void testRecommendFriendsReturnsEmptyList() {
         when(userProfileRepository.findById("notfound@dal.ca")).thenReturn(Optional.empty());
         
-        List<UserProfileDTO> recommendedFriends = recommendationService.recommendFriends("notfound@dal.ca", 2);
+        List<UserProfilePostDTO> recommendedFriends = recommendationService.recommendFriends("notfound@dal.ca", 2);
 
         assertEquals(0, recommendedFriends.size(), "The number of recommended friends should be 0");
     }
