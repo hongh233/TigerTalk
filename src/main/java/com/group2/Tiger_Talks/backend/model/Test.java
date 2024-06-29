@@ -2,7 +2,9 @@ package com.group2.Tiger_Talks.backend.model;
 
 public final class Test {
 
-    public Test() {}
+    public Test() {
+    }
+
     private final String[] securityQuestions = {
             "What was your favourite book as a child?",
             "In what city were you born?",

@@ -65,6 +65,7 @@ public class FriendshipRequestServiceImplTest {
         assertEquals(1, result.size());
         assertEquals(request1.getFriendshipRequestId(), result.get(0).getId());
     }
+
     @Test
     public void testGetAllFriendRequestsUserNotFound() {
         String userEmail = "notfound@dal.ca";

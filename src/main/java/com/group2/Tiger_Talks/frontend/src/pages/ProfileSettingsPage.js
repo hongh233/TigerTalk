@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import Header from "../components/Header";
 import ProfileNavBar from "../components/ProfileNavBar";
 import "../assets/styles/ProfileSettingsPage.css";
-import {useUser} from "../context/UserContext";
 import axios from "axios";
+import {setUser} from "../redux/actions/userActions"; // Assuming you have this action
 
 const ProfileSettingsPage = () => {
-    const {user, setUser} = useUser();
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user); // Access user from Redux store
+
     const [form, setForm] = useState({
         id: "",
         email: "",
@@ -85,7 +88,7 @@ const ProfileSettingsPage = () => {
             );
             alert("Profile updated successfully");
             console.log(response.data);
-            setUser(response.data);
+            dispatch(setUser(response.data)); // Dispatch the updated user to Redux store
         } catch (error) {
             if (error.response && error.response.data) {
                 setErrors(error.response.data);

@@ -1,71 +1,71 @@
 import React from "react";
-import { FaHammer, FaHome, FaSignOutAlt, FaUserShield } from "react-icons/fa";
+import {FaHammer, FaHome, FaSignOutAlt, FaUserShield} from "react-icons/fa";
 import "../assets/styles/ProfileNavBar.css";
 import GroupTab from "./GroupTab";
 
-const ProfileNavBar = ({ user }) => {
-	const handleLogOut = () => {
-		localStorage.removeItem("user");
-	};
-	return (
-		<nav className="profile-navbar">
-			<div className="profile-section">
-				<div className="profile-header">
-					<div className="profile-user-picture">
-						{user.profilePictureUrl && (
-							<img src={user.profilePictureUrl} alt="Profile" />
-						)}
-					</div>
-					<div className="profile-info">
-						<h3>
-							{user.firstName} {user.lastName}
-						</h3>
-						<p>{user.email}</p>
-					</div>
-				</div>
-				<div className="profile-detail-container">
-					<div className="profile-detail-wrapper">
-						{user.biography && (
-							<div className="profile-detail">
-								<strong>Interest:</strong> <span>{user.biography}</span>
-							</div>
-						)}
-						{user.age && (
-							<div className="profile-detail">
-								<strong>Age:</strong> <span>{user.age}</span>
-							</div>
-						)}
-						{user.gender && (
-							<div className="profile-detail">
-								<strong>Gender:</strong> <span>{user.gender}</span>
-							</div>
-						)}
-					</div>
-				</div>
-			</div>
-			<div className="profile-links">
-				<a href="/main">
-					<FaHome />
-					<span className="text-hide">Home</span>
-				</a>
-				<a href="/profile/edit">
-					<FaHammer />
-					<span className="text-hide">Profile Setting</span>
-				</a>
+const ProfileNavBar = ({user}) => {
+    const handleLogOut = () => {
+        localStorage.removeItem("user");
+    };
+    return (
+        <nav className="profile-navbar">
+            <div className="profile-section">
+                <div className="profile-header">
+                    <div className="profile-user-picture">
+                        {user.profilePictureUrl && (
+                            <img src={user.profilePictureUrl} alt="Profile"/>
+                        )}
+                    </div>
+                    <div className="profile-info">
+                        <h3>
+                            {user.firstName} {user.lastName}
+                        </h3>
+                        <p>{user.email}</p>
+                    </div>
+                </div>
+                <div className="profile-detail-container">
+                    <div className="profile-detail-wrapper">
+                        {user.biography && (
+                            <div className="profile-detail">
+                                <strong>Interest:</strong> <span>{user.biography}</span>
+                            </div>
+                        )}
+                        {user.age && (
+                            <div className="profile-detail">
+                                <strong>Age:</strong> <span>{user.age}</span>
+                            </div>
+                        )}
+                        {user.gender && (
+                            <div className="profile-detail">
+                                <strong>Gender:</strong> <span>{user.gender}</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+            <div className="profile-links">
+                <a href="/main">
+                    <FaHome/>
+                    <span className="text-hide">Home</span>
+                </a>
+                <a href="/profile/edit">
+                    <FaHammer/>
+                    <span className="text-hide">Profile Setting</span>
+                </a>
 
-				<GroupTab />
-				{user.userLevel === "admin" && (
-					<a href="/admin">
-						<FaUserShield />
-						<span className="text-hide">Admin</span>
-					</a>
-				)}
-				<a href="/" onClick={handleLogOut}>
-					<FaSignOutAlt />
-					<span className="text-hide">Logout</span>
-				</a>
-			</div>
-		</nav>
-	);
+                <GroupTab/>
+                {user.userLevel === "admin" && (
+                    <a href="/admin">
+                        <FaUserShield/>
+                        <span className="text-hide">Admin</span>
+                    </a>
+                )}
+                <a href="/" onClick={handleLogOut}>
+                    <FaSignOutAlt/>
+                    <span className="text-hide">Logout</span>
+                </a>
+            </div>
+        </nav>
+    );
 };
 export default ProfileNavBar;

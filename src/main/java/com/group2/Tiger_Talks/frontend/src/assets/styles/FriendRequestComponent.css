@@ -1,74 +1,75 @@
 .friend-request {
-	display: flex;
-	flex-direction: column;
-	border: 1px solid #ccc;
-	border-radius: 8px;
-	padding: 16px;
-	margin: 10px 0;
-	background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
 }
 
 .friend-request-header {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .friend-picture {
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	background-color: #ddd;
-	margin-right: 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin-right: 15px;
 }
+
 .friend-picture img {
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	object-fit: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .friend-details a {
-	font-size: 18px;
-	font-weight: bold;
-	color: #333;
-	text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
 }
 
 .friend-details p {
-	margin: 0;
-	color: #666;
+    margin: 0;
+    color: #666;
 }
 
 .friend-request-actions {
-	display: flex;
-	justify-content: flex-end;
-	margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
 }
 
 .accept-button,
 .reject-button {
-	border: none;
-	border-radius: 5px;
-	padding: 10px 15px;
-	cursor: pointer;
-	font-size: 14px;
-	margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
 }
 
 .accept-button {
-	background-color: #4caf50;
-	color: white;
+    background-color: #4caf50;
+    color: white;
 }
 
 .reject-button {
-	background-color: #f44336;
-	color: white;
+    background-color: #f44336;
+    color: white;
 }
 
 .accept-button:hover {
-	background-color: #45a049;
+    background-color: #45a049;
 }
 
 .reject-button:hover {
-	background-color: #da190b;
+    background-color: #da190b;
 }
