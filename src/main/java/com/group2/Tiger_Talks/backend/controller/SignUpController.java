@@ -30,4 +30,12 @@ public class SignUpController {
     public List<UserProfile> getAllUserProfiles() {
         return signUpService.getAllUserProfiles();
     }
+
+
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    @PostMapping("/Test")
+    public void signUp() {
+        signUpService.signUpTest();
+    }
+
 }

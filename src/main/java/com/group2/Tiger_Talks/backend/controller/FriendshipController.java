@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller;
 
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipDTO;
+import com.group2.Tiger_Talks.backend.model.UserProfileFriendshipDTO;
 import com.group2.Tiger_Talks.backend.service.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,14 @@ public class FriendshipController {
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @GetMapping("/{email}")
-    public ResponseEntity<List<FriendshipDTO>> getAllFriends(@PathVariable String email) {
+    public ResponseEntity<List<FriendshipDTO>> getAllFriends(@PathVariable("email") String email) {
         return ResponseEntity.ok(friendshipService.getAllFriends(email));
+    }
+
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    @GetMapping("/DTO/{email}")
+    public ResponseEntity<List<UserProfileFriendshipDTO>> getAllFriendsDTO(@PathVariable("email") String email) {
+        return ResponseEntity.ok(friendshipService.getAllFriendsDTO(email));
     }
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
