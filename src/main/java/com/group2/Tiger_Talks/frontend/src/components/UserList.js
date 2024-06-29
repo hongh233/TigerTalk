@@ -35,6 +35,7 @@ const UserList = ({selectedUsers, setSelectedUsers, data, setData}) => {
                 <tr>
                     <th>Select</th>
                     <th>Email</th>
+                    <th>User Name</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Role</th>
@@ -53,6 +54,7 @@ const UserList = ({selectedUsers, setSelectedUsers, data, setData}) => {
                             />
                         </td>
                         <td>{user.email}</td>
+                        <td>{user.userName}</td>
                         <td>{user.firstName}</td>
                         <td>{user.lastName}</td>
                         <td>{user.role}</td>
