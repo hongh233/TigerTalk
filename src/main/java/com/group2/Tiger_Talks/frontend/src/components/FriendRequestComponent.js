@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "../assets/styles/FriendRequestComponent.css";
-
+import emitter from "./../context/EventEmitter";
 const FriendRequestComponent = ({ request }) => {
 	const handleAccept = async () => {
 		try {
@@ -9,6 +9,7 @@ const FriendRequestComponent = ({ request }) => {
 				`http://localhost:8085/friendshipRequests/accept?id=${request.friendshipRequestId}`
 			);
 			if (response.status === 200) {
+				emitter.emit("userUpdated");
 				window.alert("Friend request accepted!");
 			}
 		} catch (error) {
@@ -23,6 +24,7 @@ const FriendRequestComponent = ({ request }) => {
 				`http://localhost:8085/friendshipRequests/reject?id=${request.friendshipRequestId}`
 			);
 			if (response.status === 200) {
+				emitter.emit("userUpdated");
 				window.alert("Friend request rejected!");
 			}
 		} catch (error) {

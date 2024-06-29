@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import "../assets/styles/FriendListPage.css"; // New CSS file
 import FriendComponent from "../components/FriendComponent";
 import { UserProvider, useUser } from "../context/UserContext";
+import axios from "axios";
 
 const FriendListPage = () => {
 	const { user } = useUser();
@@ -12,6 +13,23 @@ const FriendListPage = () => {
 	const handleDeleteFriend = (id) => {
 		setFriends(friends.filter((friend) => friend.id !== id));
 	};
+	useEffect(() => {
+		const fetchFriends = async () => {
+			try {
+				const response = await axios.get(
+					`http://localhost:8085/friendships/DTO/${user.email}`
+				);
+
+				setFriends(response.data);
+			} catch (error) {
+				console.error("Failed to fetch friends", error);
+			}
+		};
+
+		if (user && user.email) {
+			fetchFriends();
+		}
+	}, [user]);
 
 	return (
 		<div className="friend-list-page">

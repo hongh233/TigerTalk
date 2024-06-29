@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
 import "../assets/styles/FriendComponent.css";
-
-const FriendComponent = ({ friend, onDelete }) => {
+import emitter from "./../context/EventEmitter"; // Import the event emitter
+const FriendComponent = ({ friend }) => {
 	const handleDelete = async () => {
 		try {
 			const response = await axios.delete(
@@ -10,7 +10,6 @@ const FriendComponent = ({ friend, onDelete }) => {
 			);
 			if (response.status === 200) {
 				window.alert("Friend deleted successfully!");
-				onDelete(friend.id);
 			}
 		} catch (error) {
 			window.alert("Failed to delete friend. Please try again.");
