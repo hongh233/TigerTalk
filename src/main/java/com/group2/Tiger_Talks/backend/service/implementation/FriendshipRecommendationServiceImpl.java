@@ -25,7 +25,7 @@ public class FriendshipRecommendationServiceImpl implements FriendshipRecommenda
 
                     // Get all potential friends, except for current friends and the user themselves
                     List<UserProfile> potentialFriends = userProfileRepository.findAll().stream()
-                            .filter(userProfile -> !allMyFriends.contains(userProfile) || !userProfile.getEmail().equals(email))
+                            .filter(userProfile -> !allMyFriends.contains(userProfile) && !userProfile.getEmail().equals(email))
                             .collect(Collectors.toList());
 
                     // make it random
