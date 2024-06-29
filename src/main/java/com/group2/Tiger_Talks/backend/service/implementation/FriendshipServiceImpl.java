@@ -31,7 +31,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         return friendships.stream()
                 .map(friendship -> {
                     UserProfile friend = user.equals(friendship.getSender()) ? friendship.getReceiver() : friendship.getSender();
-                    return new UserProfileFriendshipDTO(friend, friendship);
+                    return new UserProfileFriendshipDTO(friend);
                 })
                 .collect(Collectors.toList());
     }
@@ -43,20 +43,6 @@ public class FriendshipServiceImpl implements FriendshipService {
         return friendshipRepository.findBySenderOrReceiver(user, user).stream()
                 .map(FriendshipDTO::new)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<UserProfileFriendshipDTO> getAllFriendsDTO(String email) {
-        UserProfile user = userProfileRepository.findUserProfileByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("User not found"));
-        List<Friendship> friendships = friendshipRepository.findBySenderOrReceiver(user, user);
-        return null;
-//        return friendships.stream()
-//                .map(friendship -> {
-//                    UserProfile friend = user.equals(friendship.getSender()) ? friendship.getReceiver() : friendship.getSender();
-//                    return new UserProfileFriendshipDTO(friend, friendship);
-//                })
-//                .collect(Collectors.toList());
     }
 
     @Override

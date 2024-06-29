@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.model.User.DTO.UserProfileData;
 import com.group2.Tiger_Talks.backend.model.Utils.*;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
@@ -19,7 +20,7 @@ import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserProfile {
+public class UserProfile implements UserProfileData {
     @Id
     private String email;
 
@@ -99,7 +100,7 @@ public class UserProfile {
 
     // Getters and setters
 
-    public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
+    public static Optional<String> verifyBasics(UserProfileData userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
         if (!NAME_NORM.matcher(userProfile.getFirstName()).matches()) {
             return Optional.of("First name must contain no symbols");
         }
@@ -135,6 +136,23 @@ public class UserProfile {
         }
         return Optional.empty();
     }
+
+    public void updateProfile(UserProfileDTO userProfileDTO) {
+        this.age = userProfileDTO.age();
+        this.email = userProfileDTO.email();
+        this.status = userProfileDTO.status();
+        this.isValidated = userProfileDTO.isValidated();
+        this.role = userProfileDTO.role();
+        this.onlineStatus = userProfileDTO.onlineStatus();
+        this.userName = userProfileDTO.userName();
+        this.biography = userProfileDTO.biography();
+        this.profileAccessLevel = userProfileDTO.profileAccessLevel();
+        this.gender = userProfileDTO.gender();
+        this.firstName = userProfileDTO.firstName();
+        this.lastName = userProfileDTO.lastName();
+        this.profilePictureUrl = userProfileDTO.profilePictureUrl();
+    }
+
 
     public String getEmail() {
         return email;

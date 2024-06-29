@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.model;
 
-import com.group2.Tiger_Talks.backend.service.implementation.FriendshipServiceImpl;
+import com.group2.Tiger_Talks.backend.model.User.DTO.UserProfileData;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public record UserProfileDTO(
         String lastName,
         String profilePictureUrl,
         List<UserProfileFriendshipDTO> friends
-) {
+) implements UserProfileData {
     public UserProfileDTO(UserProfile userProfile) {
         this(
                 userProfile.getAge(),
@@ -35,7 +35,37 @@ public record UserProfileDTO(
                 userProfile.getFirstName(),
                 userProfile.getLastName(),
                 userProfile.getProfilePictureUrl(),
-                new FriendshipServiceImpl().getAllFriendsDTO(userProfile.getEmail())
+                userProfile.getAllFriends().stream().map(UserProfileFriendshipDTO::new).toList()
         );
+    }
+
+    @Override
+    public String getFirstName() {
+        return firstName;
+    }
+
+    @Override
+    public String getLastName() {
+        return lastName;
+    }
+
+    @Override
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getUserName() {
+        return userName;
+    }
+
+    @Override
+    public String getPassword() {
+        return "DEMO-PASSWORD-NEVER_USE-11111111Yy+"; // Placeholder to headers to an interface
     }
 }

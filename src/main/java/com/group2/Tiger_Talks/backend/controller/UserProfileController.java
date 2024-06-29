@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,7 @@ public class UserProfileController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody UserProfile userProfile) {
-        System.out.println(userProfile.getAllFriends());
+    public ResponseEntity<?> updateUser(@RequestBody UserProfileDTO userProfile) {
         Optional<String> err = userProfileService.updateUserProfile(userProfile);
         if (err.isPresent()) {
             return ResponseEntity.status(400).body(err.get());

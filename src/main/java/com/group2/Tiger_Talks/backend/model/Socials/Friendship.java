@@ -41,7 +41,7 @@ public class Friendship {
     private LocalDate createTime = LocalDate.now();         // yyyy/mm/dd/00:00:00
 
     public Friendship(UserProfile sender,
-                        UserProfile receiver) {
+                      UserProfile receiver) {
         this.sender = sender;
         this.receiver = receiver;
         this.senderEmailTemp = sender.getEmail();
