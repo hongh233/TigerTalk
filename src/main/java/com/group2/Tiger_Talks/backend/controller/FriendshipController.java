@@ -26,13 +26,13 @@ public class FriendshipController {
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @GetMapping("/DTO/{email}")
-    public ResponseEntity<List<UserProfileFriendshipDTO>> getAllFriendsDTO(@PathVariable("email") String email) {
-        return ResponseEntity.ok(friendshipService.getAllFriendsDTO(email));
+    public List<UserProfileFriendshipDTO> getAllFriendsDTO(@PathVariable("email") String email) {
+        return friendshipService.getAllFriendsDTO(email);
     }
 
     @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
-    @DeleteMapping("/deleteByEmail")
-    public ResponseEntity<String> deleteFriendshipByEmail(@RequestParam String senderEmail, @RequestParam String receiverEmail) {
+    @DeleteMapping("/deleteByEmail/{senderEmail}/{receiverEmail}")
+    public ResponseEntity<String> deleteFriendshipByEmail(@PathVariable("senderEmail") String senderEmail, @PathVariable("receiverEmail") String receiverEmail) {
         return friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail)
                 .map(err -> ResponseEntity.status(404).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Friendship is successfully deleted."));
