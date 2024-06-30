@@ -8,24 +8,24 @@ public final class Test {
             "What is the name of the hospital where you were born?"};
     private final String[] securityQuestionAnswers = {"1", "1", "1"};
     private UserProfile user1 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "A",
-            "A@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
+            "Hong", "Huang", 12, "Male", "1",
+            "1@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
     private UserProfile user2 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "B",
-            "B@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
+            "Hong", "Huang", 12, "Male", "2",
+            "2@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
     private UserProfile user3 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "C",
-            "C@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
+            "Hong", "Huang", 12, "Male", "3",
+            "3@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
     public UserProfile user4 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "D",
-            "D@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
+            "Hong", "Huang", 12, "Male", "4",
+            "4@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
     public UserProfile user5 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "E",
-            "E@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
+            "Hong", "Huang", 12, "Male", "5",
+            "5@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
     public Test() {
     }
