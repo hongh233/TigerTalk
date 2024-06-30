@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ class UserProfileServiceImplTest {
     void getAllUserProfilesSuccess() {
         when(userProfileRepository.findAll()).thenReturn(List.of(userProfile));
 
-        List<UserProfile> userProfiles = userProfileService.getAllUserProfiles();
+        List<UserProfileDTO> userProfiles = userProfileService.getAllUserProfiles();
 
         assertFalse(userProfiles.isEmpty(), "The list of user profiles should not be empty.");
         assertEquals(1, userProfiles.size(), "The size of the list should be 1.");
@@ -54,10 +55,10 @@ class UserProfileServiceImplTest {
     void getUserProfileByEmailSuccess() {
         when(userProfileRepository.findUserProfileByEmail(anyString())).thenReturn(Optional.of(userProfile));
 
-        Optional<UserProfile> foundUserProfile = userProfileService.getUserProfileByEmail("test@dal.ca");
+        Optional<UserProfileDTO> foundUserProfile = userProfileService.getUserProfileByEmail("test@dal.ca");
 
         assertTrue(foundUserProfile.isPresent(), "The user profile should be found.");
-        assertEquals("test@dal.ca", foundUserProfile.get().getEmail(), "The email should match.");
+        assertEquals("test@dal.ca", foundUserProfile.get().email(), "The email should match.");
         verify(userProfileRepository, times(1)).findUserProfileByEmail("test@dal.ca");
     }
 
@@ -65,7 +66,7 @@ class UserProfileServiceImplTest {
     void getUserProfileByEmailNotFound() {
         when(userProfileRepository.findUserProfileByEmail(anyString())).thenReturn(Optional.empty());
 
-        Optional<UserProfile> foundUserProfile = userProfileService.getUserProfileByEmail("notfound@dal.ca");
+        Optional<UserProfileDTO> foundUserProfile = userProfileService.getUserProfileByEmail("notfound@dal.ca");
 
         assertFalse(foundUserProfile.isPresent(), "The user profile should not be found.");
         verify(userProfileRepository, times(1)).findUserProfileByEmail("notfound@dal.ca");

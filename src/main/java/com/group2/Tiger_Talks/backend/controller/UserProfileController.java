@@ -1,6 +1,5 @@
 package com.group2.Tiger_Talks.backend.controller;
 
-import com.group2.Tiger_Talks.backend.model.UserProfile;
 import com.group2.Tiger_Talks.backend.model.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +45,7 @@ public class UserProfileController {
      */
     @GetMapping("/getAllProfiles")
     public List<UserProfileDTO> getAllUserProfiles() {
-        return userProfileService.getAllUserProfiles()
-                .stream()
-                .map(UserProfileDTO::new)
-                .toList();
+        return userProfileService.getAllUserProfiles();
     }
 
     /**
@@ -60,7 +56,7 @@ public class UserProfileController {
      */
     @GetMapping("/getByEmail/{email}")
     public ResponseEntity<?> getUserProfileByEmail(@PathVariable String email) {
-        Optional<UserProfile> userProfile = userProfileService.getUserProfileByEmail(email);
+        Optional<UserProfileDTO> userProfile = userProfileService.getUserProfileByEmail(email);
         if (userProfile.isPresent()) {
             return ResponseEntity.ok(userProfile.get());
         } else {

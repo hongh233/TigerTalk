@@ -13,7 +13,7 @@ public interface UserProfileService {
      *
      * @return a list of all UserProfiles
      */
-    List<UserProfile> getAllUserProfiles();
+    List<UserProfileDTO> getAllUserProfiles();
 
     /**
      * Retrieves a UserProfile by email.
@@ -21,7 +21,7 @@ public interface UserProfileService {
      * @param email the email of the UserProfile
      * @return an Optional containing the UserProfile if found, or empty if not found
      */
-    Optional<UserProfile> getUserProfileByEmail(String email);
+    Optional<UserProfileDTO> getUserProfileByEmail(String email);
 
     /**
      * Deletes a UserProfile by email.

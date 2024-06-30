@@ -2,7 +2,9 @@ package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.Post;
 import com.group2.Tiger_Talks.backend.model.PostDTO;
+import com.group2.Tiger_Talks.backend.model.PostLike;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.repository.PostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.PostService;
@@ -17,8 +19,9 @@ import java.util.stream.Stream;
 public class PostServiceImpl implements PostService {
 
     @Autowired
+    PostLikeRepository postLikeRepository;
+    @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private UserProfileRepository userProfileRepository;
 
@@ -47,7 +50,7 @@ public class PostServiceImpl implements PostService {
                 )
                 .orElseGet(LinkedList::new);
     }
-    
+
     @Override
     public Optional<String> createPost(Post post) {
         if (userProfileRepository.existsById(post.getUserProfile().getEmail())) {
@@ -83,6 +86,8 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(postId)
                 .map(existingPost -> {
                     existingPost.setUserProfile(post.getUserProfile());
+                    existingPost.setComments(post.getComments());
+                    existingPost.setLikes(post.getLikes());
                     existingPost.setNumOfLike(post.getNumOfLike());
                     existingPost.setTimestamp(post.getTimestamp());
                     existingPost.setContent(post.getContent());
@@ -91,5 +96,29 @@ public class PostServiceImpl implements PostService {
                 })
                 .orElse(Optional.of("Post with ID " + postId + " was not found"));
     }
+
+    @Override
+    public Post likePost(Integer postId, String userEmail) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        UserProfile userProfile = userProfileRepository.findUserProfileByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<PostLike> existingLike = postLikeRepository.findByPostAndUserProfile(post, userProfile);
+
+        if (existingLike.isPresent()) {
+            postLikeRepository.delete(existingLike.get());
+            post.setNumOfLike(post.getNumOfLike() - 1);
+            post.getLikes().remove(existingLike.get());
+        } else {
+            PostLike newPostLike = new PostLike(post, userProfile);
+            postLikeRepository.save(newPostLike);
+            post.setNumOfLike(post.getNumOfLike() + 1);
+            post.getLikes().add(newPostLike);
+        }
+        return postRepository.save(post);
+    }
+
 
 }

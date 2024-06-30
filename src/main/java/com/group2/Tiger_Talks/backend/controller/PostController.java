@@ -2,7 +2,6 @@ package com.group2.Tiger_Talks.backend.controller;
 
 import com.group2.Tiger_Talks.backend.model.Post;
 import com.group2.Tiger_Talks.backend.model.PostDTO;
-import com.group2.Tiger_Talks.backend.model.UserProfile;
 import com.group2.Tiger_Talks.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -99,4 +98,22 @@ public class PostController {
                 .map(ResponseEntity.status(401)::body)
                 .orElseGet(() -> ResponseEntity.ok("Post updated successfully"));
     }
+
+    /**
+     * Handles HTTP PUT request to like a post.
+     *
+     * @param postId    The ID of the post to like.
+     * @param userEmail The email of the user performing the like action.
+     * @return ResponseEntity with the updated Post if successful, or error message if post or user is not found.
+     */
+    @PutMapping("/like/{postId}")
+    public ResponseEntity<?> likePost(@PathVariable Integer postId, @RequestParam String userEmail) {
+        try {
+            Post updatedPost = postService.likePost(postId, userEmail);
+            return ResponseEntity.ok(updatedPost.getNumOfLike());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
 }

@@ -2,7 +2,6 @@ package com.group2.Tiger_Talks.backend.service;
 
 import com.group2.Tiger_Talks.backend.model.Post;
 import com.group2.Tiger_Talks.backend.model.PostDTO;
-import com.group2.Tiger_Talks.backend.model.UserProfile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,5 +62,14 @@ public interface PostService {
      * or empty if the post was updated successfully
      */
     Optional<String> updatePostById(Integer postId, Post post);
+
+    /**
+     * Likes a post by a user.
+     *
+     * @param postId    Post ID to like
+     * @param userEmail User's email
+     * @return Updated Post entity after like operation
+     */
+    Post likePost(Integer postId, String userEmail);
 
 }

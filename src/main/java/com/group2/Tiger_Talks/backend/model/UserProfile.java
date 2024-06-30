@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.User.DTO.UserProfileData;
-import com.group2.Tiger_Talks.backend.model.Utils.*;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
 
@@ -16,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.group2.Tiger_Talks.backend.model.Utils.DEFAULT_PROFILE_PICTURE;
+import static com.group2.Tiger_Talks.backend.model.Utils.*;
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Entity
@@ -154,6 +153,9 @@ public class UserProfile implements UserProfileData {
         this.profilePictureUrl = userProfileDTO.profilePictureUrl();
     }
 
+    public UserProfileDTO toDTO() {
+        return new UserProfileDTO(this);
+    }
 
     public String getEmail() {
         return email;

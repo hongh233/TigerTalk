@@ -17,13 +17,17 @@ public class UserProfileServiceImpl implements UserProfileService {
     private UserProfileRepository userProfileRepository;
 
     @Override
-    public List<UserProfile> getAllUserProfiles() {
-        return userProfileRepository.findAll();
+    public List<UserProfileDTO> getAllUserProfiles() {
+        return userProfileRepository.findAll()
+                .stream()
+                .map(UserProfileDTO::new)
+                .toList();
     }
 
     @Override
-    public Optional<UserProfile> getUserProfileByEmail(String email) {
-        return userProfileRepository.findUserProfileByEmail(email);
+    public Optional<UserProfileDTO> getUserProfileByEmail(String email) {
+        return userProfileRepository.findUserProfileByEmail(email)
+                .map(UserProfileDTO::new);
     }
 
     @Override
