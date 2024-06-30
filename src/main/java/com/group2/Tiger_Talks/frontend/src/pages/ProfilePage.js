@@ -134,6 +134,7 @@ const ProfilePage = () => {
 							<Post
 								key={post.id}
 								post={{ ...post, userName: profileUser?.name }}
+								user={user}
 							/>
 						))
 					)}

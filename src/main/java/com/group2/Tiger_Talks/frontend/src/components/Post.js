@@ -6,13 +6,13 @@ import Comment from "./Comment";
 import "../assets/styles/Post.css";
 
 const Post = ({post,user}) => {
-    const [likes, setLikes] = useState(post.likes);
+    const [likes, setLikes] = useState(post.likes||post.numOfLike);
     const [comments, setComments] = useState(post.comments || []);
     const [newComment, setNewComment] = useState("");
     const navigate = useNavigate();
 
     const handleLike = () => {
-        const postId = post.id;
+        const postId = post.id||post.postId;
         const userEmail = user.email;
         if (!postId || !userEmail) {
             console.error('Post ID or User Email is undefined.');
