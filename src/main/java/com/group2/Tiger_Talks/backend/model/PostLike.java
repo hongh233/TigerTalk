@@ -3,7 +3,7 @@ package com.group2.Tiger_Talks.backend.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Like {
+public class PostLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,10 +17,10 @@ public class Like {
     @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
     private UserProfile userProfile;
 
-    public Like() {
+    public PostLike() {
     }
 
-    public Like(Post post, UserProfile userProfile) {
+    public PostLike(Post post, UserProfile userProfile) {
         this.post = post;
         this.userProfile = userProfile;
     }

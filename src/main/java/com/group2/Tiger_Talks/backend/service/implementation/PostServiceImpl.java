@@ -1,10 +1,10 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
-import com.group2.Tiger_Talks.backend.model.Like;
+import com.group2.Tiger_Talks.backend.model.PostLike;
 import com.group2.Tiger_Talks.backend.model.Post;
 import com.group2.Tiger_Talks.backend.model.PostDTO;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
-import com.group2.Tiger_Talks.backend.repository.LikeRepository;
+import com.group2.Tiger_Talks.backend.repository.PostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.PostService;
@@ -25,7 +25,7 @@ public class PostServiceImpl implements PostService {
     private UserProfileRepository userProfileRepository;
 
     @Autowired
-    LikeRepository likeRepository;
+    PostLikeRepository postLikeRepository;
 
     @Override
     public List<PostDTO> getPostsForUserAndFriends(String email) {
@@ -106,17 +106,17 @@ public class PostServiceImpl implements PostService {
         UserProfile userProfile = userProfileRepository.findUserProfileByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Optional<Like> existingLike = likeRepository.findByPostAndUserProfile(post, userProfile);
+        Optional<PostLike> existingLike = postLikeRepository.findByPostAndUserProfile(post, userProfile);
 
         if (existingLike.isPresent()) {
-            likeRepository.delete(existingLike.get());
+            postLikeRepository.delete(existingLike.get());
             post.setNumOfLike(post.getNumOfLike() - 1);
             post.getLikes().remove(existingLike.get());
         } else {
-            Like newLike = new Like(post, userProfile);
-            likeRepository.save(newLike);
+            PostLike newPostLike = new PostLike(post, userProfile);
+            postLikeRepository.save(newPostLike);
             post.setNumOfLike(post.getNumOfLike() + 1);
-            post.getLikes().add(newLike);
+            post.getLikes().add(newPostLike);
         }
         return postRepository.save(post);
     }

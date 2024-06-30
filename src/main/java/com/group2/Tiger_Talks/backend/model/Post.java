@@ -31,7 +31,7 @@ public class Post {
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes = new ArrayList<>();
+    private List<PostLike> postLikes = new ArrayList<>();
 
 
 
@@ -46,12 +46,12 @@ public class Post {
 
 
 
-    public List<Like> getLikes() {
-        return likes;
+    public List<PostLike> getLikes() {
+        return postLikes;
     }
 
-    public void setLikes(List<Like> likes) {
-        this.likes = likes;
+    public void setLikes(List<PostLike> postLikes) {
+        this.postLikes = postLikes;
     }
     public Integer getPostId() {
         return postId;

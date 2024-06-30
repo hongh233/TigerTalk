@@ -58,17 +58,18 @@ const MainPage = () => {
 			return;
 		}
 
-		const newPost = {
-			content: postContent,
-			userProfile: {
-				email: user.email,
-				UserName: user.userName,
-			},
-			UserName: user.userName,
-			timestamp: new Date().toISOString(),
-			likes: 0,
-			comments: [],
-		};
+        const newPost = {
+            content: postContent,
+            userProfile: {
+                email: user.email,
+                UserName: user.userName,
+            },
+            UserName: user.userName,
+            timestamp: new Date().toISOString(),
+            nunOfLikes: 0,
+            comments: [],
+            likes: [],
+        };
 
 		// Save the new post to the database
 		axios
