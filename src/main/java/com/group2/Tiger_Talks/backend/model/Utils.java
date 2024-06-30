@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 public final class Utils {
     public static final String CROSS_ORIGIN_HOST_NAME = "http://localhost:3000";
     public static final String COMPANY_EMAIL = "test@dal.ca";
+    public static final String DEFAULT_PROFILE_PICTURE = "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg";
 
     public static final class ProfileAccessLevel {
         public static final String PUBLIC = "public";          // Everyone can see your profile

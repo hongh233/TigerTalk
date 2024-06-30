@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.group2.Tiger_Talks.backend.model.Utils.DEFAULT_PROFILE_PICTURE;
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Entity
@@ -72,7 +73,7 @@ public class UserProfile implements UserProfileData {
     private String firstName;
     private String lastName;
 
-    private String profilePictureUrl;
+    private String profilePictureUrl = DEFAULT_PROFILE_PICTURE;
 
     public UserProfile(String firstName,
                        String lastName,
@@ -92,7 +93,6 @@ public class UserProfile implements UserProfileData {
         this.gender = gender;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.profilePictureUrl = profilePictureUrl;
     }
 
     public UserProfile() {

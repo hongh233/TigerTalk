@@ -8,27 +8,26 @@ public final class Test {
             "What is the name of the hospital where you were born?"};
     private final String[] securityQuestionAnswers = {"1", "1", "1"};
     private UserProfile user1 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "1",
+            "user", "number 1", 12, "Male", "user1",
             "1@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
     private UserProfile user2 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "2",
+            "user", "number 2", 12, "Male", "user2",
             "2@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
     private UserProfile user3 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "3",
+            "user", "number 3", 12, "Male", "user3",
             "3@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
     public UserProfile user4 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "4",
+            "user", "number 4", 12, "Male", "user4",
             "4@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
     public UserProfile user5 = new UserProfile(
-            "Hong", "Huang", 12, "Male", "5",
+            "user", "number 5", 12, "Male", "user5",
             "5@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
     );
-    public Test() {
-    }
+
 
     public UserProfile getUser1() {
         return user1;
