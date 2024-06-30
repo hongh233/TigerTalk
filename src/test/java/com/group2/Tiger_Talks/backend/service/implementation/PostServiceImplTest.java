@@ -1,8 +1,10 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.Post;
+import com.group2.Tiger_Talks.backend.model.Like;
 import com.group2.Tiger_Talks.backend.model.PostDTO;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.repository.LikeRepository;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,8 +34,12 @@ public class PostServiceImplTest {
     @Mock
     private UserProfileRepository userProfileRepository;
 
+    @Mock
+    private LikeRepository likeRepository;
+
     @InjectMocks
     private PostServiceImpl postServiceImpl;
+
 
     @BeforeEach
     public void setUp() {
@@ -173,6 +179,7 @@ public class PostServiceImplTest {
         verify(postRepository, never()).delete(post);
     }
 
+
     @Test
     public void testUpdatePostByIdPostExists() {
         Integer postId = 1;
@@ -198,4 +205,86 @@ public class PostServiceImplTest {
         assertEquals("Post with ID " + postId + " was not found", result.get(), "Expected specific error message");
         verify(postRepository, never()).save(post);
     }
+
+    @Test
+    public void testLikePostAlreadyLiked() {
+        Integer postId = 1;
+        String userEmail = "test@dal.ca";
+        Post post = mock(Post.class);
+        UserProfile userProfile = mock(UserProfile.class);
+        Like like = mock(Like.class);
+
+        when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.of(userProfile));
+        when(likeRepository.findByPostAndUserProfile(post, userProfile)).thenReturn(Optional.of(like));
+
+        Post updatedPost = new Post(userProfile, "Test content");
+        when(postRepository.save(post)).thenReturn(updatedPost);
+
+        Post result = postServiceImpl.likePost(postId, userEmail,"Expected the post to be updated and returned");
+
+        assertEquals(updatedPost, result);
+        verify(likeRepository, times(1)).delete(like);
+        verify(postRepository, times(1)).save(post);
+    }
+
+    @Test
+    public void testLikePostNotLikedYet() {
+        Integer postId = 1;
+        String userEmail = "test@dal.ca";
+        Post post = mock(Post.class);
+        UserProfile userProfile = mock(UserProfile.class);
+
+        when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.of(userProfile));
+        when(likeRepository.findByPostAndUserProfile(post, userProfile)).thenReturn(Optional.empty());
+
+        Post updatedPost = new Post(userProfile, "Test content");
+        when(postRepository.save(post)).thenReturn(updatedPost);
+
+        Post result = postServiceImpl.likePost(postId, userEmail,"Expected the post to be updated and returned");
+
+        assertEquals(updatedPost, result);
+        verify(likeRepository, times(1)).save(any(Like.class));
+        verify(postRepository, times(1)).save(post);
+    }
+
+    @Test
+    public void testLikePostPostNotFound() {
+        Integer postId = 1;
+        String userEmail = "test@dal.ca";
+
+        when(postRepository.findById(postId)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            postServiceImpl.likePost(postId, userEmail);
+        });
+
+        assertEquals("Post not found", exception.getMessage(),
+                "Expected 'Post not found' exception message");
+        verify(likeRepository, never()).save(any(Like.class));
+        verify(likeRepository, never()).delete(any(Like.class));
+        verify(postRepository, never()).save(any(Post.class));
+    }
+
+    @Test
+    public void testLikePostUserNotFound() {
+        Integer postId = 1;
+        String userEmail = "test@dal.ca";
+        Post post = mock(Post.class);
+
+        when(postRepository.findById(postId)).thenReturn(Optional.of(post));
+        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            postServiceImpl.likePost(postId, userEmail);
+        });
+
+        assertEquals("User not found", exception.getMessage(),
+                "Expected 'User not found' exception message");
+        verify(likeRepository, never()).save(any(Like.class));
+        verify(likeRepository, never()).delete(any(Like.class));
+        verify(postRepository, never()).save(any(Post.class));
+    }
+
 }
