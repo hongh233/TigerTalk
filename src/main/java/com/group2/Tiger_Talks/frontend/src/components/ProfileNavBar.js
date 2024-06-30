@@ -1,4 +1,6 @@
 import React from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { FaHammer, FaHome, FaSignOutAlt, FaUserShield } from "react-icons/fa";
 import "../assets/styles/ProfileNavBar.css";
 import GroupTab from "./GroupTab";
@@ -18,8 +20,19 @@ const getStatusColor = (status) => {
 };
 
 const ProfileNavBar = ({ user }) => {
-	const handleLogOut = () => {
-		localStorage.removeItem("user");
+	const navigate = useNavigate();
+	const handleLogOut = async () => {
+		try {
+			const response = await axios.post(
+				`http://localhost:8085/api/logIn/userLogOut?email=${user.email}`
+			);
+			if (response.status === 200) {
+				localStorage.removeItem("user");
+				navigate("/");
+			}
+		} catch (error) {
+			console.error("Failed to logout", error);
+		}
 	};
 
 	return (
