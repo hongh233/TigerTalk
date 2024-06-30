@@ -29,7 +29,11 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
-    private int numOfLike;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> likes = new ArrayList<>();
+
+
 
     public Post() {
     }
@@ -37,9 +41,17 @@ public class Post {
     public Post(UserProfile userProfile, String content) {
         this.userProfile = userProfile;
         this.content = content;
-        this.numOfLike = 0;
     }
 
+
+
+    public List<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Like> likes) {
+        this.likes = likes;
+    }
     public Integer getPostId() {
         return postId;
     }
@@ -71,15 +83,6 @@ public class Post {
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
-
-    public int getNumOfLike() {
-        return numOfLike;
-    }
-
-    public void setNumOfLike(int numOfLike) {
-        this.numOfLike = numOfLike;
-    }
-
     public List<Comment> getComments() {
         return comments;
     }

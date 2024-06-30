@@ -83,7 +83,8 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(postId)
                 .map(existingPost -> {
                     existingPost.setUserProfile(post.getUserProfile());
-                    existingPost.setNumOfLike(post.getNumOfLike());
+                    existingPost.setComments(post.getComments());
+                    existingPost.setLikes(post.getLikes());
                     existingPost.setTimestamp(post.getTimestamp());
                     existingPost.setContent(post.getContent());
                     postRepository.save(existingPost);
