@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.group2.Tiger_Talks.backend.model.Utils.DEFAULT_PROFILE_PICTURE;
+import static com.group2.Tiger_Talks.backend.model.Utils.*;
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Entity
@@ -154,6 +154,9 @@ public class UserProfile implements UserProfileData {
         this.profilePictureUrl = userProfileDTO.profilePictureUrl();
     }
 
+    public UserProfileDTO toDTO() {
+        return new UserProfileDTO(this);
+    }
 
     public String getEmail() {
         return email;

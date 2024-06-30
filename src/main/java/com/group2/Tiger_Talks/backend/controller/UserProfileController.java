@@ -46,10 +46,7 @@ public class UserProfileController {
      */
     @GetMapping("/getAllProfiles")
     public List<UserProfileDTO> getAllUserProfiles() {
-        return userProfileService.getAllUserProfiles()
-                .stream()
-                .map(UserProfileDTO::new)
-                .toList();
+        return userProfileService.getAllUserProfiles();
     }
 
     /**
@@ -60,7 +57,7 @@ public class UserProfileController {
      */
     @GetMapping("/getByEmail/{email}")
     public ResponseEntity<?> getUserProfileByEmail(@PathVariable String email) {
-        Optional<UserProfile> userProfile = userProfileService.getUserProfileByEmail(email);
+        Optional<UserProfileDTO> userProfile = userProfileService.getUserProfileByEmail(email);
         if (userProfile.isPresent()) {
             return ResponseEntity.ok(userProfile.get());
         } else {
