@@ -38,11 +38,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getPostsForUserAndFriends(UserProfile userProfile) {
-        return getPostsForUserAndFriends(userProfile.getEmail());
-    }
-
-    @Override
     public List<PostDTO> getPostsForUser(String email) {
         return userProfileRepository.findById(email)
                 .map(userProfile -> userProfile.getPostList().stream()
@@ -52,13 +47,7 @@ public class PostServiceImpl implements PostService {
                 )
                 .orElseGet(LinkedList::new);
     }
-
-
-    @Override
-    public List<PostDTO> getPostsForUser(UserProfile userProfile) {
-        return getPostsForUser(userProfile.getEmail());
-    }
-
+    
     @Override
     public Optional<String> createPost(Post post) {
         if (userProfileRepository.existsById(post.getUserProfile().getEmail())) {
@@ -91,16 +80,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<String> updatePostById(Integer postId, Post post) {
-        Optional<Post> postOptional = postRepository.findById(postId);
-        if (postOptional.isPresent()) {
-            Post existingPost = postOptional.get();
-            existingPost.setUserProfile(post.getUserProfile());
-            existingPost.setNumOfLike(post.getNumOfLike());
-            existingPost.setTimestamp(post.getTimestamp());
-            existingPost.setContent(post.getContent());
-            postRepository.save(existingPost);
-            return Optional.of("Post updated successfully");
-        } else
-            throw new RuntimeException("Post was not found");
+        return postRepository.findById(postId)
+                .map(existingPost -> {
+                    existingPost.setUserProfile(post.getUserProfile());
+                    existingPost.setNumOfLike(post.getNumOfLike());
+                    existingPost.setTimestamp(post.getTimestamp());
+                    existingPost.setContent(post.getContent());
+                    postRepository.save(existingPost);
+                    return Optional.<String>empty();
+                })
+                .orElse(Optional.of("Post with ID " + postId + " was not found"));
     }
+
 }

@@ -7,13 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserProfileService {
-    /**
-     * Creates a new UserProfile.
-     *
-     * @param userProfile the UserProfile to create
-     * @return the created UserProfile
-     */
-    UserProfile createUserProfile(UserProfile userProfile);
 
     /**
      * Retrieves all UserProfiles.

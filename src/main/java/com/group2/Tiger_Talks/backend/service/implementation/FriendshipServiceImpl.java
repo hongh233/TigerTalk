@@ -72,10 +72,11 @@ public class FriendshipServiceImpl implements FriendshipService {
             return Optional.of("Friendship id " + friendshipId + " does not exist!");
         }
     }
+
     public boolean areFriends(String email1, String email2) {
         return getAllFriendsDTO(email1)
                 .stream()
                 .anyMatch(userProfileFriendshipDTO -> userProfileFriendshipDTO.getEmail().equals(email2));
-}
+    }
 
 }

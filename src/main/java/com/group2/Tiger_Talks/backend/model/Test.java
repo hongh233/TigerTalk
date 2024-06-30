@@ -2,15 +2,11 @@ package com.group2.Tiger_Talks.backend.model;
 
 public final class Test {
 
-    public Test() {
-    }
-
     private final String[] securityQuestions = {
             "What was your favourite book as a child?",
             "In what city were you born?",
             "What is the name of the hospital where you were born?"};
     private final String[] securityQuestionAnswers = {"1", "1", "1"};
-
     private UserProfile user1 = new UserProfile(
             "user", "number 1", 12, "Male", "user1",
             "1@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions

@@ -16,12 +16,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Autowired
     private UserProfileRepository userProfileRepository;
 
-
-    @Override
-    public UserProfile createUserProfile(UserProfile userProfile) {
-        return userProfileRepository.save(userProfile);
-    }
-
     @Override
     public List<UserProfile> getAllUserProfiles() {
         return userProfileRepository.findAll();

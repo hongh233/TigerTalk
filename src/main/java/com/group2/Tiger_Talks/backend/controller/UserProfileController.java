@@ -12,6 +12,9 @@ import java.util.Optional;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
 
+/**
+ * REST controller for managing user profiles.
+ */
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
@@ -20,16 +23,14 @@ public class UserProfileController {
     @Autowired
     private UserProfileService userProfileService;
 
-
-    @PostMapping("/createProfile")
-    public ResponseEntity<UserProfile> createUserProfile(@RequestBody UserProfile userProfile) {
-        UserProfile createdUserProfile = userProfileService.createUserProfile(userProfile);
-        return ResponseEntity.ok(createdUserProfile);
-    }
-
+    /**
+     * Updates an existing user profile.
+     *
+     * @param userProfileDTO the user profile data transfer object containing updated information
+     * @return ResponseEntity with the updated user profile DTO or an error message
+     */
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody UserProfileDTO userProfileDTO) {
-        System.out.println(userProfileDTO);
         Optional<String> err = userProfileService.updateUserProfile(userProfileDTO);
         if (err.isPresent()) {
             return ResponseEntity.status(400).body(err.get());
@@ -41,7 +42,7 @@ public class UserProfileController {
     /**
      * Retrieves all user profiles.
      *
-     * @return ResponseEntity with a list of all user profiles or an error message
+     * @return List of all user profiles
      */
     @GetMapping("/getAllProfiles")
     public List<UserProfileDTO> getAllUserProfiles() {
@@ -78,13 +79,10 @@ public class UserProfileController {
         try {
             userProfileService.deleteUserProfileByEmail(email);
             return ResponseEntity.ok("User profile with email " + email + " deleted successfully.");
-        }
-        //Maybe make a custom exception for not finding the profile
-        catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(400).body("Failed to delete user profile with email " + email + ": "
-                    + e.getMessage());
+            return ResponseEntity.status(400).body("Failed to delete user profile with email " + email + ": " + e.getMessage());
         }
     }
 }

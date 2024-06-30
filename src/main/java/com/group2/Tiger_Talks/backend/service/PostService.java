@@ -20,14 +20,6 @@ public interface PostService {
     List<PostDTO> getPostsForUserAndFriends(String email);
 
     /**
-     * Retrieves posts for a user and their friends based on the user's profile.
-     *
-     * @param userProfile the profile of the user
-     * @return a list of posts sorted by timestamp in descending order
-     */
-    List<PostDTO> getPostsForUserAndFriends(UserProfile userProfile);
-
-    /**
      * Retrieves posts for a user's friends based on the user's email.
      *
      * @param email the email of the user
@@ -35,14 +27,6 @@ public interface PostService {
      */
 
     List<PostDTO> getPostsForUser(String email);
-
-    /**
-     * Retrieves posts for a user's friends based on the user's profile.
-     *
-     * @param userProfile the profile of the user
-     * @return a list of posts sorted by timestamp in descending order
-     */
-    List<PostDTO> getPostsForUser(UserProfile userProfile);
 
     /**
      * Creates a new post.
@@ -74,7 +58,7 @@ public interface PostService {
      * Updates a post by its ID.
      *
      * @param postId the ID of the post to be updated
-     * @param post   the updated post data
+     * @param post   the updated post-data
      * @return an optional containing an error message if the post does not exist,
      * or empty if the post was updated successfully
      */

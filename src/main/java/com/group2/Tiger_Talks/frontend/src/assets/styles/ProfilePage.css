@@ -1,43 +1,45 @@
 .profile-page {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #f0f2f5;
-	height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f2f5;
+    height: 100vh;
 }
 
 .profile-nav {
-	height: 100vh;
-	width: 15%;
+    height: 100vh;
+    width: 15%;
 }
 
 .profile-content {
-	margin-top: 4%;
-	display: flex;
-	width: 100vw;
-	height: 100vh;
-	overflow: auto;
+    margin-top: 4%;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
 }
 
 .profile-main-content {
-	height: 100vh;
-	width: 80%;
-	padding-left: 20px;
+    height: 100vh;
+    width: 80%;
+    padding-left: 20px;
 }
+
 .friend-button-friend {
 }
-@media (max-width: 768px) {
-	.profile-nav {
-		position: static;
-		width: 100%;
-		height: 150vh;
-		padding: 20px;
-	}
 
-	.profile-main-content {
-		margin-left: 0;
-		padding: 10px;
-		margin-top: 16%;
-		width: 55%;
-	}
+@media (max-width: 768px) {
+    .profile-nav {
+        position: static;
+        width: 100%;
+        height: 150vh;
+        padding: 20px;
+    }
+
+    .profile-main-content {
+        margin-left: 0;
+        padding: 10px;
+        margin-top: 16%;
+        width: 55%;
+    }
 }

@@ -28,12 +28,6 @@ public class SignUpServiceImpl implements SignUpService {
     }
 
     @Override
-    public List<UserProfile> getAllUserProfiles() {
-        return userProfileRepository.findAll();
-    }
-
-
-    @Override
     public void signUpTest() {
         userProfileRepository.save(new Test().getUser1());
         userProfileRepository.save(new Test().getUser2());

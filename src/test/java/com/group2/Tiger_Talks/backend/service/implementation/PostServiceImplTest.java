@@ -69,19 +69,6 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testGetPostsForUserAndFriendsUserProfile() {
-        String email = "test@example.com";
-        UserProfile userProfile = mock(UserProfile.class);
-        when(userProfile.getEmail()).thenReturn(email);
-
-        List<PostDTO> result = postServiceImpl.getPostsForUserAndFriends(userProfile);
-
-        assertNotNull(result, "Expected non-null list of PostDTOs");
-        verify(userProfile, times(1)).getEmail();
-        verify(userProfileRepository, times(1)).findById(email);
-    }
-
-    @Test
     public void testGetPostsForUserEmailFound() {
         String email = "test@dal.ca";
         UserProfile userProfile = mock(UserProfile.class);
@@ -194,9 +181,7 @@ public class PostServiceImplTest {
         when(postRepository.findById(postId)).thenReturn(Optional.of(existingPost));
 
         Optional<String> result = postServiceImpl.updatePostById(postId, post);
-
-        assertTrue(result.isPresent(), "Expected success message");
-        assertEquals("Post updated successfully", result.get(), "Expected specific success message");
+        assertTrue(result.isEmpty(), "Updating a post with this id should be successful");
         verify(postRepository, times(1)).save(existingPost);
     }
 
@@ -206,11 +191,11 @@ public class PostServiceImplTest {
         Post post = mock(Post.class);
         when(postRepository.findById(postId)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            postServiceImpl.updatePostById(postId, post);
-        });
+        Optional<String> result = postServiceImpl.updatePostById(postId, post);
 
-        assertEquals("Post was not found", exception.getMessage(), "Expected specific error message");
+        assertTrue(result.isPresent(), "You should not be able to find a post with this id");
+
+        assertEquals("Post with ID " + postId + " was not found", result.get(), "Expected specific error message");
         verify(postRepository, never()).save(post);
     }
 }

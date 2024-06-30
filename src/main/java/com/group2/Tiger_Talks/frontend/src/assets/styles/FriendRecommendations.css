@@ -1,66 +1,68 @@
 .friend-recommendations {
-	margin: 20px;
-	border: 1px solid #ccc;
-	border-radius: 20px;
-	background-color: #f9f9f9;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #f9f9f9;
 }
 
 .friend-recommendations h3 {
-	color: #333;
-	margin-bottom: 10px;
-	text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .friend-recommendations ul {
-	list-style-type: none;
-	padding: 0;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .friend-recommendations li {
-	margin: 10px;
-	width: 100px;
-	text-align: center;
+    margin: 10px;
+    width: 100px;
+    text-align: center;
 }
 
 .friend-link {
-	text-decoration: none;
-	color: inherit;
-	display: flex;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
 
-	flex-direction: column;
-	align-items: center;
-	transition: transform 0.2s, box-shadow 0.2s;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 .friend-link:hover .friend-name {
 	color: #17a2b8;
 }
 .recommend-friend-picture {
-	width: 60px;
-	height: 60px;
-	border-radius: 50%;
-	background-color: #ccc;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #ccc;
 }
 
 .friend-link:hover {
-	transform: translateY(-5px);
+    transform: translateY(-5px);
 }
 
 .friend-avatar {
-	width: 60px;
-	height: 60px;
-	border-radius: 50%;
-	margin-bottom: 5px;
-	object-fit: cover;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    object-fit: cover;
 }
+
 .friend-recommendations-header {
-	display: flex;
-	justify-content: center;
+    display: flex;
+    justify-content: center;
 }
+
 .friend-name {
-	padding-top: 10px;
-	font-size: 14px;
-	color: #333;
+    padding-top: 10px;
+    font-size: 14px;
+    color: #333;
 }
