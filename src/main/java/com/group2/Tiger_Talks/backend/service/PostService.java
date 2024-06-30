@@ -74,7 +74,7 @@ public interface PostService {
      * Updates a post by its ID.
      *
      * @param postId the ID of the post to be updated
-     * @param post   the updated post data
+     * @param post   the updated post-data
      * @return an optional containing an error message if the post does not exist,
      * or empty if the post was updated successfully
      */

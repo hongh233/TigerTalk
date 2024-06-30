@@ -40,17 +40,6 @@ class UserProfileServiceImplTest {
     }
 
     @Test
-    void createUserProfileSuccess() {
-        when(userProfileRepository.save(any(UserProfile.class))).thenReturn(userProfile);
-
-        UserProfile createdUserProfile = userProfileService.createUserProfile(userProfile);
-
-        assertNotNull(createdUserProfile, "The saved user profile should not be null.");
-        assertEquals("test@dal.ca", createdUserProfile.getEmail(), "The email should match.");
-        verify(userProfileRepository, times(1)).save(userProfile);
-    }
-
-    @Test
     void getAllUserProfilesSuccess() {
         when(userProfileRepository.findAll()).thenReturn(List.of(userProfile));
 

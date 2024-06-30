@@ -13,38 +13,67 @@ import java.util.Optional;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
 
+/**
+ * REST controller for managing posts.
+ */
 @RestController
 @RequestMapping("/posts")
+@CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
 public class PostController {
 
     @Autowired
     private PostService postService;
 
-    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    /**
+     * Retrieves posts for a user and their friends by email.
+     *
+     * @param email the email of the user
+     * @return ResponseEntity containing a list of PostDTOs
+     */
     @GetMapping("/getPostForUserAndFriends/{email}")
     public ResponseEntity<List<PostDTO>> getPostsForUserAndFriends(@PathVariable String email) {
         return ResponseEntity.ok(postService.getPostsForUserAndFriends(email));
     }
 
-    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    /**
+     * Retrieves posts for a user and their friends by UserProfile.
+     *
+     * @param userProfile the user profile
+     * @return ResponseEntity containing a list of PostDTOs
+     */
     @PostMapping("/getPostForUserAndFriends/userProfile")
     public ResponseEntity<List<PostDTO>> getPostsForUserAndFriendsByProfile(@RequestBody UserProfile userProfile) {
         return ResponseEntity.ok(postService.getPostsForUserAndFriends(userProfile));
     }
 
-    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    /**
+     * Retrieves posts for a user by email.
+     *
+     * @param email the email of the user
+     * @return ResponseEntity containing a list of PostDTOs
+     */
     @GetMapping("/getPostForUser/{email}")
     public ResponseEntity<List<PostDTO>> getPostsForUser(@PathVariable String email) {
         return ResponseEntity.ok(postService.getPostsForUser(email));
     }
 
-    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    /**
+     * Retrieves posts for a user by UserProfile.
+     *
+     * @param userProfile the user profile
+     * @return ResponseEntity containing a list of PostDTOs
+     */
     @PostMapping("/getPostForUser/userProfile")
     public ResponseEntity<List<PostDTO>> getPostsForUserByProfile(@RequestBody UserProfile userProfile) {
         return ResponseEntity.ok(postService.getPostsForUser(userProfile));
     }
 
-    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    /**
+     * Creates a new post.
+     *
+     * @param post the post to be created
+     * @return ResponseEntity with a success message or an error message if creation fails
+     */
     @PostMapping("/create")
     public ResponseEntity<String> createPost(@RequestBody Post post) {
         return postService.createPost(post)
@@ -52,7 +81,12 @@ public class PostController {
                 .orElseGet(() -> ResponseEntity.ok("Post created successfully."));
     }
 
-    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    /**
+     * Deletes a post by ID.
+     *
+     * @param postId the ID of the post to be deleted
+     * @return ResponseEntity with a success message or an error message if deletion fails
+     */
     @DeleteMapping("/delete/{postId}")
     public ResponseEntity<String> deletePostById(@PathVariable Integer postId) {
         return postService.deletePostById(postId)
@@ -60,7 +94,12 @@ public class PostController {
                 .orElseGet(() -> ResponseEntity.ok("Post deleted successfully."));
     }
 
-    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    /**
+     * Deletes a post.
+     *
+     * @param post the post to be deleted
+     * @return ResponseEntity with a success message or an error message if deletion fails
+     */
     @DeleteMapping("/delete")
     public ResponseEntity<String> deletePost(@RequestBody Post post) {
         return postService.deletePost(post)
@@ -68,12 +107,18 @@ public class PostController {
                 .orElseGet(() -> ResponseEntity.ok("Post deleted successfully."));
     }
 
-
-    @PutMapping("update/{postId}")
+    /**
+     * Updates a post by ID.
+     *
+     * @param postId the ID of the post to be updated
+     * @param post   the updated post-data
+     * @return ResponseEntity with a success message or an error message if update fails
+     */
+    @PutMapping("/update/{postId}")
     public ResponseEntity<String> updatePostById(@PathVariable Integer postId, @RequestBody Post post) {
         Optional<String> postServiceOptional = postService.updatePostById(postId, post);
-        return postServiceOptional.map(ResponseEntity::ok).orElseGet(()
-                -> ResponseEntity.status(401).body("Failed to update post"));
+        return postServiceOptional
+                .map(ResponseEntity.status(401)::body)
+                .orElseGet(() -> ResponseEntity.ok("Post updated successfully"));
     }
-
 }

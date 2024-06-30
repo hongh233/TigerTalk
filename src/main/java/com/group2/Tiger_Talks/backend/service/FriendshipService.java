@@ -2,7 +2,6 @@ package com.group2.Tiger_Talks.backend.service;
 
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipDTO;
 import com.group2.Tiger_Talks.backend.model.UserProfileFriendshipDTO;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,5 +39,10 @@ public interface FriendshipService {
      */
     Optional<String> deleteFriendshipById(Integer friendshipId);
 
+    /**
+     * Checks if the given users are friends with each-other
+     *
+     * @return True if so else false
+     */
     boolean areFriends(String email1, String email2);
 }
