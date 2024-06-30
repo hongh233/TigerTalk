@@ -1,20 +1,20 @@
-import { SET_FRIENDS, DELETE_FRIENDS } from "../actions/friendActions";
+import {SET_FRIENDS} from "../actions/friendActions";
 
 const initialState = {
-	friends: [],
+    friends: [],
 };
 
 const friendReducer = (state = initialState, action) => {
-	switch (action.type) {
-		case SET_FRIENDS:
-			return {
-				...state,
-				friends: action.payload,
-			};
+    switch (action.type) {
+        case SET_FRIENDS:
+            return {
+                ...state,
+                friends: action.payload,
+            };
 
-		default:
-			return state;
-	}
+        default:
+            return state;
+    }
 };
 
 export default friendReducer;

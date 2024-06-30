@@ -2,6 +2,7 @@ package com.group2.Tiger_Talks.backend.service;
 
 import com.group2.Tiger_Talks.backend.model.Socials.FriendshipDTO;
 import com.group2.Tiger_Talks.backend.model.UserProfileFriendshipDTO;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,4 +39,6 @@ public interface FriendshipService {
      * @return An error message show that the friendship does not exist, otherwise empty.
      */
     Optional<String> deleteFriendshipById(Integer friendshipId);
+
+    boolean areFriends(String email1, String email2);
 }

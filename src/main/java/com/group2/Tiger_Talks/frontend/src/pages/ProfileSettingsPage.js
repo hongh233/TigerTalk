@@ -14,6 +14,7 @@ const ProfileSettingsPage = () => {
 		email: "",
 		firstName: "",
 		lastName: "",
+		userName: "",
 		biography: "",
 		age: "",
 		gender: "",
@@ -30,6 +31,7 @@ const ProfileSettingsPage = () => {
 				email: user.email || "",
 				firstName: user.firstName || "",
 				lastName: user.lastName || "",
+				userName: user.userName || "",
 				biography: user.biography || "",
 				age: user.age || "",
 				gender: user.gender || "",
@@ -53,11 +55,11 @@ const ProfileSettingsPage = () => {
 			setUploading(true);
 			const formData = new FormData();
 			formData.append("file", file);
-			formData.append("upload_preset", "tiger_talks"); // replace with your own upload preset
+			formData.append("upload_preset", "tiger_talks");
 
 			try {
 				const response = await axios.post(
-					"https://api.cloudinary.com/v1_1/dp4j9a7ry/image/upload", // replace YOUR_CLOUD_NAME
+					"https://api.cloudinary.com/v1_1/dp4j9a7ry/image/upload",
 					formData
 				);
 				const imageUrl = response.data.secure_url;
@@ -136,11 +138,22 @@ const ProfileSettingsPage = () => {
 						{errors.lastName && <p className="error">{errors.lastName}</p>}
 					</div>
 					<div className="form-group">
-						<label>Biography</label>
+						<label>User Name</label>
+						<input
+							type="text"
+							name="userName"
+							placeholder="User name"
+							value={form.userName}
+							onChange={handleChange}
+						/>
+						{errors.userName && <p className="error">{errors.userName}</p>}
+					</div>
+					<div className="form-group">
+						<label>Personal Interest</label>
 						<input
 							type="text"
 							name="biography"
-							placeholder="Biography"
+							placeholder="Personal Interest"
 							value={form.biography}
 							onChange={handleChange}
 						/>

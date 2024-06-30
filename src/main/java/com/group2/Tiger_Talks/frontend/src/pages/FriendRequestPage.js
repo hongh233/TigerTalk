@@ -4,7 +4,7 @@ import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import "../assets/styles/FriendRequestPage.css"; // Update to the new CSS file
 import FriendRequestComponent from "../components/FriendRequestComponent";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const FriendRequestPage = () => {
 	const user = useSelector((state) => state.user.user);

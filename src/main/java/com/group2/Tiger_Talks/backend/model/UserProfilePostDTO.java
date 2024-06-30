@@ -5,13 +5,15 @@ import java.util.stream.Collectors;
 
 public class UserProfilePostDTO {
 
-    private String email;
-    private String userName;
-    private List<PostDTO> postList;
+    private final String email;
+    private final String userName;
+    private final String profilePictureUrl;
+    private final List<PostDTO> postList;
 
     public UserProfilePostDTO(UserProfile userProfile) {
         this.email = userProfile.getEmail();
         this.userName = userProfile.getUserName();
+        this.profilePictureUrl = userProfile.getProfilePictureUrl();
         this.postList = userProfile.getPostList().stream().map(PostDTO::new).collect(Collectors.toList());
     }
 
@@ -19,23 +21,15 @@ public class UserProfilePostDTO {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getUserName() {
         return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public List<PostDTO> getPostList() {
         return postList;
     }
 
-    public void setPostList(List<PostDTO> postList) {
-        this.postList = postList;
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
     }
 }

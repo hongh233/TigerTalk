@@ -47,4 +47,11 @@ public class FriendshipController {
                 .map(err -> ResponseEntity.status(404).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Friendship is successfully deleted."));
     }
+
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
+    @GetMapping("/areFriends/{email1}/{email2}")
+    public boolean areFriends(@PathVariable("email1") String email1, @PathVariable("email2") String email2) {
+        return friendshipService.areFriends(email1,email2);
+    }
+
 }

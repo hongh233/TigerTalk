@@ -1,10 +1,12 @@
 import React from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaHammer, FaHome, FaSignOutAlt, FaUserShield } from "react-icons/fa";
 import "../assets/styles/ProfileNavBar.css";
 import GroupTab from "./GroupTab";
 import FriendsTab from "./FriendsTab";
+import { persistor } from "../redux/store";
 
 const getStatusColor = (status) => {
 	switch (status) {
@@ -20,6 +22,7 @@ const getStatusColor = (status) => {
 };
 
 const ProfileNavBar = ({ user }) => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const handleLogOut = async () => {
 		try {
@@ -28,12 +31,14 @@ const ProfileNavBar = ({ user }) => {
 			);
 			if (response.status === 200) {
 				localStorage.removeItem("user");
+				dispatch({ type: "SET_USER", payload: null });
 				navigate("/");
 			}
 		} catch (error) {
 			console.error("Failed to logout", error);
 		}
 	};
+	console.log(user);
 
 	return (
 		<nav className="profile-navbar">
@@ -46,7 +51,7 @@ const ProfileNavBar = ({ user }) => {
 					</div>
 					<div className="profile-info">
 						<h3>
-							{user.firstName} {user.lastName}
+							{user.userName}
 							<span
 								className="status-circle"
 								style={{ backgroundColor: getStatusColor(user.onlineStatus) }}
@@ -57,6 +62,14 @@ const ProfileNavBar = ({ user }) => {
 				</div>
 				<div className="profile-detail-container">
 					<div className="profile-detail-wrapper">
+						{user.firstName && user.lastName && (
+							<div className="profile-detail">
+								<strong>Full name:</strong>{" "}
+								<span>
+									{user.firstName} {user.lastName}
+								</span>
+							</div>
+						)}
 						{user.biography && (
 							<div className="profile-detail">
 								<strong>Personal interest:</strong>{" "}

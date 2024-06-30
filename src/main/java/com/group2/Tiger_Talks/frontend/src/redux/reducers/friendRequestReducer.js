@@ -1,15 +1,15 @@
-import { SET_FRIEND_REQUESTS } from "../actions/friendRequestActions";
+import { SEND_FRIEND_REQUEST } from "../actions/friendRequestActions";
 
 const initialState = {
-	friendRequests: null,
+	sentRequests: [], // [{ senderEmail: '', receiverEmail: '' }]
 };
 
 const friendRequestReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case SET_FRIEND_REQUESTS:
+		case SEND_FRIEND_REQUEST:
 			return {
 				...state,
-				friendRequests: action.payload,
+				sentRequests: [...state.sentRequests, action.payload],
 			};
 		default:
 			return state;
