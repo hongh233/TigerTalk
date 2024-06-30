@@ -111,7 +111,7 @@ const ProfileSettingsPage = () => {
 			<Header />
 			<div className="profile-settings-wrapper">
 				<div className="profile-settings-nav">
-					{user && <ProfileNavBar user={user} />}
+					{user && <ProfileNavBar profileUser={user} />}
 				</div>
 
 				<form className="profile-settings-form" onSubmit={handleSubmit}>

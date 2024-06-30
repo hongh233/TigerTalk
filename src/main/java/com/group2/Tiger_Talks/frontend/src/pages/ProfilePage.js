@@ -6,51 +6,73 @@ import ProfileNavBar from "../components/ProfileNavBar";
 import Post from "../components/Post";
 import Header from "../components/Header";
 import "../assets/styles/ProfilePage.css";
-import { sendFriendRequest } from "../redux/actions/friendRequestActions";
-
-const posts = [
-	{
-		id: 1,
-		userName: "User",
-		time: "2 hours ago",
-		content:
-			"This is an example post content to demonstrate the post layout. It can include text, images, and other media.",
-	},
-	{
-		id: 2,
-		userName: "User",
-		time: "1 day ago",
-		content:
-			"Another example post to show how multiple posts would look on the profile page.",
-	},
-];
 
 const ProfilePage = () => {
 	const user = useSelector((state) => state.user.user);
-	const friendRequests = useSelector(
-		(state) => state.friendRequests.sentRequests
-	);
 	const dispatch = useDispatch();
 	const { userEmail } = useParams();
 	const [profileUser, setProfileUser] = useState(null);
 	const [isFriend, setIsFriend] = useState(false);
+	const [posts, setPosts] = useState([]);
 	const [friendButtonText, setFriendButtonText] = useState("Add Friend");
+	const [message, setMessage] = useState("");
 
 	useEffect(() => {
-		fetchProfileUser();
-		checkAreFriends();
-		updateFriendButtonText();
-	}, [userEmail, friendRequests]);
+		if (user?.email && userEmail) {
+			fetchCurrentUser(user.email);
+			fetchProfileUser(userEmail);
+		}
+	}, [user?.email, userEmail]);
 
-	const fetchProfileUser = async () => {
+	useEffect(() => {
+		if (profileUser && user) {
+			checkAreFriends();
+		}
+	}, [profileUser, user]);
+
+	useEffect(() => {
+		if (profileUser && user) {
+			if (profileUser.email === user.email || isFriend) {
+				fetchPosts(profileUser.email);
+				setMessage("");
+			} else {
+				setMessage("You are not friends so you can't see this person's posts.");
+			}
+		}
+	}, [profileUser, user, isFriend]);
+
+	const fetchCurrentUser = async (email) => {
 		try {
 			const response = await axios.get(
-				`http://localhost:8085/api/user/getByEmail/${userEmail}`
+				`http://localhost:8085/api/user/getByEmail/${email}`
+			);
+			const data = response.data;
+			dispatch({ type: "SET_USER", payload: data });
+		} catch (error) {
+			console.error("Error fetching current user data:", error);
+		}
+	};
+
+	const fetchProfileUser = async (email) => {
+		try {
+			const response = await axios.get(
+				`http://localhost:8085/api/user/getByEmail/${email}`
 			);
 			const data = response.data;
 			setProfileUser(data);
 		} catch (error) {
 			console.error("Error fetching profile user data:", error);
+		}
+	};
+
+	const fetchPosts = async (email) => {
+		try {
+			const response = await axios.get(
+				`http://localhost:8085/posts/getPostForUser/${email}`
+			);
+			setPosts(response.data);
+		} catch (err) {
+			console.error("There was an error fetching posts!", err);
 		}
 	};
 
@@ -61,10 +83,10 @@ const ProfilePage = () => {
 			);
 			setIsFriend(response.data);
 			if (response.data) {
-				setFriendButtonText("You are friend");
+				setFriendButtonText("You are friends");
 			}
 		} catch (error) {
-			console.error("Error fetching profile user data:", error);
+			console.error("Error checking friendship status:", error);
 		}
 	};
 
@@ -78,7 +100,6 @@ const ProfilePage = () => {
 			});
 
 			setFriendButtonText("Friend request sent");
-			// dispatch(sendFriendRequest(user.email, profileUser.email));
 		} catch (error) {
 			if (
 				error.response.data ===
@@ -90,30 +111,12 @@ const ProfilePage = () => {
 		}
 	};
 
-	const updateFriendButtonText = () => {
-		// const sentRequest = friendRequests.find(
-		// 	(req) => req.senderEmail === user.email && req.receiverEmail === userEmail
-		// );
-		// const receivedRequest = friendRequests.find(
-		// 	(req) => req.senderEmail === userEmail && req.receiverEmail === user.email
-		// );
-
-		// if (sentRequest) {
-		// 	setFriendButtonText("Friend request sent");
-		// } else if (receivedRequest) {
-		// 	setFriendButtonText("Friend request pending");
-		// } else {
-		// 	setFriendButtonText("Add Friend");
-		// }
-		setFriendButtonText("Add Friend");
-	};
-
 	return (
 		<div className="profile-page">
 			<Header />
 			<div className="profile-content">
 				<div className="profile-nav">
-					{profileUser && <ProfileNavBar user={profileUser} />}
+					{profileUser && <ProfileNavBar profileUser={profileUser} />}
 				</div>
 				<div className="profile-main-content">
 					{profileUser && profileUser.email !== user.email && (
@@ -124,12 +127,16 @@ const ProfilePage = () => {
 							{friendButtonText}
 						</button>
 					)}
-					{posts.map((post) => (
-						<Post
-							key={post.id}
-							post={{ ...post, userName: profileUser?.name }}
-						/>
-					))}
+					{message.length > 0 ? (
+						<p>{message}</p>
+					) : (
+						posts.map((post) => (
+							<Post
+								key={post.id}
+								post={{ ...post, userName: profileUser?.name }}
+							/>
+						))
+					)}
 				</div>
 			</div>
 		</div>

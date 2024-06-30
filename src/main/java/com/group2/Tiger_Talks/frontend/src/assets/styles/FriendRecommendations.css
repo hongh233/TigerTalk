@@ -34,6 +34,9 @@
 	align-items: center;
 	transition: transform 0.2s, box-shadow 0.2s;
 }
+.friend-link:hover .friend-name {
+	color: #17a2b8;
+}
 .recommend-friend-picture {
 	width: 60px;
 	height: 60px;

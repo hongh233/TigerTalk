@@ -7,7 +7,6 @@ import { FaHome, FaSignOutAlt, FaUser, FaUserShield } from "react-icons/fa";
 import GroupTab from "./GroupTab";
 import FriendsTab from "./FriendsTab";
 import "../assets/styles/NavBar.css";
-import { persistor } from "../redux/store";
 
 const NavBar = () => {
 	const dispatch = useDispatch();
@@ -33,12 +32,12 @@ const NavBar = () => {
 				<FaHome />
 				<span className="text-hide">Home</span>
 			</NavLink>
-			<GroupTab />
-			<FriendsTab />
 			<NavLink to={`/profile/${user.email}`}>
 				<FaUser />
-				<span className="text-hide">Account</span>
+				<span className="text-hide">My Account</span>
 			</NavLink>
+			<GroupTab />
+			<FriendsTab />
 			{user.userLevel === "admin" && (
 				<NavLink to="/admin">
 					<FaUserShield /> <span className="text-hide">Admin</span>

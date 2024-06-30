@@ -20,7 +20,6 @@ const FriendRecommendations = () => {
 					}
 				)
 				.then((response) => {
-					console.log(response.data);
 					setRecommendations(response.data);
 				})
 				.catch((error) => {
@@ -38,16 +37,15 @@ const FriendRecommendations = () => {
 						<li key={index}>
 							<a href={`/profile/${friend.email}`} className="friend-link">
 								<div className="recommend-friend-picture">
-									{friend.profilePictureUrl && (
-										<img
-											src={friend.profilePictureUrl}
-											alt={friend.userName}
-											className="friend-avatar"
-										/>
-									)}
+									<img
+										src={friend.profilePictureUrl}
+										alt={friend.userName}
+										className="friend-avatar"
+									/>
 								</div>
-
-								<div className="friend-name">{friend.userName}</div>
+								<div className="friend-name">
+									<b>{friend.userName}</b>
+								</div>
 							</a>
 						</li>
 					))}
