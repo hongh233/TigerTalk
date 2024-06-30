@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import UserList from '../components/UserList';
 import axios from 'axios';
 import '../assets/styles/AdminPage.css';
-// TODO :: {Raphael} Fix admins cyclic reference using new links to dto
 const AdminPage = () => {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [data, setData] = useState([]);
