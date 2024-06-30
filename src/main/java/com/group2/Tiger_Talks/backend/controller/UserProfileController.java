@@ -45,10 +45,10 @@ public class UserProfileController {
      */
     @GetMapping("/getAllProfiles")
     public List<UserProfileDTO> getAllUserProfiles() {
-            return userProfileService.getAllUserProfiles()
-                    .stream()
-                    .map(UserProfileDTO::new)
-                    .toList();
+        return userProfileService.getAllUserProfiles()
+                .stream()
+                .map(UserProfileDTO::new)
+                .toList();
     }
 
     /**
