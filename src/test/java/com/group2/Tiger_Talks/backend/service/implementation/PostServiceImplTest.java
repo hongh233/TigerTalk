@@ -69,19 +69,6 @@ public class PostServiceImplTest {
     }
 
     @Test
-    public void testGetPostsForUserAndFriendsUserProfile() {
-        String email = "test@example.com";
-        UserProfile userProfile = mock(UserProfile.class);
-        when(userProfile.getEmail()).thenReturn(email);
-
-        List<PostDTO> result = postServiceImpl.getPostsForUserAndFriends(userProfile);
-
-        assertNotNull(result, "Expected non-null list of PostDTOs");
-        verify(userProfile, times(1)).getEmail();
-        verify(userProfileRepository, times(1)).findById(email);
-    }
-
-    @Test
     public void testGetPostsForUserEmailFound() {
         String email = "test@dal.ca";
         UserProfile userProfile = mock(UserProfile.class);

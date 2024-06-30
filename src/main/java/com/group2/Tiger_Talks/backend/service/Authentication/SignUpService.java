@@ -19,13 +19,6 @@ public interface SignUpService {
     Optional<String> signUpUserProfile(UserProfile userProfile);
 
     /**
-     * Retrieves all user profiles.
-     *
-     * @return a list of all user profiles
-     */
-    List<UserProfile> getAllUserProfiles();
-
-    /**
      * A test method for signing up user profiles.
      */
     void signUpTest();

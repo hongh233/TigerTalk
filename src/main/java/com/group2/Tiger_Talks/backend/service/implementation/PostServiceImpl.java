@@ -38,11 +38,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDTO> getPostsForUserAndFriends(UserProfile userProfile) {
-        return getPostsForUserAndFriends(userProfile.getEmail());
-    }
-
-    @Override
     public List<PostDTO> getPostsForUser(String email) {
         return userProfileRepository.findById(email)
                 .map(userProfile -> userProfile.getPostList().stream()
@@ -52,13 +47,7 @@ public class PostServiceImpl implements PostService {
                 )
                 .orElseGet(LinkedList::new);
     }
-
-
-    @Override
-    public List<PostDTO> getPostsForUser(UserProfile userProfile) {
-        return getPostsForUser(userProfile.getEmail());
-    }
-
+    
     @Override
     public Optional<String> createPost(Post post) {
         if (userProfileRepository.existsById(post.getUserProfile().getEmail())) {

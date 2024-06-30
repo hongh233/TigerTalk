@@ -35,16 +35,6 @@ public class SignUpController {
     }
 
     /**
-     * Retrieves all user profiles.
-     *
-     * @return a list of all user profiles
-     */
-    @GetMapping("/getAllUserProfiles")
-    public List<UserProfile> getAllUserProfiles() {
-        return signUpService.getAllUserProfiles();
-    }
-
-    /**
      * Test method for signing up user profiles.
      */
     @PostMapping("/Test")

@@ -28,44 +28,22 @@ public class PostController {
      * Retrieves posts for a user and their friends by email.
      *
      * @param email the email of the user
-     * @return ResponseEntity containing a list of PostDTOs
+     * @return A list of PostDTOs
      */
     @GetMapping("/getPostForUserAndFriends/{email}")
-    public ResponseEntity<List<PostDTO>> getPostsForUserAndFriends(@PathVariable String email) {
-        return ResponseEntity.ok(postService.getPostsForUserAndFriends(email));
-    }
-
-    /**
-     * Retrieves posts for a user and their friends by UserProfile.
-     *
-     * @param userProfile the user profile
-     * @return ResponseEntity containing a list of PostDTOs
-     */
-    @PostMapping("/getPostForUserAndFriends/userProfile")
-    public ResponseEntity<List<PostDTO>> getPostsForUserAndFriendsByProfile(@RequestBody UserProfile userProfile) {
-        return ResponseEntity.ok(postService.getPostsForUserAndFriends(userProfile));
+    public List<PostDTO> getPostsForUserAndFriends(@PathVariable String email) {
+        return postService.getPostsForUserAndFriends(email);
     }
 
     /**
      * Retrieves posts for a user by email.
      *
      * @param email the email of the user
-     * @return ResponseEntity containing a list of PostDTOs
+     * @return A list of PostDTOs
      */
     @GetMapping("/getPostForUser/{email}")
-    public ResponseEntity<List<PostDTO>> getPostsForUser(@PathVariable String email) {
-        return ResponseEntity.ok(postService.getPostsForUser(email));
-    }
-
-    /**
-     * Retrieves posts for a user by UserProfile.
-     *
-     * @param userProfile the user profile
-     * @return ResponseEntity containing a list of PostDTOs
-     */
-    @PostMapping("/getPostForUser/userProfile")
-    public ResponseEntity<List<PostDTO>> getPostsForUserByProfile(@RequestBody UserProfile userProfile) {
-        return ResponseEntity.ok(postService.getPostsForUser(userProfile));
+    public List<PostDTO> getPostsForUser(@PathVariable String email) {
+        return postService.getPostsForUser(email);
     }
 
     /**
@@ -77,7 +55,7 @@ public class PostController {
     @PostMapping("/create")
     public ResponseEntity<String> createPost(@RequestBody Post post) {
         return postService.createPost(post)
-                .map(err -> ResponseEntity.badRequest().body(err))
+                .map(ResponseEntity.badRequest()::body)
                 .orElseGet(() -> ResponseEntity.ok("Post created successfully."));
     }
 
@@ -90,7 +68,7 @@ public class PostController {
     @DeleteMapping("/delete/{postId}")
     public ResponseEntity<String> deletePostById(@PathVariable Integer postId) {
         return postService.deletePostById(postId)
-                .map(err -> ResponseEntity.badRequest().body(err))
+                .map(ResponseEntity.badRequest()::body)
                 .orElseGet(() -> ResponseEntity.ok("Post deleted successfully."));
     }
 
@@ -103,7 +81,7 @@ public class PostController {
     @DeleteMapping("/delete")
     public ResponseEntity<String> deletePost(@RequestBody Post post) {
         return postService.deletePost(post)
-                .map(err -> ResponseEntity.badRequest().body(err))
+                .map(ResponseEntity.badRequest()::body)
                 .orElseGet(() -> ResponseEntity.ok("Post deleted successfully."));
     }
 

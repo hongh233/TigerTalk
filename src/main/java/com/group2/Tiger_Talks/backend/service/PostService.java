@@ -20,14 +20,6 @@ public interface PostService {
     List<PostDTO> getPostsForUserAndFriends(String email);
 
     /**
-     * Retrieves posts for a user and their friends based on the user's profile.
-     *
-     * @param userProfile the profile of the user
-     * @return a list of posts sorted by timestamp in descending order
-     */
-    List<PostDTO> getPostsForUserAndFriends(UserProfile userProfile);
-
-    /**
      * Retrieves posts for a user's friends based on the user's email.
      *
      * @param email the email of the user
@@ -35,14 +27,6 @@ public interface PostService {
      */
 
     List<PostDTO> getPostsForUser(String email);
-
-    /**
-     * Retrieves posts for a user's friends based on the user's profile.
-     *
-     * @param userProfile the profile of the user
-     * @return a list of posts sorted by timestamp in descending order
-     */
-    List<PostDTO> getPostsForUser(UserProfile userProfile);
 
     /**
      * Creates a new post.
