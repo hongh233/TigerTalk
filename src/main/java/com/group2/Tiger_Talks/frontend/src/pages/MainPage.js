@@ -83,29 +83,29 @@ const MainPage = () => {
 				setMessage("Error creating post");
 			});
 	};
-
-	return (
-		<div className="main-page">
-			<Header />
-			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-				<div className="main-content">
-					<div className="post-creation-section">
-						<PostCreation addPost={addPost} />
-					</div>
-					<FriendRecommendations />
-					<div className="post-list">
-						{posts.map((post, index) => (
-							<Post key={index} post={post} />
-						))}
-					</div>
-					<p>{message}</p>
-				</div>
-			</div>
-		</div>
-	);
+    
+    return (
+        <div className="main-page">
+            <Header/>
+            <div className="content">
+                <div className="sidebar">
+                    <NavBar/>
+                </div>
+                <div className="main-content">
+                    <div className="post-creation-section">
+                        <PostCreation addPost={addPost}/>
+                    </div>
+                    <FriendRecommendations/>
+                    <div className="post-list">
+                        {posts.map((post, index) => (
+                            <Post key={index} post={post} user={user}/>
+                        ))}
+                    </div>
+                    <p>{message}</p>
+                </div>
+            </div>
+        </div>
+    );
 };
 
 export default MainPage;

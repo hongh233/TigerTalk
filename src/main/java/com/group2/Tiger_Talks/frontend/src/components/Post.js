@@ -1,18 +1,32 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaComment, FaShare, FaThumbsUp } from "react-icons/fa";
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {FaComment, FaShare, FaThumbsUp} from "react-icons/fa";
 import Comment from "./Comment";
 import "../assets/styles/Post.css";
 
-const Post = ({ post }) => {
-	const [likes, setLikes] = useState(post.likes);
-	const [comments, setComments] = useState(post.comments || []);
-	const [newComment, setNewComment] = useState("");
-	const navigate = useNavigate();
+const Post = ({post,user}) => {
+    const [likes, setLikes] = useState(post.likes);
+    const [comments, setComments] = useState(post.comments || []);
+    const [newComment, setNewComment] = useState("");
+    const navigate = useNavigate();
 
-	const handleLike = () => {
-		setLikes(likes + 1);
-	};
+    const handleLike = () => {
+        const postId = post.id;
+        const userEmail = user.email;
+        if (!postId || !userEmail) {
+            console.error('Post ID or User Email is undefined.');
+            return;
+        }
+
+        axios.put(`http://localhost:8085/posts/like/${postId}?userEmail=${userEmail}`)
+            .then(response => {
+                setLikes(response.data); 
+            })
+            .catch(error => {
+                console.error('Error liking post:', error);
+            });
+    };
 
 	const handleCommentChange = (e) => {
 		setNewComment(e.target.value);

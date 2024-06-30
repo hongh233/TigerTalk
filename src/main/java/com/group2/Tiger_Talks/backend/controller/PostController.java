@@ -111,7 +111,7 @@ public class PostController {
     public ResponseEntity<?> likePost(@PathVariable Integer postId, @RequestParam String userEmail) {
         try {
             Post updatedPost = postService.likePost(postId, userEmail);
-            return ResponseEntity.ok(updatedPost.getContent());
+            return ResponseEntity.ok(updatedPost.getNumOfLike());
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }
