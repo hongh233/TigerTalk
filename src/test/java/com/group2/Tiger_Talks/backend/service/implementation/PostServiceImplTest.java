@@ -215,15 +215,15 @@ public class PostServiceImplTest {
         Like like = mock(Like.class);
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.of(userProfile));
+        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
         when(likeRepository.findByPostAndUserProfile(post, userProfile)).thenReturn(Optional.of(like));
 
         Post updatedPost = new Post(userProfile, "Test content");
         when(postRepository.save(post)).thenReturn(updatedPost);
 
-        Post result = postServiceImpl.likePost(postId, userEmail,"Expected the post to be updated and returned");
+        Post result = postServiceImpl.likePost(postId, userEmail);
 
-        assertEquals(updatedPost, result);
+        assertEquals(updatedPost, result,"Expected the post to be updated and returned");
         verify(likeRepository, times(1)).delete(like);
         verify(postRepository, times(1)).save(post);
     }
@@ -236,15 +236,14 @@ public class PostServiceImplTest {
         UserProfile userProfile = mock(UserProfile.class);
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.of(userProfile));
-        when(likeRepository.findByPostAndUserProfile(post, userProfile)).thenReturn(Optional.empty());
+        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
 
         Post updatedPost = new Post(userProfile, "Test content");
         when(postRepository.save(post)).thenReturn(updatedPost);
 
-        Post result = postServiceImpl.likePost(postId, userEmail,"Expected the post to be updated and returned");
+        Post result = postServiceImpl.likePost(postId, userEmail);
 
-        assertEquals(updatedPost, result);
+        assertEquals(updatedPost, result,"Expected the post to be updated and returned");
         verify(likeRepository, times(1)).save(any(Like.class));
         verify(postRepository, times(1)).save(post);
     }
@@ -274,7 +273,7 @@ public class PostServiceImplTest {
         Post post = mock(Post.class);
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.empty());
+        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(RuntimeException.class, () -> {
             postServiceImpl.likePost(postId, userEmail);

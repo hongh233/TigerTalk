@@ -17,7 +17,7 @@ public class PostDTO {
         this.email = post.getUserProfile().getEmail();
         this.content = post.getContent();
         this.timestamp = post.getTimestamp();
-        this.numOfLike = post.getLikes().size();
+        this.numOfLike = post.getNumOfLike();
         this.userProfileUserName = post.getUserProfile().getUserName();
         this.profileProfileURL = post.getUserProfile().getProfilePictureUrl();
     }

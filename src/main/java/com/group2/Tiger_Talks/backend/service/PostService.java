@@ -64,4 +64,13 @@ public interface PostService {
      */
     Optional<String> updatePostById(Integer postId, Post post);
 
+    /**
+     * Likes a post by a user.
+     *
+     * @param postId Post ID to like
+     * @param userEmail User's email
+     * @return Updated Post entity after like operation
+     */
+    Post likePost(Integer postId, String userEmail);
+
 }

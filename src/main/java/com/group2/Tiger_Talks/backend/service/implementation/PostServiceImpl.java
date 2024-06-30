@@ -1,8 +1,10 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
+import com.group2.Tiger_Talks.backend.model.Like;
 import com.group2.Tiger_Talks.backend.model.Post;
 import com.group2.Tiger_Talks.backend.model.PostDTO;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.repository.LikeRepository;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.PostService;
@@ -21,6 +23,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    LikeRepository likeRepository;
 
     @Override
     public List<PostDTO> getPostsForUserAndFriends(String email) {
@@ -85,6 +90,7 @@ public class PostServiceImpl implements PostService {
                     existingPost.setUserProfile(post.getUserProfile());
                     existingPost.setComments(post.getComments());
                     existingPost.setLikes(post.getLikes());
+                    existingPost.setNumOfLike(post.getNumOfLike());
                     existingPost.setTimestamp(post.getTimestamp());
                     existingPost.setContent(post.getContent());
                     postRepository.save(existingPost);
@@ -92,5 +98,28 @@ public class PostServiceImpl implements PostService {
                 })
                 .orElse(Optional.of("Post with ID " + postId + " was not found"));
     }
+    @Override
+    public Post likePost(Integer postId, String userEmail) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        UserProfile userProfile = userProfileRepository.findUserProfileByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<Like> existingLike = likeRepository.findByPostAndUserProfile(post, userProfile);
+
+        if (existingLike.isPresent()) {
+            likeRepository.delete(existingLike.get());
+            post.setNumOfLike(post.getNumOfLike() - 1);
+            post.getLikes().remove(existingLike.get());
+        } else {
+            Like newLike = new Like(post, userProfile);
+            likeRepository.save(newLike);
+            post.setNumOfLike(post.getNumOfLike() + 1);
+            post.getLikes().add(newLike);
+        }
+        return postRepository.save(post);
+    }
+
 
 }

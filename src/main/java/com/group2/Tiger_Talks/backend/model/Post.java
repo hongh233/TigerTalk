@@ -22,6 +22,7 @@ public class Post {
     private UserProfile userProfile;
 
     private String content;
+    private int numOfLike;
 
     @Column(nullable = false)
     private LocalDateTime timestamp = LocalDateTime.now();
@@ -29,7 +30,6 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
@@ -41,6 +41,7 @@ public class Post {
     public Post(UserProfile userProfile, String content) {
         this.userProfile = userProfile;
         this.content = content;
+        this.numOfLike = 0;
     }
 
 
@@ -83,6 +84,15 @@ public class Post {
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
+
+    public int getNumOfLike() {
+        return numOfLike;
+    }
+
+    public void setNumOfLike(int numOfLike) {
+        this.numOfLike = numOfLike;
+    }
+
     public List<Comment> getComments() {
         return comments;
     }
