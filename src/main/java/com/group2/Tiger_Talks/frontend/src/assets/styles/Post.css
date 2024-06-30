@@ -7,6 +7,16 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.post-user-email {
+    text-decoration: none;
+    color: #333;
+}
+
+.post-user-email:hover {
+    text-decoration: none;
+    color: #17a2b8;
+}
+
 .post-header {
     display: flex;
     align-items: center;
@@ -84,7 +94,7 @@
 }
 
 .add-comment button {
-    background-color: #17a2b8;;
+    background-color: #17a2b8;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -96,7 +106,6 @@
 .add-comment button:hover {
     background-color: #0056b3;
 }
-
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

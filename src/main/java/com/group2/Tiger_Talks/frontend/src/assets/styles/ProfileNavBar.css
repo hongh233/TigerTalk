@@ -48,7 +48,10 @@
     border-radius: 8px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    padding: 15px;
+}
+
+.profile-detail-wrapper {
+    padding-left: 15px;
 }
 
 .profile-detail {
@@ -87,6 +90,14 @@
     background-color: #e0e0e0;
 }
 
+.status-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 8px;
+}
+
 @media (max-width: 768px) {
     .profile-navbar {
         width: 100%;
@@ -94,7 +105,6 @@
         position: static;
         box-shadow: none;
     }
-
 
     .profile-section {
         position: fixed;
@@ -104,7 +114,6 @@
         width: 30%;
         margin-right: 5px;
         transform: translateY(50%);
-
     }
 
     .profile-header {
@@ -117,7 +126,6 @@
     .profile-user-picture {
         margin-right: 0;
         margin-bottom: 0;
-
     }
 
     .profile-info {

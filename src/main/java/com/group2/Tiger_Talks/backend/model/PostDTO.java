@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class PostDTO {
 
     private final Integer postId;
+    private final String email;
     private final String content;
     private final LocalDateTime timestamp;
     private final int numOfLike;
@@ -13,6 +14,7 @@ public class PostDTO {
 
     public PostDTO(Post post) {
         this.postId = post.getPostId();
+        this.email = post.getUserProfile().getEmail();
         this.content = post.getContent();
         this.timestamp = post.getTimestamp();
         this.numOfLike = post.getNumOfLike();
@@ -42,5 +44,9 @@ public class PostDTO {
 
     public String getProfileProfileURL() {
         return profileProfileURL;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

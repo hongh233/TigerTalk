@@ -17,8 +17,9 @@ public class FriendshipRequestController {
     @Autowired
     private FriendshipRequestService friendshipRequestService;
 
+    @CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
     @GetMapping("/{email}")
-    public ResponseEntity<List<FriendshipRequestDTO>> getAllFriendRequests(@PathVariable String email) {
+    public ResponseEntity<List<FriendshipRequestDTO>> getAllFriendRequests(@PathVariable("email") String email) {
         List<FriendshipRequestDTO> requests = friendshipRequestService.getAllFriendRequests(email);
         return ResponseEntity.ok(requests);
     }

@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
-import {useUser} from "../context/UserContext";
 import "../assets/styles/Login.css";
+
+import {useDispatch} from "react-redux";
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const {setUser} = useUser();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -24,8 +25,8 @@ const LoginPage = () => {
                 }
             );
             const userProfile = response.data;
-            localStorage.setItem("user", JSON.stringify(userProfile));
-            setUser(userProfile);
+
+            dispatch({type: "SET_USER", payload: response.data});
             alert("Log in successfully");
             navigate("/main", {state: {userProfile}});
         } catch (error) {
@@ -67,6 +68,7 @@ const LoginPage = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+                    <p>TEST PASSWORD: aaaa1A@a</p>
 
                     <button type="submit">Login</button>
                 </form>

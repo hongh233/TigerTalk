@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {FaComment, FaShare, FaThumbsUp} from 'react-icons/fa';
-import Comment from './Comment';
-import '../assets/styles/Post.css';
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {FaComment, FaShare, FaThumbsUp} from "react-icons/fa";
+import Comment from "./Comment";
+import "../assets/styles/Post.css";
 
 const Post = ({post}) => {
     const [likes, setLikes] = useState(post.likes);
     const [comments, setComments] = useState(post.comments || []);
-    const [newComment, setNewComment] = useState('');
+    const [newComment, setNewComment] = useState("");
     const navigate = useNavigate();
 
     const handleLike = () => {
@@ -19,15 +19,15 @@ const Post = ({post}) => {
     };
 
     const handleAddComment = () => {
-        if (newComment.trim() === '') return;
+        if (newComment.trim() === "") return;
 
         const newCommentObj = {
-            userName: 'Current User',
+            userName: "Current User",
             time: new Date().toLocaleString(),
             content: newComment,
         };
         setComments([...comments, newCommentObj]);
-        setNewComment('');
+        setNewComment("");
     };
 
     /*
@@ -45,16 +45,16 @@ const Post = ({post}) => {
     const renderPostContent = (content) => {
         const parts = content.split(/(@\w+)/g);
         return parts.map((part, index) => {
-            if (part.startsWith('@')) {
+            if (part.startsWith("@")) {
                 return (
                     <span
                         key={index}
                         className="tag"
                         onClick={() => handleTagClick(part)}
-                        style={{color: 'blue', cursor: 'pointer'}}
+                        style={{color: "blue", cursor: "pointer"}}
                     >
-            {part}
-          </span>
+						{part}
+					</span>
                 );
             } else {
                 return part;
@@ -66,10 +66,19 @@ const Post = ({post}) => {
         <div className="post">
             <div className="post-header">
                 <div className="profile-picture">
-                    {post.profileProfileURL && (<img src={post.profileProfileURL} alt="avatar"/>)}
+                    {post.profileProfileURL && (
+                        <a className="post-user-email" href={`/profile/${post.email}`}>
+                            <img src={post.profileProfileURL} alt="avatar"/>
+                        </a>
+                    )}
                 </div>
                 <div className="post-user-details">
-                    <h3>{post.userProfileUserName}</h3> {/* Display the username here */}
+                    <h3>
+                        <a className="post-user-email" href={`/profile/${post.email}`}>
+                            {post.userProfileUserName}
+                        </a>
+                    </h3>
+                    {/* Display the username here */}
                     <p>{post.timestamp}</p>
                 </div>
             </div>
@@ -107,4 +116,3 @@ const Post = ({post}) => {
 };
 
 export default Post;
-

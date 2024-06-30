@@ -33,7 +33,7 @@ public class FriendshipRecommendationServiceImplTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
     }
-    
+
     @Test
     public void testRecommendFriends() {
         UserProfile currentUser = new UserProfile(
@@ -57,19 +57,19 @@ public class FriendshipRecommendationServiceImplTest {
                         new String[]{"Answer1", "Answer2"},
                         new String[]{"Question1", "Question2"})
         );
-        
+
         when(userProfileRepository.findById("test@dal.ca")).thenReturn(Optional.of(currentUser));
         when(userProfileRepository.findAll()).thenReturn(allUsers);
-        
+
         List<UserProfilePostDTO> recommendedFriends = recommendationService.recommendFriends("test@dal.ca", 2);
-        
+
         assertEquals(2, recommendedFriends.size(), "The number of recommended friends should be 2");
     }
 
     @Test
     public void testRecommendFriendsReturnsEmptyList() {
         when(userProfileRepository.findById("notfound@dal.ca")).thenReturn(Optional.empty());
-        
+
         List<UserProfilePostDTO> recommendedFriends = recommendationService.recommendFriends("notfound@dal.ca", 2);
 
         assertEquals(0, recommendedFriends.size(), "The number of recommended friends should be 0");
