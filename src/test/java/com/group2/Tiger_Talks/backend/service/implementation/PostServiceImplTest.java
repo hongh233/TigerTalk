@@ -1,8 +1,8 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
 import com.group2.Tiger_Talks.backend.model.Post;
-import com.group2.Tiger_Talks.backend.model.PostLike;
 import com.group2.Tiger_Talks.backend.model.PostDTO;
+import com.group2.Tiger_Talks.backend.model.PostLike;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.PostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
@@ -223,7 +223,7 @@ public class PostServiceImplTest {
 
         Post result = postServiceImpl.likePost(postId, userEmail);
 
-        assertEquals(updatedPost, result,"Expected the post to be updated and returned");
+        assertEquals(updatedPost, result, "Expected the post to be updated and returned");
         verify(postLikeRepository, times(1)).delete(postLike);
         verify(postRepository, times(1)).save(post);
     }
@@ -243,7 +243,7 @@ public class PostServiceImplTest {
 
         Post result = postServiceImpl.likePost(postId, userEmail);
 
-        assertEquals(updatedPost, result,"Expected the post to be updated and returned");
+        assertEquals(updatedPost, result, "Expected the post to be updated and returned");
         verify(postLikeRepository, times(1)).save(any(PostLike.class));
         verify(postRepository, times(1)).save(post);
     }

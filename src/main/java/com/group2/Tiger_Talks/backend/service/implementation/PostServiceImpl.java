@@ -1,8 +1,8 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
-import com.group2.Tiger_Talks.backend.model.PostLike;
 import com.group2.Tiger_Talks.backend.model.Post;
 import com.group2.Tiger_Talks.backend.model.PostDTO;
+import com.group2.Tiger_Talks.backend.model.PostLike;
 import com.group2.Tiger_Talks.backend.model.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.PostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
@@ -19,13 +19,11 @@ import java.util.stream.Stream;
 public class PostServiceImpl implements PostService {
 
     @Autowired
+    PostLikeRepository postLikeRepository;
+    @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private UserProfileRepository userProfileRepository;
-
-    @Autowired
-    PostLikeRepository postLikeRepository;
 
     @Override
     public List<PostDTO> getPostsForUserAndFriends(String email) {
@@ -52,7 +50,7 @@ public class PostServiceImpl implements PostService {
                 )
                 .orElseGet(LinkedList::new);
     }
-    
+
     @Override
     public Optional<String> createPost(Post post) {
         if (userProfileRepository.existsById(post.getUserProfile().getEmail())) {
@@ -98,6 +96,7 @@ public class PostServiceImpl implements PostService {
                 })
                 .orElse(Optional.of("Post with ID " + postId + " was not found"));
     }
+
     @Override
     public Post likePost(Integer postId, String userEmail) {
         Post post = postRepository.findById(postId)

@@ -34,7 +34,6 @@ public class Post {
     private List<PostLike> postLikes = new ArrayList<>();
 
 
-
     public Post() {
     }
 
@@ -45,7 +44,6 @@ public class Post {
     }
 
 
-
     public List<PostLike> getLikes() {
         return postLikes;
     }
@@ -53,6 +51,7 @@ public class Post {
     public void setLikes(List<PostLike> postLikes) {
         this.postLikes = postLikes;
     }
+
     public Integer getPostId() {
         return postId;
     }
