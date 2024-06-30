@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import {useLocation} from "react-router-dom";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import Post from "../components/Post";
@@ -11,7 +10,6 @@ import axios from "axios";
 
 const MainPage = () => {
     const user = useSelector((state) => state.user.user);
-    const location = useLocation();
     const [message, setMessage] = useState("");
     const [posts, setPosts] = useState([]);
     const [reload, setReload] = useState(false);
@@ -62,7 +60,7 @@ const MainPage = () => {
         // Save the new post to the database
         axios
             .post("http://localhost:8085/posts/create", newPost)
-            .then((response) => {
+            .then(() => {
                 setPosts([newPost, ...posts]);
                 setReload(!reload);
             })
