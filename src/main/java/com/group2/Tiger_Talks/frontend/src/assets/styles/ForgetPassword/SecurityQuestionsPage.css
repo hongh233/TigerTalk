@@ -1,0 +1,70 @@
+.security-questions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+}
+
+.security-questions-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
+
+.security-questions-card h1 {
+    margin-bottom: 20px;
+    color: #17a2b8;
+    font-size: 24px;
+}
+
+.security-questions-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.security-questions-card select,
+.security-questions-card input {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.security-questions-card input:focus,
+.security-questions-card select:focus {
+    border-color: #17a2b8;
+    outline: none;
+}
+
+.security-questions-card button {
+    padding: 10px;
+    background-color: #fd7e14;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.security-questions-card button:hover {
+    background-color: #dc6a10;
+    transform: translateY(-3px);
+}
+
+.security-questions .error-css {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: bold;
+}
