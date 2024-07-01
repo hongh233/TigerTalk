@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
-import "../assets/styles/Login.css";
+import "../../assets/styles/Authentication/LoginPage.css";
 
 import {useDispatch} from "react-redux";
 
@@ -45,7 +45,7 @@ const LoginPage = () => {
                 <p>Login with Email and Password</p>
 
                 {error && (
-                    <div className="error-message">
+                    <div className="error-css">
                         <p>{error}</p>
                     </div>
                 )}

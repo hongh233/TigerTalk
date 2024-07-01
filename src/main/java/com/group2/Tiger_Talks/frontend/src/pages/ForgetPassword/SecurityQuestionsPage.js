@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import '../../assets/styles/ForgetPassword/SecurityQuestionsPage.css'
 
 const SecurityQuestionsPage = () => {
     const {state} = useLocation();
@@ -58,28 +59,30 @@ const SecurityQuestionsPage = () => {
 
     return (
         <div className="security-questions">
-            <h1>Answer Security Questions</h1>
-            <form onSubmit={handleSubmit}>
-                <select
-                    name="question"
-                    value={answer.question}
-                    onChange={handleQuestionChange}
-                >
-                    <option>Select Security Question</option>
-                    {questions.map((securityQuestion, idx) => (
-                        <option key={idx} value={securityQuestion}>{securityQuestion}</option>
-                    ))}
-                </select>
-                <input
-                    type="text"
-                    name="questionAnswer"
-                    value={answer.questionAnswer}
-                    onChange={handleAnswerChange}
-                    placeholder="Answer to security question"
-                />
-                <button type="submit">Submit</button>
-            </form>
-            {errors.general && <p className="error">{errors.general}</p>}
+            <div className="security-questions-card">
+                <h1>Answer Security Questions</h1>
+                <form onSubmit={handleSubmit}>
+                    <select
+                        name="question"
+                        value={answer.question}
+                        onChange={handleQuestionChange}
+                    >
+                        <option>Select Security Question</option>
+                        {questions.map((securityQuestion, idx) => (
+                            <option key={idx} value={securityQuestion}>{securityQuestion}</option>
+                        ))}
+                    </select>
+                    <input
+                        type="text"
+                        name="questionAnswer"
+                        value={answer.questionAnswer}
+                        onChange={handleAnswerChange}
+                        placeholder="Answer to security question"
+                    />
+                    <button type="submit">Submit</button>
+                </form>
+                {errors.general && <p className="error-css">{errors.general}</p>}
+            </div>
         </div>
     );
 };

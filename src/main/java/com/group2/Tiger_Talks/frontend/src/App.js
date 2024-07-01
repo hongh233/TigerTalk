@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 //PAGES
-import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
+import LoginPage from "./pages/Authentication/LoginPage";
+import SignUpPage from "./pages/Authentication/SignUpPage";
 import MainPage from "./pages/MainPage";
 import ProfilePage from "./pages/ProfilePage";
 import GroupPage from "./pages/GroupPage";
 import CreateGroupPage from "./pages/CreateGroupPage";
 import AdminPage from "./pages/AdminPage";
 import ProfileSettingsPage from "./pages/ProfileSettingsPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import SecurityQuestionsPage from "./pages/SecurityQuestionsPage";
-import EmailVerificationPage from "./pages/EmailVerificationPage";
+import ForgotPasswordPage from "./pages/ForgetPassword/ForgotPasswordPage";
+import SecurityQuestionsPage from "./pages/ForgetPassword/SecurityQuestionsPage";
+import EmailVerificationPage from "./pages/ForgetPassword/EmailVerificationPage";
 import FriendRequestPage from "./pages/FriendRequestPage";
 import FriendListPage from "./pages/FriendListPage";
 import ViewGroupPage from "./pages/ViewGroupPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ResetPasswordPage from "./pages/ForgetPassword/ResetPasswordPage";
 import AuthenticationFailPage from "./pages/AuthenticationFailPage";
 //REDUX
 import {useSelector} from "react-redux";

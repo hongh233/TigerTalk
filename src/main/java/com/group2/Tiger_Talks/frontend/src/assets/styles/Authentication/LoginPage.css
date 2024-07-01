@@ -1,4 +1,4 @@
-.forgot-password-page {
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,7 +6,7 @@
     background-color: #f0f2f5;
 }
 
-.forgot-password-card {
+.login-card {
     background: white;
     padding: 30px;
     border-radius: 8px;
@@ -15,17 +15,17 @@
     text-align: center;
 }
 
-.forgot-password-card h1 {
+.login-card h2 {
     margin-bottom: 10px;
     color: #17a2b8;
 }
 
-.forgot-password-card p {
+.login-card p {
     margin: 10px 0;
     color: #6c757d;
 }
 
-.error-message {
+.login-container .error-css {
     background-color: #f8d7da;
     color: #721c24;
     padding: 10px;
@@ -34,19 +34,19 @@
     margin-bottom: 15px;
 }
 
-.forgot-password-card form {
+form {
     display: flex;
     flex-direction: column;
 }
 
-.forgot-password-card form label {
+form label {
     text-align: left;
     margin-bottom: 5px;
     font-weight: bold;
     color: #495057;
 }
 
-.forgot-password-card form input {
+form input {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ced4da;
@@ -54,7 +54,7 @@
     font-size: 16px;
 }
 
-.forgot-password-card form button {
+form button {
     padding: 10px;
     background-color: #fd7e14;
     color: white;
@@ -64,21 +64,23 @@
     font-size: 16px;
 }
 
-.forgot-password-card form button:hover {
+form button:hover {
     background-color: #dc6a10;
 }
 
-.verification-options-container button {
-    padding: 10px;
-    background-color: #17a2b8;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-bottom: 10px;
+.additional-links {
+    margin-top: 15px;
 }
 
-.verification-options-container button:hover {
-    background-color: #138496;
+.additional-links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.additional-links a:hover {
+    text-decoration: underline;
+}
+
+.additional-links p {
+    margin: 5px 0;
 }

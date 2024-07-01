@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
-import "../assets/styles/SignUp.css";
+import "../../assets/styles/Authentication/SignUpPage.css";
 
 const SECURITY_QUESTIONS = [
     "What was your favourite book as a child?",
@@ -171,7 +171,7 @@ const SignUpPage = () => {
                             value={form.firstName}
                             onChange={handleChange}
                         />
-                        {errors.firstName && <p className="error">{errors.firstName}</p>}
+                        {errors.firstName && <p className="error-css">{errors.firstName}</p>}
                     </div>
 
                     <div className="form-group">
@@ -182,7 +182,7 @@ const SignUpPage = () => {
                             value={form.lastName}
                             onChange={handleChange}
                         />
-                        {errors.lastName && <p className="error">{errors.lastName}</p>}
+                        {errors.lastName && <p className="error-css">{errors.lastName}</p>}
                     </div>
 
                     <div className="form-group">
@@ -193,7 +193,7 @@ const SignUpPage = () => {
                             value={form.age}
                             onChange={handleChange}
                         />
-                        {errors.age && <p className="error">{errors.age}</p>}
+                        {errors.age && <p className="error-css">{errors.age}</p>}
                     </div>
 
                     <div className="form-group">
@@ -204,7 +204,7 @@ const SignUpPage = () => {
                             value={form.userName}
                             onChange={handleChange}
                         />
-                        {errors.userName && <p className="error">{errors.userName}</p>}
+                        {errors.userName && <p className="error-css">{errors.userName}</p>}
                     </div>
 
                     <div className="form-group">
@@ -214,7 +214,7 @@ const SignUpPage = () => {
                             <option value="female">Female</option>
                             <option value="other">Other</option>
                         </select>
-                        {errors.gender && <p className="error">{errors.gender}</p>}
+                        {errors.gender && <p className="error-css">{errors.gender}</p>}
                     </div>
 
                     <div className="form-group">
@@ -225,7 +225,7 @@ const SignUpPage = () => {
                             value={form.email}
                             onChange={handleChange}
                         />
-                        {errors.email && <p className="error">{errors.email}</p>}
+                        {errors.email && <p className="error-css">{errors.email}</p>}
                     </div>
 
                     <div className="form-group">
@@ -236,7 +236,7 @@ const SignUpPage = () => {
                             value={form.password}
                             onChange={handleChange}
                         />
-                        {errors.password && <p className="error">{errors.password}</p>}
+                        {errors.password && <p className="error-css">{errors.password}</p>}
                     </div>
 
                     <div className="form-group">
@@ -248,7 +248,7 @@ const SignUpPage = () => {
                             onChange={handleChange}
                         />
                         {errors.confirmPassword && (
-                            <p className="error">{errors.confirmPassword}</p>
+                            <p className="error-css">{errors.confirmPassword}</p>
                         )}
                     </div>
 
@@ -266,7 +266,7 @@ const SignUpPage = () => {
                             ))}
                         </select>
                         {errors.securityQuestion1 && (
-                            <p className="error">{errors.securityQuestion1}</p>
+                            <p className="error-css">{errors.securityQuestion1}</p>
                         )}
                     </div>
 
@@ -279,7 +279,7 @@ const SignUpPage = () => {
                             onChange={handleChange}
                         />
                         {errors.securityAnswer1 && (
-                            <p className="error">{errors.securityAnswer1}</p>
+                            <p className="error-css">{errors.securityAnswer1}</p>
                         )}
                     </div>
 
@@ -297,7 +297,7 @@ const SignUpPage = () => {
                             ))}
                         </select>
                         {errors.securityQuestion2 && (
-                            <p className="error">{errors.securityQuestion2}</p>
+                            <p className="error-css">{errors.securityQuestion2}</p>
                         )}
                     </div>
 
@@ -310,7 +310,7 @@ const SignUpPage = () => {
                             onChange={handleChange}
                         />
                         {errors.securityAnswer2 && (
-                            <p className="error">{errors.securityAnswer2}</p>
+                            <p className="error-css">{errors.securityAnswer2}</p>
                         )}
                     </div>
 
@@ -328,7 +328,7 @@ const SignUpPage = () => {
                             ))}
                         </select>
                         {errors.securityQuestion3 && (
-                            <p className="error">{errors.securityQuestion3}</p>
+                            <p className="error-css">{errors.securityQuestion3}</p>
                         )}
                     </div>
 
@@ -341,7 +341,7 @@ const SignUpPage = () => {
                             onChange={handleChange}
                         />
                         {errors.securityAnswer3 && (
-                            <p className="error">{errors.securityAnswer3}</p>
+                            <p className="error-css">{errors.securityAnswer3}</p>
                         )}
                     </div>
 

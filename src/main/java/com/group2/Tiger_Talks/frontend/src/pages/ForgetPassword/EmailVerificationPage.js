@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import "../../assets/styles/ForgetPassword/EmailVerificationPage.css";
 
 const EmailVerificationPage = () => {
     const {state} = useLocation();
@@ -30,17 +31,19 @@ const EmailVerificationPage = () => {
 
     return (
         <div className="email-verification">
-            <h1>Enter Verification Code</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Enter code sent to your email"
-                    value={code}
-                    onChange={handleChange}
-                />
-                <button type="submit">Submit</button>
-            </form>
-            {errors.general && <p className="error">{errors.general}</p>}
+            <div className="email-verification-card">
+                <h1>Enter Verification Code</h1>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        placeholder="Enter code sent to your email"
+                        value={code}
+                        onChange={handleChange}
+                    />
+                    <button type="submit">Submit</button>
+                </form>
+                {errors.general && <p className="error-css">{errors.general}</p>}
+            </div>
         </div>
     );
 };
