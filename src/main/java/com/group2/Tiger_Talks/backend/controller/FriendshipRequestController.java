@@ -15,7 +15,6 @@ import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
  */
 @RestController
 @RequestMapping("/friendshipRequests")
-@CrossOrigin(origins = CROSS_ORIGIN_HOST_NAME)
 public class FriendshipRequestController {
 
     @Autowired
