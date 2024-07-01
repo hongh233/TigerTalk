@@ -20,6 +20,6 @@ public interface SignUpService {
     /**
      * A test method for signing up user profiles.
      */
-    void signUpTest();
+    void signUpTest(int numOfUsers);
 }
 

@@ -1,70 +1,35 @@
 package com.group2.Tiger_Talks.backend.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Test {
 
-    private final String[] securityQuestions = {
+    private final static String[] securityQuestions = {
             "What was your favourite book as a child?",
             "In what city were you born?",
             "What is the name of the hospital where you were born?"};
-    private final String[] securityQuestionAnswers = {"1", "1", "1"};
-    public UserProfile user4 = new UserProfile(
-            "user", "numberF", 12, "Male", "user4",
-            "4@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
-    );
-    public UserProfile user5 = new UserProfile(
-            "user", "numberF", 12, "Male", "user5",
-            "5@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
-    );
-    private UserProfile user1 = new UserProfile(
-            "user", "numberO", 12, "Male", "user1",
-            "1@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
-    );
-    private UserProfile user2 = new UserProfile(
-            "user", "numberT", 12, "Male", "user2",
-            "2@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
-    );
-    private UserProfile user3 = new UserProfile(
-            "user", "numberT", 12, "Male", "user3",
-            "3@dal.ca", "aaaa1A@a", securityQuestionAnswers, securityQuestions
-    );
+    private final static String[] securityQuestionAnswers = {"1", "1", "1"};
 
-    public UserProfile getUser1() {
-        return user1;
+    public static List<UserProfile> genUsers(int numOfUsers) {
+        ArrayList<UserProfile> userProfiles = new ArrayList<>();
+        for (int i = 0; i < numOfUsers; i++) {
+            userProfiles.add(new UserProfile(
+                    "user" + alpha(i),
+                    "number",
+                    12,
+                    (i % 3 == 0) ? "Male" : "Female",
+                    "user" + alpha(i),
+                    (char)(alpha(i) ^ 32) + "@dal.ca", // Flip case
+                    "aaaa1A@a",
+                    securityQuestionAnswers,
+                    securityQuestions
+            ));
+        }
+        return userProfiles;
     }
 
-    public void setUser1(UserProfile user1) {
-        this.user1 = user1;
-    }
-
-    public UserProfile getUser2() {
-        return user2;
-    }
-
-    public void setUser2(UserProfile user2) {
-        this.user2 = user2;
-    }
-
-    public UserProfile getUser3() {
-        return user3;
-    }
-
-    public void setUser3(UserProfile user3) {
-        this.user3 = user3;
-    }
-
-    public UserProfile getUser4() {
-        return user4;
-    }
-
-    public void setUser4(UserProfile user4) {
-        this.user4 = user4;
-    }
-
-    public UserProfile getUser5() {
-        return user5;
-    }
-
-    public void setUser5(UserProfile user5) {
-        this.user5 = user5;
+    private static char alpha(int n) {
+        return (char) ('A' + n);
     }
 }

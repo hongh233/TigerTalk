@@ -27,11 +27,7 @@ public class SignUpServiceImpl implements SignUpService {
     }
 
     @Override
-    public void signUpTest() {
-        userProfileRepository.save(new Test().getUser1());
-        userProfileRepository.save(new Test().getUser2());
-        userProfileRepository.save(new Test().getUser3());
-        userProfileRepository.save(new Test().getUser4());
-        userProfileRepository.save(new Test().getUser5());
+    public void signUpTest(int numOfUsers) {
+        userProfileRepository.saveAll(Test.genUsers(numOfUsers));
     }
 }

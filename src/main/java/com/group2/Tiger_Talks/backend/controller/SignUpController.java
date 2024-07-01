@@ -36,7 +36,9 @@ public class SignUpController {
      * Test method for signing up user profiles.
      */
     @PostMapping("/Test")
-    public void signUp() {
-        signUpService.signUpTest();
+    public void bulkSignUp(@RequestParam("numOfUsers") int numOfUsers) {
+        if (numOfUsers > 26)
+            throw new IllegalArgumentException("Cannot generate more than 26 users as the names are A-Z check impl to change this behaviour");
+        signUpService.signUpTest(numOfUsers);
     }
 }
