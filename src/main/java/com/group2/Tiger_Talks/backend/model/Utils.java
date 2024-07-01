@@ -38,6 +38,11 @@ public final class Utils {
         public static final String OFFLINE = "offline";     // Offline
     }
 
+    public static final class TestGen {
+        public static final int MAX_USERS = 26;     // Offline
+        public static final int MIN_USERS = 3;     // Offline
+    }
+
     public static final class RegexCheck {
         public static final Pattern PASSWORD_NORM_LENGTH = Pattern.compile("^.{8,}$");
         public static final Pattern PASSWORD_NORM_UPPERCASE = Pattern.compile("^(?=.*[A-Z]).+$");

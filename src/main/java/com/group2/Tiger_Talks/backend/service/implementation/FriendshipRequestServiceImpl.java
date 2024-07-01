@@ -84,5 +84,9 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         return Optional.empty();
     }
 
+    @Override
+    public int findNumOfTotalRequests() {
+        return friendshipRequestRepository.findAll().size();
+    }
 
 }

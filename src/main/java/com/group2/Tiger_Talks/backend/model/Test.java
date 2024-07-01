@@ -29,7 +29,7 @@ public final class Test {
         return userProfiles;
     }
 
-    private static char alpha(int n) {
+    public static char alpha(int n) {
         return (char) ('A' + n);
     }
 }

@@ -35,4 +35,8 @@ public interface FriendshipRequestService {
      */
     Optional<String> rejectFriendshipRequest(Integer friendshipRequestId);
 
+    /**
+     * @return The number of friend requests in the database
+     */
+    int findNumOfTotalRequests();
 }
