@@ -21,6 +21,8 @@ import AuthenticationFailPage from "./pages/AuthenticationFailPage";
 import {useSelector} from "react-redux";
 
 import "./assets/styles/App.css";
+import ValidationFailPage from "./pages/ValidationFailPage";
+import AdminFailPage from "./pages/AdminFailPage";
 
 const App = () => {
     return <AppRoutes/>;
@@ -29,6 +31,7 @@ const App = () => {
 const AppRoutes = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const user = useSelector((state) => state.user.user);
+    console.log(user);
     useEffect(() => {
         setIsLoggedIn(!!user);
     }, [user]);
@@ -38,49 +41,52 @@ const AppRoutes = () => {
             <Routes>
                 <Route
                     path="/main"
-                    element={isLoggedIn ? <MainPage/> : <AuthenticationFailPage/>}
+                    element={isLoggedIn ? (user.validated?<MainPage/>:<ValidationFailPage/>) : <AuthenticationFailPage/>}
                 />
                 <Route path="/" element={<LoginPage/>}/>
                 <Route path="/signup" element={<SignUpPage/>}/>
 
                 <Route
                     path={`/profile/:userEmail`}
-                    element={isLoggedIn ? <ProfilePage/> : <AuthenticationFailPage/>}
+                    element={isLoggedIn ? (user.validated?<ProfilePage/>:<ValidationFailPage/>) : <AuthenticationFailPage/>}
                 />
                 <Route
                     path="/profile/edit"
                     element={
-                        isLoggedIn ? <ProfileSettingsPage/> : <AuthenticationFailPage/>
+                        isLoggedIn ? (user.validated?<ProfileSettingsPage/>:<ValidationFailPage/>) : <AuthenticationFailPage/>
                     }
                 />
                 <Route
                     path="/group"
-                    element={isLoggedIn ? <GroupPage/> : <AuthenticationFailPage/>}
+                    element={isLoggedIn ? (user.validated?<GroupPage/>:<ValidationFailPage/>) : <AuthenticationFailPage/>}
                 />
                 <Route
                     path="/group/creategroup"
                     element={
-                        isLoggedIn ? <CreateGroupPage/> : <AuthenticationFailPage/>
+                        isLoggedIn ? (user.validated?<CreateGroupPage/>:<ValidationFailPage/>) : <AuthenticationFailPage/>
                     }
                 />
                 <Route
                     path="/group/viewgroup/:groupId"
-                    element={isLoggedIn ? <ViewGroupPage/> : <AuthenticationFailPage/>}
+                    element={isLoggedIn ? (user.validated?<ViewGroupPage/>:<ValidationFailPage/>) : <AuthenticationFailPage/>}
                 />
                 {/* FRIENDS ROUTE */}
                 <Route
                     path="/friends/friend-request-list"
                     element={
-                        isLoggedIn ? <FriendRequestPage/> : <AuthenticationFailPage/>
+                        isLoggedIn ? (user.validated?<FriendRequestPage/>:<ValidationFailPage/>) : <AuthenticationFailPage/>
                     }
                 />
                 <Route
                     path="/friends/friend-list"
-                    element={isLoggedIn ? <FriendListPage/> : <AuthenticationFailPage/>}
+                    element={isLoggedIn ? (user.validated?<FriendListPage/>:<ValidationFailPage/>) : <AuthenticationFailPage/>}
                 />
                 <Route
                     path="/admin"
-                    element={isLoggedIn ? <AdminPage/> : <AuthenticationFailPage/>}
+                    element={isLoggedIn ? 
+                        (user.validated?(user.userLevel==="admin"?<AdminPage/>:<AdminFailPage/>) 
+                        :<ValidationFailPage/>) 
+                        : <AuthenticationFailPage/>}
                 />
                 <Route path="/forgotPassword" element={<ForgotPasswordPage/>}/>
                 <Route path="/securityQuestions" element={<SecurityQuestionsPage/>}/>
