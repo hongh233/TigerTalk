@@ -14,7 +14,7 @@ public class FriendshipMessageDTO {
     private String messageReceiver;  // email
 
 
-    // add as much things as you want
+    // add as many things as you want
 
     public FriendshipMessageDTO(FriendshipMessage friendshipMessage) {
         this.messageId = friendshipMessage.getMessageId();

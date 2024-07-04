@@ -18,7 +18,8 @@ public class GroupMembership {
 
     @ManyToOne
     @JoinColumn(name = "email")
-    private UserProfile member;
+    private UserProfile userProfile;
+
 
     private LocalDateTime joinTime = LocalDateTime.now();
 
@@ -28,9 +29,9 @@ public class GroupMembership {
     public GroupMembership() {
     }
 
-    public GroupMembership(Group group, UserProfile member, boolean isCreator) {
+    public GroupMembership(Group group, UserProfile userProfile, boolean isCreator) {
         this.group = group;
-        this.member = member;
+        this.userProfile = userProfile;
         this.isCreator = isCreator;
     }
 
@@ -50,12 +51,12 @@ public class GroupMembership {
         this.group = group;
     }
 
-    public UserProfile getMember() {
-        return member;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
-    public void setMember(UserProfile member) {
-        this.member = member;
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
     public LocalDateTime getJoinTime() {
