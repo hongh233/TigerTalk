@@ -17,7 +17,7 @@ public class GroupMessage {
     private LocalDateTime messageCreateTime = LocalDateTime.now();
 
     private String content;
-    
+
     private String messageSender;    // userprofile email
 
 
