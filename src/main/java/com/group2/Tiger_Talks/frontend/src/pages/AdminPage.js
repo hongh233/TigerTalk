@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import UserList from "../components/UserList";
@@ -6,6 +7,8 @@ import axios from "axios";
 import "../assets/styles/AdminPage.css";
 // TODO :: {Raphael} Fix admins cyclic reference using new links to dto
 const AdminPage = () => {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [data, setData] = useState([]);
     useEffect(() => {
@@ -39,6 +42,8 @@ const AdminPage = () => {
                         : user
                 )
             );
+            if(selectedUsers.includes(user.email))
+                dispatch({type: "SET_USER", payload: {...user,validated:!user.validated}});
             console.log("Users enabled/disabled successfully");
             setSelectedUsers([]);
         } catch (error) {
