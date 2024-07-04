@@ -1,22 +1,24 @@
-package com.group2.Tiger_Talks.backend.model.Socials;
+package com.group2.Tiger_Talks.backend.model.Friend;
 
-public class FriendshipRequestDTO {
+public class FriendshipDTO {
+
     private Integer id;
     private String senderEmail;
     private String senderName;
     private String receiverEmail;
     private String receiverName;
+
     private String senderProfilePictureUrl;
     private String receiverProfilePictureUrl;
 
-    public FriendshipRequestDTO(FriendshipRequest friendshipRequest) {
-        this.id = friendshipRequest.getFriendshipRequestId();
-        this.senderEmail = friendshipRequest.getSender().getEmail();
-        this.senderName = friendshipRequest.getSender().getUserName();
-        this.receiverEmail = friendshipRequest.getReceiver().getEmail();
-        this.receiverName = friendshipRequest.getReceiver().getUserName();
-        this.senderProfilePictureUrl = friendshipRequest.getSender().getProfilePictureUrl();
-        this.receiverProfilePictureUrl = friendshipRequest.getReceiver().getProfilePictureUrl();
+    public FriendshipDTO(Friendship friendship) {
+        this.id = friendship.getFriendshipId();
+        this.senderEmail = friendship.getSender().getEmail();
+        this.senderName = friendship.getSender().getUserName();
+        this.receiverEmail = friendship.getReceiver().getEmail();
+        this.receiverName = friendship.getReceiver().getUserName();
+        this.senderProfilePictureUrl = friendship.getSender().getProfilePictureUrl();
+        this.receiverProfilePictureUrl = friendship.getReceiver().getProfilePictureUrl();
     }
 
     public Integer getId() {
@@ -74,6 +76,4 @@ public class FriendshipRequestDTO {
     public void setReceiverProfilePictureUrl(String receiverProfilePictureUrl) {
         this.receiverProfilePictureUrl = receiverProfilePictureUrl;
     }
-
-
 }

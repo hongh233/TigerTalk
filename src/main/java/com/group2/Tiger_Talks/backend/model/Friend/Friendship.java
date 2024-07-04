@@ -1,8 +1,7 @@
-package com.group2.Tiger_Talks.backend.model.Socials;
+package com.group2.Tiger_Talks.backend.model.Friend;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.group2.Tiger_Talks.backend.model.Message;
-import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -27,7 +26,7 @@ public class Friendship {
     private UserProfile receiver;
 
     @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> messageList = new LinkedList<>();
+    private List<FriendshipMessage> friendshipMessageList = new LinkedList<>();
 
     private String senderEmailTemp;
     private String receiverEmailTemp;
@@ -88,12 +87,12 @@ public class Friendship {
         this.createTime = createTime;
     }
 
-    public List<Message> getMessageList() {
-        return messageList;
+    public List<FriendshipMessage> getMessageList() {
+        return friendshipMessageList;
     }
 
-    public void setMessageList(List<Message> messageList) {
-        this.messageList = messageList;
+    public void setMessageList(List<FriendshipMessage> friendshipMessageList) {
+        this.friendshipMessageList = friendshipMessageList;
     }
 
     public String getSenderEmailTemp() {

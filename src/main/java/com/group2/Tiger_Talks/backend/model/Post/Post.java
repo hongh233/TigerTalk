@@ -1,8 +1,9 @@
-package com.group2.Tiger_Talks.backend.model;
+package com.group2.Tiger_Talks.backend.model.Post;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -29,7 +30,7 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Comment> comments = new ArrayList<>();
+    private List<PostComment> postComments = new ArrayList<>();
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostLike> postLikes = new ArrayList<>();
 
@@ -92,21 +93,21 @@ public class Post {
         this.numOfLike = numOfLike;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public List<PostComment> getComments() {
+        return postComments;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setComments(List<PostComment> postComments) {
+        this.postComments = postComments;
     }
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        comment.setPost(this);
+    public void addComment(PostComment postComment) {
+        postComments.add(postComment);
+        postComment.setPost(this);
     }
 
-    public void removeComment(Comment comment) {
-        comments.remove(comment);
-        comment.setPost(null);
+    public void removeComment(PostComment postComment) {
+        postComments.remove(postComment);
+        postComment.setPost(null);
     }
 }

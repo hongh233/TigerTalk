@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.controller;
 
-import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequestDTO;
+import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequestDTO;
 import com.group2.Tiger_Talks.backend.model.Test;
 import com.group2.Tiger_Talks.backend.service.FriendshipRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
 import static com.group2.Tiger_Talks.backend.model.Utils.TestGen.MAX_USERS;
 import static com.group2.Tiger_Talks.backend.model.Utils.TestGen.MIN_USERS;
 

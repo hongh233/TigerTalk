@@ -1,17 +1,17 @@
 import React from 'react';
 import '../assets/styles/Comment.css';
 
-const Comment = ({comment}) => (
-    <div className="comment">
-        <div className="comment-header">
-            <div className="comment-profile-picture"></div>
-            <div className="comment-user-details">
-                <h4>{comment.userName}</h4>
-                <p>{comment.time}</p>
+const Comment = ({postComment}) => (
+    <div className="postComment">
+        <div className="postComment-header">
+            <div className="postComment-profile-picture"></div>
+            <div className="postComment-user-details">
+                <h4>{postComment.userName}</h4>
+                <p>{postComment.time}</p>
             </div>
         </div>
-        <div className="comment-content">
-            <p>{comment.content}</p>
+        <div className="postComment-content">
+            <p>{postComment.content}</p>
         </div>
     </div>
 );

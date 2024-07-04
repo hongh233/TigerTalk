@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
-import com.group2.Tiger_Talks.backend.model.UserProfile;
-import com.group2.Tiger_Talks.backend.model.UserProfilePostDTO;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOPost;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.FriendshipRecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class FriendshipRecommendationServiceImpl implements FriendshipRecommenda
     @Autowired
     private UserProfileRepository userProfileRepository;
 
-    public List<UserProfilePostDTO> recommendFriends(String email, int numOfFriends) {
+    public List<UserProfileDTOPost> recommendFriends(String email, int numOfFriends) {
         // Retrieve the user's profile and their list of friends
         return userProfileRepository.findById(email)
                 .map(myProfile -> {
@@ -36,7 +36,7 @@ public class FriendshipRecommendationServiceImpl implements FriendshipRecommenda
                     // Return the first 'numOfFriends' users as recommendations, mapped to DTOs
                     return potentialFriends.stream()
                             .limit(numOfFriends)
-                            .map(UserProfilePostDTO::new)
+                            .map(UserProfileDTOPost::new)
                             .collect(Collectors.toList());
                 })
                 .orElseGet(LinkedList::new); // Return an empty list if user profile is not found

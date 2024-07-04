@@ -1,18 +1,20 @@
-package com.group2.Tiger_Talks.backend.model;
+package com.group2.Tiger_Talks.backend.model.User;
 
-public class UserProfileFriendshipDTO {
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+
+public class UserProfileDTOFriendship {
 
     private String email;
     private String userName;
     private String profilePictureUrl;
 
-    public UserProfileFriendshipDTO(UserProfile userProfile) {
+    public UserProfileDTOFriendship(UserProfile userProfile) {
         this.email = userProfile.getEmail();
         this.userName = userProfile.getUserName();
         this.profilePictureUrl = userProfile.getProfilePictureUrl();
     }
 
-    public UserProfileFriendshipDTO() {
+    public UserProfileDTOFriendship() {
     }
 
     public String getEmail() {

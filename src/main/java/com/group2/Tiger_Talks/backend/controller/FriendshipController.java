@@ -1,15 +1,13 @@
 package com.group2.Tiger_Talks.backend.controller;
 
-import com.group2.Tiger_Talks.backend.model.Socials.FriendshipDTO;
-import com.group2.Tiger_Talks.backend.model.UserProfileFriendshipDTO;
+import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
+import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
 import com.group2.Tiger_Talks.backend.service.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
 
 /**
  * REST controller for managing user friendships.
@@ -39,7 +37,7 @@ public class FriendshipController {
      * @return List of UserProfileFriendshipDTO representing all friends
      */
     @GetMapping("/DTO/{email}")
-    public List<UserProfileFriendshipDTO> getAllFriendsDTO(@PathVariable("email") String email) {
+    public List<UserProfileDTOFriendship> getAllFriendsDTO(@PathVariable("email") String email) {
         return friendshipService.getAllFriendsDTO(email);
     }
 

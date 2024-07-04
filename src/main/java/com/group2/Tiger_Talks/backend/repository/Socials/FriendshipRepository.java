@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.repository.Socials;
 
-import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
-import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 

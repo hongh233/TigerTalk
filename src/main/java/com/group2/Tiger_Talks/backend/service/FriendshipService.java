@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.service;
 
-import com.group2.Tiger_Talks.backend.model.Socials.FriendshipDTO;
-import com.group2.Tiger_Talks.backend.model.UserProfileFriendshipDTO;
+import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
+import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,7 @@ public interface FriendshipService {
     List<FriendshipDTO> getAllFriends(String email);
 
 
-    List<UserProfileFriendshipDTO> getAllFriendsDTO(String email);
+    List<UserProfileDTOFriendship> getAllFriendsDTO(String email);
 
     /**
      * Delete a friendship by email: sender <--> receiver.

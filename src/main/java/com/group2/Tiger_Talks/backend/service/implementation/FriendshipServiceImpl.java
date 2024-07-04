@@ -1,9 +1,9 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
-import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
-import com.group2.Tiger_Talks.backend.model.Socials.FriendshipDTO;
-import com.group2.Tiger_Talks.backend.model.UserProfile;
-import com.group2.Tiger_Talks.backend.model.UserProfileFriendshipDTO;
+import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
+import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.FriendshipService;
@@ -24,14 +24,14 @@ public class FriendshipServiceImpl implements FriendshipService {
     private UserProfileRepository userProfileRepository;
 
     @Override
-    public List<UserProfileFriendshipDTO> getAllFriendsDTO(String email) {
+    public List<UserProfileDTOFriendship> getAllFriendsDTO(String email) {
         UserProfile user = userProfileRepository.findUserProfileByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("User not found"));
         List<Friendship> friendships = friendshipRepository.findBySenderOrReceiver(user, user);
         return friendships.stream()
                 .map(friendship -> {
                     UserProfile friend = user.equals(friendship.getSender()) ? friendship.getReceiver() : friendship.getSender();
-                    return new UserProfileFriendshipDTO(friend);
+                    return new UserProfileDTOFriendship(friend);
                 })
                 .collect(Collectors.toList());
     }
@@ -76,7 +76,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     public boolean areFriends(String email1, String email2) {
         return getAllFriendsDTO(email1)
                 .stream()
-                .anyMatch(userProfileFriendshipDTO -> userProfileFriendshipDTO.getEmail().equals(email2));
+                .anyMatch(userProfileDTOFriendship -> userProfileDTOFriendship.getEmail().equals(email2));
     }
 
 }

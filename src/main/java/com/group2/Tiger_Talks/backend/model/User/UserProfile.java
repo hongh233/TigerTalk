@@ -1,9 +1,12 @@
-package com.group2.Tiger_Talks.backend.model;
+package com.group2.Tiger_Talks.backend.model.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
-import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
+import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
+import com.group2.Tiger_Talks.backend.model.Notification;
+import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
 
@@ -19,7 +22,7 @@ import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserProfile {
+public class UserProfile implements UserProfileInterface {
     @Id
     private String email;
 
@@ -47,6 +50,9 @@ public class UserProfile {
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Post> postList = new LinkedList<>();
+
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupMembership> groupMembershipList = new LinkedList<>();
 
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
@@ -98,7 +104,7 @@ public class UserProfile {
 
     // Getters and setters
 
-    public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
+    public static Optional<String> verifyBasics(UserProfileInterface userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
         if (!NAME_NORM.matcher(userProfile.getFirstName()).matches()) {
             return Optional.of("First name must contain no symbols");
         }

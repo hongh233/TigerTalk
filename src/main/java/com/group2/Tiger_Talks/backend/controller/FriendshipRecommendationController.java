@@ -1,14 +1,12 @@
 package com.group2.Tiger_Talks.backend.controller;
 
-import com.group2.Tiger_Talks.backend.model.UserProfilePostDTO;
+import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOPost;
 import com.group2.Tiger_Talks.backend.service.FriendshipRecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
 
 /**
  * REST controller for handling friendship recommendations.
@@ -28,8 +26,8 @@ public class FriendshipRecommendationController {
      * @return ResponseEntity with a list of recommended friends, wrapped in UserProfilePostDTO
      */
     @GetMapping("/recommendFriends/{email}/{numOfFriends}")
-    public ResponseEntity<List<UserProfilePostDTO>> recommendFriends(@PathVariable String email, @PathVariable int numOfFriends) {
-        List<UserProfilePostDTO> recommendedFriends = friendRecommendationService.recommendFriends(email, numOfFriends);
+    public ResponseEntity<List<UserProfileDTOPost>> recommendFriends(@PathVariable String email, @PathVariable int numOfFriends) {
+        List<UserProfileDTOPost> recommendedFriends = friendRecommendationService.recommendFriends(email, numOfFriends);
         return ResponseEntity.ok(recommendedFriends);
     }
 }

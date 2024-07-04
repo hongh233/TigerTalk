@@ -1,9 +1,9 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
-import com.group2.Tiger_Talks.backend.model.Post;
-import com.group2.Tiger_Talks.backend.model.PostDTO;
-import com.group2.Tiger_Talks.backend.model.PostLike;
-import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.Post.Post;
+import com.group2.Tiger_Talks.backend.model.Post.PostDTO;
+import com.group2.Tiger_Talks.backend.model.Post.PostLike;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.PostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
