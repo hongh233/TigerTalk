@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller;
 
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
-import com.group2.Tiger_Talks.backend.service.UserProfileService;
+import com.group2.Tiger_Talks.backend.service.UserProfile.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

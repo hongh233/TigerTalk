@@ -2,7 +2,7 @@ package com.group2.Tiger_Talks.backend.controller;
 
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
-import com.group2.Tiger_Talks.backend.service.FriendshipService;
+import com.group2.Tiger_Talks.backend.service.Friend.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
