@@ -1,5 +1,7 @@
 package com.group2.Tiger_Talks.backend.model;
 
+import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +28,12 @@ public final class Test {
                     securityQuestionAnswers,
                     securityQuestions
             ));
-            if (ADMIN_USER == (alpha(i) ^ 32))
-                userProfiles.get(userProfiles.size() - 1).setUserLevel(Utils.UserLevel.ADMIN);
+            if (ADMIN_USER == (alpha(i) ^ 32)) {
+                UserProfile admin = userProfiles.get(userProfiles.size() - 1);
+                admin.setUserLevel(Utils.UserLevel.ADMIN);
+                admin.setValidated(true);
+                admin.setStatus(UserStatus.ACTIVE);
+            }
         }
         return userProfiles;
     }
