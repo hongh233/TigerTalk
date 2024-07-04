@@ -1,7 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Post;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.group2.Tiger_Talks.backend.model.Post.Post;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -19,15 +18,18 @@ public class PostComment {
 
     private String content;
 
+    private String postSender;
+
     @Column(nullable = false)
     private LocalDateTime timestamp = LocalDateTime.now();
 
     public PostComment() {
     }
 
-    public PostComment(Post post, String content) {
+    public PostComment(Post post, String content, String postSender) {
         this.post = post;
         this.content = content;
+        this.postSender = postSender;
     }
 
     public Integer getCommentId() {
@@ -61,4 +63,13 @@ public class PostComment {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
+
+    public String getPostSender() {
+        return postSender;
+    }
+
+    public void setPostSender(String postSender) {
+        this.postSender = postSender;
+    }
+
 }

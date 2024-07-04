@@ -2,7 +2,7 @@ package com.group2.Tiger_Talks.backend.model;
 
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
-import com.group2.Tiger_Talks.backend.service.FriendshipRequestService;
+import com.group2.Tiger_Talks.backend.service.Friend.FriendshipRequestService;
 import org.springframework.http.ResponseEntity;
 
 import java.util.*;

@@ -2,7 +2,7 @@ package com.group2.Tiger_Talks.backend.controller;
 
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostDTO;
-import com.group2.Tiger_Talks.backend.service.PostService;
+import com.group2.Tiger_Talks.backend.service.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
