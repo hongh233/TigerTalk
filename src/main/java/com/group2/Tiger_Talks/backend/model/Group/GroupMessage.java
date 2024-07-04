@@ -17,13 +17,19 @@ public class GroupMessage {
     private LocalDateTime messageCreateTime = LocalDateTime.now();
 
     private String content;
+    
+    private String messageSender;    // userprofile email
 
-    public GroupMessage(String content) {
+
+    public GroupMessage(String content, String messageSender) {
         this.content = content;
+        this.messageSender = messageSender;
     }
 
     public GroupMessage() {
     }
+
+
 
 
     public Group getGroup() {
