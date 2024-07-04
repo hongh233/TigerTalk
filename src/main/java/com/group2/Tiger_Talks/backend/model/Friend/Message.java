@@ -1,6 +1,6 @@
-package com.group2.Tiger_Talks.backend.model;
+package com.group2.Tiger_Talks.backend.model.Friend;
 
-import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
+import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import jakarta.persistence.*;
 
 @Entity

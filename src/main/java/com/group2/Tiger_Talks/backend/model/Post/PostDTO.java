@@ -1,4 +1,6 @@
-package com.group2.Tiger_Talks.backend.model;
+package com.group2.Tiger_Talks.backend.model.Post;
+
+import com.group2.Tiger_Talks.backend.model.Post.Post;
 
 import java.time.LocalDateTime;
 

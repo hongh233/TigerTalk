@@ -1,8 +1,7 @@
-package com.group2.Tiger_Talks.backend.model.Socials;
+package com.group2.Tiger_Talks.backend.model.Friend;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.group2.Tiger_Talks.backend.model.Message;
-import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

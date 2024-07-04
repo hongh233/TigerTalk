@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
-import com.group2.Tiger_Talks.backend.model.UserProfile;
-import com.group2.Tiger_Talks.backend.model.UserProfileDTO;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.model.Utils.OnlineStatus;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.LogInService;

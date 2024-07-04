@@ -1,6 +1,6 @@
-package com.group2.Tiger_Talks.backend.model.User.DTO;
+package com.group2.Tiger_Talks.backend.model.User;
 
-public interface UserProfileData {
+public interface UserProfileInterface {
     String getFirstName();
 
     String getLastName();

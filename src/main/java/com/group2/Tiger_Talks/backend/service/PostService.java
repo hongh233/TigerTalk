@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.service;
 
-import com.group2.Tiger_Talks.backend.model.Post;
-import com.group2.Tiger_Talks.backend.model.PostDTO;
+import com.group2.Tiger_Talks.backend.model.Post.Post;
+import com.group2.Tiger_Talks.backend.model.Post.PostDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

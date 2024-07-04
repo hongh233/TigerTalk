@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.model;
+package com.group2.Tiger_Talks.backend.model.User;
 
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 
@@ -23,7 +23,7 @@ public record UserProfileDTO(
         String lastName,
         String profilePictureUrl,
         String userLevel,
-        List<UserProfileFriendshipDTO> friends
+        List<UserProfileDTOFriendship> friends
 ) {
     public UserProfileDTO(UserProfile userProfile) {
         this(
@@ -42,7 +42,7 @@ public record UserProfileDTO(
                 userProfile.getProfilePictureUrl(),
                 userProfile.getUserLevel(),
                 userProfile.getAllFriends().stream()
-                        .map(UserProfileFriendshipDTO::new)
+                        .map(UserProfileDTOFriendship::new)
                         .toList()
         );
     }

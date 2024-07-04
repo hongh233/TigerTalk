@@ -1,12 +1,13 @@
-package com.group2.Tiger_Talks.backend.model;
+package com.group2.Tiger_Talks.backend.model.Post;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.group2.Tiger_Talks.backend.model.Post.Post;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Comment {
+public class PostComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentId;
@@ -21,10 +22,10 @@ public class Comment {
     @Column(nullable = false)
     private LocalDateTime timestamp = LocalDateTime.now();
 
-    public Comment() {
+    public PostComment() {
     }
 
-    public Comment(Post post, String content) {
+    public PostComment(Post post, String content) {
         this.post = post;
         this.content = content;
     }

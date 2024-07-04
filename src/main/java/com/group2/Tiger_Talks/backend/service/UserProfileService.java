@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.service;
 
-import com.group2.Tiger_Talks.backend.model.UserProfile;
-import com.group2.Tiger_Talks.backend.model.UserProfileDTO;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 
 import java.util.List;
 import java.util.Optional;

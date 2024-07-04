@@ -7,7 +7,7 @@ import "../assets/styles/Post.css";
 
 const Post = ({post, user}) => {
     const [likes, setLikes] = useState(post.likes || post.numOfLike);
-    const [comments, setComments] = useState(post.comments || []);
+    const [postComments, setComments] = useState(post.postComments || []);
     const [newComment, setNewComment] = useState("");
     const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ const Post = ({post, user}) => {
             time: new Date().toLocaleString(),
             content: newComment,
         };
-        setComments([...comments, newCommentObj]);
+        setComments([...postComments, newCommentObj]);
         setNewComment("");
     };
 
@@ -109,14 +109,14 @@ const Post = ({post, user}) => {
                     <FaShare/> Share
                 </button>
             </div>
-            <div className="comments-section">
-                {comments.map((comment, index) => (
-                    <Comment key={index} comment={comment}/>
+            <div className="postComments-section">
+                {postComments.map((postComment, index) => (
+                    <Comment key={index} postComment={postComment}/>
                 ))}
-                <div className="add-comment">
+                <div className="add-postComment">
                     <input
                         type="text"
-                        placeholder="Add a comment..."
+                        placeholder="Add a postComment..."
                         value={newComment}
                         onChange={handleCommentChange}
                     />

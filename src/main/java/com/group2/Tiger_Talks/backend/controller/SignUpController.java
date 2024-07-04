@@ -1,13 +1,11 @@
 package com.group2.Tiger_Talks.backend.controller;
 
-import com.group2.Tiger_Talks.backend.model.UserProfile;
-import com.group2.Tiger_Talks.backend.model.Utils;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.group2.Tiger_Talks.backend.model.Utils.CROSS_ORIGIN_HOST_NAME;
 import static com.group2.Tiger_Talks.backend.model.Utils.TestGen.MAX_USERS;
 import static com.group2.Tiger_Talks.backend.model.Utils.TestGen.MIN_USERS;
 

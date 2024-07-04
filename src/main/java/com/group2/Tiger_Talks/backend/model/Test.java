@@ -1,5 +1,7 @@
 package com.group2.Tiger_Talks.backend.model;
 
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+
 import java.util.ArrayList;
 import java.util.List;
 

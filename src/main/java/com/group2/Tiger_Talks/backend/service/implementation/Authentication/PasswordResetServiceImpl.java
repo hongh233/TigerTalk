@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.implementation.Authentication;
 
-import com.group2.Tiger_Talks.backend.model.User.DTO.ForgotPasswordDTO;
+import com.group2.Tiger_Talks.backend.model.ForgotPasswordDTO;
 import com.group2.Tiger_Talks.backend.repository.PasswordTokenRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;

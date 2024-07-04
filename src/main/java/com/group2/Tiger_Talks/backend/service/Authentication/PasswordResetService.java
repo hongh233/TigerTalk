@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.Authentication;
 
-import com.group2.Tiger_Talks.backend.model.User.DTO.ForgotPasswordDTO;
+import com.group2.Tiger_Talks.backend.model.ForgotPasswordDTO;
 
 import java.util.Optional;
 

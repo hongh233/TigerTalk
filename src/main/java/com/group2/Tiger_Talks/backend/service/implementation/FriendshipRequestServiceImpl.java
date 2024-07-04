@@ -1,9 +1,9 @@
 package com.group2.Tiger_Talks.backend.service.implementation;
 
-import com.group2.Tiger_Talks.backend.model.Socials.Friendship;
-import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequest;
-import com.group2.Tiger_Talks.backend.model.Socials.FriendshipRequestDTO;
-import com.group2.Tiger_Talks.backend.model.UserProfile;
+import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
+import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequestDTO;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRequestRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
