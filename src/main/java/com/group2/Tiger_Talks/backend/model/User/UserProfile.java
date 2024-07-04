@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
 import com.group2.Tiger_Talks.backend.model.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -49,6 +50,9 @@ public class UserProfile implements UserProfileInterface {
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Post> postList = new LinkedList<>();
+
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupMembership> groupMembershipList = new LinkedList<>();
 
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user

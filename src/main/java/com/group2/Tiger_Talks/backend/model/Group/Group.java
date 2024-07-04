@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "user_group")
 public class Group {
 
     @Id
