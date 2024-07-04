@@ -1,8 +1,11 @@
 import React from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import axios from 'axios';
 import "../assets/styles/UserList.css";
 
 const UserList = ({selectedUsers, setSelectedUsers, data, setData}) => {
+    const user = useSelector((state) => state.user.user);
+    const dispatch = useDispatch();
     const handleAdminChange = async (email) => {
         try {
             const userToUpdate = data.find(user => user.email === email);
@@ -14,7 +17,8 @@ const UserList = ({selectedUsers, setSelectedUsers, data, setData}) => {
                     user.email === email ? updatedUser : user
                 )
             );
-
+            if(email===user.email)
+                dispatch({type: "SET_USER", payload: {...userToUpdate, userLevel: userToUpdate.userLevel === 'admin' ? 'user' : 'admin'}});
             console.log(`Admin status changed for user ${email}`);
         } catch (error) {
             console.error('Error updating admin status:', error);
