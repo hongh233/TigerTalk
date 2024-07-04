@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.model;
 
-import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,7 @@ public final class Test {
 
     public static List<UserProfile> genUsers(int numOfUsers) {
         ArrayList<UserProfile> userProfiles = new ArrayList<>();
+        int ADMIN_USER = Test.alpha((numOfUsers / 2)) ^ 32;
         for (int i = 0; i < numOfUsers; i++) {
             userProfiles.add(new UserProfile(
                     "user" + alpha(i),
@@ -22,11 +23,17 @@ public final class Test {
                     12,
                     (i % 3 == 0) ? "Male" : "Female",
                     "user" + alpha(i),
-                    (char)(alpha(i) ^ 32) + "@dal.ca", // Flip case
+                    (char) (alpha(i) ^ 32) + "@dal.ca", // Flip case
                     "aaaa1A@a",
                     securityQuestionAnswers,
                     securityQuestions
             ));
+            if (ADMIN_USER == (alpha(i) ^ 32)) {
+                UserProfile admin = userProfiles.get(userProfiles.size() - 1);
+                admin.setUserLevel(Utils.UserLevel.ADMIN);
+                admin.setValidated(true);
+                admin.setStatus(UserStatus.ACTIVE);
+            }
         }
         return userProfiles;
     }
