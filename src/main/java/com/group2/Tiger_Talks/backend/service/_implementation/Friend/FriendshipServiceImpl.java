@@ -73,6 +73,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         }
     }
 
+    @Override
     public boolean areFriends(String email1, String email2) {
         return getAllFriendsDTO(email1)
                 .stream()
