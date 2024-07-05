@@ -112,7 +112,7 @@ public class UserProfile implements UserProfileInterface {
             return Optional.of("Last name must contain no symbols");
         }
         if (userProfile.getAge() <= 0) {
-            return Optional.of("Age must be grater than 0");
+            return Optional.of("Age must be greater than 0");
         }
         if (!EMAIL_NORM.matcher(userProfile.getEmail()).matches()) {
             return Optional.of("Invalid email address. Please use dal email address!");

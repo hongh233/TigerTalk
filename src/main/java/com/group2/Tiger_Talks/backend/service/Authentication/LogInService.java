@@ -26,11 +26,4 @@ public interface LogInService {
      */
     void logOut(String email);
 
-    /**
-     * Retrieves a user profile by email.
-     *
-     * @param email the email of the user profile to be retrieved
-     * @return an Optional containing the UserProfile if found, or an empty Optional if not found
-     */
-    Optional<UserProfile> getUserByEmail(String email);
 }
