@@ -44,6 +44,21 @@ const Post = ({post, user}) => {
         setNewComment("");
     };
 
+
+    const handleShare = async () => {
+        if (navigator.share) {
+          try {
+            await navigator.share({
+                text: `${post.content} - Posted by the user ${post.userProfileUserName} at ${post.timestamp}`
+            });
+            console.log('Content shared successfully');
+          } catch (error) {
+            console.error('Error sharing content:', error);
+          }
+        } else {
+          alert('Web Share API is not supported in your browser.');
+        }
+    };
     /*
     const handleTagClick = (tag) => {
       // Define what happens when a tag is clicked
@@ -105,7 +120,7 @@ const Post = ({post, user}) => {
                 <button className="post-button">
                     <FaComment/> Comment
                 </button>
-                <button className="post-button">
+                <button className="post-button" onClick={handleShare}>
                     <FaShare/> Share
                 </button>
             </div>
