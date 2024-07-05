@@ -14,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.group2.Tiger_Talks.backend.service._implementation.UserTemplate.*;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -30,9 +29,42 @@ public class PasswordResetServiceImplTest {
     @InjectMocks
     private PasswordResetServiceImpl passwordResetServiceImpl;
 
+    private UserProfile userA;
+    private UserProfile userB;
+
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
+        userA = new UserProfile(
+                "Along",
+                "Aside",
+                22,
+                "Male",
+                "userA",
+                "a@dal.ca",
+                "aaaa1A@a",
+                new String[]{"1", "2", "3"},
+                new String[]{
+                        "What was your favourite book as a child?",
+                        "In what city were you born?",
+                        "What is the name of the hospital where you were born?"
+                }
+        );
+        userB = new UserProfile(
+                "Beach",
+                "Boring",
+                21,
+                "Male",
+                "userB",
+                "b@dal.ca",
+                "aaaa1A@a",
+                new String[]{"1", "2", "3"},
+                new String[]{
+                        "What was your favourite book as a child?",
+                        "In what city were you born?",
+                        "What is the name of the hospital where you were born?"
+                }
+        );
     }
 
     /**
@@ -40,8 +72,8 @@ public class PasswordResetServiceImplTest {
      */
     @Test
     public void createAndSendResetMail_email_exist() {
-        when(userProfileRepository.findById(USER_A.getEmail())).thenReturn(Optional.of(USER_A));
-        passwordResetServiceImpl.createAndSendResetMail(USER_A.getEmail());
+        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        passwordResetServiceImpl.createAndSendResetMail(userA.getEmail());
         verify(passwordTokenRepository).save(any(PasswordTokenImpl.class));
     }
 
@@ -139,16 +171,16 @@ public class PasswordResetServiceImplTest {
 
     @Test
     public void resetPassword_valid_userExist() {
-        when(userProfileRepository.findById(USER_A.getEmail())).thenReturn(Optional.of(USER_A));
+        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         assertTrue(passwordResetServiceImpl.resetPassword(
-                        new ForgotPasswordDTO(USER_A.getEmail(), USER_A.getPassword())).isEmpty());
+                        new ForgotPasswordDTO(userA.getEmail(), userA.getPassword())).isEmpty());
     }
 
     @Test
     public void resetPassword_valid_userNotExist() {
         Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new ForgotPasswordDTO(USER_B.getEmail(), USER_A.getPassword()));
-        when(userProfileRepository.findById(USER_A.getEmail())).thenReturn(Optional.of(USER_A));
+                new ForgotPasswordDTO(userB.getEmail(), userA.getPassword()));
+        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         assertTrue(result.isPresent());
         assertEquals("An error occurred while resetting your password. " +
                 "The email used no longer belongs to any account", result.get());
@@ -166,16 +198,16 @@ public class PasswordResetServiceImplTest {
 
     @Test
     public void validateEmailExist_notExistedEmail() {
-        when(userProfileRepository.findById(USER_A.getEmail())).thenReturn(Optional.empty());
-        Optional<String> result = passwordResetServiceImpl.validateEmailExist(USER_A.getEmail());
+        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.empty());
+        Optional<String> result = passwordResetServiceImpl.validateEmailExist(userA.getEmail());
         assertTrue(result.isPresent());
         assertEquals("Email does not exist in our system!", result.get());
     }
 
     @Test
     public void validateEmailExist_existedEmail() {
-        when(userProfileRepository.findById(USER_A.getEmail())).thenReturn(Optional.of(USER_A));
-        Optional<String> result = passwordResetServiceImpl.validateEmailExist(USER_A.getEmail());
+        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        Optional<String> result = passwordResetServiceImpl.validateEmailExist(userA.getEmail());
         assertTrue(result.isEmpty());
     }
 
@@ -184,20 +216,20 @@ public class PasswordResetServiceImplTest {
      */
     @Test
     public void verifySecurityAnswers_email_not_found() {
-        when(userProfileRepository.findById(USER_A.getEmail())).thenReturn(Optional.empty());
+        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.empty());
         Optional<String> result = passwordResetServiceImpl.verifySecurityAnswers(
-                USER_A.getEmail(),
-                USER_A.getSecurityQuestions()[0],
-                USER_A.getSecurityQuestionsAnswer()[0]);
+                userA.getEmail(),
+                userA.getSecurityQuestions()[0],
+                userA.getSecurityQuestionsAnswer()[0]);
         assertTrue(result.isPresent());
         assertEquals("Fatal Error: Cannot find email specified in the database", result.get());
     }
 
     @Test
     public void verifySecurityAnswers_answer_not_exist() {
-        String email = USER_A.getEmail();
-        String question = USER_A.getSecurityQuestions()[0];
-        String answer = USER_A.getSecurityQuestionsAnswer()[0];
+        String email = userA.getEmail();
+        String question = userA.getSecurityQuestions()[0];
+        String answer = userA.getSecurityQuestionsAnswer()[0];
         UserProfile mockUser = mock(UserProfile.class);
 
         when(userProfileRepository.findById(email)).thenReturn(Optional.of(mockUser));
@@ -210,9 +242,9 @@ public class PasswordResetServiceImplTest {
 
     @Test
     public void verifySecurityAnswers_answer_correct() {
-        String email = USER_A.getEmail();
-        String question = USER_A.getSecurityQuestions()[0];
-        String answer = USER_A.getSecurityQuestionsAnswer()[0];
+        String email = userA.getEmail();
+        String question = userA.getSecurityQuestions()[0];
+        String answer = userA.getSecurityQuestionsAnswer()[0];
         UserProfile mockUser = mock(UserProfile.class);
 
         when(userProfileRepository.findById(email)).thenReturn(Optional.of(mockUser));
@@ -224,9 +256,9 @@ public class PasswordResetServiceImplTest {
 
     @Test
     public void testVerifySecurityAnswers_answer_incorrect() {
-        String email = USER_A.getEmail();
-        String question = USER_A.getSecurityQuestions()[0];
-        String answer = USER_A.getSecurityQuestionsAnswer()[0];
+        String email = userA.getEmail();
+        String question = userA.getSecurityQuestions()[0];
+        String answer = userA.getSecurityQuestionsAnswer()[0];
         UserProfile mockUser = mock(UserProfile.class);
 
         when(userProfileRepository.findById(email)).thenReturn(Optional.of(mockUser));
@@ -243,8 +275,8 @@ public class PasswordResetServiceImplTest {
     @Test
     public void getSecurityQuestions_normal() {
         UserProfile mockUser = mock(UserProfile.class);
-        String email = USER_A.getEmail();
-        String[] securityQuestions = USER_A.getSecurityQuestions();
+        String email = userA.getEmail();
+        String[] securityQuestions = userA.getSecurityQuestions();
 
         when(userProfileRepository.findById(email)).thenReturn(Optional.of(mockUser));
         when(mockUser.getSecurityQuestions()).thenReturn(securityQuestions);
@@ -253,7 +285,7 @@ public class PasswordResetServiceImplTest {
 
     @Test
     public void getSecurityQuestions_userNotFound() {
-        String email = USER_A.getEmail();
+        String email = userA.getEmail();
         when(userProfileRepository.findById(email)).thenReturn(Optional.empty());
         assertThrows(NoSuchElementException.class, () -> {
             passwordResetServiceImpl.getSecurityQuestions(email);
