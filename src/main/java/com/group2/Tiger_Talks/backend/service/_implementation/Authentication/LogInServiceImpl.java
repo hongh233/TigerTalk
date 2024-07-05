@@ -38,9 +38,4 @@ public class LogInServiceImpl implements LogInService {
                     return userRepository.save(userProfile);
                 });
     }
-
-    @Override
-    public Optional<UserProfile> getUserByEmail(String email) {
-        return userRepository.findById(email);
-    }
 }
