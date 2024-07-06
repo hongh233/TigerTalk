@@ -7,6 +7,7 @@ import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
 import com.group2.Tiger_Talks.backend.model.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;
+import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
 
@@ -53,6 +54,10 @@ public class UserProfile implements UserProfileInterface {
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMembership> groupMembershipList = new LinkedList<>();
+
+
+    @OneToMany(mappedBy = "commentSenderUserProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostComment> postCommentList = new LinkedList<>();
 
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
@@ -377,6 +382,24 @@ public class UserProfile implements UserProfileInterface {
     public void setProfilePictureUrl(String profilePictureUrl) {
         this.profilePictureUrl = profilePictureUrl;
     }
+
+
+    public List<GroupMembership> getGroupMembershipList() {
+        return groupMembershipList;
+    }
+
+    public void setGroupMembershipList(List<GroupMembership> groupMembershipList) {
+        this.groupMembershipList = groupMembershipList;
+    }
+
+    public List<PostComment> getPostCommentList() {
+        return postCommentList;
+    }
+
+    public void setPostCommentList(List<PostComment> postCommentList) {
+        this.postCommentList = postCommentList;
+    }
+
 
     public Optional<String> findAnswerForSecurityQuestion(String securityQuestion) {
         for (int i = 0; i < securityQuestions.length; i++) {
