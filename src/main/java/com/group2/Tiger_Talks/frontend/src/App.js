@@ -33,11 +33,12 @@ const App = () => {
 const AppRoutes = () => {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const user = useSelector((state) => state.user.user);
-	console.log(user);
+
 	useEffect(() => {
 		setIsLoggedIn(!!user);
 	}, [user]);
-
+	const isValidated = user && user.validated;
+	const isAdmin = user && user.userLevel === "admin";
 	return (
 		<Router>
 			<Routes>
@@ -45,7 +46,7 @@ const AppRoutes = () => {
 					path="/main"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<MainPage />
 							) : (
 								<ValidationFailPage />
@@ -62,7 +63,7 @@ const AppRoutes = () => {
 					path={`/profile/:userEmail`}
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<ProfilePage />
 							) : (
 								<ValidationFailPage />
@@ -76,7 +77,7 @@ const AppRoutes = () => {
 					path="/profile/edit"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<ProfileSettingsPage />
 							) : (
 								<ValidationFailPage />
@@ -90,7 +91,7 @@ const AppRoutes = () => {
 					path="/group"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<GroupPage />
 							) : (
 								<ValidationFailPage />
@@ -104,7 +105,7 @@ const AppRoutes = () => {
 					path="/group/creategroup"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<CreateGroupPage />
 							) : (
 								<ValidationFailPage />
@@ -118,7 +119,7 @@ const AppRoutes = () => {
 					path="/group/:groupId/setting"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<GroupSettingPage />
 							) : (
 								<ValidationFailPage />
@@ -132,7 +133,7 @@ const AppRoutes = () => {
 					path="/group/viewgroup/:groupId"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<ViewGroupPage />
 							) : (
 								<ValidationFailPage />
@@ -146,7 +147,7 @@ const AppRoutes = () => {
 					path="/group/:groupId/members"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<GroupMemberPage />
 							) : (
 								<ValidationFailPage />
@@ -161,7 +162,7 @@ const AppRoutes = () => {
 					path="/friends/friend-request-list"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<FriendRequestPage />
 							) : (
 								<ValidationFailPage />
@@ -175,7 +176,7 @@ const AppRoutes = () => {
 					path="/friends/friend-list"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
+							isValidated ? (
 								<FriendListPage />
 							) : (
 								<ValidationFailPage />
@@ -189,8 +190,8 @@ const AppRoutes = () => {
 					path="/admin"
 					element={
 						isLoggedIn ? (
-							user.validated ? (
-								user.userLevel === "admin" ? (
+							isValidated ? (
+								isAdmin ? (
 									<AdminPage />
 								) : (
 									<AdminFailPage />

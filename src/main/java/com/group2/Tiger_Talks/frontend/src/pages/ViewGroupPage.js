@@ -4,7 +4,7 @@ import Post from "../components/Post";
 import Header from "../components/Header";
 import "../assets/styles/GroupPage.css";
 import NavBar from "../components/NavBar";
-
+import PostCreation from "./../components/PostCreation";
 const posts = [
 	{
 		id: 1,
@@ -60,6 +60,7 @@ const ViewGroupPage = () => (
 					</ul>
 				</div>
 				<div className="group-post">
+					<PostCreation />
 					{posts.map((post) => (
 						<Post key={post.id} post={post} />
 					))}
