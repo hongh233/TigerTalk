@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.model.Post;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
+import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
+import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 
 import java.time.LocalDateTime;
 
@@ -11,17 +11,41 @@ public class PostCommentDTO {
 
     private String content;
 
-    private String postSender;
-
     private LocalDateTime timestamp;
 
+
+
     // add as many as you want
+
+    private UserProfileDTO commentSenderUserProfileDTO;
+
+    private UserProfileDTO postSenderUserProfileDTO;
+
+    private Integer postId;
+
+    public PostCommentDTO() {
+
+    }
 
     public PostCommentDTO(PostComment postComment) {
         this.commentId = postComment.getCommentId();
         this.content = postComment.getContent();
-        this.postSender = postComment.getPostSender();
         this.timestamp = postComment.getTimestamp();
+        this.commentSenderUserProfileDTO = new UserProfileDTO(postComment.getCommentSenderUserProfile());
+        this.postId = postComment.getPost().getPostId();
+        this.postSenderUserProfileDTO = new UserProfileDTO(postComment.getPost().getUserProfile());
+    }
+
+    @Override
+    public String toString() {
+        return "PostCommentDTO{" +
+                "\ncommentId=" + commentId +
+                ",\n content='" + content + '\'' +
+                ",\n timestamp=" + timestamp +
+                ",\n commentSenderUserProfileDTO=" + commentSenderUserProfileDTO +
+                ",\n postSenderUserProfileDTO=" + postSenderUserProfileDTO +
+                ",\n postId=" + postId +
+                '}';
     }
 
     public Integer getCommentId() {
@@ -40,19 +64,35 @@ public class PostCommentDTO {
         this.content = content;
     }
 
-    public String getPostSender() {
-        return postSender;
-    }
-
-    public void setPostSender(String postSender) {
-        this.postSender = postSender;
-    }
-
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public UserProfileDTO getCommentSenderUserProfileDTO() {
+        return commentSenderUserProfileDTO;
+    }
+
+    public void setCommentSenderUserProfileDTO(UserProfileDTO commentSenderUserProfileDTO) {
+        this.commentSenderUserProfileDTO = commentSenderUserProfileDTO;
+    }
+
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
+    public UserProfileDTO getPostSenderUserProfileDTO() {
+        return postSenderUserProfileDTO;
+    }
+
+    public void setPostSenderUserProfileDTO(UserProfileDTO postSenderUserProfileDTO) {
+        this.postSenderUserProfileDTO = postSenderUserProfileDTO;
     }
 }
