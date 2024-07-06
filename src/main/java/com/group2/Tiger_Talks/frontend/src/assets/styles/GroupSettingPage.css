@@ -1,4 +1,4 @@
-.profile-settings-container {
+.group-create-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -6,33 +6,31 @@
 	height: 100vh;
 }
 
-.profile-settings-nav {
+.group-create-nav {
 	width: 15%;
 }
 
-.profile-settings-wrapper {
-	margin-top: 6vh;
+.group-create-wrapper {
+	margin-top: 4%;
 	display: flex;
 	width: 100vw;
 	height: 100vh;
 	overflow: auto;
 }
 
-.profile-settings-form {
+.group-create-form {
 	width: 55%;
-	padding-top: 2%;
+	padding-top: 5%;
 	margin: 0 auto;
-	overflow: scroll;
+}
+.group-link {
+	color: inherit;
+	text-decoration: none;
 }
 
 @media (max-width: 768px) {
-	.profile-settings-nav {
-		position: static;
-		width: 25%;
-		padding: 20px;
-	}
-
-	.profile-settings-form {
+	.group-create-form {
+		margin-left: 0;
 		padding: 10px;
 		margin-top: 15%;
 	}

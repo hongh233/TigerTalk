@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import "../assets/styles/CreateGroupPage.css";
 
-const CreateGroupPage = () => {
+const GroupSettingPage = () => {
 	const [form, setForm] = useState({
 		groupName: "",
 		status: "",
@@ -88,4 +88,4 @@ const CreateGroupPage = () => {
 	);
 };
 
-export default CreateGroupPage;
+export default GroupSettingPage;
