@@ -1,38 +1,101 @@
 .group-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f0f2f5;
-    height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #f0f2f5;
+	height: 100vh;
 }
 
 .group-nav {
-    width: 15%;
+	width: 15%;
 }
-
-.content {
-    margin-top: 4%;
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
-}
-
 .group-content {
-    width: 75%;
-    border-radius: 8px;
+	width: 75%;
+}
+.group-container {
+	margin-top: 6vh;
+	display: flex;
+	width: 100vw;
+	height: 100vh;
+	overflow: auto;
+}
+.group-post {
+	height: 50%;
+}
+.group-background-image {
+	width: 100%;
+	background-size: cover;
+}
+.group-background-image img {
+	width: 100%;
+	height: 100%;
+}
+.group-content-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	overflow: scroll;
+	width: 75%;
+	height: 100%;
+}
+.group-content-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	height: 10%;
+	background-color: #fff;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
+.group-content-nav h1 {
+	font-size: 2em;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	margin-left: 10px;
+}
+
+.group-content-nav .status-icon {
+	margin-left: 10px;
+	width: 15px;
+}
+
+.group-content-nav p {
+	margin: 0;
+	font-size: 1em;
+	color: #666;
+}
+
+.group-content-nav ul {
+	list-style: none;
+	display: flex;
+	padding: 0;
+	margin: 0;
+}
+
+.group-content-nav ul li {
+	font-size: 1em;
+	margin: 0 10px;
+	display: flex;
+	align-items: center;
+}
+
+.group-content-nav ul li.setting li.delete li.members {
+	margin-left: auto; /* Push the setting to the far right */
 }
 
 @media (max-width: 768px) {
-    .group-navbar {
-        position: static;
-        width: 100%;
-        height: auto;
-    }
+	.group-navbar {
+		position: static;
+		width: 100%;
+		height: auto;
+	}
 
-    .group-content {
-        margin-left: 0;
-        padding: 10px;
-        margin-top: 14%;
-    }
+	.group-content {
+		margin-left: 0;
+		padding: 10px;
+		margin-top: 14%;
+	}
 }

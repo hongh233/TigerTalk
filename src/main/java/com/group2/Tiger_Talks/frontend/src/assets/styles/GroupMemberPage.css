@@ -1,0 +1,138 @@
+.member-list-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100vh;
+}
+
+.content {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+
+.member-list-nav {
+	width: 15%;
+}
+
+.member-list-content {
+	width: 80%;
+	padding: 20px;
+	overflow-y: auto;
+	border-radius: 8px;
+	margin-left: 20px;
+}
+
+.no-members {
+	text-align: center;
+	color: #888;
+	font-size: 1.2em;
+	padding: 20px;
+}
+
+.add-user-icon {
+	/* position: absolute;
+	top: 20px;
+	right: 20px; */
+	font-size: 1.5em;
+	color: #17a2b8;
+	cursor: pointer;
+	transition: color 0.3s ease;
+}
+
+.add-user-icon:hover {
+	color: #17a2b8;
+}
+
+.add-user-form {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+	background-color: #fff;
+	padding: 15px;
+	border-radius: 8px;
+}
+
+.add-user-form input {
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	margin-right: 10px;
+	flex: 1;
+	font-size: 1rem;
+	transition: border-color 0.3s ease;
+}
+
+.add-user-form input:focus {
+	border-color: #17a2b8;
+	outline: none;
+}
+
+.add-user-form button {
+	padding: 12px 20px;
+	background-color: #17a2b8;
+	border: none;
+	color: white;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 1rem;
+	transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-user-form button:hover {
+	background-color: #17a2b8;
+	transform: translateY(-2px);
+}
+
+.user-component {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+
+	border-bottom: 1px solid #ddd;
+}
+
+.user-component:last-child {
+	border-bottom: none;
+}
+
+.user-component img {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-right: 20px;
+}
+
+.user-component .user-details {
+	flex: 1;
+}
+
+.user-component .user-details h4 {
+	margin: 0;
+	font-size: 1.2em;
+}
+
+.user-component .user-details p {
+	margin: 0;
+	color: #888;
+	font-size: 0.9em;
+}
+
+.user-component .actions {
+	display: flex;
+	align-items: center;
+}
+
+.user-component .actions button {
+	background-color: #b23737;
+	border: none;
+	color: white;
+	padding: 5px 10px;
+	margin-left: 10px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.user-component .actions button:hover {
+	background-color: #b23737;
+}
