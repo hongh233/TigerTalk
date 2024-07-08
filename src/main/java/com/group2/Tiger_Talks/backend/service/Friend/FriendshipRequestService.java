@@ -39,4 +39,6 @@ public interface FriendshipRequestService {
      * @return The number of friend requests in the database
      */
     int findNumOfTotalRequests();
+
+    boolean areFriendshipRequestExist(String email1, String email2);
 }
