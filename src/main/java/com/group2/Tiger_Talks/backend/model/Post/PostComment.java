@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.model.Post;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -16,9 +17,16 @@ public class PostComment {
     @JsonBackReference
     private Post post;
 
-    private String content;
+    @ManyToOne
+    @JoinColumn(name = "comment_sender_user_profile", referencedColumnName = "email")
+    private UserProfile commentSenderUserProfile;
 
-    private String postSender;
+    @ManyToOne
+    @JoinColumn(name = "post_sender_user_profile", referencedColumnName = "email")
+    private UserProfile postSenderUserProfile;
+
+
+    private String content;
 
     @Column(nullable = false)
     private LocalDateTime timestamp = LocalDateTime.now();
@@ -26,10 +34,11 @@ public class PostComment {
     public PostComment() {
     }
 
-    public PostComment(Post post, String content, String postSender) {
+    public PostComment(Post post, String content, UserProfile commentSenderUserProfile, UserProfile postSenderUserProfile) {
         this.post = post;
         this.content = content;
-        this.postSender = postSender;
+        this.commentSenderUserProfile = commentSenderUserProfile;
+        this.postSenderUserProfile = postSenderUserProfile;
     }
 
     public Integer getCommentId() {
@@ -64,12 +73,21 @@ public class PostComment {
         this.timestamp = timestamp;
     }
 
-    public String getPostSender() {
-        return postSender;
+
+    public UserProfile getCommentSenderUserProfile() {
+        return commentSenderUserProfile;
     }
 
-    public void setPostSender(String postSender) {
-        this.postSender = postSender;
+    public void setCommentSenderUserProfile(UserProfile commentSenderUserProfile) {
+        this.commentSenderUserProfile = commentSenderUserProfile;
+    }
+
+    public UserProfile getPostSenderUserProfile() {
+        return postSenderUserProfile;
+    }
+
+    public void setPostSenderUserProfile(UserProfile postSenderUserProfile) {
+        this.postSenderUserProfile = postSenderUserProfile;
     }
 
 }

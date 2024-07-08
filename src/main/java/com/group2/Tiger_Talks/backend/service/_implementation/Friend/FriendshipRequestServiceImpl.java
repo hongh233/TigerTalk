@@ -89,4 +89,15 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         return friendshipRequestRepository.findAll().size();
     }
 
+    @Override
+    public boolean areFriendshipRequestExist(String email1, String email2) {
+        UserProfile sender = userProfileRepository.findUserProfileByEmail(email1)
+                .orElseThrow(() -> new IllegalStateException("Sender not found"));
+        UserProfile receiver = userProfileRepository.findUserProfileByEmail(email2)
+                .orElseThrow(() -> new IllegalStateException("Receiver not found"));
+        return friendshipRepository.findBySenderAndReceiver(sender, receiver).isPresent() ||
+                friendshipRepository.findBySenderAndReceiver(receiver, sender).isPresent();
+    }
+
+
 }

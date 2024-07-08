@@ -76,5 +76,10 @@ public class FriendshipRequestController {
         return Test.createFriends(numOfUsers, friendshipRequestService, this::acceptFriendRequest, this::sendFriendRequest);
     }
 
+    @GetMapping("/areFriendshipRequestExist/{email1}/{email2}")
+    public boolean areFriendshipRequestExist(@PathVariable("email1") String email1, @PathVariable("email2") String email2) {
+        return friendshipRequestService.areFriendshipRequestExist(email1, email2);
+    }
+
 
 }

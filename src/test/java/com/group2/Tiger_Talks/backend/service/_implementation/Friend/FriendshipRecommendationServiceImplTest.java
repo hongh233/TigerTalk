@@ -36,7 +36,7 @@ public class FriendshipRecommendationServiceImplTest {
     }
 
     @Test
-    public void testRecommendFriends() {
+    public void recommendFriends() {
         UserProfile currentUser = new UserProfile(
                 "Test", "User", 25, "Male", "testuser",
                 "test@dal.ca", "password123",
@@ -68,7 +68,7 @@ public class FriendshipRecommendationServiceImplTest {
     }
 
     @Test
-    public void testRecommendFriendsReturnsEmptyList() {
+    public void recommendFriends_ReturnsEmptyList() {
         when(userProfileRepository.findById("notfound@dal.ca")).thenReturn(Optional.empty());
 
         List<UserProfileDTOPost> recommendedFriends = recommendationService.recommendFriends("notfound@dal.ca", 2);
