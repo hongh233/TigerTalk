@@ -26,7 +26,6 @@ build_backend:
   stage: build
   image: maven:3.8.4-openjdk-17
   script:
-    - cd src/main/java/com/group2/Tiger_Talks/backend
     - mvn $MAVEN_CLI_OPTS clean install
   artifacts:
     paths:
@@ -44,7 +43,6 @@ test_backend:
     MYSQL_USER: $DB_USER
     MYSQL_PASSWORD: $DB_PASSWORD
   script:
-    - cd src/test
     - mvn $MAVEN_CLI_OPTS test
   dependencies:
     - build_backend
