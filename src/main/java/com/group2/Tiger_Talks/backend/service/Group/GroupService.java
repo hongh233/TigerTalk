@@ -51,6 +51,14 @@ public interface GroupService {
     GroupDTO getGroup(int groupId);
 
     /**
+     * Retrieves a list of all groups that a user is a member of or is the creator of.
+     *
+     * @param userEmail the email of the user.
+     * @return a list of GroupDTO objects representing the groups the user is associated with.
+     */
+    List<GroupDTO> getAllGroupsByUser(String userEmail);
+
+    /**
      * Updates the information of an existing group.
      *
      * @param groupUpdate the updated group information.
