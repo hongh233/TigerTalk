@@ -76,6 +76,18 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public List<GroupDTO> getAllGroupsByUser(String userEmail) {
+        Optional<UserProfile> userProfile = userProfileRepository.findById(userEmail);
+        if (userProfile.isEmpty()) {
+            return List.of();
+        }
+        List<GroupMembership> memberships = groupMembershipRepository.findByUserProfile_Email(userEmail);
+        return memberships.stream()
+                .map(membership -> new GroupDTO(membership.getGroup()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<String> updateGroupInfo(GroupUpdate groupUpdate) {
         Optional<Group> groupTemp = groupRepository.findById(groupUpdate.getGroupId());
         if (groupTemp.isEmpty()) {

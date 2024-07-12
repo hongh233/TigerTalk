@@ -49,6 +49,12 @@ public class GroupController {
         }
     }
 
+    @GetMapping("/get/allGroups/{userEmail}")
+    public ResponseEntity<List<GroupDTO>> getAllGroupsByUser(@PathVariable String userEmail) {
+        List<GroupDTO> groups = groupService.getAllGroupsByUser(userEmail);
+        return ResponseEntity.ok(groups);
+    }
+
     @PostMapping("/update/groupInfo")
     public ResponseEntity<String> updateGroupInfo(@RequestBody GroupUpdate groupUpdate) {
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
