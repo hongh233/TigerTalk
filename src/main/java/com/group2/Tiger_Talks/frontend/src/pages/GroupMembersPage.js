@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { useSelector } from "react-redux";
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";

@@ -40,7 +40,6 @@ const SignUpPage = () => {
     });
 
     const [errors, setErrors] = useState({});
-    const [serverError, setServerError] = useState("");
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -146,13 +145,9 @@ const SignUpPage = () => {
                             serverErrors.password = errorMessage;
                             break;
                         default:
-                            setServerError(errorMessage);
+                           break;
                     }
                     setErrors(serverErrors);
-                } else {
-                    setServerError(
-                        "An error occurred during Sign Up. Please try again later."
-                    );
                 }
             }
         }

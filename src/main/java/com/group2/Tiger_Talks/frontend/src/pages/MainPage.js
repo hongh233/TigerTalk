@@ -14,22 +14,6 @@ const MainPage = () => {
 	const [message, setMessage] = useState("");
 	const [posts, setPosts] = useState([]);
 	const [reload, setReload] = useState(false);
-	const fetchCurrentUser = async (userEmail) => {
-		try {
-			const response = await axios.get(
-				`http://localhost:8085/api/user/getByEmail/${userEmail}`
-			);
-			const data = response.data;
-			dispatch({ type: "SET_USER", payload: data });
-		} catch (error) {
-			console.error("Error fetching profile user data:", error);
-		}
-	};
-	useEffect(() => {
-		if (user) {
-			fetchCurrentUser(user.email);
-		}
-	}, []);
 	useEffect(() => {
 		axios
 			.get(`http://localhost:8085/posts/getPostForUserAndFriends/${user.email}`)
@@ -41,6 +25,37 @@ const MainPage = () => {
 				console.error("There was an error on posts!", error);
 			});
 	}, [user, reload]);
+
+    useEffect(() => {
+        if (user) {
+            const fetchCurrentUser = async (userEmail) => {
+                try {
+                    const response = await axios.get(
+                        `http://localhost:8085/api/user/getByEmail/${userEmail}`
+                    );
+                    const data = response.data;
+                    dispatch({type: "SET_USER", payload: data});
+                } catch (error) {
+                    console.error("Error fetching profile user data:", error);
+                }
+            };
+            fetchCurrentUser(user.email);
+        }
+    }, [user,dispatch]);
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8085/posts/getPostForUserAndFriends/${user.email}`)
+            .then((response) => {
+                const transformedPosts = response.data.map((post) => ({
+                    id: post.postId,
+                    content: post.content,
+                    timestamp: post.timestamp,
+                    email: post.email,
+                    userProfileUserName: post.userProfileUserName,
+                    likes: post.numOfLike,
+                    comments: [],
+                    profileProfileURL: post.profileProfileURL,
+                }));});});
 
 	const addPost = (postContent, tags) => {
 		if (!user) {

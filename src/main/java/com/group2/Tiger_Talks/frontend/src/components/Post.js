@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { FaComment, FaShare, FaThumbsUp } from "react-icons/fa";
+=======
+import axios from "axios";
+import {FaShare, FaThumbsUp } from "react-icons/fa";
+>>>>>>> 91a691a21 (fix: fix eslint warnings frontend)
 import Comment from "./Comment";
 import {
 	handleLikeAxios,
@@ -82,8 +87,7 @@ const Post = ({ post, user }) => {
     };
     */
 
-	const handleTagClick = (tag) => {
-		const userName = tag.substring(1); // Remove the '@' from the tag
+	const handleTagClick = () => {
 		navigate(`/friends`);
 	};
 

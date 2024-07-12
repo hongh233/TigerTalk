@@ -14,24 +14,25 @@ const FriendListPage = () => {
 		setFriends(friends.filter((friend) => friend.id !== id));
 	};
 
-	const fetchFriends = async () => {
-		if (user && user.email) {
-			try {
-				const response = await axios.get(
-					`http://localhost:8085/friendships/DTO/${user.email}`
-				);
-				if (response.data.length > 0) {
-					setFriends(response.data);
-				}
 
-				// dispatch({ type: "SET_FRIEND", payload: response.data });
-			} catch (error) {
-				console.error("Failed to fetch friend requests", error);
-			}
-		}
-	};
 
 	useEffect(() => {
+		const fetchFriends = async () => {
+			if (user && user.email) {
+				try {
+					const response = await axios.get(
+						`http://localhost:8085/friendships/DTO/${user.email}`
+					);
+					if (response.data.length > 0) {
+						setFriends(response.data);
+					}
+	
+					// dispatch({ type: "SET_FRIEND", payload: response.data });
+				} catch (error) {
+					console.error("Failed to fetch friend requests", error);
+				}
+			}
+		};
 		fetchFriends();
 	}, [user]);
 

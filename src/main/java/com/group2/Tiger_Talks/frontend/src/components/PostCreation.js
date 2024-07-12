@@ -1,14 +1,12 @@
 import React, {useState} from "react";
 import "../assets/styles/PostCreation.css";
 import {useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
 
 //const PostCreation = () => {
 const PostCreation = ({addPost}) => {
     const [postContent, setPostContent] = useState("");
     const [tagInput, setTagInput] = useState("");
     const [tags, setTags] = useState([]);
-    const navigate = useNavigate();
     const user = useSelector((state) => state.user.user);
 
     /*
@@ -50,11 +48,6 @@ const PostCreation = ({addPost}) => {
         setPostContent(updatedContent);
         setTagInput("");
         handleInputChange({target: {value: updatedContent}});
-    };
-
-    const handleTagClick = (tag) => {
-        const userName = tag.substring(1); // Remove the '@' from the tag
-        navigate(`/friends`);
     };
 
     /*
