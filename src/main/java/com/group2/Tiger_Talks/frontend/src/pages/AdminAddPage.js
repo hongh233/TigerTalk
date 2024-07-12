@@ -20,7 +20,7 @@ const SECURITY_QUESTIONS = [
     "What is your favorite movie?",
     "What is your favorite restaurant?",
 ];
-
+// TODO :: {Benjamin} Send mail to user with their password
 const AdminAddPage = () => {
     const [form, setForm] = useState({
         firstName: "",
