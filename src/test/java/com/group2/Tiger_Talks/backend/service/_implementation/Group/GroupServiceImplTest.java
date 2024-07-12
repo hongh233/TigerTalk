@@ -40,9 +40,11 @@ public class GroupServiceImplTest {
     private UserProfile userB;
     private Group group;
     private Group group2;
+    private Group group3;
     private GroupMembership groupMembership;
     private GroupMembership groupMembership1;
     private GroupMembership groupMembership2;
+    private GroupMembership groupMembership3;
 
     @Before
     public void setUp() {
@@ -69,9 +71,10 @@ public class GroupServiceImplTest {
         group.setGroupId(1);
         group2 = new Group("Test Group2", true);
         group2.setGroupId(2);
+        group3 = new Group("Test Group3", true);
+        group3.setGroupId(3);
         groupMembership = new GroupMembership();
         groupMembership.setGroupMembershipId(1);
-
 
         groupMembership1 = new GroupMembership();
         groupMembership1.setGroupMembershipId(2);
@@ -82,6 +85,11 @@ public class GroupServiceImplTest {
         groupMembership2.setGroupMembershipId(3);
         groupMembership2.setGroup(group);
         groupMembership2.setUserProfile(userB);
+
+        groupMembership3 = new GroupMembership();
+        groupMembership3.setGroupMembershipId(4);
+        groupMembership3.setGroup(group3);
+        groupMembership3.setUserProfile(userA);
     }
 
     /**
@@ -194,6 +202,47 @@ public class GroupServiceImplTest {
         when(groupRepository.findById(1)).thenReturn(Optional.empty());
         GroupDTO groupDTO = groupService.getGroup(1);
         assertNull(groupDTO);
+    }
+
+    /**
+     *  Test case for getAllGroupsByUser
+     */
+    @Test
+    public void getAllGroupsByUser_userNotFound() {
+        when(userProfileRepository.findById("noUser@dal.ca")).thenReturn(Optional.empty());
+        List<GroupDTO> result = groupService.getAllGroupsByUser("noUser@dal.ca");
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void getAllGroupsByUser_userHasNoGroups() {
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(groupMembershipRepository.findByUserProfile_Email("a@dal.ca")).thenReturn(Collections.emptyList());
+        List<GroupDTO> result = groupService.getAllGroupsByUser("a@dal.ca");
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void getAllGroupsByUser_userHasMultipleGroups() {
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(groupMembershipRepository.findByUserProfile_Email("a@dal.ca")).thenReturn(List.of(groupMembership1, groupMembership3));
+
+        List<GroupDTO> result = groupService.getAllGroupsByUser("a@dal.ca");
+
+        assertEquals(2, result.size());
+        assertEquals("Test Group", result.get(0).getGroupName());
+        assertEquals("Test Group3", result.get(1).getGroupName());
+    }
+
+    @Test
+    public void getAllGroupsByUser_userHasOneGroup() {
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(groupMembershipRepository.findByUserProfile_Email("b@dal.ca")).thenReturn(List.of(groupMembership2));
+
+        List<GroupDTO> result = groupService.getAllGroupsByUser("b@dal.ca");
+
+        assertEquals(1, result.size());
+        assertEquals("Test Group", result.get(0).getGroupName());
     }
 
     /**
