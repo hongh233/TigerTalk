@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import GroupPage from "./pages/GroupPage";
 import CreateGroupPage from "./pages/CreateGroupPage";
 import AdminPage from "./pages/AdminPage";
+import AdminAddPage from "./pages/AdminAddPage";
 import ProfileSettingsPage from "./pages/ProfileSettingsPage";
 import ForgotPasswordPage from "./pages/ForgetPassword/ForgotPasswordPage";
 import SecurityQuestionsPage from "./pages/ForgetPassword/SecurityQuestionsPage";
@@ -193,6 +194,24 @@ const AppRoutes = () => {
 							isValidated ? (
 								isAdmin ? (
 									<AdminPage />
+								) : (
+									<AdminFailPage />
+								)
+							) : (
+								<ValidationFailPage />
+							)
+						) : (
+							<AuthenticationFailPage />
+						)
+					}
+				/>
+				<Route
+					path="/admin/add"
+					element={
+						isLoggedIn ? (
+							isValidated ? (
+								isAdmin ? (
+									<AdminAddPage />
 								) : (
 									<AdminFailPage />
 								)
