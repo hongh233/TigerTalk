@@ -1,0 +1,95 @@
+.admin-add-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f0f2f5;
+}
+
+.admin-add-container {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    text-align: center;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.admin-add-container h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+select {
+    margin-bottom: 10px;
+}
+
+
+option {
+    color: #333;
+}
+
+input:focus, select:focus {
+    border-color: #6a11cb;
+    outline: none;
+}
+
+button {
+    padding: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #6a11cb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2575fc;
+}
+
+.admin-add-page .error-css {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+p {
+    margin-top: 20px;
+    color: #333;
+}
+
+p a {
+    color: #6a11cb;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}

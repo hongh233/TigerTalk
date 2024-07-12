@@ -5,8 +5,10 @@ import Header from "../components/Header";
 import UserList from "../components/UserList";
 import axios from "axios";
 import "../assets/styles/AdminPage.css";
+import { useNavigate } from "react-router-dom";
 // TODO :: {Raphael} Fix admins cyclic reference using new links to dto
 const AdminPage = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const [selectedUsers, setSelectedUsers] = useState([]);
@@ -83,6 +85,12 @@ const AdminPage = () => {
                         data={data}
                     />
                     <div className="admin-buttons">
+                        <button
+                            className="add-user-button"
+                            onClick={()=>navigate("/admin/add")}
+                        >
+                            Add Users
+                        </button>
                         <button
                             className="delete-user-button"
                             disabled={selectedUsers.length === 0}
