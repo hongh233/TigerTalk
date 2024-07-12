@@ -26,10 +26,11 @@ build_backend:
   stage: build
   image: maven:3.8.4-openjdk-17
   script:
-    - mvn $MAVEN_CLI_OPTS clean install
+    - mvn $MAVEN_CLI_OPTS clean install -DskipTests
   artifacts:
     paths:
       - src/main/java/com/group2/Tiger_Talks/backend/target/*.jar
+
 
 test_backend:
   stage: test
