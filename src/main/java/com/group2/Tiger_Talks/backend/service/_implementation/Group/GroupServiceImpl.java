@@ -36,7 +36,7 @@ public class GroupServiceImpl implements GroupService {
         groupRepository.save(group);
         GroupMembership groupMembership = new GroupMembership(group, userProfile, true);
         groupMembershipRepository.save(groupMembership);
-        return Optional.of("Group successfully created");
+        return Optional.empty();
     }
 
     public Optional<String> joinGroup(String userEmail, int groupId) {
@@ -59,7 +59,7 @@ public class GroupServiceImpl implements GroupService {
         GroupMembership groupMembership = new GroupMembership(group, userProfile, false);
         groupMembershipRepository.save(groupMembership);
 
-        return Optional.of("User successfully joined the group");
+        return Optional.empty();
     }
 
     @Override
@@ -70,9 +70,9 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupDTO getGroup(int groupId) {
+    public Optional<GroupDTO> getGroup(int groupId) {
         Optional<Group> group = groupRepository.findById(groupId);
-        return group.map(GroupDTO::new).orElse(null);
+        return group.map(GroupDTO::new);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class GroupServiceImpl implements GroupService {
         group.setGroupImg(groupUpdate.getGroupImg());
         group.setPrivate(groupUpdate.isPrivate());
         groupRepository.save(group);
-        return Optional.of("Group Info Successfully updated");
+        return Optional.empty();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class GroupServiceImpl implements GroupService {
         Group group = groupTemp.get();
         groupMembershipRepository.deleteAll(group.getGroupMemberList());
         groupRepository.delete(group);
-        return Optional.of("Group Successfully deleted");
+        return Optional.empty();
     }
 
     // I haven't considered whether we can delete group creator
@@ -109,7 +109,7 @@ public class GroupServiceImpl implements GroupService {
             return Optional.of("Group membership id not found");
         }
         groupMembershipRepository.delete(membershipTemp.get());
-        return Optional.of("Group membership Successfully deleted");
+        return Optional.empty();
     }
 
     @Override
@@ -117,7 +117,7 @@ public class GroupServiceImpl implements GroupService {
         List<GroupMembership> memberships = groupMembershipRepository.findByGroup_GroupId(groupId);
         return memberships.stream()
                 .map(GroupMembershipDTO::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

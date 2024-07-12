@@ -46,9 +46,9 @@ public interface GroupService {
      * Retrieves details of a specific group by its ID.
      *
      * @param groupId the ID of the group to retrieve.
-     * @return a GroupDTO object representing the group, or null if the group is not found.
+     * @return An optional of a GroupDTO object representing the group, or empty if the group is not found.
      */
-    GroupDTO getGroup(int groupId);
+    Optional<GroupDTO> getGroup(int groupId);
 
     /**
      * Updates the information of an existing group.

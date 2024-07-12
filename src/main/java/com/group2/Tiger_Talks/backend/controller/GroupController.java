@@ -23,21 +23,15 @@ public class GroupController {
                                               @RequestParam String creatorEmail,
                                               @RequestParam boolean isPrivate) {
         Optional<String> result = groupService.createGroup(groupName, creatorEmail, isPrivate);
-        if (result.equals(Optional.of("Group successfully created"))) {
-            return ResponseEntity.ok(result.toString());
-        } else {
-            return ResponseEntity.badRequest().body(result.toString());
-        }
+        return result.map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("Group successfully created"));
     }
 
     @PostMapping("/join/{groupId}")
     public ResponseEntity<String> joinGroup(@RequestParam String email, @PathVariable int groupId) {
         Optional<String> result = groupService.joinGroup(email, groupId);
-        if (result.equals(Optional.of("User successfully joined the group"))) {
-            return ResponseEntity.ok(result.toString());
-        } else {
-            return ResponseEntity.badRequest().body(result.toString());
-        }
+        return result.map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("User successfully joined the group"));
     }
 
     @GetMapping("/get/allGroups")
@@ -46,39 +40,35 @@ public class GroupController {
     }
 
     @GetMapping("/get/group/{groupId}")
-    public GroupDTO getGroup(@PathVariable int groupId) {
-        return groupService.getGroup(groupId);
+    public ResponseEntity<?> getGroup(@PathVariable int groupId) {
+        Optional<GroupDTO> groupDTO = groupService.getGroup(groupId);
+        if (groupDTO.isPresent()) {
+            return ResponseEntity.ok(groupDTO);
+        }else {
+            return ResponseEntity.badRequest().body("No group for this id was found");
+        }
     }
 
     @PostMapping("/update/groupInfo")
     public ResponseEntity<String> updateGroupInfo(@RequestBody GroupUpdate groupUpdate) {
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
-        if (result.equals(Optional.of("Group Info Successfully updated"))) {
-            return ResponseEntity.ok(result.toString());
-        } else {
-            return ResponseEntity.badRequest().body(result.toString());
-        }
+        return result.map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("Group Info Successfully updated"));
     }
 
     @DeleteMapping("/delete/group/{groupId}")
     public ResponseEntity<String> deleteGroup(@PathVariable int groupId) {
         Optional<String> result = groupService.deleteGroup(groupId);
-        if (result.equals(Optional.of("Group Successfully deleted"))) {
-            return ResponseEntity.ok(result.toString());
-        } else {
-            return ResponseEntity.badRequest().body(result.toString());
-        }
+        return result.map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("Group Successfully deleted"));
     }
 
     // I haven't considered whether we can delete group creator
     @DeleteMapping("/delete/groupMembership/{groupMembershipId}")
     public ResponseEntity<String> deleteGroupMembership(@PathVariable int groupMembershipId) {
         Optional<String> result = groupService.deleteGroupMembership(groupMembershipId);
-        if (result.equals(Optional.of("Group membership Successfully deleted"))) {
-            return ResponseEntity.ok(result.toString());
-        } else {
-            return ResponseEntity.badRequest().body(result.toString());
-        }
+        return result.map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("Group membership Successfully deleted"));
     }
 
     @GetMapping("/get/group/{groupId}/members")

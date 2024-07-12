@@ -5,7 +5,6 @@ import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.apache.catalina.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -85,7 +84,7 @@ public class GroupServiceImplTest {
     }
 
     /**
-     *  Test case for createGroup
+     * Test case for createGroup
      */
     @Test
     public void createGroup_userNotFound() {
@@ -109,7 +108,7 @@ public class GroupServiceImplTest {
     }
 
     /**
-     *  Test case for joinGroup
+     * Test case for joinGroup
      */
     @Test
     public void joinGroup_normal() {
@@ -152,7 +151,7 @@ public class GroupServiceImplTest {
     }
 
     /**
-     *  Test case for getAllGroups
+     * Test case for getAllGroups
      */
     @Test
     public void getAllGroups_normal() {
@@ -179,25 +178,30 @@ public class GroupServiceImplTest {
     }
 
     /**
-     *  Test case for getGroup
+     * Test case for getGroup
      */
     @Test
     public void getGroup() {
-        when(groupRepository.findById(1)).thenReturn(Optional.of(group));
-        GroupDTO groupDTO = groupService.getGroup(1);
-        assertEquals(1, groupDTO.getGroupId());
-        assertEquals("Test Group", groupDTO.getGroupName());
+        int groupID = 1;
+        when(groupRepository.findById(groupID)).thenReturn(Optional.of(group));
+        Optional<GroupDTO> groupDTO = groupService.getGroup(groupID);
+        groupDTO.ifPresentOrElse(group_dto -> {
+            assertEquals(1, group_dto.getGroupId());
+            assertEquals("Test Group", group_dto.getGroupName());
+        }, () -> {
+            fail("No group found for id: " + groupID);
+        });
     }
 
     @Test
     public void getGroup_NotFound() {
         when(groupRepository.findById(1)).thenReturn(Optional.empty());
-        GroupDTO groupDTO = groupService.getGroup(1);
-        assertNull(groupDTO);
+        Optional<GroupDTO> groupDTO = groupService.getGroup(1);
+        assertTrue(groupDTO.isPresent());
     }
 
     /**
-     *  Test case for updateGroupInfo
+     * Test case for updateGroupInfo
      */
     @Test
     public void updateGroupInfo_groupIdNotFound() {
@@ -259,7 +263,7 @@ public class GroupServiceImplTest {
     }
 
     /**
-     *  Test case for deleteGroup
+     * Test case for deleteGroup
      */
     @Test
     public void deleteGroup_groupIdNotFound() {
@@ -289,7 +293,7 @@ public class GroupServiceImplTest {
     }
 
     /**
-     *  Test case for deleteGroupMembership
+     * Test case for deleteGroupMembership
      */
     @Test
     public void deleteGroupMembership_membershipIdNotFound() {
@@ -319,7 +323,7 @@ public class GroupServiceImplTest {
     }
 
     /**
-     *  Test case for getGroupMembersByGroupId
+     * Test case for getGroupMembersByGroupId
      */
     @Test
     public void getGroupMembersByGroupId() {
@@ -349,7 +353,6 @@ public class GroupServiceImplTest {
         assertEquals(2, result.get(0).getGroupMembershipId());
         assertEquals("a@dal.ca", result.get(0).getUserProfileDTO().email());
     }
-
 
 
 }
