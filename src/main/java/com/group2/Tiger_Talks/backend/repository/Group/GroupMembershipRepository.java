@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface GroupMembershipRepository extends JpaRepository<GroupMembership, Integer> {
     List<GroupMembership> findByGroup_GroupId(int groupId);
+    List<GroupMembership> findByUserProfile_Email(String email);
 }
