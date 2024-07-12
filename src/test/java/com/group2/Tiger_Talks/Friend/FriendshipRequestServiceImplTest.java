@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.service._implementation.Friend;
+package com.group2.Tiger_Talks.Friend;
 
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
