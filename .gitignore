@@ -6,6 +6,8 @@ target/
 
 ### Artifacts ###
 /src/main/resources/application.properties
+/src/main/resources/application-dev.properties
+/src/main/resources/application-prod.properties
 
 
 /src/main/java/com/group2/Tiger_Talks/frontend/node_modules
