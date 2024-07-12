@@ -42,21 +42,7 @@ const MainPage = () => {
             fetchCurrentUser(user.email);
         }
     }, [user,dispatch]);
-    useEffect(() => {
-        axios
-            .get(`http://localhost:8085/posts/getPostForUserAndFriends/${user.email}`)
-            .then((response) => {
-                const transformedPosts = response.data.map((post) => ({
-                    id: post.postId,
-                    content: post.content,
-                    timestamp: post.timestamp,
-                    email: post.email,
-                    userProfileUserName: post.userProfileUserName,
-                    likes: post.numOfLike,
-                    comments: [],
-                    profileProfileURL: post.profileProfileURL,
-                }));});});
-
+	
 	const addPost = (postContent, tags) => {
 		if (!user) {
 			setMessage("User profile are not successfully loaded");
