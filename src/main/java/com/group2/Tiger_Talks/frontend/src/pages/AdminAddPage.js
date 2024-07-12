@@ -40,7 +40,6 @@ const AdminAddPage = () => {
     });
 
     const [errors, setErrors] = useState({});
-    const [serverError, setServerError] = useState("");
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -147,14 +146,10 @@ const AdminAddPage = () => {
                             serverErrors.password = errorMessage;
                             break;
                         default:
-                            setServerError(errorMessage);
+                            break;
                     }
                     setErrors(serverErrors);
-                } else {
-                    setServerError(
-                        "An error occurred while adding users. Please try again later."
-                    );
-                }
+                } 
             }
         }
     };
