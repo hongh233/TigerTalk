@@ -23,7 +23,7 @@ public class PostCommentController {
     }
 
 
-    @GetMapping("/comments/{postId}")
+    @GetMapping("/getComments/{postId}")
     public ResponseEntity<List<PostCommentDTO>> getCommentsByPostId(@PathVariable Integer postId) {
         List<PostCommentDTO> comments = postCommentService.getCommentsByPostId(postId);
         return ResponseEntity.ok(comments);
