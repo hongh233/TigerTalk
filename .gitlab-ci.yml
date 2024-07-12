@@ -4,11 +4,6 @@ stages:
 
 variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
-  DB_HOST: mysql
-  DB_PORT: 3306
-  DB_NAME: test_db
-  DB_USER: test_user
-  DB_PASSWORD: test_password
 
 build_frontend:
   stage: build
@@ -35,14 +30,6 @@ build_backend:
 test_backend:
   stage: test
   image: maven:3.8.4-openjdk-17
-  services:
-    - name: mysql:8.0
-      alias: mysql
-  variables:
-    MYSQL_ROOT_PASSWORD: root_password
-    MYSQL_DATABASE: $DB_NAME
-    MYSQL_USER: $DB_USER
-    MYSQL_PASSWORD: $DB_PASSWORD
   script:
     - mvn $MAVEN_CLI_OPTS test
   dependencies:
