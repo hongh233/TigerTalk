@@ -6,6 +6,7 @@ public final class Utils {
     public static final String CROSS_ORIGIN_HOST_NAME = "http://localhost:3000";
     public static final String COMPANY_EMAIL = "test@dal.ca";
     public static final String DEFAULT_PROFILE_PICTURE = "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg";
+    public static final String DEFAULT_GROUP_PICTURE = "https://mediaim.expedia.com/destination/7/bb1caab964e8be84036cd5ee7b05e787.jpg?impolicy=fcrop&w=1920&h=480&q=medium";
 
     public static final class ProfileAccessLevel {
         public static final String PUBLIC = "public";          // Everyone can see your profile
