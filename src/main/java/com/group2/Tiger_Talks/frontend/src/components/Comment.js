@@ -1,19 +1,43 @@
 import React from "react";
 import "../assets/styles/Comment.css";
+import { formatDate } from "./../utils/formatDate";
+const Comment = ({ postComment }) => {
+	const formatDate = (timestamp) => {
+		const date = new Date(timestamp);
+		return date.toLocaleString(); // Adjust options as needed for desired format
+	};
 
-const Comment = ({ postComment }) => (
-	<div className="comment">
-		<div className="comment-header">
-			<div className="comment-profile-picture"></div>
-			<div className="comment-user-details">
-				<h4>{postComment.userName}</h4>
-				<p>{postComment.time}</p>
+	return (
+		<div className="comment">
+			<div className="comment-header">
+				<div className="comment-profile-picture">
+					<a
+						className="post-user-email"
+						href={`/profile/${postComment.commentSenderUserProfileDTO.email}`}
+					>
+						<img
+							src={postComment.commentSenderUserProfileDTO.profilePictureUrl}
+							alt="Profile"
+						/>
+					</a>
+				</div>
+
+				<div className="comment-user-details">
+					<a
+						className="comment-user-email"
+						href={`/profile/${postComment.commentSenderUserProfileDTO.email}`}
+					>
+						<h4>{postComment.commentSenderUserProfileDTO.userName}</h4>
+					</a>
+
+					<p>{formatDate(postComment.timestamp)}</p>
+				</div>
+			</div>
+			<div className="comment-content">
+				<p>{postComment.content}</p>
 			</div>
 		</div>
-		<div className="comment-content">
-			<p>{postComment.content}</p>
-		</div>
-	</div>
-);
+	);
+};
 
 export default Comment;

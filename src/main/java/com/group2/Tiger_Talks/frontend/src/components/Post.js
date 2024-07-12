@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { FaComment, FaShare, FaThumbsUp } from "react-icons/fa";
 import Comment from "./Comment";
+import {
+	handleLikeAxios,
+	handleAddCommentAxios,
+	getCommentFromPostId,
+} from "./../axios/PostAxios";
+import { fetchUserByEmail } from "./../axios/AuthenticationAxios";
+import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/Post.css";
 
 const Post = ({ post, user }) => {
 	const [likes, setLikes] = useState(post.likes || post.numOfLike);
-	const [postComments, setComments] = useState(post.postComments || []);
+	const [postComments, setPostComments] = useState(null);
+
 	const [newComment, setNewComment] = useState("");
+
 	const navigate = useNavigate();
 
-	const handleLike = () => {
+	useEffect(() => {}, [postComments]);
+
+	const handleLike = async () => {
 		const postId = post.id || post.postId;
 		const userEmail = user.email;
 		if (!postId || !userEmail) {
@@ -19,30 +29,36 @@ const Post = ({ post, user }) => {
 			return;
 		}
 
-		axios
-			.put(`http://localhost:8085/posts/like/${postId}?userEmail=${userEmail}`)
-			.then((response) => {
-				setLikes(response.data);
-			})
-			.catch((error) => {
-				console.error("Error liking post:", error);
-			});
+		const updatedLikes = await handleLikeAxios(postId, userEmail);
+		setLikes(updatedLikes);
+	};
+	const handleFetchAndDisplayComments = async () => {
+		const fetchedComments = await getCommentFromPostId(post.id);
+		setPostComments(fetchedComments);
 	};
 
 	const handleCommentChange = (e) => {
 		setNewComment(e.target.value);
 	};
 
-	const handleAddComment = () => {
-		if (newComment.trim() === "") return;
+	const handleAddComment = async () => {
+		//fetch post owner DTO
+		const postSenderUserProfileDTO = await fetchUserByEmail(post.email);
 
-		const newCommentObj = {
-			userName: "Current User",
-			time: new Date().toLocaleString(),
-			content: newComment,
-		};
-		setComments([...postComments, newCommentObj]);
-		setNewComment("");
+		if (newComment.trim() === "") return;
+		if (postSenderUserProfileDTO) {
+			const newCommentObj = {
+				content: newComment,
+				timestamp: new Date(),
+				commentSenderUserProfileDTO: user,
+				postSenderUserProfileDTO: postSenderUserProfileDTO,
+				postId: post.id,
+			};
+
+			await handleAddCommentAxios(newCommentObj);
+			await handleFetchAndDisplayComments();
+			setNewComment("");
+		}
 	};
 
 	const handleShare = async () => {
@@ -106,26 +122,28 @@ const Post = ({ post, user }) => {
 						</a>
 					</h3>
 					{/* Display the username here */}
-					<p>{post.timestamp}</p>
+					<p>{formatDate(post.timestamp)}</p>
 				</div>
 			</div>
 			<div className="post-content">
-				{/*<p>{post.content}</p>*/}
 				<p>{renderPostContent(post.content)}</p>
 			</div>
 			<div className="post-footer">
 				<button className="post-button" onClick={handleLike}>
 					{likes} <FaThumbsUp />
 				</button>
-
+				<button className="post-button" onClick={handleFetchAndDisplayComments}>
+					<FaComment />
+				</button>
 				<button className="post-button" onClick={handleShare}>
 					<FaShare />
 				</button>
 			</div>
 			<div className="postComments-section">
-				{postComments.map((postComment, index) => (
-					<Comment key={index} postComment={postComment} />
-				))}
+				{postComments &&
+					postComments.map((postComment, index) => (
+						<Comment key={index} postComment={postComment} />
+					))}
 				<div className="add-comment">
 					<input
 						type="text"

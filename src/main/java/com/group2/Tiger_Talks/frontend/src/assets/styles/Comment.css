@@ -17,6 +17,10 @@
 	border-radius: 50%;
 	margin-right: 15px;
 }
+.comment-profile-picture img {
+	width: 100%;
+	border-radius: 50%;
+}
 
 .comment-user-details {
 	flex: 1;
@@ -27,7 +31,12 @@
 	font-size: 1rem;
 	color: #333;
 }
-
+.comment-user-email {
+	text-decoration: none;
+}
+.comment-header:hover h4 {
+	color: #17a2b8;
+}
 .comment-user-details p {
 	margin: 0;
 	color: #888;
