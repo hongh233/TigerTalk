@@ -3,19 +3,16 @@ package com.group2.Tiger_Talks.backend.service._implementation.Friend;
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import com.group2.Tiger_Talks.backend.service._implementation.Friend.FriendshipServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 public class FriendshipServiceImplTest {
 
     @Mock
@@ -35,152 +31,149 @@ public class FriendshipServiceImplTest {
     @InjectMocks
     private FriendshipServiceImpl friendshipService;
 
+    private UserProfile userA;
+    private UserProfile userB;
+    private UserProfile userC;
+    private Friendship friendshipAB;
+    private Friendship friendshipAC;
+
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
+    void setUp() {
+        userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+        userB = new UserProfile("Blong", "Bside", 23, "Female", "userB", "b@dal.ca", "bbbb1B@b", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+        userC = new UserProfile("Clong", "Cside", 24, "Male", "userC", "c@dal.ca", "cccc1C@c", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+        friendshipAB = new Friendship(userA, userB);
+        friendshipAC = new Friendship(userA, userC);
     }
 
     @Test
-    public void testGetAllFriendsUserNotFound() {
-        String email = "user@dal.ca";
-        when(userProfileRepository.findUserProfileByEmail(email)).thenReturn(Optional.empty());
+    void getAllFriendsDTO_userNotFound() {
+        when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            friendshipService.getAllFriends(email);
+            friendshipService.getAllFriendsDTO("nonexistent@example.com");
         });
-        assertEquals("User not found", exception.getMessage(), "Expected exception message not found");
+
+        assertEquals("User not found", exception.getMessage());
     }
 
     @Test
-    public void testGetAllFriendsSuccess() {
-        String email = "user@dal.ca";
-        UserProfile user = new UserProfile();
-        user.setEmail(email);
-        when(userProfileRepository.findUserProfileByEmail(email)).thenReturn(Optional.of(user));
+    void getAllFriendsDTO_success() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB, friendshipAC));
 
-        List<Friendship> friendships = new ArrayList<>();
-        Friendship friendship = new Friendship();
-        friendship.setSender(user);
-        friendship.setReceiver(user);
-        friendships.add(friendship);
-        when(friendshipRepository.findBySenderOrReceiver(user, user)).thenReturn(friendships);
+        List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
 
-        List<FriendshipDTO> result = friendshipService.getAllFriends(email);
-
-        assertEquals(1, result.size(), "Expected one friendship");
-        verify(friendshipRepository, times(1)).findBySenderOrReceiver(user, user);
+        assertEquals(2, friends.size());
+        assertTrue(friends.stream().anyMatch(friend -> friend.getEmail().equals("b@dal.ca")));
+        assertTrue(friends.stream().anyMatch(friend -> friend.getEmail().equals("c@dal.ca")));
     }
 
     @Test
-    public void testDeleteFriendshipByEmailSuccess() {
-        String senderEmail = "sender@dal.ca";
-        String receiverEmail = "receiver@dal.ca";
-        UserProfile sender = new UserProfile();
-        sender.setEmail(senderEmail);
-        UserProfile receiver = new UserProfile();
-        receiver.setEmail(receiverEmail);
-
-        when(userProfileRepository.findUserProfileByEmail(senderEmail)).thenReturn(Optional.of(sender));
-        when(userProfileRepository.findUserProfileByEmail(receiverEmail)).thenReturn(Optional.of(receiver));
-
-        Friendship friendship = new Friendship();
-        friendship.setSender(sender);
-        friendship.setReceiver(receiver);
-        when(friendshipRepository.findBySenderAndReceiverOrReceiverAndSender(sender, receiver, receiver, sender))
-                .thenReturn(Optional.of(friendship));
-
-        Optional<String> result = friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail);
-
-        assertFalse(result.isPresent(), "Expected no error message");
-        verify(friendshipRepository, times(1)).delete(friendship);
-    }
-
-    @Test
-    public void testDeleteFriendshipByEmailNoFriendship() {
-        String senderEmail = "sender@dal.ca";
-        String receiverEmail = "receiver@dal.ca";
-        UserProfile sender = new UserProfile();
-        sender.setEmail(senderEmail);
-        UserProfile receiver = new UserProfile();
-        receiver.setEmail(receiverEmail);
-
-        when(userProfileRepository.findUserProfileByEmail(senderEmail)).thenReturn(Optional.of(sender));
-        when(userProfileRepository.findUserProfileByEmail(receiverEmail)).thenReturn(Optional.of(receiver));
-
-        when(friendshipRepository.findBySenderAndReceiverOrReceiverAndSender(sender, receiver, receiver, sender))
-                .thenReturn(Optional.empty());
-
-        Optional<String> result = friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail);
-
-        assertTrue(result.isPresent(), "Expected an error message");
-        assertEquals("No friendship exists between these users.", result.get(), "Unexpected error message");
-        verify(friendshipRepository, never()).delete(any(Friendship.class));
-    }
-
-
-    @Test
-    public void testDeleteFriendshipByEmailSenderNotFound() {
-        String senderEmail = "sender@dal.ca";
-        String receiverEmail = "receiver@dal.ca";
-
-        when(userProfileRepository.findUserProfileByEmail(senderEmail)).thenReturn(Optional.empty());
+    void getAllFriends_userNotFound() {
+        when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail);
+            friendshipService.getAllFriends("nonexistent@example.com");
         });
 
-        assertEquals("Sender not found", exception.getMessage(), "Expected exception message not found");
-        verify(userProfileRepository, times(1)).findUserProfileByEmail(senderEmail);
-        verify(userProfileRepository, never()).findUserProfileByEmail(receiverEmail);
-        verify(friendshipRepository, never()).findBySenderAndReceiverOrReceiverAndSender(any(), any(), any(), any());
-        verify(friendshipRepository, never()).delete(any(Friendship.class));
+        assertEquals("User not found", exception.getMessage());
     }
 
     @Test
-    public void testDeleteFriendshipByEmailReceiverNotFound() {
-        String senderEmail = "sender@dal.ca";
-        String receiverEmail = "receiver@dal.ca";
-        UserProfile sender = new UserProfile();
-        sender.setEmail(senderEmail);
+    void getAllFriends_success() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB, friendshipAC));
 
-        when(userProfileRepository.findUserProfileByEmail(senderEmail)).thenReturn(Optional.of(sender));
-        when(userProfileRepository.findUserProfileByEmail(receiverEmail)).thenReturn(Optional.empty());
+        List<FriendshipDTO> friends = friendshipService.getAllFriends("a@dal.ca");
+
+        assertEquals(2, friends.size());
+    }
+
+    @Test
+    void deleteFriendshipByEmail_senderNotFound() {
+        when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(IllegalStateException.class, () -> {
-            friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail);
+            friendshipService.deleteFriendshipByEmail("nonexistent@example.com", "b@dal.ca");
         });
 
-        assertEquals("Receiver not found", exception.getMessage(), "Expected exception message not found");
-        verify(userProfileRepository, times(1)).findUserProfileByEmail(senderEmail);
-        verify(userProfileRepository, times(1)).findUserProfileByEmail(receiverEmail);
-        verify(friendshipRepository, never()).findBySenderAndReceiverOrReceiverAndSender(any(), any(), any(), any());
-        verify(friendshipRepository, never()).delete(any(Friendship.class));
+        assertEquals("Sender not found", exception.getMessage());
     }
 
     @Test
-    public void testDeleteFriendshipByIdSuccess() {
-        int friendshipId = 1;
-        Friendship friendship = new Friendship();
-        friendship.setFriendshipId(friendshipId);
+    void deleteFriendshipByEmail_receiverNotFound() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
 
-        when(friendshipRepository.findById(friendshipId)).thenReturn(Optional.of(friendship));
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            friendshipService.deleteFriendshipByEmail("a@dal.ca", "nonexistent@example.com");
+        });
 
-        Optional<String> result = friendshipService.deleteFriendshipById(friendshipId);
-
-        assertFalse(result.isPresent(), "Expected no error message");
-        verify(friendshipRepository, times(1)).delete(friendship);
+        assertEquals("Receiver not found", exception.getMessage());
     }
 
     @Test
-    public void testDeleteFriendshipByIdNotFound() {
-        int friendshipId = 1;
+    void deleteFriendshipByEmail_noFriendship() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
 
-        when(friendshipRepository.findById(friendshipId)).thenReturn(Optional.empty());
+        Optional<String> result = friendshipService.deleteFriendshipByEmail("a@dal.ca", "b@dal.ca");
 
-        Optional<String> result = friendshipService.deleteFriendshipById(friendshipId);
+        assertTrue(result.isPresent());
+        assertEquals("No friendship exists between these users.", result.get());
+    }
 
-        assertTrue(result.isPresent(), "Expected an error message");
-        assertEquals("Friendship id " + friendshipId + " does not exist!", result.get(), "Unexpected error message");
-        verify(friendshipRepository, never()).delete(any(Friendship.class));
+    @Test
+    void deleteFriendshipByEmail_success() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(friendshipAB));
+
+        Optional<String> result = friendshipService.deleteFriendshipByEmail("a@dal.ca", "b@dal.ca");
+
+        assertFalse(result.isPresent());
+        verify(friendshipRepository, times(1)).delete(friendshipAB);
+    }
+
+    @Test
+    void deleteFriendshipById_noFriendship() {
+        when(friendshipRepository.findById(1)).thenReturn(Optional.empty());
+
+        Optional<String> result = friendshipService.deleteFriendshipById(1);
+
+        assertTrue(result.isPresent());
+        assertEquals("Friendship id 1 does not exist!", result.get());
+    }
+
+    @Test
+    void deleteFriendshipById_success() {
+        when(friendshipRepository.findById(1)).thenReturn(Optional.of(friendshipAB));
+
+        Optional<String> result = friendshipService.deleteFriendshipById(1);
+
+        assertFalse(result.isPresent());
+        verify(friendshipRepository, times(1)).delete(friendshipAB);
+    }
+
+    @Test
+    void areFriends_success() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB));
+
+        boolean result = friendshipService.areFriends("a@dal.ca", "b@dal.ca");
+
+        assertTrue(result);
+    }
+
+    @Test
+    void areFriends_notFriends() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAC));
+
+        boolean result = friendshipService.areFriends("a@dal.ca", "b@dal.ca");
+
+        assertFalse(result);
     }
 }
