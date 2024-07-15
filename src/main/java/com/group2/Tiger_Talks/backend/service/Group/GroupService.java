@@ -93,4 +93,6 @@ public interface GroupService {
      * @return a list of GroupMembershipDTO objects representing the members of the group.
      */
     List<GroupMembershipDTO> getGroupMembersByGroupId(int groupId);
+
+    boolean isMember(String userEmail, int groupId);
 }
