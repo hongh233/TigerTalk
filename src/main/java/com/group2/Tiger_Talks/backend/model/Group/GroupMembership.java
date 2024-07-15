@@ -4,6 +4,7 @@ import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class GroupMembership {
@@ -20,6 +21,8 @@ public class GroupMembership {
     @JoinColumn(name = "email")
     private UserProfile userProfile;
 
+    @OneToMany(mappedBy = "groupMembership", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupPostComment> groupPostCommentList;
 
     private LocalDateTime joinTime = LocalDateTime.now();
 
@@ -75,5 +78,13 @@ public class GroupMembership {
         isCreator = creator;
     }
 
+
+    public List<GroupPostComment> getGroupPostCommentList() {
+        return groupPostCommentList;
+    }
+
+    public void setGroupPostCommentList(List<GroupPostComment> groupPostCommentList) {
+        this.groupPostCommentList = groupPostCommentList;
+    }
 
 }

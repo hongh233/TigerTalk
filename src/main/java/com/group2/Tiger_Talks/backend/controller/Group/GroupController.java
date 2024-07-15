@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.controller;
+package com.group2.Tiger_Talks.backend.controller.Group;
 
 import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
@@ -18,10 +18,10 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
-    @PostMapping("/create")
-    public ResponseEntity<String> createGroup(@RequestParam String groupName,
-                                              @RequestParam String creatorEmail,
-                                              @RequestParam boolean isPrivate) {
+    @PostMapping("/create/{groupName}/{creatorEmail}/{isPrivate}")
+    public ResponseEntity<String> createGroup(@PathVariable String groupName,
+                                              @PathVariable String creatorEmail,
+                                              @PathVariable boolean isPrivate) {
         Optional<String> result = groupService.createGroup(groupName, creatorEmail, isPrivate);
         if (result.equals(Optional.of("Group successfully created"))) {
             return ResponseEntity.ok(result.toString());
@@ -30,8 +30,8 @@ public class GroupController {
         }
     }
 
-    @PostMapping("/join/{groupId}")
-    public ResponseEntity<String> joinGroup(@RequestParam String email, @PathVariable int groupId) {
+    @PostMapping("/join/{email}/{groupId}")
+    public ResponseEntity<String> joinGroup(@PathVariable String email, @PathVariable int groupId) {
         Optional<String> result = groupService.joinGroup(email, groupId);
         if (result.equals(Optional.of("User successfully joined the group"))) {
             return ResponseEntity.ok(result.toString());
@@ -90,6 +90,11 @@ public class GroupController {
     @GetMapping("/get/group/{groupId}/members")
     public List<GroupMembershipDTO> getGroupMembersByGroupId(@PathVariable int groupId) {
         return groupService.getGroupMembersByGroupId(groupId);
+    }
+
+    @GetMapping("/get/isMember/{userEmail}/{groupId}")
+    public boolean isMember(@PathVariable String userEmail, @PathVariable int groupId) {
+        return groupService.isMember(userEmail, groupId);
     }
 
 }
