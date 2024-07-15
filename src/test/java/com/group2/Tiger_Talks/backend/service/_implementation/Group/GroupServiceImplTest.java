@@ -399,6 +399,27 @@ public class GroupServiceImplTest {
         assertEquals("a@dal.ca", result.get(0).getUserProfileDTO().email());
     }
 
+    /**
+     *  Test case for isMember
+     */
+    @Test
+    public void isMember_userIsMember() {
+        when(groupMembershipRepository.findByGroup_GroupId(1)).thenReturn(List.of(groupMembership1, groupMembership2));
+        assertTrue(groupService.isMember("a@dal.ca", 1));
+    }
+
+    @Test
+    public void isMember_userIsNotMember() {
+        when(groupMembershipRepository.findByGroup_GroupId(1)).thenReturn(List.of(groupMembership2));
+        assertFalse(groupService.isMember("a@dal.ca", 1));
+    }
+
+    @Test
+    public void isMember_noMembersInGroup() {
+        when(groupMembershipRepository.findByGroup_GroupId(1)).thenReturn(Collections.emptyList());
+        assertFalse(groupService.isMember("a@dal.ca", 1));
+    }
+
 
 
 }
