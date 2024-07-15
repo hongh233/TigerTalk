@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(classes = FriendshipServiceImplTest.class)
 public class FriendshipRecommendationServiceImplTest {
 
     @Mock

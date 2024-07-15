@@ -82,8 +82,7 @@ const Post = ({ post, user }) => {
     };
     */
 
-	const handleTagClick = (tag) => {
-		const userName = tag.substring(1); // Remove the '@' from the tag
+	const handleTagClick = () => {
 		navigate(`/friends`);
 	};
 

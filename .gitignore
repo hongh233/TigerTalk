@@ -9,6 +9,7 @@ target/
 
 
 /src/main/java/com/group2/Tiger_Talks/frontend/node_modules
+/src/main/java/com/group2/Tiger_Talks/frontend/build/*
 
 
 ### STS ###
