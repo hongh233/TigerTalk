@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
+import com.group2.Tiger_Talks.backend.model.Utils;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ public class Group {
 
     private boolean isPrivate;
 
-    private String groupImg;
+    private String groupImg = Utils.DEFAULT_GROUP_PICTURE;
 
     private LocalDateTime groupCreateTime = LocalDateTime.now();
 

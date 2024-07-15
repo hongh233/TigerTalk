@@ -111,8 +111,7 @@ public class GroupServiceImplTest {
                 "Group A",
                 "a@dal.ca",
                 true);
-        assertTrue(result.isPresent());
-        assertEquals("Group successfully created", result.get());
+        assertTrue(result.isEmpty());
     }
 
     /**
@@ -124,8 +123,7 @@ public class GroupServiceImplTest {
         when(groupRepository.findById(1)).thenReturn(Optional.of(group));
         Optional<String> result = groupService.joinGroup("a@dal.ca", 1);
 
-        assertTrue(result.isPresent());
-        assertEquals("User successfully joined the group", result.get());
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -205,7 +203,7 @@ public class GroupServiceImplTest {
     public void getGroup_NotFound() {
         when(groupRepository.findById(1)).thenReturn(Optional.empty());
         Optional<GroupDTO> groupDTO = groupService.getGroup(1);
-        assertTrue(groupDTO.isPresent());
+        assertTrue(groupDTO.isEmpty());
     }
 
     /**
@@ -267,8 +265,7 @@ public class GroupServiceImplTest {
         when(groupRepository.findById(1)).thenReturn(Optional.of(group));
 
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
-        assertTrue(result.isPresent());
-        assertEquals("Group Info Successfully updated", result.get());
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -304,8 +301,7 @@ public class GroupServiceImplTest {
         when(groupRepository.findById(2)).thenReturn(Optional.of(group2));
 
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
-        assertTrue(result.isPresent());
-        assertEquals("Group Info Successfully updated", result.get());
+        assertTrue(result.isEmpty());
         assertEquals("Test Group2", group2.getGroupName());
         assertNull(group2.getGroupImg());
         assertTrue(group2.isPrivate());
@@ -326,8 +322,7 @@ public class GroupServiceImplTest {
     public void deleteGroup_successfulDelete_true_message() {
         when(groupRepository.findById(1)).thenReturn(Optional.of(group)).thenReturn(Optional.empty());
         Optional<String> result = groupService.deleteGroup(1);
-        assertTrue(result.isPresent());
-        assertEquals("Group Successfully deleted", result.get());
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -356,8 +351,7 @@ public class GroupServiceImplTest {
     public void deleteGroupMembership_successfulDelete_correctMessage() {
         when(groupMembershipRepository.findById(1)).thenReturn(Optional.of(groupMembership));
         Optional<String> result = groupService.deleteGroupMembership(1);
-        assertTrue(result.isPresent());
-        assertEquals("Group membership Successfully deleted", result.get());
+        assertTrue(result.isEmpty());
     }
 
     @Test
