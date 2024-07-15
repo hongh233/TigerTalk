@@ -39,6 +39,7 @@ public class GroupServiceImpl implements GroupService {
         return Optional.of("Group successfully created");
     }
 
+    @Override
     public Optional<String> joinGroup(String userEmail, int groupId) {
         if (userProfileRepository.findById(userEmail).isEmpty()) {
             return Optional.of("User not found");
