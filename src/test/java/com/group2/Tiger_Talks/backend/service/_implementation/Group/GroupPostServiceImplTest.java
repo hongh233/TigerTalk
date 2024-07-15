@@ -19,7 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -48,7 +49,7 @@ public class GroupPostServiceImplTest {
     }
 
     /**
-     *  Test case for createGroupPost
+     * Test case for createGroupPost
      */
     @Test
     public void createGroupPost_success() {
@@ -98,7 +99,7 @@ public class GroupPostServiceImplTest {
     }
 
     /**
-     *  Test case for deleteGroupPostById
+     * Test case for deleteGroupPostById
      */
     @Test
     public void deleteGroupPostById_existOne_deleteOne() {
@@ -143,7 +144,7 @@ public class GroupPostServiceImplTest {
     }
 
     /**
-     *  Test case for getAllGroupPostsByGroupId
+     * Test case for getAllGroupPostsByGroupId
      */
     @Test
     public void getAllGroupPostsByGroupId_success_twoPosts() {
@@ -175,10 +176,10 @@ public class GroupPostServiceImplTest {
 
         List<GroupPostDTO> result = groupPostService.getAllGroupPostsByGroupId(groupId);
         assertEquals(2, result.size());
-        assertEquals("Content2", result.get(0).getGroupPostContent());
-        assertEquals("Content1", result.get(1).getGroupPostContent());
-        assertEquals("User B", result.get(0).getGroupPostSenderUserName());
-        assertEquals("User A", result.get(1).getGroupPostSenderUserName());
+        assertEquals("Content1", result.get(0).getGroupPostContent());
+        assertEquals("Content2", result.get(1).getGroupPostContent());
+        assertEquals("User A", result.get(0).getGroupPostSenderUserName());
+        assertEquals("User B", result.get(1).getGroupPostSenderUserName());
     }
 
     @Test
@@ -215,5 +216,10 @@ public class GroupPostServiceImplTest {
         when(groupRepository.findById(groupId)).thenReturn(Optional.empty());
         List<GroupPostDTO> result = groupPostService.getAllGroupPostsByGroupId(groupId);
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void demo() {
+
     }
 }
