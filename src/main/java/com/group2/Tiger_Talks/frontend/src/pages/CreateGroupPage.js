@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
+import { useSelector } from "react-redux";
 import "../assets/styles/CreateGroupPage.css";
-
+import { handleCreateGroup } from "./../axios/GroupAxios";
 const CreateGroupPage = () => {
+	const navigate = useNavigate();
+	const user = useSelector((state) => state.user.user);
 	const [form, setForm] = useState({
 		groupName: "",
 		status: "",
-
-		groupPicture: "",
+		userEmail: user.email,
 	});
 	const [errors, setErrors] = useState({});
 
@@ -20,13 +23,6 @@ const CreateGroupPage = () => {
 		});
 	};
 
-	const handleFileChange = (e) => {
-		setForm({
-			...form,
-			groupPicture: e.target.files[0],
-		});
-	};
-
 	const validate = () => {
 		let errors = {};
 		if (!form.groupName) errors.groupName = "Group name is required";
@@ -35,12 +31,15 @@ const CreateGroupPage = () => {
 		return errors;
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const errors = validate();
 		setErrors(errors);
+
 		if (Object.keys(errors).length === 0) {
+			await handleCreateGroup(form);
 			alert("Group created successfully");
+			navigate("/group");
 		}
 	};
 	return (
@@ -73,14 +72,6 @@ const CreateGroupPage = () => {
 						{errors.status && <p className="error">{errors.status}</p>}
 					</div>
 
-					<div className="form-group">
-						<label>Group Picture</label>
-						<input
-							type="file"
-							name="groupPicture"
-							onChange={handleFileChange}
-						/>
-					</div>
 					<button type="submit">Create Group</button>
 				</form>
 			</div>

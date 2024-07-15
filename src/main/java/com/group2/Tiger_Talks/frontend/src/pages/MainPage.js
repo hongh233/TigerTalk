@@ -26,23 +26,23 @@ const MainPage = () => {
 			});
 	}, [user, reload]);
 
-    useEffect(() => {
-        if (user) {
-            const fetchCurrentUser = async (userEmail) => {
-                try {
-                    const response = await axios.get(
-                        `http://localhost:8085/api/user/getByEmail/${userEmail}`
-                    );
-                    const data = response.data;
-                    dispatch({type: "SET_USER", payload: data});
-                } catch (error) {
-                    console.error("Error fetching profile user data:", error);
-                }
-            };
-            fetchCurrentUser(user.email);
-        }
-    }, []);
-	
+	useEffect(() => {
+		if (user) {
+			const fetchCurrentUser = async (userEmail) => {
+				try {
+					const response = await axios.get(
+						`http://localhost:8085/api/user/getByEmail/${userEmail}`
+					);
+					const data = response.data;
+					dispatch({ type: "SET_USER", payload: data });
+				} catch (error) {
+					console.error("Error fetching profile user data:", error);
+				}
+			};
+			fetchCurrentUser(user.email);
+		}
+	}, []);
+
 	const addPost = (postContent, tags) => {
 		if (!user) {
 			setMessage("User profile are not successfully loaded");
