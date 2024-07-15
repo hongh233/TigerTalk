@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.controller;
+package com.group2.Tiger_Talks.backend.controller.Post;
 
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.model.Post.PostCommentDTO;

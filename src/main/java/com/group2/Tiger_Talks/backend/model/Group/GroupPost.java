@@ -3,27 +3,34 @@ package com.group2.Tiger_Talks.backend.model.Group;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class GroupPost {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int messageId;
+    private int groupPostId;
 
     @ManyToOne
-    @JoinColumn(name = "groupId")
+    @JoinColumn(name = "groupId", referencedColumnName = "groupId", nullable = false)
     private Group group;
+
+    @OneToMany(mappedBy = "groupPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupPostComment> groupPostCommentList = new LinkedList<>();
 
     private LocalDateTime postCreateTime = LocalDateTime.now();
 
     private String groupPostContent;
 
-    private String groupPostSender;    // userprofile email
+    private String groupPostSenderEmail;
 
 
-    public GroupPost(String groupPostContent, String groupPostSender) {
+    public GroupPost(Group group, String groupPostContent, String groupPostSenderEmail) {
+        this.group = group;
         this.groupPostContent = groupPostContent;
-        this.groupPostSender = groupPostSender;
+        this.groupPostSenderEmail = groupPostSenderEmail;
     }
 
     public GroupPost() {
@@ -53,21 +60,29 @@ public class GroupPost {
         this.groupPostContent = groupPostContent;
     }
 
-    public int getMessageId() {
-        return messageId;
+    public int getGroupPostId() {
+        return groupPostId;
     }
 
-    public void setMessageId(int messageId) {
-        this.messageId = messageId;
+    public void setGroupPostId(int groupPostId) {
+        this.groupPostId = groupPostId;
     }
 
-    public String getGroupPostSender() {
-        return groupPostSender;
+    public String getGroupPostSenderEmail() {
+        return groupPostSenderEmail;
     }
 
-    public void setGroupPostSender(String groupPostSender) {
-        this.groupPostSender = groupPostSender;
+    public void setGroupPostSenderEmail(String groupPostSenderEmail) {
+        this.groupPostSenderEmail = groupPostSenderEmail;
     }
 
+
+    public List<GroupPostComment> getGroupPostCommentList() {
+        return groupPostCommentList;
+    }
+
+    public void setGroupPostCommentList(List<GroupPostComment> groupPostCommentList) {
+        this.groupPostCommentList = groupPostCommentList;
+    }
 
 }

@@ -11,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,6 +22,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
+@SpringBootTest(classes = GroupServiceImplTest.class)
 public class GroupServiceImplTest {
 
     @Mock
@@ -395,6 +398,27 @@ public class GroupServiceImplTest {
         assertEquals(1, result.size());
         assertEquals(2, result.get(0).getGroupMembershipId());
         assertEquals("a@dal.ca", result.get(0).getUserProfileDTO().email());
+    }
+
+    /**
+     *  Test case for isMember
+     */
+    @Test
+    public void isMember_userIsMember() {
+        when(groupMembershipRepository.findByGroup_GroupId(1)).thenReturn(List.of(groupMembership1, groupMembership2));
+        assertTrue(groupService.isMember("a@dal.ca", 1));
+    }
+
+    @Test
+    public void isMember_userIsNotMember() {
+        when(groupMembershipRepository.findByGroup_GroupId(1)).thenReturn(List.of(groupMembership2));
+        assertFalse(groupService.isMember("a@dal.ca", 1));
+    }
+
+    @Test
+    public void isMember_noMembersInGroup() {
+        when(groupMembershipRepository.findByGroup_GroupId(1)).thenReturn(Collections.emptyList());
+        assertFalse(groupService.isMember("a@dal.ca", 1));
     }
 
 

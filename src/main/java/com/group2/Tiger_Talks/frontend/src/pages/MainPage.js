@@ -14,22 +14,6 @@ const MainPage = () => {
 	const [message, setMessage] = useState("");
 	const [posts, setPosts] = useState([]);
 	const [reload, setReload] = useState(false);
-	const fetchCurrentUser = async (userEmail) => {
-		try {
-			const response = await axios.get(
-				`http://localhost:8085/api/user/getByEmail/${userEmail}`
-			);
-			const data = response.data;
-			dispatch({ type: "SET_USER", payload: data });
-		} catch (error) {
-			console.error("Error fetching profile user data:", error);
-		}
-	};
-	useEffect(() => {
-		if (user) {
-			fetchCurrentUser(user.email);
-		}
-	}, []);
 	useEffect(() => {
 		axios
 			.get(`http://localhost:8085/posts/getPostForUserAndFriends/${user.email}`)
@@ -42,6 +26,23 @@ const MainPage = () => {
 			});
 	}, [user, reload]);
 
+    useEffect(() => {
+        if (user) {
+            const fetchCurrentUser = async (userEmail) => {
+                try {
+                    const response = await axios.get(
+                        `http://localhost:8085/api/user/getByEmail/${userEmail}`
+                    );
+                    const data = response.data;
+                    dispatch({type: "SET_USER", payload: data});
+                } catch (error) {
+                    console.error("Error fetching profile user data:", error);
+                }
+            };
+            fetchCurrentUser(user.email);
+        }
+    }, [user,dispatch]);
+	
 	const addPost = (postContent, tags) => {
 		if (!user) {
 			setMessage("User profile are not successfully loaded");

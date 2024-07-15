@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.controller;
+package com.group2.Tiger_Talks.backend.controller.Friend;
 
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequestDTO;
 import com.group2.Tiger_Talks.backend.model.Test;

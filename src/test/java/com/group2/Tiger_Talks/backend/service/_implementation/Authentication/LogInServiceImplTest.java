@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
@@ -18,6 +19,8 @@ import static com.group2.Tiger_Talks.backend.model.Utils.OnlineStatus.OFFLINE;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
+
+@SpringBootTest(classes = LogInServiceImplTest.class)
 public class LogInServiceImplTest {
 
     @Mock

@@ -39,6 +39,7 @@ public class GroupServiceImpl implements GroupService {
         return Optional.empty();
     }
 
+    @Override
     public Optional<String> joinGroup(String userEmail, int groupId) {
         if (userProfileRepository.findById(userEmail).isEmpty()) {
             return Optional.of("User not found");
@@ -130,6 +131,17 @@ public class GroupServiceImpl implements GroupService {
         return memberships.stream()
                 .map(GroupMembershipDTO::new)
                 .toList();
+    }
+
+    @Override
+    public boolean isMember(String userEmail, int groupId) {
+        List<GroupMembership> memberships = groupMembershipRepository.findByGroup_GroupId(groupId);
+        for (GroupMembership membership : memberships) {
+            if (membership.getUserProfile().getEmail().equals(userEmail)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
