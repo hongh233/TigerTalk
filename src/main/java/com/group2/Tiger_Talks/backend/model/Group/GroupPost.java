@@ -26,11 +26,13 @@ public class GroupPost {
 
     private String groupPostSenderEmail;
 
+    private String groupPostPictureURL;
 
-    public GroupPost(Group group, String groupPostContent, String groupPostSenderEmail) {
+    public GroupPost(Group group, String groupPostContent, String groupPostSenderEmail, String groupPostPictureURL) {
         this.group = group;
         this.groupPostContent = groupPostContent;
         this.groupPostSenderEmail = groupPostSenderEmail;
+        this.groupPostPictureURL = groupPostPictureURL;
     }
 
     public GroupPost() {
@@ -76,7 +78,6 @@ public class GroupPost {
         this.groupPostSenderEmail = groupPostSenderEmail;
     }
 
-
     public List<GroupPostComment> getGroupPostCommentList() {
         return groupPostCommentList;
     }
@@ -85,4 +86,11 @@ public class GroupPost {
         this.groupPostCommentList = groupPostCommentList;
     }
 
+    public String getGroupPostPictureURL() {
+        return groupPostPictureURL;
+    }
+
+    public void setGroupPostPictureURL(String groupPostPictureURL) {
+        this.groupPostPictureURL = groupPostPictureURL;
+    }
 }

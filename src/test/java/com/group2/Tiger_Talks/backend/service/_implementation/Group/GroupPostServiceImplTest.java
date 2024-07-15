@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -55,7 +56,7 @@ public class GroupPostServiceImplTest {
     public void createGroupPost_success() {
         Group group = new Group();
         group.setGroupId(1);
-        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
         when(userProfileRepository.existsById(anyString())).thenReturn(true);
         when(groupRepository.existsById(anyInt())).thenReturn(true);
         Optional<String> result = groupPostService.createGroupPost(groupPost);
@@ -66,7 +67,7 @@ public class GroupPostServiceImplTest {
     public void createGroupPost_userNotFound() {
         Group group = new Group();
         group.setGroupId(1);
-        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
         when(userProfileRepository.existsById(anyString())).thenReturn(false);
         when(groupRepository.existsById(anyInt())).thenReturn(true);
         Optional<String> result = groupPostService.createGroupPost(groupPost);
@@ -78,7 +79,7 @@ public class GroupPostServiceImplTest {
     public void createGroupPost_groupNotFound() {
         Group group = new Group();
         group.setGroupId(1);
-        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
         when(userProfileRepository.existsById(anyString())).thenReturn(true);
         when(groupRepository.existsById(anyInt())).thenReturn(false);
         Optional<String> result = groupPostService.createGroupPost(groupPost);
@@ -90,7 +91,7 @@ public class GroupPostServiceImplTest {
     public void createGroupPost_userAndGroupAllNotFound() {
         Group group = new Group();
         group.setGroupId(1);
-        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
         when(userProfileRepository.existsById(anyString())).thenReturn(false);
         when(groupRepository.existsById(anyInt())).thenReturn(false);
         Optional<String> result = groupPostService.createGroupPost(groupPost);
@@ -124,8 +125,8 @@ public class GroupPostServiceImplTest {
         int groupPostId2 = 2;
         Group group = new Group();
         group.setGroupId(1);
-        GroupPost groupPost1 = new GroupPost(group, "Content1", "a@dal.ca");
-        GroupPost groupPost2 = new GroupPost(group, "Content2", "b@dal.ca");
+        GroupPost groupPost1 = new GroupPost(group, "Content1", "a@dal.ca", "picture");
+        GroupPost groupPost2 = new GroupPost(group, "Content2", "b@dal.ca", "picture");
         groupPost1.setGroupPostId(groupPostId1);
         groupPost2.setGroupPostId(groupPostId2);
 
@@ -167,8 +168,10 @@ public class GroupPostServiceImplTest {
         membership2.setUserProfile(userProfile2);
         group.setGroupMemberList(Arrays.asList(membership1, membership2));
 
-        GroupPost groupPost1 = new GroupPost(group, "Content1", "a@dal.ca");
-        GroupPost groupPost2 = new GroupPost(group, "Content2", "b@dal.ca");
+        GroupPost groupPost1 = new GroupPost(group, "Content1", "a@dal.ca", "picture1");
+        groupPost1.setPostCreateTime(LocalDateTime.of(2020, 12, 2,3,4));
+        GroupPost groupPost2 = new GroupPost(group, "Content2", "b@dal.ca", "picture2");
+        groupPost2.setPostCreateTime(LocalDateTime.of(2024, 12, 2,3,4));
         groupPost1.setGroupPostId(1);
         groupPost2.setGroupPostId(2);
         group.setGroupPostList(Arrays.asList(groupPost1, groupPost2));
@@ -176,10 +179,10 @@ public class GroupPostServiceImplTest {
 
         List<GroupPostDTO> result = groupPostService.getAllGroupPostsByGroupId(groupId);
         assertEquals(2, result.size());
-        assertEquals("Content1", result.get(0).getGroupPostContent());
-        assertEquals("Content2", result.get(1).getGroupPostContent());
-        assertEquals("User A", result.get(0).getGroupPostSenderUserName());
-        assertEquals("User B", result.get(1).getGroupPostSenderUserName());
+        assertEquals("Content2", result.get(0).getGroupPostContent());
+        assertEquals("Content1", result.get(1).getGroupPostContent());
+        assertEquals("User B", result.get(0).getGroupPostSenderUserName());
+        assertEquals("User A", result.get(1).getGroupPostSenderUserName());
     }
 
     @Test
@@ -195,11 +198,11 @@ public class GroupPostServiceImplTest {
 
         GroupMembership membership = new GroupMembership();
         membership.setUserProfile(userProfile);
-        group.setGroupMemberList(Arrays.asList(membership));
+        group.setGroupMemberList(List.of(membership));
 
-        GroupPost groupPost = new GroupPost(group, "Content1", "a@dal.ca");
+        GroupPost groupPost = new GroupPost(group, "Content1", "a@dal.ca", "picture");
         groupPost.setGroupPostId(1);
-        group.setGroupPostList(Arrays.asList(groupPost));
+        group.setGroupPostList(List.of(groupPost));
         when(groupRepository.findById(groupId)).thenReturn(Optional.of(group));
 
         List<GroupPostDTO> result = groupPostService.getAllGroupPostsByGroupId(groupId);
@@ -218,8 +221,4 @@ public class GroupPostServiceImplTest {
         assertTrue(result.isEmpty());
     }
 
-    @Test
-    public void demo() {
-
-    }
 }
