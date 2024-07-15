@@ -92,4 +92,9 @@ public class GroupController {
         return groupService.getGroupMembersByGroupId(groupId);
     }
 
+    @GetMapping("/get/isMember/{userEmail}/{groupId}")
+    public boolean isMember(@PathVariable String userEmail, @PathVariable int groupId) {
+        return groupService.isMember(userEmail, groupId);
+    }
+
 }
