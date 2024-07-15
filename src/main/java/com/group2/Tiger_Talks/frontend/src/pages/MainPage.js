@@ -41,7 +41,7 @@ const MainPage = () => {
             };
             fetchCurrentUser(user.email);
         }
-    }, [user,dispatch]);
+    }, []);
 	
 	const addPost = (postContent, tags) => {
 		if (!user) {
