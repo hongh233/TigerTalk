@@ -132,4 +132,15 @@ public class GroupServiceImpl implements GroupService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean isMember(String userEmail, int groupId) {
+        List<GroupMembership> memberships = groupMembershipRepository.findByGroup_GroupId(groupId);
+        for (GroupMembership membership : memberships) {
+            if (membership.getUserProfile().getEmail().equals(userEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
