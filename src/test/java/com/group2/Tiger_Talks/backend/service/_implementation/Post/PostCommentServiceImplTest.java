@@ -56,7 +56,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
-@SpringBootTest(classes = PostCommentServiceImplTest.class)
+
 public class PostCommentServiceImplTest {
 
     @Mock

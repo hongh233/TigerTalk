@@ -22,7 +22,6 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = FriendshipRecommendationServiceImplTest.class)
 public class FriendshipRecommendationServiceImplTest {
 
     @Mock

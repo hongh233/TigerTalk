@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-@SpringBootTest(classes = GroupServiceImplTest.class)
+
 public class GroupServiceImplTest {
 
     @Mock

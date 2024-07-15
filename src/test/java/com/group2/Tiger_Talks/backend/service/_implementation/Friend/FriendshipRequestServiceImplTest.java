@@ -23,7 +23,6 @@ import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = FriendshipRequestServiceImplTest.class)
 public class FriendshipRequestServiceImplTest {
 
     @Mock

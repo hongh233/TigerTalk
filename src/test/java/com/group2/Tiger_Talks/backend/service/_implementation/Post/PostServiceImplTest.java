@@ -26,7 +26,6 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = PostServiceImplTest.class)
 public class PostServiceImplTest {
 
     @Mock
