@@ -94,5 +94,13 @@ public interface GroupService {
      */
     List<GroupMembershipDTO> getGroupMembersByGroupId(int groupId);
 
+
+    /**
+     * Checks if a user is a member of a specific group by their email and group ID.
+     *
+     * @param userEmail the email of the user.
+     * @param groupId the ID of the group.
+     * @return true if the user is a member of the group, false otherwise.
+     */
     boolean isMember(String userEmail, int groupId);
 }
