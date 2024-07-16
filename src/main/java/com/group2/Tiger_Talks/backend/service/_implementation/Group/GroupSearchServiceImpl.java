@@ -13,15 +13,14 @@ public class GroupSearchServiceImpl implements GroupSearchService {
     @Autowired
     private GroupRepository groupRepository;
 
-
     @Override
     public List<GroupDTO> findPublicGroupMatch(String groupName, String userEmail) {
         return groupRepository.findAll()
                 .stream()
-                .filter(group -> group.getGroupName().startsWith(groupName)
+                .filter(group -> group.getGroupName().toLowerCase().startsWith(groupName.toLowerCase())
                         && !group.isPrivate()
-                        && group.getGroupMemberList().stream()  // Find all groups you done belong to
-                        .anyMatch(user -> !user.getUserProfile().getEmail().equals(userEmail)))
+                        && group.getGroupMemberList().stream()
+                        .noneMatch(membership -> membership.getUserProfile().getEmail().equals(userEmail)))
                 .map(GroupDTO::new)
                 .toList();
     }

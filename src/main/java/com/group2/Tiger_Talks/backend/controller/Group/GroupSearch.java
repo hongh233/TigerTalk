@@ -18,7 +18,7 @@ public class GroupSearch {
     private GroupSearchService groupSearchService;
 
     @GetMapping("/publicGroups/{groupName}/{userEmail}")
-    public List<GroupDTO> findPublicGroupByName(@PathVariable String groupName, String userEmail) {
+    public List<GroupDTO> findPublicGroupByName(@PathVariable String groupName, @PathVariable String userEmail) {
         return groupSearchService.findPublicGroupMatch(groupName,userEmail);
     }
 }
