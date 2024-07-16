@@ -12,30 +12,32 @@
 	display: flex;
 	align-items: center;
 	height: 100px;
-}
-.group-link {
-	text-decoration: none;
-	color: #333;
-}
-.group-link:hover {
-	color: #17a2b8;
-}
-.group-picture {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background-color: #ccc;
-	margin-right: 10px;
-}
-.group-background-image {
-	height: 100%;
-}
-.group-background-image img {
-	object-fit: cover;
+	width: 100%;
 }
 .group-creator-details {
+	cursor: pointer;
 	width: 10%;
 }
+.group-creator-details:hover {
+	color: #17a2b8;
+}
+
+.one-group-background-image {
+	cursor: pointer;
+	width: 85%;
+	height: 100%;
+}
+
+.one-group-background-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.group-action {
+	width: 10%;
+}
+
 .group-creator-details a {
 	margin: 0;
 	font-size: 1rem;
@@ -47,10 +49,48 @@
 	font-size: 0.875rem;
 }
 
-.group-description {
-	margin-bottom: 10px;
-}
-
 .group-footer {
 	display: flex;
+}
+
+.group-action:hover {
+	background: #0056b3;
+}
+
+.group-action {
+	width: 5%;
+	height: 100%;
+	display: flex;
+	border-radius: 4px;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	font-size: 15px;
+}
+
+.group-action.join {
+	background: #2dc550; /* Green */
+	color: white;
+}
+.group-action.settings {
+	background: #ffc107; /* Yellow */
+	color: white;
+}
+
+.group-action.leave {
+	background: #f12338; /* Red */
+	color: white;
+}
+.group-action-text {
+}
+.group-action.join:hover {
+	background: #218838;
+}
+.group-action.settings:hover {
+	background: #e0a800; /* Darker yellow */
+}
+
+.group-action.leave:hover {
+	background: #c82333;
+	font-weight: bold;
 }
