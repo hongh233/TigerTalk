@@ -61,7 +61,8 @@
 	width: 5%;
 	height: 100%;
 	display: flex;
-	border-radius: 4px;
+	border-radius: 0 4px 4px 0;
+
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
