@@ -24,6 +24,7 @@ public class Post {
 
     private String content;
     private int numOfLike;
+    private String associatedImage;
 
     @Column(nullable = false)
     private LocalDateTime timestamp = LocalDateTime.now();
@@ -38,9 +39,10 @@ public class Post {
     public Post() {
     }
 
-    public Post(UserProfile userProfile, String content) {
+    public Post(UserProfile userProfile, String content, String image) {
         this.userProfile = userProfile;
         this.content = content;
+        this.associatedImage = image;
         this.numOfLike = 0;
     }
 

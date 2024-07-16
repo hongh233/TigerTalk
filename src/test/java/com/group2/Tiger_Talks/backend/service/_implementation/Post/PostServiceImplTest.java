@@ -216,7 +216,7 @@ public class PostServiceImplTest {
         when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
         when(postLikeRepository.findByPostAndUserProfile(post, userProfile)).thenReturn(Optional.of(postLike));
 
-        Post updatedPost = new Post(userProfile, "Test content");
+        Post updatedPost = new Post(userProfile, "Test content", null);
         when(postRepository.save(post)).thenReturn(updatedPost);
 
         Post result = postServiceImpl.likePost(postId, userEmail);
@@ -236,7 +236,7 @@ public class PostServiceImplTest {
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
         when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
 
-        Post updatedPost = new Post(userProfile, "Test content");
+        Post updatedPost = new Post(userProfile, "Test content", null);
         when(postRepository.save(post)).thenReturn(updatedPost);
 
         Post result = postServiceImpl.likePost(postId, userEmail);
