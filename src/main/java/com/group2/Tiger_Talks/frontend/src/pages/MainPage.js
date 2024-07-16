@@ -19,6 +19,7 @@ const MainPage = () => {
 			.get(`http://localhost:8085/posts/getPostForUserAndFriends/${user.email}`)
 			.then((response) => {
 				const transformedPosts = formatPost(response.data);
+				console.log(response.data);
 				setPosts(transformedPosts);
 			})
 			.catch((error) => {
@@ -43,23 +44,19 @@ const MainPage = () => {
 		}
 	}, []);
 
-	const addPost = (postContent, tags) => {
+	const addPost = (postContent, imageURL, tags) => {
 		if (!user) {
 			setMessage("User profile are not successfully loaded");
 			return;
 		}
 
 		const newPost = {
-			content: postContent,
 			userProfile: {
 				email: user.email,
 				UserName: user.userName,
 			},
-			UserName: user.userName,
-			timestamp: new Date().toISOString(),
-			nunOfLikes: 0,
-			comments: [],
-			likes: [],
+			content: postContent,
+			associatedImageURL: imageURL,
 		};
 
 		// Save the new post to the database

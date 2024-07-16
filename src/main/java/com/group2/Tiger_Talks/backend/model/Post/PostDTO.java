@@ -1,7 +1,5 @@
 package com.group2.Tiger_Talks.backend.model.Post;
 
-import com.group2.Tiger_Talks.backend.model.Post.Post;
-
 import java.time.LocalDateTime;
 
 public class PostDTO {
@@ -13,6 +11,7 @@ public class PostDTO {
     private final int numOfLike;
     private final String userProfileUserName;
     private final String profileProfileURL;
+    private final String postImageURL;
 
     public PostDTO(Post post) {
         this.postId = post.getPostId();
@@ -22,6 +21,11 @@ public class PostDTO {
         this.numOfLike = post.getNumOfLike();
         this.userProfileUserName = post.getUserProfile().getUserName();
         this.profileProfileURL = post.getUserProfile().getProfilePictureUrl();
+        this.postImageURL = post.getAssociatedImageURL();
+    }
+
+    public String getPostImageURL() {
+        return postImageURL;
     }
 
     public Integer getPostId() {

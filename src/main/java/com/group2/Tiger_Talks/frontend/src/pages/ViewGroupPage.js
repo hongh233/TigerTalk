@@ -37,14 +37,16 @@ const ViewGroupPage = () => {
 
 	useEffect(() => {
 		fetchGroupDetails();
-	}, [userEmail, groupId]);
+	}, [userEmail, groupId, isMember]);
 
 	useEffect(() => {
 		fetchAllGroupPosts();
-	}, [userEmail, reload]);
+	}, [userEmail, reload, isMember]);
+
 	const fetchAllGroupPosts = async () => {
 		try {
 			const data = await handleGetAllPost(groupId);
+			console.log(data);
 			setPosts(data);
 		} catch (error) {
 			console.error("Failed to fetch group posts", error);
@@ -64,6 +66,7 @@ const ViewGroupPage = () => {
 			// Check if the current user is a member
 			const memberStatus = await checkIsMember(userEmail, groupId);
 			setIsMember(memberStatus);
+			console.log(memberStatus);
 		} catch (error) {
 			console.error("Failed to fetch group details", error);
 		}
@@ -188,15 +191,17 @@ const ViewGroupPage = () => {
 						</div>
 
 						<div className="group-post-container">
-							<PostCreation addPost={addPost} />
-							{!isPrivate ||
-								(isMember && (
-									<>
-										{posts.map((post) => (
+							{isMember && <PostCreation addPost={addPost} />}
+							{!isPrivate || isMember ? (
+								<>
+									{posts &&
+										posts.map((post) => (
 											<GroupPost key={post.id} post={post} />
 										))}
-									</>
-								))}
+								</>
+							) : (
+								""
+							)}
 						</div>
 					</div>
 				</div>
