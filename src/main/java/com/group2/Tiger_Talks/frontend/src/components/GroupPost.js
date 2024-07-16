@@ -9,6 +9,8 @@ import {
 import { fetchUserByEmail } from "./../axios/AuthenticationAxios";
 import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/GroupPost.css";
+import GroupPostDelete from "./GroupPostDelete";
+import {handleDeleteGroupPost} from "../axios/GroupAxios";
 
 const GroupPost = ({ post }) => {
 	const [postComments, setPostComments] = useState(null);
@@ -67,6 +69,10 @@ const GroupPost = ({ post }) => {
 		navigate(`/friends`);
 	};
 
+	const handlePostDelete = () => {
+		window.location.reload();
+	};
+
 	// const renderPostContent = (content) => {
 	// 	const parts = content.split(/(@\w+)/g);
 	// 	return parts.map((part, index) => {
@@ -109,6 +115,7 @@ const GroupPost = ({ post }) => {
 					</h3>
 					<p>{formatDate(post.groupPostCreateTime)}</p>
 				</div>
+				<GroupPostDelete groupPostId={post.groupPostId} onDelete={handlePostDelete} />
 			</div>
 			<div className="group-post-content">
 				<p>{post.groupPostContent}</p>

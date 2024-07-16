@@ -83,3 +83,13 @@ export const handleGetAllPost = (groupId) => {
 			throw error;
 		});
 };
+
+export const handleDeleteGroupPost = (groupPostId) => {
+	return axios
+		.delete(`${URL}/api/groups/post/delete/${groupPostId}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error deleting group post");
+			throw error;
+		});
+};
