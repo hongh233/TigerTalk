@@ -41,16 +41,40 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Optional<String> joinGroup(String userEmail, int groupId) {
+    public Optional<String> joinGroupUser(String userEmail, int groupId) {
+        return joinGroup(userEmail, groupId, false);
+    }
+
+    @Override
+    public Optional<String> joinGroupAdmin(String userEmail, int groupId) {
+        return joinGroup(userEmail, groupId, true);
+    }
+
+    /**
+     * Attempts to add a user to a group, either as a regular member or as an admin.
+     *
+     * @param userEmail    the email of the user to be added to the group
+     * @param groupID      the ID of the group to join
+     * @param isGroupAdmin {@code true} if the user is to be added as an admin, {@code false} if as a regular member
+     * @return an {@link Optional} containing an error message if the user or group is not found,
+     * if the group is private and the user is not an admin, or if the user is already a member of the group,
+     * otherwise an empty {@link Optional} indicating the user was successfully added to the group
+     */
+    private Optional<String> joinGroup(String userEmail, int groupID, boolean isGroupAdmin) {
         if (userProfileRepository.findById(userEmail).isEmpty()) {
             return Optional.of("User not found");
         }
-        if (groupRepository.findById(groupId).isEmpty()) {
+        if (groupRepository.findById(groupID).isEmpty()) {
             return Optional.of("Group not found");
         }
 
         UserProfile userProfile = userProfileRepository.findById(userEmail).get();
-        Group group = groupRepository.findById(groupId).get();
+        Group group = groupRepository.findById(groupID).get();
+
+        if (!isGroupAdmin) { // Check for a private group if im not an admin adding a user
+            if (group.isPrivate())
+                return Optional.of("This is a private group and you cannot join unless you are invited by its admin");
+        }
 
         // Check if the user is already a member of the group
         for (GroupMembership membership : group.getGroupMemberList()) {
@@ -68,7 +92,7 @@ public class GroupServiceImpl implements GroupService {
     public List<GroupDTO> getAllGroups() {
         return groupRepository.findAll().stream()
                 .map(GroupDTO::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -135,14 +159,14 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public boolean isMember(String userEmail, int groupId) {
+    public Optional<Integer> getMemberShipId(String userEmail, int groupId) {
         List<GroupMembership> memberships = groupMembershipRepository.findByGroup_GroupId(groupId);
         for (GroupMembership membership : memberships) {
             if (membership.getUserProfile().getEmail().equals(userEmail)) {
-                return true;
+                return Optional.of(membership.getGroupMembershipId());
             }
         }
-        return false;
+        return Optional.empty();
     }
 
 }

@@ -26,8 +26,8 @@ export const handleGetGroupById = (groupId) => {
 
 export const checkIsMember = (userEmail, groupId) => {
 	return axios
-		.get(`${URL}/api/groups/get/isMember/${userEmail}/${groupId}`)
-		.then((response) => response.data)
+		.get(`${URL}/api/groups/get/getMemberShipId/${userEmail}/${groupId}`)
+		.then(() => true)
 		.catch((error) => {
 			console.error("Error getting all groups");
 			throw error;

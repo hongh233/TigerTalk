@@ -3,11 +3,6 @@ package com.group2.Tiger_Talks.backend.service.Group;
 import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
 import com.group2.Tiger_Talks.backend.model.Group.GroupUpdate;
-import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
-import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
-import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,23 +12,35 @@ public interface GroupService {
     /**
      * Creates a new group with the specified name, creator, and privacy setting.
      *
-     * @param groupName   the name of the group to be created.
+     * @param groupName    the name of the group to be created.
      * @param creatorEmail the email of the user creating the group.
-     * @param isPrivate   whether the group is private or public.
+     * @param isPrivate    whether the group is private or public.
      * @return an Optional containing a success message if the group is created,
      * or an error message if the creator email is not found.
      */
     Optional<String> createGroup(String groupName, String creatorEmail, boolean isPrivate);
 
     /**
-     * Adds a user to a group by their email and group ID.
+     * Attempts to add a user as a regular member to a group.
      *
-     * @param email   the email of the user joining the group.
-     * @param groupId the ID of the group to join.
-     * @return an Optional containing a success message if the user is added,
-     * or an error message if the user or group is not found or the user is already a member.
+     * @param email   the email of the user to be added to the group
+     * @param groupId the ID of the group to join
+     * @return an {@link Optional} containing an error message if the user or group is not found,
+     * if the group is private, or if the user is already a member of the group,
+     * otherwise an empty {@link Optional} indicating the user was successfully added to the group
      */
-    Optional<String> joinGroup(String email, int groupId);
+    Optional<String> joinGroupUser(String email, int groupId);
+
+    /**
+     * Attempts to add a user as an admin to a group.
+     *
+     * @param userEmail the email of the user to be added to the group
+     * @param groupId   the ID of the group to join
+     * @return an {@link Optional} containing an error message if the user or group is not found,
+     * if the user is already a member of the group, otherwise an empty {@link Optional}
+     * indicating the user was successfully added as an admin to the group
+     */
+    Optional<String> joinGroupAdmin(String userEmail, int groupId);
 
     /**
      * Retrieves a list of all groups.
@@ -96,11 +103,11 @@ public interface GroupService {
 
 
     /**
-     * Checks if a user is a member of a specific group by their email and group ID.
+     * Get the membership id of a specific group by their email and group ID.
      *
      * @param userEmail the email of the user.
-     * @param groupId the ID of the group.
-     * @return true if the user is a member of the group, false otherwise.
+     * @param groupId   the ID of the group.
+     * @return The membership id if the user is a member of the group, Empty otherwise.
      */
-    boolean isMember(String userEmail, int groupId);
+    Optional<Integer> getMemberShipId(String userEmail, int groupId);
 }
