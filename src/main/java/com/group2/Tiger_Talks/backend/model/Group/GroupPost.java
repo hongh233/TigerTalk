@@ -28,7 +28,10 @@ public class GroupPost {
 
     private String groupPostPictureURL;
 
-    public GroupPost(Group group, String groupPostContent, String groupPostSenderEmail, String groupPostPictureURL) {
+    public GroupPost(Group group,
+                     String groupPostContent,
+                     String groupPostSenderEmail,
+                     String groupPostPictureURL) {
         this.group = group;
         this.groupPostContent = groupPostContent;
         this.groupPostSenderEmail = groupPostSenderEmail;

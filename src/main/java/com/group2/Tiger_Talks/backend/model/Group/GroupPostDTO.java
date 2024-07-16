@@ -14,7 +14,7 @@ public class GroupPostDTO {
     private final LocalDateTime groupPostCreateTime;
     private final String groupPostSenderUserName;
     private final String groupPostSenderProfilePictureURL;
-
+    private final String postPictureURL;
 
     public GroupPostDTO(GroupPost groupPost) {
         this.groupPostId = groupPost.getGroupPostId();
@@ -23,16 +23,20 @@ public class GroupPostDTO {
         this.groupPostCreateTime = groupPost.getPostCreateTime();
         this.groupPostSenderUserName = Objects.requireNonNull(findUserProfileByEmail(groupPost)).getUserName();
         this.groupPostSenderProfilePictureURL = Objects.requireNonNull(findUserProfileByEmail(groupPost)).getProfilePictureUrl();
-
+        this.postPictureURL = groupPost.getGroupPostPictureURL();
     }
 
-    private UserProfile findUserProfileByEmail(GroupPost groupPost){
+    public String getPostPictureURL() {
+        return postPictureURL;
+    }
+
+    private UserProfile findUserProfileByEmail(GroupPost groupPost) {
         String email = groupPost.getGroupPostSenderEmail();
         List<GroupMembership> groupMembershipList = groupPost.getGroup().getGroupMemberList();
         for (GroupMembership groupMembership : groupMembershipList) {
             UserProfile userProfile = groupMembership.getUserProfile();
-            if(userProfile.getEmail().equals(email)){
-               return userProfile;
+            if (userProfile.getEmail().equals(email)) {
+                return userProfile;
             }
         }
         return null;

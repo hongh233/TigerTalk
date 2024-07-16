@@ -11,7 +11,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,13 +39,15 @@ public class GroupServiceImplTest {
 
     private UserProfile userA;
     private UserProfile userB;
-    private Group group;
-    private Group group2;
-    private Group group3;
+    private Group groupPub;
+    private Group group2Pub;
+    private Group group3Pub;
+    private Group group4Private;
     private GroupMembership groupMembership;
     private GroupMembership groupMembership1;
     private GroupMembership groupMembership2;
     private GroupMembership groupMembership3;
+    private GroupMembership groupMembership4Private;
 
     @Before
     public void setUp() {
@@ -69,29 +70,40 @@ public class GroupServiceImplTest {
                         "What is the name of the hospital where you were born?"
                 }
         );
-        group = new Group("Test Group", true);
-        group.setGroupId(1);
-        group2 = new Group("Test Group2", true);
-        group2.setGroupId(2);
-        group3 = new Group("Test Group3", true);
-        group3.setGroupId(3);
+        groupPub = new Group("Test Group", false);
+        groupPub.setGroupId(1);
+
+        group2Pub = new Group("Test Group2", false);
+        group2Pub.setGroupId(2);
+
+        group3Pub = new Group("Test Group3", false);
+        group3Pub.setGroupId(3);
+
+        group4Private = new Group("Private Group", true);
+        group4Private.setGroupId(4);
+
         groupMembership = new GroupMembership();
         groupMembership.setGroupMembershipId(1);
 
         groupMembership1 = new GroupMembership();
         groupMembership1.setGroupMembershipId(2);
-        groupMembership1.setGroup(group);
+        groupMembership1.setGroup(groupPub);
         groupMembership1.setUserProfile(userA);
 
         groupMembership2 = new GroupMembership();
         groupMembership2.setGroupMembershipId(3);
-        groupMembership2.setGroup(group);
+        groupMembership2.setGroup(groupPub);
         groupMembership2.setUserProfile(userB);
 
         groupMembership3 = new GroupMembership();
         groupMembership3.setGroupMembershipId(4);
-        groupMembership3.setGroup(group3);
+        groupMembership3.setGroup(group3Pub);
         groupMembership3.setUserProfile(userA);
+
+        groupMembership4Private = new GroupMembership();
+        groupMembership4Private.setGroupMembershipId(5);
+        groupMembership4Private.setGroup(group4Private);
+        groupMembership4Private.setUserProfile(userA);
     }
 
     /**
@@ -121,40 +133,56 @@ public class GroupServiceImplTest {
      * Test case for joinGroup
      */
     @Test
-    public void joinGroup_normal() {
+    public void joinGroup_User_normal() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(groupRepository.findById(1)).thenReturn(Optional.of(group));
-        Optional<String> result = groupService.joinGroup("a@dal.ca", 1);
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
+        Optional<String> result = groupService.joinGroupUser("a@dal.ca", 1);
 
         assertTrue(result.isEmpty());
     }
 
     @Test
-    public void joinGroup_userAlreadyGroupMember() {
-        GroupMembership existingMembership = new GroupMembership(group, userA, true);
-        group.setGroupMemberList(List.of(existingMembership));
+    public void joinGroup_UserToPrivateGroupFails() {
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(groupRepository.findById(4)).thenReturn(Optional.of(group4Private));
+        Optional<String> result = groupService.joinGroupUser("b@dal.ca", 4);
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    public void joinGroup_UserToPrivateGroupByAdminPasses() {
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(groupRepository.findById(4)).thenReturn(Optional.of(group4Private));
+        Optional<String> result = groupService.joinGroupAdmin("b@dal.ca", 4);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void joinGroup_UserAlreadyGroupUserMember() {
+        GroupMembership existingMembership = new GroupMembership(groupPub, userA, true);
+        groupPub.setGroupMemberList(List.of(existingMembership));
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(groupRepository.findById(1)).thenReturn(Optional.of(group));
-        Optional<String> result = groupService.joinGroup("a@dal.ca", 1);
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
+        Optional<String> result = groupService.joinGroupUser("a@dal.ca", 1);
         assertTrue(result.isPresent());
         assertEquals("User is already a member of the group", result.get());
     }
 
     @Test
-    public void joinGroup_userNotFound() {
-        GroupMembership existingMembership = new GroupMembership(group, userA, true);
-        group.setGroupMemberList(List.of(existingMembership));
-        Optional<String> result = groupService.joinGroup("noFound@dal.ca", 1);
+    public void joinGroup_User_userNotFound() {
+        GroupMembership existingMembership = new GroupMembership(groupPub, userA, true);
+        groupPub.setGroupMemberList(List.of(existingMembership));
+        Optional<String> result = groupService.joinGroupUser("noFound@dal.ca", 1);
         assertTrue(result.isPresent());
         assertEquals("User not found", result.get());
     }
 
     @Test
-    public void joinGroup_groupNotFound() {
-        GroupMembership existingMembership = new GroupMembership(group, userA, true);
-        group.setGroupMemberList(List.of(existingMembership));
+    public void joinGroup_groupUserNotFound() {
+        GroupMembership existingMembership = new GroupMembership(groupPub, userA, true);
+        groupPub.setGroupMemberList(List.of(existingMembership));
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
-        Optional<String> result = groupService.joinGroup("a@dal.ca", 1);
+        Optional<String> result = groupService.joinGroupUser("a@dal.ca", 1);
         assertTrue(result.isPresent());
         assertEquals("Group not found", result.get());
     }
@@ -164,7 +192,7 @@ public class GroupServiceImplTest {
      */
     @Test
     public void getAllGroups_normal() {
-        when(groupRepository.findAll()).thenReturn(List.of(group, group2));
+        when(groupRepository.findAll()).thenReturn(List.of(groupPub, group2Pub));
         List<GroupDTO> groups = groupService.getAllGroups();
         assertEquals(2, groups.size());
         assertEquals("Test Group", groups.get(0).getGroupName());
@@ -173,7 +201,7 @@ public class GroupServiceImplTest {
 
     @Test
     public void getAllGroups_oneGroup() {
-        when(groupRepository.findAll()).thenReturn(List.of(group));
+        when(groupRepository.findAll()).thenReturn(List.of(groupPub));
         List<GroupDTO> groups = groupService.getAllGroups();
         assertEquals(1, groups.size());
         assertEquals("Test Group", groups.get(0).getGroupName());
@@ -192,7 +220,7 @@ public class GroupServiceImplTest {
     @Test
     public void getGroup() {
         int groupID = 1;
-        when(groupRepository.findById(groupID)).thenReturn(Optional.of(group));
+        when(groupRepository.findById(groupID)).thenReturn(Optional.of(groupPub));
         Optional<GroupDTO> groupDTO = groupService.getGroup(groupID);
         groupDTO.ifPresentOrElse(group_dto -> {
             assertEquals(1, group_dto.getGroupId());
@@ -265,7 +293,7 @@ public class GroupServiceImplTest {
     @Test
     public void updateGroupInfo_successfulUpdate_correctMessage() {
         GroupUpdate groupUpdate = new GroupUpdate(1, "New Group Name", "aaa.png", true);
-        when(groupRepository.findById(1)).thenReturn(Optional.of(group));
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
 
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
         assertTrue(result.isEmpty());
@@ -274,41 +302,41 @@ public class GroupServiceImplTest {
     @Test
     public void updateGroupInfo_successfulUpdate_groupName() {
         GroupUpdate groupUpdate = new GroupUpdate(1, "New Group Name", "aaa.png", true);
-        when(groupRepository.findById(1)).thenReturn(Optional.of(group));
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
         groupService.updateGroupInfo(groupUpdate);
-        assertEquals("New Group Name", group.getGroupName());
+        assertEquals("New Group Name", groupPub.getGroupName());
     }
 
     @Test
     public void updateGroupInfo_successfulUpdate_groupImg() {
         GroupUpdate groupUpdate = new GroupUpdate(1, "New Group Name", "aaa.png", true);
-        when(groupRepository.findById(1)).thenReturn(Optional.of(group));
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
         groupService.updateGroupInfo(groupUpdate);
-        assertEquals("aaa.png", group.getGroupImg());
+        assertEquals("aaa.png", groupPub.getGroupImg());
     }
 
     @Test
     public void updateGroupInfo_successfulUpdate_isPrivateStatus() {
         GroupUpdate groupUpdate = new GroupUpdate(1, "New Group Name", "aaa.png", true);
-        when(groupRepository.findById(1)).thenReturn(Optional.of(group));
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
         groupService.updateGroupInfo(groupUpdate);
-        assertTrue(group.isPrivate());
+        assertTrue(groupPub.isPrivate());
     }
 
     @Test
     public void updateGroupInfo_noChange() {
         GroupUpdate groupUpdate = new GroupUpdate(
-                group2.getGroupId(),
-                group2.getGroupName(),
-                group2.getGroupImg(),
-                group2.isPrivate()
+                group2Pub.getGroupId(),
+                group2Pub.getGroupName(),
+                group2Pub.getGroupImg(),
+                group2Pub.isPrivate()
         );
-        when(groupRepository.findById(2)).thenReturn(Optional.of(group2));
+        when(groupRepository.findById(2)).thenReturn(Optional.of(group2Pub));
 
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
         assertTrue(result.isEmpty());
-        assertEquals("Test Group2", group2.getGroupName());
-        assertTrue(group2.isPrivate());
+        assertEquals("Test Group2", group2Pub.getGroupName());
+        assertFalse(group2Pub.isPrivate());
     }
 
     /**
@@ -324,18 +352,18 @@ public class GroupServiceImplTest {
 
     @Test
     public void deleteGroup_successfulDelete_true_message() {
-        when(groupRepository.findById(1)).thenReturn(Optional.of(group)).thenReturn(Optional.empty());
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub)).thenReturn(Optional.empty());
         Optional<String> result = groupService.deleteGroup(1);
         assertTrue(result.isEmpty());
     }
 
     @Test
     public void deleteGroup_successfulDelete_notExistInRepository() {
-        when(groupRepository.findById(1)).thenReturn(Optional.of(group));
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
         groupService.deleteGroup(1);
         ArgumentCaptor<Group> groupCaptor = ArgumentCaptor.forClass(Group.class);
         verify(groupRepository).delete(groupCaptor.capture());
-        assertEquals(group, groupCaptor.getValue());
+        assertEquals(groupPub, groupCaptor.getValue());
         when(groupRepository.findById(1)).thenReturn(Optional.empty());
         assertTrue(groupRepository.findById(1).isEmpty());
     }
@@ -405,21 +433,21 @@ public class GroupServiceImplTest {
      *  Test case for isMember
      */
     @Test
-    public void isMember_userIsMember() {
+    public void isMember_userGetMemberShipId() {
         when(groupMembershipRepository.findByGroup_GroupId(1)).thenReturn(List.of(groupMembership1, groupMembership2));
-        assertTrue(groupService.isMember("a@dal.ca", 1));
+        assertTrue(groupService.getMemberShipId("a@dal.ca", 1).isPresent());
     }
 
     @Test
-    public void isMember_userIsNotMember() {
+    public void isMember_userGetNotMemberShipId() {
         when(groupMembershipRepository.findByGroup_GroupId(1)).thenReturn(List.of(groupMembership2));
-        assertFalse(groupService.isMember("a@dal.ca", 1));
+        assertFalse(groupService.getMemberShipId("a@dal.ca", 1).isPresent());
     }
 
     @Test
-    public void isMember_noMembersInGroup() {
+    public void getMember_ShipId_noMembersInGroup() {
         when(groupMembershipRepository.findByGroup_GroupId(1)).thenReturn(Collections.emptyList());
-        assertFalse(groupService.isMember("a@dal.ca", 1));
+        assertFalse(groupService.getMemberShipId("a@dal.ca", 1).isPresent());
     }
 
 

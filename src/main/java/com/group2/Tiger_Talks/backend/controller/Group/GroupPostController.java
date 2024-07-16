@@ -20,21 +20,17 @@ public class GroupPostController {
     @PostMapping("/create")
     public ResponseEntity<String> createGroupPost(@RequestBody GroupPost groupPost) {
         Optional<String> result = groupPostService.createGroupPost(groupPost);
-        if (result.isEmpty()) {
-            return ResponseEntity.ok("Group post created successfully.");
-        } else {
-            return ResponseEntity.badRequest().body(result.get());
-        }
+        return result
+                .map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("Group post created successfully."));
     }
 
     @DeleteMapping("/delete/{groupPostId}")
     public ResponseEntity<String> deleteGroupPost(@PathVariable Integer groupPostId) {
         Optional<String> result = groupPostService.deleteGroupPostById(groupPostId);
-        if (result.isEmpty()) {
-            return ResponseEntity.ok("Group post deleted successfully.");
-        } else {
-            return ResponseEntity.badRequest().body(result.get());
-        }
+        return result
+                .map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("Group post deleted successfully."));
     }
 
     @GetMapping("/getAll/{groupId}")
