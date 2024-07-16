@@ -124,9 +124,17 @@ const Post = ({ post, user }) => {
 					<p>{formatDate(post.timestamp)}</p>
 				</div>
 			</div>
+
 			<div className="post-content">
 				<p>{renderPostContent(post.content)}</p>
 			</div>
+			{post.postImageURL && (
+				<div className="post-content-img-container">
+					<div className="post-content-img">
+						<img src={post.postImageURL} />
+					</div>
+				</div>
+			)}
 			<div className="post-footer">
 				<button className="post-button" onClick={handleLike}>
 					{likes} <FaThumbsUp />

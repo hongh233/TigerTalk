@@ -8,5 +8,6 @@ export const formatPost = (array) => {
 		likes: post.numOfLike,
 		comments: [],
 		profileProfileURL: post.profileProfileURL,
+		postImageURL: post.postImageURL,
 	}));
 };
