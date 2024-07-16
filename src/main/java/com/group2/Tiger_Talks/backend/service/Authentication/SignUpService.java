@@ -16,10 +16,5 @@ public interface SignUpService {
      * @return an Optional containing a confirmation message or an error message, if the sign-up fails
      */
     Optional<String> signUpUserProfile(UserProfile userProfile);
-
-    /**
-     * A test method for signing up user profiles.
-     */
-    void signUpTest(int numOfUsers);
 }
 

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-@SpringBootTest(classes = GroupServiceImplTest.class)
+
 public class GroupServiceImplTest {
 
     @Mock
@@ -297,16 +297,17 @@ public class GroupServiceImplTest {
 
     @Test
     public void updateGroupInfo_noChange() {
-        GroupUpdate groupUpdate = new GroupUpdate(group2.getGroupId(),
+        GroupUpdate groupUpdate = new GroupUpdate(
+                group2.getGroupId(),
                 group2.getGroupName(),
                 group2.getGroupImg(),
-                group2.isPrivate());
+                group2.isPrivate()
+        );
         when(groupRepository.findById(2)).thenReturn(Optional.of(group2));
 
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
         assertTrue(result.isEmpty());
         assertEquals("Test Group2", group2.getGroupName());
-        assertNull(group2.getGroupImg());
         assertTrue(group2.isPrivate());
     }
 

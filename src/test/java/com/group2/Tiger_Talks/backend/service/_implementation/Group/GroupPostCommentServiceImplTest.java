@@ -54,7 +54,7 @@ public class GroupPostCommentServiceImplTest {
     public void createGroupPostComment_success() {
         int groupPostId = 1;
         Group group = new Group();
-        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
         groupPost.setGroupPostId(groupPostId);
 
         UserProfile userProfile = new UserProfile();
@@ -86,7 +86,7 @@ public class GroupPostCommentServiceImplTest {
     public void createGroupPostComment_userNotGroupMember() {
         int groupPostId = 1;
         Group group = new Group();
-        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
         groupPost.setGroupPostId(groupPostId);
 
         UserProfile userProfile = new UserProfile();
@@ -166,7 +166,7 @@ public class GroupPostCommentServiceImplTest {
         GroupMembership groupMembership = new GroupMembership();
         groupMembership.setUserProfile(userProfile);
 
-        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
         groupPost.setGroupPostId(groupPostId);
 
         GroupPostComment comment1 = new GroupPostComment();
@@ -196,7 +196,7 @@ public class GroupPostCommentServiceImplTest {
     public void getCommentsByGroupPostId_noComments() {
         int groupPostId = 1;
         Group group = new Group();
-        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
         groupPost.setGroupPostId(groupPostId);
         groupPost.setGroupPostCommentList(Collections.emptyList());
         when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.of(groupPost));

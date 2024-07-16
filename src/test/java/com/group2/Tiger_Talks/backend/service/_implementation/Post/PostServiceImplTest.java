@@ -7,7 +7,6 @@ import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.PostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import com.group2.Tiger_Talks.backend.service._implementation.Post.PostServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +24,6 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = PostServiceImplTest.class)
 public class PostServiceImplTest {
 
     @Mock

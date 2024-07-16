@@ -9,6 +9,7 @@ import com.group2.Tiger_Talks.backend.service.Group.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,12 +81,12 @@ public class GroupServiceImpl implements GroupService {
     public List<GroupDTO> getAllGroupsByUser(String userEmail) {
         Optional<UserProfile> userProfile = userProfileRepository.findById(userEmail);
         if (userProfile.isEmpty()) {
-            return List.of();
+            return Collections.emptyList();
         }
         List<GroupMembership> memberships = groupMembershipRepository.findByUserProfile_Email(userEmail);
         return memberships.stream()
                 .map(membership -> new GroupDTO(membership.getGroup()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

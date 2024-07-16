@@ -36,7 +36,7 @@ public class GroupDTO {
                 .orElse(null);
         this.groupMemberList = group.getGroupMemberList().stream()
                 .map(GroupMembershipDTO::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public GroupDTO() {
