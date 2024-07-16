@@ -77,17 +77,6 @@ input[type="text"] {
 	font-size: 24px;
 }
 
-.post-button {
-	align-self: flex-end;
-	padding: 10px 20px;
-	background-color: #17a2b8;
-	color: #fff;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	margin-top: 10px;
-}
-
 .no-posts {
 	display: flex;
 	justify-content: center;

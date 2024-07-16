@@ -3,7 +3,6 @@
 	border: 1px solid #ddd;
 	border-radius: 8px;
 	margin-bottom: 20px;
-	padding-left: 20px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	height: 100px;
 }
@@ -16,6 +15,11 @@
 }
 .group-creator-details {
 	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	grid-row-gap: 10px;
 	width: 10%;
 }
 .group-creator-details:hover {

@@ -62,3 +62,24 @@ export const handleLeaveGroup = (groupMembershipId) => {
 			throw error;
 		});
 };
+
+//GROUP POST
+export const handleCreatePost = (post) => {
+	return axios
+		.post(`${URL}/api/groups/post/create`, post)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error creating group post");
+			throw error;
+		});
+};
+
+export const handleGetAllPost = (groupId) => {
+	return axios
+		.get(`${URL}/api/groups/post/getAll/${groupId}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error creating group post");
+			throw error;
+		});
+};

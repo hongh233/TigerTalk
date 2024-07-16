@@ -1,5 +1,10 @@
-import { HiEye, HiEyeOff } from "react-icons/hi";
-import { FaCog, FaSignOutAlt, FaSignInAlt } from "react-icons/fa";
+import {
+	FaLock,
+	FaUnlock,
+	FaCog,
+	FaSignOutAlt,
+	FaSignInAlt,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/Group.css";
 import { useSelector } from "react-redux";
@@ -28,8 +33,8 @@ const Group = ({ group }) => {
 		) {
 			if (isMember) {
 				await handleLeaveGroup(groupMembershipId);
-				// window.alert("Leave group successfully!");
-				// window.location.reload();
+				window.alert("Leave group successfully!");
+				window.location.reload();
 			} else {
 				await handleJoinGroup(email, group.groupId);
 				window.alert("Joined group successfully!");
@@ -51,7 +56,7 @@ const Group = ({ group }) => {
 						navigate(`/group/viewgroup/${group.groupId}`);
 					}}
 				>
-					{group.groupName} {group.private ? <HiEyeOff /> : <HiEye />}
+					{group.groupName} {group.private ? <FaLock /> : <FaUnlock />}
 					<p>{group.dateCreated}</p>
 				</div>
 

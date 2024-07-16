@@ -19,12 +19,13 @@
 	height: 100vh;
 	overflow: auto;
 }
-.group-post {
-	height: 50%;
+.group-details-header {
+	width: 100%;
+	height: 40%;
 }
 .group-background-image {
 	width: 100%;
-	height: 100%;
+	height: 80%;
 	background-size: cover;
 }
 .group-background-image img {
@@ -34,7 +35,6 @@
 .group-content-container {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	overflow: scroll;
 	width: 75%;
 	height: 100%;
@@ -44,11 +44,10 @@
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
-	height: 10%;
+	height: 20%;
 	background-color: #fff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	border-radius: 8px;
-	margin-bottom: 10px;
 }
 .group-content-nav h1 {
 	font-size: 2em;
@@ -83,6 +82,14 @@
 	align-items: center;
 }
 
+.group-member-actions-container {
+	height: 5%;
+	margin: 1% 0;
+}
+.group-member-actions {
+	display: flex;
+}
+
 .group-content-nav ul li.setting li.delete li.members {
 	margin-left: auto; /* Push the setting to the far right */
 }
@@ -98,7 +105,6 @@
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
-	margin-bottom: 10px;
 	transition: background-color 0.3s ease;
 }
 
@@ -113,6 +119,7 @@
 .member-status {
 	background-color: #17a2b8;
 	cursor: default;
+	margin-right: 1%;
 }
 .leave-group-button:hover {
 	background-color: #c82333;
@@ -125,7 +132,7 @@
 }
 
 @media (max-width: 768px) {
-	.group-navbar {
+	/* .group-navbar {
 		position: static;
 		width: 100%;
 		height: auto;
@@ -138,5 +145,5 @@
 	}
 	.group-background-image {
 		height: auto;
-	}
+	} */
 }
