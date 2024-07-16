@@ -68,22 +68,28 @@ const Group = ({ group }) => {
 				>
 					<img src={group.groupImg} alt="Group cover" />
 				</div>
-				<div
-					className={`group-action ${
-						isOwner ? "settings" : isMember ? "leave" : "join"
-					}`}
-					onClick={handleActionClick}
-				>
-					<div className="group-action-text">
-						{isOwner ? (
-							<FaCog />
-						) : isMember ? (
-							<FaSignOutAlt />
-						) : (
-							<FaSignInAlt />
-						)}
+				{group.private ? (
+					<div className="group-action lock">
+						<FaLock />
 					</div>
-				</div>
+				) : (
+					<div
+						className={`group-action ${
+							isOwner ? "settings" : isMember ? "leave" : "join"
+						}`}
+						onClick={handleActionClick}
+					>
+						<div className="group-action-text">
+							{isOwner ? (
+								<FaCog />
+							) : isMember ? (
+								<FaSignOutAlt />
+							) : (
+								<FaSignInAlt />
+							)}
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -10,7 +10,8 @@ public class PostDTO {
     private final LocalDateTime timestamp;
     private final int numOfLike;
     private final String userProfileUserName;
-    private final String profilePictureURL;
+    private final String profileProfileURL;
+    private final String postImageURL;
 
     public PostDTO(Post post) {
         this.postId = post.getPostId();
@@ -19,7 +20,12 @@ public class PostDTO {
         this.timestamp = post.getTimestamp();
         this.numOfLike = post.getNumOfLike();
         this.userProfileUserName = post.getUserProfile().getUserName();
-        this.profilePictureURL = post.getUserProfile().getProfilePictureUrl();
+        this.profileProfileURL = post.getUserProfile().getProfilePictureUrl();
+        this.postImageURL = post.getAssociatedImageURL();
+    }
+
+    public String getPostImageURL() {
+        return postImageURL;
     }
 
     public Integer getPostId() {
@@ -42,8 +48,8 @@ public class PostDTO {
         return userProfileUserName;
     }
 
-    public String getProfilePictureURL() {
-        return profilePictureURL;
+    public String getProfileProfileURL() {
+        return profileProfileURL;
     }
 
     public String getEmail() {

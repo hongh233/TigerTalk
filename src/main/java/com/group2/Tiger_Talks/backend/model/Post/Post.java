@@ -24,28 +24,31 @@ public class Post {
 
     private String content;
     private int numOfLike;
-    private String associatedImage;
-
+    private String associatedImageURL;
     @Column(nullable = false)
     private LocalDateTime timestamp = LocalDateTime.now();
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<PostComment> postComments = new ArrayList<>();
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostLike> postLikes = new ArrayList<>();
-
-
     public Post() {
     }
 
-    public Post(UserProfile userProfile, String content, String image) {
+    public Post(UserProfile userProfile, String content, String associatedImageURL) {
         this.userProfile = userProfile;
         this.content = content;
-        this.associatedImage = image;
+        this.associatedImageURL = associatedImageURL;
         this.numOfLike = 0;
     }
 
+    public String getAssociatedImageURL() {
+        return associatedImageURL;
+    }
+
+    public void setAssociatedImageURL(String associatedImageURL) {
+        this.associatedImageURL = associatedImageURL;
+    }
 
     public List<PostLike> getLikes() {
         return postLikes;

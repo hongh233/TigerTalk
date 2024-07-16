@@ -11,7 +11,6 @@ import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/GroupPost.css";
 
 const GroupPost = ({ post }) => {
-	console.log(post);
 	const [postComments, setPostComments] = useState(null);
 	const [newComment, setNewComment] = useState("");
 

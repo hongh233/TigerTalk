@@ -13,7 +13,6 @@ const GroupPage = () => {
 	const fetchGroups = async () => {
 		const data = await handleGetAllGroups();
 		setGroups(data);
-		console.log(data);
 	};
 	return (
 		<div className="group-page">
