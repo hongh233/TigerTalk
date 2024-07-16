@@ -44,7 +44,7 @@ public class GroupController {
         Optional<GroupDTO> groupDTO = groupService.getGroup(groupId);
         if (groupDTO.isPresent()) {
             return ResponseEntity.ok(groupDTO);
-        }else {
+        } else {
             return ResponseEntity.badRequest().body("No group for this id was found");
         }
     }
@@ -82,9 +82,14 @@ public class GroupController {
         return groupService.getGroupMembersByGroupId(groupId);
     }
 
-    @GetMapping("/get/isMember/{userEmail}/{groupId}")
-    public boolean isMember(@PathVariable String userEmail, @PathVariable int groupId) {
-        return groupService.isMember(userEmail, groupId);
+    @GetMapping("/get/getMemberShipId/{userEmail}/{groupId}")
+    public ResponseEntity<?> getMemberShipId(@PathVariable String userEmail, @PathVariable int groupId) {
+        Optional<Integer> membershipId = groupService.getMemberShipId(userEmail, groupId);
+        if (membershipId.isPresent()) {
+            return ResponseEntity.ok(membershipId.get());
+        }else {
+            return ResponseEntity.badRequest().body("User is not a member");
+        }
     }
 
 }

@@ -3,11 +3,6 @@ package com.group2.Tiger_Talks.backend.service.Group;
 import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
 import com.group2.Tiger_Talks.backend.model.Group.GroupUpdate;
-import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
-import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
-import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -96,11 +91,11 @@ public interface GroupService {
 
 
     /**
-     * Checks if a user is a member of a specific group by their email and group ID.
+     * Get the membership id of a specific group by their email and group ID.
      *
      * @param userEmail the email of the user.
      * @param groupId the ID of the group.
-     * @return true if the user is a member of the group, false otherwise.
+     * @return The membership id if the user is a member of the group, Empty otherwise.
      */
-    boolean isMember(String userEmail, int groupId);
+    Optional<Integer> getMemberShipId(String userEmail, int groupId);
 }

@@ -6,6 +6,7 @@ import com.group2.Tiger_Talks.backend.service.Group.GroupSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -15,6 +16,7 @@ public class GroupSearchServiceImpl implements GroupSearchService {
 
     @Override
     public List<GroupDTO> findPublicGroupMatch(String groupName, String userEmail) {
+        if (groupName == null || userEmail == null) return Collections.emptyList();
         return groupRepository.findAll()
                 .stream()
                 .filter(group -> group.getGroupName().toLowerCase().startsWith(groupName.toLowerCase())

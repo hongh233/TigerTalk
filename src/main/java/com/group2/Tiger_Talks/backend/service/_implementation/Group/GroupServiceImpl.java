@@ -7,6 +7,7 @@ import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Group.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -135,14 +136,14 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public boolean isMember(String userEmail, int groupId) {
+    public Optional<Integer> getMemberShipId(String userEmail, int groupId) {
         List<GroupMembership> memberships = groupMembershipRepository.findByGroup_GroupId(groupId);
         for (GroupMembership membership : memberships) {
             if (membership.getUserProfile().getEmail().equals(userEmail)) {
-                return true;
+                return Optional.of(membership.getGroupMembershipId());
             }
         }
-        return false;
+        return Optional.empty();
     }
 
 }
