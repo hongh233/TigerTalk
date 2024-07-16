@@ -14,10 +14,10 @@ public class GroupAdmin {
     @Autowired
     GroupService groupService;
 
-    @DeleteMapping("/deleteUser/{userEmail}")
-    public ResponseEntity<String> removeUser(@PathVariable String userEmail) {
-        // TODO remvoe user
-//        groupService.deleteGroupMembership()
-        return ResponseEntity.ok("");
+    @DeleteMapping("/deleteUser/{membershipID}")
+    public ResponseEntity<String> removeUser(@PathVariable Integer membershipID) {
+        return groupService.deleteGroupMembership(membershipID)
+                .map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("Group membership Successfully deleted"));
     }
 }
