@@ -4,7 +4,6 @@ import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
 import com.group2.Tiger_Talks.backend.model.Group.GroupUpdate;
 import com.group2.Tiger_Talks.backend.service.Group.GroupService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +14,11 @@ import java.util.Optional;
 @RequestMapping("/api/groups")
 public class GroupController {
 
-    @Autowired
-    private GroupService groupService;
+    private final GroupService groupService;
+
+    public GroupController(GroupService groupService) {
+        this.groupService = groupService;
+    }
 
     @PostMapping("/create/{groupName}/{creatorEmail}/{isPrivate}")
     public ResponseEntity<String> createGroup(@PathVariable String groupName,
@@ -29,7 +31,7 @@ public class GroupController {
 
     @PostMapping("/join/{email}/{groupId}")
     public ResponseEntity<String> joinGroup(@PathVariable String email, @PathVariable int groupId) {
-        Optional<String> result = groupService.joinGroup(email, groupId);
+        Optional<String> result = groupService.joinGroupUser(email, groupId);
         return result.map(ResponseEntity.badRequest()::body)
                 .orElseGet(() -> ResponseEntity.ok("User successfully joined the group"));
     }
