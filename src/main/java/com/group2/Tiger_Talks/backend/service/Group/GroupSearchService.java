@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface GroupSearchService {
 
-    List<GroupDTO> findPublicGroupMatch(String groupName);
+    List<GroupDTO> findPublicGroupMatch(String groupName, String userEmail);
 }

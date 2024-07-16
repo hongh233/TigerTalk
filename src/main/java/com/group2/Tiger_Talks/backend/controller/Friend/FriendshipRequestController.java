@@ -1,7 +1,6 @@
 package com.group2.Tiger_Talks.backend.controller.Friend;
 
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequestDTO;
-import com.group2.Tiger_Talks.backend.model.Test;
 import com.group2.Tiger_Talks.backend.service.Friend.FriendshipRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +15,11 @@ import java.util.List;
 @RequestMapping("/friendshipRequests")
 public class FriendshipRequestController {
 
-    @Autowired
-    private FriendshipRequestService friendshipRequestService;
+    private final FriendshipRequestService friendshipRequestService;
+
+    public FriendshipRequestController(FriendshipRequestService friendshipRequestService) {
+        this.friendshipRequestService = friendshipRequestService;
+    }
 
     /**
      * Retrieves all friendship requests for a given email.
@@ -69,11 +71,6 @@ public class FriendshipRequestController {
         return friendshipRequestService.rejectFriendshipRequest(friendshipRequestId)
                 .map(ResponseEntity.status(404)::body)
                 .orElseGet(() -> ResponseEntity.ok("Friend request has been rejected."));
-    }
-
-    @PostMapping("/Test")
-    public String bulkFriends(@RequestParam("numOfUsers") int numOfUsers) {
-        return Test.createFriends(numOfUsers, friendshipRequestService, this::acceptFriendRequest, this::sendFriendRequest);
     }
 
     @GetMapping("/areFriendshipRequestExist/{email1}/{email2}")

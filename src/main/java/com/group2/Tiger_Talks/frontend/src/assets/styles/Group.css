@@ -3,14 +3,15 @@
 	border: 1px solid #ddd;
 	border-radius: 8px;
 	margin-bottom: 20px;
-	padding: 20px;
+	padding-left: 20px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	height: 100px;
 }
 
 .group-header {
 	display: flex;
 	align-items: center;
-	margin-bottom: 10px;
+	height: 100px;
 }
 .group-link {
 	text-decoration: none;
@@ -26,7 +27,15 @@
 	background-color: #ccc;
 	margin-right: 10px;
 }
-
+.group-background-image {
+	height: 100%;
+}
+.group-background-image img {
+	object-fit: cover;
+}
+.group-creator-details {
+	width: 10%;
+}
 .group-creator-details a {
 	margin: 0;
 	font-size: 1rem;

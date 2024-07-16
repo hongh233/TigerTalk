@@ -10,7 +10,7 @@ const CreateGroupPage = () => {
 	const user = useSelector((state) => state.user.user);
 	const [form, setForm] = useState({
 		groupName: "",
-		status: "",
+		status: null,
 		userEmail: user.email,
 	});
 	const [errors, setErrors] = useState({});
@@ -66,8 +66,8 @@ const CreateGroupPage = () => {
 						<label>Group Status</label>
 						<select name="status" value={form.status} onChange={handleChange}>
 							<option value="">Select Status</option>
-							<option value="public">Public</option>
-							<option value="private">Private</option>
+							<option value={false}>Public</option>
+							<option value={true}>Private</option>
 						</select>
 						{errors.status && <p className="error">{errors.status}</p>}
 					</div>
