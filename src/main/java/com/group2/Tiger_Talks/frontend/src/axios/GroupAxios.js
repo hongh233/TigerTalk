@@ -2,14 +2,11 @@ import axios from "axios";
 const URL = process.env.REACT_APP_API_URL;
 
 export const handleCreateGroup = (form) => {
+	console.log(form);
 	return axios
-		.post(`${URL}/api/groups/create`, null, {
-			params: {
-				groupName: form.groupName,
-				creatorEmail: form.userEmail,
-				isPrivate: form.status === "private",
-			},
-		})
+		.post(
+			`${URL}/api/groups/create/${form.groupName}/${form.userEmail}/${form.status}`
+		)
 		.then((response) => response.data)
 		.catch((error) => {
 			console.error("Error creating group");
