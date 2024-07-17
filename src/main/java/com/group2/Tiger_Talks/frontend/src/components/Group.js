@@ -68,7 +68,7 @@ const Group = ({ group }) => {
 				>
 					<img src={group.groupImg} alt="Group cover" />
 				</div>
-				{group.private ? (
+				{group.private && !isMember ? (
 					<div className="group-action lock">
 						<FaLock />
 					</div>

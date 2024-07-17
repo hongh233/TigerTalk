@@ -23,6 +23,7 @@ import {
 	handleLeaveGroup,
 	handleCreatePost,
 	handleGetAllPost,
+	handleGetGroupMembershipId,
 } from "./../axios/GroupAxios";
 
 const ViewGroupPage = () => {
@@ -31,6 +32,7 @@ const ViewGroupPage = () => {
 	const [isPrivate, setIsPrivate] = useState(null);
 	const [isMember, setIsMember] = useState(null);
 	const [isCreator, setIsCreator] = useState(null);
+	const [groupMembershipId, setGroupMembershipId] = useState(null);
 	const [group, setGroup] = useState(null);
 	const [posts, setPosts] = useState(null);
 	const [reload, setReload] = useState(false);
@@ -65,8 +67,12 @@ const ViewGroupPage = () => {
 
 			// Check if the current user is a member
 			const memberStatus = await checkIsMember(userEmail, groupId);
+			const groupMembership = await handleGetGroupMembershipId(
+				userEmail,
+				groupId
+			);
 			setIsMember(memberStatus);
-			console.log(memberStatus);
+			setGroupMembershipId(groupMembership);
 		} catch (error) {
 			console.error("Failed to fetch group details", error);
 		}
@@ -196,7 +202,14 @@ const ViewGroupPage = () => {
 								<>
 									{posts &&
 										posts.map((post) => (
-											<GroupPost key={post.id} post={post} />
+											<GroupPost
+												key={post.id}
+												isMember={isMember}
+												post={post}
+												groupId={groupId}
+												groupMembershipId={groupMembershipId}
+												userEmail={userEmail}
+											/>
 										))}
 								</>
 							) : (

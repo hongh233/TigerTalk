@@ -83,3 +83,32 @@ export const handleGetAllPost = (groupId) => {
 			throw error;
 		});
 };
+
+export const handleAddGroupPostComment = (groupPostId, newCommentObj) => {
+	return axios
+		.post(`${URL}/api/groups/post/comment/create/${groupPostId}`, newCommentObj)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error creating group post");
+			throw error;
+		});
+};
+
+export const handleGetCommentsForOneGroupPost = (groupPostId) => {
+	return axios
+		.get(`${URL}/api/groups/post/comment/${groupPostId}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error getting group post comments");
+			throw error;
+		});
+};
+export const handleGetGroupMembershipId = (userEmail, groupId) => {
+	return axios
+		.get(`${URL}/api/groups/get/getMemberShipId/${userEmail}/${groupId}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error getting group mebership id");
+			throw error;
+		});
+};
