@@ -14,6 +14,16 @@ export const handleCreateGroup = (form) => {
 		});
 };
 
+export const handleUpdateGroup = (groupUpdate) => {
+	return axios
+		.post(`${URL}/api/groups/update/groupInfo`, groupUpdate)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error updating group");
+			throw error;
+		});
+};
+
 export const handleGetGroupById = (groupId) => {
 	return axios
 		.get(`${URL}/api/groups/get/group/${groupId}`)
