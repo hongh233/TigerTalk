@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.repository;
+package com.group2.Tiger_Talks.backend.repository.Post;
 
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import org.springframework.data.jpa.repository.JpaRepository;
