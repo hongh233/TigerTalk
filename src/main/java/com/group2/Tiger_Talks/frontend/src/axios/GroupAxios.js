@@ -24,6 +24,16 @@ export const handleUpdateGroup = (groupUpdate) => {
 		});
 };
 
+export const handleDeleteGroup = (groupId) => {
+	return axios
+		.delete(`${URL}/api/groups/delete/group/${groupId}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error deleting group");
+			throw error;
+		});
+};
+
 export const handleGetGroupById = (groupId) => {
 	return axios
 		.get(`${URL}/api/groups/get/group/${groupId}`)
