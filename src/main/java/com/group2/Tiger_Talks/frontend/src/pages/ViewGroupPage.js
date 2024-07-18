@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
 	FaCog,
 	FaLock,
@@ -24,6 +24,7 @@ import {
 	handleCreatePost,
 	handleGetAllPost,
 	handleGetGroupMembershipId,
+	handleDeleteGroup,
 } from "./../axios/GroupAxios";
 
 const ViewGroupPage = () => {
@@ -49,7 +50,7 @@ const ViewGroupPage = () => {
 	const fetchAllGroupPosts = async () => {
 		try {
 			const data = await handleGetAllPost(groupId);
-			console.log(data);
+
 			setPosts(data);
 		} catch (error) {
 			console.error("Failed to fetch group posts", error);
@@ -107,18 +108,21 @@ const ViewGroupPage = () => {
 	};
 
 	const deleteGroup = async () => {
-		if (window.confirm("Are you sure you want to delete this group? This action cannot be undone.")) {
+		if (
+			window.confirm(
+				"Are you sure you want to delete this group? This action cannot be undone."
+			)
+		) {
 			try {
 				await handleDeleteGroup(groupId);
 				alert("Group deleted successfully!");
-				navigate("/group");  // Navigate to a different page after deletion
+				navigate("/group"); // Navigate to a different page after deletion
 			} catch (error) {
 				console.error("Failed to delete the group", error);
 				alert("Error deleting group");
 			}
 		}
 	};
-
 
 	const addPost = async (postContent, postImageURL, tags) => {
 		try {
@@ -157,10 +161,7 @@ const ViewGroupPage = () => {
 					<div className="group-content-container">
 						<div className="group-details-header">
 							<div className="group-background-image">
-								<img
-									src="https://mediaim.expedia.com/destination/7/bb1caab964e8be84036cd5ee7b05e787.jpg?impolicy=fcrop&w=1920&h=480&q=medium"
-									alt="Group Background"
-								/>
+								<img src={group.groupImg} alt="Group Background" />
 							</div>
 
 							<div className="group-content-nav">
@@ -192,7 +193,7 @@ const ViewGroupPage = () => {
 													<FaCog />
 												</a>
 											</li>
-											<li className="delete" onClick={deleteGroup}>
+											<li className="delete group-link" onClick={deleteGroup}>
 												<FaTrashAlt />
 											</li>
 										</>

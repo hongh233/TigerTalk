@@ -34,9 +34,9 @@
 .group-background-image {
 	width: 100%;
 	height: 80%;
-	background-size: cover;
 }
 .group-background-image img {
+	object-fit: cover;
 	width: 100%;
 	height: 100%;
 }
@@ -100,6 +100,11 @@
 
 .group-content-nav ul li.setting li.delete li.members {
 	margin-left: auto; /* Push the setting to the far right */
+}
+.group-link {
+	text-decoration: none;
+	color: #17a2b8;
+	cursor: pointer;
 }
 .member-status,
 .join-group-button,
