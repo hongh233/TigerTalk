@@ -24,9 +24,7 @@ public class GroupPostComment {
     @Column(nullable = false)
     private LocalDateTime groupPostCommentCreateTime = LocalDateTime.now();
 
-
     public GroupPostComment() {}
-
 
     public Integer getGroupPostCommentId() {
         return groupPostCommentId;

@@ -9,7 +9,7 @@ public class GroupPostCommentDTO {
     private final LocalDateTime groupPostCommentCreateTime;
     private final String groupPostCommentSenderUserName;
     private final String groupPostCommentSenderProfilePictureURL;
-
+    private final String senderEmail;
 
     public GroupPostCommentDTO(GroupPostComment groupPostComment) {
         this.groupPostCommentId = groupPostComment.getGroupPostCommentId();
@@ -17,6 +17,11 @@ public class GroupPostCommentDTO {
         this.groupPostCommentCreateTime = groupPostComment.getGroupPostCommentCreateTime();
         this.groupPostCommentSenderUserName = groupPostComment.getGroupMembership().getUserProfile().getUserName();
         this.groupPostCommentSenderProfilePictureURL = groupPostComment.getGroupMembership().getUserProfile().getProfilePictureUrl();
+        this.senderEmail = groupPostComment.getGroupMembership().getUserProfile().getEmail();
+    }
+
+    public String getSenderEmail() {
+        return senderEmail;
     }
 
     public int getGroupPostCommentId() {
