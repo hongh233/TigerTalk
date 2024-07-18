@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.repository;
+package com.group2.Tiger_Talks.backend.repository.Notification;
 
 import com.group2.Tiger_Talks.backend.model.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
