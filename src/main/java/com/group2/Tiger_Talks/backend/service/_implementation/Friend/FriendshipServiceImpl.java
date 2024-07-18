@@ -2,11 +2,13 @@ package com.group2.Tiger_Talks.backend.service._implementation.Friend;
 
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
+import com.group2.Tiger_Talks.backend.model.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Friend.FriendshipService;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,9 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public List<UserProfileDTOFriendship> getAllFriendsDTO(String email) {
@@ -52,14 +57,33 @@ public class FriendshipServiceImpl implements FriendshipService {
         UserProfile receiver = userProfileRepository.findUserProfileByEmail(receiverEmail)
                 .orElseThrow(() -> new IllegalStateException("Receiver not found"));
 
-        Optional<Friendship> friendship = friendshipRepository.
-                findBySenderAndReceiver(sender, receiver);
-        if (friendship.isPresent()) {
-            friendshipRepository.delete(friendship.get());
-            return Optional.empty();
-        } else {
+        Optional<Friendship> friendship = friendshipRepository.findBySenderAndReceiver(sender, receiver);
+        if (friendship.isEmpty()) {
             return Optional.of("No friendship exists between these users.");
         }
+        friendshipRepository.delete(friendship.get());
+
+        // send notification to friendship relationship sender
+        Notification senderNotification = new Notification(
+                sender,
+                "Your friendship with " + receiverEmail + " has been terminated.",
+                "FriendshipDelete");
+        Optional<String> senderError = notificationService.createNotification(senderNotification);
+        if (senderError.isPresent()) {
+            return senderError;
+        }
+
+        // send notification to friendship relationship receiver
+        Notification receiverNotification = new Notification(
+                receiver,
+                "Your friendship with " + senderEmail + " has been terminated.",
+                "FriendshipDelete");
+        Optional<String> receiverError = notificationService.createNotification(receiverNotification);
+        if (receiverError.isPresent()) {
+            return receiverError;
+        }
+
+        return Optional.empty();
     }
 
     @Override
