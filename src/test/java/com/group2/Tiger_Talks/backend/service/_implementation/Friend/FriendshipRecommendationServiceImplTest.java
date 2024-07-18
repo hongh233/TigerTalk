@@ -34,28 +34,28 @@ public class FriendshipRecommendationServiceImplTest {
     private UserProfile userD;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         userA = Mockito.mock(UserProfile.class);
         userB = new UserProfile("Blong", "Bside", 23, "Female", "userB", "b@dal.ca", "bbbb1B@b", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
         userC = new UserProfile("Clong", "Cside", 24, "Male", "userC", "c@dal.ca", "cccc1C@c", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
         userD = new UserProfile("Dlong", "Dside", 25, "Female", "userD", "d@dal.ca", "dddd1D@d", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-
-        // 设置 userA 的邮箱和好友列表
         lenient().when(userA.getEmail()).thenReturn("a@dal.ca");
         lenient().when(userA.getAllFriends()).thenReturn(List.of(userB));
     }
 
+    /**
+     * Test case for recommendFriends
+     */
     @Test
-    void recommendFriends_userNotFound() {
-        when(userProfileRepository.findById("nonexistent@example.com")).thenReturn(Optional.empty());
-
-        List<UserProfileDTOPost> recommendations = friendshipRecommendationService.recommendFriends("nonexistent@example.com", 3);
+    public void recommendFriends_userNotFound() {
+        when(userProfileRepository.findById("k@dal.ca")).thenReturn(Optional.empty());
+        List<UserProfileDTOPost> recommendations = friendshipRecommendationService.recommendFriends("k@dal.ca", 3);
 
         assertEquals(0, recommendations.size());
     }
 
     @Test
-    void recommendFriends_noPotentialFriends() {
+    public void recommendFriends_noPotentialFriends() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findAll()).thenReturn(List.of(userA, userB));
 
@@ -65,7 +65,7 @@ public class FriendshipRecommendationServiceImplTest {
     }
 
     @Test
-    void recommendFriends_limitedPotentialFriends() {
+    public void recommendFriends_limitedPotentialFriends() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findAll()).thenReturn(List.of(userA, userB, userC));
 
@@ -76,7 +76,7 @@ public class FriendshipRecommendationServiceImplTest {
     }
 
     @Test
-    void recommendFriends_multiplePotentialFriends() {
+    public void recommendFriends_multiplePotentialFriends() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findAll()).thenReturn(List.of(userA, userB, userC, userD));
 
