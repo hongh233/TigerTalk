@@ -55,6 +55,12 @@ public class PostController {
                 .orElseGet(() -> ResponseEntity.ok("Post created successfully."));
     }
 
+    @PostMapping("/editPost/{postID}/{content}")
+    public ResponseEntity<String> editPost(@PathVariable Integer postID, @PathVariable String content) {
+        // TODO: EDIT POST
+        return null;
+    }
+
     /**
      * Deletes a post by ID.
      *

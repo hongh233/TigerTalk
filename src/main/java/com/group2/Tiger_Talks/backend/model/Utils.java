@@ -19,7 +19,7 @@ public final class Utils {
         public static final String USER = "user";
     }
 
-    public static final class Role {
+    public static final class Role { // TODO: USe in admin to change role
         public static final String DEFAULT = "default";
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
@@ -52,5 +52,32 @@ public final class Utils {
         public static final Pattern PASSWORD_NORM_SPECIAL_CHARACTER = Pattern.compile("^(?=.*[!\"#$%&'()*+,\\-./:;<=>?@\\[\\\\\\]^_`{|}~]).+$");
         public static final Pattern EMAIL_NORM = Pattern.compile("^[A-Za-z0-9]+" + "@dal\\.ca$");
         public static final Pattern NAME_NORM = Pattern.compile("^[A-Za-z]*$");
+
+        public static boolean advancedSearch(String stringToMatch, String inputString) {
+            return isSubString(stringToMatch, inputString) || intelij_search_experimental(stringToMatch, inputString);
+        }
+
+        public static boolean isSubString(String stringToMatch, String inputString) {
+            return Pattern.compile(".*" + Pattern.quote(inputString) + ".*", Pattern.CASE_INSENSITIVE)
+                    .matcher(stringToMatch).matches();
+        }
+
+        // inputstring => RSIT =>generate_intelij_matcher_regex(x)  => "*[R,r]*[S,s]*[I,i]*[T,t]*"
+        public static boolean intelij_search_experimental(String stringToMatch, String inputString) {
+            return Pattern.compile(generate_intelij_matcher_regex(inputString), Pattern.CASE_INSENSITIVE)
+                    .matcher(stringToMatch)
+                    .find();
+        }
+
+        private static String generate_intelij_matcher_regex(String string) {
+            String regex = String.join(
+                    ".*",
+                    string.chars()
+                            .mapToObj(x -> "[" + Character.toLowerCase((char) x) + Character.toUpperCase((char) x) + "]")
+                            .toArray(String[]::new)
+            );
+            return ".*" + regex + ".*";
+        }
+
     }
 }
