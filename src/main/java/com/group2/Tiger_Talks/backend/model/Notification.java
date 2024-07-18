@@ -16,6 +16,12 @@ public class Notification {
 
     private LocalDateTime createTime;
 
+    // FriendshipRequestSend,
+    // FriendshipRequestAccept,
+    // FriendshipRequestReject,
+    // FriendshipDelete,
+    // NewPost,
+    // PostLiked
     private String notificationType;
 
     @ManyToOne
@@ -25,7 +31,8 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(String content, String type) {
+    public Notification(UserProfile userProfile, String content, String type) {
+        this.userProfile = userProfile;
         this.content = content;
         this.notificationType = type;
         this.createTime = LocalDateTime.now();
