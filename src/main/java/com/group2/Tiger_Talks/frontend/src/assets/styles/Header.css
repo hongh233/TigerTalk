@@ -1,6 +1,6 @@
 .header {
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
 	align-items: center;
 	padding: 10px 20px;
 	background-color: #333;
@@ -8,12 +8,13 @@
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	position: fixed;
 	width: 100%;
-	height: 4vh;
+	height: 5%;
 	z-index: 1000;
 }
 
 .header h1 {
-	margin: 0 2%;
+	margin: 0 20px;
+	grid-column: 1 / 2;
 }
 
 .home-link {
@@ -21,10 +22,19 @@
 	color: white;
 }
 
+.notification-button {
+	grid-column: 2 / 3;
+	display: flex;
+	justify-content: center;
+}
+
 .search-bar {
 	display: flex;
-	width: 25%;
-	align-items: center;
+	width: 80%;
+	align-items: end;
+	grid-column: 3 / 4;
+	justify-self: end;
+	padding-right: 5%;
 }
 
 .search-bar input {
@@ -46,11 +56,12 @@
 .search-bar button:hover {
 	background-color: #138496;
 }
-/*Drop DOwn*/
+
+/*Drop Down*/
 .search-results-dropdown {
 	position: absolute;
 	top: 100%;
-	right: 5%;
+	right: 7%;
 	z-index: 100;
 	background-color: white;
 	border: 1px solid #ddd;
@@ -117,28 +128,26 @@
 
 @media (max-width: 768px) {
 	.header {
-		flex-direction: column;
-		align-items: center;
+		grid-template-columns: 1fr;
+		justify-items: center;
 		padding: 10px;
 	}
 
 	.header h1 {
 		order: 1;
-		position: fixed;
-		left: 2%;
+		position: static;
+		margin-bottom: 10px;
 	}
 
 	.notification-button {
-		order: 2;
-		position: fixed;
-		right: 2%;
+		order: 3;
+		position: static;
 	}
 
 	.search-bar {
-		position: fixed;
-		right: 55%;
+		order: 2;
+		width: 80%;
 		margin-top: 10px;
-		top: 8%;
 	}
 
 	.search-bar input {

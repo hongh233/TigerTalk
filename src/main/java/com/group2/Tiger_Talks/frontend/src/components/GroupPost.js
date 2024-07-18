@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaComment, FaShare } from "react-icons/fa";
-import Comment from "./Comment";
+import GroupComment from "./GroupComment";
 import {
-	handleAddCommentAxios,
-	getCommentFromPostId,
-} from "./../axios/PostAxios";
-import { fetchUserByEmail } from "./../axios/AuthenticationAxios";
+	handleAddGroupPostComment,
+	handleGetCommentsForOneGroupPost,
+} from "./../axios/GroupAxios";
 import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/GroupPost.css";
-import GroupPostDelete from "./GroupPostDelete";
-import {handleDeleteGroupPost} from "../axios/GroupAxios";
+// import GroupPostDelete from "./GroupPostDelete";
+// import {handleDeleteGroupPost} from "../axios/GroupAxios";
 
-const GroupPost = ({ post }) => {
+const GroupPost = ({
+	post,
+	isMember,
+	groupId,
+	groupMembershipId,
+	userEmail,
+}) => {
 	const [postComments, setPostComments] = useState(null);
 	const [newComment, setNewComment] = useState("");
-
 	const navigate = useNavigate();
 
 	useEffect(() => {}, [postComments]);
 
 	const handleFetchAndDisplayComments = async () => {
-		const fetchedComments = await getCommentFromPostId(post.groupPostId);
+		const fetchedComments = await handleGetCommentsForOneGroupPost(
+			post.groupPostId
+		);
+		console.log(fetchedComments);
 		setPostComments(fetchedComments);
 	};
 
@@ -29,26 +36,26 @@ const GroupPost = ({ post }) => {
 		setNewComment(e.target.value);
 	};
 
-	// const handleAddComment = async () => {
-	// 	const postSenderUserProfileDTO = await fetchUserByEmail(
-	// 		post.postSenderEmail
-	// 	);
+	const handleAddCommentToAxios = async () => {
+		try {
+			if (newComment.trim() === "") return;
 
-	// 	if (newComment.trim() === "") return;
-	// 	if (postSenderUserProfileDTO) {
-	// 		const newCommentObj = {
-	// 			content: newComment,
-	// 			timestamp: new Date(),
-	// 			commentSenderUserProfileDTO: user,
-	// 			postSenderUserProfileDTO: postSenderUserProfileDTO,
-	// 			postId: post.groupPostId,
-	// 		};
-
-	// 		await handleAddCommentAxios(newCommentObj);
-	// 		await handleFetchAndDisplayComments();
-	// 		setNewComment("");
-	// 	}
-	// };
+			const newCommentObj = {
+				content: newComment,
+				groupMembership: {
+					groupMembershipId: groupMembershipId,
+					userProfile: {
+						email: userEmail,
+					},
+				},
+			};
+			await handleAddGroupPostComment(post.groupPostId, newCommentObj);
+			await handleFetchAndDisplayComments();
+			setNewComment("");
+		} catch (error) {
+			console.error("Error sharing content:", error);
+		}
+	};
 
 	const handleShare = async () => {
 		if (navigator.share) {
@@ -63,14 +70,6 @@ const GroupPost = ({ post }) => {
 		} else {
 			alert("Web Share API is not supported in your browser.");
 		}
-	};
-
-	const handleTagClick = () => {
-		navigate(`/friends`);
-	};
-
-	const handlePostDelete = () => {
-		window.location.reload();
 	};
 
 	// const renderPostContent = (content) => {
@@ -115,7 +114,10 @@ const GroupPost = ({ post }) => {
 					</h3>
 					<p>{formatDate(post.groupPostCreateTime)}</p>
 				</div>
-				<GroupPostDelete groupPostId={post.groupPostId} onDelete={handlePostDelete} />
+				{/* <GroupPostDelete
+					groupPostId={post.groupPostId}
+					onDelete={handlePostDelete}
+				/> */}
 			</div>
 			<div className="group-post-content">
 				<p>{post.groupPostContent}</p>
@@ -131,7 +133,7 @@ const GroupPost = ({ post }) => {
 			<div className="group-post-footer">
 				<button
 					className="group-post-button"
-					// onClick={handleFetchAndDisplayComments}
+					onClick={handleFetchAndDisplayComments}
 				>
 					<FaComment />
 				</button>
@@ -142,17 +144,20 @@ const GroupPost = ({ post }) => {
 			<div className="group-postComments-section">
 				{postComments &&
 					postComments.map((postComment, index) => (
-						<Comment key={index} postComment={postComment} />
+						<GroupComment key={index} postComment={postComment} />
 					))}
-				<div className="add-comment">
-					<input
-						type="text"
-						placeholder="Add a comment..."
-						value={newComment}
-						onChange={handleCommentChange}
-					/>
-					{/* <button onClick={handleAddComment}>Post</button> */}
-				</div>
+
+				{isMember && (
+					<div className="add-comment">
+						<input
+							type="text"
+							placeholder="Add a comment..."
+							value={newComment}
+							onChange={handleCommentChange}
+						/>
+						<button onClick={handleAddCommentToAxios}>Post</button>
+					</div>
+				)}
 			</div>
 		</div>
 	);
