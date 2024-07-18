@@ -5,7 +5,7 @@ const Comment = ({ postComment }) => {
 		const date = new Date(timestamp);
 		return date.toLocaleString();
 	};
-
+	//adding comment
 	return (
 		<div className="comment">
 			<div className="comment-header">
