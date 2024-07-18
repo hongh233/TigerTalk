@@ -1,16 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
+import { handleGetGroupById, handleUpdateGroup } from "../axios/GroupAxios";
 import "../assets/styles/CreateGroupPage.css";
+import {uploadImageToCloudinary} from "../utils/cloudinaryUtils";
 
-const GroupSettingPage = () => {
+const GroupSettingPage = () =>{
+	const { groupId } = useParams();
+	const navigate = useNavigate();
 	const [form, setForm] = useState({
 		groupName: "",
 		status: "",
-
 		groupPicture: "",
 	});
 	const [errors, setErrors] = useState({});
+	const [uploading, setUploading] = useState(false);
+
+	useEffect(() => {
+		const fetchGroupDetails = async () => {
+			try {
+				const groupDetails = await handleGetGroupById(groupId);
+				setForm({
+					groupName: groupDetails.groupName,
+					status: groupDetails.isPrivate ? "private" : "public",
+					groupPicture: groupDetails.groupImg,
+				});
+			} catch (error) {
+				console.error("Error fetching group details", error);
+			}
+		};
+
+		fetchGroupDetails();
+	}, [groupId]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -20,11 +42,22 @@ const GroupSettingPage = () => {
 		});
 	};
 
-	const handleFileChange = (e) => {
-		setForm({
-			...form,
-			groupPicture: e.target.files[0],
-		});
+	const handleFileChange = async(e) => {
+		const file = e.target.files[0];
+		if (file) {
+			setUploading(true);
+			try {
+				const imageUrl = await uploadImageToCloudinary(file);
+				setForm({
+					...form,
+					groupPicture: imageUrl,
+				});
+				setUploading(false);
+			} catch (error) {
+				console.error("Error uploading image:", error);
+				setUploading(false);
+			}
+		}
 	};
 
 	const validate = () => {
@@ -35,12 +68,24 @@ const GroupSettingPage = () => {
 		return errors;
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async(e) => {
 		e.preventDefault();
 		const errors = validate();
 		setErrors(errors);
 		if (Object.keys(errors).length === 0) {
-			alert("Group created successfully");
+			const groupUpdate = {
+				groupId,
+				groupName: form.groupName,
+				groupImg: form.groupPicture,
+				isPrivate: form.status === "private",
+			};
+			try {
+				await handleUpdateGroup(groupUpdate);
+				alert("Group updated successfully");
+				navigate(`/group/viewgroup/${groupId}`);
+			} catch (error) {
+				alert("Error updating group");
+			}
 		}
 	};
 	return (
@@ -80,8 +125,10 @@ const GroupSettingPage = () => {
 							name="groupPicture"
 							onChange={handleFileChange}
 						/>
+						{uploading && <p>Uploading...</p>}
+						{form.groupPicture && <img src={form.groupPicture} alt="Group" width="100" />}
 					</div>
-					<button type="submit">Create Group</button>
+					<button type="submit">Update Group</button>
 				</form>
 			</div>
 		</div>
