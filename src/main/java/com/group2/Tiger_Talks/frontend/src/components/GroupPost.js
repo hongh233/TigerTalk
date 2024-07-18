@@ -8,6 +8,8 @@ import {
 } from "./../axios/GroupAxios";
 import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/GroupPost.css";
+import GroupPostDelete from "./GroupPostDelete";
+import {handleDeleteGroupPost} from "../axios/GroupAxios";
 
 const GroupPost = ({
 	post,
@@ -112,6 +114,7 @@ const GroupPost = ({
 					</h3>
 					<p>{formatDate(post.groupPostCreateTime)}</p>
 				</div>
+				<GroupPostDelete groupPostId={post.groupPostId} onDelete={handlePostDelete} />
 			</div>
 			<div className="group-post-content">
 				<p>{post.groupPostContent}</p>
