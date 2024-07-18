@@ -79,8 +79,13 @@ const ViewGroupPage = () => {
 	};
 	const joinGroup = async () => {
 		try {
-			await handleJoinGroup(userEmail, groupId);
-			setIsMember(true);
+			if (window.confirm(`Are you sure you want to join this group?`)) {
+				if (!isMember) {
+					await handleJoinGroup(userEmail, groupId);
+					window.alert("Leave group successfully!");
+					setIsMember(true);
+				}
+			}
 		} catch (error) {
 			console.error("Failed to join the group", error);
 		}
@@ -88,8 +93,13 @@ const ViewGroupPage = () => {
 
 	const leaveGroup = async () => {
 		try {
-			const userMembership = await handleLeaveGroup(userMembership);
-			setIsMember(false);
+			if (window.confirm(`Are you sure you want to leave this group?`)) {
+				if (isMember) {
+					await handleLeaveGroup(groupMembershipId);
+					window.alert("Leave group successfully!");
+					setIsMember(false);
+				}
+			}
 		} catch (error) {
 			console.error("Failed to leave the group", error);
 		}

@@ -58,7 +58,7 @@ export const handleLeaveGroup = (groupMembershipId) => {
 		.delete(`${URL}/api/groups/delete/groupMembership/${groupMembershipId}`)
 		.then((response) => response.data)
 		.catch((error) => {
-			console.error("Error joining user to the group");
+			console.error("Error leaving group");
 			throw error;
 		});
 };
@@ -80,6 +80,16 @@ export const handleGetAllPost = (groupId) => {
 		.then((response) => response.data)
 		.catch((error) => {
 			console.error("Error creating group post");
+			throw error;
+		});
+};
+
+export const handleGetGroupUserIsMember = (userEmail) => {
+	return axios
+		.get(`${URL}/api/groups/get/allGroups/${userEmail}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error getting groups for user");
 			throw error;
 		});
 };
@@ -109,6 +119,16 @@ export const handleGetGroupMembershipId = (userEmail, groupId) => {
 		.then((response) => response.data)
 		.catch((error) => {
 			console.error("Error getting group mebership id");
+			throw error;
+		});
+};
+
+export const handleFindGroups = (groupName, userEmail) => {
+	return axios
+		.get(`${URL}/api/groups/search/publicGroups/${groupName}/${userEmail}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error search for groups");
 			throw error;
 		});
 };
