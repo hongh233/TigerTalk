@@ -4,7 +4,6 @@ import com.group2.Tiger_Talks.backend.model.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Notification.NotificationRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import com.group2.Tiger_Talks.backend.service._implementation.NotificationServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
