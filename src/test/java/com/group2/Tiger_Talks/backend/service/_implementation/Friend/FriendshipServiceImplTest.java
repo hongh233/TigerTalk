@@ -139,26 +139,6 @@ public class FriendshipServiceImplTest {
     }
 
     @Test
-    void deleteFriendshipById_noFriendship() {
-        when(friendshipRepository.findById(1)).thenReturn(Optional.empty());
-
-        Optional<String> result = friendshipService.deleteFriendshipById(1);
-
-        assertTrue(result.isPresent());
-        assertEquals("Friendship id 1 does not exist!", result.get());
-    }
-
-    @Test
-    void deleteFriendshipById_success() {
-        when(friendshipRepository.findById(1)).thenReturn(Optional.of(friendshipAB));
-
-        Optional<String> result = friendshipService.deleteFriendshipById(1);
-
-        assertFalse(result.isPresent());
-        verify(friendshipRepository, times(1)).delete(friendshipAB);
-    }
-
-    @Test
     void areFriends_success() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB));

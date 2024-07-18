@@ -32,14 +32,6 @@ public interface FriendshipService {
 
 
     /**
-     * Delete a friendship by friendship Id
-     *
-     * @param friendshipId Id of a friendship
-     * @return An error message show that the friendship does not exist, otherwise empty.
-     */
-    Optional<String> deleteFriendshipById(Integer friendshipId);
-
-    /**
      * Checks if the given users are friends with each-other
      *
      * @return True if so else false

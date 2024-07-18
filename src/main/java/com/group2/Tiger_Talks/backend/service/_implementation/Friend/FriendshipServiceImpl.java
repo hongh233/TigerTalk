@@ -63,17 +63,6 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public Optional<String> deleteFriendshipById(Integer friendshipId) {
-        Optional<Friendship> friendship = friendshipRepository.findById(friendshipId);
-        if (friendship.isPresent()) {
-            friendshipRepository.delete(friendship.get());
-            return Optional.empty();
-        } else {
-            return Optional.of("Friendship id " + friendshipId + " does not exist!");
-        }
-    }
-
-    @Override
     public boolean areFriends(String email1, String email2) {
         return getAllFriendsDTO(email1)
                 .stream()
