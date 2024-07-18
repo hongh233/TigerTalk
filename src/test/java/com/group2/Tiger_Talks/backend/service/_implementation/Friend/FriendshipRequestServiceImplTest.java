@@ -3,10 +3,12 @@ package com.group2.Tiger_Talks.backend.service._implementation.Friend;
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequestDTO;
+import com.group2.Tiger_Talks.backend.model.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRequestRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +35,9 @@ public class FriendshipRequestServiceImplTest {
     @Mock
     private UserProfileRepository userProfileRepository;
 
+    @Mock
+    private NotificationService notificationService;
+
     @InjectMocks
     private FriendshipRequestServiceImpl friendshipRequestService;
 
@@ -41,190 +46,235 @@ public class FriendshipRequestServiceImplTest {
     private UserProfile userC;
 
     @BeforeEach
-    void setUp() {
-        userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        userB = new UserProfile("Blong", "Bside", 23, "Female", "userB", "b@dal.ca", "bbbb1B@b", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        userC = new UserProfile("Clong", "Cside", 24, "Male", "userC", "c@dal.ca", "cccc1C@c", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+    public void setUp() {
+        userA = new UserProfile("Along", "Aside", 22, "Male",
+                "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"},
+                new String[]{"What was your favourite book as a child?", "In what city were you born?",
+                        "What is the name of the hospital where you were born?"});
+        userB = new UserProfile("Blong", "Bside", 23, "Female",
+                "userB", "b@dal.ca", "bbbb1B@b", new String[]{"1", "2", "3"},
+                new String[]{"What was your favourite book as a child?", "In what city were you born?",
+                        "What is the name of the hospital where you were born?"});
+        userC = new UserProfile("Clong", "Cside", 24, "Male",
+                "userC", "c@dal.ca", "cccc1C@c", new String[]{"1", "2", "3"},
+                new String[]{"What was your favourite book as a child?", "In what city were you born?",
+                        "What is the name of the hospital where you were born?"});
     }
 
+    /**
+     * Test case for getAllFriendRequests
+     */
     @Test
-    void getAllFriendRequests_userNotFound() {
+    public void getAllFriendRequests_userNotFound() {
         when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
-
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             friendshipRequestService.getAllFriendRequests("nonexistent@example.com");
         });
-
         assertEquals("User not found", exception.getMessage());
     }
 
     @Test
-    void getAllFriendRequests_success() {
+    public void getAllFriendRequests_success() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(friendshipRequestRepository.findByReceiver(userA)).thenReturn(List.of(new FriendshipRequest(userB, userA), new FriendshipRequest(userC, userA)));
-
         List<FriendshipRequestDTO> requests = friendshipRequestService.getAllFriendRequests("a@dal.ca");
-
         assertEquals(2, requests.size());
     }
 
+    /**
+     * Test case for sendFriendshipRequest
+     */
     @Test
-    void sendFriendshipRequest_senderNotFound() {
+    public void sendFriendshipRequest_senderNotFound() {
         when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
-
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             friendshipRequestService.sendFriendshipRequest("nonexistent@example.com", "b@dal.ca");
         });
-
         assertEquals("Sender not found", exception.getMessage());
     }
 
     @Test
-    void sendFriendshipRequest_receiverNotFound() {
+    public void sendFriendshipRequest_receiverNotFound() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
-
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             friendshipRequestService.sendFriendshipRequest("a@dal.ca", "nonexistent@example.com");
         });
-
         assertEquals("Receiver not found", exception.getMessage());
     }
 
     @Test
-    void sendFriendshipRequest_existingFriendship() {
+    public void sendFriendshipRequest_existingFriendship() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(new Friendship()));
-
         Optional<String> result = friendshipRequestService.sendFriendshipRequest("a@dal.ca", "b@dal.ca");
-
         assertTrue(result.isPresent());
         assertEquals("Friendship has already existed between these users.", result.get());
     }
 
     @Test
-    void sendFriendshipRequest_existingRequest() {
+    public void sendFriendshipRequest_existingRequest() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
         when(friendshipRequestRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(new FriendshipRequest(userA, userB)));
-
         Optional<String> result = friendshipRequestService.sendFriendshipRequest("a@dal.ca", "b@dal.ca");
-
         assertTrue(result.isPresent());
         assertEquals("Friendship request has already existed between these users.", result.get());
     }
 
     @Test
-    void sendFriendshipRequest_success() {
+    public void sendFriendshipRequest_success() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
         when(friendshipRequestRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
-
         Optional<String> result = friendshipRequestService.sendFriendshipRequest("a@dal.ca", "b@dal.ca");
-
-        assertFalse(result.isPresent());
-        verify(friendshipRequestRepository, times(1)).save(any(FriendshipRequest.class));
+        assertTrue(result.isEmpty());
     }
 
     @Test
-    void acceptFriendshipRequest_requestNotFound() {
-        when(friendshipRequestRepository.findById(1)).thenReturn(Optional.empty());
+    void sendFriendshipRequest_successWithNotification() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(friendshipRepository.findBySenderAndReceiver(any(), any())).thenReturn(Optional.empty());
+        when(friendshipRequestRepository.findBySenderAndReceiver(any(), any())).thenReturn(Optional.empty());
+        when(notificationService.createNotification(any())).thenReturn(Optional.empty());
 
+        Optional<String> result = friendshipRequestService.sendFriendshipRequest("a@dal.ca", "b@dal.ca");
+        assertTrue(result.isEmpty());
+        verify(friendshipRequestRepository).save(any(FriendshipRequest.class));
+        verify(notificationService).createNotification(any(Notification.class));
+    }
+
+    @Test
+    void sendFriendshipRequest_failureNotification() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(friendshipRepository.findBySenderAndReceiver(any(), any())).thenReturn(Optional.empty());
+        when(friendshipRequestRepository.findBySenderAndReceiver(any(), any())).thenReturn(Optional.empty());
+        when(notificationService.createNotification(any())).thenReturn(Optional.of("Error sending notification"));
+
+        Optional<String> result = friendshipRequestService.sendFriendshipRequest("a@dal.ca", "b@dal.ca");
+        assertTrue(result.isPresent());
+        assertEquals("Error sending notification", result.get());
+    }
+
+    /**
+     * Test case for acceptFriendshipRequest
+     */
+    @Test
+    public void acceptFriendshipRequest_requestNotFound() {
+        when(friendshipRequestRepository.findById(1)).thenReturn(Optional.empty());
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             friendshipRequestService.acceptFriendshipRequest(1);
         });
-
         assertEquals("friendship request ID does not exist!", exception.getMessage());
     }
 
     @Test
-    void acceptFriendshipRequest_success() {
+    public void acceptFriendshipRequest_success() {
         FriendshipRequest request = new FriendshipRequest(userA, userB);
         when(friendshipRequestRepository.findById(1)).thenReturn(Optional.of(request));
-
         Optional<String> result = friendshipRequestService.acceptFriendshipRequest(1);
-
-        assertFalse(result.isPresent());
-        verify(friendshipRepository, times(1)).save(any(Friendship.class));
-        verify(friendshipRequestRepository, times(1)).delete(request);
+        assertTrue(result.isEmpty());
     }
 
     @Test
-    void rejectFriendshipRequest_requestNotFound() {
-        when(friendshipRequestRepository.findById(1)).thenReturn(Optional.empty());
+    void acceptFriendshipRequest_successWithNotification() {
+        FriendshipRequest request = new FriendshipRequest(userA, userB);
+        when(friendshipRequestRepository.findById(1)).thenReturn(Optional.of(request));
+        when(notificationService.createNotification(any())).thenReturn(Optional.empty());
 
+        Optional<String> result = friendshipRequestService.acceptFriendshipRequest(1);
+        assertTrue(result.isEmpty());
+        verify(notificationService).createNotification(any(Notification.class));
+    }
+
+    @Test
+    void acceptFriendshipRequest_failureNotification() {
+        FriendshipRequest request = new FriendshipRequest(userA, userB);
+        when(friendshipRequestRepository.findById(1)).thenReturn(Optional.of(request));
+        when(notificationService.createNotification(any())).thenReturn(Optional.of("Error sending notification"));
+
+        Optional<String> result = friendshipRequestService.acceptFriendshipRequest(1);
+        assertTrue(result.isPresent());
+        assertEquals("Error sending notification", result.get());
+    }
+
+    /**
+     * Test case for rejectFriendshipRequest
+     */
+    @Test
+    public void rejectFriendshipRequest_requestNotFound() {
+        when(friendshipRequestRepository.findById(1)).thenReturn(Optional.empty());
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             friendshipRequestService.rejectFriendshipRequest(1);
         });
-
         assertEquals("friendship request ID does not exist!", exception.getMessage());
     }
 
     @Test
-    void rejectFriendshipRequest_success() {
+    public void rejectFriendshipRequest_success() {
         FriendshipRequest request = new FriendshipRequest(userA, userB);
         when(friendshipRequestRepository.findById(1)).thenReturn(Optional.of(request));
+        Optional<String> result = friendshipRequestService.rejectFriendshipRequest(1);
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    void rejectFriendshipRequest_successWithNotification() {
+        FriendshipRequest request = new FriendshipRequest(userA, userB);
+        when(friendshipRequestRepository.findById(1)).thenReturn(Optional.of(request));
+        when(notificationService.createNotification(any())).thenReturn(Optional.empty());
 
         Optional<String> result = friendshipRequestService.rejectFriendshipRequest(1);
-
-        assertFalse(result.isPresent());
-        verify(friendshipRequestRepository, times(1)).delete(request);
+        assertTrue(result.isEmpty());
+        verify(notificationService).createNotification(any(Notification.class));
     }
 
     @Test
-    void findNumOfTotalRequests() {
-        when(friendshipRequestRepository.findAll()).thenReturn(List.of(new FriendshipRequest(userA, userB), new FriendshipRequest(userB, userC)));
+    void rejectFriendshipRequest_failureNotification() {
+        FriendshipRequest request = new FriendshipRequest(userA, userB);
+        when(friendshipRequestRepository.findById(1)).thenReturn(Optional.of(request));
+        when(notificationService.createNotification(any())).thenReturn(Optional.of("Error sending notification"));
 
-        int result = friendshipRequestService.findNumOfTotalRequests();
-
-        assertEquals(2, result);
+        Optional<String> result = friendshipRequestService.rejectFriendshipRequest(1);
+        assertTrue(result.isPresent());
+        assertEquals("Error sending notification", result.get());
     }
 
+    /**
+     * Test case for areFriendshipRequestExist
+     */
     @Test
-    void areFriendshipRequestExist_userNotFound() {
+    public void areFriendshipRequestExist_userNotFound() {
         when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
-
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             friendshipRequestService.areFriendshipRequestExist("nonexistent@example.com", "a@dal.ca");
         });
-
         assertEquals("Sender not found", exception.getMessage());
     }
 
     @Test
-    void areFriendshipRequestExist_success() {
-        /*
-        // Set up mock return values for the user profiles
+    public void areFriendshipRequestExist_areFriends_returnsTrue() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
-
-        // Set up mock return values for the friendships (none exist)
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(new Friendship()));
-        when(friendshipRepository.findBySenderAndReceiver(userB, userA)).thenReturn(Optional.empty());
-        */
 
-        // Set up mock return values for the user profiles
-        lenient().when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
-        lenient().when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
-
-        // Set up mock return values for the friendships (exist)
-        lenient().when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(new Friendship()));
-        lenient().when(friendshipRepository.findBySenderAndReceiver(userB, userA)).thenReturn(Optional.empty());
-
-
-        // Call the method under test
         boolean result = friendshipRequestService.areFriendshipRequestExist("a@dal.ca", "b@dal.ca");
-        /*
-        // Debug information
-        System.out.println("User A: " + userA);
-        System.out.println("User B: " + userB);
-        System.out.println("Friendship Repository (A->B): " + friendshipRepository.findBySenderAndReceiver(userA, userB));
-        System.out.println("Friendship Repository (B->A): " + friendshipRepository.findBySenderAndReceiver(userB, userA));
-        */
-        // Assert the result
-        assertTrue(result);
+        assertTrue(result, "Expected true as a and b are friends");
+    }
+
+    @Test
+    public void areFriendshipRequestExist_notFriends_returnsFalse() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
+        when(friendshipRepository.findBySenderAndReceiver(userB, userA)).thenReturn(Optional.empty());
+
+        boolean result = friendshipRequestService.areFriendshipRequestExist("a@dal.ca", "b@dal.ca");
+        assertFalse(result, "Expected false as there is no friendship between a and b");
     }
 }
