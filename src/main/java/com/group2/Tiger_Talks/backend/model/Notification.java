@@ -3,7 +3,7 @@ package com.group2.Tiger_Talks.backend.model;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Notification {
@@ -14,10 +14,9 @@ public class Notification {
 
     private String content;
 
-    private LocalDate createTime;
+    private LocalDateTime createTime;
 
-    // Notification types: friendshipRequest, friendship
-    private String type;
+    private String notificationType;
 
     @ManyToOne
     @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
@@ -26,13 +25,10 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(UserProfile userProfile,
-                        String content,
-                        String type) {
-        this.userProfile = userProfile;
+    public Notification(String content, String type) {
         this.content = content;
-        this.type = type;
-        this.createTime = LocalDate.now();
+        this.notificationType = type;
+        this.createTime = LocalDateTime.now();
     }
 
     public int getNotificationId() {
@@ -51,11 +47,11 @@ public class Notification {
         this.content = content;
     }
 
-    public LocalDate getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDate createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -67,12 +63,12 @@ public class Notification {
         this.userProfile = userProfile;
     }
 
-    public String getType() {
-        return type;
+    public String getNotificationType() {
+        return notificationType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
     }
 
 }

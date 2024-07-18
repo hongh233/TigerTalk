@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {
 	FaCog,
 	FaLock,
@@ -28,6 +28,7 @@ import {
 
 const ViewGroupPage = () => {
 	const { groupId } = useParams();
+	const navigate = useNavigate();
 	const userEmail = useSelector((state) => state.user.user.email);
 	const [isPrivate, setIsPrivate] = useState(null);
 	const [isMember, setIsMember] = useState(null);
@@ -105,6 +106,20 @@ const ViewGroupPage = () => {
 		}
 	};
 
+	const deleteGroup = async () => {
+		if (window.confirm("Are you sure you want to delete this group? This action cannot be undone.")) {
+			try {
+				await handleDeleteGroup(groupId);
+				alert("Group deleted successfully!");
+				navigate("/group");  // Navigate to a different page after deletion
+			} catch (error) {
+				console.error("Failed to delete the group", error);
+				alert("Error deleting group");
+			}
+		}
+	};
+
+
 	const addPost = async (postContent, postImageURL, tags) => {
 		try {
 			if (!userEmail) {
@@ -177,7 +192,7 @@ const ViewGroupPage = () => {
 													<FaCog />
 												</a>
 											</li>
-											<li className="delete">
+											<li className="delete" onClick={deleteGroup}>
 												<FaTrashAlt />
 											</li>
 										</>
