@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../assets/styles/PostCreation.css";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { uploadImageToCloudinary } from "../utils/cloudinaryUtils";
 
 const PostCreation = ({ addPost }) => {
@@ -10,7 +9,6 @@ const PostCreation = ({ addPost }) => {
 	const [tags, setTags] = useState([]);
 	const [uploading, setUploading] = useState(false);
 	const [imageUrl, setImageUrl] = useState(null);
-	const navigate = useNavigate();
 	const user = useSelector((state) => state.user.user);
 
 	const handleAddPost = async () => {
@@ -37,14 +35,14 @@ const PostCreation = ({ addPost }) => {
 		setTagInput(event.target.value);
 	};
 
-	const createPost = () => {
-		if (postContent === "") {
-			window.alert("Post cannot be empty");
-		} else {
-			addPost(postContent, imageUrl, tags); // Call addPost passed via props
-			setPostContent(""); // Clear the post content after creating the post
-		}
-	};
+	// const createPost = () => {
+	// 	if (postContent === "") {
+	// 		window.alert("Post cannot be empty");
+	// 	} else {
+	// 		addPost(postContent, imageUrl, tags); // Call addPost passed via props
+	// 		setPostContent(""); // Clear the post content after creating the post
+	// 	}
+	// };
 
 	const handleAddTag = () => {
 		const updatedContent = `${postContent} ${tagInput}`;
@@ -53,10 +51,10 @@ const PostCreation = ({ addPost }) => {
 		handleInputChange({ target: { value: updatedContent } });
 	};
 
-	const handleTagClick = (tag) => {
-		const userName = tag.substring(1); // Remove the '@' from the tag
-		navigate(`/friends`);
-	};
+	// const handleTagClick = (tag) => {
+	// 	const userName = tag.substring(1); // Remove the '@' from the tag
+	// 	navigate(`/friends`);
+	// };
 
 	const handleFileChange = async (e) => {
 		const file = e.target.files[0];
