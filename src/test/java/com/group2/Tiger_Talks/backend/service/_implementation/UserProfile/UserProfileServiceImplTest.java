@@ -7,7 +7,9 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
@@ -20,18 +22,17 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UserProfileServiceImplTest {
 
+    private static MockedStatic<UserProfile> mockedStaticUserProfile;
     @Mock
     private UserProfileRepository userProfileRepository;
-
     @InjectMocks
     private UserProfileServiceImpl userProfileService;
-
-    private static MockedStatic<UserProfile> mockedStaticUserProfile;
 
     @BeforeAll
     static void setUp() {
         mockedStaticUserProfile = mockStatic(UserProfile.class);
     }
+
     @AfterAll
     static void tearDown() {
         mockedStaticUserProfile.close();
@@ -152,9 +153,10 @@ class UserProfileServiceImplTest {
 
         Optional<String> result = userProfileService.updateUserProfile(userA);
 
-        assertTrue(result.isEmpty(),"The updateUserProfile method should return an empty optional if successful");
+        assertTrue(result.isEmpty(), "The updateUserProfile method should return an empty optional if successful");
         verify(userProfileRepository, times(1)).save(userA);
     }
+
     @Test
     void testUpdateUserProfile_InvalidEmail() {
         UserProfile invalidEmailUserProfile = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.c", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
@@ -162,11 +164,12 @@ class UserProfileServiceImplTest {
 
         Optional<String> result = userProfileService.updateUserProfile(invalidEmailUserProfile);
 
-        assertTrue(result.isPresent(),"An error message should be present");
+        assertTrue(result.isPresent(), "An error message should be present");
         assertEquals("Invalid email address. Please use dal email address!", result.get(),
                 "The error message should be the same");
         verify(userProfileRepository, times(0)).save(invalidEmailUserProfile);
     }
+
     @Test
     void testUpdateUserProfile_InvalidAge() {
         UserProfile invalidAgeUserProfile = new UserProfile("Along", "Aside", -1, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
@@ -174,8 +177,8 @@ class UserProfileServiceImplTest {
 
         Optional<String> result = userProfileService.updateUserProfile(invalidAgeUserProfile);
 
-        assertTrue(result.isPresent(),"An error message should be present");
-        assertEquals("Age must be greater than 0", result.get(),"The error message should be the same");
+        assertTrue(result.isPresent(), "An error message should be present");
+        assertEquals("Age must be greater than 0", result.get(), "The error message should be the same");
         verify(userProfileRepository, times(0)).save(invalidAgeUserProfile);
     }
 
@@ -183,7 +186,7 @@ class UserProfileServiceImplTest {
     @Test
     void testUpdateUserProfileDTO_InvalidProfileData() {
         UserProfile userA = new UserProfile("Alon#!##!#$@%@g", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        UserProfileDTO userADTO = new UserProfileDTO(userA);
+        UserProfileDTO userADTO = userA.toDto();
         Optional<String> result = userProfileService.updateUserProfile(userADTO);
         assertTrue(result.isPresent(), "Expected error message due to invalid first name containing symbols.");
         assertEquals("First name must contain no symbols", result.get(), "Expected specific error message.");
@@ -192,7 +195,7 @@ class UserProfileServiceImplTest {
     @Test
     void testUpdateUserProfileDTO_UserProfileNotFound() {
         UserProfile userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        UserProfileDTO userADTO = new UserProfileDTO(userA);
+        UserProfileDTO userADTO = userA.toDto();
         when(userProfileRepository.findUserProfileByEmail(userADTO.email())).thenReturn(Optional.empty());
 
         Optional<String> result = userProfileService.updateUserProfile(userADTO);
@@ -203,7 +206,7 @@ class UserProfileServiceImplTest {
     @Test
     void testUpdateUserProfileDTO_SuccessfulProfileUpdate() {
         UserProfile userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        UserProfileDTO userADTO = new UserProfileDTO(userA);
+        UserProfileDTO userADTO = userA.toDto();
         when(userProfileRepository.findUserProfileByEmail(userADTO.email())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
 

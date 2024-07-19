@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class GroupPostDTO {
+    // TODO add num of likes and comments
 
     private final int groupPostId;
     private final String postSenderEmail;

@@ -66,8 +66,8 @@ public class PostCommentServiceImpl implements PostCommentService {
 
         // 转换为DTO
         PostCommentDTO savedCommentDTO = new PostCommentDTO(savedComment);
-        savedCommentDTO.setCommentSenderUserProfileDTO(new UserProfileDTO(commentSenderUserProfile.get()));
-        savedCommentDTO.setPostSenderUserProfileDTO(new UserProfileDTO(postSenderUserProfile.get()));
+        savedCommentDTO.setCommentSenderUserProfileDTO(commentSenderUserProfile.get().toDto());
+        savedCommentDTO.setPostSenderUserProfileDTO(postSenderUserProfile.get().toDto());
 
         return savedCommentDTO;
     }
@@ -79,10 +79,10 @@ public class PostCommentServiceImpl implements PostCommentService {
                 .map(comment -> {
                     PostCommentDTO dto = new PostCommentDTO(comment);
                     userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setCommentSenderUserProfileDTO(new UserProfileDTO(userProfile));
+                        dto.setCommentSenderUserProfileDTO(userProfile.toDto());
                     });
                     userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setPostSenderUserProfileDTO(new UserProfileDTO(userProfile));
+                        dto.setPostSenderUserProfileDTO(userProfile.toDto());
                     });
                     return dto;
                 })
@@ -97,10 +97,10 @@ public class PostCommentServiceImpl implements PostCommentService {
                 .map(comment -> {
                     PostCommentDTO dto = new PostCommentDTO(comment);
                     userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setCommentSenderUserProfileDTO(new UserProfileDTO(userProfile));
+                        dto.setCommentSenderUserProfileDTO(userProfile.toDto());
                     });
                     userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setPostSenderUserProfileDTO(new UserProfileDTO(userProfile));
+                        dto.setPostSenderUserProfileDTO(userProfile.toDto());
                     });
                     return dto;
                 })

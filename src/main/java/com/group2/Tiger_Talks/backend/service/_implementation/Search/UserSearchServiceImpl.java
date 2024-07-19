@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Search;
 
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.model.Utils.RegexCheck;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -36,7 +37,7 @@ public class UserSearchServiceImpl implements Searchable<UserProfileDTO> {
                         && (RegexCheck.advancedSearch(userProfile.getFullName(), searchQuery)
                         || userProfile.getEmail().startsWith(searchQuery)
                         || userProfile.getUserName().startsWith(searchQuery)))
-                .map(UserProfileDTO::new)
+                .map(UserProfile::toDto)
                 .toList();
     }
 }

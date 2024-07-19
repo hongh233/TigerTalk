@@ -20,14 +20,14 @@ public class UserProfileServiceImpl implements UserProfileService {
     public List<UserProfileDTO> getAllUserProfiles() {
         return userProfileRepository.findAll()
                 .stream()
-                .map(UserProfileDTO::new)
+                .map(UserProfile::toDto)
                 .toList();
     }
 
     @Override
     public Optional<UserProfileDTO> getUserProfileByEmail(String email) {
         return userProfileRepository.findUserProfileByEmail(email)
-                .map(UserProfileDTO::new);
+                .map(UserProfile::toDto);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         return UserProfileDTO.verifyBasics(userProfileDTO, userProfileRepository, false)
                 .or(() -> userProfileRepository.findUserProfileByEmail(userProfileDTO.email())
                         .map(userProfile -> {
-                            userProfile.updateProfile(userProfileDTO);
+                            userProfile.updateFromDto(userProfileDTO);
                             userProfileRepository.save(userProfile);
                             return Optional.<String>empty();
                         }).orElseGet(() -> Optional.of("Could not find user profile")));

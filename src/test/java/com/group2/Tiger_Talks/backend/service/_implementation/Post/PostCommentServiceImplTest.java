@@ -22,8 +22,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
+import static org.mockito.Mockito.when;
 
 
 public class PostCommentServiceImplTest {
@@ -44,7 +43,7 @@ public class PostCommentServiceImplTest {
     private UserProfile userB;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(
                 "userD",
@@ -174,7 +173,7 @@ public class PostCommentServiceImplTest {
 
         PostCommentDTO postCommentDTO = new PostCommentDTO();
         postCommentDTO.setPostId(1);
-        postCommentDTO.setCommentSenderUserProfileDTO(new UserProfileDTO(userA));
+        postCommentDTO.setCommentSenderUserProfileDTO(userA.toDto());
 
         when(postRepository.findById(1)).thenReturn(Optional.of(post));
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.empty());
@@ -198,7 +197,7 @@ public class PostCommentServiceImplTest {
         postComment.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
 
         // Simulating dependent behaviors
-        when(postCommentRepository.findByPost_PostId(1)).thenReturn(Arrays.asList(postComment));
+        when(postCommentRepository.findByPost_PostId(1)).thenReturn(List.of(postComment));
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
         when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
 

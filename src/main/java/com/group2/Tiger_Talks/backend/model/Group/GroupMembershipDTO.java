@@ -1,8 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
-import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
-import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +16,7 @@ public class GroupMembershipDTO {
 
     public GroupMembershipDTO(GroupMembership groupMembership) {
         this.groupMembershipId = groupMembership.getGroupMembershipId();
-        this.userProfileDTO = new UserProfileDTO(groupMembership.getUserProfile());
+        this.userProfileDTO = groupMembership.getUserProfile().toDto();
         this.joinTime = groupMembership.getJoinTime();
         this.isCreator = groupMembership.isCreator();
     }

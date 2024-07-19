@@ -1,7 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Post;
 
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
-import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +11,6 @@ public class PostCommentDTO {
     private String content;
 
     private LocalDateTime timestamp;
-
 
 
     // add as many as you want
@@ -31,9 +29,9 @@ public class PostCommentDTO {
         this.commentId = postComment.getCommentId();
         this.content = postComment.getContent();
         this.timestamp = postComment.getTimestamp();
-        this.commentSenderUserProfileDTO = new UserProfileDTO(postComment.getCommentSenderUserProfile());
+        this.commentSenderUserProfileDTO = postComment.getCommentSenderUserProfile().toDto();
         this.postId = postComment.getPost().getPostId();
-        this.postSenderUserProfileDTO = new UserProfileDTO(postComment.getPost().getUserProfile());
+        this.postSenderUserProfileDTO = postComment.getPost().getUserProfile().toDto();
     }
 
     @Override
