@@ -40,45 +40,47 @@ const ViewGroupPage = () => {
 	const [reload, setReload] = useState(false);
 
 	useEffect(() => {
+		const fetchGroupDetails = async () => {
+			try {
+				const groupData = await handleGetGroupById(groupId);
+				setGroup(groupData);
+				setIsPrivate(groupData.private);
+	
+				// Check if the current user is the creator/admin
+				if (groupData.groupCreatorEmail === userEmail) {
+					setIsCreator(true);
+				}
+	
+				// Check if the current user is a member
+				const memberStatus = await checkIsMember(userEmail, groupId);
+				const groupMembership = await handleGetGroupMembershipId(
+					userEmail,
+					groupId
+				);
+				setIsMember(memberStatus);
+				setGroupMembershipId(groupMembership);
+			} catch (error) {
+				console.error("Failed to fetch group details", error);
+			}
+		};
 		fetchGroupDetails();
 	}, [userEmail, groupId, isMember]);
 
 	useEffect(() => {
-		fetchAllGroupPosts();
-	}, [userEmail, reload, isMember]);
-
-	const fetchAllGroupPosts = async () => {
-		try {
-			const data = await handleGetAllPost(groupId);
-
-			setPosts(data);
-		} catch (error) {
-			console.error("Failed to fetch group posts", error);
-		}
-	};
-	const fetchGroupDetails = async () => {
-		try {
-			const groupData = await handleGetGroupById(groupId);
-			setGroup(groupData);
-			setIsPrivate(groupData.private);
-
-			// Check if the current user is the creator/admin
-			if (groupData.groupCreatorEmail === userEmail) {
-				setIsCreator(true);
+		const fetchAllGroupPosts = async () => {
+			try {
+				const data = await handleGetAllPost(groupId);
+	
+				setPosts(data);
+			} catch (error) {
+				console.error("Failed to fetch group posts", error);
 			}
+		};
+		fetchAllGroupPosts();
+	}, [userEmail, reload, isMember,groupId]);
 
-			// Check if the current user is a member
-			const memberStatus = await checkIsMember(userEmail, groupId);
-			const groupMembership = await handleGetGroupMembershipId(
-				userEmail,
-				groupId
-			);
-			setIsMember(memberStatus);
-			setGroupMembershipId(groupMembership);
-		} catch (error) {
-			console.error("Failed to fetch group details", error);
-		}
-	};
+
+
 	const joinGroup = async () => {
 		try {
 			if (window.confirm(`Are you sure you want to join this group?`)) {
