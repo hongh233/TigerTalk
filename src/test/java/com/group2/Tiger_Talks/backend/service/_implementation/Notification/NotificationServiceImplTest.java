@@ -68,20 +68,20 @@ public class NotificationServiceImplTest {
         Notification notification3 = mock(Notification.class);
         Notification notification4 = mock(Notification.class);
         LocalDateTime now = LocalDateTime.now();
-        when(notification3.getCreateTime()).thenReturn(now.minusHours(1));
-        when(notification4.getCreateTime()).thenReturn(now);
-        when(notification3.getUserProfile()).thenReturn(userProfile);
-        when(notification4.getUserProfile()).thenReturn(userProfile);
-        when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification3, notification4));
-        when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
+        lenient().when(notification3.getCreateTime()).thenReturn(now.minusHours(1));
+        lenient().when(notification4.getCreateTime()).thenReturn(now);
+        lenient().when(notification3.getUserProfile()).thenReturn(userProfile);
+        lenient().when(notification4.getUserProfile()).thenReturn(userProfile);
+        lenient().when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification3, notification4));
+        lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
 
         NotificationDTO dto3 = mock(NotificationDTO.class);
         NotificationDTO dto4 = mock(NotificationDTO.class);
-        when(dto3.getCreateTime()).thenReturn(now.minusHours(1));
-        when(dto4.getCreateTime()).thenReturn(now);
+        lenient().when(dto3.getCreateTime()).thenReturn(now.minusHours(1));
+        lenient().when(dto4.getCreateTime()).thenReturn(now);
 
-        when(notification3.toDTO()).thenReturn(dto3);
-        when(notification4.toDTO()).thenReturn(dto4);
+        lenient().when(notification3.toDTO()).thenReturn(dto3);
+        lenient().when(notification4.toDTO()).thenReturn(dto4);
 
         List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
         assertFalse(results.isEmpty());
