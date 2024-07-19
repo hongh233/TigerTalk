@@ -45,12 +45,12 @@ const ViewGroupPage = () => {
 				const groupData = await handleGetGroupById(groupId);
 				setGroup(groupData);
 				setIsPrivate(groupData.private);
-	
+
 				// Check if the current user is the creator/admin
 				if (groupData.groupCreatorEmail === userEmail) {
 					setIsCreator(true);
 				}
-	
+
 				// Check if the current user is a member
 				const memberStatus = await checkIsMember(userEmail, groupId);
 				const groupMembership = await handleGetGroupMembershipId(
@@ -70,16 +70,14 @@ const ViewGroupPage = () => {
 		const fetchAllGroupPosts = async () => {
 			try {
 				const data = await handleGetAllPost(groupId);
-	
+
 				setPosts(data);
 			} catch (error) {
 				console.error("Failed to fetch group posts", error);
 			}
 		};
 		fetchAllGroupPosts();
-	}, [userEmail, reload, isMember,groupId]);
-
-
+	}, [userEmail, reload, isMember, groupId]);
 
 	const joinGroup = async () => {
 		try {
