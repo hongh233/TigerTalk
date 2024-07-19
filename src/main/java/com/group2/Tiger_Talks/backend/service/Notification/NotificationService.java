@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.service.Notification;
 
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
+import com.group2.Tiger_Talks.backend.model.Notification.NotificationDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,7 @@ public interface NotificationService {
      * @param userEmail the email address of the user whose notifications are to be retrieved
      * @return a list of notifications for the user
      */
-    List<Notification> getNotificationListByUserEmail(String userEmail);
+    List<NotificationDTO> getNotificationListByUserEmail(String userEmail);
 
     /**
      * Deletes a notification based on its unique ID.
