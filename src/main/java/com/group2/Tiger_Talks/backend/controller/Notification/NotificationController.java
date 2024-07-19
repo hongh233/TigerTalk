@@ -16,5 +16,17 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
+    @GetMapping("/get/{email}")
+    public ResponseEntity<List<Notification>> getNotificationsByUserEmail(@PathVariable String email) {
+        List<Notification> notifications = notificationService.getNotificationListByUserEmail(email);
+        return ResponseEntity.ok(notifications);
+    }
+
+    @DeleteMapping("/delete/{notificationId}")
+    public ResponseEntity<String> deleteNotification(@PathVariable int notificationId) {
+        Optional<String> result = notificationService.deleteNotificationById(notificationId);
+        return result.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
 }
