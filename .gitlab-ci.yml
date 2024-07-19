@@ -36,3 +36,6 @@ test_backend:
     - mvn $MAVEN_CLI_OPTS test
   dependencies:
     - build_backend
+  artifacts:
+    paths:
+      - target/site/jacoco/
