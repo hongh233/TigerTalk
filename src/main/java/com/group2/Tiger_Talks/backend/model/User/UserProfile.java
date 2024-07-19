@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
-import com.group2.Tiger_Talks.backend.model.Notification;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -27,20 +27,22 @@ public class UserProfile implements UserProfileInterface {
     @Id
     private String email;
 
+    // User Sending request to others, e.g. user is A, and A ---> B,C,D , return B,C,D
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "sender-friendship")
     private List<Friendship> senderFriendshipList = new LinkedList<>();
 
+    // User Receiving request from others, e.g. user is A, and B,C,D ---> A, return B,C,D
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "receiver-friendship")
     private List<Friendship> receiverFriendshipList = new LinkedList<>();
 
-    // User Sending req to others
+    // User Sending request to others, e.g. user is A, and A ---> B,C,D , return B,C,D
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "sender-friendship-request")
     private List<FriendshipRequest> senderFriendshipRequestList = new LinkedList<>();
 
-    // User Receiving req from others
+    // User Receiving request from others, e.g. user is A, and B,C,D ---> A, return B,C,D
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "receiver-friendship-request")
     private List<FriendshipRequest> receiverFriendshipRequestList = new LinkedList<>();
