@@ -2,21 +2,16 @@ stages:
   - build
   - test
 
-variables:
-  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
-
-# since issues in front end, I comment it first
-
-#build_frontend:
-#  stage: build
-#  image: node:16
-#  script:
-#    - cd src/main/java/com/group2/Tiger_Talks/frontend/build/
-#    - npm install
-#    - npm run build
-#  artifacts:
-#    paths:
-#      - src/main/java/com/group2/Tiger_Talks/frontend/build/
+build_frontend:
+  stage: build
+  image: node:16
+  script:
+    - cd src/main/java/com/group2/Tiger_Talks/frontend/build/
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - src/main/java/com/group2/Tiger_Talks/frontend/build/
 
 
 build_backend:
@@ -33,9 +28,13 @@ test_backend:
   stage: test
   image: maven:3.8.4-openjdk-17
   script:
-    - mvn $MAVEN_CLI_OPTS test
-  dependencies:
-    - build_backend
+    - mvn clean verify
   artifacts:
     paths:
-      - target/site/jacoco/
+      - target/site/jacoco
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+    expire_in: 1 week
+  dependencies:
+    - build_backend
