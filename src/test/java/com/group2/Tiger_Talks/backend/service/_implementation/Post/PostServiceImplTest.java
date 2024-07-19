@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Post;
 
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
-import com.group2.Tiger_Talks.backend.model.Notification;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostDTO;
 import com.group2.Tiger_Talks.backend.model.Post.PostLike;
@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service.Notification;
 
-import com.group2.Tiger_Talks.backend.model.Notification;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 
 import java.util.List;
 import java.util.Optional;

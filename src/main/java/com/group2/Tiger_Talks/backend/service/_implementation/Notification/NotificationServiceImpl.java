@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Notification;
 
-import com.group2.Tiger_Talks.backend.model.Notification;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.repository.Notification.NotificationRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;

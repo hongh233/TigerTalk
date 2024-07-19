@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Post;
 
-import com.group2.Tiger_Talks.backend.model.Notification;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostDTO;
 import com.group2.Tiger_Talks.backend.model.Post.PostLike;

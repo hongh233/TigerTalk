@@ -2,7 +2,7 @@ package com.group2.Tiger_Talks.backend.service._implementation.Friend;
 
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
-import com.group2.Tiger_Talks.backend.model.Notification;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
