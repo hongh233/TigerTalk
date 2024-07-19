@@ -188,8 +188,8 @@ public class GroupPostCommentServiceImplTest {
         when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.of(groupPost));
         List<GroupPostCommentDTO> result = groupPostCommentService.getCommentsByGroupPostId(groupPostId);
         assertEquals(2, result.size());
-        assertEquals("Comment 2", result.get(0).getGroupPostCommentContent());
-        assertEquals("Comment 1", result.get(1).getGroupPostCommentContent());
+        assertEquals("Comment 2", result.get(0).groupPostCommentContent());
+        assertEquals("Comment 1", result.get(1).groupPostCommentContent());
     }
 
     @Test
