@@ -2,20 +2,22 @@ package com.group2.Tiger_Talks.backend.service._implementation.Authentication;
 
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = SignUpServiceImplTest.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 public class SignUpServiceImplTest {
 
     @Mock
@@ -27,7 +29,7 @@ public class SignUpServiceImplTest {
     private UserProfile userA;
     private UserProfile userB;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(
@@ -101,8 +103,8 @@ public class SignUpServiceImplTest {
     public void signUpUserProfile_existed_username() {
         userA.setUserName("kirito");
         userB.setUserName("kirito");
-        when(userProfileRepository.findUserProfileByUserName(userA.getUserName())).thenReturn(Optional.of(userB));
-        when(userProfileRepository.existsById(userA.getEmail())).thenReturn(false);
+        lenient().when(userProfileRepository.findUserProfileByUserName(userA.getUserName())).thenReturn(Optional.of(userB));
+        lenient().when(userProfileRepository.existsById(userA.getEmail())).thenReturn(false);
         Optional<String> result = signUpServiceImpl.signUpUserProfile(userA);
         assertTrue(result.isPresent());
         assertEquals("Username has already existed!", result.get());

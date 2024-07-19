@@ -5,22 +5,24 @@ import com.group2.Tiger_Talks.backend.model.Notification.NotificationDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Notification.NotificationRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class NotificationServiceImplTest {
 
     @Mock
@@ -32,7 +34,7 @@ public class NotificationServiceImplTest {
     @InjectMocks
     private NotificationServiceImpl notificationService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -95,10 +97,11 @@ public class NotificationServiceImplTest {
         NotificationDTO notification = mock(NotificationDTO.class);
         Notification notification1 = mock(Notification.class);
         LocalDateTime now = LocalDateTime.now();
-        when(notification.getCreateTime()).thenReturn(now);
-        when(userProfile.getNotificationList()).thenReturn(List.of(notification1));
-        when(notification1.getUserProfile()).thenReturn(userProfile);
-        when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
+
+        lenient().when(notification.getCreateTime()).thenReturn(now);
+        lenient().when(userProfile.getNotificationList()).thenReturn(List.of(notification1));
+        lenient().when(notification1.getUserProfile()).thenReturn(userProfile);
+        lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
 
         List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
         assertFalse(results.isEmpty());

@@ -3,24 +3,24 @@ package com.group2.Tiger_Talks.backend.service._implementation.Authentication;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.OnlineStatus.AVAILABLE;
 import static com.group2.Tiger_Talks.backend.model.Utils.OnlineStatus.OFFLINE;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-
-@SpringBootTest(classes = LogInServiceImplTest.class)
 public class LogInServiceImplTest {
 
     @Mock
@@ -30,7 +30,7 @@ public class LogInServiceImplTest {
     private LogInServiceImpl logInServiceImpl;
     private UserProfile userA;
     private UserProfile userB;
-    @Before
+    @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(
@@ -73,7 +73,7 @@ public class LogInServiceImplTest {
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
         Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.getEmail(), userA.getPassword());
-        Assert.assertTrue(result.isPresent());
+        assertTrue(result.isPresent());
     }
 
     @Test
@@ -82,7 +82,7 @@ public class LogInServiceImplTest {
         when(userProfileRepository.save(userA)).thenReturn(userA);
         Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.getEmail(), userA.getPassword());
         assertTrue(result.isPresent());
-        Assert.assertEquals(userA.getEmail(), result.get().email());
+        assertEquals(userA.getEmail(), result.get().email());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class LogInServiceImplTest {
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
         Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.getEmail(), userA.getPassword());
-        Assert.assertEquals(AVAILABLE, userA.getOnlineStatus());
+        assertEquals(AVAILABLE, userA.getOnlineStatus());
     }
 
     @Test
@@ -100,7 +100,7 @@ public class LogInServiceImplTest {
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
         Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.getEmail(), "bbbb2B@b");
-        Assert.assertTrue(result.isEmpty());
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class LogInServiceImplTest {
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
         Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userB.getEmail(), userB.getPassword());
-        Assert.assertTrue(result.isEmpty());
+        assertTrue(result.isEmpty());
     }
 
     /**
@@ -120,7 +120,7 @@ public class LogInServiceImplTest {
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
         logInServiceImpl.logOut(userA.getEmail());
-        Assert.assertEquals(OFFLINE, userA.getOnlineStatus());
+        assertEquals(OFFLINE, userA.getOnlineStatus());
     }
 
     @Test
@@ -129,7 +129,7 @@ public class LogInServiceImplTest {
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
         logInServiceImpl.logOut(userA.getEmail());
-        Assert.assertEquals(OFFLINE, userA.getOnlineStatus());
+        assertEquals(OFFLINE, userA.getOnlineStatus());
     }
 
     @Test
