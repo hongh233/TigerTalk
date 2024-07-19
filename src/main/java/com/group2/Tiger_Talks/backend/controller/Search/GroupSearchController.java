@@ -16,7 +16,7 @@ public class GroupSearchController {
     private Search<GroupDTO> groupSearchService;
 
     @GetMapping("/{searchQuery}/{userEmail}")
-    public List<GroupDTO> findPublicGroupByName(@PathVariable String searchQuery, @PathVariable String userEmail, @RequestParam String[] constraints) {
-        return groupSearchService.search(searchQuery, userEmail, Optional.of(constraints));
+    public List<GroupDTO> findPublicGroupByName(@PathVariable String searchQuery, @PathVariable String userEmail) {
+        return groupSearchService.search(searchQuery, userEmail);
     }
 }

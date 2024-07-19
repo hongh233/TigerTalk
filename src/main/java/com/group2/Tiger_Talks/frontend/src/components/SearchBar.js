@@ -58,6 +58,7 @@ const SearchBar = ({
 
 	const fetchGroups = async (query) => {
 		try {
+			console.log(query);
 			const response = await handleFindGroups(query.toLowerCase(), userEmail);
 			setSearchGroup(response);
 		} catch (error) {
