@@ -19,7 +19,6 @@ const MainPage = () => {
 			.get(`http://localhost:8085/posts/getPostForUserAndFriends/${user.email}`)
 			.then((response) => {
 				const transformedPosts = formatPost(response.data);
-				console.log(response.data);
 				setPosts(transformedPosts);
 			})
 			.catch((error) => {
@@ -28,7 +27,7 @@ const MainPage = () => {
 	}, [user, reload]);
 
 	useEffect(() => {
-		if (user) {
+		if (user && reload) {
 			const fetchCurrentUser = async (userEmail) => {
 				try {
 					const response = await axios.get(
@@ -36,13 +35,14 @@ const MainPage = () => {
 					);
 					const data = response.data;
 					dispatch({ type: "SET_USER", payload: data });
+					setReload(false);
 				} catch (error) {
 					console.error("Error fetching profile user data:", error);
 				}
 			};
 			fetchCurrentUser(user.email);
 		}
-	}, [user,dispatch]);
+	}, [user, dispatch, reload]);
 
 	const addPost = (postContent, imageURL, tags) => {
 		if (!user) {
