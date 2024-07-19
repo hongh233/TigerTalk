@@ -39,7 +39,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         UserProfile user = userProfileRepository.findUserProfileByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("User not found"));
         return friendshipRequestRepository.findByReceiver(user).stream()
-                .map(FriendshipRequestDTO::new)
+                .map(FriendshipRequest::toDto)
                 .collect(Collectors.toList());
     }
 
