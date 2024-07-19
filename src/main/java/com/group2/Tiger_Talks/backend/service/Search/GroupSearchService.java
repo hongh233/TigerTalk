@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.service.Group;
+package com.group2.Tiger_Talks.backend.service.Search;
 
 import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
 

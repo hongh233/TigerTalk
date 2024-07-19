@@ -319,6 +319,10 @@ public class UserProfile implements UserProfileInterface {
         this.firstName = firstName;
     }
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     public String getLastName() {
         return lastName;
     }
