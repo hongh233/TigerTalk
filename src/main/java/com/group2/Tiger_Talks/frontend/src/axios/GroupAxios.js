@@ -2,7 +2,6 @@ import axios from "axios";
 const URL = process.env.REACT_APP_API_URL;
 
 export const handleCreateGroup = (form) => {
-	console.log(form);
 	return axios
 		.post(
 			`${URL}/api/groups/create/${form.groupName}/${form.userEmail}/${form.status}`
@@ -149,6 +148,16 @@ export const handleFindGroups = (groupName, userEmail) => {
 		.then((response) => response.data)
 		.catch((error) => {
 			console.error("Error search for groups");
+			throw error;
+		});
+};
+
+export const handleGetGroupMembersByGroupId = (groupId) => {
+	return axios
+		.get(`${URL}/api/groups/get/group/${groupId}/members`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error getting members for the group");
 			throw error;
 		});
 };

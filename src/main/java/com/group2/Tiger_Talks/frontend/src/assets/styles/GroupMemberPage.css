@@ -136,3 +136,8 @@
 .user-component .actions button:hover {
 	background-color: #b23737;
 }
+
+/* .group-member-list {
+	max-height: 600px;
+	overflow: scroll;
+} */

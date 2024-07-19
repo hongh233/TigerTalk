@@ -14,8 +14,6 @@ const FriendListPage = () => {
 		setFriends(friends.filter((friend) => friend.id !== id));
 	};
 
-
-
 	useEffect(() => {
 		const fetchFriends = async () => {
 			if (user && user.email) {
@@ -26,7 +24,7 @@ const FriendListPage = () => {
 					if (response.data.length > 0) {
 						setFriends(response.data);
 					}
-	
+
 					// dispatch({ type: "SET_FRIEND", payload: response.data });
 				} catch (error) {
 					console.error("Failed to fetch friend requests", error);

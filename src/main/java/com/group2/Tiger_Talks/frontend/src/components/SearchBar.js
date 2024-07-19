@@ -1,72 +1,115 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleFindGroups } from "./../axios/GroupAxios";
-import "../assets/styles/Header.css";
-import Group from "./Group";
-const SearchBar = ({ searchType, userEmail, setSearchGroup }) => {
+import Dropdown from "./../components/DropDown";
+import "../assets/styles/SearchBar.css";
+
+const SearchBar = ({
+	searchType,
+	userEmail,
+	setSearchGroup,
+	setSearchFriend,
+	setSearchPublicUser,
+	setSearchMember,
+	dropdownClassName,
+	searchBarClassName,
+}) => {
 	const [searchQuery, setSearchQuery] = useState("");
-	const [searchResults, setSearchResults] = useState([]);
-	const [allItems, setAllItems] = useState(null);
+	const [items, setItems] = useState([]);
 	const [showDropdown, setShowDropdown] = useState(false);
 
-	useEffect(() => {
-		fetchAllItems();
-	}, []);
+	const navigate = useNavigate();
+	const handleInputChange = (e) => {
+		const query = e.target.value;
+		setSearchQuery(query);
+		if (query === "") {
+			setShowDropdown(false);
+		} else {
+			setShowDropdown(true);
+			handleSearch(query);
+		}
+	};
 
-	const fetchAllItems = async () => {
+	const handleSearch = async (query) => {
+		if (query.length > 0) {
+			if (searchType === "user") {
+				await fetchUsers(query);
+			} else if (searchType === "group") {
+				await fetchGroups(query);
+			} else if (searchType === "friend") {
+				await fetchFriends(query);
+			} else if (searchType === "publicUser") {
+				await fetchPublicUsers(query);
+			} else if (searchType === "member") {
+				await fetchUsers(query);
+			}
+		}
+	};
+
+	const fetchUsers = async (query) => {
 		try {
 			const response = await axios.get(
 				`http://localhost:8085/api/user/getAllProfiles`
 			);
-			setAllItems(response.data);
+			setItems(response.data);
 		} catch (error) {
-			console.error(`Error fetching all ${searchType}s:`, error);
+			console.error(`Error fetching users:`, error);
 		}
 	};
 
-	const handleInputChange = (e) => {
-		setSearchQuery(e.target.value);
-	};
-
-	const handleSearch = async () => {
-		let data;
-		if (searchQuery.length > 0) {
-			if (searchType === "user") {
-				data = await fetchAllItems();
-			} else if (searchType === "group") {
-				data = await handleFindGroups(
-					searchQuery.toLocaleLowerCase(),
-					userEmail
-				);
-				setSearchGroup(data);
-			}
+	const fetchGroups = async (query) => {
+		try {
+			const response = await handleFindGroups(query.toLowerCase(), userEmail);
+			setItems(response);
+			setSearchGroup(response);
+		} catch (error) {
+			console.error(`Error fetching groups:`, error);
 		}
-		setAllItems(data);
-	};
-	const handleSearchGroup = async (e) => {
-		setSearchQuery(e.target.value);
-		let data =
-			searchQuery &&
-			(await handleFindGroups(searchQuery.toLocaleLowerCase(), userEmail));
-		setSearchGroup(data);
 	};
 
-	// const filterItems = (query) => {
-	// 	const filteredItems = allItems.filter((item) => {
-	// 		const searchFields =
-	// 			searchType === "user"
-	// 				? [item.firstName, item.lastName, item.email]
-	// 				: [item.groupName, item.groupDescription];
-	// 		return (
-	// 			searchFields.some((field) =>
-	// 				field.toLowerCase().includes(query.toLowerCase())
-	// 			) &&
-	// 			searchType === "user" &&
-	// 			item.email.toLowerCase() !== currentUser.email
-	// 		);
-	// 	});
-	// 	setSearchResults(filteredItems);
-	// };
+	const fetchFriends = async (query) => {
+		try {
+			const response = await axios.get(
+				`http://localhost:8085/api/friends/search?query=${query}`
+			);
+			setItems(response.data);
+			setSearchFriend(response.data);
+		} catch (error) {
+			console.error(`Error fetching friends:`, error);
+		}
+	};
+
+	const fetchPublicUsers = async (query) => {
+		try {
+			const response = await axios.get(
+				`http://localhost:8085/api/publicUsers/search?query=${query}`
+			);
+			setItems(response.data);
+			setSearchPublicUser(response.data);
+		} catch (error) {
+			console.error(`Error fetching public users:`, error);
+		}
+	};
+
+	const fetchMembers = async (query) => {
+		try {
+			const response = await axios.get(
+				`http://localhost:8085/api/members/search?query=${query}`
+			);
+			setItems(response.data);
+			setSearchMember(response.data);
+		} catch (error) {
+			console.error(`Error fetching members:`, error);
+		}
+	};
+	const handleChoose = (email) => {
+		if (searchType === "user") {
+			navigate(`/profile/${email}`);
+		} else if (searchType === "member") {
+			setSearchMember(email);
+		}
+	};
 
 	const getStatusColor = (status) => {
 		switch (status) {
@@ -82,8 +125,8 @@ const SearchBar = ({ searchType, userEmail, setSearchGroup }) => {
 	};
 
 	return (
-		<div className="search-bar">
-			{searchType === "user" ? (
+		<div className={`search-bar-${searchBarClassName}`}>
+			<div className={`search-bar-${searchBarClassName}-input`}>
 				<input
 					type="text"
 					placeholder="Search..."
@@ -91,69 +134,16 @@ const SearchBar = ({ searchType, userEmail, setSearchGroup }) => {
 					onChange={handleInputChange}
 					onFocus={() => setShowDropdown(true)}
 				/>
-			) : (
-				<input
-					type="text"
-					placeholder="Search..."
-					value={searchQuery}
-					onChange={handleSearchGroup}
-					onFocus={() => setShowDropdown(true)}
+			</div>
+
+			{searchType !== "group" && showDropdown && items && (
+				<Dropdown
+					handleChoose={handleChoose}
+					items={items}
+					getStatusColor={getStatusColor}
+					dropdownClassName={dropdownClassName}
 				/>
 			)}
-
-			<button type="button" onClick={handleSearch}>
-				Search
-			</button>
-			{searchType === "user" &&
-				showDropdown &&
-				allItems &&
-				allItems.length > 0 &&
-				searchQuery.length > 0 && (
-					<div className="search-results-dropdown">
-						{allItems.map((item, index) => (
-							<div key={index} className="search-result-item">
-								<a
-									className="post-user-email"
-									href={`/${searchType === "user" ? "profile" : "group"}/${
-										item.email || item.groupId
-									}`}
-								>
-									<div className="profile-header">
-										{searchType === "user" && (
-											<div className="profile-user-picture">
-												<img src={item.profilePictureUrl} alt="Profile" />
-											</div>
-										)}
-										<div className="profile-info">
-											<div className="profile-name-status">
-												<h3>
-													{searchType === "user"
-														? item.userName
-														: item.groupName}
-													{searchType === "user" && (
-														<span
-															className="status-circle"
-															style={{
-																backgroundColor: getStatusColor(
-																	item.onlineStatus
-																),
-															}}
-														></span>
-													)}
-												</h3>
-											</div>
-											<p>
-												{searchType === "user"
-													? item.email
-													: item.groupDescription}
-											</p>
-										</div>
-									</div>
-								</a>
-							</div>
-						))}
-					</div>
-				)}
 		</div>
 	);
 };

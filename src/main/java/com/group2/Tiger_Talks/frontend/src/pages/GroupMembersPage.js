@@ -1,56 +1,56 @@
-import React, {useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
-import "../assets/styles/GroupMemberPage.css"; // New CSS file
+import "../assets/styles/GroupMemberPage.css";
 import UserComponent from "../components/UserComponent";
-import { FaUserPlus } from "react-icons/fa"; // Importing add user icon
-
-const fakeMembers = [
-	{
-		id: 1,
-		email: "member1@example.com",
-		userName: "Member One",
-		time: "Joined 2 days ago",
-		profilePicture: "https://via.placeholder.com/50", // Placeholder image
-	},
-	{
-		id: 2,
-		email: "member2@example.com",
-		userName: "Member Two",
-		time: "Joined 1 week ago",
-		profilePicture: "https://via.placeholder.com/50", // Placeholder image
-	},
-	{
-		id: 3,
-		email: "member3@example.com",
-		userName: "Member Three",
-		time: "Joined 3 days ago",
-		profilePicture: "https://via.placeholder.com/50", // Placeholder image
-	},
-];
+import SearchBar from "../components/SearchBar";
+import { FaUserPlus } from "react-icons/fa";
+import {
+	handleJoinGroup,
+	handleGetGroupMembersByGroupId,
+} from "./../axios/GroupAxios";
 
 const GroupMemberPage = () => {
 	const user = useSelector((state) => state.user.user);
-	const [members, setMembers] = useState(fakeMembers);
+	const { groupId } = useParams();
+	const [members, setMembers] = useState(null);
+	const [searchMember, setSearchMember] = useState(null);
 	const [showAddUser, setShowAddUser] = useState(false);
-	const [newMemberEmail, setNewMemberEmail] = useState("");
 
+	useEffect(() => {
+		if (groupId) {
+			getAllMembers();
+		}
+		if (searchMember) {
+			handleAddMember(searchMember);
+		}
+	}, [searchMember, groupId]);
 	const handleDeleteMember = (id) => {
 		setMembers(members.filter((member) => member.id !== id));
 	};
 
-	const handleAddMember = () => {
-		// Here you would typically send a request to the backend to add the new member
-		const newMember = {
-			id: members.length + 1,
-			email: newMemberEmail,
-			userName: `New Member ${members.length + 1}`,
-			time: "Just now",
-			profilePicture: "https://via.placeholder.com/50", // Placeholder image
-		};
-		setMembers([...members, newMember]);
-		setNewMemberEmail("");
+	const getAllMembers = async () => {
+		try {
+			const data = await handleGetGroupMembersByGroupId(groupId);
+			setMembers(data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const handleAddMember = async (email) => {
+		try {
+			if (window.confirm("Are you sure to add this user to the group?")) {
+				await handleJoinGroup(email, groupId);
+				window.alert("User successfully joined the group!");
+				setSearchMember(null);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+
 		setShowAddUser(false);
 	};
 
@@ -62,6 +62,7 @@ const GroupMemberPage = () => {
 					<NavBar />
 				</div>
 				<div className="member-list-content">
+					<h3>Add new member:</h3>
 					<div
 						className="add-user-icon"
 						onClick={() => setShowAddUser(!showAddUser)}
@@ -69,30 +70,30 @@ const GroupMemberPage = () => {
 						<FaUserPlus />
 					</div>
 					{showAddUser && (
-						<div className="add-user-form">
-							<input
-								type="email"
-								placeholder="Enter user email"
-								value={newMemberEmail}
-								onChange={(e) => setNewMemberEmail(e.target.value)}
-							/>
-							<button onClick={handleAddMember}>Add</button>
-						</div>
+						<SearchBar
+							searchType="member"
+							setSearchMember={setSearchMember}
+							dropdownClassName="member"
+							searchBarClassName="member"
+						/>
 					)}
-					{members.length > 0 ? (
-						members.map((member) => (
-							<UserComponent
-								key={member.email}
-								user={member}
-								userEmail={user.email}
-								onDelete={handleDeleteMember}
-							/>
-						))
-					) : (
-						<div className="no-members">
-							<p>This group has no members</p>
-						</div>
-					)}
+					<h3>Existing members:</h3>
+					<div className="group-member-list">
+						{members && members.length > 0 ? (
+							members.map((member) => (
+								<UserComponent
+									key={member.userProfileDTO.email}
+									user={member.userProfileDTO}
+									userEmail={member.userProfileDTO.email}
+									onDelete={handleDeleteMember}
+								/>
+							))
+						) : (
+							<div className="no-members">
+								<p>This group has no members</p>
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>

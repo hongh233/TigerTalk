@@ -36,16 +36,22 @@ const GroupPage = () => {
 				</div>
 				<div className="group-content-container">
 					<h2>Search available groups:</h2>
-					<SearchBar
-						searchType="group"
-						userEmail={user.email}
-						setSearchGroup={setSearchGroup}
-					/>
+					<div className="group-page-search-bar">
+						<SearchBar
+							searchType="group"
+							userEmail={user.email}
+							setSearchGroup={setSearchGroup}
+						/>
+					</div>
+
 					<br />
-					{searchGroup.length > 0 &&
-						searchGroup.map((group) => (
-							<Group key={group.groupId} group={group} />
-						))}
+					<div className="group-content">
+						{searchGroup.length > 0 &&
+							searchGroup.map((group) => (
+								<Group key={group.groupId} group={group} />
+							))}
+					</div>
+
 					<h2>Groups you are a member of: </h2>
 					<div className="group-content">
 						{groups.length > 0 ? (
