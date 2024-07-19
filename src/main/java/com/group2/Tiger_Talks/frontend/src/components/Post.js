@@ -131,7 +131,7 @@ const Post = ({ post, user }) => {
 			{post.postImageURL && (
 				<div className="post-content-img-container">
 					<div className="post-content-img">
-						<img src={post.postImageURL} />
+						<img src={post.postImageURL} alt="Post content" />
 					</div>
 				</div>
 			)}

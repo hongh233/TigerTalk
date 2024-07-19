@@ -38,6 +38,10 @@ public class Notification {
         this.createTime = LocalDateTime.now();
     }
 
+
+    public NotificationDTO toDTO() {
+        return new NotificationDTO(this);
+    }
     public int getNotificationId() {
         return notificationId;
     }
