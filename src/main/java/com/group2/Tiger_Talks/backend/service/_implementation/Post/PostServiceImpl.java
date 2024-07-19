@@ -7,6 +7,7 @@ import com.group2.Tiger_Talks.backend.model.Post.PostLike;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Post.PostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.Post.PostRepository;
+import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import com.group2.Tiger_Talks.backend.service.Post.PostService;
@@ -28,13 +29,15 @@ public class PostServiceImpl implements PostService {
     private UserProfileRepository userProfileRepository;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    FriendshipRepository friendshipRepository;
 
     @Override
     public List<PostDTO> getPostsForUserAndFriends(String email) {
         return userProfileRepository.findById(email)
                 .map(userProfile -> Stream.concat(
                                         userProfile.getPostList().stream(),
-                                        userProfile.getAllFriends().stream()
+                                        friendshipRepository.findAllFriendsByEmail(userProfile.getEmail()).stream()
                                                 .flatMap(friend -> friend.getPostList().stream())
                                 ).map(PostDTO::new)
                                 .sorted(
@@ -63,15 +66,15 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
 
         UserProfile user = post.getUserProfile();
-        List<UserProfile> friendList = user.getAllFriends();
+        List<UserProfile> friendList = friendshipRepository.findAllFriendsByEmail(user.getEmail());
 
         // content of the notification
-        String content = user.getUserName() + " has created a new post.";
+        String content = user.getEmail() + " has created a new post.";
 
         // send notification to all friends
         for (UserProfile friend : friendList) {
-            Notification notification = new Notification(friend, content, "NewPost");
-            Optional<String> error = notificationService.createNotification(notification);
+            Optional<String> error = notificationService.createNotification(
+                    new Notification(friend, content, "NewPost"));
             if (error.isPresent()) {
                 return error;
             }

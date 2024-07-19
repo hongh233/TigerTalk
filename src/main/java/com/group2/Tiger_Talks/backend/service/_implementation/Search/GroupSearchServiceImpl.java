@@ -19,7 +19,7 @@ public class GroupSearchServiceImpl implements Searchable<GroupDTO> {
 
 
     @Override
-    public List<GroupDTO> search(String searchQuery, String userEmail, Optional<String[]> constraints) {
+    public List<GroupDTO> search(String searchQuery, String userEmail) {
         if (searchQuery == null || userEmail == null) return Collections.emptyList();
         return groupRepository.findAll()
                 .stream()

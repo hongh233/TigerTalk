@@ -8,6 +8,7 @@ import com.group2.Tiger_Talks.backend.model.Post.PostLike;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Post.PostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.Post.PostRepository;
+import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
 @ExtendWith(MockitoExtension.class)
 public class PostServiceImplTest {
 
@@ -38,6 +38,9 @@ public class PostServiceImplTest {
 
     @Mock
     private PostLikeRepository postLikeRepository;
+
+    @Mock
+    private FriendshipRepository friendshipRepository;
 
     @InjectMocks
     private PostServiceImpl postServiceImpl;
@@ -60,7 +63,7 @@ public class PostServiceImplTest {
         UserProfile userProfile = mock(UserProfile.class);
         when(userProfileRepository.findById(email)).thenReturn(Optional.of(userProfile));
         when(userProfile.getPostList()).thenReturn(new LinkedList<>());
-        when(userProfile.getAllFriends()).thenReturn(new LinkedList<>());
+        when(friendshipRepository.findAllFriendsByEmail(userProfile.getEmail())).thenReturn(new LinkedList<>());
         List<PostDTO> result = postServiceImpl.getPostsForUserAndFriends(email);
         assertNotNull(result, "Expected non-null list of PostDTOs");
     }
@@ -129,20 +132,18 @@ public class PostServiceImplTest {
         user.setEmail("a@dal.ca");
         user.setUserName("User K");
 
-        List<Friendship> friendships = new LinkedList<>();
+        List<UserProfile> friends = new LinkedList<>();
         for (int i = 0; i < 2; i++) {
             UserProfile friend = new UserProfile();
             friend.setEmail("friend" + i + "@dal.ca");
-            Friendship friendship = new Friendship();
-            friendship.setReceiver(friend);
-            friendships.add(friendship);
+            friends.add(friend);
         }
-        user.setReceiverFriendshipList(friendships);
         Post post = new Post();
         post.setUserProfile(user);
 
         when(userProfileRepository.existsById(user.getEmail())).thenReturn(true);
         lenient().when(postRepository.save(post)).thenReturn(post);
+        when(friendshipRepository.findAllFriendsByEmail(user.getEmail())).thenReturn(friends);
         when(notificationService.createNotification(any())).thenReturn(Optional.empty());
 
         Optional<String> result = postServiceImpl.createPost(post);
@@ -156,19 +157,17 @@ public class PostServiceImplTest {
         user.setEmail("a@dal.ca");
         user.setUserName("User K");
 
-        List<Friendship> friendships = new LinkedList<>();
+        List<UserProfile> friends = new LinkedList<>();
         UserProfile friend = new UserProfile();
         friend.setEmail("friend@dal.ca");
-        Friendship friendship = new Friendship();
-        friendship.setReceiver(friend);
-        friendships.add(friendship);
+        friends.add(friend);
 
-        user.setReceiverFriendshipList(friendships);
         Post post = new Post();
         post.setUserProfile(user);
 
         when(userProfileRepository.existsById(user.getEmail())).thenReturn(true);
         lenient().when(postRepository.save(post)).thenReturn(post);
+        when(friendshipRepository.findAllFriendsByEmail(user.getEmail())).thenReturn(friends);
         when(notificationService.createNotification(any())).thenReturn(Optional.empty());
 
         Optional<String> result = postServiceImpl.createPost(post);

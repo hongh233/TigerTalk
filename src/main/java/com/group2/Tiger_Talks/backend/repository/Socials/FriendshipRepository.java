@@ -3,6 +3,7 @@ package com.group2.Tiger_Talks.backend.repository.Socials;
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -39,5 +40,11 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Integer>
             @Param("sender2") UserProfile sender2,
             @Param("receiver2") UserProfile receiver2
     );
+
+
+    @Query("SELECT f.receiver FROM Friendship f WHERE f.sender.email = :email " +
+            "UNION " +
+            "SELECT f.sender FROM Friendship f WHERE f.receiver.email = :email")
+    List<UserProfile> findAllFriendsByEmail(@Param("email") String email);
 
 }

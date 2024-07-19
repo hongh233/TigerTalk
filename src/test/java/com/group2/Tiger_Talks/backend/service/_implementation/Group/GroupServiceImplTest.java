@@ -8,23 +8,26 @@ import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
+@ExtendWith(MockitoExtension.class)
 public class GroupServiceImplTest {
     static final String[] interests = {"music", "games", "study", "memes", "toys", "school"};
 
@@ -53,7 +56,7 @@ public class GroupServiceImplTest {
     private GroupMembership groupMembership3;
     private GroupMembership groupMembership4Private;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(

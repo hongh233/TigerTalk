@@ -29,7 +29,7 @@ public class UserSearchServiceImpl implements Searchable<UserProfileDTO> {
      * @return a list of UserProfileDTO representing the search results.
      */
     @Override
-    public List<UserProfileDTO> search(String searchQuery, String userEmail, Optional<String[]> constraints) {
+    public List<UserProfileDTO> search(String searchQuery, String userEmail) {
         if (searchQuery == null || userEmail == null) return Collections.emptyList();
         return userProfileRepository.findAll()
                 .stream()

@@ -5,21 +5,22 @@ import com.group2.Tiger_Talks.backend.model.Authentication.PasswordTokenImpl;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.PasswordTokenRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = PasswordResetServiceImplTest.class)
+@ExtendWith(MockitoExtension.class)
 public class PasswordResetServiceImplTest {
 
     @Mock
@@ -34,7 +35,7 @@ public class PasswordResetServiceImplTest {
     private UserProfile userA;
     private UserProfile userB;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(
@@ -89,7 +90,7 @@ public class PasswordResetServiceImplTest {
 
     @Test
     public void createAndSendResetMail_email_invalid_form() {
-        when(userProfileRepository.findById("11@gmail.com")).thenReturn(Optional.empty());
+        lenient().when(userProfileRepository.findById("11@gmail.com")).thenReturn(Optional.empty());
         Optional<String> result = passwordResetServiceImpl.createAndSendResetMail("11@gmail.com");
         assertTrue(result.isPresent());
         assertEquals("Invalid email address. Please use dal email address!", result.get());
@@ -182,7 +183,7 @@ public class PasswordResetServiceImplTest {
     public void resetPassword_valid_userNotExist() {
         Optional<String> result = passwordResetServiceImpl.resetPassword(
                 new ForgotPasswordDTO(userB.getEmail(), userA.getPassword()));
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        lenient().when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         assertTrue(result.isPresent());
         assertEquals("An error occurred while resetting your password. " +
                 "The email used no longer belongs to any account", result.get());
