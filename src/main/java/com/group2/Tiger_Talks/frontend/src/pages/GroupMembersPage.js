@@ -8,8 +8,8 @@ import UserComponent from "../components/UserComponent";
 import SearchBar from "../components/SearchBar";
 import { FaUserPlus } from "react-icons/fa";
 import {
-	handleJoinGroup,
 	handleGetGroupMembersByGroupId,
+	handleAddUserToGroupByAdmin,
 } from "./../axios/GroupAxios";
 
 const GroupMemberPage = () => {
@@ -22,9 +22,10 @@ const GroupMemberPage = () => {
 	useEffect(() => {
 		if (groupId) {
 			getAllMembers();
+			console.log(members);
 		}
 		if (searchMember) {
-			handleAddMember(searchMember);
+			handleAddMember(searchMember, groupId);
 		}
 	}, [searchMember, groupId]);
 	const handleDeleteMember = (id) => {
@@ -40,10 +41,10 @@ const GroupMemberPage = () => {
 		}
 	};
 
-	const handleAddMember = async (email) => {
+	const handleAddMember = async (email, groupId) => {
 		try {
 			if (window.confirm("Are you sure to add this user to the group?")) {
-				await handleJoinGroup(email, groupId);
+				await handleAddUserToGroupByAdmin(email, groupId);
 				window.alert("User successfully joined the group!");
 				setSearchMember(null);
 			}
@@ -75,6 +76,7 @@ const GroupMemberPage = () => {
 							setSearchMember={setSearchMember}
 							dropdownClassName="member"
 							searchBarClassName="member"
+							groupMembers={members}
 						/>
 					)}
 					<h3>Existing members:</h3>

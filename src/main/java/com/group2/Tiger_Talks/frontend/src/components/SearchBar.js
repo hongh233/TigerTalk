@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleFindGroups } from "./../axios/GroupAxios";
+import { findUsersByKeyword } from "./../axios/UserAxios";
+import { filterUsersAlreadyInGroup } from "./../utils/filterGroupMembers";
 import Dropdown from "./../components/DropDown";
 import "../assets/styles/SearchBar.css";
 
@@ -14,12 +17,14 @@ const SearchBar = ({
 	setSearchMember,
 	dropdownClassName,
 	searchBarClassName,
+	groupMembers,
 }) => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [items, setItems] = useState([]);
 	const [showDropdown, setShowDropdown] = useState(false);
-
 	const navigate = useNavigate();
+
+	const { email } = useSelector((state) => state.user.user);
 	const handleInputChange = (e) => {
 		const query = e.target.value;
 		setSearchQuery(query);
@@ -40,17 +45,24 @@ const SearchBar = ({
 			} else if (searchType === "friend") {
 				await fetchFriends(query);
 			} else if (searchType === "member") {
-				await fetchUsers(query);
+				await fetchMembers(query);
 			}
 		}
 	};
 
 	const fetchUsers = async (query) => {
 		try {
-			const response = await axios.get(
-				`http://localhost:8085/api/user/getAllProfiles`
-			);
-			setItems(response.data);
+			const response = await findUsersByKeyword(query, email);
+			setItems(response);
+		} catch (error) {
+			console.error(`Error fetching users:`, error);
+		}
+	};
+	const fetchMembers = async (query) => {
+		try {
+			const response = await findUsersByKeyword(query, email);
+			const filteredUsers = filterUsersAlreadyInGroup(groupMembers, response);
+			setItems(filteredUsers);
 		} catch (error) {
 			console.error(`Error fetching users:`, error);
 		}
@@ -70,17 +82,6 @@ const SearchBar = ({
 		setSearchFriendQuery(query);
 	};
 
-	const fetchMembers = async (query) => {
-		try {
-			const response = await axios.get(
-				`http://localhost:8085/api/members/search?query=${query}`
-			);
-			setItems(response.data);
-			setSearchMember(response.data);
-		} catch (error) {
-			console.error(`Error fetching members:`, error);
-		}
-	};
 	const handleChoose = (email) => {
 		if (searchType === "user") {
 			navigate(`/profile/${email}`);

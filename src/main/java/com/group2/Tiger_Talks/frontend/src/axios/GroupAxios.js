@@ -162,3 +162,13 @@ export const handleGetGroupMembersByGroupId = (groupId) => {
 			throw error;
 		});
 };
+
+export const handleAddUserToGroupByAdmin = (email, groupId) => {
+	return axios
+		.post(`${URL}/api/groups/admin/addUser/${email}/${groupId}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error getting group membership id");
+			throw error;
+		});
+};
