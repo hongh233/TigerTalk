@@ -5,16 +5,18 @@ stages:
 variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
 
-build_frontend:
-  stage: build
-  image: node:16
-  script:
-    - cd src/main/java/com/group2/Tiger_Talks/frontend/build/
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - src/main/java/com/group2/Tiger_Talks/frontend/build/
+# since issues in front end, I comment it first
+
+#build_frontend:
+#  stage: build
+#  image: node:16
+#  script:
+#    - cd src/main/java/com/group2/Tiger_Talks/frontend/build/
+#    - npm install
+#    - npm run build
+#  artifacts:
+#    paths:
+#      - src/main/java/com/group2/Tiger_Talks/frontend/build/
 
 
 build_backend:
