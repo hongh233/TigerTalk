@@ -108,7 +108,7 @@ public class Group implements DtoConvertible<GroupDTO> {
                 .orElse(null);
 
         List<GroupMembershipDTO> groupMemberDTOList = this.groupMemberList.stream()
-                .map(GroupMembershipDTO::new)
+                .map(GroupMembership::toDto)
                 .toList();
 
         List<GroupPostDTO> groupPostDTOList = this.groupPostList.stream()

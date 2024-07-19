@@ -152,7 +152,7 @@ public class GroupServiceImpl implements GroupService {
     public List<GroupMembershipDTO> getGroupMembersByGroupId(int groupId) {
         List<GroupMembership> memberships = groupMembershipRepository.findByGroup_GroupId(groupId);
         return memberships.stream()
-                .map(GroupMembershipDTO::new)
+                .map(GroupMembership::toDto)
                 .toList();
     }
 
@@ -166,5 +166,4 @@ public class GroupServiceImpl implements GroupService {
         }
         return Optional.empty();
     }
-
 }

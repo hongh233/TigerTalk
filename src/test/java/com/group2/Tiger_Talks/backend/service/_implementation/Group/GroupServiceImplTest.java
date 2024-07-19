@@ -1,6 +1,9 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
-import com.group2.Tiger_Talks.backend.model.Group.*;
+import com.group2.Tiger_Talks.backend.model.Group.Group;
+import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
@@ -290,7 +293,7 @@ public class GroupServiceImplTest {
      */
     @Test
     public void updateGroupInfo_groupIdNotFound() {
-        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true,interests[0]);
+        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
         when(groupRepository.findById(1)).thenReturn(Optional.empty());
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
         assertTrue(result.isPresent());
@@ -414,10 +417,10 @@ public class GroupServiceImplTest {
         List<GroupMembershipDTO> result = groupService.getGroupMembersByGroupId(1);
 
         assertEquals(2, result.size());
-        assertEquals(2, result.get(0).getGroupMembershipId());
-        assertEquals(3, result.get(1).getGroupMembershipId());
-        assertEquals("a@dal.ca", result.get(0).getUserProfileDTO().email());
-        assertEquals("b@dal.ca", result.get(1).getUserProfileDTO().email());
+        assertEquals(2, result.get(0).groupMembershipId());
+        assertEquals(3, result.get(1).groupMembershipId());
+        assertEquals("a@dal.ca", result.get(0).userProfileDTO().email());
+        assertEquals("b@dal.ca", result.get(1).userProfileDTO().email());
     }
 
     @Test
@@ -433,8 +436,8 @@ public class GroupServiceImplTest {
         List<GroupMembershipDTO> result = groupService.getGroupMembersByGroupId(1);
 
         assertEquals(1, result.size());
-        assertEquals(2, result.get(0).getGroupMembershipId());
-        assertEquals("a@dal.ca", result.get(0).getUserProfileDTO().email());
+        assertEquals(2, result.get(0).groupMembershipId());
+        assertEquals("a@dal.ca", result.get(0).userProfileDTO().email());
     }
 
     /**
