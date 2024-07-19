@@ -147,17 +147,24 @@ public class Friendship implements DtoConvertible<FriendshipDTO> {
 
     @Override
     public FriendshipDTO toDto() {
-        return new FriendshipDTO(this);
+        return new FriendshipDTO(
+                this.getFriendshipId(),
+                this.getSender().getEmail(),
+                this.getSender().getUserName(),
+                this.getReceiver().getEmail(),
+                this.getReceiver().getUserName(),
+                this.getSender().getProfilePictureUrl(),
+                this.getReceiver().getProfilePictureUrl()
+        );
     }
 
     @Override
     public void updateFromDto(FriendshipDTO friendshipDTO) {
-        this.getSender().setEmail(friendshipDTO.getSenderEmail());
-        this.getSender().setUserName(friendshipDTO.getSenderName());
-        this.getReceiver().setEmail(friendshipDTO.getReceiverEmail());
-        this.getReceiver().setEmail(friendshipDTO.getReceiverEmail());
-        this.getReceiver().setUserName(friendshipDTO.getReceiverName());
-        this.getSender().setProfilePictureUrl(friendshipDTO.getSenderProfilePictureUrl());
-        this.getReceiver().setProfilePictureUrl(friendshipDTO.getReceiverProfilePictureUrl());
+        this.getSender().setEmail(friendshipDTO.senderEmail());
+        this.getSender().setUserName(friendshipDTO.senderName());
+        this.getReceiver().setEmail(friendshipDTO.receiverEmail());
+        this.getReceiver().setUserName(friendshipDTO.receiverName());
+        this.getSender().setProfilePictureUrl(friendshipDTO.senderProfilePictureUrl());
+        this.getReceiver().setProfilePictureUrl(friendshipDTO.receiverProfilePictureUrl());
     }
 }
