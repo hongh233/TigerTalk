@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Notification;
 
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
+import com.group2.Tiger_Talks.backend.model.Notification.NotificationDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Notification.NotificationRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -64,40 +65,53 @@ public class NotificationServiceImplTest {
     @Test
     public void getNotificationListByUserEmail_userFound_twoNotifications() {
         UserProfile userProfile = mock(UserProfile.class);
-        Notification notification1 = mock(Notification.class);
-        Notification notification2 = mock(Notification.class);
+        Notification notification3 = mock(Notification.class);
+        Notification notification4 = mock(Notification.class);
         LocalDateTime now = LocalDateTime.now();
-        when(notification1.getCreateTime()).thenReturn(now.minusHours(1));
-        when(notification2.getCreateTime()).thenReturn(now);
-        when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification1, notification2));
+        when(notification3.getCreateTime()).thenReturn(now.minusHours(1));
+        when(notification4.getCreateTime()).thenReturn(now);
+        when(notification3.getUserProfile()).thenReturn(userProfile);
+        when(notification4.getUserProfile()).thenReturn(userProfile);
+        when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification3, notification4));
         when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
 
-        List<Notification> results = notificationService.getNotificationListByUserEmail("user@example.com");
+        NotificationDTO dto3 = mock(NotificationDTO.class);
+        NotificationDTO dto4 = mock(NotificationDTO.class);
+        when(dto3.getCreateTime()).thenReturn(now.minusHours(1));
+        when(dto4.getCreateTime()).thenReturn(now);
+
+        when(notification3.toDTO()).thenReturn(dto3);
+        when(notification4.toDTO()).thenReturn(dto4);
+
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
         assertFalse(results.isEmpty());
         assertEquals(2, results.size());
-        assertEquals(notification2, results.get(0));
-        assertEquals(notification1, results.get(1));
+
+        assertEquals(dto4.getCreateTime(), results.get(0).getCreateTime());
+        assertEquals(dto3.getCreateTime(), results.get(1).getCreateTime());
     }
 
     @Test
     public void getNotificationListByUserEmail_userFound_oneNotification() {
         UserProfile userProfile = mock(UserProfile.class);
-        Notification notification = mock(Notification.class);
+        NotificationDTO notification = mock(NotificationDTO.class);
+        Notification notification1 = mock(Notification.class);
         LocalDateTime now = LocalDateTime.now();
+
         lenient().when(notification.getCreateTime()).thenReturn(now);
-        lenient().when(userProfile.getNotificationList()).thenReturn(List.of(notification));
+        lenient().when(userProfile.getNotificationList()).thenReturn(List.of(notification1));
+        lenient().when(notification1.getUserProfile()).thenReturn(userProfile);
         lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
 
-        List<Notification> results = notificationService.getNotificationListByUserEmail("user@example.com");
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
         assertFalse(results.isEmpty());
         assertEquals(1, results.size());
-        assertEquals(notification, results.get(0));
     }
 
     @Test
     public void getNotificationListByUserEmail_userNotFound() {
         when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.empty());
-        List<Notification> results = notificationService.getNotificationListByUserEmail("user@example.com");
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
         assertTrue(results.isEmpty());
     }
 

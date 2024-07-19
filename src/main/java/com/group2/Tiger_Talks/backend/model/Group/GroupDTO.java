@@ -3,7 +3,6 @@ package com.group2.Tiger_Talks.backend.model.Group;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GroupDTO {
 
@@ -21,7 +20,7 @@ public class GroupDTO {
 
     private List<GroupMembershipDTO> groupMemberList = new LinkedList<>();
 
-    private List<GroupPost> groupPostList = new LinkedList<>();
+    private List<GroupPostDTO> groupPostList = new LinkedList<>();
 
     public GroupDTO(Group group) {
         this.groupId = group.getGroupId();
@@ -36,6 +35,9 @@ public class GroupDTO {
                 .orElse(null);
         this.groupMemberList = group.getGroupMemberList().stream()
                 .map(GroupMembershipDTO::new)
+                .toList();
+        this.groupPostList = group.getGroupPostList().stream()
+                .map(GroupPostDTO::new)
                 .toList();
     }
 
@@ -91,11 +93,11 @@ public class GroupDTO {
         this.groupMemberList = groupMemberList;
     }
 
-    public List<GroupPost> getGroupPostList() {
+    public List<GroupPostDTO> getGroupPostList() {
         return groupPostList;
     }
 
-    public void setGroupPostList(List<GroupPost> groupPostList) {
+    public void setGroupPostList(List<GroupPostDTO> groupPostList) {
         this.groupPostList = groupPostList;
     }
 

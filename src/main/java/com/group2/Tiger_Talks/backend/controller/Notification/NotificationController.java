@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller.Notification;
 
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
+import com.group2.Tiger_Talks.backend.model.Notification.NotificationDTO;
 import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @GetMapping("/get/{email}")
-    public ResponseEntity<List<Notification>> getNotificationsByUserEmail(@PathVariable String email) {
-        List<Notification> notifications = notificationService.getNotificationListByUserEmail(email);
+    public ResponseEntity<List<NotificationDTO>> getNotificationsByUserEmail(@PathVariable String email) {
+        List<NotificationDTO> notifications = notificationService.getNotificationListByUserEmail(email);
         return ResponseEntity.ok(notifications);
     }
 

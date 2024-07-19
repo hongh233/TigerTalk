@@ -2,33 +2,43 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { handleFindGroups } from "./../axios/GroupAxios";
 import "../assets/styles/Header.css";
-import Group from "./Group";
 const SearchBar = ({ searchType, userEmail, setSearchGroup }) => {
 	const [searchQuery, setSearchQuery] = useState("");
-	const [searchResults, setSearchResults] = useState([]);
+	// const [searchResults, setSearchResults] = useState([]);
 	const [allItems, setAllItems] = useState(null);
 	const [showDropdown, setShowDropdown] = useState(false);
 
 	useEffect(() => {
+		const fetchAllItems = async () => {
+			try {
+				const response = await axios.get(
+					`http://localhost:8085/api/user/getAllProfiles`
+				);
+				setAllItems(response.data);
+			} catch (error) {
+				console.error(`Error fetching all ${searchType}s:`, error);
+			}
+		};
 		fetchAllItems();
-	}, []);
+	}, [searchType]);
 
-	const fetchAllItems = async () => {
-		try {
-			const response = await axios.get(
-				`http://localhost:8085/api/user/getAllProfiles`
-			);
-			setAllItems(response.data);
-		} catch (error) {
-			console.error(`Error fetching all ${searchType}s:`, error);
-		}
-	};
+
 
 	const handleInputChange = (e) => {
 		setSearchQuery(e.target.value);
 	};
 
 	const handleSearch = async () => {
+		const fetchAllItems = async () => {
+			try {
+				const response = await axios.get(
+					`http://localhost:8085/api/user/getAllProfiles`
+				);
+				setAllItems(response.data);
+			} catch (error) {
+				console.error(`Error fetching all ${searchType}s:`, error);
+			}
+		};
 		let data;
 		if (searchQuery.length > 0) {
 			if (searchType === "user") {
@@ -45,9 +55,10 @@ const SearchBar = ({ searchType, userEmail, setSearchGroup }) => {
 	};
 	const handleSearchGroup = async (e) => {
 		setSearchQuery(e.target.value);
+		const constraints = ["constraint1", "constraint2"]; // TODO: {Tyson} add constraints
 		let data =
 			searchQuery &&
-			(await handleFindGroups(searchQuery.toLocaleLowerCase(), userEmail));
+			(await handleFindGroups(searchQuery.toLocaleLowerCase(), userEmail, constraints));
 		setSearchGroup(data);
 	};
 
