@@ -2,7 +2,8 @@ package com.group2.Tiger_Talks.backend;
 
 import com.group2.Tiger_Talks.backend.controller.Friend.FriendshipRequestController;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
-import com.group2.Tiger_Talks.backend.model.Utils;
+import com.group2.Tiger_Talks.backend.model.Utils.UserLevel;
+import com.group2.Tiger_Talks.backend.model.Utils.UserStatus;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
 import com.group2.Tiger_Talks.backend.service.Friend.FriendshipRequestService;
@@ -85,9 +86,8 @@ public class Scripts {
 
         public static List<UserProfile> genUsers(int numOfUsers) {
             ArrayList<UserProfile> userProfiles = new ArrayList<>();
-            int ADMIN_USER = getAdminUser(numOfUsers);
             for (int i = 0; i < numOfUsers; i++) {
-                var userProfile = new UserProfile(
+                userProfiles.add(new UserProfile(
                         "user" + alpha(i),
                         "number",
                         12,
@@ -97,18 +97,49 @@ public class Scripts {
                         "aaaa1A@a",
                         securityQuestionAnswers,
                         securityQuestions
-                );
-                userProfiles.add(userProfile);
-                if (ADMIN_USER == (alpha(i) ^ 32)) {
-                    userProfile.setUserLevel(Utils.UserLevel.ADMIN);
-                    userProfile.setValidated(true);
-                    userProfile.setStatus(Utils.UserStatus.ACTIVE);
-                } else if (i % 2 == 1) { // They are your friends
-                    userProfile.setValidated(true);
-                    userProfile.setStatus(Utils.UserStatus.ACTIVE);
-                }
+                ));
             }
+
+            customize(userProfiles);
+
             return userProfiles;
+        }
+
+        /**
+         * Sets up group members in prod
+         * - Tyson (s@dal.ca)
+         * - Hongh (a@dal.ca)
+         * - Raphael (n@dal.ca)
+         * - Shuqiang (z@dal.ca)
+         * - Benjamin (b@dal.ca)
+         */
+        private static void customize(ArrayList<UserProfile> userProfiles) {
+            assert userProfiles.size() == 26;
+
+            UserProfile Benjamin = userProfiles.get(1);
+            Benjamin.setUserLevel(UserLevel.ADMIN);
+            Benjamin.setValidated(true);
+            Benjamin.setStatus(UserStatus.ACTIVE);
+
+            UserProfile Shuqiang = userProfiles.get(25);
+            Shuqiang.setUserLevel(UserLevel.ADMIN);
+            Shuqiang.setValidated(true);
+            Shuqiang.setStatus(UserStatus.ACTIVE);
+
+            UserProfile Raphael = userProfiles.get(13);
+            Raphael.setUserLevel(UserLevel.ADMIN);
+            Raphael.setValidated(true);
+            Raphael.setStatus(UserStatus.ACTIVE);
+
+            UserProfile Tyson = userProfiles.get(18);
+            Tyson.setUserLevel(UserLevel.ADMIN);
+            Tyson.setValidated(true);
+            Tyson.setStatus(UserStatus.ACTIVE);
+
+            UserProfile Hongh = userProfiles.get(0);
+            Hongh.setUserLevel(UserLevel.ADMIN);
+            Hongh.setValidated(true);
+            Hongh.setStatus(UserStatus.ACTIVE);
         }
 
         private static int getAdminUser(int numOfUsers) {
@@ -129,8 +160,6 @@ public class Scripts {
             int MAIN_USER = getAdminUser(numOfUsers);
             Queue<Integer> queue = new LinkedList<>(List.of(MAIN_USER));
             HashSet<Integer> friends = new HashSet<>();
-
-            final String email = "%c@dal.ca";
 
             while (!queue.isEmpty()) {
                 int curr = queue.remove();

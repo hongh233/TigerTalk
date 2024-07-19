@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FaComment, FaShare } from "react-icons/fa";
 import GroupComment from "./GroupComment";
 import {
@@ -20,7 +19,6 @@ const GroupPost = ({
 }) => {
 	const [postComments, setPostComments] = useState(null);
 	const [newComment, setNewComment] = useState("");
-	const navigate = useNavigate();
 
 	useEffect(() => {}, [postComments]);
 
@@ -125,7 +123,7 @@ const GroupPost = ({
 			{post.postPictureURL && (
 				<div className="post-content-img-container">
 					<div className="post-content-img">
-						<img src={post.postPictureURL} />
+						<img src={post.postPictureURL} alt="Post content"/>
 					</div>
 				</div>
 			)}

@@ -2,6 +2,7 @@ import axios from "axios";
 const URL = process.env.REACT_APP_API_URL;
 
 export const handleCreateGroup = (form) => {
+	console.log(form);
 	return axios
 		.post(
 			`${URL}/api/groups/create/${form.groupName}/${form.userEmail}/${form.status}`
@@ -137,27 +138,21 @@ export const handleGetGroupMembershipId = (userEmail, groupId) => {
 		.get(`${URL}/api/groups/get/getMemberShipId/${userEmail}/${groupId}`)
 		.then((response) => response.data)
 		.catch((error) => {
-			console.error("Error getting group mebership id");
+			console.error("Error getting group membership id");
 			throw error;
 		});
 };
 
-export const handleFindGroups = (groupName, userEmail) => {
+export const handleFindGroups = (groupName, userEmail, constraints) => {
+	const queryParams = new URLSearchParams();
+	constraints.forEach((constraint) => queryParams.append('constraints', constraint));
+
 	return axios
-		.get(`${URL}/api/groups/search/publicGroups/${groupName}/${userEmail}`)
+		.get(`${URL}/api/search/group/${groupName}/${userEmail}?${queryParams.toString()}`)
 		.then((response) => response.data)
 		.catch((error) => {
-			console.error("Error search for groups");
+			console.error("Error searching for groups");
 			throw error;
 		});
 };
 
-export const handleGetGroupMembersByGroupId = (groupId) => {
-	return axios
-		.get(`${URL}/api/groups/get/group/${groupId}/members`)
-		.then((response) => response.data)
-		.catch((error) => {
-			console.error("Error getting members for the group");
-			throw error;
-		});
-};

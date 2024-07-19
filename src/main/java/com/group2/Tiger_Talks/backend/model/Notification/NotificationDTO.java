@@ -1,34 +1,22 @@
-package com.group2.Tiger_Talks.backend.model;
-
-import com.group2.Tiger_Talks.backend.model.User.UserProfile;
-import jakarta.persistence.*;
+package com.group2.Tiger_Talks.backend.model.Notification;
 
 import java.time.LocalDateTime;
 
-@Entity
-public class Notification {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class NotificationDTO {
     private int notificationId;
-
     private String content;
-
     private LocalDateTime createTime;
-
     private String notificationType;
+    private String userEmail;
 
-    @ManyToOne
-    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
-    private UserProfile userProfile;
-
-    public Notification() {
+    public NotificationDTO() {
     }
-
-    public Notification(String content, String type) {
-        this.content = content;
-        this.notificationType = type;
-        this.createTime = LocalDateTime.now();
+    public NotificationDTO(Notification notification) {
+        this.notificationId = notification.getNotificationId();
+        this.content = notification.getContent();
+        this.createTime = notification.getCreateTime();
+        this.notificationType = notification.getNotificationType();
+        this.userEmail = notification.getUserProfile().getEmail();
     }
 
     public int getNotificationId() {
@@ -55,14 +43,6 @@ public class Notification {
         this.createTime = createTime;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-    }
-
     public String getNotificationType() {
         return notificationType;
     }
@@ -71,4 +51,11 @@ public class Notification {
         this.notificationType = notificationType;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
 }

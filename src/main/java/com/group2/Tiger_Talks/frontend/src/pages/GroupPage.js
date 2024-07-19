@@ -6,7 +6,6 @@ import "../assets/styles/GroupPage.css";
 import Group from "../components/Group";
 import SearchBar from "../components/SearchBar";
 import {
-	handleGetAllGroups,
 	handleGetGroupUserIsMember,
 } from "./../axios/GroupAxios";
 
@@ -15,18 +14,19 @@ const GroupPage = () => {
 	const [groups, setGroups] = useState([]);
 	const [searchGroup, setSearchGroup] = useState([]);
 	useEffect(() => {
-		fetchGroups();
-	}, []);
-	const fetchGroups = async () => {
-		try {
-			if (user) {
-				const data = await handleGetGroupUserIsMember(user.email);
-				setGroups(data);
+		const fetchGroups = async () => {
+			try {
+				if (user) {
+					const data = await handleGetGroupUserIsMember(user.email);
+					setGroups(data);
+				}
+			} catch (err) {
+				console.error(err);
 			}
-		} catch (err) {
-			console.error(err);
-		}
-	};
+		};
+		fetchGroups();
+	}, [user]);
+
 	return (
 		<div className="group-page">
 			<Header />

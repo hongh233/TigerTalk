@@ -59,19 +59,6 @@ public class FriendshipController {
     }
 
     /**
-     * Deletes a friendship relationship by its ID.
-     *
-     * @param friendshipId the ID of the friendship to delete
-     * @return ResponseEntity indicating success or failure of the operation
-     */
-    @DeleteMapping("/deleteById")
-    public ResponseEntity<String> deleteFriendshipById(@RequestParam Integer friendshipId) {
-        return friendshipService.deleteFriendshipById(friendshipId)
-                .map(err -> ResponseEntity.status(404).body(err))
-                .orElseGet(() -> ResponseEntity.ok("Friendship is successfully deleted."));
-    }
-
-    /**
      * Checks if two users are friends based on their emails.
      *
      * @param email1 email of the first user
