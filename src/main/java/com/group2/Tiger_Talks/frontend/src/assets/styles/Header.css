@@ -1,20 +1,19 @@
 .header {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+	display: flex;
+
 	align-items: center;
-	padding: 10px 20px;
 	background-color: #333;
 	color: #fff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	position: fixed;
 	width: 100%;
-	height: 5%;
+	height: 7%;
 	z-index: 1000;
 }
 
-.header h1 {
-	margin: 0 20px;
-	grid-column: 1 / 2;
+.header-title {
+	width: 40%;
+	padding-left: 2%;
 }
 
 .home-link {
@@ -23,108 +22,10 @@
 }
 
 .notification-button {
-	grid-column: 2 / 3;
+	width: 20%;
 	display: flex;
 	justify-content: center;
 }
-
-.search-bar {
-	display: flex;
-	width: 80%;
-	align-items: end;
-	grid-column: 3 / 4;
-	justify-self: end;
-	padding-right: 5%;
-}
-
-.search-bar input {
-	padding: 5px 10px;
-	border-radius: 4px;
-	border: 1px solid #ddd;
-	margin-right: 10px;
-}
-
-.search-bar button {
-	padding: 5px 10px;
-	border: none;
-	border-radius: 4px;
-	background-color: #17a2b8;
-	color: white;
-	cursor: pointer;
-}
-
-.search-bar button:hover {
-	background-color: #138496;
-}
-
-/*Drop Down*/
-.search-results-dropdown {
-	position: absolute;
-	top: 100%;
-	right: 7%;
-	z-index: 100;
-	background-color: white;
-	border: 1px solid #ddd;
-	border-top: none;
-	width: 21%;
-	max-height: 500px;
-	overflow-y: auto;
-	border-radius: 3px;
-}
-
-.search-result-item {
-	cursor: pointer;
-	border-radius: 8px;
-	background-color: #fff;
-	transition: background-color 0.3s ease, transform 0.3s ease;
-	margin: 5px 0;
-}
-
-.search-result-item:hover {
-	background-color: #f0f0f0;
-	transform: translateY(-2px);
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.profile-header {
-	display: flex;
-	align-items: center;
-}
-
-.profile-user-picture {
-	margin-right: 15px;
-}
-
-.profile-user-picture img {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-}
-
-.profile-info {
-	flex: 1;
-}
-
-.profile-name-status {
-	display: flex;
-	align-items: center;
-}
-
-.profile-name-status h3 {
-	margin: 0;
-	font-size: 1rem;
-	color: #333;
-}
-
-.profile-name-status .status-circle {
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	margin-left: 5px;
-	display: inline-block;
-}
-
-/*End drop down*/
 
 @media (max-width: 768px) {
 	.header {

@@ -5,7 +5,9 @@
 	height: 100vh;
 	width: 100%;
 }
-
+.group-page-search-bar {
+	width: 50%;
+}
 .group-page-wrapper {
 	width: 100%;
 	margin-top: 4%;
@@ -43,7 +45,6 @@
 .group-content-container {
 	display: flex;
 	flex-direction: column;
-	overflow: scroll;
 	width: 75%;
 	height: 100%;
 }
@@ -142,6 +143,11 @@
 	display: flex;
 	align-items: center;
 	gap: 10px;
+}
+
+.group-content {
+	max-height: 500px;
+	overflow: scroll;
 }
 
 @media (max-width: 768px) {

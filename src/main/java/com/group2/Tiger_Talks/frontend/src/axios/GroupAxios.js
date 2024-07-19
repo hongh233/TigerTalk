@@ -143,12 +143,9 @@ export const handleGetGroupMembershipId = (userEmail, groupId) => {
 		});
 };
 
-export const handleFindGroups = (groupName, userEmail, constraints) => {
-	const queryParams = new URLSearchParams();
-	constraints.forEach((constraint) => queryParams.append('constraints', constraint));
-
+export const handleFindGroups = (groupName, userEmail) => {
 	return axios
-		.get(`${URL}/api/search/group/${groupName}/${userEmail}?${queryParams.toString()}`)
+		.get(`${URL}/api/search/group/${groupName}/${userEmail}`)
 		.then((response) => response.data)
 		.catch((error) => {
 			console.error("Error searching for groups");
@@ -156,3 +153,12 @@ export const handleFindGroups = (groupName, userEmail, constraints) => {
 		});
 };
 
+export const handleGetGroupMembersByGroupId = (groupId) => {
+	return axios
+		.get(`${URL}/api/groups/get/group/${groupId}/members`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error getting group membership id");
+			throw error;
+		});
+};

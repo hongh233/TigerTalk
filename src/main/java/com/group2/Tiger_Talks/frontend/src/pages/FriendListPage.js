@@ -4,17 +4,19 @@ import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import "../assets/styles/FriendListPage.css"; // New CSS file
 import UserComponent from "../components/UserComponent";
+import SearchBar from "../components/SearchBar";
 import axios from "axios";
+import { filterUsers } from "../utils/filterUsers";
 
 const FriendListPage = () => {
 	const user = useSelector((state) => state.user.user);
-	const [friends, setFriends] = useState(null);
+	const [friends, setFriends] = useState([]);
+	const [allFriends, setAllFriends] = useState([]);
+	const [searchFriendQuery, setSearchFriendQuery] = useState("");
 
 	const handleDeleteFriend = (id) => {
 		setFriends(friends.filter((friend) => friend.id !== id));
 	};
-
-
 
 	useEffect(() => {
 		const fetchFriends = async () => {
@@ -24,17 +26,26 @@ const FriendListPage = () => {
 						`http://localhost:8085/friendships/DTO/${user.email}`
 					);
 					if (response.data.length > 0) {
+						setAllFriends(response.data);
 						setFriends(response.data);
 					}
-	
-					// dispatch({ type: "SET_FRIEND", payload: response.data });
 				} catch (error) {
-					console.error("Failed to fetch friend requests", error);
+					console.error("Failed to fetch friends", error);
 				}
 			}
 		};
+
 		fetchFriends();
 	}, [user]);
+
+	useEffect(() => {
+		if (searchFriendQuery) {
+			const filteredFriends = filterUsers(allFriends, searchFriendQuery);
+			setFriends(filteredFriends);
+		} else {
+			setFriends(allFriends);
+		}
+	}, [searchFriendQuery, allFriends]);
 
 	return (
 		<div className="friend-list-page">
@@ -44,7 +55,17 @@ const FriendListPage = () => {
 					<NavBar />
 				</div>
 				<div className="friend-list-content">
-					{friends ? (
+					<h3>Friend list:</h3>
+					<div className="friend-list-search-bar">
+						<SearchBar
+							searchType="friend"
+							setSearchFriendQuery={setSearchFriendQuery}
+							dropdownClassName="friend"
+							searchBarClassName="friend"
+						/>
+					</div>
+
+					{friends.length > 0 ? (
 						friends.map((friend) => (
 							<UserComponent
 								key={friend.email}

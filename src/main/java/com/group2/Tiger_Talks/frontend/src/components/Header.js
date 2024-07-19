@@ -9,14 +9,18 @@ const Header = () => {
 
 	return (
 		<header className="header">
-			<h1>
+			<h1 className="header-title">
 				<a href="/main" className="home-link">
 					Tiger Talks
 				</a>
 			</h1>
 			<NotificationButton />
 
-			<SearchBar searchType="user" currentUser={user} />
+			<SearchBar
+				searchType="user"
+				searchBarClassName={"header"}
+				dropdownClassName={"header"}
+			/>
 		</header>
 	);
 };

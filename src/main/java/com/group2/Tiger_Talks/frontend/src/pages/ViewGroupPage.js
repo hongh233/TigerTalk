@@ -102,6 +102,7 @@ const ViewGroupPage = () => {
 					await handleLeaveGroup(groupMembershipId);
 					window.alert("Leave group successfully!");
 					setIsMember(false);
+					window.location.reload();
 				}
 			}
 		} catch (error) {
