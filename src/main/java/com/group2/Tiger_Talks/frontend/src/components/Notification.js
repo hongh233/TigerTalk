@@ -27,13 +27,13 @@ const Notification = () => {
     }, [user]);
 
     const handleApprove = (notificationId) => {
-        // Handle approve logic here
-        console.log(`Approved notification ${notificationId}`);
+        // // Handle approve logic here
+        // console.log(`Approved notification ${notificationId}`);
     };
 
     const handleDisapprove = (notificationId) => {
-        // Handle disapprove logic here
-        console.log(`Disapproved notification ${notificationId}`);
+        // // Handle disapprove logic here
+        // console.log(`Disapproved notification ${notificationId}`);
     };
 
     const handleSeeMore = () => {
