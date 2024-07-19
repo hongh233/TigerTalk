@@ -3,7 +3,6 @@ import axios from "axios";
 import "../assets/styles/FriendComponent.css";
 
 const UserComponent = ({ user, userEmail }) => {
-	console.log(user);
 	const handleDelete = async () => {
 		try {
 			const response = await axios.delete(

@@ -9,7 +9,7 @@ const SearchBar = ({
 	searchType,
 	userEmail,
 	setSearchGroup,
-	setSearchFriend,
+	setSearchFriendQuery,
 	setSearchPublicUser,
 	setSearchMember,
 	dropdownClassName,
@@ -39,8 +39,6 @@ const SearchBar = ({
 				await fetchGroups(query);
 			} else if (searchType === "friend") {
 				await fetchFriends(query);
-			} else if (searchType === "publicUser") {
-				await fetchPublicUsers(query);
 			} else if (searchType === "member") {
 				await fetchUsers(query);
 			}
@@ -61,7 +59,6 @@ const SearchBar = ({
 	const fetchGroups = async (query) => {
 		try {
 			const response = await handleFindGroups(query.toLowerCase(), userEmail);
-			setItems(response);
 			setSearchGroup(response);
 		} catch (error) {
 			console.error(`Error fetching groups:`, error);
@@ -69,27 +66,7 @@ const SearchBar = ({
 	};
 
 	const fetchFriends = async (query) => {
-		try {
-			const response = await axios.get(
-				`http://localhost:8085/api/friends/search?query=${query}`
-			);
-			setItems(response.data);
-			setSearchFriend(response.data);
-		} catch (error) {
-			console.error(`Error fetching friends:`, error);
-		}
-	};
-
-	const fetchPublicUsers = async (query) => {
-		try {
-			const response = await axios.get(
-				`http://localhost:8085/api/publicUsers/search?query=${query}`
-			);
-			setItems(response.data);
-			setSearchPublicUser(response.data);
-		} catch (error) {
-			console.error(`Error fetching public users:`, error);
-		}
+		setSearchFriendQuery(query);
 	};
 
 	const fetchMembers = async (query) => {
@@ -136,7 +113,7 @@ const SearchBar = ({
 				/>
 			</div>
 
-			{searchType !== "group" && showDropdown && items && (
+			{showDropdown && items && (
 				<Dropdown
 					handleChoose={handleChoose}
 					items={items}
