@@ -1,6 +1,9 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
-import com.group2.Tiger_Talks.backend.model.Group.*;
+import com.group2.Tiger_Talks.backend.model.Group.Group;
+import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
@@ -12,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -27,13 +29,13 @@ public class GroupServiceImpl implements GroupService {
     private UserProfileRepository userProfileRepository;
 
     @Override
-    public Optional<String> createGroup(String groupName, String creatorEmail, boolean isPrivate) {
+    public Optional<String> createGroup(String groupName, String creatorEmail, boolean isPrivate, String interest) {
         if (userProfileRepository.findById(creatorEmail).isEmpty()) {
             return Optional.of("User not found");
         }
         UserProfile userProfile = userProfileRepository.findById(creatorEmail).get();
 
-        Group group = new Group(groupName, isPrivate);
+        Group group = new Group(groupName, isPrivate, interest);
         groupRepository.save(group);
         GroupMembership groupMembership = new GroupMembership(group, userProfile, true);
         groupMembershipRepository.save(groupMembership);
@@ -91,14 +93,14 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<GroupDTO> getAllGroups() {
         return groupRepository.findAll().stream()
-                .map(GroupDTO::new)
+                .map(Group::toDto)
                 .toList();
     }
 
     @Override
     public Optional<GroupDTO> getGroup(int groupId) {
         Optional<Group> group = groupRepository.findById(groupId);
-        return group.map(GroupDTO::new);
+        return group.map(Group::toDto);
     }
 
     @Override
@@ -109,22 +111,18 @@ public class GroupServiceImpl implements GroupService {
         }
         List<GroupMembership> memberships = groupMembershipRepository.findByUserProfile_Email(userEmail);
         return memberships.stream()
-                .map(membership -> new GroupDTO(membership.getGroup()))
+                .map(membership -> membership.getGroup().toDto())
                 .toList();
     }
 
     @Override
-    public Optional<String> updateGroupInfo(GroupUpdate groupUpdate) {
-        Optional<Group> groupTemp = groupRepository.findById(groupUpdate.getGroupId());
-        if (groupTemp.isEmpty()) {
-            return Optional.of("Group id not found");
-        }
-        Group group = groupTemp.get();
-        group.setGroupName(groupUpdate.getGroupName());
-        group.setGroupImg(groupUpdate.getGroupImg());
-        group.setPrivate(groupUpdate.isPrivate());
-        groupRepository.save(group);
-        return Optional.empty();
+    public Optional<String> updateGroupInfo(GroupDTO groupDTO) {
+        Optional<Group> groupTemp = groupRepository.findById(groupDTO.groupId());
+        return groupTemp.map(group -> {
+            group.updateFromDto(groupDTO);
+            groupRepository.save(group);
+            return Optional.<String>empty();
+        }).orElseGet(() -> Optional.of("Group id not found"));
     }
 
     @Override

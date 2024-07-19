@@ -2,7 +2,6 @@ package com.group2.Tiger_Talks.backend.controller.Group;
 
 import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
-import com.group2.Tiger_Talks.backend.model.Group.GroupUpdate;
 import com.group2.Tiger_Talks.backend.service.Group.GroupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +19,12 @@ public class GroupController {
         this.groupService = groupService;
     }
 
-    @PostMapping("/create/{groupName}/{creatorEmail}/{isPrivate}")
+    @PostMapping("/create/{groupName}/{creatorEmail}/{isPrivate}/{interest}")
     public ResponseEntity<String> createGroup(@PathVariable String groupName,
                                               @PathVariable String creatorEmail,
-                                              @PathVariable boolean isPrivate) {
-        Optional<String> result = groupService.createGroup(groupName, creatorEmail, isPrivate);
+                                              @PathVariable boolean isPrivate,
+                                              @PathVariable String interest) {
+        Optional<String> result = groupService.createGroup(groupName, creatorEmail, isPrivate, interest);
         return result.map(ResponseEntity.badRequest()::body)
                 .orElseGet(() -> ResponseEntity.ok("Group successfully created"));
     }
@@ -58,8 +58,8 @@ public class GroupController {
     }
 
     @PostMapping("/update/groupInfo")
-    public ResponseEntity<String> updateGroupInfo(@RequestBody GroupUpdate groupUpdate) {
-        Optional<String> result = groupService.updateGroupInfo(groupUpdate);
+    public ResponseEntity<String> updateGroupInfo(@RequestBody GroupDTO groupDTO) {
+        Optional<String> result = groupService.updateGroupInfo(groupDTO);
         return result.map(ResponseEntity.badRequest()::body)
                 .orElseGet(() -> ResponseEntity.ok("Group Info Successfully updated"));
     }
@@ -89,7 +89,7 @@ public class GroupController {
         Optional<Integer> membershipId = groupService.getMemberShipId(userEmail, groupId);
         if (membershipId.isPresent()) {
             return ResponseEntity.ok(membershipId.get());
-        }else {
+        } else {
             return ResponseEntity.badRequest().body("User is not a member");
         }
     }

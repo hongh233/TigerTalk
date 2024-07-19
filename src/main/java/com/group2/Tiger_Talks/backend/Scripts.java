@@ -62,15 +62,15 @@ public class Scripts {
     }
 
     public void bulkGroup() {
-        List<UserProfile> allUsers = userProfileRepository.findAll();
-
+        final String[] interests = {"music", "games", "study", "memes"};
         int ADMIN_USER = Impl.getAdminUser(NUM_OF_USERS);
         for (int i = 0; i < NUM_OF_GROUPS; i++) {
             var groupName = "Group 31" + i;
+            var interest = interests[i % interests.length];
             if (i > (NUM_OF_GROUPS / 2)) {
-                groupService.createGroup(groupName, "b@dal.ca", true);
+                groupService.createGroup(groupName + interest, "b@dal.ca", true, interest);
             } else {
-                groupService.createGroup(groupName, ((char) ADMIN_USER) + "@dal.ca", i % 2 == 0);
+                groupService.createGroup(groupName + interest, ((char) ADMIN_USER) + "@dal.ca", i % 2 == 0, interest);
             }
         }
 

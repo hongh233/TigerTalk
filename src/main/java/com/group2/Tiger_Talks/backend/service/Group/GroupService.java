@@ -2,7 +2,6 @@ package com.group2.Tiger_Talks.backend.service.Group;
 
 import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
-import com.group2.Tiger_Talks.backend.model.Group.GroupUpdate;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,7 @@ public interface GroupService {
      * @return an Optional containing a success message if the group is created,
      * or an error message if the creator email is not found.
      */
-    Optional<String> createGroup(String groupName, String creatorEmail, boolean isPrivate);
+    Optional<String> createGroup(String groupName, String creatorEmail, boolean isPrivate, String interest);
 
     /**
      * Attempts to add a user as a regular member to a group.
@@ -72,7 +71,7 @@ public interface GroupService {
      * @return an Optional containing a success message if the group is updated,
      * or an error message if the group ID is not found.
      */
-    Optional<String> updateGroupInfo(GroupUpdate groupUpdate);
+    Optional<String> updateGroupInfo(GroupDTO groupUpdate);
 
     /**
      * Deletes a group by its ID.

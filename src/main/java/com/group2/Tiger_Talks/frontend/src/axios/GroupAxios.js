@@ -3,9 +3,10 @@ const URL = process.env.REACT_APP_API_URL;
 
 export const handleCreateGroup = (form) => {
 	console.log(form);
+	let interest = "music" // TODO: Handle group interest
 	return axios
 		.post(
-			`${URL}/api/groups/create/${form.groupName}/${form.userEmail}/${form.status}`
+			`${URL}/api/groups/create/${form.groupName}/${form.userEmail}/${form.status}/${interest}`
 		)
 		.then((response) => response.data)
 		.catch((error) => {

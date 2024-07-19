@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Search;
 
+import com.group2.Tiger_Talks.backend.model.Group.Group;
 import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
 import com.group2.Tiger_Talks.backend.model.Utils.RegexCheck;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
@@ -26,7 +27,7 @@ public class GroupSearchServiceImpl implements Searchable<GroupDTO> {
                         && !group.isPrivate()
                         && group.getGroupMemberList().stream()
                         .noneMatch(membership -> membership.getUserProfile().getEmail().equals(userEmail)))
-                .map(GroupDTO::new)
+                .map(Group::toDto)
                 .toList();
     }
 }
