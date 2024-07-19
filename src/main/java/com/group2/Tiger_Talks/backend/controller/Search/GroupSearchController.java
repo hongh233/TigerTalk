@@ -1,0 +1,22 @@
+package com.group2.Tiger_Talks.backend.controller.Search;
+
+import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
+import com.group2.Tiger_Talks.backend.service.Search.Search;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/search/group")
+public class GroupSearchController {
+
+    @Autowired
+    private Search<GroupDTO> groupSearchService;
+
+    @GetMapping("/{searchQuery}/{userEmail}")
+    public List<GroupDTO> findPublicGroupByName(@PathVariable String searchQuery, @PathVariable String userEmail, @RequestParam String[] constraints) {
+        return groupSearchService.search(searchQuery, userEmail, Optional.of(constraints));
+    }
+}

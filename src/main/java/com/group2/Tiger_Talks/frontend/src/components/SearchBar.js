@@ -45,9 +45,10 @@ const SearchBar = ({ searchType, userEmail, setSearchGroup }) => {
 	};
 	const handleSearchGroup = async (e) => {
 		setSearchQuery(e.target.value);
+		const constraints = ["constraint1", "constraint2"]; // TODO: {Tyson} add constraints
 		let data =
 			searchQuery &&
-			(await handleFindGroups(searchQuery.toLocaleLowerCase(), userEmail));
+			(await handleFindGroups(searchQuery.toLocaleLowerCase(), userEmail, constraints));
 		setSearchGroup(data);
 	};
 

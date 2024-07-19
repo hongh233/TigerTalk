@@ -138,17 +138,21 @@ export const handleGetGroupMembershipId = (userEmail, groupId) => {
 		.get(`${URL}/api/groups/get/getMemberShipId/${userEmail}/${groupId}`)
 		.then((response) => response.data)
 		.catch((error) => {
-			console.error("Error getting group mebership id");
+			console.error("Error getting group membership id");
 			throw error;
 		});
 };
 
-export const handleFindGroups = (groupName, userEmail) => {
+export const handleFindGroups = (groupName, userEmail, constraints) => {
+	const queryParams = new URLSearchParams();
+	constraints.forEach((constraint) => queryParams.append('constraints', constraint));
+
 	return axios
-		.get(`${URL}/api/groups/search/publicGroups/${groupName}/${userEmail}`)
+		.get(`${URL}/api/search/group/${groupName}/${userEmail}?${queryParams.toString()}`)
 		.then((response) => response.data)
 		.catch((error) => {
-			console.error("Error search for groups");
+			console.error("Error searching for groups");
 			throw error;
 		});
 };
+
