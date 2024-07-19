@@ -1,33 +1,4 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Post;
-/*
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-public class PostCommentServiceImplTest {
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @Test
-    public void addComment() {
-    }
-
-    @Test
-    public void getCommentsByPostId() {
-    }
-
-    @Test
-    public void getAllComments() {
-    }
-
-    @Test
-    public void deleteComment() {
-    }
-}
- */
 
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;

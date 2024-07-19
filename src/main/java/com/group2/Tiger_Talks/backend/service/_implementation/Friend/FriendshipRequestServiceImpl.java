@@ -3,11 +3,13 @@ package com.group2.Tiger_Talks.backend.service._implementation.Friend;
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequestDTO;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRequestRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Friend.FriendshipRequestService;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,9 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
 
     // We have E->A, D->A, get(A) will get E, D
@@ -60,7 +65,13 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         }
 
         friendshipRequestRepository.save(new FriendshipRequest(sender, receiver));
-        return Optional.empty();
+
+
+        // send notification
+        return notificationService.createNotification(new Notification(
+                receiver,
+                "You have a new friend request from " + senderEmail,
+                "FriendshipRequestSend"));
     }
 
     @Override
@@ -73,7 +84,14 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
                         friendshipRequest.getReceiver())
         );
         friendshipRequestRepository.delete(friendshipRequest);
-        return Optional.empty();
+
+
+        // send notification
+        return notificationService.createNotification(new Notification(
+                friendshipRequest.getSender(),
+                "Your friend request to " + friendshipRequest.getReceiver().getEmail() + " has been accepted.",
+                "FriendshipRequestAccept"
+        ));
     }
 
     @Override
@@ -81,7 +99,14 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         FriendshipRequest friendshipRequest = friendshipRequestRepository.findById(friendshipRequestId)
                 .orElseThrow(() -> new IllegalStateException("friendship request ID does not exist!"));
         friendshipRequestRepository.delete(friendshipRequest);
-        return Optional.empty();
+
+
+        // send notification
+        return notificationService.createNotification(new Notification(
+                friendshipRequest.getSender(),
+                "Your friend request to " + friendshipRequest.getReceiver().getEmail() + " has been rejected.",
+                "FriendshipRequestReject"
+        ));
     }
 
     @Override
