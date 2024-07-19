@@ -46,7 +46,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         UserProfile user = userProfileRepository.findUserProfileByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("User not found"));
         return friendshipRepository.findBySenderOrReceiver(user, user).stream()
-                .map(FriendshipDTO::new)
+                .map(Friendship::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -78,12 +78,8 @@ public class FriendshipServiceImpl implements FriendshipService {
                 receiver,
                 "Your friendship with " + senderEmail + " has been terminated.",
                 "FriendshipDelete");
-        Optional<String> receiverError = notificationService.createNotification(receiverNotification);
-        if (receiverError.isPresent()) {
-            return receiverError;
-        }
+        return notificationService.createNotification(receiverNotification);
 
-        return Optional.empty();
     }
 
     @Override
