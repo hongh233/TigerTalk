@@ -9,23 +9,28 @@ import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class GroupPostServiceImplTest {
 
     @InjectMocks
@@ -44,7 +49,7 @@ public class GroupPostServiceImplTest {
     private UserProfileRepository userProfileRepository;
 
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
@@ -68,8 +73,8 @@ public class GroupPostServiceImplTest {
         Group group = new Group();
         group.setGroupId(1);
         GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
-        when(userProfileRepository.existsById(anyString())).thenReturn(false);
-        when(groupRepository.existsById(anyInt())).thenReturn(true);
+        lenient().when(userProfileRepository.existsById(anyString())).thenReturn(false);
+        lenient().when(groupRepository.existsById(anyInt())).thenReturn(true);
         Optional<String> result = groupPostService.createGroupPost(groupPost);
         assertTrue(result.isPresent());
         assertEquals("User or Group not found, fail to create group post.", result.get());
@@ -92,8 +97,8 @@ public class GroupPostServiceImplTest {
         Group group = new Group();
         group.setGroupId(1);
         GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
-        when(userProfileRepository.existsById(anyString())).thenReturn(false);
-        when(groupRepository.existsById(anyInt())).thenReturn(false);
+        lenient().when(userProfileRepository.existsById(anyString())).thenReturn(false);
+        lenient().when(groupRepository.existsById(anyInt())).thenReturn(false);
         Optional<String> result = groupPostService.createGroupPost(groupPost);
         assertTrue(result.isPresent());
         assertEquals("User or Group not found, fail to create group post.", result.get());
@@ -130,9 +135,9 @@ public class GroupPostServiceImplTest {
         groupPost1.setGroupPostId(groupPostId1);
         groupPost2.setGroupPostId(groupPostId2);
 
-        when(groupPostRepository.existsById(groupPostId1)).thenReturn(true);
-        when(groupPostRepository.existsById(groupPostId2)).thenReturn(true);
-        when(groupPostRepository.findById(groupPostId2)).thenReturn(Optional.of(groupPost2));
+        lenient().when(groupPostRepository.existsById(groupPostId1)).thenReturn(true);
+        lenient().when(groupPostRepository.existsById(groupPostId2)).thenReturn(true);
+        lenient().when(groupPostRepository.findById(groupPostId2)).thenReturn(Optional.of(groupPost2));
 
         // delete the first post
         Optional<String> result = groupPostService.deleteGroupPostById(groupPostId1);

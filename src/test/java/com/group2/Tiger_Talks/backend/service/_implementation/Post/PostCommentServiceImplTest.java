@@ -8,11 +8,13 @@ import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.repository.Post.PostCommentRepository;
 import com.group2.Tiger_Talks.backend.repository.Post.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -24,8 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-
-
+@ExtendWith(MockitoExtension.class)
 public class PostCommentServiceImplTest {
 
     @Mock
@@ -43,7 +44,7 @@ public class PostCommentServiceImplTest {
     private UserProfile userA;
     private UserProfile userB;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(
@@ -125,61 +126,36 @@ public class PostCommentServiceImplTest {
         assertEquals(postCommentDTO.getCommentSenderUserProfileDTO().email(), result.getCommentSenderUserProfileDTO().email());
         assertEquals(postCommentDTO.getPostSenderUserProfileDTO().email(), result.getPostSenderUserProfileDTO().email());
 
-
-        /*
-        UserProfile commentSenderUserProfile = userA;
-        UserProfile postSenderUserProfile = userB;
-
-        PostComment postComment = new PostComment(post, "This is a comment.", commentSenderUserProfile, postSenderUserProfile);
-        postComment.setCommentId(1);
-        postComment.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
-
-        PostCommentDTO postCommentDTO = new PostCommentDTO(postComment);
-
-        // Simulating dependent behaviors
-        when(postRepository.findById(1)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
-        when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
-        when(postCommentRepository.save(any(PostComment.class))).thenReturn(postComment);
-
-        // Calling service
-        PostCommentDTO result = postCommentService.addComment(postCommentDTO);
-
-        // results validation
-        assertNotNull(result);
-        assertEquals(postCommentDTO.getContent(), result.getContent());
-        assertEquals(postCommentDTO.getTimestamp(), result.getTimestamp());
-        assertEquals(postCommentDTO.getCommentSenderUserProfileDTO().email(), result.getCommentSenderUserProfileDTO().email());
-        assertEquals(postCommentDTO.getPostSenderUserProfileDTO().email(), result.getPostSenderUserProfileDTO().email());
-        */
-
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testAddCommentPostNotFound() {
         PostCommentDTO postCommentDTO = new PostCommentDTO();
         postCommentDTO.setPostId(1);
-
         when(postRepository.findById(1)).thenReturn(Optional.empty());
-
-        postCommentService.addComment(postCommentDTO);
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            postCommentService.addComment(postCommentDTO);
+        });
+        assertEquals("Post not found", exception.getMessage());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testAddCommentSenderNotFound() {
         Post post = new Post();
         post.setPostId(1);
         post.setContent("test content");
         post.setUserProfile(userB);
-
         PostCommentDTO postCommentDTO = new PostCommentDTO();
         postCommentDTO.setPostId(1);
         postCommentDTO.setCommentSenderUserProfileDTO(new UserProfileDTO(userA));
 
-        when(postRepository.findById(1)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.empty());
+        lenient().when(postRepository.findById(1)).thenReturn(Optional.of(post));
+        lenient().when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.empty());
 
-        postCommentService.addComment(postCommentDTO);
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            postCommentService.addComment(postCommentDTO);
+        });
+        assertEquals("Comment sender user profile not found", exception.getMessage());
     }
 
     @Test
@@ -198,9 +174,9 @@ public class PostCommentServiceImplTest {
         postComment.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
 
         // Simulating dependent behaviors
-        when(postCommentRepository.findByPost_PostId(1)).thenReturn(Arrays.asList(postComment));
-        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
-        when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
+        lenient().when(postCommentRepository.findByPost_PostId(1)).thenReturn(List.of(postComment));
+        lenient().when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
+        lenient().when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
 
         // Calling service
         List<PostCommentDTO> result = postCommentService.getCommentsByPostId(1);
@@ -228,10 +204,8 @@ public class PostCommentServiceImplTest {
 
     @Test
     public void testGetCommentsByPostIdPostNotFound() {
-        when(postRepository.findById(1)).thenReturn(Optional.empty());
-
+        lenient().when(postRepository.findById(1)).thenReturn(Optional.empty());
         List<PostCommentDTO> result = postCommentService.getCommentsByPostId(1);
-
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
@@ -252,9 +226,9 @@ public class PostCommentServiceImplTest {
         postComment.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
 
         // Simulating dependent behaviors
-        when(postCommentRepository.findAll()).thenReturn(Arrays.asList(postComment));
-        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
-        when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
+        lenient().when(postCommentRepository.findAll()).thenReturn(Arrays.asList(postComment));
+        lenient().when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
+        lenient().when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
 
         // Calling service
         List<PostCommentDTO> result = postCommentService.getAllComments();
@@ -272,19 +246,15 @@ public class PostCommentServiceImplTest {
     @Test
     public void testGetAllCommentsNoComments() {
         when(postCommentRepository.findAll()).thenReturn(Collections.emptyList());
-
         List<PostCommentDTO> result = postCommentService.getAllComments();
-
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
 
     @Test
     public void testGetAllCommentsPostNotFound() {
-        when(postRepository.findById(1)).thenReturn(Optional.empty());
-
+        lenient().when(postRepository.findById(1)).thenReturn(Optional.empty());
         List<PostCommentDTO> result = postCommentService.getAllComments();
-
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
