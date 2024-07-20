@@ -85,7 +85,7 @@ npm install
 _Run the Frontend:_
 ```bash
 cd src/main/java/com/group2/Tiger_Talks/frontend
-npm start
+npm run start
 ```
 _Stop Frontend Running:_
 ```bash

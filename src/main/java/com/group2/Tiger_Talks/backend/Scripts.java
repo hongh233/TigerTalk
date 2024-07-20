@@ -133,13 +133,13 @@ public class Scripts {
                 ));
             }
 
-            customize(userProfiles);
+            initMembers(userProfiles);
 
             return userProfiles;
         }
 
         /**
-         * Sets up group members in prod
+         * Sets up group members
          * <p>
          * - Tyson (s@dal.ca)
          * <p>
@@ -151,37 +151,47 @@ public class Scripts {
          * <p>
          * - Benjamin (b@dal.ca)
          */
-        private static void customize(ArrayList<UserProfile> userProfiles) {
+        private static void initMembers(ArrayList<UserProfile> userProfiles) {
             assert userProfiles.size() == 26;
 
             UserProfile Benjamin = userProfiles.get(1);
             Benjamin.setUserLevel(UserLevel.ADMIN);
             Benjamin.setValidated(true);
             Benjamin.setStatus(UserStatus.ACTIVE);
+            Benjamin.setGender("male");
+            Benjamin.setUserName("Benjamin");
 
             UserProfile Shuqiang = userProfiles.get(25);
             Shuqiang.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721170651/lcwcalggdsyvifoo0grn.jpg");
             Shuqiang.setUserLevel(UserLevel.ADMIN);
             Shuqiang.setValidated(true);
             Shuqiang.setStatus(UserStatus.ACTIVE);
+            Shuqiang.setGender("male");
+            Shuqiang.setUserName("Shuqiang");
 
             UserProfile Raphael = userProfiles.get(13);
             Raphael.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721167087/pctpb2ean1jv6ojuz7mm.jpg");
             Raphael.setUserLevel(UserLevel.ADMIN);
             Raphael.setValidated(true);
             Raphael.setStatus(UserStatus.ACTIVE);
+            Raphael.setGender("male");
+            Raphael.setUserName("Raphael");
 
             UserProfile Tyson = userProfiles.get(18);
             Tyson.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721167221/xndgh9diat4bqcrcmrq7.jpg");
             Tyson.setUserLevel(UserLevel.ADMIN);
             Tyson.setValidated(true);
             Tyson.setStatus(UserStatus.ACTIVE);
+            Tyson.setGender("male");
+            Tyson.setUserName("Tyson");
 
             UserProfile Hongh = userProfiles.get(0);
             Hongh.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721418379/unaog1gkx1tlauh1bckw.jpg");
             Hongh.setUserLevel(UserLevel.ADMIN);
             Hongh.setValidated(true);
             Hongh.setStatus(UserStatus.ACTIVE);
+            Hongh.setGender("male");
+            Hongh.setUserName("Hongh");
         }
 
         private static int getAdminUser(int numOfUsers) {
