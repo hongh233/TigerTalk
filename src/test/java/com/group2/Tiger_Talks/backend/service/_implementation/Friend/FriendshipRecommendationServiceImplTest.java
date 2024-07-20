@@ -76,7 +76,7 @@ public class FriendshipRecommendationServiceImplTest {
         List<UserProfileDTOPost> recommendations = friendshipRecommendationService.recommendFriends("a@dal.ca", 3);
 
         assertEquals(1, recommendations.size());
-        assertEquals("c@dal.ca", recommendations.get(0).getEmail());
+        assertEquals("c@dal.ca", recommendations.get(0).email());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class FriendshipRecommendationServiceImplTest {
         List<UserProfileDTOPost> recommendations = friendshipRecommendationService.recommendFriends("a@dal.ca", 2);
 
         assertEquals(2, recommendations.size());
-        List<String> recommendedEmails = List.of(recommendations.get(0).getEmail(), recommendations.get(1).getEmail());
+        List<String> recommendedEmails = List.of(recommendations.get(0).email(), recommendations.get(1).email());
         assert(recommendedEmails.contains("c@dal.ca"));
         assert(recommendedEmails.contains("d@dal.ca"));
     }
