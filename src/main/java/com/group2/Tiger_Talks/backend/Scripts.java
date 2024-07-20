@@ -107,10 +107,15 @@ public class Scripts {
 
         /**
          * Sets up group members in prod
+         * <p>
          * - Tyson (s@dal.ca)
+         * <p>
          * - Hongh (a@dal.ca)
+         * <p>
          * - Raphael (n@dal.ca)
+         * <p>
          * - Shuqiang (z@dal.ca)
+         * <p>
          * - Benjamin (b@dal.ca)
          */
         private static void customize(ArrayList<UserProfile> userProfiles) {
@@ -122,21 +127,25 @@ public class Scripts {
             Benjamin.setStatus(UserStatus.ACTIVE);
 
             UserProfile Shuqiang = userProfiles.get(25);
+            Shuqiang.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721170651/lcwcalggdsyvifoo0grn.jpg");
             Shuqiang.setUserLevel(UserLevel.ADMIN);
             Shuqiang.setValidated(true);
             Shuqiang.setStatus(UserStatus.ACTIVE);
 
             UserProfile Raphael = userProfiles.get(13);
+            Raphael.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721167087/pctpb2ean1jv6ojuz7mm.jpg");
             Raphael.setUserLevel(UserLevel.ADMIN);
             Raphael.setValidated(true);
             Raphael.setStatus(UserStatus.ACTIVE);
 
             UserProfile Tyson = userProfiles.get(18);
+            Tyson.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721167221/xndgh9diat4bqcrcmrq7.jpg");
             Tyson.setUserLevel(UserLevel.ADMIN);
             Tyson.setValidated(true);
             Tyson.setStatus(UserStatus.ACTIVE);
 
             UserProfile Hongh = userProfiles.get(0);
+            Hongh.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721418379/unaog1gkx1tlauh1bckw.jpg");
             Hongh.setUserLevel(UserLevel.ADMIN);
             Hongh.setValidated(true);
             Hongh.setStatus(UserStatus.ACTIVE);
