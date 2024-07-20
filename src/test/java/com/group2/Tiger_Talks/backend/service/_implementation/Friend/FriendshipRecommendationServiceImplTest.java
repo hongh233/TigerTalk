@@ -2,7 +2,7 @@ package com.group2.Tiger_Talks.backend.service._implementation.Friend;
 
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOPost;
-import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
+import com.group2.Tiger_Talks.backend.repository.Friend.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

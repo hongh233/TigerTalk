@@ -15,15 +15,20 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
     private LocalDateTime createTime = LocalDateTime.now();
     private String messageContent;
 
-    private boolean friendshipSenderIsMessageSender;
-
     @ManyToOne
     @JoinColumn(name = "friendship_id", nullable = false)
     private Friendship friendship;
 
-    public FriendshipMessage(String messageContent, boolean friendshipSenderIsMessageSender) {
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private UserProfile sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private UserProfile receiver;
+
+    public FriendshipMessage(String messageContent) {
         this.messageContent = messageContent;
-        this.friendshipSenderIsMessageSender = friendshipSenderIsMessageSender;
     }
 
     public FriendshipMessage() {
@@ -61,21 +66,31 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
         this.createTime = createTime;
     }
 
-    public boolean isFriendshipSenderIsMessageSender() {
-        return friendshipSenderIsMessageSender;
-    }
-
-    public void setFriendshipSenderIsMessageSender(boolean friendshipSenderIsMessageSender) {
-        this.friendshipSenderIsMessageSender = friendshipSenderIsMessageSender;
-    }
 
     public String getMessageSenderEmail() {
-        return (isFriendshipSenderIsMessageSender() ? getFriendship().getSender() : getFriendship().getReceiver()).getEmail();
+        return sender.getEmail();
     }
 
     public String getMessageReceiverEmail() {
-        return (!isFriendshipSenderIsMessageSender() ? getFriendship().getSender() : getFriendship().getReceiver()).getEmail();
+        return receiver.getEmail();
     }
+
+    public UserProfile getSender() {
+        return sender;
+    }
+
+    public void setSender(UserProfile sender) {
+        this.sender = sender;
+    }
+
+    public UserProfile getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(UserProfile receiver) {
+        this.receiver = receiver;
+    }
+
 
     @Override
     public FriendshipMessageDTO toDto() {
