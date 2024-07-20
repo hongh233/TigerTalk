@@ -131,13 +131,13 @@ To run all unit tests in the project, run this command:
 _Drop The Database:_
 
 ```shell
-`curl -X POST http://localhost:8085/api/scripts/dropTables`
+curl -X POST http://localhost:8085/api/scripts/dropTables
 ```
 
 _Initialize the Database:_
 
 ```shell
-`curl -X POST http://localhost:8085/api/scripts/setUp`
+curl -X POST http://localhost:8085/api/scripts/setUp
 ```
 
 
