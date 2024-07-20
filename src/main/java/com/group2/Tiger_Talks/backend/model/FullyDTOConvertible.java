@@ -11,58 +11,64 @@ package com.group2.Tiger_Talks.backend.model;
  *
  *              <p>Example usage:</p>
  *              <pre>
- *                                        {@code
- *                                        // User DTO class
- *                                        public class UserDTO {
- *                                            private String username;
- *                                            private String email;
- *                                        }
+ *                                                     {@code
+ *                                                     // User DTO class
+ *                                                     public class UserDTO {
+ *                                                         private String username;
+ *                                                         private String email;
+ *                                                     }
  *
- *                                        // User class implementing FullyDTOConvertible
- *                                        public class User implements FullyDTOConvertible<UserDTO> {
- *                                            private String username;
- *                                            private String email;
+ *                                                     // User class implementing FullyDTOConvertible
+ *                                                     public class User implements FullyDTOConvertible<UserDTO> {
+ *                                                         private String username;
+ *                                                         private String email;
  *
- *                                            // Constructor
- *                                            public User(String username, String email) {...}
+ *                                                         // Constructor
+ *                                                         public User(String username, String email) {...}
  *
- *                                            @Override
- *                                            public UserDTO toDto() {
- *                                                UserDTO dto = new UserDTO();
- *                                                dto.username = this.username;
- *                                                dto.email = this.email;
- *                                                return dto;
- *                                            }
+ *                                                         @Override
+ *                                                         public UserDTO toDto() {
+ *                                                             UserDTO dto = new UserDTO();
+ *                                                             dto.username = this.username;
+ *                                                             dto.email = this.email;
+ *                                                             return dto;
+ *                                                         }
  *
- *                                            @Override
- *                                            public void updateFromDto(UserDTO dto) {
- *                                                this.username = dto.getUsername();
- *                                                this.email = dto.getEmail();
- *                                            }
- *                                        }
+ *                                                         @Override
+ *                                                         public void updateFromDto(UserDTO dto) {
+ *                                                             this.username = dto.getUsername();
+ *                                                             this.email = dto.getEmail();
+ *                                                         }
+ *                                                     }
  *
- *                                        // Example usage
- *                                        public class ExampleUsage {
- *                                            public static void main(String[] args) {
- *                                                // Create a User instance
- *                                                User user = new User("john_doe", "john.doe@example.com");
+ *                                                     // Example usage
+ *                                                     public class ExampleUsage {
+ *                                                         public static void main(String[] args) {
+ *                                                             // Create a User instance
+ *                                                             User user = new User("john_doe", "john.doe@example.com");
  *
- *                                                // Convert User to UserDTO
- *                                                UserDTO userDto = user.toDto();
- *                                                System.out.println("UserDTO: " + userDto.getUsername() + ", " + userDto.getEmail());
+ *                                                             // Convert User to UserDTO
+ *                                                             UserDTO userDto = user.toDto();
+ *                                                             System.out.println("UserDTO: " + userDto.getUsername() + ", " + userDto.getEmail());
  *
- *                                                // Create a new UserDTO with updated information
- *                                                UserDTO updatedDto = new UserDTO();
- *                                                updatedDto.setUsername("john_smith");
- *                                                updatedDto.setEmail("john.smith@example.com");
+ *                                                             // Create a new UserDTO with updated information
+ *                                                             UserDTO updatedDto = new UserDTO();
+ *                                                             updatedDto.setUsername("john_smith");
+ *                                                             updatedDto.setEmail("john.smith@example.com");
  *
- *                                                // Update the User instance from the UserDTO
- *                                                user.updateFromDto(updatedDto);
- *                                                System.out.println("Updated User: " + user.getUsername() + ", " + user.getEmail());
- *                                            }
- *                                        }
- *                                        }
- *                                        </pre>
+ *                                                             // Update the User instance from the UserDTO
+ *                                                             user.updateFromDto(updatedDto);
+ *                                                             System.out.println("Updated User: " + user.getUsername() + ", " + user.getEmail());
+ *                                                         }
+ *                                                     }
+ *                                                     }
+ *                                                     </pre>
  */
-public interface FullyDTOConvertible<DTO> extends UpdatableFromDTO<DTO>, ToDTO<DTO> {
+public interface FullyDTOConvertible<DTO> extends ToDTO<DTO> {
+    /**
+     * Updates the implementing object using the provided DTO.
+     *
+     * @param dto the DTO used to update the implementing object.
+     */
+    void updateFromDto(DTO dto);
 }

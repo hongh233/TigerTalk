@@ -94,38 +94,24 @@ public class PostCommentServiceImplTest {
         post.setContent("test content");
         post.setUserProfile(userB);
 
-        UserProfileDTO commentSenderDTO = new UserProfileDTO(12, "d@dal.ca", "pending", false, "default", "offline", "userD", null, "private", "Male", "userD", "number", "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg", "user", null);
-        UserProfileDTO postSenderDTO = new UserProfileDTO(12, "hn582183@dal.ca", "pending", true, "default", "offline", "a", "", "private", "other", "Hong", "Huang", "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1720207705/bwitpvkdv32sv3uvfsab.gif", "user", null);
-
-        postCommentDTO1 = new PostCommentDTO();
-        postCommentDTO1.setContent("This is a comment.");
-        postCommentDTO1.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
-        postCommentDTO1.setCommentSenderUserProfileDTO(commentSenderDTO);
-        postCommentDTO1.setPostSenderUserProfileDTO(postSenderDTO);
-        postCommentDTO1.setPostId(1);
-
-        PostCommentDTO postCommentDTO2 = new PostCommentDTO();
-        postCommentDTO2.setContent("This is another comment.");
-        postCommentDTO2.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 30));
-        postCommentDTO2.setCommentSenderUserProfileDTO(commentSenderDTO);
-        postCommentDTO2.setPostSenderUserProfileDTO(postSenderDTO);
-        postCommentDTO2.setPostId(1);
-
-        postComment1 = new PostComment();
+        postComment1 = new PostComment(
+                post,
+                "This is a comment.",
+                userA,
+                userB
+        );
         postComment1.setCommentId(1);
-        postComment1.setContent(postCommentDTO1.getContent());
-        postComment1.setTimestamp(postCommentDTO1.getTimestamp());
-        postComment1.setCommentSenderUserProfile(userA);
-        postComment1.setPost(post);
-        postComment1.setPostSenderUserProfile(userB);
+        postComment1.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
+        postCommentDTO1 = postComment1.toDto();
 
-        postComment2 = new PostComment();
+        postComment2 = new PostComment(
+                post,
+                "This is another comment.",
+                userA,
+                userB
+        );
         postComment2.setCommentId(2);
-        postComment2.setContent(postCommentDTO2.getContent());
-        postComment2.setTimestamp(postCommentDTO2.getTimestamp());
-        postComment2.setCommentSenderUserProfile(userA);
-        postComment2.setPost(post);
-        postComment2.setPostSenderUserProfile(userB);
+        postComment2.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 30));
     }
 
     /**
@@ -141,7 +127,7 @@ public class PostCommentServiceImplTest {
 
         PostCommentDTO result = postCommentService.addComment(postCommentDTO1);
         assertNotNull(result);
-        assertEquals(postCommentDTO1.getContent(), result.getContent());
+        assertEquals(postCommentDTO1.content(), result.content());
     }
 
     @Test
@@ -153,7 +139,7 @@ public class PostCommentServiceImplTest {
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
 
         PostCommentDTO result = postCommentService.addComment(postCommentDTO1);
-        assertEquals(postCommentDTO1.getTimestamp(), result.getTimestamp());
+        assertEquals(postCommentDTO1.timestamp(), result.timestamp());
     }
 
     @Test
@@ -165,7 +151,7 @@ public class PostCommentServiceImplTest {
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
 
         PostCommentDTO result = postCommentService.addComment(postCommentDTO1);
-        assertEquals(postCommentDTO1.getCommentSenderUserProfileDTO().email(), result.getCommentSenderUserProfileDTO().email());
+        assertEquals(postCommentDTO1.commentSenderUserProfileDTO().email(), result.commentSenderUserProfileDTO().email());
     }
 
     @Test
@@ -177,7 +163,7 @@ public class PostCommentServiceImplTest {
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
 
         PostCommentDTO result = postCommentService.addComment(postCommentDTO1);
-        assertEquals(postCommentDTO1.getPostSenderUserProfileDTO().email(), result.getPostSenderUserProfileDTO().email());
+        assertEquals(postCommentDTO1.postSenderUserProfileDTO().email(), result.postSenderUserProfileDTO().email());
     }
 
     @Test
@@ -229,8 +215,8 @@ public class PostCommentServiceImplTest {
 
         List<PostCommentDTO> result = postCommentService.getCommentsByPostId(1);
         PostCommentDTO dto = result.get(0);
-        assertEquals(postComment1.getContent(), dto.getContent());
-        assertEquals(postComment1.getTimestamp(), dto.getTimestamp());
+        assertEquals(postComment1.getContent(), dto.content());
+        assertEquals(postComment1.getTimestamp(), dto.timestamp());
     }
 
     @Test
@@ -241,8 +227,8 @@ public class PostCommentServiceImplTest {
 
         List<PostCommentDTO> result = postCommentService.getCommentsByPostId(1);
         PostCommentDTO dto = result.get(0);
-        assertEquals(userA.getEmail(), dto.getCommentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto.getPostSenderUserProfileDTO().email());
+        assertEquals(userA.getEmail(), dto.commentSenderUserProfileDTO().email());
+        assertEquals(userB.getEmail(), dto.postSenderUserProfileDTO().email());
     }
 
     @Test
@@ -265,10 +251,10 @@ public class PostCommentServiceImplTest {
         List<PostCommentDTO> result = postCommentService.getCommentsByPostId(1);
         PostCommentDTO dto1 = result.get(0);
         PostCommentDTO dto2 = result.get(1);
-        assertEquals(postComment1.getContent(), dto1.getContent());
-        assertEquals(postComment1.getTimestamp(), dto1.getTimestamp());
-        assertEquals(postComment2.getContent(), dto2.getContent());
-        assertEquals(postComment2.getTimestamp(), dto2.getTimestamp());
+        assertEquals(postComment1.getContent(), dto1.content());
+        assertEquals(postComment1.getTimestamp(), dto1.timestamp());
+        assertEquals(postComment2.getContent(), dto2.content());
+        assertEquals(postComment2.getTimestamp(), dto2.timestamp());
     }
 
     @Test
@@ -280,10 +266,10 @@ public class PostCommentServiceImplTest {
         List<PostCommentDTO> result = postCommentService.getCommentsByPostId(1);
         PostCommentDTO dto1 = result.get(0);
         PostCommentDTO dto2 = result.get(1);
-        assertEquals(userA.getEmail(), dto1.getCommentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto1.getPostSenderUserProfileDTO().email());
-        assertEquals(userA.getEmail(), dto2.getCommentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto2.getPostSenderUserProfileDTO().email());
+        assertEquals(userA.getEmail(), dto1.commentSenderUserProfileDTO().email());
+        assertEquals(userB.getEmail(), dto1.postSenderUserProfileDTO().email());
+        assertEquals(userA.getEmail(), dto2.commentSenderUserProfileDTO().email());
+        assertEquals(userB.getEmail(), dto2.postSenderUserProfileDTO().email());
     }
 
     @Test
@@ -324,8 +310,8 @@ public class PostCommentServiceImplTest {
 
         List<PostCommentDTO> result = postCommentService.getAllComments();
         PostCommentDTO dto = result.get(0);
-        assertEquals(postComment1.getContent(), dto.getContent());
-        assertEquals(postComment1.getTimestamp(), dto.getTimestamp());
+        assertEquals(postComment1.getContent(), dto.content());
+        assertEquals(postComment1.getTimestamp(), dto.timestamp());
     }
 
     @Test
@@ -336,8 +322,8 @@ public class PostCommentServiceImplTest {
 
         List<PostCommentDTO> result = postCommentService.getAllComments();
         PostCommentDTO dto = result.get(0);
-        assertEquals(userA.getEmail(), dto.getCommentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto.getPostSenderUserProfileDTO().email());
+        assertEquals(userA.getEmail(), dto.commentSenderUserProfileDTO().email());
+        assertEquals(userB.getEmail(), dto.postSenderUserProfileDTO().email());
     }
 
     @Test
@@ -360,10 +346,10 @@ public class PostCommentServiceImplTest {
         List<PostCommentDTO> result = postCommentService.getAllComments();
         PostCommentDTO dto1 = result.get(0);
         PostCommentDTO dto2 = result.get(1);
-        assertEquals(postComment1.getContent(), dto1.getContent());
-        assertEquals(postComment1.getTimestamp(), dto1.getTimestamp());
-        assertEquals(postComment2.getContent(), dto2.getContent());
-        assertEquals(postComment2.getTimestamp(), dto2.getTimestamp());
+        assertEquals(postComment1.getContent(), dto1.content());
+        assertEquals(postComment1.getTimestamp(), dto1.timestamp());
+        assertEquals(postComment2.getContent(), dto2.content());
+        assertEquals(postComment2.getTimestamp(), dto2.timestamp());
     }
 
     @Test
@@ -375,10 +361,10 @@ public class PostCommentServiceImplTest {
         List<PostCommentDTO> result = postCommentService.getAllComments();
         PostCommentDTO dto1 = result.get(0);
         PostCommentDTO dto2 = result.get(1);
-        assertEquals(userA.getEmail(), dto1.getCommentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto1.getPostSenderUserProfileDTO().email());
-        assertEquals(userA.getEmail(), dto2.getCommentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto2.getPostSenderUserProfileDTO().email());
+        assertEquals(userA.getEmail(), dto1.commentSenderUserProfileDTO().email());
+        assertEquals(userB.getEmail(), dto1.postSenderUserProfileDTO().email());
+        assertEquals(userA.getEmail(), dto2.commentSenderUserProfileDTO().email());
+        assertEquals(userB.getEmail(), dto2.postSenderUserProfileDTO().email());
     }
 
     @Test
