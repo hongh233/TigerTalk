@@ -86,7 +86,7 @@ public class PostCommentServiceImpl implements PostCommentService {
                     });
                     return dto;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     //System.out.println(postCommentDTO);

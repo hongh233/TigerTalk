@@ -71,7 +71,7 @@ public class GroupPostCommentServiceImpl implements GroupPostCommentService {
     public List<GroupPostCommentDTO> getCommentsByGroupPostId(Integer groupPostId) {
         return groupPostRepository.findById(groupPostId)
                 .map(groupPost -> groupPost.getGroupPostCommentList().stream()
-                        .map(GroupPostCommentDTO::new)
+                        .map(GroupPostComment::toDto)
                         .sorted(Comparator.comparing(GroupPostCommentDTO::groupPostCommentCreateTime).reversed())
                         .collect(Collectors.toList())
                 )
