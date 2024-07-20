@@ -1,13 +1,14 @@
 package com.group2.Tiger_Talks.backend.model.Post;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class PostComment {
+public class PostComment implements FullyDTOConvertible<PostCommentDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentId;
@@ -90,4 +91,21 @@ public class PostComment {
         this.postSenderUserProfile = postSenderUserProfile;
     }
 
+    @Override
+    public PostCommentDTO toDto() {
+        return new PostCommentDTO(
+                this.getCommentId(),
+                this.getContent(),
+                this.getTimestamp(),
+                this.getCommentSenderUserProfile().toDto(),
+                this.getPost().getUserProfile().toDto(),
+                this.getPost().getPostId()
+        );
+    }
+
+    @Override
+    public void updateFromDto(PostCommentDTO postCommentDTO) {
+        this.content = postCommentDTO.content();
+        this.timestamp = postCommentDTO.timestamp();
+    }
 }

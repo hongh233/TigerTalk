@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.model.Friend;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.group2.Tiger_Talks.backend.model.DtoConvertible;
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "friendship_request")
-public class FriendshipRequest implements DtoConvertible<FriendshipRequestDTO> {
+public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

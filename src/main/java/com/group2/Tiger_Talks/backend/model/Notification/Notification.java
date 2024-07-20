@@ -1,13 +1,14 @@
 package com.group2.Tiger_Talks.backend.model.Notification;
 
-import com.group2.Tiger_Talks.backend.model.DtoConvertible;
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
+import com.group2.Tiger_Talks.backend.model.ToDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Notification implements DtoConvertible<NotificationDTO> {
+public class Notification implements ToDTO<NotificationDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,8 +94,4 @@ public class Notification implements DtoConvertible<NotificationDTO> {
         );
     }
 
-    @Override
-    public void updateFromDto(NotificationDTO notificationDTO) {
-        // Not Updatable
-    }
 }
