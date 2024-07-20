@@ -1,13 +1,14 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
-import com.group2.Tiger_Talks.backend.model.Group.Group;
-import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
-import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
-import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
+import com.group2.Tiger_Talks.backend.model.Group.*;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
+
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
+import com.group2.Tiger_Talks.backend.service._implementation.Notification.NotificationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,8 +24,11 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -41,6 +45,9 @@ public class GroupServiceImplTest {
     @Mock
     private UserProfileRepository userProfileRepository;
 
+    @Mock
+    private NotificationService notificationService;
+
     @InjectMocks
     private GroupServiceImpl groupService;
 
@@ -48,13 +55,11 @@ public class GroupServiceImplTest {
     private UserProfile userB;
     private Group groupPub;
     private Group group2Pub;
-    private Group group3Pub;
     private Group group4Private;
     private GroupMembership groupMembership;
     private GroupMembership groupMembership1;
     private GroupMembership groupMembership2;
     private GroupMembership groupMembership3;
-    private GroupMembership groupMembership4Private;
 
     @BeforeEach
     public void setUp() {
@@ -84,7 +89,11 @@ public class GroupServiceImplTest {
         group2Pub = new Group("Test Group2", false, interests[2]);
         group2Pub.setGroupId(2);
 
+
+        Group group3Pub = new Group("Test Group3", false, interests[3]);
+
         group3Pub = new Group("Test Group3", false, interests[4]);
+
         group3Pub.setGroupId(3);
 
         group4Private = new Group("Private Group", true, interests[5]);
@@ -108,7 +117,7 @@ public class GroupServiceImplTest {
         groupMembership3.setGroup(group3Pub);
         groupMembership3.setUserProfile(userA);
 
-        groupMembership4Private = new GroupMembership();
+        GroupMembership groupMembership4Private = new GroupMembership();
         groupMembership4Private.setGroupMembershipId(5);
         groupMembership4Private.setGroup(group4Private);
         groupMembership4Private.setUserProfile(userA);
@@ -132,13 +141,50 @@ public class GroupServiceImplTest {
     @Test
     public void createGroup_normal() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
-        Optional<String> result = groupService.createGroup(
-                "Group A",
-                "a@dal.ca",
-                true,
-                interests[0]
-        );
+
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+
+        Optional<String> result = groupService.createGroup("Group A", "a@dal.ca", true, interests[0]);
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void createGroup_notificationCreation() {
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+
+        groupService.createGroup("Group A", "a@dal.ca", true, interests[0]);
+        verify(notificationService, times(1)).createNotification(argThat(notification ->
+                notification.getUserProfile().equals(userA) &&
+                        notification.getContent().contains("Group A") &&
+                        notification.getNotificationType().equals("GroupCreation")
+        ));
+    }
+
+    @Test
+    public void createGroup_notification_correct_receiver() {
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        groupService.createGroup("Group A", "a@dal.ca", true, "");
+
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService).createNotification(notificationCaptor.capture());
+        Notification capturedNotification = notificationCaptor.getValue();
+        assertNotNull(capturedNotification);
+        assertEquals(userA, capturedNotification.getUserProfile());
+    }
+
+    @Test
+    public void createGroup_notification_correct_content() {
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        groupService.createGroup("Group A", "a@dal.ca", true, interests[0]);
+
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService).createNotification(notificationCaptor.capture());
+        Notification capturedNotification = notificationCaptor.getValue();
+        assertEquals("You have successfully created the group: Group A", capturedNotification.getContent());
+        assertEquals("GroupCreation", capturedNotification.getNotificationType());
     }
 
     /**
@@ -149,7 +195,6 @@ public class GroupServiceImplTest {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
         Optional<String> result = groupService.joinGroupUser("a@dal.ca", 1);
-
         assertTrue(result.isEmpty());
     }
 

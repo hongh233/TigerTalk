@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Post;
 
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.model.Post.PostCommentDTO;
@@ -7,6 +8,7 @@ import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Post.PostCommentRepository;
 import com.group2.Tiger_Talks.backend.repository.Post.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import com.group2.Tiger_Talks.backend.service.Post.PostCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,9 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
 
     @Override
@@ -57,8 +62,17 @@ public class PostCommentServiceImpl implements PostCommentService {
                 postSenderUserProfile.get()
         );
 
-        // 保存评论
+        // save the comment
         PostComment savedComment = postCommentRepository.save(postComment);
+
+        // Create and send notification
+        Notification notification = new Notification(
+                postSenderUserProfile.get(),
+                "You have a new comment on your post by " + commentSenderUserProfile.get().getEmail(),
+                "PostComment"
+        );
+        notificationService.createNotification(notification);
+
 
         return savedComment.toDto();
     }

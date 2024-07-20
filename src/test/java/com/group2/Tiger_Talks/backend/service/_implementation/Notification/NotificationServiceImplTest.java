@@ -63,7 +63,7 @@ public class NotificationServiceImplTest {
      * Test case for getNotificationListByUserEmail
      */
     @Test
-    public void getNotificationListByUserEmail_userFound_twoNotifications() {
+    public void getNotificationListByUserEmail_userFound_twoNotifications_checkNumber() {
         UserProfile userProfile = mock(UserProfile.class);
         Notification notification3 = mock(Notification.class);
         Notification notification4 = mock(Notification.class);
@@ -74,21 +74,65 @@ public class NotificationServiceImplTest {
         lenient().when(notification4.getUserProfile()).thenReturn(userProfile);
         lenient().when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification3, notification4));
         lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
-
         NotificationDTO dto3 = mock(NotificationDTO.class);
         NotificationDTO dto4 = mock(NotificationDTO.class);
+
         lenient().when(dto3.createTime()).thenReturn(now.minusHours(1));
         lenient().when(dto4.createTime()).thenReturn(now);
-
         lenient().when(notification3.toDto()).thenReturn(dto3);
         lenient().when(notification4.toDto()).thenReturn(dto4);
 
         List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
         assertFalse(results.isEmpty());
         assertEquals(2, results.size());
+    }
 
+    @Test
+    public void getNotificationListByUserEmail_userFound_twoNotifications_checkCreateTime() {
+        UserProfile userProfile = mock(UserProfile.class);
+        Notification notification3 = mock(Notification.class);
+        Notification notification4 = mock(Notification.class);
+        LocalDateTime now = LocalDateTime.now();
+        lenient().when(notification3.getCreateTime()).thenReturn(now.minusHours(1));
+        lenient().when(notification4.getCreateTime()).thenReturn(now);
+        lenient().when(notification3.getUserProfile()).thenReturn(userProfile);
+        lenient().when(notification4.getUserProfile()).thenReturn(userProfile);
+        lenient().when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification3, notification4));
+        lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
+        NotificationDTO dto3 = mock(NotificationDTO.class);
+        NotificationDTO dto4 = mock(NotificationDTO.class);
+        lenient().when(dto3.createTime()).thenReturn(now.minusHours(1));
+        lenient().when(dto4.createTime()).thenReturn(now);
+        lenient().when(notification3.toDto()).thenReturn(dto3);
+        lenient().when(notification4.toDto()).thenReturn(dto4);
+
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
         assertEquals(dto4.createTime(), results.get(0).createTime());
         assertEquals(dto3.createTime(), results.get(1).createTime());
+    }
+
+    @Test
+    public void getNotificationListByUserEmail_userFound_twoNotifications_checkContent() {
+        UserProfile userProfile = mock(UserProfile.class);
+        Notification notification3 = mock(Notification.class);
+        Notification notification4 = mock(Notification.class);
+        LocalDateTime now = LocalDateTime.now();
+        lenient().when(notification3.getCreateTime()).thenReturn(now.minusHours(1));
+        lenient().when(notification4.getCreateTime()).thenReturn(now);
+        lenient().when(notification3.getUserProfile()).thenReturn(userProfile);
+        lenient().when(notification4.getUserProfile()).thenReturn(userProfile);
+        lenient().when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification3, notification4));
+        lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
+        NotificationDTO dto3 = mock(NotificationDTO.class);
+        NotificationDTO dto4 = mock(NotificationDTO.class);
+        lenient().when(dto3.createTime()).thenReturn(now.minusHours(1));
+        lenient().when(dto4.createTime()).thenReturn(now);
+        lenient().when(notification3.toDto()).thenReturn(dto3);
+        lenient().when(notification4.toDto()).thenReturn(dto4);
+
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
+        assertEquals(dto4.content(), results.get(0).content());
+        assertEquals(dto3.content(), results.get(1).content());
     }
 
     @Test
@@ -97,7 +141,6 @@ public class NotificationServiceImplTest {
         NotificationDTO notification = mock(NotificationDTO.class);
         Notification notification1 = mock(Notification.class);
         LocalDateTime now = LocalDateTime.now();
-
         lenient().when(notification.createTime()).thenReturn(now);
         lenient().when(userProfile.getNotificationList()).thenReturn(List.of(notification1));
         lenient().when(notification1.getUserProfile()).thenReturn(userProfile);

@@ -1,14 +1,15 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
-import com.group2.Tiger_Talks.backend.model.Group.Group;
-import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
-import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
-import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
+import com.group2.Tiger_Talks.backend.model.Group.*;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
+
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Group.GroupService;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
+import com.group2.Tiger_Talks.backend.service._implementation.Notification.NotificationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,9 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     private UserProfileRepository userProfileRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Override
     public Optional<String> createGroup(String groupName, String creatorEmail, boolean isPrivate, String interest) {
         if (userProfileRepository.findById(creatorEmail).isEmpty()) {
@@ -39,7 +43,14 @@ public class GroupServiceImpl implements GroupService {
         groupRepository.save(group);
         GroupMembership groupMembership = new GroupMembership(group, userProfile, true);
         groupMembershipRepository.save(groupMembership);
-        return Optional.empty();
+
+        // Create and send the notification
+        Notification notification = new Notification(
+                userProfile,
+                "You have successfully created the group: " + groupName,
+                "GroupCreation"
+        );
+        return notificationService.createNotification(notification);
     }
 
     @Override
@@ -137,14 +148,45 @@ public class GroupServiceImpl implements GroupService {
         return Optional.empty();
     }
 
-    // I haven't considered whether we can delete group creator
     @Override
     public Optional<String> deleteGroupMembership(int groupMembershipId) {
         Optional<GroupMembership> membershipTemp = groupMembershipRepository.findById(groupMembershipId);
         if (membershipTemp.isEmpty()) {
             return Optional.of("Group membership id not found");
         }
-        groupMembershipRepository.delete(membershipTemp.get());
+        GroupMembership groupMembership = membershipTemp.get();
+        groupMembershipRepository.delete(groupMembership);
+
+//        // Create and send the notification to user
+//        UserProfile userProfile = groupMembership.getUserProfile();
+//        Group group = groupMembership.getGroup();
+//        Optional<String> notificationResult = notificationService.createNotification(
+//                new Notification(
+//                userProfile,
+//                "You have left the group: " + group.getGroupName(),
+//                "GroupMembershipDeletion"));
+//        if (notificationResult.isPresent()) {
+//            return notificationResult;
+//        }
+//
+//        // Create and send the notification to group creator
+//        UserProfile groupCreator = null;
+//        for (GroupMembership membership : group.getGroupMemberList()) {
+//            if (membership.isCreator()) {
+//                groupCreator = membership.getUserProfile();
+//                break;
+//            }
+//        }
+//        if (groupCreator != null) {
+//            notificationResult = notificationService.createNotification(
+//                    new Notification(
+//                    groupCreator,
+//                    "User " + userProfile.getEmail() + " has left your group: " + group.getGroupName(),
+//                    "GroupMembershipDeletion"));
+//            if (notificationResult.isPresent()) {
+//                return notificationResult;
+//            }
+//        }
         return Optional.empty();
     }
 

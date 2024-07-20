@@ -23,7 +23,10 @@ public class Notification implements ToDTO<NotificationDTO> {
     // FriendshipRequestReject,
     // FriendshipDelete,
     // NewPost,
-    // PostLiked
+    // PostLiked,
+    // PostComment,
+    // GroupCreation,
+    // GroupMembershipDeletion,
     private String notificationType;
 
     @ManyToOne
