@@ -13,6 +13,8 @@ import {
     handleGetGroupMembersByGroupId, handleGetMembershipID,
 } from "./../axios/GroupAxios";
 
+// TODO: {Tyson Pls Do a cleanUp I dont know what im doing :) }
+
 const GroupMemberPage = () => {
     const user = useSelector((state) => state.user.user);
     const {groupId} = useParams();
@@ -29,9 +31,6 @@ const GroupMemberPage = () => {
             handleAddMember(searchMember, groupId);
         }
     }, [searchMember, groupId]);
-    const handleDeleteMember = (id) => {
-        setMembers(members.filter((member) => member.id !== id));
-    };
 
     const getAllMembers = async () => {
         try {
@@ -56,14 +55,21 @@ const GroupMemberPage = () => {
         setShowAddUser(false);
     };
 
-    const handleDeleteGroupMember = async (userEmail, groupId) => {
+       const handleDeleteGroupMember = async (userEmail, groupId) => {
         try {
             const membershipID = await handleGetMembershipID(userEmail, groupId);
-            handleDeleteGroupMembership(membershipID);
-        }catch (err) {
-            console.error(err)
+            await handleDeleteGroupMembership(membershipID);
+            handleDeleteMember(userEmail); // Call handleDeleteMember after deletion
+            window.alert("Member deleted successfully!");
+        } catch (err) {
+            window.alert("Failed to delete member. Please try again.");
+            console.error(err);
         }
-    }
+    };
+
+    const handleDeleteMember = (userEmail) => {
+        setMembers(members.filter((member) => member.userProfileDTO.email !== userEmail));
+    };
 
     return (
         <div className="member-list-page">
@@ -97,7 +103,6 @@ const GroupMemberPage = () => {
                                     key={member.userProfileDTO.email}
                                     user={member.userProfileDTO}
                                     userEmail={member.userProfileDTO.email}
-                                    onDelete={handleDeleteMember}
                                     handleDeleteFn={() => handleDeleteGroupMember(member.userProfileDTO.email, groupId)}
                                 />
                             ))
