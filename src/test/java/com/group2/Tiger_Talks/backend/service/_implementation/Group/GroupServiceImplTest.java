@@ -89,11 +89,11 @@ public class GroupServiceImplTest {
         group2Pub = new Group("Test Group2", false, interests[2]);
         group2Pub.setGroupId(2);
 
-<<<<<<< src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
-        Group group3Pub = new Group("Test Group3", false);
-=======
+
+        Group group3Pub = new Group("Test Group3", false, interests[3]);
+
         group3Pub = new Group("Test Group3", false, interests[4]);
->>>>>>> src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
+
         group3Pub.setGroupId(3);
 
         group4Private = new Group("Private Group", true, interests[5]);
@@ -141,18 +141,10 @@ public class GroupServiceImplTest {
     @Test
     public void createGroup_normal() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
-<<<<<<< src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
+
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
 
-        Optional<String> result = groupService.createGroup("Group A", "a@dal.ca", true);
-=======
-        Optional<String> result = groupService.createGroup(
-                "Group A",
-                "a@dal.ca",
-                true,
-                interests[0]
-        );
->>>>>>> src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
+        Optional<String> result = groupService.createGroup("Group A", "a@dal.ca", true, interests[0]);
         assertTrue(result.isEmpty());
     }
 
@@ -161,7 +153,7 @@ public class GroupServiceImplTest {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
 
-        groupService.createGroup("Group A", "a@dal.ca", true);
+        groupService.createGroup("Group A", "a@dal.ca", true, interests[0]);
         verify(notificationService, times(1)).createNotification(argThat(notification ->
                 notification.getUserProfile().equals(userA) &&
                         notification.getContent().contains("Group A") &&
@@ -173,7 +165,7 @@ public class GroupServiceImplTest {
     public void createGroup_notification_correct_receiver() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
-        groupService.createGroup("Group A", "a@dal.ca", true);
+        groupService.createGroup("Group A", "a@dal.ca", true, "");
 
         ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
         verify(notificationService).createNotification(notificationCaptor.capture());
@@ -186,7 +178,7 @@ public class GroupServiceImplTest {
     public void createGroup_notification_correct_content() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
-        groupService.createGroup("Group A", "a@dal.ca", true);
+        groupService.createGroup("Group A", "a@dal.ca", true, interests[0]);
 
         ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
         verify(notificationService).createNotification(notificationCaptor.capture());
@@ -288,18 +280,12 @@ public class GroupServiceImplTest {
         when(groupRepository.findById(groupID)).thenReturn(Optional.of(groupPub));
         Optional<GroupDTO> groupDTO = groupService.getGroup(groupID);
         groupDTO.ifPresentOrElse(group_dto -> {
-<<<<<<< src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
-            assertEquals(1, group_dto.getGroupId());
-            assertEquals("Test Group", group_dto.getGroupName());
-        }, () -> fail("No group found for id: " + groupID));
-=======
             assertEquals(1, group_dto.groupId());
             assertEquals("Test Group", group_dto.groupName());
             assertEquals(interests[1], group_dto.interest());
         }, () -> {
             fail("No group found for id: " + groupID);
         });
->>>>>>> src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
     }
 
     @Test
