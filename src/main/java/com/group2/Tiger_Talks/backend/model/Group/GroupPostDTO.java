@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class GroupPostDTO {
+public class GroupPostDTO { // TODO: DTO
     // TODO add num of likes and comments
 
     private final int groupPostId;

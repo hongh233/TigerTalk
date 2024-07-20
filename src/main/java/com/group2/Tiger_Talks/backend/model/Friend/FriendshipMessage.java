@@ -1,12 +1,12 @@
 package com.group2.Tiger_Talks.backend.model.Friend;
 
-import com.group2.Tiger_Talks.backend.model.DtoConvertible;
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class FriendshipMessage implements DtoConvertible<FriendshipMessageDTO> {
+public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

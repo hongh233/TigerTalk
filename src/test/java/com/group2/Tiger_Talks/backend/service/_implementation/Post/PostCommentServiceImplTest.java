@@ -92,23 +92,21 @@ public class PostCommentServiceImplTest {
         UserProfile commentSenderUserProfile = userA;
         UserProfile postSenderUserProfile = userB;
 
-        UserProfileDTO commentSenderDTO = new UserProfileDTO(12, "d@dal.ca", "pending", false, "default", "offline", "userD", null, "private", "Male", "userD", "number", "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg", "user", null);
-        UserProfileDTO postSenderDTO = new UserProfileDTO(12, "hn582183@dal.ca", "pending", true, "default", "offline", "a", "", "private", "other", "Hong", "Huang", "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1720207705/bwitpvkdv32sv3uvfsab.gif", "user", null);
+        UserProfileDTO commentSenderDTO = userA.toDto();
+        UserProfileDTO postSenderDTO = userB.toDto();
 
-        PostCommentDTO postCommentDTO = new PostCommentDTO();
-        postCommentDTO.setContent("This is a comment.");
-        postCommentDTO.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
-        postCommentDTO.setCommentSenderUserProfileDTO(commentSenderDTO);
-        postCommentDTO.setPostSenderUserProfileDTO(postSenderDTO);
-        postCommentDTO.setPostId(1);
 
-        PostComment postComment = new PostComment();
+        PostComment postComment = new PostComment(
+                post,
+                "This is a comment.",
+                commentSenderUserProfile,
+                postSenderUserProfile
+        );
         postComment.setCommentId(1);
-        postComment.setContent(postCommentDTO.getContent());
-        postComment.setTimestamp(postCommentDTO.getTimestamp());
-        postComment.setCommentSenderUserProfile(commentSenderUserProfile);
-        postComment.setPost(post);
-        postComment.setPostSenderUserProfile(postSenderUserProfile);
+        postComment.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
+
+        PostCommentDTO postCommentDTO = postComment.toDto();
+
 
         // Simulating dependent behaviors
         when(postRepository.findById(1)).thenReturn(Optional.of(post));
@@ -121,17 +119,16 @@ public class PostCommentServiceImplTest {
 
         // results validation
         assertNotNull(result);
-        assertEquals(postCommentDTO.getContent(), result.getContent());
-        assertEquals(postCommentDTO.getTimestamp(), result.getTimestamp());
-        assertEquals(postCommentDTO.getCommentSenderUserProfileDTO().email(), result.getCommentSenderUserProfileDTO().email());
-        assertEquals(postCommentDTO.getPostSenderUserProfileDTO().email(), result.getPostSenderUserProfileDTO().email());
+        assertEquals(postCommentDTO.content(), result.content());
+        assertEquals(postCommentDTO.timestamp(), result.timestamp());
+        assertEquals(postCommentDTO.commentSenderUserProfileDTO().email(), result.commentSenderUserProfileDTO().email());
+        assertEquals(postCommentDTO.postSenderUserProfileDTO().email(), result.postSenderUserProfileDTO().email());
 
     }
 
     @Test
     public void testAddCommentPostNotFound() {
-        PostCommentDTO postCommentDTO = new PostCommentDTO();
-        postCommentDTO.setPostId(1);
+        PostCommentDTO postCommentDTO = new PostCommentDTO(1, null, null);
         when(postRepository.findById(1)).thenReturn(Optional.empty());
         RuntimeException exception = assertThrows(
                 RuntimeException.class,
@@ -146,10 +143,7 @@ public class PostCommentServiceImplTest {
         post.setPostId(1);
         post.setContent("test content");
         post.setUserProfile(userB);
-        PostCommentDTO postCommentDTO = new PostCommentDTO();
-        postCommentDTO.setPostId(1);
-        postCommentDTO.setCommentSenderUserProfileDTO(userA.toDto());
-
+        PostCommentDTO postCommentDTO = new PostCommentDTO(1,userA.toDto(),null);
         lenient().when(postRepository.findById(1)).thenReturn(Optional.of(post));
         lenient().when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.empty());
 
@@ -187,10 +181,10 @@ public class PostCommentServiceImplTest {
         assertNotNull(result);
         assertEquals(1, result.size());
         PostCommentDTO dto = result.get(0);
-        assertEquals(postComment.getContent(), dto.getContent());
-        assertEquals(postComment.getTimestamp(), dto.getTimestamp());
-        assertEquals(commentSenderUserProfile.getEmail(), dto.getCommentSenderUserProfileDTO().email());
-        assertEquals(postSenderUserProfile.getEmail(), dto.getPostSenderUserProfileDTO().email());
+        assertEquals(postComment.getContent(), dto.content());
+        assertEquals(postComment.getTimestamp(), dto.timestamp());
+        assertEquals(commentSenderUserProfile.getEmail(), dto.commentSenderUserProfileDTO().email());
+        assertEquals(postSenderUserProfile.getEmail(), dto.postSenderUserProfileDTO().email());
     }
 
     @Test
@@ -239,10 +233,10 @@ public class PostCommentServiceImplTest {
         assertNotNull(result);
         assertEquals(1, result.size());
         PostCommentDTO dto = result.get(0);
-        assertEquals(postComment.getContent(), dto.getContent());
-        assertEquals(postComment.getTimestamp(), dto.getTimestamp());
-        assertEquals(commentSenderUserProfile.getEmail(), dto.getCommentSenderUserProfileDTO().email());
-        assertEquals(postSenderUserProfile.getEmail(), dto.getPostSenderUserProfileDTO().email());
+        assertEquals(postComment.getContent(), dto.content());
+        assertEquals(postComment.getTimestamp(), dto.timestamp());
+        assertEquals(commentSenderUserProfile.getEmail(), dto.commentSenderUserProfileDTO().email());
+        assertEquals(postSenderUserProfile.getEmail(), dto.postSenderUserProfileDTO().email());
     }
 
     @Test

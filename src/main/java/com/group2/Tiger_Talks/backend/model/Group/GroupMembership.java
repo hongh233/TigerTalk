@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
-import com.group2.Tiger_Talks.backend.model.DtoConvertible;
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
+import com.group2.Tiger_Talks.backend.model.ToDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class GroupMembership implements DtoConvertible<GroupMembershipDTO> {
+public class GroupMembership implements ToDTO<GroupMembershipDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,10 +97,5 @@ public class GroupMembership implements DtoConvertible<GroupMembershipDTO> {
                 getJoinTime(),
                 isCreator()
         );
-    }
-
-    // Not updatable
-    @Override
-    public void updateFromDto(GroupMembershipDTO groupMembershipDTO) {
     }
 }

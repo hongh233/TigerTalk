@@ -1,12 +1,12 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
-import com.group2.Tiger_Talks.backend.model.DtoConvertible;
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class GroupPostComment implements DtoConvertible<GroupPostCommentDTO> {
+public class GroupPostComment implements FullyDTOConvertible<GroupPostCommentDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

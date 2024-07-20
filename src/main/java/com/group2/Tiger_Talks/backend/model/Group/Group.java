@@ -1,6 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
-import com.group2.Tiger_Talks.backend.model.DtoConvertible;
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import com.group2.Tiger_Talks.backend.model.Utils;
 import jakarta.persistence.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user_group") // TODO (Bounty) : Change to group_all
-public class Group implements DtoConvertible<GroupDTO> {
+public class Group implements FullyDTOConvertible<GroupDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
