@@ -17,14 +17,14 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PostCommentServiceImplTest {
@@ -45,7 +45,7 @@ public class PostCommentServiceImplTest {
     private UserProfile userB;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(
                 "userD",
@@ -133,9 +133,10 @@ public class PostCommentServiceImplTest {
         PostCommentDTO postCommentDTO = new PostCommentDTO();
         postCommentDTO.setPostId(1);
         when(postRepository.findById(1)).thenReturn(Optional.empty());
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            postCommentService.addComment(postCommentDTO);
-        });
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> postCommentService.addComment(postCommentDTO)
+        );
         assertEquals("Post not found", exception.getMessage());
     }
 
@@ -152,9 +153,10 @@ public class PostCommentServiceImplTest {
         lenient().when(postRepository.findById(1)).thenReturn(Optional.of(post));
         lenient().when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.empty());
 
-        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            postCommentService.addComment(postCommentDTO);
-        });
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> postCommentService.addComment(postCommentDTO)
+        );
         assertEquals("Comment sender user profile not found", exception.getMessage());
     }
 
@@ -226,7 +228,7 @@ public class PostCommentServiceImplTest {
         postComment.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
 
         // Simulating dependent behaviors
-        lenient().when(postCommentRepository.findAll()).thenReturn(Arrays.asList(postComment));
+        lenient().when(postCommentRepository.findAll()).thenReturn(List.of(postComment));
         lenient().when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
         lenient().when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
 

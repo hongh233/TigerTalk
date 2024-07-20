@@ -36,7 +36,7 @@ public class PasswordResetServiceImplTest {
     private UserProfile userB;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(
                 "Along",
@@ -71,7 +71,7 @@ public class PasswordResetServiceImplTest {
     }
 
     /**
-     *  Test case for createAndSendResetMail
+     * Test case for createAndSendResetMail
      */
     @Test
     public void createAndSendResetMail_email_exist() {
@@ -97,7 +97,7 @@ public class PasswordResetServiceImplTest {
     }
 
     /**
-     *  Test case for validateToken
+     * Test case for validateToken
      */
     @Test
     public void validateToken_token_exist_notExpired() {
@@ -130,7 +130,7 @@ public class PasswordResetServiceImplTest {
     }
 
     /**
-     *  Test case for resetPassword
+     * Test case for resetPassword
      */
     @Test
     public void resetPassword_invalid_length() {
@@ -176,7 +176,7 @@ public class PasswordResetServiceImplTest {
     public void resetPassword_valid_userExist() {
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         assertTrue(passwordResetServiceImpl.resetPassword(
-                        new ForgotPasswordDTO(userA.getEmail(), userA.getPassword())).isEmpty());
+                new ForgotPasswordDTO(userA.getEmail(), userA.getPassword())).isEmpty());
     }
 
     @Test
@@ -190,7 +190,7 @@ public class PasswordResetServiceImplTest {
     }
 
     /**
-     *  Test case for validateEmailExist
+     * Test case for validateEmailExist
      */
     @Test
     public void validateEmailExist_invalidEmail() {
@@ -215,7 +215,7 @@ public class PasswordResetServiceImplTest {
     }
 
     /**
-     *  Test case for verifySecurityAnswers
+     * Test case for verifySecurityAnswers
      */
     @Test
     public void verifySecurityAnswers_email_not_found() {
@@ -273,7 +273,7 @@ public class PasswordResetServiceImplTest {
     }
 
     /**
-     *  Test case for getSecurityQuestions
+     * Test case for getSecurityQuestions
      */
     @Test
     public void getSecurityQuestions_normal() {
@@ -290,8 +290,6 @@ public class PasswordResetServiceImplTest {
     public void getSecurityQuestions_userNotFound() {
         String email = userA.getEmail();
         when(userProfileRepository.findById(email)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> {
-            passwordResetServiceImpl.getSecurityQuestions(email);
-        });
+        assertThrows(NoSuchElementException.class, () -> passwordResetServiceImpl.getSecurityQuestions(email));
     }
 }

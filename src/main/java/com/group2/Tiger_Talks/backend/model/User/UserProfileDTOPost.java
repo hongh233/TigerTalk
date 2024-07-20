@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public record UserProfileDTOPost(
-    String email,
-    String userName,
-    String profilePictureUrl,
-    List<PostDTO> postList
+        String email,
+        String userName,
+        String profilePictureUrl,
+        List<PostDTO> postList
 ) {
     public UserProfileDTOPost(UserProfile userProfile) {
         this(
-            userProfile.getEmail(),
-            userProfile.getUserName(),
-            userProfile.getProfilePictureUrl(),
-            userProfile.getPostList().stream().map(PostDTO::new).collect(Collectors.toList())
+                userProfile.getEmail(),
+                userProfile.getUserName(),
+                userProfile.getProfilePictureUrl(),
+                userProfile.getPostList().stream().map(PostDTO::new).collect(Collectors.toList())
         );
     }
 }

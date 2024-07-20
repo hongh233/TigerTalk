@@ -12,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +87,7 @@ public class FriendshipRecommendationServiceImplTest {
 
         assertEquals(2, recommendations.size());
         List<String> recommendedEmails = List.of(recommendations.get(0).email(), recommendations.get(1).email());
-        assert(recommendedEmails.contains("c@dal.ca"));
-        assert(recommendedEmails.contains("d@dal.ca"));
+        assert (recommendedEmails.contains("c@dal.ca"));
+        assert (recommendedEmails.contains("d@dal.ca"));
     }
 }

@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -58,9 +57,10 @@ public class FriendshipServiceImplTest {
     @Test
     public void getAllFriendsDTO_userNotFound() {
         when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            friendshipService.getAllFriendsDTO("nonexistent@example.com");
-        });
+        Exception exception = assertThrows(
+                IllegalStateException.class,
+                () -> friendshipService.getAllFriendsDTO("nonexistent@example.com")
+        );
         assertEquals("User not found", exception.getMessage());
     }
 
@@ -80,9 +80,10 @@ public class FriendshipServiceImplTest {
     @Test
     public void getAllFriends_userNotFound() {
         when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            friendshipService.getAllFriends("nonexistent@example.com");
-        });
+        Exception exception = assertThrows(
+                IllegalStateException.class,
+                () -> friendshipService.getAllFriends("nonexistent@example.com")
+        );
         assertEquals("User not found", exception.getMessage());
     }
 
@@ -100,9 +101,10 @@ public class FriendshipServiceImplTest {
     @Test
     public void deleteFriendshipByEmail_senderNotFound() {
         when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            friendshipService.deleteFriendshipByEmail("nonexistent@example.com", "b@dal.ca");
-        });
+        Exception exception = assertThrows(
+                IllegalStateException.class,
+                () -> friendshipService.deleteFriendshipByEmail("nonexistent@example.com", "b@dal.ca")
+        );
         assertEquals("Sender not found", exception.getMessage());
     }
 
@@ -110,9 +112,10 @@ public class FriendshipServiceImplTest {
     public void deleteFriendshipByEmail_receiverNotFound() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
-            friendshipService.deleteFriendshipByEmail("a@dal.ca", "nonexistent@example.com");
-        });
+        Exception exception = assertThrows(
+                IllegalStateException.class,
+                () -> friendshipService.deleteFriendshipByEmail("a@dal.ca", "nonexistent@example.com")
+        );
         assertEquals("Receiver not found", exception.getMessage());
     }
 

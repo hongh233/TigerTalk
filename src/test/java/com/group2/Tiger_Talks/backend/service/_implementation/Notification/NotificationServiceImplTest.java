@@ -40,7 +40,7 @@ public class NotificationServiceImplTest {
     }
 
     /**
-     *  Test case for createNotification
+     * Test case for createNotification
      */
     @Test
     public void createNotification_success() {
@@ -60,7 +60,7 @@ public class NotificationServiceImplTest {
     }
 
     /**
-     *  Test case for getNotificationListByUserEmail
+     * Test case for getNotificationListByUserEmail
      */
     @Test
     public void getNotificationListByUserEmail_userFound_twoNotifications() {
@@ -116,7 +116,7 @@ public class NotificationServiceImplTest {
     }
 
     /**
-     *  Test case for deleteNotificationById
+     * Test case for deleteNotificationById
      */
     @Test
     public void deleteNotificationById_Success() {

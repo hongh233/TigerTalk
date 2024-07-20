@@ -4,7 +4,6 @@ import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.model.Post.PostCommentDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
-import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.repository.Post.PostCommentRepository;
 import com.group2.Tiger_Talks.backend.repository.Post.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -78,12 +77,10 @@ public class PostCommentServiceImpl implements PostCommentService {
         return comments.stream()
                 .map(comment -> {
                     PostCommentDTO dto = new PostCommentDTO(comment);
-                    userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setCommentSenderUserProfileDTO(userProfile.toDto());
-                    });
-                    userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setPostSenderUserProfileDTO(userProfile.toDto());
-                    });
+                    userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail())
+                            .ifPresent(userProfile -> dto.setCommentSenderUserProfileDTO(userProfile.toDto()));
+                    userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail())
+                            .ifPresent(userProfile -> dto.setPostSenderUserProfileDTO(userProfile.toDto()));
                     return dto;
                 })
                 .toList();
@@ -96,12 +93,10 @@ public class PostCommentServiceImpl implements PostCommentService {
         return comments.stream()
                 .map(comment -> {
                     PostCommentDTO dto = new PostCommentDTO(comment);
-                    userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setCommentSenderUserProfileDTO(userProfile.toDto());
-                    });
-                    userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setPostSenderUserProfileDTO(userProfile.toDto());
-                    });
+                    userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail())
+                            .ifPresent(userProfile -> dto.setCommentSenderUserProfileDTO(userProfile.toDto()));
+                    userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail())
+                            .ifPresent(userProfile -> dto.setPostSenderUserProfileDTO(userProfile.toDto()));
                     return dto;
                 })
                 .collect(Collectors.toList());

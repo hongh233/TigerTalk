@@ -35,7 +35,9 @@ public class FriendshipServiceImpl implements FriendshipService {
         List<Friendship> friendships = friendshipRepository.findBySenderOrReceiver(user, user);
         return friendships.stream()
                 .map(friendship -> {
-                    UserProfile friend = user.equals(friendship.getSender()) ? friendship.getReceiver() : friendship.getSender();
+                    UserProfile friend = user.equals(friendship.getSender())
+                            ? friendship.getReceiver()
+                            : friendship.getSender();
                     return new UserProfileDTOFriendship(friend);
                 })
                 .collect(Collectors.toList());

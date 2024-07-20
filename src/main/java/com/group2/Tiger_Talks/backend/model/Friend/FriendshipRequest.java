@@ -135,16 +135,16 @@ public class FriendshipRequest implements DtoConvertible<FriendshipRequestDTO> {
         this.receiverUserNameTemp = receiverUserNameTemp;
     }
 
-     @Override
+    @Override
     public FriendshipRequestDTO toDto() {
         return new FriendshipRequestDTO(
-            this.friendshipRequestId,
-            this.sender.getEmail(),
-            this.sender.getUserName(),
-            this.receiver.getEmail(),
-            this.receiver.getUserName(),
-            this.sender.getProfilePictureUrl(),
-            this.receiver.getProfilePictureUrl()
+                this.friendshipRequestId,
+                this.sender.getEmail(),
+                this.sender.getUserName(),
+                this.receiver.getEmail(),
+                this.receiver.getUserName(),
+                this.sender.getProfilePictureUrl(),
+                this.receiver.getProfilePictureUrl()
         );
     }
 

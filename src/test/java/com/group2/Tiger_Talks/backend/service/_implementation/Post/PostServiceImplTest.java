@@ -1,6 +1,5 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Post;
 
-import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostDTO;
@@ -291,9 +290,10 @@ public class PostServiceImplTest {
         Integer postId = 1;
         String userEmail = "test@dal.ca";
         when(postRepository.findById(postId)).thenReturn(Optional.empty());
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            postServiceImpl.likePost(postId, userEmail);
-        });
+        Exception exception = assertThrows(
+                RuntimeException.class,
+                () -> postServiceImpl.likePost(postId, userEmail)
+        );
         assertEquals("Post not found", exception.getMessage(),
                 "Expected 'Post not found' exception message");
     }
@@ -306,9 +306,10 @@ public class PostServiceImplTest {
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
         when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            postServiceImpl.likePost(postId, userEmail);
-        });
+        Exception exception = assertThrows(
+                RuntimeException.class,
+                () -> postServiceImpl.likePost(postId, userEmail)
+        );
         assertEquals("User not found", exception.getMessage(),
                 "Expected 'User not found' exception message");
     }
