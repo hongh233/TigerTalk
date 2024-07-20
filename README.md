@@ -1,13 +1,26 @@
 # Tiger Talk
 
-The social media platform for Dalhousie University, written in Java, React
+The social media platform for Dalhousie University, written in Java, React, Springboot
 
-_[Gitlab Repository](https://git.cs.dal.ca/courses/2024-summer/csci3130/Group02)_
+_[GitLab Repository](https://git.cs.dal.ca/courses/2024-summer/csci3130/Group02)_
 
 ---
 ## Build and Run
 To build on your own, follow these instructions. First, make sure you have [JDK 17](https://www.oracle.com/ca-en/java/technologies/downloads/#java17) installed. Other JDk may not work. Open a terminal in the Group02 directory and run the following commands:
-### Frontend
+
+
+
+
+<!---------------------------------------Linux/macOS--------------------------------------->
+
+
+<details>
+<summary><span style="color: rgb(100, 149, 237);">Linux/macOS</span></summary>
+
+
+<!---------------------------------------Linux/macOS for frontend--------------------------------------->
+<details style="margin-left: 20px;">
+<summary>Frontend</summary>
 To set up and run the frontend, navigate to the `frontend` directory and run the following commands:
 
 _Install Dependencies:_
@@ -22,11 +35,15 @@ npm start
 ```
 _Stop Frontend Running:_
 ```shell
-chmod +x stop-frontend.sh
-./stop-frontend.sh
+chmod +x ./stop-running-script/stop-frontend-mac.sh
+./stop-running-script/stop-frontend-mac.sh
 ```
+</details>
 
-### Backend
+
+<!---------------------------------------Linux/macOS for backend--------------------------------------->
+<details style="margin-left: 20px;">
+<summary>Backend</summary>
 To build and run the backend, navigate to the `Group02` (root) directory and run the following commands:
 
 _Build the Backend:_
@@ -39,12 +56,71 @@ java -jar target/Tiger_Talks-0.0.1-SNAPSHOT.jar
 ```
 _Stop Backend Running:_
 ```shell
-chmod +x stop-backend.sh
-./stop-backend.sh
+chmod +x ./stop-running-script/stop-backend-mac.sh
+./stop-running-script/stop-backend-mac.sh
 ```
+</details>
+</details>
 
 
-### Unit Test
+
+
+<!---------------------------------------Windows--------------------------------------->
+
+
+<details>
+<summary><span style="color: rgb(100, 149, 237);">Windows</span></summary>
+
+
+<!---------------------------------------Windows for frontend--------------------------------------->
+<details style="margin-left: 20px;">
+<summary>Frontend</summary>
+To set up and run the frontend, navigate to the `frontend` directory and run the following commands:
+
+_Install Dependencies:_
+```bash
+cd src/main/java/com/group2/Tiger_Talks/frontend
+npm install
+```
+_Run the Frontend:_
+```bash
+cd src/main/java/com/group2/Tiger_Talks/frontend
+npm start
+```
+_Stop Frontend Running:_
+```bash
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+./stop-running-script/stop-frontend-win.ps1
+```
+</details>
+
+
+<!---------------------------------------Windows for backend--------------------------------------->
+<details style="margin-left: 20px;">
+<summary>Backend</summary>
+To build and run the backend, navigate to the `Group02` (root) directory and run the following commands:
+
+_Build the Backend:_
+```bash
+mvn clean package
+```
+_Run the Backend:_
+```bash
+java -jar target/Tiger_Talks-0.0.1-SNAPSHOT.jar
+```
+_Stop Backend Running:_
+```bash
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+./stop-running-script/stop-backend-win.ps1
+```
+</details>
+</details>
+
+
+
+
+---
+## Unit Test
 To run all unit tests in the project, run this command:
 
 `mvn clean test -X`
@@ -59,3 +135,14 @@ To run all unit tests in the project, run this command:
 
    In application-dev.properties, feel free to set your database info.
 3. Ensure you have Maven installed on your system. You can check by running `mvn -v` in your terminal. If Maven is not installed, you can download and install it from [Apache Maven's official site](https://maven.apache.org/download.cgi).
+
+
+
+
+
+
+<style>
+details summary:hover {
+  text-decoration: underline;
+}
+</style>
