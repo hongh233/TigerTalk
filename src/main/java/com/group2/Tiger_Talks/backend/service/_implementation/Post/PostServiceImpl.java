@@ -39,9 +39,9 @@ public class PostServiceImpl implements PostService {
                                         userProfile.getPostList().stream(),
                                         friendshipRepository.findAllFriendsByEmail(userProfile.getEmail()).stream()
                                                 .flatMap(friend -> friend.getPostList().stream())
-                                ).map(PostDTO::new)
+                                ).map(Post::toDto)
                                 .sorted(
-                                        Comparator.comparing(PostDTO::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder()))
+                                        Comparator.comparing(PostDTO::timestamp, Comparator.nullsLast(Comparator.naturalOrder()))
                                                 .reversed()
                                 ).toList()
                 ).orElseGet(Collections::emptyList);
@@ -51,8 +51,8 @@ public class PostServiceImpl implements PostService {
     public List<PostDTO> getPostsForUser(String email) {
         return userProfileRepository.findById(email)
                 .map(userProfile -> userProfile.getPostList().stream()
-                        .map(PostDTO::new)
-                        .sorted(Comparator.comparing(PostDTO::getTimestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed())
+                        .map(Post::toDto)
+                        .sorted(Comparator.comparing(PostDTO::timestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed())
                         .collect(Collectors.toCollection(LinkedList::new))
                 )
                 .orElseGet(LinkedList::new);

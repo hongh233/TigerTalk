@@ -34,8 +34,8 @@ public class UserSearchServiceImpl implements Searchable<UserProfileDTO> {
                 .stream()
                 .filter(userProfile -> !userProfile.getEmail().equals(userEmail)
                         && (RegexCheck.advancedSearch(userProfile.getFullName(), searchQuery)
-                        || userProfile.getEmail().startsWith(searchQuery)
-                        || userProfile.getUserName().startsWith(searchQuery)))
+                        || userProfile.getEmail().toLowerCase().startsWith(searchQuery.toLowerCase())
+                        || userProfile.getUserName().toLowerCase().startsWith(searchQuery.toLowerCase())))
                 .map(UserProfile::toDto)
                 .toList();
     }

@@ -2,57 +2,27 @@ package com.group2.Tiger_Talks.backend.model.Post;
 
 import java.time.LocalDateTime;
 
-public class PostDTO {
-
-    private final Integer postId;
-    private final String email;
-    private final String content;
-    private final LocalDateTime timestamp;
-    private final int numOfLike;
-    private final String userProfileUserName;
-    private final String profileProfileURL;
-    private final String postImageURL;
-
-    public PostDTO(Post post) {
-        this.postId = post.getPostId();
-        this.email = post.getUserProfile().getEmail();
-        this.content = post.getContent();
-        this.timestamp = post.getTimestamp();
-        this.numOfLike = post.getNumOfLike();
-        this.userProfileUserName = post.getUserProfile().getUserName();
-        this.profileProfileURL = post.getUserProfile().getProfilePictureUrl();
-        this.postImageURL = post.getAssociatedImageURL();
-    }
-
-    public String getPostImageURL() {
-        return postImageURL;
-    }
-
-    public Integer getPostId() {
-        return postId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public int getNumOfLike() {
-        return numOfLike;
-    }
-
-    public String getUserProfileUserName() {
-        return userProfileUserName;
-    }
-
-    public String getProfileProfileURL() {
-        return profileProfileURL;
-    }
-
-    public String getEmail() {
-        return email;
-    }
+/**
+ * Data Transfer Object for Post.
+ * This record is used to transfer post-data between processes.
+ *
+ * @param postId              the unique identifier of the post
+ * @param email               the email of the user who created the post
+ * @param content             the content of the post
+ * @param timestamp           the timestamp when the post was created
+ * @param numOfLike           the number of likes the post has received
+ * @param userProfileUserName the username of the user who created the post
+ * @param profileProfileURL   the URL of the profile picture of the user who created the post
+ * @param postImageURL        the URL of the image associated with the post
+ */
+public record PostDTO(
+        Integer postId,
+        String email,
+        String content,
+        LocalDateTime timestamp,
+        int numOfLike,
+        String userProfileUserName,
+        String profileProfileURL,
+        String postImageURL
+) {
 }

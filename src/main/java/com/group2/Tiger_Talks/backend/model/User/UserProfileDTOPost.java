@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.User;
 
+import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostDTO;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public record UserProfileDTOPost(
                 userProfile.getEmail(),
                 userProfile.getUserName(),
                 userProfile.getProfilePictureUrl(),
-                userProfile.getPostList().stream().map(PostDTO::new).collect(Collectors.toList())
+                userProfile.getPostList().stream().map(Post::toDto).collect(Collectors.toList())
         );
     }
 }

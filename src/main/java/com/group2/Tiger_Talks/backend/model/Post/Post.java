@@ -3,6 +3,7 @@ package com.group2.Tiger_Talks.backend.model.Post;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Post {
+public class Post implements FullyDTOConvertible<PostDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer postId;
@@ -115,5 +116,27 @@ public class Post {
     public void removeComment(PostComment postComment) {
         postComments.remove(postComment);
         postComment.setPost(null);
+    }
+
+    @Override
+    public PostDTO toDto() {
+        return new PostDTO(
+                this.getPostId(),
+                this.getUserProfile().getEmail(),
+                this.getContent(),
+                this.getTimestamp(),
+                this.getNumOfLike(),
+                this.getUserProfile().getUserName(),
+                this.getUserProfile().getProfilePictureUrl(),
+                this.getAssociatedImageURL()
+        );
+    }
+
+    @Override
+    public void updateFromDto(PostDTO postDTO) {
+        this.content = postDTO.content();
+        this.timestamp = getTimestamp();
+        this.numOfLike = postDTO.numOfLike();
+        this.associatedImageURL = postDTO.postImageURL();
     }
 }
