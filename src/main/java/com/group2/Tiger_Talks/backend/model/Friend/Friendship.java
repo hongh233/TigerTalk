@@ -18,12 +18,10 @@ public class Friendship implements DtoConvertible<FriendshipDTO> {
 
     @ManyToOne
     @JoinColumn(name = "sender_email", referencedColumnName = "email")
-    @JsonBackReference(value = "sender-friendship")
     private UserProfile sender;
 
     @ManyToOne
     @JoinColumn(name = "receiver_email", referencedColumnName = "email")
-    @JsonBackReference(value = "receiver-friendship")
     private UserProfile receiver;
 
     @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)

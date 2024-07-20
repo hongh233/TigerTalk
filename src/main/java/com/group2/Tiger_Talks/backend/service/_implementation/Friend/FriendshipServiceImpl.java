@@ -5,7 +5,7 @@ import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
-import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
+import com.group2.Tiger_Talks.backend.repository.Friend.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Friend.FriendshipService;
 import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;

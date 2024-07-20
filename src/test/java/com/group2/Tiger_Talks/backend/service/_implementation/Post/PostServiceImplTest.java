@@ -7,7 +7,7 @@ import com.group2.Tiger_Talks.backend.model.Post.PostLike;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Post.PostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.Post.PostRepository;
-import com.group2.Tiger_Talks.backend.repository.Socials.FriendshipRepository;
+import com.group2.Tiger_Talks.backend.repository.Friend.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
