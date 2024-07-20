@@ -86,7 +86,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     public boolean areFriends(String email1, String email2) {
         return getAllFriendsDTO(email1)
                 .stream()
-                .anyMatch(userProfileDTOFriendship -> userProfileDTOFriendship.getEmail().equals(email2));
+                .anyMatch(userProfileDTOFriendship -> userProfileDTOFriendship.email().equals(email2));
     }
 
 }

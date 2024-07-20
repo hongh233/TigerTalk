@@ -70,8 +70,8 @@ public class FriendshipServiceImplTest {
         when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB, friendshipAC));
         List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
         assertEquals(2, friends.size());
-        assertTrue(friends.stream().anyMatch(friend -> friend.getEmail().equals("b@dal.ca")));
-        assertTrue(friends.stream().anyMatch(friend -> friend.getEmail().equals("c@dal.ca")));
+        assertTrue(friends.stream().anyMatch(friend -> friend.email().equals("b@dal.ca")));
+        assertTrue(friends.stream().anyMatch(friend -> friend.email().equals("c@dal.ca")));
     }
 
     /**
