@@ -22,7 +22,10 @@ public class Notification implements DtoConvertible<NotificationDTO> {
     // FriendshipRequestReject,
     // FriendshipDelete,
     // NewPost,
-    // PostLiked
+    // PostLiked,
+    // PostComment,
+    // GroupCreation,
+    // GroupMembershipDeletion,
     private String notificationType;
 
     @ManyToOne

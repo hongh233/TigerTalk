@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Post;
 
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.model.Post.PostCommentDTO;
@@ -7,6 +8,7 @@ import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Post.PostCommentRepository;
 import com.group2.Tiger_Talks.backend.repository.Post.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import com.group2.Tiger_Talks.backend.service.Post.PostCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class PostCommentServiceImpl implements PostCommentService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
 
     @Override
     public PostCommentDTO addComment(PostCommentDTO postCommentDTO) {
@@ -38,16 +43,13 @@ public class PostCommentServiceImpl implements PostCommentService {
         }
 
         // Get the user information of the comment sent
-        //System.out.println(postCommentDTO);
         Optional<UserProfile> commentSenderUserProfile = userProfileRepository.findById(postCommentDTO.getCommentSenderUserProfileDTO().email());
-        //Optional<UserProfile> commentSenderUserProfile = userProfileRepository.findUserProfileByEmail(postCommentDTO.getCommentSenderUserProfileDTO().email());
         if (commentSenderUserProfile.isEmpty()) {
             throw new RuntimeException("Comment sender user profile not found");
         }
 
         // Get the user information of the poster
         Optional<UserProfile> postSenderUserProfile = userProfileRepository.findById(postCommentDTO.getPostSenderUserProfileDTO().email());
-        //Optional<UserProfile> postSenderUserProfile = userProfileRepository.findUserProfileByEmail(postCommentDTO.getPostSenderUserProfileDTO().email());
         if (postSenderUserProfile.isEmpty()) {
             throw new RuntimeException("Post sender user profile not found");
         }
@@ -60,10 +62,18 @@ public class PostCommentServiceImpl implements PostCommentService {
         postComment.setContent(postCommentDTO.getContent());
         postComment.setTimestamp(postCommentDTO.getTimestamp());
 
-        // 保存评论
+        // save the comment
         PostComment savedComment = postCommentRepository.save(postComment);
 
-        // 转换为DTO
+        // Create and send notification
+        Notification notification = new Notification(
+                postSenderUserProfile.get(),
+                "You have a new comment on your post by " + commentSenderUserProfile.get().getEmail(),
+                "PostComment"
+        );
+        notificationService.createNotification(notification);
+
+        // convert to DTO
         PostCommentDTO savedCommentDTO = new PostCommentDTO(savedComment);
         savedCommentDTO.setCommentSenderUserProfileDTO(commentSenderUserProfile.get().toDto());
         savedCommentDTO.setPostSenderUserProfileDTO(postSenderUserProfile.get().toDto());
