@@ -101,10 +101,10 @@ public class NotificationServiceImplTest {
         lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
         NotificationDTO dto3 = mock(NotificationDTO.class);
         NotificationDTO dto4 = mock(NotificationDTO.class);
-        lenient().when(dto3.getCreateTime()).thenReturn(now.minusHours(1));
-        lenient().when(dto4.getCreateTime()).thenReturn(now);
-        lenient().when(notification3.toDTO()).thenReturn(dto3);
-        lenient().when(notification4.toDTO()).thenReturn(dto4);
+        lenient().when(dto3.createTime()).thenReturn(now.minusHours(1));
+        lenient().when(dto4.createTime()).thenReturn(now);
+        lenient().when(notification3.toDto()).thenReturn(dto3);
+        lenient().when(notification4.toDto()).thenReturn(dto4);
 
         List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
         assertEquals(dto4.createTime(), results.get(0).createTime());
@@ -125,14 +125,14 @@ public class NotificationServiceImplTest {
         lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
         NotificationDTO dto3 = mock(NotificationDTO.class);
         NotificationDTO dto4 = mock(NotificationDTO.class);
-        lenient().when(dto3.getCreateTime()).thenReturn(now.minusHours(1));
-        lenient().when(dto4.getCreateTime()).thenReturn(now);
-        lenient().when(notification3.toDTO()).thenReturn(dto3);
-        lenient().when(notification4.toDTO()).thenReturn(dto4);
+        lenient().when(dto3.createTime()).thenReturn(now.minusHours(1));
+        lenient().when(dto4.createTime()).thenReturn(now);
+        lenient().when(notification3.toDto()).thenReturn(dto3);
+        lenient().when(notification4.toDto()).thenReturn(dto4);
 
         List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
-        assertEquals(dto4.getContent(), results.get(0).getContent());
-        assertEquals(dto3.getContent(), results.get(1).getContent());
+        assertEquals(dto4.content(), results.get(0).content());
+        assertEquals(dto3.content(), results.get(1).content());
     }
 
     @Test
