@@ -174,9 +174,9 @@ public class PostCommentServiceImplTest {
         postComment.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
 
         // Simulating dependent behaviors
-        when(postCommentRepository.findByPost_PostId(1)).thenReturn(List.of(postComment));
-        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
-        when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
+        lenient().when(postCommentRepository.findByPost_PostId(1)).thenReturn(List.of(postComment));
+        lenient().when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
+        lenient().when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
 
         // Calling service
         List<PostCommentDTO> result = postCommentService.getCommentsByPostId(1);
