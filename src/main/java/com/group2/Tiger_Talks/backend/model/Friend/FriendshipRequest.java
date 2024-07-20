@@ -17,10 +17,12 @@ public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestD
 
     @ManyToOne
     @JoinColumn(name = "sender_email", referencedColumnName = "email")
+    @JsonBackReference("sender-friendship-request")
     private UserProfile sender;
 
     @ManyToOne
     @JoinColumn(name = "receiver_email", referencedColumnName = "email")
+    @JsonBackReference("receiver-friendship-request")
     private UserProfile receiver;
 
     private String senderEmailTemp;
