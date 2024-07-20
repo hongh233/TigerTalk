@@ -35,6 +35,26 @@ export const handleDeleteGroup = (groupId) => {
 		});
 };
 
+export const handleDeleteGroupMembership = (membershipId) => {
+	return axios
+		.delete(`${URL}/api/groups/delete/groupMembership/${membershipId}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error deleting group member");
+			throw error;
+		});
+};
+
+export const handleGetMembershipID = (userEmail, groupID) => {
+	return axios
+		.get(`${URL}/api/groups/get/getMemberShipId/${userEmail}/${groupID}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error retrieving membership ID");
+			throw error;
+		});
+};
+
 export const handleGetGroupById = (groupId) => {
 	return axios
 		.get(`${URL}/api/groups/get/group/${groupId}`)
@@ -134,6 +154,7 @@ export const handleGetCommentsForOneGroupPost = (groupPostId) => {
 			throw error;
 		});
 };
+
 export const handleGetGroupMembershipId = (userEmail, groupId) => {
 	return axios
 		.get(`${URL}/api/groups/get/getMemberShipId/${userEmail}/${groupId}`)

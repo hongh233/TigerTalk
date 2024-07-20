@@ -2,21 +2,8 @@ import React from "react";
 import axios from "axios";
 import "../assets/styles/FriendComponent.css";
 
-const UserComponent = ({ user, userEmail }) => {
-	const handleDelete = async () => {
-		try {
-			const response = await axios.delete(
-				`http://localhost:8085/friendships/deleteByEmail/${userEmail}/${user.email}`
-			);
-			if (response.status === 200) {
-				window.alert("Friend deleted successfully!");
-				window.location.reload();
-			}
-		} catch (error) {
-			window.alert("Failed to delete friend. Please try again.");
-			console.error(error);
-		}
-	};
+const UserComponent = ({ user, userEmail, handleDeleteFn  }) => {
+
 
 	return (
 		<div className="friend">
@@ -30,7 +17,7 @@ const UserComponent = ({ user, userEmail }) => {
 				</div>
 			</div>
 			<div className="friend-actions">
-				<button className="delete-button" onClick={handleDelete}>
+				<button className="delete-button" onClick={handleDeleteFn}>
 					Delete
 				</button>
 			</div>

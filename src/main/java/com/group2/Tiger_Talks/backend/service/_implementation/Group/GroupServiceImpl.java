@@ -1,15 +1,16 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
-import com.group2.Tiger_Talks.backend.model.Group.*;
+import com.group2.Tiger_Talks.backend.model.Group.Group;
+import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
-
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Group.GroupService;
 import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
-import com.group2.Tiger_Talks.backend.service._implementation.Notification.NotificationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
