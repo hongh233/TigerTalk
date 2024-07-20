@@ -21,7 +21,10 @@ public class Notification {
     // FriendshipRequestReject,
     // FriendshipDelete,
     // NewPost,
-    // PostLiked
+    // PostLiked,
+    // PostComment,
+    // GroupCreation,
+    // GroupMembershipDeletion,
     private String notificationType;
 
     @ManyToOne
