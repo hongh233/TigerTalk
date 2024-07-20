@@ -1,21 +1,21 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Search;
 
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.model.Utils.RegexCheck;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
-import com.group2.Tiger_Talks.backend.service.Search.Search;
+import com.group2.Tiger_Talks.backend.service.Search.Searchable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service for searching user profiles.
  */
 @Service
-public class UserSearchServiceImpl implements Search<UserProfileDTO> {
+public class UserSearchServiceImpl implements Searchable<UserProfileDTO> {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
@@ -36,7 +36,7 @@ public class UserSearchServiceImpl implements Search<UserProfileDTO> {
                         && (RegexCheck.advancedSearch(userProfile.getFullName(), searchQuery)
                         || userProfile.getEmail().startsWith(searchQuery)
                         || userProfile.getUserName().startsWith(searchQuery)))
-                .map(UserProfileDTO::new)
+                .map(UserProfile::toDto)
                 .toList();
     }
 }

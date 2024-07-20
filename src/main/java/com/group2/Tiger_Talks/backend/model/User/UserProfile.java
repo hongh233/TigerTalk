@@ -2,6 +2,7 @@ package com.group2.Tiger_Talks.backend.model.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.group2.Tiger_Talks.backend.model.DtoConvertible;
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
@@ -23,7 +24,7 @@ import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserProfile implements UserProfileInterface {
+public class UserProfile implements DtoConvertible<UserProfileDTO> {
     @Id
     private String email;
 
@@ -111,7 +112,7 @@ public class UserProfile implements UserProfileInterface {
 
     // Getters and setters
 
-    public static Optional<String> verifyBasics(UserProfileInterface userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
+    public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
         if (!NAME_NORM.matcher(userProfile.getFirstName()).matches()) {
             return Optional.of("First name must contain no symbols");
         }
@@ -146,27 +147,6 @@ public class UserProfile implements UserProfileInterface {
             return Optional.of("Password must have at least 1 special character.");
         }
         return Optional.empty();
-    }
-
-    public void updateProfile(UserProfileDTO userProfileDTO) {
-        this.age = userProfileDTO.age();
-        this.email = userProfileDTO.email();
-        this.status = userProfileDTO.status();
-        this.isValidated = userProfileDTO.validated();
-        this.role = userProfileDTO.role();
-        this.onlineStatus = userProfileDTO.onlineStatus();
-        this.userName = userProfileDTO.userName();
-        this.biography = userProfileDTO.biography();
-        this.profileAccessLevel = userProfileDTO.profileAccessLevel();
-        this.gender = userProfileDTO.gender();
-        this.firstName = userProfileDTO.firstName();
-        this.lastName = userProfileDTO.lastName();
-        this.userLevel = userProfileDTO.userLevel();
-        this.profilePictureUrl = userProfileDTO.profilePictureUrl();
-    }
-
-    public UserProfileDTO toDTO() {
-        return new UserProfileDTO(this);
     }
 
     public String getEmail() {
@@ -434,5 +414,48 @@ public class UserProfile implements UserProfileInterface {
     @Override
     public int hashCode() {
         return Objects.hashCode(email);
+    }
+
+    @Override
+    public UserProfileDTO toDto() {
+        List<UserProfileDTOFriendship> friends = getAllFriends().stream()
+                .map(UserProfileDTOFriendship::new)
+                .toList();
+
+        return new UserProfileDTO(
+                age,
+                email,
+                status,
+                isValidated,
+                role,
+                onlineStatus,
+                userName,
+                biography,
+                profileAccessLevel,
+                gender,
+                firstName,
+                lastName,
+                profilePictureUrl,
+                userLevel,
+                friends
+        );
+    }
+
+    @Override
+    public void updateFromDto(UserProfileDTO dto) {
+        this.age = dto.age();
+        this.email = dto.email();
+        this.status = dto.status();
+        this.isValidated = dto.validated();
+        this.role = dto.role();
+        this.onlineStatus = dto.onlineStatus();
+        this.userName = dto.userName();
+        this.biography = dto.biography();
+        this.profileAccessLevel = dto.profileAccessLevel();
+        this.gender = dto.gender();
+        this.firstName = dto.firstName();
+        this.lastName = dto.lastName();
+        this.userLevel = dto.userLevel();
+        this.profilePictureUrl = dto.profilePictureUrl();
     }
 }

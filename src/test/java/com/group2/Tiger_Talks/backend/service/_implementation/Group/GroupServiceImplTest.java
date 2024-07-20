@@ -2,6 +2,7 @@ package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
 import com.group2.Tiger_Talks.backend.model.Group.*;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
+
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
@@ -29,8 +30,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
+
 @ExtendWith(MockitoExtension.class)
 public class GroupServiceImplTest {
+    static final String[] interests = {"music", "games", "study", "memes", "toys", "school"};
+
 
     @Mock
     private GroupRepository groupRepository;
@@ -78,16 +82,21 @@ public class GroupServiceImplTest {
                         "What is the name of the hospital where you were born?"
                 }
         );
-        groupPub = new Group("Test Group", false);
+
+        groupPub = new Group("Test Group", false, interests[1]);
         groupPub.setGroupId(1);
 
-        group2Pub = new Group("Test Group2", false);
+        group2Pub = new Group("Test Group2", false, interests[2]);
         group2Pub.setGroupId(2);
 
+<<<<<<< src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
         Group group3Pub = new Group("Test Group3", false);
+=======
+        group3Pub = new Group("Test Group3", false, interests[4]);
+>>>>>>> src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
         group3Pub.setGroupId(3);
 
-        group4Private = new Group("Private Group", true);
+        group4Private = new Group("Private Group", true, interests[5]);
         group4Private.setGroupId(4);
 
         groupMembership = new GroupMembership();
@@ -122,7 +131,9 @@ public class GroupServiceImplTest {
         Optional<String> result = groupService.createGroup(
                 "No User",
                 "noUser@dal.ca",
-                true);
+                true,
+                interests[0]
+        );
         assertTrue(result.isPresent());
         assertEquals("User not found", result.get());
     }
@@ -130,9 +141,18 @@ public class GroupServiceImplTest {
     @Test
     public void createGroup_normal() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+<<<<<<< src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
 
         Optional<String> result = groupService.createGroup("Group A", "a@dal.ca", true);
+=======
+        Optional<String> result = groupService.createGroup(
+                "Group A",
+                "a@dal.ca",
+                true,
+                interests[0]
+        );
+>>>>>>> src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
         assertTrue(result.isEmpty());
     }
 
@@ -240,8 +260,8 @@ public class GroupServiceImplTest {
         when(groupRepository.findAll()).thenReturn(List.of(groupPub, group2Pub));
         List<GroupDTO> groups = groupService.getAllGroups();
         assertEquals(2, groups.size());
-        assertEquals("Test Group", groups.get(0).getGroupName());
-        assertEquals("Test Group2", groups.get(1).getGroupName());
+        assertEquals("Test Group", groups.get(0).groupName());
+        assertEquals("Test Group2", groups.get(1).groupName());
     }
 
     @Test
@@ -249,7 +269,7 @@ public class GroupServiceImplTest {
         when(groupRepository.findAll()).thenReturn(List.of(groupPub));
         List<GroupDTO> groups = groupService.getAllGroups();
         assertEquals(1, groups.size());
-        assertEquals("Test Group", groups.get(0).getGroupName());
+        assertEquals("Test Group", groups.get(0).groupName());
     }
 
     @Test
@@ -268,9 +288,18 @@ public class GroupServiceImplTest {
         when(groupRepository.findById(groupID)).thenReturn(Optional.of(groupPub));
         Optional<GroupDTO> groupDTO = groupService.getGroup(groupID);
         groupDTO.ifPresentOrElse(group_dto -> {
+<<<<<<< src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
             assertEquals(1, group_dto.getGroupId());
             assertEquals("Test Group", group_dto.getGroupName());
         }, () -> fail("No group found for id: " + groupID));
+=======
+            assertEquals(1, group_dto.groupId());
+            assertEquals("Test Group", group_dto.groupName());
+            assertEquals(interests[1], group_dto.interest());
+        }, () -> {
+            fail("No group found for id: " + groupID);
+        });
+>>>>>>> src/test/java/com/group2/Tiger_Talks/backend/service/_implementation/Group/GroupServiceImplTest.java
     }
 
     @Test
@@ -281,7 +310,7 @@ public class GroupServiceImplTest {
     }
 
     /**
-     *  Test case for getAllGroupsByUser
+     * Test case for getAllGroupsByUser
      */
     @Test
     public void getAllGroupsByUser_userNotFound() {
@@ -306,8 +335,8 @@ public class GroupServiceImplTest {
         List<GroupDTO> result = groupService.getAllGroupsByUser("a@dal.ca");
 
         assertEquals(2, result.size());
-        assertEquals("Test Group", result.get(0).getGroupName());
-        assertEquals("Test Group3", result.get(1).getGroupName());
+        assertEquals("Test Group", result.get(0).groupName());
+        assertEquals("Test Group3", result.get(1).groupName());
     }
 
     @Test
@@ -318,7 +347,7 @@ public class GroupServiceImplTest {
         List<GroupDTO> result = groupService.getAllGroupsByUser("b@dal.ca");
 
         assertEquals(1, result.size());
-        assertEquals("Test Group", result.get(0).getGroupName());
+        assertEquals("Test Group", result.get(0).groupName());
     }
 
     /**
@@ -326,7 +355,7 @@ public class GroupServiceImplTest {
      */
     @Test
     public void updateGroupInfo_groupIdNotFound() {
-        GroupUpdate groupUpdate = new GroupUpdate(1, "New Group Name", "aaa.png", true);
+        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
         when(groupRepository.findById(1)).thenReturn(Optional.empty());
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
         assertTrue(result.isPresent());
@@ -335,7 +364,7 @@ public class GroupServiceImplTest {
 
     @Test
     public void updateGroupInfo_successfulUpdate_correctMessage() {
-        GroupUpdate groupUpdate = new GroupUpdate(1, "New Group Name", "aaa.png", true);
+        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
         when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
 
         Optional<String> result = groupService.updateGroupInfo(groupUpdate);
@@ -344,7 +373,7 @@ public class GroupServiceImplTest {
 
     @Test
     public void updateGroupInfo_successfulUpdate_groupName() {
-        GroupUpdate groupUpdate = new GroupUpdate(1, "New Group Name", "aaa.png", true);
+        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
         when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
         groupService.updateGroupInfo(groupUpdate);
         assertEquals("New Group Name", groupPub.getGroupName());
@@ -352,7 +381,7 @@ public class GroupServiceImplTest {
 
     @Test
     public void updateGroupInfo_successfulUpdate_groupImg() {
-        GroupUpdate groupUpdate = new GroupUpdate(1, "New Group Name", "aaa.png", true);
+        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
         when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
         groupService.updateGroupInfo(groupUpdate);
         assertEquals("aaa.png", groupPub.getGroupImg());
@@ -360,7 +389,7 @@ public class GroupServiceImplTest {
 
     @Test
     public void updateGroupInfo_successfulUpdate_isPrivateStatus() {
-        GroupUpdate groupUpdate = new GroupUpdate(1, "New Group Name", "aaa.png", true);
+        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
         when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
         groupService.updateGroupInfo(groupUpdate);
         assertTrue(groupPub.isPrivate());
@@ -368,11 +397,12 @@ public class GroupServiceImplTest {
 
     @Test
     public void updateGroupInfo_noChange() {
-        GroupUpdate groupUpdate = new GroupUpdate(
+        GroupDTO groupUpdate = new GroupDTO(
                 group2Pub.getGroupId(),
                 group2Pub.getGroupName(),
                 group2Pub.getGroupImg(),
-                group2Pub.isPrivate()
+                group2Pub.isPrivate(),
+                interests[0]
         );
         when(groupRepository.findById(2)).thenReturn(Optional.of(group2Pub));
 
@@ -449,10 +479,10 @@ public class GroupServiceImplTest {
         List<GroupMembershipDTO> result = groupService.getGroupMembersByGroupId(1);
 
         assertEquals(2, result.size());
-        assertEquals(2, result.get(0).getGroupMembershipId());
-        assertEquals(3, result.get(1).getGroupMembershipId());
-        assertEquals("a@dal.ca", result.get(0).getUserProfileDTO().email());
-        assertEquals("b@dal.ca", result.get(1).getUserProfileDTO().email());
+        assertEquals(2, result.get(0).groupMembershipId());
+        assertEquals(3, result.get(1).groupMembershipId());
+        assertEquals("a@dal.ca", result.get(0).userProfileDTO().email());
+        assertEquals("b@dal.ca", result.get(1).userProfileDTO().email());
     }
 
     @Test
@@ -468,12 +498,12 @@ public class GroupServiceImplTest {
         List<GroupMembershipDTO> result = groupService.getGroupMembersByGroupId(1);
 
         assertEquals(1, result.size());
-        assertEquals(2, result.get(0).getGroupMembershipId());
-        assertEquals("a@dal.ca", result.get(0).getUserProfileDTO().email());
+        assertEquals(2, result.get(0).groupMembershipId());
+        assertEquals("a@dal.ca", result.get(0).userProfileDTO().email());
     }
 
     /**
-     *  Test case for isMember
+     * Test case for isMember
      */
     @Test
     public void isMember_userGetMemberShipId() {

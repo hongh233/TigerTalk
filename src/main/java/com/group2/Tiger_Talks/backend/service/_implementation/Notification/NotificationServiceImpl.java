@@ -38,12 +38,11 @@ public class NotificationServiceImpl implements NotificationService {
         return userProfileRepository.findById(userEmail)
                 .map(userProfile -> userProfile.getNotificationList()
                         .stream()
-                        .map(NotificationDTO::new)
-                        .sorted(Comparator.comparing(NotificationDTO::getCreateTime).reversed())
+                        .map(Notification::toDto)
+                        .sorted(Comparator.comparing(NotificationDTO::createTime).reversed())
                         .collect(Collectors.toList()))
                 .orElse(Collections.emptyList());
     }
-
 
 
     @Override

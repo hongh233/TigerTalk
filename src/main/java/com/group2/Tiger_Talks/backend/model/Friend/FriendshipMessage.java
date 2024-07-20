@@ -1,12 +1,12 @@
 package com.group2.Tiger_Talks.backend.model.Friend;
 
+import com.group2.Tiger_Talks.backend.model.DtoConvertible;
 import jakarta.persistence.*;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class FriendshipMessage {
+public class FriendshipMessage implements DtoConvertible<FriendshipMessageDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,7 +69,27 @@ public class FriendshipMessage {
         this.friendshipSenderIsMessageSender = friendshipSenderIsMessageSender;
     }
 
+    public String getMessageSenderEmail() {
+        return (isFriendshipSenderIsMessageSender() ? getFriendship().getSender() : getFriendship().getReceiver()).getEmail();
+    }
 
+    public String getMessageReceiverEmail() {
+        return (!isFriendshipSenderIsMessageSender() ? getFriendship().getSender() : getFriendship().getReceiver()).getEmail();
+    }
 
+    @Override
+    public FriendshipMessageDTO toDto() {
+        return new FriendshipMessageDTO(
+                this.messageId,
+                this.createTime,
+                this.messageContent,
+                this.getMessageSenderEmail(),
+                this.getMessageReceiverEmail()
+        );
+    }
 
+    @Override
+    public void updateFromDto(FriendshipMessageDTO friendshipMessageDTO) {
+        this.setMessageContent(friendshipMessageDTO.messageContent());
+    }
 }

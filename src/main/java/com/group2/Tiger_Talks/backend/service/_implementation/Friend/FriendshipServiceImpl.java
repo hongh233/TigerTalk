@@ -35,7 +35,9 @@ public class FriendshipServiceImpl implements FriendshipService {
         List<Friendship> friendships = friendshipRepository.findBySenderOrReceiver(user, user);
         return friendships.stream()
                 .map(friendship -> {
-                    UserProfile friend = user.equals(friendship.getSender()) ? friendship.getReceiver() : friendship.getSender();
+                    UserProfile friend = user.equals(friendship.getSender())
+                            ? friendship.getReceiver()
+                            : friendship.getSender();
                     return new UserProfileDTOFriendship(friend);
                 })
                 .collect(Collectors.toList());
@@ -46,7 +48,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         UserProfile user = userProfileRepository.findUserProfileByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("User not found"));
         return friendshipRepository.findBySenderOrReceiver(user, user).stream()
-                .map(FriendshipDTO::new)
+                .map(Friendship::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -78,19 +80,15 @@ public class FriendshipServiceImpl implements FriendshipService {
                 receiver,
                 "Your friendship with " + senderEmail + " has been terminated.",
                 "FriendshipDelete");
-        Optional<String> receiverError = notificationService.createNotification(receiverNotification);
-        if (receiverError.isPresent()) {
-            return receiverError;
-        }
+        return notificationService.createNotification(receiverNotification);
 
-        return Optional.empty();
     }
 
     @Override
     public boolean areFriends(String email1, String email2) {
         return getAllFriendsDTO(email1)
                 .stream()
-                .anyMatch(userProfileDTOFriendship -> userProfileDTOFriendship.getEmail().equals(email2));
+                .anyMatch(userProfileDTOFriendship -> userProfileDTOFriendship.email().equals(email2));
     }
 
 }

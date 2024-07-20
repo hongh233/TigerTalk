@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface GroupMembershipRepository extends JpaRepository<GroupMembership, Integer> {
     List<GroupMembership> findByGroup_GroupId(int groupId);
+
     List<GroupMembership> findByUserProfile_Email(String email);
+
     Optional<GroupMembership> findByGroupAndUserProfileEmail(Group group, String email);
 }

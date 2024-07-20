@@ -14,7 +14,7 @@ import java.util.Optional;
  *              the result of the search operation and will be used to encapsulate the search results.
  */
 @FunctionalInterface
-public interface Search<DTO> {
+public interface Searchable<DTO> {
 
     /**
      * Performs a search operation based on the given parameters, including optional constraints.

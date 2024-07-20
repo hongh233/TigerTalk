@@ -1,20 +1,20 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Authentication;
 
 import com.group2.Tiger_Talks.backend.model.Authentication.ForgotPasswordDTO;
+import com.group2.Tiger_Talks.backend.model.Authentication.MailClient;
 import com.group2.Tiger_Talks.backend.model.Authentication.PasswordTokenImpl;
 import com.group2.Tiger_Talks.backend.repository.PasswordTokenRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Authentication.PasswordResetService;
-import com.group2.Tiger_Talks.backend.model.Authentication.MailClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.group2.Tiger_Talks.backend.model.Authentication.PasswordTokenImpl.EXPIRATION_MINUTES;
 import static com.group2.Tiger_Talks.backend.model.Utils.COMPANY_EMAIL;
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
-import static com.group2.Tiger_Talks.backend.model.Authentication.PasswordTokenImpl.EXPIRATION_MINUTES;
 
 @Service
 public class PasswordResetServiceImpl implements PasswordResetService {

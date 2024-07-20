@@ -12,7 +12,7 @@ public interface GroupPostService {
      *
      * @param groupPost The group post to be created.
      * @return An Optional containing a success message if the creation was successful,
-     *         or an error message if the creation failed.
+     * or an error message if the creation failed.
      */
     Optional<String> createGroupPost(GroupPost groupPost);
 
@@ -21,7 +21,7 @@ public interface GroupPostService {
      *
      * @param groupPostId The ID of the group post to be deleted.
      * @return An Optional containing a success message if the deletion was successful,
-     *         or an error message if the deletion failed.
+     * or an error message if the deletion failed.
      */
     Optional<String> deleteGroupPostById(Integer groupPostId);
 

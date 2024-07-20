@@ -1,7 +1,7 @@
 package com.group2.Tiger_Talks.backend.controller.Search;
 
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
-import com.group2.Tiger_Talks.backend.service.Search.Search;
+import com.group2.Tiger_Talks.backend.service.Search.Searchable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +15,7 @@ import java.util.List;
 public class UserSearchController {
 
     @Autowired
-    private Search<UserProfileDTO> userSearchController;
+    private Searchable<UserProfileDTO> userSearchController;
 
     @GetMapping("/{searchQuery}/{userEmail}")
     public List<UserProfileDTO> searchUsers(@PathVariable String searchQuery, @PathVariable String userEmail) {

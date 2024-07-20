@@ -19,14 +19,14 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PostCommentServiceImplTest {
@@ -204,6 +204,26 @@ public class PostCommentServiceImplTest {
         when(postRepository.findById(1)).thenReturn(Optional.of(post));
         when(userProfileRepository.findById("d@dal.ca")).thenReturn(Optional.empty());
         RuntimeException exception = assertThrows(RuntimeException.class, () -> postCommentService.addComment(postCommentDTO1));
+    }
+
+    // ???????????????
+    @Test
+    public void testAddCommentSenderNotFound() {
+        Post post = new Post();
+        post.setPostId(1);
+        post.setContent("test content");
+        post.setUserProfile(userB);
+        PostCommentDTO postCommentDTO = new PostCommentDTO();
+        postCommentDTO.setPostId(1);
+        postCommentDTO.setCommentSenderUserProfileDTO(userA.toDto());
+
+        lenient().when(postRepository.findById(1)).thenReturn(Optional.of(post));
+        lenient().when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(
+                RuntimeException.class,
+                () -> postCommentService.addComment(postCommentDTO)
+        );
         assertEquals("Comment sender user profile not found", exception.getMessage());
     }
 
@@ -311,6 +331,19 @@ public class PostCommentServiceImplTest {
         lenient().when(userProfileRepository.findById("d@dal.ca")).thenReturn(Optional.of(userA));
         lenient().when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(userB));
 
+        // UserProfile commentSenderUserProfile = userA;
+        // UserProfile postSenderUserProfile = userB;
+
+        // PostComment postComment = new PostComment(post, "This is a comment.", commentSenderUserProfile, postSenderUserProfile);
+        // postComment.setCommentId(1);
+        // postComment.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
+
+        // // Simulating dependent behaviors
+        // lenient().when(postCommentRepository.findAll()).thenReturn(List.of(postComment));
+        // lenient().when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(commentSenderUserProfile));
+        // lenient().when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.of(postSenderUserProfile));
+
+        // Calling service
         List<PostCommentDTO> result = postCommentService.getAllComments();
         assertNotNull(result);
         assertEquals(1, result.size());

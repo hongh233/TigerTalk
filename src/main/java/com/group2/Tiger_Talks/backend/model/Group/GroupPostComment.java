@@ -1,11 +1,12 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
+import com.group2.Tiger_Talks.backend.model.DtoConvertible;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class GroupPostComment {
+public class GroupPostComment implements DtoConvertible<GroupPostCommentDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,8 @@ public class GroupPostComment {
     @Column(nullable = false)
     private LocalDateTime groupPostCommentCreateTime = LocalDateTime.now();
 
-    public GroupPostComment() {}
+    public GroupPostComment() {
+    }
 
     public Integer getGroupPostCommentId() {
         return groupPostCommentId;
@@ -67,5 +69,21 @@ public class GroupPostComment {
         this.groupPostCommentCreateTime = groupPostCommentCreateTime;
     }
 
+    @Override
+    public GroupPostCommentDTO toDto() {
+        return new GroupPostCommentDTO(
+                this.getGroupPostCommentId(),
+                this.getContent(),
+                this.getGroupPostCommentCreateTime(),
+                this.getGroupMembership().getUserProfile().getUserName(),
+                this.getGroupMembership().getUserProfile().getProfilePictureUrl(),
+                this.getGroupMembership().getUserProfile().getEmail()
+        );
+    }
 
+    @Override
+    public void updateFromDto(GroupPostCommentDTO groupPostCommentDTO) {
+        this.content = groupPostCommentDTO.groupPostCommentContent();
+        this.groupPostCommentCreateTime = groupPostCommentDTO.groupPostCommentCreateTime();
+    }
 }

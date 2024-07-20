@@ -1,6 +1,5 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Authentication;
 
-import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.model.Utils.OnlineStatus;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -23,7 +22,7 @@ public class LogInServiceImpl implements LogInService {
                     if (userProfile.getPassword().equals(password)) {
                         userProfile.setOnlineStatus(OnlineStatus.AVAILABLE);
                         userRepository.save(userProfile);
-                        return Optional.of(new UserProfileDTO(userProfile));
+                        return Optional.of(userProfile.toDto());
                     } else {
                         return Optional.<UserProfileDTO>empty();
                     }

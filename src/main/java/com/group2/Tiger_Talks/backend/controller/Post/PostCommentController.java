@@ -1,6 +1,5 @@
 package com.group2.Tiger_Talks.backend.controller.Post;
 
-import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.model.Post.PostCommentDTO;
 import com.group2.Tiger_Talks.backend.service.Post.PostCommentService;
 import org.springframework.beans.factory.annotation.Autowired;

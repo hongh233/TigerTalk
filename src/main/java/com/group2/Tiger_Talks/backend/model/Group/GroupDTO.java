@@ -1,113 +1,43 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
 
-public class GroupDTO {
-
-    private int groupId;
-
-    private String groupName;
-
-    private boolean isPrivate;
-
-    private String groupImg;
-
-    private LocalDateTime groupCreateTime;
-
-    private String groupCreatorEmail;
-
-    private List<GroupMembershipDTO> groupMemberList = new LinkedList<>();
-
-    private List<GroupPostDTO> groupPostList = new LinkedList<>();
-
-    public GroupDTO(Group group) {
-        this.groupId = group.getGroupId();
-        this.groupName = group.getGroupName();
-        this.groupImg = group.getGroupImg();
-        this.isPrivate = group.isPrivate();
-        this.groupCreateTime = group.getGroupCreateTime();
-        this.groupCreatorEmail = group.getGroupMemberList().stream()
-                .filter(GroupMembership::isCreator)
-                .map(groupMembership -> groupMembership.getUserProfile().getEmail())
-                .findFirst()
-                .orElse(null);
-        this.groupMemberList = group.getGroupMemberList().stream()
-                .map(GroupMembershipDTO::new)
-                .toList();
-        this.groupPostList = group.getGroupPostList().stream()
-                .map(GroupPostDTO::new)
-                .toList();
-    }
-
-    public GroupDTO() {
-
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-    public void setPrivate(boolean aPrivate) {
-        isPrivate = aPrivate;
-    }
-
-    public String getGroupImg() {
-        return groupImg;
-    }
-
-    public void setGroupImg(String groupImg) {
-        this.groupImg = groupImg;
-    }
-
-    public LocalDateTime getGroupCreateTime() {
-        return groupCreateTime;
-    }
-
-    public void setGroupCreateTime(LocalDateTime groupCreateTime) {
-        this.groupCreateTime = groupCreateTime;
-    }
-
-    public List<GroupMembershipDTO> getGroupMemberList() {
-        return groupMemberList;
-    }
-
-    public void setGroupMemberList(List<GroupMembershipDTO> groupMemberList) {
-        this.groupMemberList = groupMemberList;
-    }
-
-    public List<GroupPostDTO> getGroupPostList() {
-        return groupPostList;
-    }
-
-    public void setGroupPostList(List<GroupPostDTO> groupPostList) {
-        this.groupPostList = groupPostList;
-    }
-
-
-    public String getGroupCreatorEmail() {
-        return groupCreatorEmail;
-    }
-
-    public void setGroupCreatorEmail(String groupCreatorEmail) {
-        this.groupCreatorEmail = groupCreatorEmail;
+public record GroupDTO(
+        int groupId,
+        String groupName,
+        boolean isPrivate,
+        String interest,
+        String groupImg,
+        LocalDateTime groupCreateTime,
+        String groupCreatorEmail,
+        List<GroupMembershipDTO> groupMemberList,
+        List<GroupPostDTO> groupPostList
+) {
+    /**
+     * Constructs a GroupDTO for testing purposes only.
+     *
+     * <p>This constructor is intended for use solely within test suites.
+     * It should never be used to create a GroupDTO outside testing contexts.
+     *
+     * @param groupId   the unique identifier of the group
+     * @param groupName the name of the group
+     * @param groupImg  the URL or path to the group's image
+     * @param isPrivate the privacy status of the group, where {@code true} indicates private and {@code false} indicates public
+     * @param interest  the interest or theme associated with the group
+     */
+    public GroupDTO(int groupId, String groupName, String groupImg, boolean isPrivate, String interest) {
+        this(
+                groupId,
+                groupName,
+                isPrivate,
+                interest,
+                groupImg,
+                null,
+                null,
+                null,
+                null
+        );
     }
 
 }

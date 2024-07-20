@@ -30,7 +30,7 @@ public class SignUpServiceImplTest {
     private UserProfile userB;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(
                 "Along",
@@ -65,7 +65,7 @@ public class SignUpServiceImplTest {
     }
 
     /**
-     *  Test case for signUpUserProfile
+     * Test case for signUpUserProfile
      */
     @Test
     public void signUpUserProfile_invalid_firstName() {
@@ -175,8 +175,4 @@ public class SignUpServiceImplTest {
         verify(userProfileRepository).save(userProfileCaptor.capture());
         assertEquals(userA, userProfileCaptor.getValue());
     }
-
-    /**
-     *  Test case for signUpTest: This may be deleted since it is a temporary api
-     */
 }

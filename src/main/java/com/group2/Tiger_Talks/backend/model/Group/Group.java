@@ -1,5 +1,6 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
+import com.group2.Tiger_Talks.backend.model.DtoConvertible;
 import com.group2.Tiger_Talks.backend.model.Utils;
 import jakarta.persistence.*;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user_group") // TODO (Bounty) : Change to group_all
-public class Group {
+public class Group implements DtoConvertible<GroupDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +19,8 @@ public class Group {
     private String groupName;
 
     private boolean isPrivate;
+
+    private String interest;
 
     private String groupImg = Utils.DEFAULT_GROUP_PICTURE;
 
@@ -32,9 +35,10 @@ public class Group {
     public Group() {
     }
 
-    public Group(String groupName, boolean isPrivate) {
+    public Group(String groupName, boolean isPrivate, String interest) {
         this.groupName = groupName;
         this.isPrivate = isPrivate;
+        this.interest = interest;
     }
 
     public int getGroupId() {
@@ -93,5 +97,42 @@ public class Group {
 
     public void setGroupImg(String groupImg) {
         this.groupImg = groupImg;
+    }
+
+    @Override
+    public GroupDTO toDto() {
+        String groupCreatorEmail = this.groupMemberList.stream()
+                .filter(GroupMembership::isCreator)
+                .map(groupMembership -> groupMembership.getUserProfile().getEmail())
+                .findFirst()
+                .orElse(null);
+
+        List<GroupMembershipDTO> groupMemberDTOList = this.groupMemberList.stream()
+                .map(GroupMembership::toDto)
+                .toList();
+
+        List<GroupPostDTO> groupPostDTOList = this.groupPostList.stream()
+                .map(GroupPostDTO::new)
+                .toList();
+
+        return new GroupDTO(
+                this.groupId,
+                this.groupName,
+                this.isPrivate,
+                this.interest,
+                this.groupImg,
+                this.groupCreateTime,
+                groupCreatorEmail,
+                groupMemberDTOList,
+                groupPostDTOList
+        );
+    }
+
+    @Override
+    public void updateFromDto(GroupDTO groupDTO) {
+        this.groupName = groupDTO.groupName();
+        this.isPrivate = groupDTO.isPrivate();
+        this.interest = groupDTO.interest();
+        this.groupImg = groupDTO.groupImg();
     }
 }

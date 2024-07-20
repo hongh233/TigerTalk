@@ -5,7 +5,6 @@ import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.model.Post.PostCommentDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
-import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.repository.Post.PostCommentRepository;
 import com.group2.Tiger_Talks.backend.repository.Post.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -76,8 +75,8 @@ public class PostCommentServiceImpl implements PostCommentService {
 
         // convert to DTO
         PostCommentDTO savedCommentDTO = new PostCommentDTO(savedComment);
-        savedCommentDTO.setCommentSenderUserProfileDTO(new UserProfileDTO(commentSenderUserProfile.get()));
-        savedCommentDTO.setPostSenderUserProfileDTO(new UserProfileDTO(postSenderUserProfile.get()));
+        savedCommentDTO.setCommentSenderUserProfileDTO(commentSenderUserProfile.get().toDto());
+        savedCommentDTO.setPostSenderUserProfileDTO(postSenderUserProfile.get().toDto());
 
         return savedCommentDTO;
     }
@@ -88,15 +87,13 @@ public class PostCommentServiceImpl implements PostCommentService {
         return comments.stream()
                 .map(comment -> {
                     PostCommentDTO dto = new PostCommentDTO(comment);
-                    userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setCommentSenderUserProfileDTO(new UserProfileDTO(userProfile));
-                    });
-                    userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setPostSenderUserProfileDTO(new UserProfileDTO(userProfile));
-                    });
+                    userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail())
+                            .ifPresent(userProfile -> dto.setCommentSenderUserProfileDTO(userProfile.toDto()));
+                    userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail())
+                            .ifPresent(userProfile -> dto.setPostSenderUserProfileDTO(userProfile.toDto()));
                     return dto;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     //System.out.println(postCommentDTO);
@@ -106,12 +103,10 @@ public class PostCommentServiceImpl implements PostCommentService {
         return comments.stream()
                 .map(comment -> {
                     PostCommentDTO dto = new PostCommentDTO(comment);
-                    userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setCommentSenderUserProfileDTO(new UserProfileDTO(userProfile));
-                    });
-                    userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail()).ifPresent(userProfile -> {
-                        dto.setPostSenderUserProfileDTO(new UserProfileDTO(userProfile));
-                    });
+                    userProfileRepository.findById(comment.getCommentSenderUserProfile().getEmail())
+                            .ifPresent(userProfile -> dto.setCommentSenderUserProfileDTO(userProfile.toDto()));
+                    userProfileRepository.findById(comment.getPostSenderUserProfile().getEmail())
+                            .ifPresent(userProfile -> dto.setPostSenderUserProfileDTO(userProfile.toDto()));
                     return dto;
                 })
                 .collect(Collectors.toList());

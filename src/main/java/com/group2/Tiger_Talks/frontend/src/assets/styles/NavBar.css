@@ -1,4 +1,4 @@
-.navbar {
+/* .navbar {
 	width: 15%;
 	position: fixed;
 	display: flex;
@@ -49,4 +49,57 @@
 	.navbar a:hover {
 		background-color: #939191;
 	}
+} */
+
+
+.navbar {
+    width: 15%; /* Full width for desktop */
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    margin-top: 4vh;
 }
+
+.navbar a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+}
+
+.navbar a svg {
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%; /* Full width for mobile */
+        flex-direction: column; /* Make navbar vertical */
+        justify-content: flex-start;
+        position: relative; /* Remove fixed positioning */
+        margin-top: 0;
+        padding-top: 20px; /* Add some padding on top */
+    } 
+
+    .navbar a {
+        margin-bottom: 0;
+        color: #333;
+        padding: 10px 20px;
+    }
+
+    .navbar a:hover {
+        background-color: #ddd;
+    }
+
+    .text-hide {
+        display: none;
+    }
+} 

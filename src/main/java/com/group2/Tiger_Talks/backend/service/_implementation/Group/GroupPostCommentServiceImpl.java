@@ -7,21 +7,18 @@ import com.group2.Tiger_Talks.backend.model.Group.GroupPostCommentDTO;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostCommentRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
-import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
-import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Group.GroupPostCommentService;
-import com.group2.Tiger_Talks.backend.service.Group.GroupPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class GroupPostCommentServiceImpl implements GroupPostCommentService {
-
-    @Autowired
-    private GroupRepository groupRepository;
 
     @Autowired
     private GroupMembershipRepository groupMembershipRepository;
@@ -31,9 +28,6 @@ public class GroupPostCommentServiceImpl implements GroupPostCommentService {
 
     @Autowired
     private GroupPostCommentRepository groupPostCommentRepository;
-
-    @Autowired
-    private UserProfileRepository userProfileRepository;
 
     @Override
     public Optional<String> createGroupPostComment(int groupPostId, GroupPostComment groupPostComment) {
@@ -71,8 +65,8 @@ public class GroupPostCommentServiceImpl implements GroupPostCommentService {
     public List<GroupPostCommentDTO> getCommentsByGroupPostId(Integer groupPostId) {
         return groupPostRepository.findById(groupPostId)
                 .map(groupPost -> groupPost.getGroupPostCommentList().stream()
-                        .map(GroupPostCommentDTO::new)
-                        .sorted(Comparator.comparing(GroupPostCommentDTO::getGroupPostCommentCreateTime).reversed())
+                        .map(GroupPostComment::toDto)
+                        .sorted(Comparator.comparing(GroupPostCommentDTO::groupPostCommentCreateTime).reversed())
                         .collect(Collectors.toList())
                 )
                 .orElse(Collections.emptyList());

@@ -1,8 +1,7 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
-import com.group2.Tiger_Talks.backend.model.Group.*;
-import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
-import com.group2.Tiger_Talks.backend.repository.Group.GroupPostCommentRepository;
+import com.group2.Tiger_Talks.backend.model.Group.GroupPost;
+import com.group2.Tiger_Talks.backend.model.Group.GroupPostDTO;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -23,13 +22,7 @@ public class GroupPostServiceImpl implements GroupPostService {
     private GroupRepository groupRepository;
 
     @Autowired
-    private GroupMembershipRepository groupMembershipRepository;
-
-    @Autowired
     private GroupPostRepository groupPostRepository;
-
-    @Autowired
-    private GroupPostCommentRepository groupPostCommentRepository;
 
     @Autowired
     private UserProfileRepository userProfileRepository;
@@ -66,13 +59,13 @@ public class GroupPostServiceImpl implements GroupPostService {
     @Override
     public List<GroupPostDTO> getAllGroupPostsByGroupId(Integer groupId) {
         return groupRepository.findById(groupId)
-            .map(group -> group.getGroupPostList().stream()
-                    .map(GroupPostDTO::new)
-                    .sorted(
-                            Comparator.comparing(GroupPostDTO::getGroupPostCreateTime,
-                                    Comparator.nullsLast(Comparator.naturalOrder())).reversed()
-                    ).collect(Collectors.toList())
-            ).orElseGet(Collections::emptyList);
+                .map(group -> group.getGroupPostList().stream()
+                        .map(GroupPostDTO::new)
+                        .sorted(
+                                Comparator.comparing(GroupPostDTO::getGroupPostCreateTime,
+                                        Comparator.nullsLast(Comparator.naturalOrder())).reversed()
+                        ).collect(Collectors.toList())
+                ).orElseGet(Collections::emptyList);
     }
 
 

@@ -5,18 +5,14 @@ import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.OnlineStatus.AVAILABLE;
 import static com.group2.Tiger_Talks.backend.model.Utils.OnlineStatus.OFFLINE;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -30,8 +26,9 @@ public class LogInServiceImplTest {
     private LogInServiceImpl logInServiceImpl;
     private UserProfile userA;
     private UserProfile userB;
+
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         userA = new UserProfile(
                 "Along",
@@ -58,15 +55,15 @@ public class LogInServiceImplTest {
                 "aaaa1A@a",
                 new String[]{"1", "2", "3"},
                 new String[]{
-                    "What was your favourite book as a child?",
-                    "In what city were you born?",
-                    "What is the name of the hospital where you were born?"
+                        "What was your favourite book as a child?",
+                        "In what city were you born?",
+                        "What is the name of the hospital where you were born?"
                 }
         );
     }
 
     /**
-     *  Test case for logInUser
+     * Test case for logInUser
      */
     @Test
     public void logInUser_normal_resultExist() {
@@ -92,6 +89,7 @@ public class LogInServiceImplTest {
         when(userProfileRepository.save(userA)).thenReturn(userA);
         Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.getEmail(), userA.getPassword());
         assertEquals(AVAILABLE, userA.getOnlineStatus());
+        assertTrue(result.isPresent());
     }
 
     @Test
@@ -112,7 +110,7 @@ public class LogInServiceImplTest {
     }
 
     /**
-     *  Test case for logOut
+     * Test case for logOut
      */
     @Test
     public void logOut_normal_onlineCheck_online() {

@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.model.Friend;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.group2.Tiger_Talks.backend.model.DtoConvertible;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
@@ -9,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-public class Friendship {
+public class Friendship implements DtoConvertible<FriendshipDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -142,5 +143,28 @@ public class Friendship {
 
     public void setReceiverUserNameTemp(String receiverUserNameTemp) {
         this.receiverUserNameTemp = receiverUserNameTemp;
+    }
+
+    @Override
+    public FriendshipDTO toDto() {
+        return new FriendshipDTO(
+                this.getFriendshipId(),
+                this.getSender().getEmail(),
+                this.getSender().getUserName(),
+                this.getReceiver().getEmail(),
+                this.getReceiver().getUserName(),
+                this.getSender().getProfilePictureUrl(),
+                this.getReceiver().getProfilePictureUrl()
+        );
+    }
+
+    @Override
+    public void updateFromDto(FriendshipDTO friendshipDTO) {
+        this.getSender().setEmail(friendshipDTO.senderEmail());
+        this.getSender().setUserName(friendshipDTO.senderName());
+        this.getReceiver().setEmail(friendshipDTO.receiverEmail());
+        this.getReceiver().setUserName(friendshipDTO.receiverName());
+        this.getSender().setProfilePictureUrl(friendshipDTO.senderProfilePictureUrl());
+        this.getReceiver().setProfilePictureUrl(friendshipDTO.receiverProfilePictureUrl());
     }
 }

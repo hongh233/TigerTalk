@@ -5,8 +5,6 @@ import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostCommentRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
-import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
-import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,9 +29,6 @@ public class GroupPostCommentServiceImplTest {
     private GroupPostCommentServiceImpl groupPostCommentService;
 
     @Mock
-    private GroupRepository groupRepository;
-
-    @Mock
     private GroupMembershipRepository groupMembershipRepository;
 
     @Mock
@@ -42,16 +37,13 @@ public class GroupPostCommentServiceImplTest {
     @Mock
     private GroupPostCommentRepository groupPostCommentRepository;
 
-    @Mock
-    private UserProfileRepository userProfileRepository;
-
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     /**
-     *  Test case for createGroupPostComment
+     * Test case for createGroupPostComment
      */
     @Test
     public void createGroupPostComment_success() {
@@ -109,7 +101,7 @@ public class GroupPostCommentServiceImplTest {
     }
 
     /**
-     *  Test case for deleteGroupPostCommentById
+     * Test case for deleteGroupPostCommentById
      */
     @Test
     public void deleteGroupPostCommentById_existOne_deleteOne() {
@@ -153,7 +145,7 @@ public class GroupPostCommentServiceImplTest {
     }
 
     /**
-     *  Test case for getCommentsByGroupPostId
+     * Test case for getCommentsByGroupPostId
      */
     @Test
     public void getCommentsByGroupPostId_success() {
@@ -191,8 +183,8 @@ public class GroupPostCommentServiceImplTest {
         when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.of(groupPost));
         List<GroupPostCommentDTO> result = groupPostCommentService.getCommentsByGroupPostId(groupPostId);
         assertEquals(2, result.size());
-        assertEquals("Comment 2", result.get(0).getGroupPostCommentContent());
-        assertEquals("Comment 1", result.get(1).getGroupPostCommentContent());
+        assertEquals("Comment 2", result.get(0).groupPostCommentContent());
+        assertEquals("Comment 1", result.get(1).groupPostCommentContent());
     }
 
     @Test

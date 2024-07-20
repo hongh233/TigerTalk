@@ -24,13 +24,13 @@ public class PostServiceImpl implements PostService {
     @Autowired
     PostLikeRepository postLikeRepository;
     @Autowired
+    FriendshipRepository friendshipRepository;
+    @Autowired
     private PostRepository postRepository;
     @Autowired
     private UserProfileRepository userProfileRepository;
     @Autowired
     private NotificationService notificationService;
-    @Autowired
-    FriendshipRepository friendshipRepository;
 
     @Override
     public List<PostDTO> getPostsForUserAndFriends(String email) {
@@ -146,7 +146,7 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
 
         // Send notification only on like, not on unlike
-        // Send notification to the post owner
+        // Send notification to the post-owner
         if (liked) {
             String content = userProfile.getEmail() + " liked your post.";
             notificationService.createNotification(

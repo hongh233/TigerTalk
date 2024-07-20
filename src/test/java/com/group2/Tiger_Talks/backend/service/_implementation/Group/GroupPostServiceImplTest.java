@@ -5,7 +5,6 @@ import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
 import com.group2.Tiger_Talks.backend.model.Group.GroupPost;
 import com.group2.Tiger_Talks.backend.model.Group.GroupPostDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
-import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -22,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -38,9 +36,6 @@ public class GroupPostServiceImplTest {
 
     @Mock
     private GroupRepository groupRepository;
-
-    @Mock
-    private GroupMembershipRepository groupMembershipRepository;
 
     @Mock
     private GroupPostRepository groupPostRepository;
@@ -174,9 +169,9 @@ public class GroupPostServiceImplTest {
         group.setGroupMemberList(Arrays.asList(membership1, membership2));
 
         GroupPost groupPost1 = new GroupPost(group, "Content1", "a@dal.ca", "picture1");
-        groupPost1.setPostCreateTime(LocalDateTime.of(2020, 12, 2,3,4));
+        groupPost1.setPostCreateTime(LocalDateTime.of(2020, 12, 2, 3, 4));
         GroupPost groupPost2 = new GroupPost(group, "Content2", "b@dal.ca", "picture2");
-        groupPost2.setPostCreateTime(LocalDateTime.of(2024, 12, 2,3,4));
+        groupPost2.setPostCreateTime(LocalDateTime.of(2024, 12, 2, 3, 4));
         groupPost1.setGroupPostId(1);
         groupPost2.setGroupPostId(2);
         group.setGroupPostList(Arrays.asList(groupPost1, groupPost2));
