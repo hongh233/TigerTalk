@@ -1,6 +1,7 @@
 package com.group2.Tiger_Talks.backend.model.Friend;
 
 import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

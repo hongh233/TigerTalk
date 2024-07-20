@@ -10,6 +10,8 @@ import com.group2.Tiger_Talks.backend.service.Friend.FriendshipRequestService;
 import com.group2.Tiger_Talks.backend.service.Group.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,13 +36,44 @@ public class Scripts {
     private GroupService groupService;
     @Autowired
     private UserProfileRepository userProfileRepository;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @PostMapping("/setUp")
-    public String run() {
+    public void run() {
         bulkSignUp();
         bulkFriends();
         bulkGroup();
-        return ((char) Impl.getAdminUser(NUM_OF_USERS)) + "@dal.ca";
+    }
+
+    @PostMapping("/dropTables")
+    public ResponseEntity<String> dropTables() {
+        String[] dropTablesSql = {
+                "SET foreign_key_checks = 0;",
+                "DROP TABLE IF EXISTS password_token_impl;",
+                "DROP TABLE IF EXISTS friendship_message;",
+                "DROP TABLE IF EXISTS friendship;",
+                "DROP TABLE IF EXISTS friendship_request;",
+                "DROP TABLE IF EXISTS notification;",
+                "DROP TABLE IF EXISTS group_post_comment;",
+                "DROP TABLE IF EXISTS group_post;",
+                "DROP TABLE IF EXISTS user_group;",
+                "DROP TABLE IF EXISTS group_membership;",
+                "DROP TABLE IF EXISTS post_like;",
+                "DROP TABLE IF EXISTS post_comment;",
+                "DROP TABLE IF EXISTS post;",
+                "DROP TABLE IF EXISTS user_profile;",
+                "SET foreign_key_checks = 1;"
+        };
+        try {
+            for (String sql : dropTablesSql) {
+                jdbcTemplate.execute(sql);
+            }
+            return ResponseEntity.ok("Tables dropped successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error dropping tables");
+        }
     }
 
     /**
