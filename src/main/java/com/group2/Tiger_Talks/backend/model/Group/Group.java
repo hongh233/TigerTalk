@@ -112,7 +112,7 @@ public class Group implements FullyDTOConvertible<GroupDTO> {
                 .toList();
 
         List<GroupPostDTO> groupPostDTOList = this.groupPostList.stream()
-                .map(GroupPostDTO::new)
+                .map(GroupPost::toDto)
                 .toList();
 
         return new GroupDTO(

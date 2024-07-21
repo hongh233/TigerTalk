@@ -1,7 +1,9 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
 import com.group2.Tiger_Talks.backend.model.Group.GroupPost;
 import com.group2.Tiger_Talks.backend.model.Group.GroupPostDTO;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -60,13 +62,24 @@ public class GroupPostServiceImpl implements GroupPostService {
     public List<GroupPostDTO> getAllGroupPostsByGroupId(Integer groupId) {
         return groupRepository.findById(groupId)
                 .map(group -> group.getGroupPostList().stream()
-                        .map(GroupPostDTO::new)
+                        .map(GroupPost::toDto)
                         .sorted(
-                                Comparator.comparing(GroupPostDTO::getGroupPostCreateTime,
+                                Comparator.comparing(
+                                        GroupPostDTO::groupPostCreateTime,
                                         Comparator.nullsLast(Comparator.naturalOrder())).reversed()
-                        ).collect(Collectors.toList())
+                        ).toList()
                 ).orElseGet(Collections::emptyList);
     }
 
-
+    public static Optional<UserProfile> findUserProfileByEmail(GroupPost groupPost) {
+        String email = groupPost.getGroupPostSenderEmail();
+        List<GroupMembership> groupMembershipList = groupPost.getGroup().getGroupMemberList();
+        for (GroupMembership groupMembership : groupMembershipList) {
+            UserProfile userProfile = groupMembership.getUserProfile();
+            if (userProfile.getEmail().equals(email)) {
+                return Optional.of(userProfile);
+            }
+        }
+        return Optional.empty();
+    }
 }

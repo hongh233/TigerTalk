@@ -179,10 +179,10 @@ public class GroupPostServiceImplTest {
 
         List<GroupPostDTO> result = groupPostService.getAllGroupPostsByGroupId(groupId);
         assertEquals(2, result.size());
-        assertEquals("Content2", result.get(0).getGroupPostContent());
-        assertEquals("Content1", result.get(1).getGroupPostContent());
-        assertEquals("User B", result.get(0).getGroupPostSenderUserName());
-        assertEquals("User A", result.get(1).getGroupPostSenderUserName());
+        assertEquals("Content2", result.get(0).groupPostContent());
+        assertEquals("Content1", result.get(1).groupPostContent());
+        assertEquals("User B", result.get(0).groupPostSenderUserName());
+        assertEquals("User A", result.get(1).groupPostSenderUserName());
     }
 
     @Test
@@ -208,9 +208,9 @@ public class GroupPostServiceImplTest {
         List<GroupPostDTO> result = groupPostService.getAllGroupPostsByGroupId(groupId);
 
         assertEquals(1, result.size());
-        assertEquals("Content1", result.get(0).getGroupPostContent());
-        assertEquals("User A", result.get(0).getGroupPostSenderUserName());
-        assertEquals("urlA", result.get(0).getGroupPostSenderProfilePictureURL());
+        assertEquals("Content1", result.get(0).groupPostContent());
+        assertEquals("User A", result.get(0).groupPostSenderUserName());
+        assertEquals("urlA", result.get(0).groupPostSenderProfilePictureURL());
     }
 
     @Test

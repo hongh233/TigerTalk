@@ -132,11 +132,15 @@ public class Post implements FullyDTOConvertible<PostDTO> {
         );
     }
 
+
     @Override
     public void updateFromDto(PostDTO postDTO) {
         this.content = postDTO.content();
         this.timestamp = getTimestamp();
-        this.numOfLike = postDTO.numOfLike();
         this.associatedImageURL = postDTO.postImageURL();
+        /*
+            Num of likes should not be updated as this would cause a break of synchronization
+            between the post like list and num_of_likes
+         */
     }
 }
