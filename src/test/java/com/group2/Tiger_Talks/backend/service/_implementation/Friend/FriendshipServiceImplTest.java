@@ -1,10 +1,9 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Friend;
 
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
-import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
-import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
+import com.group2.Tiger_Talks.backend.model.Friend.UserProfileDTOFriendship;
 import com.group2.Tiger_Talks.backend.repository.Friend.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
@@ -72,27 +71,6 @@ public class FriendshipServiceImplTest {
         assertEquals(2, friends.size());
         assertTrue(friends.stream().anyMatch(friend -> friend.email().equals("b@dal.ca")));
         assertTrue(friends.stream().anyMatch(friend -> friend.email().equals("c@dal.ca")));
-    }
-
-    /**
-     * Test case for getAllFriends
-     */
-    @Test
-    public void getAllFriends_userNotFound() {
-        when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
-        Exception exception = assertThrows(
-                IllegalStateException.class,
-                () -> friendshipService.getAllFriends("nonexistent@example.com")
-        );
-        assertEquals("User not found", exception.getMessage());
-    }
-
-    @Test
-    public void getAllFriends_success() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB, friendshipAC));
-        List<FriendshipDTO> friends = friendshipService.getAllFriends("a@dal.ca");
-        assertEquals(2, friends.size());
     }
 
     /**
