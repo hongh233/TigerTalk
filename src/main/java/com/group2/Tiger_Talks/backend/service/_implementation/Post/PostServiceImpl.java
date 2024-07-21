@@ -119,30 +119,36 @@ public class PostServiceImpl implements PostService {
                 .orElse(Optional.of("Post with ID " + postId + " was not found"));
     }
 
-    // This method is about like and unlike
     @Override
     public Post likePost(Integer postId, String userEmail) {
+        // Retrieve the post by postId
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
 
+        // Retrieve the user profile by userEmail
         UserProfile userProfile = userProfileRepository.findUserProfileByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Check if the user has already liked the post
         Optional<PostLike> existingLike = postLikeRepository.findByPostAndUserProfile(post, userProfile);
 
         boolean liked; // Track if it is a like or unlike
         if (existingLike.isPresent()) {
+            // Unlike the post
             postLikeRepository.delete(existingLike.get());
             post.setNumOfLike(post.getNumOfLike() - 1);
             post.getLikes().remove(existingLike.get());
             liked = false;
         } else {
+            // Like the post
             PostLike newPostLike = new PostLike(post, userProfile);
             postLikeRepository.save(newPostLike);
             post.setNumOfLike(post.getNumOfLike() + 1);
             post.getLikes().add(newPostLike);
             liked = true;
         }
+
+        // Save the updated post
         postRepository.save(post);
 
         // Send notification only on like, not on unlike

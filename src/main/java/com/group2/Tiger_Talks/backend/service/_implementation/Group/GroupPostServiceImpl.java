@@ -3,11 +3,15 @@ package com.group2.Tiger_Talks.backend.service._implementation.Group;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
 import com.group2.Tiger_Talks.backend.model.Group.GroupPost;
 import com.group2.Tiger_Talks.backend.model.Group.GroupPostDTO;
+import com.group2.Tiger_Talks.backend.model.Group.GroupPostLike;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+import com.group2.Tiger_Talks.backend.repository.Group.GroupPostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Group.GroupPostService;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,9 @@ import java.util.Optional;
 public class GroupPostServiceImpl implements GroupPostService {
 
     @Autowired
+    private GroupPostLikeRepository groupPostLikeRepository;
+
+    @Autowired
     private GroupRepository groupRepository;
 
     @Autowired
@@ -27,6 +34,9 @@ public class GroupPostServiceImpl implements GroupPostService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public static Optional<UserProfile> findUserProfileByEmail(GroupPost groupPost) {
         String email = groupPost.getGroupPostSenderEmail();
@@ -79,5 +89,49 @@ public class GroupPostServiceImpl implements GroupPostService {
                                         Comparator.nullsLast(Comparator.naturalOrder())).reversed()
                         ).toList()
                 ).orElseGet(Collections::emptyList);
+    }
+
+    @Override
+    public GroupPost likePost(Integer groupPostId, String userEmail) {
+        // Retrieve the post by postId
+        GroupPost post = groupPostRepository.findById(groupPostId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        // Retrieve the user profile by userEmail
+        UserProfile userProfile = userProfileRepository.findUserProfileByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Check if the user has already liked the post
+        Optional<GroupPostLike> existingLike = groupPostLikeRepository.findGroupPostAndUserProfile(post, userProfile);
+
+        boolean liked; // Track if it is a like or unlike
+        if (existingLike.isPresent()) {
+            // Unlike the post
+            groupPostLikeRepository.delete(existingLike.get());
+            post.getPostLikes().remove(existingLike.get());
+            liked = false;
+        } else {
+            // Like the post
+            GroupPostLike newPostLike = new GroupPostLike(post, userProfile);
+            groupPostLikeRepository.save(newPostLike);
+            post.getPostLikes().add(newPostLike);
+            liked = true;
+        }
+
+        // Save the updated post
+        groupPostRepository.save(post);
+
+        // Send notification only on like, not on unlike
+        // Send notification to the post-owner
+        if (liked) {
+            String content = userProfile.getEmail() + " liked your post.";
+            notificationService.createNotification(
+                    new Notification(
+                            post.getUserProfile(),
+                            content,
+                            "PostLiked"));
+        }
+
+        return post;
     }
 }

@@ -36,6 +36,22 @@ public class GroupPostController {
     @GetMapping("/getAll/{groupId}")
     public List<GroupPostDTO> getAllGroupPostsByGroupId(@PathVariable Integer groupId) {
         return groupPostService.getAllGroupPostsByGroupId(groupId);
+    }
 
+    /**
+     * Handles HTTP PUT request to like a post.
+     *
+     * @param groupPostId The ID of the post to like.
+     * @param userEmail   The email of the user performing the like action.
+     * @return ResponseEntity with the updated Post if successful, or error message if post or user is not found.
+     */
+    @PutMapping("/like/{groupPostId}")
+    public ResponseEntity<?> likePost(@PathVariable Integer groupPostId, @RequestParam String userEmail) {
+        try {
+            GroupPost updatedPost = groupPostService.likePost(groupPostId, userEmail);
+            return ResponseEntity.ok(updatedPost.getNumOfLike());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
     }
 }

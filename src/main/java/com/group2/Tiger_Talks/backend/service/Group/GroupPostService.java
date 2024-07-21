@@ -32,4 +32,17 @@ public interface GroupPostService {
      * @return A list of GroupPostDTOs representing the group's posts.
      */
     List<GroupPostDTO> getAllGroupPostsByGroupId(Integer groupId);
+
+    /**
+     * Likes or unlikes a group post based on the provided groupPostId and userEmail.
+     * If the user has already liked the group post, it unlikes it; otherwise, it likes it.
+     * Updates the number of likes on the group post accordingly and sends a notification
+     * to the post-owner upon liking.
+     *
+     * @param groupPostId The ID of the group post to like/unlike.
+     * @param userEmail   The email of the user performing the action.
+     * @return The updated GroupPost object after liking/unliking.
+     * @throws RuntimeException If the group post or user is not found.
+     */
+    GroupPost likePost(Integer groupPostId, String userEmail);
 }

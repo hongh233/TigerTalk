@@ -1,12 +1,13 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.service._implementation.Group.GroupPostServiceImpl;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,19 +18,31 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupPostId;
 
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public List<GroupPostLike> getGroupPostLikes() {
+        return groupPostLikes;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
+    @JsonBackReference
+    private UserProfile userProfile;
+
     @ManyToOne
     @JoinColumn(name = "groupId", referencedColumnName = "groupId", nullable = false)
     private Group group;
 
     @OneToMany(mappedBy = "groupPost", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GroupPostComment> groupPostCommentList = new LinkedList<>();
-
+    private List<GroupPostComment> groupPostCommentList = new ArrayList<>();
+    @OneToMany(mappedBy = "groupPost", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupPostLike> groupPostLikes = new ArrayList<>();
     private LocalDateTime postCreateTime = LocalDateTime.now();
-
     private String groupPostContent;
-
     private String groupPostSenderEmail;
-
     private String groupPostPictureURL;
 
     public GroupPost(Group group,
@@ -43,6 +56,18 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
     }
 
     public GroupPost() {
+    }
+
+    public List<GroupPostLike> getPostLikes() {
+        return groupPostLikes;
+    }
+
+    public int getNumOfLike() {
+        return groupPostLikes.size();
+    }
+
+    public void setPostLikes(List<GroupPostLike> postLikes) {
+        this.groupPostLikes = postLikes;
     }
 
     public Group getGroup() {

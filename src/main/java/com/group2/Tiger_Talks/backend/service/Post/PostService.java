@@ -63,12 +63,17 @@ public interface PostService {
      */
     Optional<String> updatePostById(Integer postId, Post post);
 
+
     /**
-     * Likes a post by a user.
+     * Likes or unlikes a post based on the provided postId and userEmail.
+     * If the user has already liked the post, it unlikes it; otherwise, it likes it.
+     * Updates the number of likes on the post accordingly and sends a notification
+     * to the post-owner upon liking.
      *
-     * @param postId    Post ID to like
-     * @param userEmail User's email
-     * @return Updated Post entity after like operation
+     * @param postId    The ID of the post to like/unlike.
+     * @param userEmail The email of the user performing the action.
+     * @return The updated Post object after liking/unliking.
+     * @throws RuntimeException If the post or user is not found.
      */
     Post likePost(Integer postId, String userEmail);
 
