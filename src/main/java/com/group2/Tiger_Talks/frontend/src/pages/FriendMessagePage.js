@@ -11,6 +11,7 @@ const FriendMessagePage = () => {
     const [selectedFriend, setSelectedFriend] = useState(null);
     const [searchGroup, setSearchGroup] = useState([]);
     const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState("");
 
     useEffect(() => {
         const fetchFriends = async () => {
@@ -21,7 +22,6 @@ const FriendMessagePage = () => {
                     );
                     if (response.data.length > 0) {
                         setFriends(response.data);
-                        console.error(friends)
                     }
                 } catch (error) {
                     console.error("Failed to fetch friends", error);
@@ -37,7 +37,6 @@ const FriendMessagePage = () => {
                 `http://localhost:8085/friendships/message/getAll/${friendshipId}`
             );
             setMessages(response.data);
-            console.error(messages);
         } catch (error) {
             console.error("Failed to fetch messages", error);
         }
@@ -46,6 +45,37 @@ const FriendMessagePage = () => {
     const handleFriendClick = (friend) => {
         setSelectedFriend(friend);
         fetchMessages(friend.id); // Assuming each friend object has a friendshipId field
+    };
+
+    const handleSendMessage = async () => {
+        if (newMessage.trim() === "" || !selectedFriend) return;
+        console.error(selectedFriend.id);
+        const message = {
+            messageContent: newMessage,
+            sender: {
+                email: user.email,
+            },
+            receiver: {
+                email: selectedFriend.email,
+            },
+            friendship: {
+                friendshipId: selectedFriend.id,
+            }
+        };
+
+        try {
+            const response = await axios.post(
+                'http://localhost:8085/friendships/message/create',
+                message
+            );
+            if (response.status === 200) {
+                // Clear the input field and refresh the message list
+                setNewMessage("");
+                fetchMessages(selectedFriend.id);
+            }
+        } catch (error) {
+            console.error("Failed to send message", error);
+        }
     };
 
 
@@ -108,9 +138,15 @@ const FriendMessagePage = () => {
 
                         <div className="message-input">
                             <button className="emoji-button">😊</button>
-                            <input type="text" placeholder="Type a message..." />
-                            <button className="send-button">Send</button>
+                            <input
+                                type="text"
+                                placeholder="Type a message..."
+                                value={newMessage}
+                                onChange={(e) => setNewMessage(e.target.value)}
+                            />
+                            <button className="send-button" onClick={handleSendMessage}>Send</button>
                         </div>
+
 
                     </div>
                 </div>
