@@ -22,8 +22,7 @@ public record UserProfileDTO(
         String firstName,
         String lastName,
         String profilePictureUrl,
-        String userLevel,
-        List<UserProfileDTOFriendship> friends
+        String userLevel
 ) {
     public static Optional<String> verifyBasics(UserProfileDTO userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
         if (!NAME_NORM.matcher(userProfile.firstName()).matches()) {

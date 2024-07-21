@@ -12,10 +12,7 @@ import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -396,13 +393,6 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
         return Optional.empty();
     }
 
-    public List<UserProfile> getAllFriends() {
-        return Stream.concat(
-                senderFriendshipList.stream().map(Friendship::getReceiver),
-                receiverFriendshipList.stream().map(Friendship::getSender)
-        ).collect(Collectors.toList());
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -418,10 +408,6 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
 
     @Override
     public UserProfileDTO toDto() {
-        List<UserProfileDTOFriendship> friends = getAllFriends().stream()
-                .map(UserProfileDTOFriendship::new)
-                .toList();
-
         return new UserProfileDTO(
                 age,
                 email,
@@ -436,8 +422,7 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
                 firstName,
                 lastName,
                 profilePictureUrl,
-                userLevel,
-                friends
+                userLevel
         );
     }
 
