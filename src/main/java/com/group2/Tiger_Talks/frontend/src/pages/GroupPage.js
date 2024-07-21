@@ -7,7 +7,7 @@ import Group from "../components/Group";
 import SearchBar from "../components/SearchBar";
 import {
 	handleGetGroupUserIsMember,
-} from "./../axios/GroupAxios";
+} from "../axios/GroupAxios";
 
 const GroupPage = () => {
 	const user = useSelector((state) => state.user.user);

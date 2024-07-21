@@ -20,6 +20,7 @@ import ResetPasswordPage from "./pages/ForgetPassword/ResetPasswordPage";
 import AuthenticationFailPage from "./pages/AuthenticationFailPage";
 import GroupSettingPage from "./pages/GroupSettingPage";
 import GroupMemberPage from "./pages/GroupMembersPage";
+import FriendMessagePage from "./pages/FriendMessagePage";
 //REDUX
 import { useSelector } from "react-redux";
 
@@ -179,6 +180,20 @@ const AppRoutes = () => {
 						isLoggedIn ? (
 							isValidated ? (
 								<FriendListPage />
+							) : (
+								<ValidationFailPage />
+							)
+						) : (
+							<AuthenticationFailPage />
+						)
+					}
+				/>
+				<Route
+					path="/friends/message"
+					element={
+						isLoggedIn ? (
+							isValidated ? (
+								<FriendMessagePage />
 							) : (
 								<ValidationFailPage />
 							)
