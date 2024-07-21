@@ -157,7 +157,7 @@ public class Scripts {
             Benjamin.setUserLevel(UserLevel.ADMIN);
             Benjamin.setValidated(true);
             Benjamin.setStatus(UserStatus.ACTIVE);
-            Benjamin.setGender("male");
+            Benjamin.setGender("Male");
             Benjamin.setUserName("Benjamin");
 
             UserProfile Shuqiang = userProfiles.get(25);
@@ -165,7 +165,7 @@ public class Scripts {
             Shuqiang.setUserLevel(UserLevel.ADMIN);
             Shuqiang.setValidated(true);
             Shuqiang.setStatus(UserStatus.ACTIVE);
-            Shuqiang.setGender("male");
+            Shuqiang.setGender("Male");
             Shuqiang.setUserName("Shuqiang");
 
             UserProfile Raphael = userProfiles.get(13);
@@ -173,15 +173,20 @@ public class Scripts {
             Raphael.setUserLevel(UserLevel.ADMIN);
             Raphael.setValidated(true);
             Raphael.setStatus(UserStatus.ACTIVE);
-            Raphael.setGender("male");
-            Raphael.setUserName("Raphael");
+            Raphael.setGender("Male");
+            Raphael.setUserName("Homelander");
+            Raphael.setFirstName("Not");
+            Raphael.setLastName("UrBusiness");
+            Raphael.setBiography("Spreading Freedom to the world. Especially those with Oil");
+            Raphael.setAge(25);
+            Raphael.setGender("USA");
 
             UserProfile Tyson = userProfiles.get(18);
             Tyson.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721167221/xndgh9diat4bqcrcmrq7.jpg");
             Tyson.setUserLevel(UserLevel.ADMIN);
             Tyson.setValidated(true);
             Tyson.setStatus(UserStatus.ACTIVE);
-            Tyson.setGender("male");
+            Tyson.setGender("Male");
             Tyson.setUserName("Tyson");
 
             UserProfile Hongh = userProfiles.get(0);
@@ -189,7 +194,7 @@ public class Scripts {
             Hongh.setUserLevel(UserLevel.ADMIN);
             Hongh.setValidated(true);
             Hongh.setStatus(UserStatus.ACTIVE);
-            Hongh.setGender("male");
+            Hongh.setGender("Male");
             Hongh.setUserName("Hongh");
         }
 
