@@ -16,7 +16,12 @@ public record FriendshipMessageDTO(
         int messageId,
         LocalDateTime createTime,
         String messageContent,
-        String messageSender,
-        String messageReceiver
+        String messageSenderEmail,
+        String messageSenderUserName,
+        String messageSenderProfilePictureUrl,
+        String messageReceiverEmail,
+        String messageReceiverUserName,
+        String messageReceiverProfilePictureUrl,
+        boolean isRead
 ) {
 }

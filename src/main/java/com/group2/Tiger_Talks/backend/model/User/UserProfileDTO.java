@@ -41,8 +41,7 @@ public record UserProfileDTO(
         String firstName,
         String lastName,
         String profilePictureUrl,
-        String userLevel,
-        List<UserProfileDTOFriendship> friends
+        String userLevel
 ) {
     /**
      * Verifies the basic fields of a user profile.

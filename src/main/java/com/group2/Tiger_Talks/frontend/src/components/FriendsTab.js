@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {HiUserGroup} from "react-icons/hi";
+import {HiAnnotation, HiChatAlt, HiChatAlt2, HiUserGroup} from "react-icons/hi";
 import {FaUserFriends, FaUserPlus} from "react-icons/fa";
 import "../assets/styles/FriendsTab.css";
 
@@ -17,11 +17,16 @@ const FriendsTab = () => {
             </button>
             <div className={`group-tab-dropdown ${showGroupTab ? "show" : ""}`}>
                 <a href="/friends/friend-request-list" className="group-tab-item">
-                    <FaUserPlus/> <span className="text-hide">Friend request list</span>
+                    <FaUserPlus/>
+                    <span className="text-hide">Friend request list</span>
                 </a>
                 <a href="/friends/friend-list" className="group-tab-item">
                     <HiUserGroup/>
                     <span className="text-hide"> View Friends</span>
+                </a>
+                <a href="/friends/message" className="group-tab-item">
+                    <HiChatAlt/>
+                    <span className="text-hide"> Message</span>
                 </a>
             </div>
         </div>

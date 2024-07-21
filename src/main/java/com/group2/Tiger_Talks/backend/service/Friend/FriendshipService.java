@@ -1,22 +1,11 @@
 package com.group2.Tiger_Talks.backend.service.Friend;
 
-import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
-import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
+import com.group2.Tiger_Talks.backend.model.Friend.UserProfileDTOFriendship;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface FriendshipService {
-
-
-    /**
-     * Retrieves all users friends
-     *
-     * @param email Email of user you want friends displayed
-     * @return List of friendships.
-     */
-    List<FriendshipDTO> getAllFriends(String email);
-
 
     List<UserProfileDTOFriendship> getAllFriendsDTO(String email);
 

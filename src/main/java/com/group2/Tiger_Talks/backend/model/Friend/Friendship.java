@@ -8,9 +8,10 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
-public class Friendship implements FullyDTOConvertible<FriendshipDTO> {
+public class Friendship {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -145,26 +146,4 @@ public class Friendship implements FullyDTOConvertible<FriendshipDTO> {
         this.receiverUserNameTemp = receiverUserNameTemp;
     }
 
-    @Override
-    public FriendshipDTO toDto() {
-        return new FriendshipDTO(
-                this.getFriendshipId(),
-                this.getSender().getEmail(),
-                this.getSender().getUserName(),
-                this.getReceiver().getEmail(),
-                this.getReceiver().getUserName(),
-                this.getSender().getProfilePictureUrl(),
-                this.getReceiver().getProfilePictureUrl()
-        );
-    }
-
-    @Override
-    public void updateFromDto(FriendshipDTO friendshipDTO) {
-        this.getSender().setEmail(friendshipDTO.senderEmail());
-        this.getSender().setUserName(friendshipDTO.senderName());
-        this.getReceiver().setEmail(friendshipDTO.receiverEmail());
-        this.getReceiver().setUserName(friendshipDTO.receiverName());
-        this.getSender().setProfilePictureUrl(friendshipDTO.senderProfilePictureUrl());
-        this.getReceiver().setProfilePictureUrl(friendshipDTO.receiverProfilePictureUrl());
-    }
 }
