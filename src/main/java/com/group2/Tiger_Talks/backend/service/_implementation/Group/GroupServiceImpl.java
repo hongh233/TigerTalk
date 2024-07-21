@@ -163,9 +163,9 @@ public class GroupServiceImpl implements GroupService {
         Group group = groupMembership.getGroup();
         Optional<String> notificationResult = notificationService.createNotification(
                 new Notification(
-                userProfile,
-                "You have left the group: " + group.getGroupName(),
-                "GroupMembershipDeletion"));
+                        userProfile,
+                        "You have left the group: " + group.getGroupName(),
+                        "GroupMembershipDeletion"));
         if (notificationResult.isPresent()) {
             return notificationResult;
         }
@@ -176,9 +176,9 @@ public class GroupServiceImpl implements GroupService {
             UserProfile groupCreator = creatorMembership.get().getUserProfile();
             notificationResult = notificationService.createNotification(
                     new Notification(
-                    groupCreator,
-                    "User " + userProfile.getEmail() + " has left your group: " + group.getGroupName(),
-                    "GroupMembershipDeletion"));
+                            groupCreator,
+                            "User " + userProfile.getEmail() + " has left your group: " + group.getGroupName(),
+                            "GroupMembershipDeletion"));
             if (notificationResult.isPresent()) {
                 return notificationResult;
             }

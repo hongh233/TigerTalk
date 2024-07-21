@@ -1,14 +1,15 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
-import com.group2.Tiger_Talks.backend.model.Group.*;
+import com.group2.Tiger_Talks.backend.model.Group.Group;
+import com.group2.Tiger_Talks.backend.model.Group.GroupDTO;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
+import com.group2.Tiger_Talks.backend.model.Group.GroupMembershipDTO;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
-
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
-import com.group2.Tiger_Talks.backend.service._implementation.Notification.NotificationServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -508,7 +509,6 @@ public class GroupServiceImplTest {
         assertEquals("User " + userA.getEmail() + " has left your group: " + groupPub.getGroupName(), capturedNotification.getContent());
         assertEquals("GroupMembershipDeletion", capturedNotification.getNotificationType());
     }
-
 
 
     /**

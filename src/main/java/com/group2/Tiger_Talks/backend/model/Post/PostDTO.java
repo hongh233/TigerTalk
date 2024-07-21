@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 /**
  * Data Transfer Object for Post.
- * This record is used to transfer post-data between processes.
  *
  * @param postId              the unique identifier of the post
  * @param email               the email of the user who created the post
