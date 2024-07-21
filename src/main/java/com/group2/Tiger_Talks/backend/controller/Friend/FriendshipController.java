@@ -1,7 +1,6 @@
 package com.group2.Tiger_Talks.backend.controller.Friend;
 
-import com.group2.Tiger_Talks.backend.model.Friend.FriendshipDTO;
-import com.group2.Tiger_Talks.backend.model.User.UserProfileDTOFriendship;
+import com.group2.Tiger_Talks.backend.model.Friend.UserProfileDTOFriendship;
 import com.group2.Tiger_Talks.backend.service.Friend.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +17,6 @@ public class FriendshipController {
 
     @Autowired
     private FriendshipService friendshipService;
-
-    /**
-     * Retrieves all friends of a user by their email.
-     *
-     * @param email the email of the user
-     * @return A list of FriendshipDTO representing all friends
-     */
-    @GetMapping("/{email}")
-    public List<FriendshipDTO> getAllFriends(@PathVariable("email") String email) {
-        return friendshipService.getAllFriends(email);
-    }
 
     /**
      * Retrieves all friends of a user by their email, returning UserProfileFriendshipDTO.
