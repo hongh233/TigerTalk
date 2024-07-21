@@ -78,7 +78,11 @@ const FriendMessagePage = () => {
         }
     };
 
-
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSendMessage();
+        }
+    };
 
     return (
         <div className="group-page" style={{ overflow: 'hidden' }}>
@@ -88,14 +92,11 @@ const FriendMessagePage = () => {
                     <NavBar />
                 </div>
                 <div className="friend-message-content-container">
-
                     <div className="friend-list">
                         <h2>Messages</h2>
                         <ul>
                             {friends.map((friend) => (
-                                <li key={friend.email} onClick={() => {
-                                    handleFriendClick(friend)
-                                }}>
+                                <li key={friend.email} onClick={() => handleFriendClick(friend)}>
                                     <div className="friend">
                                         <div className="friend-header">
                                             <div className="friend-picture">
@@ -111,9 +112,7 @@ const FriendMessagePage = () => {
                             ))}
                         </ul>
                     </div>
-
                     <div className="chat-box">
-
                         {selectedFriend && <div className="chat-header">{selectedFriend.userName}</div>}
                         <div className="messages">
                             {messages.length === 0 ? (
@@ -125,17 +124,20 @@ const FriendMessagePage = () => {
                                         className={message.messageSenderEmail === user.email ? "message-right" : "message-left"}
                                     >
                                         {message.messageSenderEmail !== user.email && (
-                                            <img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar" />
+                                            <div className="friend-picture">
+                                                <img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar" />
+                                            </div>
                                         )}
                                         <div className="message-bubble">{message.messageContent}</div>
                                         {message.messageSenderEmail === user.email && (
-                                            <img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar" />
+                                            <div className="friend-picture">
+                                                <img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar" />
+                                            </div>
                                         )}
                                     </div>
                                 ))
                             )}
                         </div>
-
                         <div className="message-input">
                             <button className="emoji-button">😊</button>
                             <input
@@ -143,11 +145,10 @@ const FriendMessagePage = () => {
                                 placeholder="Type a message..."
                                 value={newMessage}
                                 onChange={(e) => setNewMessage(e.target.value)}
+                                onKeyPress={handleKeyPress}
                             />
                             <button className="send-button" onClick={handleSendMessage}>Send</button>
                         </div>
-
-
                     </div>
                 </div>
             </div>
