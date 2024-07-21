@@ -15,6 +15,7 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
 
     private LocalDateTime createTime = LocalDateTime.now();
     private String messageContent;
+    private boolean isRead = false;
 
     @ManyToOne
     @JoinColumn(name = "friendship_id", nullable = false)
@@ -68,14 +69,6 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
     }
 
 
-    public String getMessageSenderEmail() {
-        return sender.getEmail();
-    }
-
-    public String getMessageReceiverEmail() {
-        return receiver.getEmail();
-    }
-
     public UserProfile getSender() {
         return sender;
     }
@@ -92,6 +85,13 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
         this.receiver = receiver;
     }
 
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
+    }
 
     @Override
     public FriendshipMessageDTO toDto() {
@@ -99,8 +99,13 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
                 this.messageId,
                 this.createTime,
                 this.messageContent,
-                this.getMessageSenderEmail(),
-                this.getMessageReceiverEmail()
+                this.getSender().getEmail(),
+                this.getSender().getUserName(),
+                this.getSender().getProfilePictureUrl(),
+                this.getReceiver().getEmail(),
+                this.getReceiver().getUserName(),
+                this.getReceiver().getProfilePictureUrl(),
+                this.isRead
         );
     }
 
