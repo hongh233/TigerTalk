@@ -6,15 +6,18 @@ import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
+import com.group2.Tiger_Talks.backend.model.Group.GroupPostLike;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;
+import com.group2.Tiger_Talks.backend.model.Post.PostLike;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.*;
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
@@ -54,11 +57,12 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMembership> groupMembershipList = new LinkedList<>();
-
-
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupPostLike> groupPostLikeList = new LinkedList<>();
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLike> postLikeList = new LinkedList<>();
     @OneToMany(mappedBy = "commentSenderUserProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostComment> postCommentList = new LinkedList<>();
-
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
     private String status = UserStatus.PENDING;      // blocked / pending / active
@@ -67,10 +71,8 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
     private String[] securityQuestionsAnswer;
     private String role = Role.DEFAULT;        // default / student / instructor / employee
     private String onlineStatus = OnlineStatus.OFFLINE;
-
     @Column(unique = true)
     private String userName;
-
     private String personalInterest;
     private String location;
     private String postalCode;
@@ -81,9 +83,7 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
     private String gender;
     private String firstName;
     private String lastName;
-
     private String profilePictureUrl = DEFAULT_PROFILE_PICTURE;
-
     public UserProfile(String firstName,
                        String lastName,
                        int age,
@@ -106,8 +106,6 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
 
     public UserProfile() {
     }
-
-    // Getters and setters
 
     public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
         if (!NAME_NORM.matcher(userProfile.getFirstName()).matches()) {
@@ -144,6 +142,16 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
             return Optional.of("Password must have at least 1 special character.");
         }
         return Optional.empty();
+    }
+
+    public List<PostLike> getPostLikeList() {
+        return postLikeList;
+    }
+
+    // Getters and setters
+
+    public List<GroupPostLike> getGroupPostLikeList() {
+        return groupPostLikeList;
     }
 
     public String getEmail() {

@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface GroupPostLikeRepository extends JpaRepository<GroupPostLike, Integer> {
-    Optional<GroupPostLike> findGroupPostAndUserProfile(GroupPost groupPost, UserProfile userProfile);
+    Optional<GroupPostLike> findByGroupPostAndUserProfile(GroupPost groupPost, UserProfile userProfile);
 }

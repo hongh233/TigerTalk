@@ -102,7 +102,7 @@ public class GroupPostServiceImpl implements GroupPostService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Check if the user has already liked the post
-        Optional<GroupPostLike> existingLike = groupPostLikeRepository.findGroupPostAndUserProfile(post, userProfile);
+        Optional<GroupPostLike> existingLike = groupPostLikeRepository.findByGroupPostAndUserProfile(post, userProfile);
 
         boolean liked; // Track if it is a like or unlike
         if (existingLike.isPresent()) {
