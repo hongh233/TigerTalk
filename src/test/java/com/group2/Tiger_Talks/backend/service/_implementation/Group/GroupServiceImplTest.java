@@ -26,8 +26,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 
@@ -432,29 +431,85 @@ public class GroupServiceImplTest {
      */
     @Test
     public void deleteGroupMembership_membershipIdNotFound() {
-        when(groupMembershipRepository.findById(1)).thenReturn(Optional.empty());
-        Optional<String> result = groupService.deleteGroupMembership(1);
+        when(groupMembershipRepository.findById(2)).thenReturn(Optional.empty());
+        Optional<String> result = groupService.deleteGroupMembership(2);
         assertTrue(result.isPresent());
         assertEquals("Group membership id not found", result.get());
     }
 
     @Test
     public void deleteGroupMembership_successfulDelete_correctMessage() {
-        when(groupMembershipRepository.findById(1)).thenReturn(Optional.of(groupMembership));
-        Optional<String> result = groupService.deleteGroupMembership(1);
+        lenient().when(groupMembershipRepository.findById(2)).thenReturn(Optional.of(groupMembership1));
+        lenient().when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        Optional<String> result = groupService.deleteGroupMembership(2);
         assertTrue(result.isEmpty());
     }
 
     @Test
     public void deleteGroupMembership_successfulDelete_notExistInRepository() {
-        when(groupMembershipRepository.findById(1)).thenReturn(Optional.of(groupMembership));
-        groupService.deleteGroupMembership(1);
+        when(groupMembershipRepository.findById(2)).thenReturn(Optional.of(groupMembership1));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        groupService.deleteGroupMembership(2);
+
         ArgumentCaptor<GroupMembership> membershipCaptor = ArgumentCaptor.forClass(GroupMembership.class);
         verify(groupMembershipRepository).delete(membershipCaptor.capture());
-        assertEquals(groupMembership, membershipCaptor.getValue());
-        when(groupMembershipRepository.findById(1)).thenReturn(Optional.empty());
-        assertTrue(groupMembershipRepository.findById(1).isEmpty());
+
+        assertEquals(groupMembership1, membershipCaptor.getValue());
+        when(groupMembershipRepository.findById(2)).thenReturn(Optional.empty());
+        assertTrue(groupMembershipRepository.findById(2).isEmpty());
     }
+
+    @Test
+    public void deleteGroupMembership_sendsNotificationToUser_checkBasic() {
+        when(groupMembershipRepository.findById(2)).thenReturn(Optional.of(groupMembership1));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        groupService.deleteGroupMembership(2);
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(1)).createNotification(notificationCaptor.capture());
+        Notification capturedNotification = notificationCaptor.getAllValues().get(0);
+        assertNotNull(capturedNotification);
+        assertEquals(userA, capturedNotification.getUserProfile());
+    }
+
+    @Test
+    public void deleteGroupMembership_sendsNotificationToUser_checkContent() {
+        when(groupMembershipRepository.findById(2)).thenReturn(Optional.of(groupMembership1));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        groupService.deleteGroupMembership(2);
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(1)).createNotification(notificationCaptor.capture());
+        Notification capturedNotification = notificationCaptor.getAllValues().get(0);
+        assertEquals("You have left the group: " + groupPub.getGroupName(), capturedNotification.getContent());
+        assertEquals("GroupMembershipDeletion", capturedNotification.getNotificationType());
+    }
+
+    @Test
+    public void deleteGroupMembership_sendsNotificationToGroupCreator_checkBasic() {
+        when(groupMembershipRepository.findById(2)).thenReturn(Optional.of(groupMembership1));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        when(groupMembershipRepository.findGroupCreatorByGroupId(groupPub.getGroupId())).thenReturn(Optional.of(groupMembership1));
+        groupService.deleteGroupMembership(2);
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(2)).createNotification(notificationCaptor.capture());
+        Notification capturedNotification = notificationCaptor.getAllValues().get(1);
+        assertNotNull(capturedNotification);
+        assertEquals(groupMembership1.getUserProfile(), capturedNotification.getUserProfile());
+    }
+
+    @Test
+    public void deleteGroupMembership_sendsNotificationToGroupCreator_checkContent() {
+        when(groupMembershipRepository.findById(2)).thenReturn(Optional.of(groupMembership1));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        when(groupMembershipRepository.findGroupCreatorByGroupId(groupPub.getGroupId())).thenReturn(Optional.of(groupMembership1));
+        groupService.deleteGroupMembership(2);
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(2)).createNotification(notificationCaptor.capture());
+        Notification capturedNotification = notificationCaptor.getAllValues().get(1);
+        assertEquals("User " + userA.getEmail() + " has left your group: " + groupPub.getGroupName(), capturedNotification.getContent());
+        assertEquals("GroupMembershipDeletion", capturedNotification.getNotificationType());
+    }
+
+
 
     /**
      * Test case for getGroupMembersByGroupId
