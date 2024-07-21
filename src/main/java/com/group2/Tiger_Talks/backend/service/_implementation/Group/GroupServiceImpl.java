@@ -158,36 +158,31 @@ public class GroupServiceImpl implements GroupService {
         GroupMembership groupMembership = membershipTemp.get();
         groupMembershipRepository.delete(groupMembership);
 
-//        // Create and send the notification to user
-//        UserProfile userProfile = groupMembership.getUserProfile();
-//        Group group = groupMembership.getGroup();
-//        Optional<String> notificationResult = notificationService.createNotification(
-//                new Notification(
-//                userProfile,
-//                "You have left the group: " + group.getGroupName(),
-//                "GroupMembershipDeletion"));
-//        if (notificationResult.isPresent()) {
-//            return notificationResult;
-//        }
-//
-//        // Create and send the notification to group creator
-//        UserProfile groupCreator = null;
-//        for (GroupMembership membership : group.getGroupMemberList()) {
-//            if (membership.isCreator()) {
-//                groupCreator = membership.getUserProfile();
-//                break;
-//            }
-//        }
-//        if (groupCreator != null) {
-//            notificationResult = notificationService.createNotification(
-//                    new Notification(
-//                    groupCreator,
-//                    "User " + userProfile.getEmail() + " has left your group: " + group.getGroupName(),
-//                    "GroupMembershipDeletion"));
-//            if (notificationResult.isPresent()) {
-//                return notificationResult;
-//            }
-//        }
+        // Create and send the notification to user
+        UserProfile userProfile = groupMembership.getUserProfile();
+        Group group = groupMembership.getGroup();
+        Optional<String> notificationResult = notificationService.createNotification(
+                new Notification(
+                userProfile,
+                "You have left the group: " + group.getGroupName(),
+                "GroupMembershipDeletion"));
+        if (notificationResult.isPresent()) {
+            return notificationResult;
+        }
+
+        // Create and send the notification to group creator
+        Optional<GroupMembership> creatorMembership = groupMembershipRepository.findGroupCreatorByGroupId(group.getGroupId());
+        if (creatorMembership.isPresent()) {
+            UserProfile groupCreator = creatorMembership.get().getUserProfile();
+            notificationResult = notificationService.createNotification(
+                    new Notification(
+                    groupCreator,
+                    "User " + userProfile.getEmail() + " has left your group: " + group.getGroupName(),
+                    "GroupMembershipDeletion"));
+            if (notificationResult.isPresent()) {
+                return notificationResult;
+            }
+        }
         return Optional.empty();
     }
 
