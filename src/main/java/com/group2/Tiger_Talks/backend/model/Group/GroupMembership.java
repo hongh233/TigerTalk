@@ -1,6 +1,5 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
-import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import com.group2.Tiger_Talks.backend.model.ToDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import jakarta.persistence.*;

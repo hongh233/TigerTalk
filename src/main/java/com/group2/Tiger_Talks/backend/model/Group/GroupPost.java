@@ -1,5 +1,8 @@
 package com.group2.Tiger_Talks.backend.model.Group;
 
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
+import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+import com.group2.Tiger_Talks.backend.service._implementation.Group.GroupPostServiceImpl;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -7,7 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-public class GroupPost {
+public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
+    // TODO: Add number of likes to a group post and number of comments
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,5 +99,26 @@ public class GroupPost {
 
     public void setGroupPostPictureURL(String groupPostPictureURL) {
         this.groupPostPictureURL = groupPostPictureURL;
+    }
+
+    @Override
+    public GroupPostDTO toDto() {
+        UserProfile userProfile = GroupPostServiceImpl.findUserProfileByEmail(this).orElseThrow();
+        return new GroupPostDTO(
+                this.getGroupPostId(),
+                this.getGroupPostSenderEmail(),
+                this.getGroupPostContent(),
+                this.getPostCreateTime(),
+                userProfile.getUserName(),
+                userProfile.getProfilePictureUrl(),
+                this.getGroupPostPictureURL()
+        );
+    }
+
+    @Override
+    public void updateFromDto(GroupPostDTO groupPostDTO) {
+        this.groupPostContent = groupPostDTO.groupPostContent();
+        this.postCreateTime = groupPostDTO.groupPostCreateTime();
+        this.groupPostPictureURL = groupPostDTO.postPictureURL();
     }
 }

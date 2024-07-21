@@ -5,7 +5,6 @@ import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostComment;
 import com.group2.Tiger_Talks.backend.model.Post.PostCommentDTO;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
-import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.repository.Post.PostCommentRepository;
 import com.group2.Tiger_Talks.backend.repository.Post.PostRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;

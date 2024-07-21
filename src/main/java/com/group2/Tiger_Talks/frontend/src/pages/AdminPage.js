@@ -6,7 +6,7 @@ import UserList from "../components/UserList";
 import axios from "axios";
 import "../assets/styles/AdminPage.css";
 import { useNavigate } from "react-router-dom";
-// TODO :: {Raphael} Fix admins cyclic reference using new links to dto
+
 const AdminPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();

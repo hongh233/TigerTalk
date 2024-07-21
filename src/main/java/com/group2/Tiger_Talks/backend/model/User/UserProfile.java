@@ -2,9 +2,9 @@ package com.group2.Tiger_Talks.backend.model.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
+import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.Post.Post;

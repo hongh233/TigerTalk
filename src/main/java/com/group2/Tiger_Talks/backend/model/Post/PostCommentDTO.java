@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 /**
  * Data Transfer Object for PostComment.
- * This record is used to transfer post-comment data between processes.
  *
  * @param commentId                   the unique identifier of the comment
  * @param content                     the content of the comment
@@ -23,7 +22,13 @@ public record PostCommentDTO(
         UserProfileDTO postSenderUserProfileDTO,
         Integer postId
 ) {
-    // For tests only
+    /**
+     * <h1>For testing purposes only.<h1>
+     *
+     * @param id                          the unique identifier of the comment and post
+     * @param commentSenderUserProfileDTO the profile of the user who sent the comment
+     * @param postSenderUserProfileDTO    the profile of the user who sent the post
+     */
     public PostCommentDTO(Integer id, UserProfileDTO commentSenderUserProfileDTO, UserProfileDTO postSenderUserProfileDTO) {
         this(
                 id,
