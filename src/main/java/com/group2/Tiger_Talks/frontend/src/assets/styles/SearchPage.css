@@ -17,5 +17,8 @@
 }
 .search-content-container {
 	width: 85%;
-	background-color: antiquewhite;
+}
+
+.global-search-group-list {
+	margin: 0 8%;
 }

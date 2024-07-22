@@ -7,6 +7,7 @@ import { handleFindGroups } from "./../axios/GroupAxios";
 import { findUsersByKeyword } from "./../axios/UserAxios";
 import { filterUsersAlreadyInGroup } from "./../utils/filterGroupMembers";
 import Dropdown from "./../components/DropDown";
+import { IoSearch } from "react-icons/io5";
 import "../assets/styles/SearchBar.css";
 
 const SearchBar = ({
@@ -62,9 +63,13 @@ const SearchBar = ({
 				);
 				dispatch({ type: "SET_GLOBAL_USERS", payload: responseUsers });
 				dispatch({ type: "SET_GLOBAL_GROUPS", payload: responseGroups });
+				navigate("/search");
 			} catch (error) {
 				console.error(`Error fetching users and groups:`, error);
 			}
+		} else {
+			dispatch({ type: "SET_GLOBAL_USERS", payload: null });
+			dispatch({ type: "SET_GLOBAL_GROUPS", payload: null });
 		}
 	};
 
@@ -100,23 +105,15 @@ const SearchBar = ({
 	};
 
 	const handleChoose = (email) => {
-		if (searchType === "user") {
+		if (searchType === "user" || searchType === "global") {
 			navigate(`/profile/${email}`);
 		} else if (searchType === "member") {
 			setSearchMember(email);
 		}
 	};
-
-	const getStatusColor = (status) => {
-		switch (status) {
-			case "available":
-				return "green";
-			case "busy":
-				return "#DC143C";
-			case "away":
-				return "#FDDA0D";
-			default:
-				return "gray";
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter" && searchType === "global") {
+			fetchGlobal();
 		}
 	};
 
@@ -130,10 +127,14 @@ const SearchBar = ({
 						value={searchQuery}
 						onChange={handleInputChange}
 						onFocus={() => setShowDropdown(true)}
+						onKeyDown={handleKeyDown}
 					/>
 					{searchType === "global" ? (
-						<div className="header-search-button" onClick={() => fetchGlobal()}>
-							Search
+						<div
+							className="header-search-button"
+							onClick={(e) => fetchGlobal()}
+						>
+							<IoSearch />
 						</div>
 					) : (
 						""
@@ -145,7 +146,6 @@ const SearchBar = ({
 				<Dropdown
 					handleChoose={handleChoose}
 					items={items}
-					getStatusColor={getStatusColor}
 					dropdownClassName={dropdownClassName}
 				/>
 			)}

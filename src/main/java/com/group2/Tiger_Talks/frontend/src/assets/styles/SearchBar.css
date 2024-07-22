@@ -24,7 +24,7 @@
 	padding: 10px 10px;
 	background-color: #17a2b8;
 	transition: background-color 0.3s ease, transform 0.3s ease;
-	font-size: 14px;
+	font-size: 20px;
 	font-weight: bold;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
