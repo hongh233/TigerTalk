@@ -27,7 +27,7 @@ public class Notification implements ToDTO<NotificationDTO> {
     // GroupCreation,
     // GroupMembershipDeletion,
     // GroupJoin,
-    //
+    // GroupDeletion,
     private String notificationType;
 
     @ManyToOne

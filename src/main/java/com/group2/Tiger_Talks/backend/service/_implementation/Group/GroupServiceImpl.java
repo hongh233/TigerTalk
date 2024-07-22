@@ -169,8 +169,23 @@ public class GroupServiceImpl implements GroupService {
         if (groupTemp.isEmpty()) {
             return Optional.of("Group id not found");
         }
+
         Group group = groupTemp.get();
-        groupMembershipRepository.deleteAll(group.getGroupMemberList());
+        List<GroupMembership> members = group.getGroupMemberList();
+        for (GroupMembership member : members) {
+            UserProfile user = member.getUserProfile();
+            Notification notification = new Notification(
+                    user,
+                    "Group " + group.getGroupName() + " has been deleted.",
+                    "GroupDeletion"
+            );
+            Optional<String> notificationResult = notificationService.createNotification(notification);
+            if (notificationResult.isPresent()) {
+                return notificationResult;
+            }
+        }
+
+        groupMembershipRepository.deleteAll(members);
         groupRepository.delete(group);
         return Optional.empty();
     }
