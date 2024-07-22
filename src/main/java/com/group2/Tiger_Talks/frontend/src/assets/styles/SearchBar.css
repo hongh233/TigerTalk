@@ -10,6 +10,33 @@
 	width: 50%;
 	border-radius: 4px;
 }
+.search-input-and-button {
+	display: flex;
+}
+.header-search-button {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	color: white;
+	border-radius: 5px;
+	padding: 10px 10px;
+	background-color: #17a2b8;
+	transition: background-color 0.3s ease, transform 0.3s ease;
+	font-size: 14px;
+	font-weight: bold;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-search-button:hover {
+	background-color: #138496;
+	transform: scale(1.05);
+}
+
+.header-search-button:active {
+	transform: scale(0.95);
+}
 /* Member */
 
 .search-bar-member {

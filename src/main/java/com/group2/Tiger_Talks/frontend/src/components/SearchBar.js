@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -23,8 +24,9 @@ const SearchBar = ({
 	const [items, setItems] = useState([]);
 	const [showDropdown, setShowDropdown] = useState(false);
 	const navigate = useNavigate();
-
+	const dispatch = useDispatch();
 	const { email } = useSelector((state) => state.user.user);
+
 	const handleInputChange = (e) => {
 		const query = e.target.value;
 		setSearchQuery(query);
@@ -50,6 +52,22 @@ const SearchBar = ({
 		}
 	};
 
+	const fetchGlobal = async () => {
+		if (searchQuery.length > 0) {
+			try {
+				const responseUsers = await findUsersByKeyword(searchQuery, email);
+				const responseGroups = await handleFindGroups(
+					searchQuery.toLowerCase(),
+					email
+				);
+				dispatch({ type: "SET_GLOBAL_USERS", payload: responseUsers });
+				dispatch({ type: "SET_GLOBAL_GROUPS", payload: responseGroups });
+			} catch (error) {
+				console.error(`Error fetching users and groups:`, error);
+			}
+		}
+	};
+
 	const fetchUsers = async (query) => {
 		try {
 			const response = await findUsersByKeyword(query, email);
@@ -70,7 +88,6 @@ const SearchBar = ({
 
 	const fetchGroups = async (query) => {
 		try {
-			console.log(query);
 			const response = await handleFindGroups(query.toLowerCase(), userEmail);
 			setSearchGroup(response);
 		} catch (error) {
@@ -106,13 +123,22 @@ const SearchBar = ({
 	return (
 		<div className={`search-bar-${searchBarClassName}`}>
 			<div className={`search-bar-${searchBarClassName}-input`}>
-				<input
-					type="text"
-					placeholder="Search..."
-					value={searchQuery}
-					onChange={handleInputChange}
-					onFocus={() => setShowDropdown(true)}
-				/>
+				<div className="search-input-and-button">
+					<input
+						type="text"
+						placeholder="Search..."
+						value={searchQuery}
+						onChange={handleInputChange}
+						onFocus={() => setShowDropdown(true)}
+					/>
+					{searchType === "global" ? (
+						<div className="header-search-button" onClick={() => fetchGlobal()}>
+							Search
+						</div>
+					) : (
+						""
+					)}
+				</div>
 			</div>
 
 			{showDropdown && items && (

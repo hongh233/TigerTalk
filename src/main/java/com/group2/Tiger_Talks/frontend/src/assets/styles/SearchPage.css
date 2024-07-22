@@ -1,0 +1,21 @@
+.search-page-container {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	width: 100%;
+}
+.search-content-header {
+	height: 7%;
+}
+.search-page {
+	display: flex;
+	height: 93%;
+	width: 100%;
+}
+.search-content-nav {
+	width: 15%;
+}
+.search-content-container {
+	width: 85%;
+	background-color: antiquewhite;
+}
