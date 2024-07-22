@@ -3,6 +3,8 @@
     top: 100%;
     left: 0;
     width: 400px;
+    max-height: 300px;
+    overflow-y: auto;
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -16,6 +18,8 @@
 }
 
 .notification-popup li {
+    display: flex;
+    justify-content: space-between;
     padding: 10px;
     color: black;
     border-bottom: 1px solid #ddd;
@@ -25,6 +29,31 @@
     border-bottom: none;
 }
 
+.notification-popup .notification-left {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.notification-popup .notification-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-popup .notification-time {
+    color: rgb(128, 128, 128);
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.notification-popup .notification-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
 
 @media (max-width: 768px) {
     .notification-popup {
@@ -32,6 +61,7 @@
         top: 5%;
         z-index: 1200;
         width: 150px;
-        left: 75%
+        left: 75%;
+        max-height: 50%;
     }
 }
