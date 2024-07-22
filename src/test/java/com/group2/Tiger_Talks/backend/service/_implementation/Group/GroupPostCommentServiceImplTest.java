@@ -148,7 +148,7 @@ public class GroupPostCommentServiceImplTest {
         assertEquals("GroupPostComment", capturedNotification.getNotificationType());
         assertEquals("owner@dal.ca", capturedNotification.getUserProfile().getEmail());
     }
-    
+
     @Test
     public void createGroupPostComment_no_notification_for_self_comment() {
         int groupPostId = 1;
