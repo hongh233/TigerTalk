@@ -13,6 +13,8 @@ const FriendMessagePage = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
 
+    const [isNavVisible, setIsNavVisible] = useState(false);
+
     useEffect(() => {
         const fetchFriends = async () => {
             if (user && user.email) {
@@ -87,8 +89,16 @@ const FriendMessagePage = () => {
     return (
         <div className="group-page" style={{ overflow: 'hidden' }}>
             <Header />
-            <div className="group-page-wrapper">
-                <div className="group-nav">
+            <div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+
+			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
+                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
+                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
                     <NavBar />
                 </div>
                 <div className="friend-message-content-container">
