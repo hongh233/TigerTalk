@@ -1,13 +1,17 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
 import com.group2.Tiger_Talks.backend.model.Group.*;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupMembershipRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostCommentRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
+import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,7 +24,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @ExtendWith(MockitoExtension.class)
 public class GroupPostCommentServiceImplTest {
@@ -33,6 +39,12 @@ public class GroupPostCommentServiceImplTest {
 
     @Mock
     private GroupPostRepository groupPostRepository;
+
+    @Mock
+    private NotificationService notificationService;
+
+    @Mock
+    private UserProfileRepository userProfileRepository;
 
     @Mock
     private GroupPostCommentRepository groupPostCommentRepository;
@@ -98,6 +110,69 @@ public class GroupPostCommentServiceImplTest {
         Optional<String> result = groupPostCommentService.createGroupPostComment(groupPostId, groupPostComment);
         assertTrue(result.isPresent());
         assertEquals("User is not a member of the group, fail to create group post comment.", result.get());
+    }
+
+    @Test
+    public void createGroupPostComment_success_check_notification() {
+        int groupPostId = 1;
+        Group group = new Group();
+        group.setGroupName("Test Group");
+        GroupPost groupPost = new GroupPost(group, "Group post content", "owner@dal.ca", "picture");
+        groupPost.setGroupPostId(groupPostId);
+
+        UserProfile commenterProfile = new UserProfile();
+        commenterProfile.setEmail("commenter@dal.ca");
+        GroupMembership commenterMembership = new GroupMembership();
+        commenterMembership.setUserProfile(commenterProfile);
+
+        GroupPostComment groupPostComment = new GroupPostComment();
+        groupPostComment.setContent("Comment content");
+        groupPostComment.setGroupMembership(commenterMembership);
+
+        UserProfile ownerProfile = new UserProfile();
+        ownerProfile.setEmail("owner@dal.ca");
+
+        when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.of(groupPost));
+        when(groupMembershipRepository.findByGroupAndUserProfileEmail(group, "commenter@dal.ca")).thenReturn(Optional.of(commenterMembership));
+        when(userProfileRepository.findById("owner@dal.ca")).thenReturn(Optional.of(ownerProfile));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+
+        Optional<String> result = groupPostCommentService.createGroupPostComment(groupPostId, groupPostComment);
+        assertFalse(result.isPresent());
+
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(1)).createNotification(notificationCaptor.capture());
+        Notification capturedNotification = notificationCaptor.getValue();
+
+        assertEquals("User commenter@dal.ca commented on your post in group Test Group", capturedNotification.getContent());
+        assertEquals("GroupPostComment", capturedNotification.getNotificationType());
+        assertEquals("owner@dal.ca", capturedNotification.getUserProfile().getEmail());
+    }
+    
+    @Test
+    public void createGroupPostComment_no_notification_for_self_comment() {
+        int groupPostId = 1;
+        Group group = new Group();
+        group.setGroupName("Test Group");
+        GroupPost groupPost = new GroupPost(group, "Group post content", "self@dal.ca", "picture");
+        groupPost.setGroupPostId(groupPostId);
+
+        UserProfile selfProfile = new UserProfile();
+        selfProfile.setEmail("self@dal.ca");
+        GroupMembership selfMembership = new GroupMembership();
+        selfMembership.setUserProfile(selfProfile);
+
+        GroupPostComment groupPostComment = new GroupPostComment();
+        groupPostComment.setContent("Self comment content");
+        groupPostComment.setGroupMembership(selfMembership);
+
+        when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.of(groupPost));
+        when(groupMembershipRepository.findByGroupAndUserProfileEmail(group, "self@dal.ca")).thenReturn(Optional.of(selfMembership));
+
+        Optional<String> result = groupPostCommentService.createGroupPostComment(groupPostId, groupPostComment);
+        assertFalse(result.isPresent());
+
+        verify(notificationService, never()).createNotification(any(Notification.class));
     }
 
     /**
