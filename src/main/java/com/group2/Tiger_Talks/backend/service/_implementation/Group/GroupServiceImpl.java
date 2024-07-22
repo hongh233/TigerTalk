@@ -99,6 +99,32 @@ public class GroupServiceImpl implements GroupService {
         GroupMembership groupMembership = new GroupMembership(group, userProfile, false);
         groupMembershipRepository.save(groupMembership);
 
+        // Create and send notification to the user
+        Notification userNotification = new Notification(
+                userProfile,
+                "You have successfully joined the group: " + group.getGroupName(),
+                "GroupJoin"
+        );
+        Optional<String> notificationResult = notificationService.createNotification(userNotification);
+        if (notificationResult.isPresent()) {
+            return notificationResult;
+        }
+
+        // Create and send notification to the group creator
+        Optional<GroupMembership> creatorMembership = groupMembershipRepository.findGroupCreatorByGroupId(groupID);
+        if (creatorMembership.isPresent()) {
+            UserProfile groupCreator = creatorMembership.get().getUserProfile();
+            Notification creatorNotification = new Notification(
+                    groupCreator,
+                    "User " + userProfile.getEmail() + " has joined your group: " + group.getGroupName(),
+                    "GroupJoin"
+            );
+            notificationResult = notificationService.createNotification(creatorNotification);
+            if (notificationResult.isPresent()) {
+                return notificationResult;
+            }
+        }
+
         return Optional.empty();
     }
 
