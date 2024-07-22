@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
  * @param messageId       the unique identifier of the friendship message
  * @param createTime      the time when the message was created
  * @param messageContent  the content of the message
- * @param messageSender   the sender of the message
- * @param messageReceiver the receiver of the message
  */
 public record FriendshipMessageDTO(
         int messageId,
