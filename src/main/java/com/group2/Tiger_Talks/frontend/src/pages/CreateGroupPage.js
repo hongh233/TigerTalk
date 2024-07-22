@@ -42,13 +42,24 @@ const CreateGroupPage = () => {
 			navigate("/group");
 		}
 	};
+    
+	const [isNavVisible, setIsNavVisible] = useState(false);
+
 	return (
 		<div className="group-create-container">
 			<Header />
-			<div className="group-create-wrapper">
-				<div className="group-create-nav">
-					<NavBar />
-				</div>
+			<div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+
+			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
+                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
+                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
+                    <NavBar />
+                </div>
 
 				<form className="group-create-form" onSubmit={handleSubmit}>
 					<div className="form-group">
