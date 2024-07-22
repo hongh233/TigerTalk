@@ -1,63 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import '../assets/styles/Notification.css';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import { FaEye, FaTrash } from 'react-icons/fa';
+import axios from "axios";
 
-const Notification = () => {
-    const user = useSelector((state) => state.user.user);
-    const [notifications, setNotifications] = useState([]);
-    const [visibleCount, setVisibleCount] = useState(3);
+const Notification = ({ notifications, setNotifications }) => {
 
-
-    useEffect(() => {
-        if (user) {
-            const fetchNotifications = async (email) => {
-                try {
-                    const response = await axios.get(
-                        `http://localhost:8085/api/notification/get/${email}`
-                    );
-                    console.log(response);
-                    setNotifications(response.data);
-                } catch (err) {
-                    console.error("There was an error fetching notifications!", err);
-                }
-            };
-            fetchNotifications(user.email);
-        }
-    }, [user]);
-
-    const handleApprove = (notificationId) => {
-        // // Handle approve logic here
-        // console.log(`Approved notification ${notificationId}`);
-    };
-
-    const handleDisapprove = (notificationId) => {
-        // // Handle disapprove logic here
-        // console.log(`Disapproved notification ${notificationId}`);
-    };
-
-    const handleSeeMore = () => {
-        setVisibleCount(prevCount => prevCount + 3);
+    const handleDelete = (notificationId) => {
+        axios.delete(`http://localhost:8085/api/notification/delete/${notificationId}`)
+            .then(response => {
+                setNotifications(prevNotifications =>
+                    [...prevNotifications.filter(notification => notification.notificationId !== notificationId)]
+                );
+            })
+            .catch(error => {
+                console.error("There was an error deleting the notification!", error);
+            });
     };
 
     return (
         <div className="notification-popup">
             <ul>
-                {notifications.slice(0, visibleCount).map((notification) => (
+                {notifications.map((notification) => (
                     <li key={notification.notificationId}>
-                        {notification.content}
-                        {notification.notificationType === 'FriendshipRequestSend' && (
-                            <div>
-                                <button onClick={() => handleApprove(notification.notificationId)}>Approve</button>
-                                <button onClick={() => handleDisapprove(notification.notificationId)}>Disapprove</button>
+                        <div className="notification-left">
+                            <span className="notification-text">{notification.content}</span>
+                            <div className="notification-time">
+                                {new Date(notification.createTime).toLocaleString()}
                             </div>
-                        )}
+                        </div>
+                        <div className="notification-buttons">
+                            <FaEye style={{ cursor: 'pointer' }} />
+                            <FaTrash
+                                onClick={() => handleDelete(notification.notificationId)}
+                                style={{ cursor: 'pointer' }}
+                            />
+                        </div>
                     </li>
                 ))}
             </ul>
-            {visibleCount < notifications.length && (
-                <button onClick={handleSeeMore}>See more</button>
-            )}
         </div>
     );
 };

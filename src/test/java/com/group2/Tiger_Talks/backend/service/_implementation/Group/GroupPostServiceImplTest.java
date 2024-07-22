@@ -4,13 +4,16 @@ import com.group2.Tiger_Talks.backend.model.Group.Group;
 import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
 import com.group2.Tiger_Talks.backend.model.Group.GroupPost;
 import com.group2.Tiger_Talks.backend.model.Group.GroupPostDTO;
+import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
+import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -23,10 +26,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @ExtendWith(MockitoExtension.class)
 public class GroupPostServiceImplTest {
@@ -43,6 +45,8 @@ public class GroupPostServiceImplTest {
     @Mock
     private UserProfileRepository userProfileRepository;
 
+    @Mock
+    private NotificationService notificationService;
 
     @BeforeEach
     public void setUp() {
@@ -56,11 +60,76 @@ public class GroupPostServiceImplTest {
     public void createGroupPost_success() {
         Group group = new Group();
         group.setGroupId(1);
+        group.setGroupName("Test Group");
         GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
+
+        GroupMembership membershipA = new GroupMembership(group, new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"}), false);
+        GroupMembership membershipB = new GroupMembership(group, new UserProfile("Beach", "Boring", 21, "Male", "userB", "b@dal.ca", "aaaa1A@a",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"}), false);
+        group.setGroupMemberList(List.of(membershipA, membershipB));
+
         when(userProfileRepository.existsById(anyString())).thenReturn(true);
         when(groupRepository.existsById(anyInt())).thenReturn(true);
+        when(groupRepository.findById(anyInt())).thenReturn(Optional.of(group));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+
         Optional<String> result = groupPostService.createGroupPost(groupPost);
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void createGroupPost_success_check_notification_creation_number() {
+        Group group = new Group();
+        group.setGroupId(1);
+        group.setGroupName("Test Group");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
+
+        GroupMembership membershipA = new GroupMembership(group, new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"}), false);
+        GroupMembership membershipB = new GroupMembership(group, new UserProfile("Beach", "Boring", 21, "Male", "userB", "b@dal.ca", "aaaa1A@a",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"}), false);
+        group.setGroupMemberList(List.of(membershipA, membershipB));
+
+        when(userProfileRepository.existsById(anyString())).thenReturn(true);
+        when(groupRepository.existsById(anyInt())).thenReturn(true);
+        when(groupRepository.findById(anyInt())).thenReturn(Optional.of(group));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+
+        groupPostService.createGroupPost(groupPost);
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(1)).createNotification(notificationCaptor.capture());
+        List<Notification> capturedNotifications = notificationCaptor.getAllValues();
+
+        assertEquals(1, capturedNotifications.size());
+    }
+
+    @Test
+    public void createGroupPost_success_check_notification_content() {
+        Group group = new Group();
+        group.setGroupId(1);
+        group.setGroupName("Test Group");
+        GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
+
+        GroupMembership membershipA = new GroupMembership(group, new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"}), false);
+        GroupMembership membershipB = new GroupMembership(group, new UserProfile("Beach", "Boring", 21, "Male", "userB", "b@dal.ca", "aaaa1A@a",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"}), false);
+        group.setGroupMemberList(List.of(membershipA, membershipB));
+
+        when(userProfileRepository.existsById(anyString())).thenReturn(true);
+        when(groupRepository.existsById(anyInt())).thenReturn(true);
+        when(groupRepository.findById(anyInt())).thenReturn(Optional.of(group));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+
+        groupPostService.createGroupPost(groupPost);
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(1)).createNotification(notificationCaptor.capture());
+        Notification capturedNotification = notificationCaptor.getValue();
+
+        assertEquals("User a@dal.ca has created a new post in the group: Test Group", capturedNotification.getContent());
+        assertEquals("GroupPostCreation", capturedNotification.getNotificationType());
+        assertEquals("b@dal.ca", capturedNotification.getUserProfile().getEmail());
     }
 
     @Test

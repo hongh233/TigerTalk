@@ -10,6 +10,8 @@ const FriendRequestPage = () => {
     const user = useSelector((state) => state.user.user);
     const [friendRequests, setFriendRequests] = useState([]);
 
+    const [isNavVisible, setIsNavVisible] = useState(false);
+
     useEffect(() => {
         const fetchFriendRequests = async () => {
             if (user && user.email) {
@@ -31,9 +33,17 @@ const FriendRequestPage = () => {
     return (
         <div className="friend-request-list-page">
             <Header/>
-            <div className="content">
-                <div className="friend-request-list-nav">
-                    <NavBar/>
+            <div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+
+			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
+                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
+                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
+                    <NavBar />
                 </div>
                 <div className="friend-request-list-content">
                     {friendRequests.length > 0 ? (
