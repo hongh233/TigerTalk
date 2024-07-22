@@ -244,6 +244,48 @@ public class GroupServiceImplTest {
         assertEquals("Group not found", result.get());
     }
 
+    @Test
+    public void joinGroup_User_notificationToUser() {
+        GroupMembership creatorMembership = new GroupMembership(groupPub, userA, true);
+        groupPub.setGroupMemberList(List.of(creatorMembership));
+
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        when(groupMembershipRepository.findGroupCreatorByGroupId(1)).thenReturn(Optional.of(creatorMembership));
+
+        groupService.joinGroupUser("b@dal.ca", 1);
+
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(2)).createNotification(notificationCaptor.capture());
+        List<Notification> capturedNotifications = notificationCaptor.getAllValues();
+
+        Notification userNotification = capturedNotifications.get(0);
+        assertEquals("You have successfully joined the group: Test Group", userNotification.getContent());
+        assertEquals("GroupJoin", userNotification.getNotificationType());
+    }
+
+    @Test
+    public void joinGroup_User_notificationToCreator() {
+        GroupMembership creatorMembership = new GroupMembership(groupPub, userA, true);
+        groupPub.setGroupMemberList(List.of(creatorMembership));
+
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+        when(groupMembershipRepository.findGroupCreatorByGroupId(1)).thenReturn(Optional.of(creatorMembership));
+
+        groupService.joinGroupUser("b@dal.ca", 1);
+
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(2)).createNotification(notificationCaptor.capture());
+        List<Notification> capturedNotifications = notificationCaptor.getAllValues();
+
+        Notification creatorNotification = capturedNotifications.get(1);
+        assertEquals("User b@dal.ca has joined your group: Test Group", creatorNotification.getContent());
+        assertEquals("GroupJoin", creatorNotification.getNotificationType());
+    }
+
     /**
      * Test case for getAllGroups
      */
