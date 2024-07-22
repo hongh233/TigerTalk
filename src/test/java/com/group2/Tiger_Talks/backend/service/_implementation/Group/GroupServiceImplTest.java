@@ -444,6 +444,52 @@ public class GroupServiceImplTest {
      * Test case for deleteGroup
      */
     @Test
+    public void deleteGroup_sendsNotificationToAllMembers_checkMember1() {
+        GroupMembership membershipA = new GroupMembership(groupPub, userA, false);
+        GroupMembership membershipB = new GroupMembership(groupPub, userB, false);
+        groupPub.setGroupMemberList(List.of(membershipA, membershipB));
+
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+
+        groupService.deleteGroup(1);
+
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(2)).createNotification(notificationCaptor.capture());
+        List<Notification> capturedNotifications = notificationCaptor.getAllValues();
+
+        assertEquals(2, capturedNotifications.size());
+
+        Notification notificationA = capturedNotifications.get(0);
+        assertEquals("Group Test Group has been deleted.", notificationA.getContent());
+        assertEquals("GroupDeletion", notificationA.getNotificationType());
+        assertEquals(userA, notificationA.getUserProfile());
+    }
+
+    @Test
+    public void deleteGroup_sendsNotificationToAllMembers_checkMember2() {
+        GroupMembership membershipA = new GroupMembership(groupPub, userA, false);
+        GroupMembership membershipB = new GroupMembership(groupPub, userB, false);
+        groupPub.setGroupMemberList(List.of(membershipA, membershipB));
+
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
+
+        groupService.deleteGroup(1);
+
+        ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
+        verify(notificationService, times(2)).createNotification(notificationCaptor.capture());
+        List<Notification> capturedNotifications = notificationCaptor.getAllValues();
+
+        assertEquals(2, capturedNotifications.size());
+
+        Notification notificationB = capturedNotifications.get(1);
+        assertEquals("Group Test Group has been deleted.", notificationB.getContent());
+        assertEquals("GroupDeletion", notificationB.getNotificationType());
+        assertEquals(userB, notificationB.getUserProfile());
+    }
+
+    @Test
     public void deleteGroup_groupIdNotFound() {
         when(groupRepository.findById(1)).thenReturn(Optional.empty());
         Optional<String> result = groupService.deleteGroup(1);
