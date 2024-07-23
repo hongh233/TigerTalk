@@ -27,7 +27,7 @@ const MainPage = () => {
 			.catch((error) => {
 				console.error("There was an error on posts!", error);
 			});
-	}, [user, reload]);
+	}, [user]);
 
 	useEffect(() => {
 		if (user && reload) {
@@ -37,8 +37,8 @@ const MainPage = () => {
 						`http://localhost:8085/api/user/getByEmail/${userEmail}`
 					);
 					const data = response.data;
-					dispatch({ type: "SET_USER", payload: data });
 					setReload(false);
+					await dispatch({ type: "SET_USER", payload: data });
 				} catch (error) {
 					console.error("Error fetching profile user data:", error);
 				}
@@ -75,10 +75,11 @@ const MainPage = () => {
 				setMessage("Error creating post");
 			});
 	};
-	const handleDeletePost = (postId) => {
-        setPosts(posts.filter(post => post.id !== postId));
+	const handleDeletePost = () => {
+		setReload(!reload);
     };
 
+	console.log(posts);
 	return (
 		<div className="main-page">
 			<Header />

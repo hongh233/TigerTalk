@@ -15,7 +15,7 @@ import "../assets/styles/Post.css";
 
 const Post = ({ post, user, removePost }) => {
     const [likes, setLikes] = useState(post.likes || post.numOfLike);
-    const [postComments, setPostComments] = useState(null);
+    const [postComments, setPostComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [isEditing, setIsEditing] = useState(false); 
     const [editedContent, setEditedContent] = useState(post.content);
@@ -124,6 +124,7 @@ const Post = ({ post, user, removePost }) => {
         setEditedContent(editedContent);
         setIsEdited(true);
     };
+
     const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this post?")) {
             await handleDeletePostAxios(post.id);
