@@ -1,11 +1,12 @@
-import {combineReducers} from "@reduxjs/toolkit";
+import { combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./userReducer";
-import friendRequestReducer from "./friendRequestReducer";
+import globalGroupsReducer from "./globalGroups";
+import globalUsersReducer from "./globalUsers";
 
 const rootReducer = combineReducers({
-    user: userReducer,
-    // friends: friendReducer,
-    friendRequests: friendRequestReducer,
+	user: userReducer,
+	globalUsers: globalUsersReducer,
+	globalGroups: globalGroupsReducer,
 });
 
 export default rootReducer;

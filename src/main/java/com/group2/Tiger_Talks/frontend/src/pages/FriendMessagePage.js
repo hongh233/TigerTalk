@@ -4,14 +4,32 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import "../assets/styles/FriendMessagePage.css";
-
+import io from "socket.io-client";
 const FriendMessagePage = () => {
-    const user = useSelector((state) => state.user.user);
-    const [friends, setFriends] = useState([]);
-    const [selectedFriend, setSelectedFriend] = useState(null);
-    const [searchGroup, setSearchGroup] = useState([]);
-    const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState("");
+	const user = useSelector((state) => state.user.user);
+	const [friends, setFriends] = useState([]);
+	const [selectedFriend, setSelectedFriend] = useState(null);
+	const [searchGroup, setSearchGroup] = useState([]);
+	const [messages, setMessages] = useState([]);
+	const [newMessage, setNewMessage] = useState("");
+	const socket = io("http://localhost:8085");
+	useEffect(() => {
+		const fetchFriends = async () => {
+			if (user && user.email) {
+				try {
+					const response = await axios.get(
+						`http://localhost:8085/friendships/DTO/${user.email}`
+					);
+					if (response.data.length > 0) {
+						setFriends(response.data);
+					}
+				} catch (error) {
+					console.error("Failed to fetch friends", error);
+				}
+			}
+		};
+		fetchFriends();
+	}, [user]);
 
     const [isNavVisible, setIsNavVisible] = useState(false);
 
@@ -33,58 +51,57 @@ const FriendMessagePage = () => {
         fetchFriends();
     }, [user]);
 
-    const fetchMessages = async (friendshipId) => {
-        try {
-            const response = await axios.get(
-                `http://localhost:8085/friendships/message/getAll/${friendshipId}`
-            );
-            setMessages(response.data);
-        } catch (error) {
-            console.error("Failed to fetch messages", error);
-        }
-    };
+		return () => {
+			socket.off("newMessage");
+		};
+	}, [selectedFriend]);
 
-    const handleFriendClick = (friend) => {
-        setSelectedFriend(friend);
-        fetchMessages(friend.id); // Assuming each friend object has a friendshipId field
-    };
+	const fetchMessages = async (friendshipId) => {
+		try {
+			const response = await axios.get(
+				`http://localhost:8085/friendships/message/getAll/${friendshipId}`
+			);
+			setMessages(response.data);
+		} catch (error) {
+			console.error("Failed to fetch messages", error);
+		}
+	};
 
-    const handleSendMessage = async () => {
-        if (newMessage.trim() === "" || !selectedFriend) return;
-        console.error(selectedFriend.id);
-        const message = {
-            messageContent: newMessage,
-            sender: {
-                email: user.email,
-            },
-            receiver: {
-                email: selectedFriend.email,
-            },
-            friendship: {
-                friendshipId: selectedFriend.id,
-            }
-        };
+	const handleFriendClick = (friend) => {
+		setSelectedFriend(friend);
+		fetchMessages(friend.id); // Assuming each friend object has a friendshipId field
+	};
 
-        try {
-            const response = await axios.post(
-                'http://localhost:8085/friendships/message/create',
-                message
-            );
-            if (response.status === 200) {
-                // Clear the input field and refresh the message list
-                setNewMessage("");
-                fetchMessages(selectedFriend.id);
-            }
-        } catch (error) {
-            console.error("Failed to send message", error);
-        }
-    };
+	const handleSendMessage = async () => {
+		if (newMessage.trim() === "" || !selectedFriend) return;
+		console.error(selectedFriend.id);
+		const message = {
+			messageContent: newMessage,
+			sender: {
+				email: user.email,
+			},
+			receiver: {
+				email: selectedFriend.email,
+			},
+			friendship: {
+				friendshipId: selectedFriend.id,
+			},
+		};
 
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            handleSendMessage();
-        }
-    };
+		try {
+			const response = await axios.post(
+				"http://localhost:8085/friendships/message/create",
+				message
+			);
+			if (response.status === 200) {
+				// Clear the input field and refresh the message list
+				setNewMessage("");
+				fetchMessages(selectedFriend.id);
+			}
+		} catch (error) {
+			console.error("Failed to send message", error);
+		}
+	};
 
     return (
         <div className="group-page" style={{ overflow: 'hidden' }}>

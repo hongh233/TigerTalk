@@ -17,7 +17,7 @@ const Header = () => {
 			<NotificationButton />
 
 			<SearchBar
-				searchType="user"
+				searchType="global"
 				searchBarClassName={"header"}
 				dropdownClassName={"header"}
 			/>
