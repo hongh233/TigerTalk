@@ -1,17 +1,25 @@
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import "../assets/styles/FriendMessagePage.css";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
 
 const FriendMessagePage = () => {
     const user = useSelector((state) => state.user.user);
     const [friends, setFriends] = useState([]);
     const [selectedFriend, setSelectedFriend] = useState(null);
-    const [searchGroup, setSearchGroup] = useState([]);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
+    const [stompClient, setStompClient] = useState(null);
+
+    const messagesEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     useEffect(() => {
         const fetchFriends = async () => {
@@ -22,6 +30,20 @@ const FriendMessagePage = () => {
                     );
                     if (response.data.length > 0) {
                         setFriends(response.data);
+                        const savedFriendEmail = localStorage.getItem('selectedFriendEmail');
+                        if (savedFriendEmail) {
+                            const friend = response.data.find(f => f.email === savedFriendEmail);
+                            if (friend) {
+                                setSelectedFriend(friend);
+                                fetchMessages(friend.id);
+                            } else {
+                                setSelectedFriend(response.data[0]);
+                                fetchMessages(response.data[0].id);
+                            }
+                        } else {
+                            setSelectedFriend(response.data[0]);
+                            fetchMessages(response.data[0].id);
+                        }
                     }
                 } catch (error) {
                     console.error("Failed to fetch friends", error);
@@ -30,6 +52,50 @@ const FriendMessagePage = () => {
         };
         fetchFriends();
     }, [user]);
+
+    useEffect(() => {
+        const socket = new SockJS("http://localhost:8085/ws");
+        const client = new Client({
+            webSocketFactory: () => socket,
+            reconnectDelay: 5000,
+            debug: function (str) {
+                console.log(str);
+            },
+        });
+        client.onConnect = () => {
+            console.log("Connected to WebSocket");
+            client.subscribe("/topic/messages", (message) => {
+                const receivedMessage = JSON.parse(message.body);
+                if (selectedFriend && receivedMessage.friendshipId === selectedFriend.id) {
+                    setMessages((prevMessages) => {
+                        const messageExists = prevMessages.some(msg => msg.messageId === receivedMessage.messageId);
+                        if (!messageExists) {
+                            return [...prevMessages, receivedMessage];
+                        }
+                        return prevMessages;
+                    });
+                }
+            });
+        };
+
+        client.onStompError = (frame) => {
+            console.error("Broker reported error: " + frame.headers["message"]);
+            console.error("Additional details: " + frame.body);
+        };
+
+        client.activate();
+        setStompClient(client);
+
+        return () => {
+            if (stompClient) {
+                stompClient.deactivate();
+            }
+        };
+    }, [selectedFriend]);
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     const fetchMessages = async (friendshipId) => {
         try {
@@ -44,12 +110,13 @@ const FriendMessagePage = () => {
 
     const handleFriendClick = (friend) => {
         setSelectedFriend(friend);
-        fetchMessages(friend.id); // Assuming each friend object has a friendshipId field
+        localStorage.setItem('selectedFriendEmail', friend.email);
+        fetchMessages(friend.id);
     };
 
     const handleSendMessage = async () => {
         if (newMessage.trim() === "" || !selectedFriend) return;
-        console.error(selectedFriend.id);
+
         const message = {
             messageContent: newMessage,
             sender: {
@@ -60,18 +127,32 @@ const FriendMessagePage = () => {
             },
             friendship: {
                 friendshipId: selectedFriend.id,
-            }
+            },
         };
 
         try {
             const response = await axios.post(
-                'http://localhost:8085/friendships/message/create',
+                "http://localhost:8085/friendships/message/create",
                 message
             );
             if (response.status === 200) {
-                // Clear the input field and refresh the message list
                 setNewMessage("");
-                fetchMessages(selectedFriend.id);
+
+                const messagesResponse = await axios.get(
+                    `http://localhost:8085/friendships/message/getAll/${selectedFriend.id}`
+                );
+                const latestMessage = messagesResponse.data[messagesResponse.data.length - 1];
+                console.log(latestMessage);
+
+                if (latestMessage && stompClient) {
+                    // send new message to WebSocket
+                    stompClient.publish({
+                        destination: "/app/sendMessage",
+                        body: JSON.stringify(latestMessage.messageId),
+                    });
+
+                    setMessages((prevMessages) => [...prevMessages, latestMessage]);
+                }
             }
         } catch (error) {
             console.error("Failed to send message", error);
@@ -79,13 +160,13 @@ const FriendMessagePage = () => {
     };
 
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
             handleSendMessage();
         }
     };
 
     return (
-        <div className="group-page" style={{ overflow: 'hidden' }}>
+        <div className="group-page" style={{ overflow: "hidden" }}>
             <Header />
             <div className="group-page-wrapper">
                 <div className="group-nav">
@@ -96,14 +177,19 @@ const FriendMessagePage = () => {
                         <h2>Messages</h2>
                         <ul>
                             {friends.map((friend) => (
-                                <li key={friend.email} onClick={() => handleFriendClick(friend)}>
+                                <li
+                                    key={friend.email}
+                                    onClick={() => handleFriendClick(friend)}
+                                >
                                     <div className="friend">
                                         <div className="friend-header">
                                             <div className="friend-picture">
                                                 <img src={friend.profilePictureUrl} alt="avatar" />
                                             </div>
                                             <div className="friend-details">
-                                                <a href={"/profile/" + friend.email}>{friend.userName}</a>
+                                                <a href={"/profile/" + friend.email}>
+                                                    {friend.userName}
+                                                </a>
                                                 <p>Email: {friend.email}</p>
                                             </div>
                                         </div>
@@ -113,7 +199,9 @@ const FriendMessagePage = () => {
                         </ul>
                     </div>
                     <div className="chat-box">
-                        {selectedFriend && <div className="chat-header">{selectedFriend.userName}</div>}
+                        {selectedFriend && (
+                            <div className="chat-header">{selectedFriend.userName}</div>
+                        )}
                         <div className="messages">
                             {messages.length === 0 ? (
                                 <div>No messages to display</div>
@@ -121,22 +209,37 @@ const FriendMessagePage = () => {
                                 messages.map((message) => (
                                     <div
                                         key={message.messageId}
-                                        className={message.messageSenderEmail === user.email ? "message-right" : "message-left"}
+                                        className={
+                                            message.messageSenderEmail === user.email
+                                                ? "message-right"
+                                                : "message-left"
+                                        }
                                     >
                                         {message.messageSenderEmail !== user.email && (
                                             <div className="friend-picture">
-                                                <img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar" />
+                                                <img
+                                                    src={message.messageSenderProfilePictureUrl}
+                                                    alt="Avatar"
+                                                    className="avatar"
+                                                />
                                             </div>
                                         )}
-                                        <div className="message-bubble">{message.messageContent}</div>
+                                        <div className="message-bubble">
+                                            {message.messageContent}
+                                        </div>
                                         {message.messageSenderEmail === user.email && (
                                             <div className="friend-picture">
-                                                <img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar" />
+                                                <img
+                                                    src={message.messageSenderProfilePictureUrl}
+                                                    alt="Avatar"
+                                                    className="avatar"
+                                                />
                                             </div>
                                         )}
                                     </div>
                                 ))
                             )}
+                            <div ref={messagesEndRef} />
                         </div>
                         <div className="message-input">
                             <button className="emoji-button">😊</button>
@@ -147,7 +250,9 @@ const FriendMessagePage = () => {
                                 onChange={(e) => setNewMessage(e.target.value)}
                                 onKeyPress={handleKeyPress}
                             />
-                            <button className="send-button" onClick={handleSendMessage}>Send</button>
+                            <button className="send-button" onClick={handleSendMessage}>
+                                Send
+                            </button>
                         </div>
                     </div>
                 </div>
