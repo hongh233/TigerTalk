@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {FaComment, FaShare, FaThumbsUp} from "react-icons/fa";
+import {FaComment, FaShare, FaThumbsUp, FaEdit} from "react-icons/fa";
 import Comment from "./Comment";
 import {
     handleLikeAxios,
     handleAddCommentAxios,
     getCommentFromPostId,
+    handleEditPostAxios,
 } from "./../axios/PostAxios";
 import {fetchUserByEmail} from "./../axios/AuthenticationAxios";
 import {formatDate} from "./../utils/formatDate";
@@ -14,8 +15,9 @@ import "../assets/styles/Post.css";
 const Post = ({post, user}) => {
     const [likes, setLikes] = useState(post.likes || post.numOfLike);
     const [postComments, setPostComments] = useState(null);
-
     const [newComment, setNewComment] = useState("");
+    const [isEditing, setIsEditing] = useState(false); // State to handle editing
+    const [editedContent, setEditedContent] = useState(post.content); // State for edited content
 
     const navigate = useNavigate();
 
@@ -80,12 +82,6 @@ const Post = ({post, user}) => {
             alert("Web Share API is not supported in your browser.");
         }
     };
-    /*
-    const handleTagClick = (tag) => {
-      // Define what happens when a tag is clicked
-      console.log(`Tag clicked: ${tag}`);
-    };
-    */
 
     const handleTagClick = () => {
         navigate(`/friends`);
@@ -102,8 +98,8 @@ const Post = ({post, user}) => {
                         onClick={() => handleTagClick(part)}
                         style={{color: "blue", cursor: "pointer"}}
                     >
-						{part}
-					</span>
+                        {part}
+                    </span>
                 );
             } else {
                 return part;
@@ -111,6 +107,20 @@ const Post = ({post, user}) => {
         });
     };
 
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setEditedContent(post.content);
+    };
+
+    const handleSaveEdit = async () => {
+        if (editedContent.trim() === "") return;
+        await handleEditPostAxios(post.id,editedContent); 
+        setIsEditing(false);
+    };
     return (
         <div className="post">
             <div className="post-header">
@@ -125,14 +135,21 @@ const Post = ({post, user}) => {
                             {post.userProfileUserName}
                         </a>
                     </h3>
-                    {/* Display the username here */}
                     <p>{formatDate(post.timestamp)}</p>
                 </div>
             </div>
 
             <div className="post-content">
-                <p>{renderPostContent(post.content)}</p>
+                {isEditing ? (
+                    <textarea
+                        value={editedContent}
+                        onChange={(e) => setEditedContent(e.target.value)}
+                    />
+                ) : (
+                    <p>{renderPostContent(post.content)}</p>
+                )}
             </div>
+
             {post.postImageURL && (
                 <div className="post-content-img-container">
                     <div className="post-content-img">
@@ -140,6 +157,7 @@ const Post = ({post, user}) => {
                     </div>
                 </div>
             )}
+
             <div className="post-footer">
                 <button className="post-button" onClick={handleLike}>
                     {likes} <FaThumbsUp/>
@@ -150,7 +168,23 @@ const Post = ({post, user}) => {
                 <button className="post-button" onClick={handleShare}>
                     <FaShare/>
                 </button>
+                {user.email === post.email && !isEditing && (
+                    <button className="post-button" onClick={handleEditClick}>
+                        <FaEdit/>
+                    </button>
+                )}
+                {user.email === post.email && isEditing && (
+                    <>
+                        <button className="post-button" onClick={handleSaveEdit}>
+                            Save
+                        </button>
+                        <button className="post-button" onClick={handleCancelEdit}>
+                            Cancel
+                        </button>
+                    </>
+                )}
             </div>
+
             <div className="postComments-section">
                 {postComments && commentToggle &&
                     postComments.map((postComment, index) => (
