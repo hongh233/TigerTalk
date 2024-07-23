@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaComment, FaShare, FaThumbsUp, FaEdit } from "react-icons/fa";
+import { FaComment, FaShare, FaThumbsUp, FaEdit,FaTrash } from "react-icons/fa";
 import Comment from "./Comment";
 import {
 	handleLikeAxios,
@@ -116,13 +116,20 @@ const Post = ({ post, user }) => {
 		setEditedContent(post.content);
 	};
 
-	const handleSaveEdit = async () => {
-		if (editedContent.trim() === "") return;
-		await handleEditPostAxios(post.id, editedContent);
-		setIsEditing(false);
-		setEditedContent(editedContent);
-		setIsEdited(true);
-	};
+    const handleSaveEdit = async () => {
+        if (editedContent.trim() === "") return;
+        await handleEditPostAxios(post.id, editedContent);
+        setIsEditing(false);
+        setEditedContent(editedContent);
+        setIsEdited(true);
+    };
+    const handleDelete = () => {
+        if (window.confirm("Are you sure you want to delete this post?")) {
+            console.log("Post deleted"); 
+        }
+    };
+
+    const isAuthorOrAdmin = user.email === post.email || user.userLevel==="admin"; 
 
 	return (
 		<div className="post">
@@ -162,32 +169,37 @@ const Post = ({ post, user }) => {
 				</div>
 			)}
 
-			<div className="post-footer">
-				<button className="post-button" onClick={handleLike}>
-					{likes} <FaThumbsUp />
-				</button>
-				<button className="post-button" onClick={handleFetchAndDisplayComments}>
-					<FaComment />
-				</button>
-				<button className="post-button" onClick={handleShare}>
-					<FaShare />
-				</button>
-				{user.email === post.email && !isEditing && (
-					<button className="post-button" onClick={handleEditClick}>
-						<FaEdit />
-					</button>
-				)}
-				{user.email === post.email && isEditing && (
-					<>
-						<button className="post-button" onClick={handleSaveEdit}>
-							Save
-						</button>
-						<button className="post-button" onClick={handleCancelEdit}>
-							Cancel
-						</button>
-					</>
-				)}
-			</div>
+            <div className="post-footer">
+                <button className="post-button" onClick={handleLike}>
+                    {likes} <FaThumbsUp />
+                </button>
+                <button className="post-button" onClick={handleFetchAndDisplayComments}>
+                    <FaComment />
+                </button>
+                <button className="post-button" onClick={handleShare}>
+                    <FaShare />
+                </button>
+                {user.email === post.email && !isEditing && (
+                    <button className="post-button" onClick={handleEditClick}>
+                        <FaEdit />
+                    </button>
+                )}
+                {user.email === post.email && isEditing && (
+                    <>
+                        <button className="post-button" onClick={handleSaveEdit}>
+                            Save
+                        </button>
+                        <button className="post-button" onClick={handleCancelEdit}>
+                            Cancel
+                        </button>
+                    </>
+                )}
+                {isAuthorOrAdmin && (
+                    <button className="post-button delete-button" onClick={handleDelete}>
+                        <FaTrash />
+                    </button>
+                )}
+            </div>
 
 			<div className="postComments-section">
 				{postComments &&
