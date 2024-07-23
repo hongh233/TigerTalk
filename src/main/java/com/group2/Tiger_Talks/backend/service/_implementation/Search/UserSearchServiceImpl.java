@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Service for searching user profiles.
@@ -30,10 +31,14 @@ public class UserSearchServiceImpl implements Searchable<UserProfileDTO> {
     @Override
     public List<UserProfileDTO> search(String searchQuery, String userEmail) {
         if (searchQuery == null || userEmail == null) return Collections.emptyList();
+        Pattern intelijRegexPattern = RegexCheck.generate_intelij_matcher_pattern(searchQuery);
         return userProfileRepository.findAll()
                 .stream()
                 .filter(userProfile -> !userProfile.getEmail().equals(userEmail)
-                        && (RegexCheck.advancedSearch(userProfile.getFullName(), searchQuery)
+                        && (RegexCheck.advancedSearch(
+                        userProfile.getFullName(),
+                        searchQuery,
+                        intelijRegexPattern)
                         || userProfile.getEmail().toLowerCase().startsWith(searchQuery.toLowerCase())
                         || userProfile.getUserName().toLowerCase().startsWith(searchQuery.toLowerCase())))
                 .map(UserProfile::toDto)
