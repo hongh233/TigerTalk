@@ -48,6 +48,14 @@
 
 .post-content {
 	margin-bottom: 10px;
+	display: flex;
+    align-items: center;
+    position: relative;
+}
+.edited-text {
+    margin-left: 10px; 
+    font-size: 0.9em;  
+    color: gray;        
 }
 
 .post-footer {

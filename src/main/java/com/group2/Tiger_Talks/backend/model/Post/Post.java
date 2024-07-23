@@ -139,7 +139,7 @@ public class Post implements FullyDTOConvertible<PostDTO> {
                 this.getUserProfile().getUserName(),
                 this.getUserProfile().getProfilePictureUrl(),
                 this.getAssociatedImageURL(),
-                this.edited
+                this.getEdited()
         );
     }
 

@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {FaComment, FaShare, FaThumbsUp, FaEdit} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaComment, FaShare, FaThumbsUp, FaEdit } from "react-icons/fa";
 import Comment from "./Comment";
 import {
     handleLikeAxios,
@@ -8,16 +8,17 @@ import {
     getCommentFromPostId,
     handleEditPostAxios,
 } from "./../axios/PostAxios";
-import {fetchUserByEmail} from "./../axios/AuthenticationAxios";
-import {formatDate} from "./../utils/formatDate";
+import { fetchUserByEmail } from "./../axios/AuthenticationAxios";
+import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/Post.css";
 
-const Post = ({post, user}) => {
+const Post = ({ post, user }) => {
     const [likes, setLikes] = useState(post.likes || post.numOfLike);
     const [postComments, setPostComments] = useState(null);
     const [newComment, setNewComment] = useState("");
-    const [isEditing, setIsEditing] = useState(false); // State to handle editing
-    const [editedContent, setEditedContent] = useState(post.content); // State for edited content
+    const [isEditing, setIsEditing] = useState(false); 
+    const [editedContent, setEditedContent] = useState(post.content);
+    const [isEdited, setIsEdited] = useState(post.edited);
 
     const navigate = useNavigate();
 
@@ -96,7 +97,7 @@ const Post = ({post, user}) => {
                         key={index}
                         className="tag"
                         onClick={() => handleTagClick(part)}
-                        style={{color: "blue", cursor: "pointer"}}
+                        style={{ color: "blue", cursor: "pointer" }}
                     >
                         {part}
                     </span>
@@ -118,15 +119,19 @@ const Post = ({post, user}) => {
 
     const handleSaveEdit = async () => {
         if (editedContent.trim() === "") return;
-        await handleEditPostAxios(post.id,editedContent); 
+        await handleEditPostAxios(post.id, editedContent);
         setIsEditing(false);
+        setEditedContent(editedContent);
+        setIsEdited(true);
     };
+    console.log(post);
+
     return (
         <div className="post">
             <div className="post-header">
                 <div className="profile-picture">
                     <a className="post-user-email" href={`/profile/${post.email}`}>
-                        <img src={post.profileProfileURL} alt="avatar"/>
+                        <img src={post.profileProfileURL} alt="avatar" />
                     </a>
                 </div>
                 <div className="post-user-details">
@@ -146,31 +151,32 @@ const Post = ({post, user}) => {
                         onChange={(e) => setEditedContent(e.target.value)}
                     />
                 ) : (
-                    <p>{renderPostContent(post.content)}</p>
+                    <p>{renderPostContent(editedContent)}</p>
                 )}
+                {isEdited && <small className="edited-text">(edited)</small>}
             </div>
 
             {post.postImageURL && (
                 <div className="post-content-img-container">
                     <div className="post-content-img">
-                        <img src={post.postImageURL} alt="Post content"/>
+                        <img src={post.postImageURL} alt="Post content" />
                     </div>
                 </div>
             )}
 
             <div className="post-footer">
                 <button className="post-button" onClick={handleLike}>
-                    {likes} <FaThumbsUp/>
+                    {likes} <FaThumbsUp />
                 </button>
                 <button className="post-button" onClick={handleFetchAndDisplayComments}>
-                    <FaComment/>
+                    <FaComment />
                 </button>
                 <button className="post-button" onClick={handleShare}>
-                    <FaShare/>
+                    <FaShare />
                 </button>
                 {user.email === post.email && !isEditing && (
                     <button className="post-button" onClick={handleEditClick}>
-                        <FaEdit/>
+                        <FaEdit />
                     </button>
                 )}
                 {user.email === post.email && isEditing && (
@@ -188,7 +194,7 @@ const Post = ({post, user}) => {
             <div className="postComments-section">
                 {postComments && commentToggle &&
                     postComments.map((postComment, index) => (
-                        <Comment key={index} postComment={postComment}/>
+                        <Comment key={index} postComment={postComment} />
                     ))}
                 <div className="add-comment">
                     <input
@@ -205,3 +211,4 @@ const Post = ({post, user}) => {
 };
 
 export default Post;
+
