@@ -124,7 +124,6 @@ const Post = ({ post, user }) => {
         setEditedContent(editedContent);
         setIsEdited(true);
     };
-    console.log(post);
 
     return (
         <div className="post">
