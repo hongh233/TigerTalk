@@ -366,7 +366,7 @@ public class PostServiceImplTest {
 
         assertNotNull(result);
         assertEquals(newContent, result.getContent());
-        assertTrue(result.isEdited());
+        assertTrue(result.getEdited());
         verify(postRepository).save(existingPost);
     }
 
