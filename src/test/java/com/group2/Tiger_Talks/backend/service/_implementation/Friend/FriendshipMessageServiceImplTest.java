@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -230,4 +231,64 @@ class FriendshipMessageServiceImplTest {
         assertEquals(Optional.empty(), result);
         assertTrue(message.isRead());
     }
+
+    /**
+     * Test case for getFriendshipMessageDTOById
+     */
+    @Test
+    public void getFriendshipMessageDTOById_messageNotFound() {
+        int messageId = 1;
+        when(friendshipMessageRepository.findById(messageId)).thenReturn(Optional.empty());
+        FriendshipMessageDTO result = friendshipMessageService.getFriendshipMessageDTOById(messageId);
+        assertNull(result);
+    }
+
+    @Test
+    public void testGetFriendshipMessageDTOById_MessageFound() {
+        int messageId = 1;
+        LocalDateTime createTime = LocalDateTime.now();
+
+        Friendship friendship = new Friendship();
+        friendship.setFriendshipId(1);
+
+        FriendshipMessage message = new FriendshipMessage();
+        message.setMessageId(messageId);
+        message.setCreateTime(createTime);
+        message.setMessageContent("Hello");
+        message.setFriendship(friendship);
+
+        UserProfile sender = new UserProfile();
+        sender.setEmail("a@dal.ca");
+        sender.setUserName("userA");
+        sender.setProfilePictureUrl("http://sender.jpg");
+
+        UserProfile receiver = new UserProfile();
+        receiver.setEmail("b@dal.ca");
+        receiver.setUserName("ReceiverB");
+        receiver.setProfilePictureUrl("http://receiver.jpg");
+
+        message.setSender(sender);
+        message.setReceiver(receiver);
+
+        FriendshipMessageDTO dto = new FriendshipMessageDTO(
+                messageId,
+                createTime,
+                "Hello",
+                "a@dal.ca",
+                "userA",
+                "http://sender.jpg",
+                "b@dal.ca",
+                "ReceiverB",
+                "http://receiver.jpg",
+                false,
+                1
+        );
+
+        when(friendshipMessageRepository.findById(messageId)).thenReturn(Optional.of(message));
+        FriendshipMessageDTO result = friendshipMessageService.getFriendshipMessageDTOById(messageId);
+        assertNotNull(result);
+        assertEquals(dto, result);
+    }
+
+
 }
