@@ -15,6 +15,8 @@ const FriendListPage = () => {
     const [allFriends, setAllFriends] = useState([]);
     const [searchFriendQuery, setSearchFriendQuery] = useState("");
 
+    const [isNavVisible, setIsNavVisible] = useState(false);
+
     const handleDeleteFriend = (id) => {
         setFriends(friends.filter((friend) => friend.id !== id));
     };
@@ -51,9 +53,17 @@ const FriendListPage = () => {
     return (
         <div className="friend-list-page">
             <Header/>
-            <div className="content">
-                <div className="friend-list-nav">
-                    <NavBar/>
+            <div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+
+			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
+                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
+                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
+                    <NavBar />
                 </div>
                 <div className="friend-list-content">
                     <h3>Friend list:</h3>

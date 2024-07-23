@@ -15,10 +15,10 @@ import java.util.List;
 public class UserSearchController {
 
     @Autowired
-    private Searchable<UserProfileDTO> userSearchController;
+    private Searchable<UserProfileDTO> userSearchService;
 
     @GetMapping("/{searchQuery}/{userEmail}")
     public List<UserProfileDTO> searchUsers(@PathVariable String searchQuery, @PathVariable String userEmail) {
-        return userSearchController.search(searchQuery, userEmail);
+        return userSearchService.search(searchQuery, userEmail);
     }
 }

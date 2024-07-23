@@ -13,6 +13,9 @@ const AdminPage = () => {
     const user = useSelector((state) => state.user.user);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [data, setData] = useState([]);
+
+    const [isNavVisible, setIsNavVisible] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -73,9 +76,17 @@ const AdminPage = () => {
     return (
         <div className="admin-page">
             <Header/>
-            <div className="content">
-                <div className="admin-nav">
-                    <NavBar/>
+            <div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+
+			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
+                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
+                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
+                    <NavBar />
                 </div>
                 <div className="admin-content">
                     <UserList

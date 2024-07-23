@@ -182,7 +182,7 @@ public class Scripts {
             Raphael.setGender("USA");
 
             UserProfile Tyson = userProfiles.get(18);
-            Tyson.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721167221/xndgh9diat4bqcrcmrq7.jpg");
+            Tyson.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721672401/w3ztd6nrvaqidsp348wl.avif");
             Tyson.setUserLevel(UserLevel.ADMIN);
             Tyson.setValidated(true);
             Tyson.setStatus(UserStatus.ACTIVE);

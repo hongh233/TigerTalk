@@ -21,6 +21,17 @@ export const handleAddCommentAxios = (commentObj) => {
 		});
 };
 
+export const handleEditPostAxios = (postId, content) =>{
+	return axios
+		.post(`${URL}/posts/editPost/${postId}/${content}`)
+		.then((response)=> response.data)
+		.catch((error)=>{
+			console.error("Error editing post: ", error);
+			throw error;
+		});
+};
+
+
 export const getCommentFromPostId = (postId) => {
 	return axios
 		.get(`${URL}/api/comments/getComments/${postId}`)
@@ -30,3 +41,4 @@ export const getCommentFromPostId = (postId) => {
 			throw error;
 		});
 };
+
