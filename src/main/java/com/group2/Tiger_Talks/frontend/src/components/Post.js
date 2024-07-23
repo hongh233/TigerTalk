@@ -129,6 +129,7 @@ const Post = ({ post, user, removePost }) => {
             await handleDeletePostAxios(post.id);
             removePost(post.id);
             setPostComments([]);
+            setLikes("");
         }
     };
 
