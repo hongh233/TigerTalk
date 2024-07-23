@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaComment, FaShare, FaThumbsUp, FaTrash } from "react-icons/fa";
+import { FaComment, FaShare, FaThumbsUp, FaTrash, FaEdit } from "react-icons/fa";
 import Comment from "./Comment";
 import {
     handleLikeAxios,
