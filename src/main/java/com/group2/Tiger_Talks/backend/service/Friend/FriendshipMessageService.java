@@ -13,4 +13,6 @@ public interface FriendshipMessageService {
     List<FriendshipMessageDTO> getAllMessagesByFriendshipId(int friendshipId);
 
     Optional<String> markMessageAsRead(int messageId);
+
+    FriendshipMessageDTO getFriendshipMessageDTOById(Integer messageId);
 }
