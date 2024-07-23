@@ -26,6 +26,7 @@ public class Post implements FullyDTOConvertible<PostDTO> {
     private String content;
     private int numOfLike;
     private String associatedImageURL;
+    private Boolean edited;
     @Column(nullable = false)
     private LocalDateTime timestamp = LocalDateTime.now();
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -42,6 +43,7 @@ public class Post implements FullyDTOConvertible<PostDTO> {
         this.content = content;
         this.associatedImageURL = associatedImageURL;
         this.numOfLike = 0;
+        this.edited = false;
     }
 
     public String getAssociatedImageURL() {
@@ -118,6 +120,14 @@ public class Post implements FullyDTOConvertible<PostDTO> {
         postComment.setPost(null);
     }
 
+    public Boolean getEdited() {
+        return edited;
+    }
+
+    public void setEdited(Boolean edited) {
+        this.edited = edited;
+    }
+
     @Override
     public PostDTO toDto() {
         return new PostDTO(
@@ -128,7 +138,8 @@ public class Post implements FullyDTOConvertible<PostDTO> {
                 this.getNumOfLike(),
                 this.getUserProfile().getUserName(),
                 this.getUserProfile().getProfilePictureUrl(),
-                this.getAssociatedImageURL()
+                this.getAssociatedImageURL(),
+                this.edited
         );
     }
 
@@ -138,6 +149,7 @@ public class Post implements FullyDTOConvertible<PostDTO> {
         this.content = postDTO.content();
         this.timestamp = getTimestamp();
         this.associatedImageURL = postDTO.postImageURL();
+        this.edited=postDTO.edited();
         /*
             Num of likes should not be updated as this would cause a break of synchronization
             between the post like list and num_of_likes
