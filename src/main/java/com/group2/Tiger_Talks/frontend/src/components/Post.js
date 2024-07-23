@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaComment, FaShare, FaThumbsUp, FaEdit,FaTrash } from "react-icons/fa";
+import { FaComment, FaShare, FaThumbsUp, FaTrash } from "react-icons/fa";
 import Comment from "./Comment";
 import {
     handleLikeAxios,
@@ -13,13 +13,14 @@ import { fetchUserByEmail } from "./../axios/AuthenticationAxios";
 import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/Post.css";
 
-const Post = ({post, user, removePost}) => {
+const Post = ({ post, user, removePost }) => {
     const [likes, setLikes] = useState(post.likes || post.numOfLike);
     const [postComments, setPostComments] = useState(null);
     const [newComment, setNewComment] = useState("");
     const [isEditing, setIsEditing] = useState(false); 
     const [editedContent, setEditedContent] = useState(post.content);
     const [isEdited, setIsEdited] = useState(post.edited);
+    const [commentToggle, setCommentToggle] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -37,7 +38,6 @@ const Post = ({post, user, removePost}) => {
 		setLikes(updatedLikes);
 	};
 
-	const [commentToggle, setCommentToggle] = useState(false);
 	const handleFetchAndDisplayComments = async () => {
 		setCommentToggle((prevState) => !prevState); // Works don't touch
 		const fetchedComments = await getCommentFromPostId(post.id);
@@ -128,10 +128,11 @@ const Post = ({post, user, removePost}) => {
         if (window.confirm("Are you sure you want to delete this post?")) {
             await handleDeletePostAxios(post.id);
             removePost(post.id);
+            setPostComments([]);
         }
     };
 
-    const isAuthorOrAdmin = user.email === post.email || user.userLevel==="admin"; 
+    const isAuthorOrAdmin = user.email === post.email || user.userLevel === "admin";
 
 	return (
 		<div className="post">
