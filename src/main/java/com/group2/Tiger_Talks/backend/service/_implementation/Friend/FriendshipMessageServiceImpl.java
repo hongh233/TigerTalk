@@ -67,5 +67,14 @@ public class FriendshipMessageServiceImpl implements FriendshipMessageService {
         return Optional.empty();
     }
 
+    @Override
+    public FriendshipMessageDTO getFriendshipMessageDTOById(Integer messageId) {
+        FriendshipMessage message = friendshipMessageRepository.findById(messageId).orElse(null);
+        if (message != null) {
+            return message.toDto();
+        } else {
+            return null;
+        }
+    }
 
 }
