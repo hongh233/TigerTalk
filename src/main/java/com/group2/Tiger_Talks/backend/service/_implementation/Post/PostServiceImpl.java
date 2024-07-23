@@ -109,6 +109,7 @@ public class PostServiceImpl implements PostService {
                 .map(existingPost -> {
                     existingPost.setUserProfile(post.getUserProfile());
                     existingPost.setComments(post.getComments());
+                    existingPost.setAssociatedImageURL(post.getAssociatedImageURL());
                     existingPost.setLikes(post.getLikes());
                     existingPost.setNumOfLike(post.getNumOfLike());
                     existingPost.setTimestamp(post.getTimestamp());

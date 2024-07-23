@@ -341,4 +341,49 @@ public class PostServiceImplTest {
         assertEquals(1, resultPost.getNumOfLike(), "Expected the number of likes to increase by 1");
     }
 
+
+
+
+    @Test
+    public void testEditPost_Success() {
+        Integer postID = 1;
+        String newContent = "Updated content";
+
+        Post existingPost = new Post();
+        existingPost.setPostId(postID);
+        existingPost.setContent("Original content");
+        existingPost.setEdited(false);
+
+        Post updatedPost = new Post();
+        updatedPost.setPostId(postID);
+        updatedPost.setContent(newContent);
+        updatedPost.setEdited(true);
+
+        when(postRepository.findById(postID)).thenReturn(Optional.of(existingPost));
+        when(postRepository.save(any(Post.class))).thenReturn(updatedPost);
+
+        Post result = postServiceImpl.editPost(postID, newContent);
+
+        assertNotNull(result);
+        assertEquals(newContent, result.getContent());
+        assertTrue(result.isEdited());
+        verify(postRepository).save(existingPost);
+    }
+
+    @Test
+    public void testEditPost_PostNotFound() {
+        Integer postID = 1;
+        String newContent = "Updated content";
+
+        when(postRepository.findById(postID)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            postServiceImpl.editPost(postID, newContent);
+        });
+
+        String expectedMessage = "Post not found with id: " + postID;
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
 }
