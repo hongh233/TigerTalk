@@ -1,0 +1,2 @@
+export const SET_GLOBAL_USERS = "SET_GLOBAL_USERS";
+export const SET_GLOBAL_GROUPS = "SET_GLOBAL_GROUPS";

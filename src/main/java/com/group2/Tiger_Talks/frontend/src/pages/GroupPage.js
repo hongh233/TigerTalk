@@ -5,14 +5,15 @@ import Header from "../components/Header";
 import "../assets/styles/GroupPage.css";
 import Group from "../components/Group";
 import SearchBar from "../components/SearchBar";
-import {
-	handleGetGroupUserIsMember,
-} from "../axios/GroupAxios";
+import { handleGetGroupUserIsMember } from "../axios/GroupAxios";
 
 const GroupPage = () => {
 	const user = useSelector((state) => state.user.user);
 	const [groups, setGroups] = useState([]);
 	const [searchGroup, setSearchGroup] = useState([]);
+
+    const [isNavVisible, setIsNavVisible] = useState(false);
+
 	useEffect(() => {
 		const fetchGroups = async () => {
 			try {
@@ -30,10 +31,18 @@ const GroupPage = () => {
 	return (
 		<div className="group-page">
 			<Header />
-			<div className="group-page-wrapper">
-				<div className="group-nav">
-					<NavBar />
-				</div>
+			<div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+
+
+			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
+                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
+                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
+                    <NavBar />
+                </div>
 				<div className="group-content-container">
 					<h2>Search available groups:</h2>
 					<div className="group-page-search-bar">

@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
  * @param userProfileUserName the username of the user who created the post
  * @param profileProfileURL   the URL of the profile picture of the user who created the post
  * @param postImageURL        the URL of the image associated with the post
+ * @param edited              the edited state of the post
  */
 public record PostDTO(
         Integer postId,
@@ -22,6 +23,7 @@ public record PostDTO(
         int numOfLike,
         String userProfileUserName,
         String profileProfileURL,
-        String postImageURL
+        String postImageURL,
+        Boolean edited
 ) {
 }

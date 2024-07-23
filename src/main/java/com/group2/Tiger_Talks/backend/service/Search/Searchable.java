@@ -17,8 +17,8 @@ import java.util.Optional;
 public interface Searchable<DTO> {
 
     /**
-     * Performs a search operation based on the given parameters, including optional constraints.
-     * <p>This method should be implemented to define how to perform searches with additional constraints. The
+     * Performs a search operation based on the given parameters.
+     * <p>This method should be implemented to define how to perform searches. The
      * constraints parameter allows the caller to provide extra filtering criteria that can influence the search
      * results.</p>
      *
@@ -26,9 +26,6 @@ public interface Searchable<DTO> {
      *                    the criteria defined by the implementation.
      * @param userEmail   the email of the user performing the search. This parameter can be used to personalize
      *                    the search results or enforce user-specific access control.
-     * @param constraints an {@link Optional} containing an array of constraints. These constraints are additional
-     *                    criteria that can be used to refine the search results. If no constraints are provided,
-     *                    the {@link Optional} will be empty.
      * @return a list of DTO representing the result of the search operation. The returned list contains instances
      * of the DTO type, which encapsulate the search results and are typically used for transferring data
      * between layers of the application.

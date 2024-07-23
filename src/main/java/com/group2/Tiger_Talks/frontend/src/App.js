@@ -21,6 +21,7 @@ import AuthenticationFailPage from "./pages/AuthenticationFailPage";
 import GroupSettingPage from "./pages/GroupSettingPage";
 import GroupMemberPage from "./pages/GroupMembersPage";
 import FriendMessagePage from "./pages/FriendMessagePage";
+import SearchPage from "./pages/SearchPage";
 //REDUX
 import { useSelector } from "react-redux";
 
@@ -202,6 +203,22 @@ const AppRoutes = () => {
 						)
 					}
 				/>
+
+				<Route
+					path="/search"
+					element={
+						isLoggedIn ? (
+							isValidated ? (
+								<SearchPage />
+							) : (
+								<ValidationFailPage />
+							)
+						) : (
+							<AuthenticationFailPage />
+						)
+					}
+				/>
+				{/* ADMIN */}
 				<Route
 					path="/admin"
 					element={

@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import "../assets/styles/DropDown.css";
-const Dropdown = ({
-	items,
-	getStatusColor,
-	dropdownClassName,
-	handleChoose,
-}) => {
+const Dropdown = ({ items, dropdownClassName, handleChoose }) => {
+	const getStatusColor = (status) => {
+		switch (status) {
+			case "available":
+				return "green";
+			case "busy":
+				return "#DC143C";
+			case "away":
+				return "#FDDA0D";
+			default:
+				return "gray";
+		}
+	};
 	return (
 		<div className={`search-results-dropdown-${dropdownClassName}`}>
 			{items.map((item, index) => (
