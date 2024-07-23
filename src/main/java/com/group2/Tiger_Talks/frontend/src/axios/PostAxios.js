@@ -21,6 +21,7 @@ export const handleAddCommentAxios = (commentObj) => {
 		});
 };
 
+<<<<<<< HEAD
 export const handleEditPostAxios = (postId, content) =>{
 	return axios
 		.post(`${URL}/posts/editPost/${postId}/${content}`)
@@ -32,6 +33,18 @@ export const handleEditPostAxios = (postId, content) =>{
 };
 
 
+=======
+export const handleDeletePostAxios = (postId) =>{
+	return axios.
+	delete(`${URL}/posts/delete/${postId}`)
+	.then((response)=>response.data)
+	.catch((error)=>{
+		console.error("Error deleting post:",error);
+		throw error;
+	});
+};
+
+>>>>>>> 453c8243c (feat: add delete post)
 export const getCommentFromPostId = (postId) => {
 	return axios
 		.get(`${URL}/api/comments/getComments/${postId}`)

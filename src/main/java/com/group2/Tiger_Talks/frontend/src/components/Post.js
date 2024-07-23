@@ -3,22 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { FaComment, FaShare, FaThumbsUp, FaEdit,FaTrash } from "react-icons/fa";
 import Comment from "./Comment";
 import {
-	handleLikeAxios,
-	handleAddCommentAxios,
-	getCommentFromPostId,
-	handleEditPostAxios,
+    handleLikeAxios,
+    handleAddCommentAxios,
+    getCommentFromPostId,
+    handleEditPostAxios,
+    handleDeletePostAxios
 } from "./../axios/PostAxios";
 import { fetchUserByEmail } from "./../axios/AuthenticationAxios";
 import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/Post.css";
 
-const Post = ({ post, user }) => {
-	const [likes, setLikes] = useState(post.likes || post.numOfLike);
-	const [postComments, setPostComments] = useState(null);
-	const [newComment, setNewComment] = useState("");
-	const [isEditing, setIsEditing] = useState(false);
-	const [editedContent, setEditedContent] = useState(post.content);
-	const [isEdited, setIsEdited] = useState(post.edited);
+const Post = ({post, user, removePost}) => {
+    const [likes, setLikes] = useState(post.likes || post.numOfLike);
+    const [postComments, setPostComments] = useState(null);
+    const [newComment, setNewComment] = useState("");
+    const [isEditing, setIsEditing] = useState(false); 
+    const [editedContent, setEditedContent] = useState(post.content);
+    const [isEdited, setIsEdited] = useState(post.edited);
 
 	const navigate = useNavigate();
 
@@ -123,9 +124,10 @@ const Post = ({ post, user }) => {
         setEditedContent(editedContent);
         setIsEdited(true);
     };
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this post?")) {
-            console.log("Post deleted"); 
+            await handleDeletePostAxios(post.id);
+            removePost(post.id);
         }
     };
 

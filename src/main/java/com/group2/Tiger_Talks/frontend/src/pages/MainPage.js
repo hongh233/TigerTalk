@@ -75,6 +75,9 @@ const MainPage = () => {
 				setMessage("Error creating post");
 			});
 	};
+	const handleDeletePost = (postId) => {
+        setPosts(posts.filter(post => post.id !== postId));
+    };
 
 	return (
 		<div className="main-page">
@@ -103,7 +106,7 @@ const MainPage = () => {
 					<FriendRecommendations />
 					<div className="post-list">
 						{posts.map((post, index) => (
-							<Post key={index} post={post} user={user} />
+							<Post key={index} post={post} user={user} removePost={handleDeletePost} />
 						))}
 					</div>
 					<p>{message}</p>
