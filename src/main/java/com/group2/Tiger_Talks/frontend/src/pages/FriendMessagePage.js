@@ -4,15 +4,17 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import "../assets/styles/FriendMessagePage.css";
-import io from "socket.io-client";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
+
 const FriendMessagePage = () => {
 	const user = useSelector((state) => state.user.user);
 	const [friends, setFriends] = useState([]);
 	const [selectedFriend, setSelectedFriend] = useState(null);
-	const [searchGroup, setSearchGroup] = useState([]);
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
-	const socket = io("http://localhost:8085");
+	const [stompClient, setStompClient] = useState(null);
+
 	useEffect(() => {
 		const fetchFriends = async () => {
 			if (user && user.email) {
@@ -30,29 +32,44 @@ const FriendMessagePage = () => {
 		};
 		fetchFriends();
 	}, [user]);
+	// useEffect(() => {}, []);
+	useEffect(() => {
+		const socket = new SockJS("http://localhost:8085/ws");
+		const client = new Client({
+			webSocketFactory: () => socket,
+			reconnectDelay: 1000,
+			debug: function (str) {
+				console.log(str);
+			},
+		});
+		client.onConnect = () => {
+			console.log("Connected to WebSocket");
+			client.subscribe("/topic/messages", (message) => {
+				if (selectedFriend) {
+					const receivedMessage = JSON.parse(message.body);
+					console.log(receivedMessage);
+					// if (receivedMessage.friendshipId === selectedFriend.id) {
+					// 	console.log(receivedMessage);
+					// 	// setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+					// }
+					// console.log(receivedMessage);
+					setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+				}
+			});
+		};
 
-    const [isNavVisible, setIsNavVisible] = useState(false);
+		client.onStompError = (frame) => {
+			console.error("Broker reported error: " + frame.headers["message"]);
+			console.error("Additional details: " + frame.body);
+		};
 
-    useEffect(() => {
-        const fetchFriends = async () => {
-            if (user && user.email) {
-                try {
-                    const response = await axios.get(
-                        `http://localhost:8085/friendships/DTO/${user.email}`
-                    );
-                    if (response.data.length > 0) {
-                        setFriends(response.data);
-                    }
-                } catch (error) {
-                    console.error("Failed to fetch friends", error);
-                }
-            }
-        };
-        fetchFriends();
-    }, [user]);
+		client.activate();
+		setStompClient(client);
 
 		return () => {
-			socket.off("newMessage");
+			if (stompClient) {
+				stompClient.deactivate();
+			}
 		};
 	}, [selectedFriend]);
 
@@ -74,7 +91,7 @@ const FriendMessagePage = () => {
 
 	const handleSendMessage = async () => {
 		if (newMessage.trim() === "" || !selectedFriend) return;
-		console.error(selectedFriend.id);
+
 		const message = {
 			messageContent: newMessage,
 			sender: {
@@ -94,93 +111,131 @@ const FriendMessagePage = () => {
 				message
 			);
 			if (response.status === 200) {
-				// Clear the input field and refresh the message list
 				setNewMessage("");
-				fetchMessages(selectedFriend.id);
+
+				// 立即更新消息列表
+				setMessages((prevMessages) => [
+					...prevMessages,
+					{
+						...message,
+						messageId: response.data.messageId, // 从返回的数据中获取新的消息ID
+						messageSenderEmail: user.email,
+						messageSenderProfilePictureUrl: user.profilePictureUrl,
+					},
+				]);
+
+				// 通过 WebSocket 发送消息
+				if (stompClient) {
+					stompClient.publish({
+						destination: "/app/sendMessage",
+						body: JSON.stringify(message),
+					});
+				}
 			}
 		} catch (error) {
 			console.error("Failed to send message", error);
 		}
 	};
 
-    return (
-        <div className="group-page" style={{ overflow: 'hidden' }}>
-            <Header />
-            <div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+	const handleKeyPress = (e) => {
+		if (e.key === "Enter") {
+			handleSendMessage();
+		}
+	};
 
-
-			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
-                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
-                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
-                    <NavBar />
-                </div>
-                <div className="friend-message-content-container">
-                    <div className="friend-list">
-                        <h2>Messages</h2>
-                        <ul>
-                            {friends.map((friend) => (
-                                <li key={friend.email} onClick={() => handleFriendClick(friend)}>
-                                    <div className="friend">
-                                        <div className="friend-header">
-                                            <div className="friend-picture">
-                                                <img src={friend.profilePictureUrl} alt="avatar" />
-                                            </div>
-                                            <div className="friend-details">
-                                                <a href={"/profile/" + friend.email}>{friend.userName}</a>
-                                                <p>Email: {friend.email}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="chat-box">
-                        {selectedFriend && <div className="chat-header">{selectedFriend.userName}</div>}
-                        <div className="messages">
-                            {messages.length === 0 ? (
-                                <div>No messages to display</div>
-                            ) : (
-                                messages.map((message) => (
-                                    <div
-                                        key={message.messageId}
-                                        className={message.messageSenderEmail === user.email ? "message-right" : "message-left"}
-                                    >
-                                        {message.messageSenderEmail !== user.email && (
-                                            <div className="friend-picture">
-                                                <img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar" />
-                                            </div>
-                                        )}
-                                        <div className="message-bubble">{message.messageContent}</div>
-                                        {message.messageSenderEmail === user.email && (
-                                            <div className="friend-picture">
-                                                <img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar" />
-                                            </div>
-                                        )}
-                                    </div>
-                                ))
-                            )}
-                        </div>
-                        <div className="message-input">
-                            <button className="emoji-button">😊</button>
-                            <input
-                                type="text"
-                                placeholder="Type a message..."
-                                value={newMessage}
-                                onChange={(e) => setNewMessage(e.target.value)}
-                                onKeyPress={handleKeyPress}
-                            />
-                            <button className="send-button" onClick={handleSendMessage}>Send</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+	return (
+		<div className="group-page" style={{ overflow: "hidden" }}>
+			<Header />
+			<div className="group-page-wrapper">
+				<div className="group-nav">
+					<NavBar />
+				</div>
+				<div className="friend-message-content-container">
+					<div className="friend-list">
+						<h2>Messages</h2>
+						<ul>
+							{friends.map((friend) => (
+								<li
+									key={friend.email}
+									onClick={() => handleFriendClick(friend)}
+								>
+									<div className="friend">
+										<div className="friend-header">
+											<div className="friend-picture">
+												<img src={friend.profilePictureUrl} alt="avatar" />
+											</div>
+											<div className="friend-details">
+												<a href={"/profile/" + friend.email}>
+													{friend.userName}
+												</a>
+												<p>Email: {friend.email}</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							))}
+						</ul>
+					</div>
+					<div className="chat-box">
+						{selectedFriend && (
+							<div className="chat-header">{selectedFriend.userName}</div>
+						)}
+						<div className="messages">
+							{messages.length === 0 ? (
+								<div>No messages to display</div>
+							) : (
+								messages.map((message) => (
+									<div
+										key={message.messageId}
+										className={
+											message.messageSenderEmail === user.email
+												? "message-right"
+												: "message-left"
+										}
+									>
+										{message.messageSenderEmail !== user.email && (
+											<div className="friend-picture">
+												<img
+													src={message.messageSenderProfilePictureUrl}
+													alt="Avatar"
+													className="avatar"
+												/>
+											</div>
+										)}
+										<div className="message-bubble">
+											{message.messageContent}
+										</div>
+										{message.messageSenderEmail === user.email && (
+											<div className="friend-picture">
+												<img
+													src={message.messageSenderProfilePictureUrl}
+													alt="Avatar"
+													className="avatar"
+												/>
+											</div>
+										)}
+									</div>
+								))
+							)}
+						</div>
+						<div className="message-input">
+							<button className="emoji-button">😊</button>
+							<input
+								type="text"
+								placeholder="Type a message..."
+								value={newMessage}
+								onChange={(e) => setNewMessage(e.target.value)}
+								onKeyPress={handleKeyPress}
+							/>
+							<button className="send-button" onClick={handleSendMessage}>
+								Send
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default FriendMessagePage;

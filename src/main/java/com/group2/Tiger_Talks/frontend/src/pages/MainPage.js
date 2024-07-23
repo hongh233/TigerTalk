@@ -15,7 +15,7 @@ const MainPage = () => {
 	const [posts, setPosts] = useState([]);
 	const [reload, setReload] = useState(false);
 
-    const [isNavVisible, setIsNavVisible] = useState(false);
+	const [isNavVisible, setIsNavVisible] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -47,7 +47,7 @@ const MainPage = () => {
 		}
 	}, [user, dispatch, reload]);
 
-	const addPost = (postContent, imageURL, tags) => {
+	const addPost = async (postContent, imageURL, tags) => {
 		if (!user) {
 			setMessage("User profile are not successfully loaded");
 			return;
@@ -63,10 +63,11 @@ const MainPage = () => {
 		};
 
 		// Save the new post to the database
-		axios
+		await axios
 			.post("http://localhost:8085/posts/create", newPost)
 			.then((response) => {
-				setPosts([newPost, ...posts]);
+				const createdPost = response.data;
+				setPosts((prevPosts) => [createdPost, ...prevPosts]);
 				setReload(!reload);
 			})
 			.catch((error) => {
@@ -78,19 +79,23 @@ const MainPage = () => {
 	return (
 		<div className="main-page">
 			<Header />
-            
-			<div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
 
+			<div
+				className="menu-toggle"
+				onClick={() => setIsNavVisible(!isNavVisible)}
+			>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
 
 			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
-                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
-                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
-                    <NavBar />
-                </div>
+				<div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
+					<button className="close-btn" onClick={() => setIsNavVisible(false)}>
+						×
+					</button>
+					<NavBar />
+				</div>
 				<div className="main-content">
 					<div className="post-creation-section">
 						<PostCreation addPost={addPost} />
