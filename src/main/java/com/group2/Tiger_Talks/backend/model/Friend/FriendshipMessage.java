@@ -105,7 +105,8 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
                 this.getReceiver().getEmail(),
                 this.getReceiver().getUserName(),
                 this.getReceiver().getProfilePictureUrl(),
-                this.isRead
+                this.isRead,
+                this.friendship.getFriendshipId()
         );
     }
 

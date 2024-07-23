@@ -20,6 +20,7 @@ public record FriendshipMessageDTO(
         String messageReceiverEmail,
         String messageReceiverUserName,
         String messageReceiverProfilePictureUrl,
-        boolean isRead
+        boolean isRead,
+        int friendshipId
 ) {
 }
