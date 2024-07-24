@@ -125,6 +125,27 @@ export const handleGetAllPost = (groupId) => {
 		});
 };
 
+export const handleLikeAxios = (postId, userEmail) => {
+	return axios
+		.put(`${URL}/api/groups/post/like/${postId}?userEmail=${userEmail}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error liking post:", error);
+			throw error;
+		});
+};
+
+
+export const handleDeletePostAxios = (postId) =>{
+	return axios
+	.delete(`${URL}/api/groups/post/delete/${postId}`)
+	.then((response)=>response.data)
+	.catch((error)=>{
+		console.error("Error deleting post:",error);
+		throw error;
+	});
+};
+
 export const handleGetGroupUserIsMember = (userEmail) => {
 	return axios
 		.get(`${URL}/api/groups/get/allGroups/${userEmail}`)

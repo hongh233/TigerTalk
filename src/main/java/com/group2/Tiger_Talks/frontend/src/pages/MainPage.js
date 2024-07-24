@@ -27,7 +27,7 @@ const MainPage = () => {
 			.catch((error) => {
 				console.error("There was an error on posts!", error);
 			});
-	}, [user, reload]);
+	}, [user]);
 
 	useEffect(() => {
 		if (user && reload) {
@@ -37,8 +37,8 @@ const MainPage = () => {
 						`http://localhost:8085/api/user/getByEmail/${userEmail}`
 					);
 					const data = response.data;
-					dispatch({ type: "SET_USER", payload: data });
 					setReload(false);
+					await dispatch({ type: "SET_USER", payload: data });
 				} catch (error) {
 					console.error("Error fetching profile user data:", error);
 				}
@@ -61,7 +61,7 @@ const MainPage = () => {
 			content: postContent,
 			associatedImageURL: imageURL,
 		};
-
+		
 		// Save the new post to the database
 		await axios
 			.post("http://localhost:8085/posts/create", newPost)
@@ -75,6 +75,9 @@ const MainPage = () => {
 				setMessage("Error creating post");
 			});
 	};
+	const handleDeletePost = (postId) => {
+        setPosts(posts.filter(post => post.id !== postId));
+    };
 
 	return (
 		<div className="main-page">
@@ -102,8 +105,8 @@ const MainPage = () => {
 					</div>
 					<FriendRecommendations />
 					<div className="post-list">
-						{posts.map((post, index) => (
-							<Post key={index} post={post} user={user} />
+						{posts.map((post) => (
+							<Post key={post.id} post={post} user={user} removePost={handleDeletePost} />
 						))}
 					</div>
 					<p>{message}</p>

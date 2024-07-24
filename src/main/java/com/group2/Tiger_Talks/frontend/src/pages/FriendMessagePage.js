@@ -71,7 +71,7 @@ const FriendMessagePage = () => {
 				stompClient.deactivate();
 			}
 		};
-	}, [selectedFriend]);
+	}, [selectedFriend, user.email]);
 
 	const fetchMessages = async (friendshipId) => {
 		try {
