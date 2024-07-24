@@ -61,7 +61,7 @@ const MainPage = () => {
 			content: postContent,
 			associatedImageURL: imageURL,
 		};
-
+		
 		// Save the new post to the database
 		await axios
 			.post("http://localhost:8085/posts/create", newPost)
@@ -75,11 +75,10 @@ const MainPage = () => {
 				setMessage("Error creating post");
 			});
 	};
-	const handleDeletePost = () => {
-		setReload(!reload);
+	const handleDeletePost = (postId) => {
+        setPosts(posts.filter(post => post.id !== postId));
     };
 
-	console.log(posts);
 	return (
 		<div className="main-page">
 			<Header />
@@ -106,8 +105,8 @@ const MainPage = () => {
 					</div>
 					<FriendRecommendations />
 					<div className="post-list">
-						{posts.map((post, index) => (
-							<Post key={index} post={post} user={user} removePost={handleDeletePost} />
+						{posts.map((post) => (
+							<Post key={post.id} post={post} user={user} removePost={handleDeletePost} />
 						))}
 					</div>
 					<p>{message}</p>

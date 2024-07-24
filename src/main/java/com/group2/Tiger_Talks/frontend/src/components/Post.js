@@ -14,7 +14,7 @@ import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/Post.css";
 
 const Post = ({ post, user, removePost }) => {
-    const [likes, setLikes] = useState(post.likes || post.numOfLike);
+    const [likes, setLikes] = useState(post.likes||post.numOfLikes);
     const [postComments, setPostComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     const [isEditing, setIsEditing] = useState(false); 
@@ -23,8 +23,6 @@ const Post = ({ post, user, removePost }) => {
     const [commentToggle, setCommentToggle] = useState(false);
 
 	const navigate = useNavigate();
-
-	useEffect(() => {}, [postComments, isEdited]);
 
 	const handleLike = async () => {
 		const postId = post.id || post.postId;
@@ -88,25 +86,30 @@ const Post = ({ post, user, removePost }) => {
 		navigate(`/friends`);
 	};
 
-	const renderPostContent = (content) => {
-		const parts = content.split(/(@\w+)/g);
-		return parts.map((part, index) => {
-			if (part.startsWith("@")) {
-				return (
-					<span
-						key={index}
-						className="tag"
-						onClick={() => handleTagClick(part)}
-						style={{ color: "blue", cursor: "pointer" }}
-					>
-						{part}
-					</span>
-				);
-			} else {
-				return part;
-			}
-		});
-	};
+    const renderPostContent = (content = "") => {
+        if (typeof content !== 'string') {
+          console.error("Content is not a string:", content);
+          return null;
+        }
+        const parts = content.split(/(@\w+)/g);
+        return parts.map((part, index) => {
+          if (part.startsWith("@")) {
+            return (
+              <span
+                key={index}
+                className="tag"
+                onClick={() => handleTagClick(part)}
+                style={{ color: "blue", cursor: "pointer" }}
+              >
+                {part}
+              </span>
+            );
+          } else {
+            return part;
+          }
+        });
+      };
+      
 
 	const handleEditClick = () => {
 		setIsEditing(true);
@@ -160,9 +163,8 @@ const Post = ({ post, user, removePost }) => {
 						value={editedContent}
 						onChange={(e) => setEditedContent(e.target.value)}
 					/>
-				) : (
-					<p>{renderPostContent(editedContent)}</p>
-				)}
+				) :
+                    <p>{renderPostContent(editedContent)}</p>}
 				{isEdited && <small className="edited-text">(edited)</small>}
 			</div>
 

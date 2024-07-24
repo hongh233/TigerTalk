@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaComment, FaShare } from "react-icons/fa";
+import { FaComment, FaShare,FaThumbsUp,FaTrash } from "react-icons/fa";
 import GroupComment from "./GroupComment";
 import {
 	handleAddGroupPostComment,
 	handleGetCommentsForOneGroupPost,
+	handleLikeAxios,
+	handleDeletePostAxios,
+	handleGetGroupById
 } from "./../axios/GroupAxios";
 import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/GroupPost.css";
@@ -16,9 +19,12 @@ const GroupPost = ({
 	groupId,
 	groupMembershipId,
 	userEmail,
+	removePost,
 }) => {
+	const [likes, setLikes] = useState(post.likes||post.numOfLikes);
 	const [postComments, setPostComments] = useState(null);
 	const [newComment, setNewComment] = useState("");
+	const [isAuthorOrAdmin,setIsAuthorOrAdmin] = useState(false);
 
 	useEffect(() => {}, [postComments]);
 
@@ -26,9 +32,21 @@ const GroupPost = ({
 		const fetchedComments = await handleGetCommentsForOneGroupPost(
 			post.groupPostId
 		);
-		console.log(fetchedComments);
 		setPostComments(fetchedComments);
 	};
+
+
+	const handleLike = async () => {
+		const postId = post.groupPostId;
+		if (!postId || !userEmail) {
+			console.error("Post ID or User Email is undefined.");
+			return;
+		}
+
+		const updatedLikes = await handleLikeAxios(postId, userEmail);
+		setLikes(updatedLikes);
+	};
+
 
 	const handleCommentChange = (e) => {
 		setNewComment(e.target.value);
@@ -90,6 +108,37 @@ const GroupPost = ({
 	// 	});
 	// };
 
+
+	useEffect(() => {
+		const fetchGroupDetails = async () => {
+			try {
+				const groupData = await handleGetGroupById(groupId);
+
+				if (groupData.groupCreatorEmail === userEmail|| userEmail === post.email ) {
+					setIsAuthorOrAdmin(true);
+				}
+				else{
+					setIsAuthorOrAdmin(false);
+				}
+			} catch (error) {
+				console.error("Failed to fetch group details", error);
+			}
+		};
+		fetchGroupDetails();
+	}, [userEmail, groupId, post]);
+
+
+    const handleDelete = async () => {
+        if (window.confirm("Are you sure you want to delete this post?")) {
+            await handleDeletePostAxios(post.groupPostId);
+            removePost(post.groupPostId);
+            setPostComments([]);
+            setLikes("");
+        }
+    };
+
+
+
 	return (
 		<div className="group-post">
 			<div className="group-post-header">
@@ -129,6 +178,9 @@ const GroupPost = ({
 			)}
 
 			<div className="group-post-footer">
+				<button className="group-post-button" onClick={handleLike}>
+                    {likes} <FaThumbsUp />
+                </button>
 				<button
 					className="group-post-button"
 					onClick={handleFetchAndDisplayComments}
@@ -138,6 +190,11 @@ const GroupPost = ({
 				<button className="group-post-button" onClick={handleShare}>
 					<FaShare />
 				</button>
+				{isAuthorOrAdmin && (
+                    <button className="post-button delete-button" onClick={handleDelete}>
+                        <FaTrash />
+                    </button>
+                )}
 			</div>
 			<div className="group-postComments-section">
 				{postComments &&
