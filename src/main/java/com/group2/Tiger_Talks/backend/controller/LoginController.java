@@ -3,6 +3,8 @@ package com.group2.Tiger_Talks.backend.controller;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.service.Authentication.LogInService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +46,7 @@ public class LoginController {
         if (userProfileOptional.isPresent()) {
             return ResponseEntity.ok(userProfileOptional.get());
         } else {
-            return ResponseEntity.status(401).body("Invalid email or password.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
         }
     }
 }

@@ -3,6 +3,7 @@ package com.group2.Tiger_Talks.backend.controller;
 import com.group2.Tiger_Talks.backend.model.User.UserProfileDTO;
 import com.group2.Tiger_Talks.backend.service.UserProfile.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class UserProfileController {
     public ResponseEntity<?> updateUser(@RequestBody UserProfileDTO userProfileDTO) {
         Optional<String> err = userProfileService.updateUserProfile(userProfileDTO);
         if (err.isPresent()) {
-            return ResponseEntity.status(400).body(err.get());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.get());
         } else {
             return ResponseEntity.ok(userProfileDTO);
         }
@@ -57,7 +58,7 @@ public class UserProfileController {
         if (userProfile.isPresent()) {
             return ResponseEntity.ok(userProfile.get());
         } else {
-            return ResponseEntity.status(404).body("User profile with email " + email + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User profile with email " + email + " not found.");
         }
     }
 
@@ -73,9 +74,9 @@ public class UserProfileController {
             userProfileService.deleteUserProfileByEmail(email);
             return ResponseEntity.ok("User profile with email " + email + " deleted successfully.");
         } catch (RuntimeException e) {
-            return ResponseEntity.status(404).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(400).body("Failed to delete user profile with email " + email + ": " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to delete user profile with email " + email + ": " + e.getMessage());
         }
     }
 }
