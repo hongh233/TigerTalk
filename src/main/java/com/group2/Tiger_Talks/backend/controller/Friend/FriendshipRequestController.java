@@ -2,6 +2,7 @@ package com.group2.Tiger_Talks.backend.controller.Friend;
 
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequestDTO;
 import com.group2.Tiger_Talks.backend.service.Friend.FriendshipRequestService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,7 +56,7 @@ public class FriendshipRequestController {
     @PostMapping("/accept")
     public ResponseEntity<String> acceptFriendRequest(@RequestParam("id") Integer friendshipRequestId) {
         return friendshipRequestService.acceptFriendshipRequest(friendshipRequestId)
-                .map(ResponseEntity.status(404)::body)
+                .map(ResponseEntity.status(HttpStatus.NOT_FOUND)::body)
                 .orElseGet(() -> ResponseEntity.ok("Friend request has been accepted."));
     }
 
