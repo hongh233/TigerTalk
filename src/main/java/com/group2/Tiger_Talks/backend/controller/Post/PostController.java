@@ -55,10 +55,21 @@ public class PostController {
                 .orElseGet(() -> ResponseEntity.ok("Post created successfully."));
     }
 
+    /**
+     * Edits the content of an existing post.
+     *
+     * @param postID the ID of the post to be edited
+     * @param content the new content for the post
+     * @return a ResponseEntity with a success message if the post is edited, or an error message if not
+     */
     @PostMapping("/editPost/{postID}/{content}")
     public ResponseEntity<String> editPost(@PathVariable Integer postID, @PathVariable String content) {
-        // TODO: EDIT POST
-        return null;
+        try {
+            postService.editPost(postID, content);
+            return ResponseEntity.ok("Post edited successfully.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     /**

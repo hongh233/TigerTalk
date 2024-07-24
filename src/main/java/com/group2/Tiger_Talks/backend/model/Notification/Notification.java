@@ -17,15 +17,21 @@ public class Notification implements ToDTO<NotificationDTO> {
 
     private LocalDateTime createTime;
 
-    // FriendshipRequestSend,
-    // FriendshipRequestAccept,
-    // FriendshipRequestReject,
-    // FriendshipDelete,
-    // NewPost,
-    // PostLiked,
-    // PostComment,
-    // GroupCreation,
-    // GroupMembershipDeletion,
+    // FriendshipRequestSend
+    // FriendshipRequestAccept
+    // FriendshipRequestReject
+    // FriendshipDelete
+    // NewPost
+    // PostLiked
+    // PostComment
+    // GroupCreation
+    // GroupMembershipDeletion
+    // GroupJoin
+    // GroupDeletion
+    // GroupPostCreation
+    // TODO: GroupPostLiked  notification
+    // GroupPostComment
+
     private String notificationType;
 
     @ManyToOne

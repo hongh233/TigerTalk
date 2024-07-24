@@ -1,9 +1,6 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
-import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
-import com.group2.Tiger_Talks.backend.model.Group.GroupPost;
-import com.group2.Tiger_Talks.backend.model.Group.GroupPostDTO;
-import com.group2.Tiger_Talks.backend.model.Group.GroupPostLike;
+import com.group2.Tiger_Talks.backend.model.Group.*;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostLikeRepository;
@@ -54,7 +51,22 @@ public class GroupPostServiceImpl implements GroupPostService {
     public Optional<String> createGroupPost(GroupPost groupPost) {
         if (userProfileRepository.existsById(groupPost.getGroupPostSenderEmail()) &&
                 groupRepository.existsById(groupPost.getGroup().getGroupId())) {
+
             groupPostRepository.save(groupPost);
+            Group group = groupRepository.findById(groupPost.getGroup().getGroupId()).get();
+            List<GroupMembership> members = group.getGroupMemberList();
+
+            for (GroupMembership member : members) {
+                UserProfile user = member.getUserProfile();
+                if (!user.getEmail().equals(groupPost.getGroupPostSenderEmail())) {
+                    Notification notification = new Notification(
+                            user,
+                            "User " + groupPost.getGroupPostSenderEmail() + " has created a new post in the group: " + group.getGroupName(),
+                            "GroupPostCreation"
+                    );
+                    notificationService.createNotification(notification);
+                }
+            }
             return Optional.empty();
         } else {
             return Optional.of("User or Group not found, fail to create group post.");

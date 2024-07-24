@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,6 +7,7 @@ import { handleFindGroups } from "./../axios/GroupAxios";
 import { findUsersByKeyword } from "./../axios/UserAxios";
 import { filterUsersAlreadyInGroup } from "./../utils/filterGroupMembers";
 import Dropdown from "./../components/DropDown";
+import { IoSearch } from "react-icons/io5";
 import "../assets/styles/SearchBar.css";
 
 const SearchBar = ({
@@ -23,8 +25,9 @@ const SearchBar = ({
 	const [items, setItems] = useState([]);
 	const [showDropdown, setShowDropdown] = useState(false);
 	const navigate = useNavigate();
-
+	const dispatch = useDispatch();
 	const { email } = useSelector((state) => state.user.user);
+
 	const handleInputChange = (e) => {
 		const query = e.target.value;
 		setSearchQuery(query);
@@ -50,6 +53,26 @@ const SearchBar = ({
 		}
 	};
 
+	const fetchGlobal = async () => {
+		if (searchQuery.length > 0) {
+			try {
+				const responseUsers = await findUsersByKeyword(searchQuery, email);
+				const responseGroups = await handleFindGroups(
+					searchQuery.toLowerCase(),
+					email
+				);
+				dispatch({ type: "SET_GLOBAL_USERS", payload: responseUsers });
+				dispatch({ type: "SET_GLOBAL_GROUPS", payload: responseGroups });
+				navigate("/search");
+			} catch (error) {
+				console.error(`Error fetching users and groups:`, error);
+			}
+		} else {
+			dispatch({ type: "SET_GLOBAL_USERS", payload: null });
+			dispatch({ type: "SET_GLOBAL_GROUPS", payload: null });
+		}
+	};
+
 	const fetchUsers = async (query) => {
 		try {
 			const response = await findUsersByKeyword(query, email);
@@ -70,7 +93,6 @@ const SearchBar = ({
 
 	const fetchGroups = async (query) => {
 		try {
-			console.log(query);
 			const response = await handleFindGroups(query.toLowerCase(), userEmail);
 			setSearchGroup(response);
 		} catch (error) {
@@ -83,43 +105,47 @@ const SearchBar = ({
 	};
 
 	const handleChoose = (email) => {
-		if (searchType === "user") {
+		if (searchType === "user" || searchType === "global") {
 			navigate(`/profile/${email}`);
 		} else if (searchType === "member") {
 			setSearchMember(email);
 		}
 	};
-
-	const getStatusColor = (status) => {
-		switch (status) {
-			case "available":
-				return "green";
-			case "busy":
-				return "#DC143C";
-			case "away":
-				return "#FDDA0D";
-			default:
-				return "gray";
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter" && searchType === "global") {
+			fetchGlobal();
 		}
 	};
 
 	return (
 		<div className={`search-bar-${searchBarClassName}`}>
 			<div className={`search-bar-${searchBarClassName}-input`}>
-				<input
-					type="text"
-					placeholder="Search..."
-					value={searchQuery}
-					onChange={handleInputChange}
-					onFocus={() => setShowDropdown(true)}
-				/>
+				<div className="search-input-and-button">
+					<input
+						type="text"
+						placeholder="Search..."
+						value={searchQuery}
+						onChange={handleInputChange}
+						onFocus={() => setShowDropdown(true)}
+						onKeyDown={handleKeyDown}
+					/>
+					{searchType === "global" ? (
+						<div
+							className="header-search-button"
+							onClick={(e) => fetchGlobal()}
+						>
+							<IoSearch />
+						</div>
+					) : (
+						""
+					)}
+				</div>
 			</div>
 
 			{showDropdown && items && (
 				<Dropdown
 					handleChoose={handleChoose}
 					items={items}
-					getStatusColor={getStatusColor}
 					dropdownClassName={dropdownClassName}
 				/>
 			)}

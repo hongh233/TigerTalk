@@ -19,7 +19,7 @@ public final class Utils {
         public static final String USER = "user";
     }
 
-    public static final class Role { // TODO: USe in admin to change role
+    public static final class Role {
         public static final String DEFAULT = "default";
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
@@ -40,8 +40,8 @@ public final class Utils {
     }
 
     public static final class TestGen {
-        public static final int MAX_USERS = 26;     // Offline
-        public static final int MIN_USERS = 3;     // Offline
+        public static final int MAX_USERS = 26;
+        public static final int MIN_USERS = 3;
     }
 
     public static final class RegexCheck {
@@ -58,12 +58,13 @@ public final class Utils {
          * This method checks if the input string is a substring of the string to match
          * or if it matches an IntelliJ IDEA-like search pattern in the string to match.
          *
-         * @param stringToMatch the string to be matched against.
-         * @param inputString   the input string to search for.
+         * @param stringToMatch       the string to be matched against.
+         * @param inputString         the input string to search for.
+         * @param intelijRegexPattern the regex pattern for IntelliJ IDEA-like search.
          * @return true if the input string is a substring or matches the IntelliJ experimental search pattern in the string to match.
          */
-        public static boolean advancedSearch(String stringToMatch, String inputString) {
-            return isSubString(stringToMatch, inputString) || intelij_search_experimental(stringToMatch, inputString);
+        public static boolean advancedSearch(String stringToMatch, String inputString, Pattern intelijRegexPattern) {
+            return isSubString(stringToMatch, inputString) || intelij_search_experimental(stringToMatch, intelijRegexPattern);
         }
 
         /**
@@ -84,14 +85,12 @@ public final class Utils {
          * This method generates a regex pattern from the input string where each character
          * is matched case-insensitively, allowing for characters in between.
          *
-         * @param stringToMatch the string to be matched against.
-         * @param inputString   the input string to search for.
+         * @param stringToMatch       the string to be matched against.
+         * @param intelijRegexPattern the regex pattern for IntelliJ IDEA-like search.
          * @return true if the input string matches the IntelliJ experimental search pattern in the string to match, false otherwise.
          */
-        public static boolean intelij_search_experimental(String stringToMatch, String inputString) {
-            return Pattern.compile(generate_intelij_matcher_regex(inputString), Pattern.CASE_INSENSITIVE)
-                    .matcher(stringToMatch)
-                    .find();
+        public static boolean intelij_search_experimental(String stringToMatch, Pattern intelijRegexPattern) {
+            return intelijRegexPattern.matcher(stringToMatch).find();
         }
 
         /**
@@ -102,14 +101,14 @@ public final class Utils {
          * @param string the input string to generate the pattern for.
          * @return the generated regex pattern.
          */
-        private static String generate_intelij_matcher_regex(String string) {
+        public static Pattern generate_intelij_matcher_pattern(String string) {
             String regex = String.join(
                     ".*",
                     string.chars()
-                            .mapToObj(x -> "[" + Character.toLowerCase((char) x) + Character.toUpperCase((char) x) + "]")
+                            .mapToObj(x -> "[" + (char) x + "]")
                             .toArray(String[]::new)
             );
-            return ".*" + regex + ".*";
+            return Pattern.compile(".*" + regex + ".*");
         }
     }
 }

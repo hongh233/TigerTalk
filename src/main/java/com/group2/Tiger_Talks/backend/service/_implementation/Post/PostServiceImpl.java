@@ -103,12 +103,24 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    public Post editPost(Integer postId, String newContent) {
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if (optionalPost.isPresent()) {
+            Post existingPost = optionalPost.get();
+            existingPost.setContent(newContent);
+            existingPost.setEdited(true);
+            return postRepository.save(existingPost);
+        } else {
+            throw new RuntimeException("Post not found with id: " + postId);
+        }
+    }
     @Override
     public Optional<String> updatePostById(Integer postId, Post post) {
         return postRepository.findById(postId)
                 .map(existingPost -> {
                     existingPost.setUserProfile(post.getUserProfile());
                     existingPost.setComments(post.getComments());
+                    existingPost.setAssociatedImageURL(post.getAssociatedImageURL());
                     existingPost.setLikes(post.getLikes());
                     existingPost.setNumOfLike(post.getNumOfLike());
                     existingPost.setTimestamp(post.getTimestamp());

@@ -4,12 +4,32 @@
     margin-left: 20px;
 }
 
+.notification-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .notification-icon {
     font-size: 24px;
-    color: #17a2b8;;
+    color: #17a2b8;
     cursor: pointer;
 }
 
 .notification-icon:hover {
     color: #0056b3;
+}
+
+.notification-count {
+    position: absolute;
+    top: -8px;              /* adjust the position of red icon: up and down */
+    right: -14px;           /* adjust the position of red icon: left and right */
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
 }

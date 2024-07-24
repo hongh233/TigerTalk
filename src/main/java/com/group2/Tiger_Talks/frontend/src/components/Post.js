@@ -1,173 +1,231 @@
-import React, {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {FaComment, FaShare, FaThumbsUp} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaComment, FaShare, FaThumbsUp, FaTrash, FaEdit } from "react-icons/fa";
 import Comment from "./Comment";
 import {
     handleLikeAxios,
     handleAddCommentAxios,
     getCommentFromPostId,
+    handleEditPostAxios,
+    handleDeletePostAxios
 } from "./../axios/PostAxios";
-import {fetchUserByEmail} from "./../axios/AuthenticationAxios";
-import {formatDate} from "./../utils/formatDate";
+import { fetchUserByEmail } from "./../axios/AuthenticationAxios";
+import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/Post.css";
 
-const Post = ({post, user}) => {
-    const [likes, setLikes] = useState(post.likes || post.numOfLike);
-    const [postComments, setPostComments] = useState(null);
-
+const Post = ({ post, user, removePost }) => {
+    const [likes, setLikes] = useState(post.likes||post.numOfLikes);
+    const [postComments, setPostComments] = useState([]);
     const [newComment, setNewComment] = useState("");
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-    }, [postComments]);
-
-    const handleLike = async () => {
-        const postId = post.id || post.postId;
-        const userEmail = user.email;
-        if (!postId || !userEmail) {
-            console.error("Post ID or User Email is undefined.");
-            return;
-        }
-
-        const updatedLikes = await handleLikeAxios(postId, userEmail);
-        setLikes(updatedLikes);
-    };
-
+    const [isEditing, setIsEditing] = useState(false); 
+    const [editedContent, setEditedContent] = useState(post.content);
+    const [isEdited, setIsEdited] = useState(post.edited);
     const [commentToggle, setCommentToggle] = useState(false);
-    const handleFetchAndDisplayComments = async () => {
-        setCommentToggle(prevState => !prevState); // Works don't touch
-        const fetchedComments = await getCommentFromPostId(post.id);
-        setPostComments(fetchedComments);
-    };
 
-    const handleCommentChange = (e) => {
-        setNewComment(e.target.value);
-    };
+	const navigate = useNavigate();
 
-    const handleAddComment = async () => {
-        setCommentToggle(false); // IT works don't touch
-        //fetch post owner DTO
-        const postSenderUserProfileDTO = await fetchUserByEmail(post.email);
+	const handleLike = async () => {
+		const postId = post.id || post.postId;
+		const userEmail = user.email;
+		if (!postId || !userEmail) {
+			console.error("Post ID or User Email is undefined.");
+			return;
+		}
 
-        if (newComment.trim() === "") return;
-        if (postSenderUserProfileDTO) {
-            const newCommentObj = {
-                content: newComment,
-                timestamp: new Date(),
-                commentSenderUserProfileDTO: user,
-                postSenderUserProfileDTO: postSenderUserProfileDTO,
-                postId: post.id,
-            };
+		const updatedLikes = await handleLikeAxios(postId, userEmail);
+		setLikes(updatedLikes);
+	};
 
-            await handleAddCommentAxios(newCommentObj);
-            await handleFetchAndDisplayComments();
-            setNewComment("");
+	const handleFetchAndDisplayComments = async () => {
+		setCommentToggle((prevState) => !prevState); // Works don't touch
+		const fetchedComments = await getCommentFromPostId(post.id);
+		setPostComments(fetchedComments);
+	};
+
+	const handleCommentChange = (e) => {
+		setNewComment(e.target.value);
+	};
+
+	const handleAddComment = async () => {
+		setCommentToggle(false); // IT works don't touch
+		//fetch post owner DTO
+		const postSenderUserProfileDTO = await fetchUserByEmail(post.email);
+
+		if (newComment.trim() === "") return;
+		if (postSenderUserProfileDTO) {
+			const newCommentObj = {
+				content: newComment,
+				timestamp: new Date(),
+				commentSenderUserProfileDTO: user,
+				postSenderUserProfileDTO: postSenderUserProfileDTO,
+				postId: post.id,
+			};
+
+			await handleAddCommentAxios(newCommentObj);
+			await handleFetchAndDisplayComments();
+			setNewComment("");
+		}
+	};
+
+	const handleShare = async () => {
+		if (navigator.share) {
+			try {
+				await navigator.share({
+					text: `${post.content} - Posted by the user ${post.userProfileUserName} at ${post.timestamp}`,
+				});
+				console.log("Content shared successfully");
+			} catch (error) {
+				console.error("Error sharing content:", error);
+			}
+		} else {
+			alert("Web Share API is not supported in your browser.");
+		}
+	};
+
+	const handleTagClick = () => {
+		navigate(`/friends`);
+	};
+
+    const renderPostContent = (content = "") => {
+        if (typeof content !== 'string') {
+          console.error("Content is not a string:", content);
+          return null;
         }
-    };
-
-    const handleShare = async () => {
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    text: `${post.content} - Posted by the user ${post.userProfileUserName} at ${post.timestamp}`,
-                });
-                console.log("Content shared successfully");
-            } catch (error) {
-                console.error("Error sharing content:", error);
-            }
-        } else {
-            alert("Web Share API is not supported in your browser.");
-        }
-    };
-    /*
-    const handleTagClick = (tag) => {
-      // Define what happens when a tag is clicked
-      console.log(`Tag clicked: ${tag}`);
-    };
-    */
-
-    const handleTagClick = () => {
-        navigate(`/friends`);
-    };
-
-    const renderPostContent = (content) => {
         const parts = content.split(/(@\w+)/g);
         return parts.map((part, index) => {
-            if (part.startsWith("@")) {
-                return (
-                    <span
-                        key={index}
-                        className="tag"
-                        onClick={() => handleTagClick(part)}
-                        style={{color: "blue", cursor: "pointer"}}
-                    >
-						{part}
-					</span>
-                );
-            } else {
-                return part;
-            }
+          if (part.startsWith("@")) {
+            return (
+              <span
+                key={index}
+                className="tag"
+                onClick={() => handleTagClick(part)}
+                style={{ color: "blue", cursor: "pointer" }}
+              >
+                {part}
+              </span>
+            );
+          } else {
+            return part;
+          }
         });
+      };
+      
+
+	const handleEditClick = () => {
+		setIsEditing(true);
+	};
+
+	const handleCancelEdit = () => {
+		setIsEditing(false);
+		setEditedContent(post.content);
+	};
+
+    const handleSaveEdit = async () => {
+        if (editedContent.trim() === "") return;
+        await handleEditPostAxios(post.id, editedContent);
+        setIsEditing(false);
+        setEditedContent(editedContent);
+        setIsEdited(true);
     };
 
-    return (
-        <div className="post">
-            <div className="post-header">
-                <div className="profile-picture">
-                    <a className="post-user-email" href={`/profile/${post.email}`}>
-                        <img src={post.profileProfileURL} alt="avatar"/>
-                    </a>
-                </div>
-                <div className="post-user-details">
-                    <h3>
-                        <a className="post-user-email" href={`/profile/${post.email}`}>
-                            {post.userProfileUserName}
-                        </a>
-                    </h3>
-                    {/* Display the username here */}
-                    <p>{formatDate(post.timestamp)}</p>
-                </div>
-            </div>
+    const handleDelete = async () => {
+        if (window.confirm("Are you sure you want to delete this post?")) {
+            await handleDeletePostAxios(post.id);
+            removePost(post.id);
+            setPostComments([]);
+            setLikes("");
+        }
+    };
 
-            <div className="post-content">
-                <p>{renderPostContent(post.content)}</p>
-            </div>
-            {post.postImageURL && (
-                <div className="post-content-img-container">
-                    <div className="post-content-img">
-                        <img src={post.postImageURL} alt="Post content"/>
-                    </div>
-                </div>
-            )}
+    const isAuthorOrAdmin = user.email === post.email || user.userLevel === "admin";
+
+	return (
+		<div className="post">
+			<div className="post-header">
+				<div className="profile-picture">
+					<a className="post-user-email" href={`/profile/${post.email}`}>
+						<img src={post.profileProfileURL} alt="avatar" />
+					</a>
+				</div>
+				<div className="post-user-details">
+					<h3>
+						<a className="post-user-email" href={`/profile/${post.email}`}>
+							{post.userProfileUserName}
+						</a>
+					</h3>
+					<p>{formatDate(post.timestamp)}</p>
+				</div>
+			</div>
+
+			<div className="post-content">
+				{isEditing ? (
+					<textarea
+						value={editedContent}
+						onChange={(e) => setEditedContent(e.target.value)}
+					/>
+				) :
+                    <p>{renderPostContent(editedContent)}</p>}
+				{isEdited && <small className="edited-text">(edited)</small>}
+			</div>
+
+			{post.postImageURL && (
+				<div className="post-content-img-container">
+					<div className="post-content-img">
+						<img src={post.postImageURL} alt="Post content" />
+					</div>
+				</div>
+			)}
+
             <div className="post-footer">
                 <button className="post-button" onClick={handleLike}>
-                    {likes} <FaThumbsUp/>
+                    {likes} <FaThumbsUp />
                 </button>
                 <button className="post-button" onClick={handleFetchAndDisplayComments}>
-                    <FaComment/>
+                    <FaComment />
                 </button>
                 <button className="post-button" onClick={handleShare}>
-                    <FaShare/>
+                    <FaShare />
                 </button>
+                {user.email === post.email && !isEditing && (
+                    <button className="post-button" onClick={handleEditClick}>
+                        <FaEdit />
+                    </button>
+                )}
+                {user.email === post.email && isEditing && (
+                    <>
+                        <button className="post-button" onClick={handleSaveEdit}>
+                            Save
+                        </button>
+                        <button className="post-button" onClick={handleCancelEdit}>
+                            Cancel
+                        </button>
+                    </>
+                )}
+                {isAuthorOrAdmin && (
+                    <button className="post-button delete-button" onClick={handleDelete}>
+                        <FaTrash />
+                    </button>
+                )}
             </div>
-            <div className="postComments-section">
-                {postComments && commentToggle &&
-                    postComments.map((postComment, index) => (
-                        <Comment key={index} postComment={postComment}/>
-                    ))}
-                <div className="add-comment">
-                    <input
-                        type="text"
-                        placeholder="Add a comment..."
-                        value={newComment}
-                        onChange={handleCommentChange}
-                    />
-                    <button onClick={handleAddComment}>Post</button>
-                </div>
-            </div>
-        </div>
-    );
+
+			<div className="postComments-section">
+				{postComments &&
+					commentToggle &&
+					postComments.map((postComment, index) => (
+						<Comment key={index} postComment={postComment} />
+					))}
+				<div className="add-comment">
+					<input
+						type="text"
+						placeholder="Add a comment..."
+						value={newComment}
+						onChange={handleCommentChange}
+					/>
+					<button onClick={handleAddComment}>Post</button>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default Post;

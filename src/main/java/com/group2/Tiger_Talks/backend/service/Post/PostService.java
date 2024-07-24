@@ -54,6 +54,16 @@ public interface PostService {
     Optional<String> deletePost(Post post);
 
     /**
+     * Edits the content of an existing post.
+     *
+     * @param postId the ID of the post to be edited
+     * @param newContent the new content for the post
+     * @return the updated Post object
+     * @throws RuntimeException if the post with the given ID is not found
+     */
+    Post editPost(Integer postId, String newContent);
+
+    /**
      * Updates a post by its ID.
      *
      * @param postId the ID of the post to be updated

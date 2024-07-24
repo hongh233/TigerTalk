@@ -15,7 +15,7 @@ const MainPage = () => {
 	const [posts, setPosts] = useState([]);
 	const [reload, setReload] = useState(false);
 
-    const [isNavVisible, setIsNavVisible] = useState(false);
+	const [isNavVisible, setIsNavVisible] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -27,7 +27,7 @@ const MainPage = () => {
 			.catch((error) => {
 				console.error("There was an error on posts!", error);
 			});
-	}, [user, reload]);
+	}, [user]);
 
 	useEffect(() => {
 		if (user && reload) {
@@ -37,8 +37,8 @@ const MainPage = () => {
 						`http://localhost:8085/api/user/getByEmail/${userEmail}`
 					);
 					const data = response.data;
-					dispatch({ type: "SET_USER", payload: data });
 					setReload(false);
+					await dispatch({ type: "SET_USER", payload: data });
 				} catch (error) {
 					console.error("Error fetching profile user data:", error);
 				}
@@ -47,7 +47,7 @@ const MainPage = () => {
 		}
 	}, [user, dispatch, reload]);
 
-	const addPost = (postContent, imageURL, tags) => {
+	const addPost = async (postContent, imageURL, tags) => {
 		if (!user) {
 			setMessage("User profile are not successfully loaded");
 			return;
@@ -61,12 +61,13 @@ const MainPage = () => {
 			content: postContent,
 			associatedImageURL: imageURL,
 		};
-
+		
 		// Save the new post to the database
-		axios
+		await axios
 			.post("http://localhost:8085/posts/create", newPost)
 			.then((response) => {
-				setPosts([newPost, ...posts]);
+				const createdPost = response.data;
+				setPosts((prevPosts) => [createdPost, ...prevPosts]);
 				setReload(!reload);
 			})
 			.catch((error) => {
@@ -74,31 +75,38 @@ const MainPage = () => {
 				setMessage("Error creating post");
 			});
 	};
+	const handleDeletePost = (postId) => {
+        setPosts(posts.filter(post => post.id !== postId));
+    };
 
 	return (
 		<div className="main-page">
 			<Header />
-            
-			<div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
 
+			<div
+				className="menu-toggle"
+				onClick={() => setIsNavVisible(!isNavVisible)}
+			>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
 
 			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
-                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
-                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
-                    <NavBar />
-                </div>
+				<div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
+					<button className="close-btn" onClick={() => setIsNavVisible(false)}>
+						×
+					</button>
+					<NavBar />
+				</div>
 				<div className="main-content">
 					<div className="post-creation-section">
 						<PostCreation addPost={addPost} />
 					</div>
 					<FriendRecommendations />
 					<div className="post-list">
-						{posts.map((post, index) => (
-							<Post key={index} post={post} user={user} />
+						{posts.map((post) => (
+							<Post key={post.id} post={post} user={user} removePost={handleDeletePost} />
 						))}
 					</div>
 					<p>{message}</p>

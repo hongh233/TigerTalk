@@ -76,3 +76,14 @@
 	overflow-y: auto;
 	border-radius: 3px;
 }
+
+/* Global Search */
+.search-results-dropdown-global {
+	background-color: white;
+	border: 1px solid #ddd;
+	border-top: none;
+	max-height: 550px;
+	overflow-y: auto;
+	border-radius: 3px;
+	margin: 0 8%;
+}

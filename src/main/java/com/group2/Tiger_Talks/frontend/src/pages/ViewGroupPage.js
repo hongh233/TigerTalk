@@ -149,7 +149,9 @@ const ViewGroupPage = () => {
 			console.error("Failed to create a post", error);
 		}
 	};
-
+	const handleDeletePost = (postId) => {
+        setPosts(posts.filter(post => post.groupPostId !== postId));
+    };
 	return (
 		group && (
 			<div className="group-page">
@@ -230,12 +232,13 @@ const ViewGroupPage = () => {
 									{posts &&
 										posts.map((post) => (
 											<GroupPost
-												key={post.id}
+												key={post.groupPostId}
 												isMember={isMember}
 												post={post}
 												groupId={groupId}
 												groupMembershipId={groupMembershipId}
 												userEmail={userEmail}
+												removePost={handleDeletePost}
 											/>
 										))}
 								</>
