@@ -32,6 +32,16 @@ export const handleEditPostAxios = (postId, content) =>{
 };
 
 
+export const handleDeletePostAxios = (postId) =>{
+	return axios
+	.delete(`${URL}/posts/delete/${postId}`)
+	.then((response)=>response.data)
+	.catch((error)=>{
+		console.error("Error deleting post:",error);
+		throw error;
+	});
+};
+
 export const getCommentFromPostId = (postId) => {
 	return axios
 		.get(`${URL}/api/comments/getComments/${postId}`)

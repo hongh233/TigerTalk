@@ -112,6 +112,9 @@ const ProfilePage = () => {
 		}
 	};
 
+	const handleDeletePost = (postId) => {
+        setPosts(posts.filter(post => post.id !== postId));
+    };
 	return (
 		<div className="profile-page">
 			<Header />
@@ -131,7 +134,7 @@ const ProfilePage = () => {
 					{message.length > 0 ? (
 						<p>{message}</p>
 					) : (
-						posts.map((post) => <Post key={post.id} post={post} user={user} />)
+						posts.map((post) => <Post key={post.id} post={post} user={user} removePost={handleDeletePost} />)
 					)}
 				</div>
 			</div>
