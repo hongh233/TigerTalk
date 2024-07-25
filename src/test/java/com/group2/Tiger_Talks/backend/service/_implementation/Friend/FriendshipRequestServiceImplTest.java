@@ -21,8 +21,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class FriendshipRequestServiceImplTest {
@@ -108,7 +107,7 @@ public class FriendshipRequestServiceImplTest {
     }
 
     @Test
-    public void sendFriendshipRequest_existingFriendship() {
+    public void sendFriendshipRequest_existingFriendship_A_to_B() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(new Friendship()));
@@ -118,11 +117,32 @@ public class FriendshipRequestServiceImplTest {
     }
 
     @Test
-    public void sendFriendshipRequest_existingRequest() {
+    public void sendFriendshipRequest_existingFriendship_B_to_A() {
+        lenient().when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        lenient().when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        lenient().when(friendshipRepository.findBySenderAndReceiver(userB, userA)).thenReturn(Optional.of(new Friendship()));
+        Optional<String> result = friendshipRequestService.sendFriendshipRequest("a@dal.ca", "b@dal.ca");
+        assertTrue(result.isPresent());
+        assertEquals("Friendship has already existed between these users.", result.get());
+    }
+
+    @Test
+    public void sendFriendshipRequest_existingRequest_A_to_B() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
         when(friendshipRequestRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(new FriendshipRequest(userA, userB)));
+        Optional<String> result = friendshipRequestService.sendFriendshipRequest("a@dal.ca", "b@dal.ca");
+        assertTrue(result.isPresent());
+        assertEquals("Friendship request has already existed between these users.", result.get());
+    }
+
+    @Test
+    public void sendFriendshipRequest_existingRequest_B_to_A() {
+        lenient().when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        lenient().when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        lenient().when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
+        lenient().when(friendshipRequestRepository.findBySenderAndReceiver(userB, userA)).thenReturn(Optional.of(new FriendshipRequest(userB, userA)));
         Optional<String> result = friendshipRequestService.sendFriendshipRequest("a@dal.ca", "b@dal.ca");
         assertTrue(result.isPresent());
         assertEquals("Friendship request has already existed between these users.", result.get());
@@ -284,4 +304,23 @@ public class FriendshipRequestServiceImplTest {
         boolean result = friendshipRequestService.areFriendshipRequestExist("a@dal.ca", "b@dal.ca");
         assertFalse(result, "Expected false as there is no friendship between a and b");
     }
+
+    /**
+     * Test case for findNumOfTotalRequests
+     */
+    @Test
+    public void findNumOfTotalRequests_success() {
+        when(friendshipRequestRepository.findAll()).thenReturn(List.of(new FriendshipRequest(userA, userB), new FriendshipRequest(userB, userC)));
+        int result = friendshipRequestService.findNumOfTotalRequests();
+        assertEquals(2, result);
+    }
+
+    @Test
+    public void findNumOfTotalRequests_noRequests() {
+        when(friendshipRequestRepository.findAll()).thenReturn(List.of());
+        int result = friendshipRequestService.findNumOfTotalRequests();
+        assertEquals(0, result);
+    }
+
+
 }
