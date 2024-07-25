@@ -1,4 +1,4 @@
-package com.group2.Tiger_Talks.backend.controller;
+package com.group2.Tiger_Talks.backend.controller.Authentication;
 
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
