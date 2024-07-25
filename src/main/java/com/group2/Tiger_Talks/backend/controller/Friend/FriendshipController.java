@@ -3,6 +3,7 @@ package com.group2.Tiger_Talks.backend.controller.Friend;
 import com.group2.Tiger_Talks.backend.model.Friend.UserProfileDTOFriendship;
 import com.group2.Tiger_Talks.backend.service.Friend.FriendshipService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class FriendshipController {
                                                           @PathVariable("receiverEmail") String receiverEmail) {
         return friendshipService.deleteFriendshipByEmail(receiverEmail, senderEmail)
                 .map(err -> friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail)
-                        .map(ResponseEntity.status(404)::body)
+                        .map(ResponseEntity.status(HttpStatus.NOT_FOUND)::body)
                         .orElseGet(() -> ResponseEntity.ok("Friendship successfully deleted."))
                 ).orElseGet(() -> ResponseEntity.ok("Friendship successfully deleted."));
     }

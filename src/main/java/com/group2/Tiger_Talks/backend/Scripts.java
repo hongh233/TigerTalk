@@ -9,6 +9,7 @@ import com.group2.Tiger_Talks.backend.service.Authentication.SignUpService;
 import com.group2.Tiger_Talks.backend.service.Friend.FriendshipRequestService;
 import com.group2.Tiger_Talks.backend.service.Group.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,7 +72,7 @@ public class Scripts {
             return ResponseEntity.ok("Tables dropped successfully");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Error dropping tables");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error dropping tables");
         }
     }
 

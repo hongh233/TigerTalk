@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
-import NavBar from "../components/NavBar";
-import Header from "../components/Header";
-import "../assets/styles/FriendListPage.css"; // New CSS file
-import UserComponent from "../components/UserComponent";
-import SearchBar from "../components/SearchBar";
-import axios from "axios";
-import {filterUsers} from "../utils/filterUsers";
-import {handleDelete} from "../axios/UserAxios";
+import NavBar from "../../components/NavBar";
+import Header from "../../components/Header";
+import "../../assets/styles/FriendListPage.css"; // New CSS file
+import UserComponent from "../../components/UserComponent";
+import SearchBar from "../../components/SearchBar";
+import {filterUsers} from "../../utils/filterUsers";
+import {handleDelete, getAllFriendsByEmail} from "../../axios/FriendAxios";
 
 const FriendListPage = () => {
     const user = useSelector((state) => state.user.user);
@@ -25,12 +24,10 @@ const FriendListPage = () => {
         const fetchFriends = async () => {
             if (user && user.email) {
                 try {
-                    const response = await axios.get(
-                        `http://localhost:8085/friendships/DTO/${user.email}`
-                    );
-                    if (response.data.length > 0) {
-                        setAllFriends(response.data);
-                        setFriends(response.data);
+                    const responseData = await getAllFriendsByEmail(user.email);
+                    if (responseData.length > 0) {
+                        setAllFriends(responseData);
+                        setFriends(responseData);
                     }
                 } catch (error) {
                     console.error("Failed to fetch friends", error);

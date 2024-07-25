@@ -1,11 +1,9 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Group;
 
-import com.group2.Tiger_Talks.backend.model.Group.Group;
-import com.group2.Tiger_Talks.backend.model.Group.GroupMembership;
-import com.group2.Tiger_Talks.backend.model.Group.GroupPost;
-import com.group2.Tiger_Talks.backend.model.Group.GroupPostDTO;
+import com.group2.Tiger_Talks.backend.model.Group.*;
 import com.group2.Tiger_Talks.backend.model.Notification.Notification;
 import com.group2.Tiger_Talks.backend.model.User.UserProfile;
+import com.group2.Tiger_Talks.backend.repository.Group.GroupPostLikeRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupPostRepository;
 import com.group2.Tiger_Talks.backend.repository.Group.GroupRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -24,8 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -47,6 +44,9 @@ public class GroupPostServiceImplTest {
 
     @Mock
     private NotificationService notificationService;
+
+    @Mock
+    private GroupPostLikeRepository groupPostLikeRepository;
 
     @BeforeEach
     public void setUp() {
@@ -288,6 +288,81 @@ public class GroupPostServiceImplTest {
         when(groupRepository.findById(groupId)).thenReturn(Optional.empty());
         List<GroupPostDTO> result = groupPostService.getAllGroupPostsByGroupId(groupId);
         assertTrue(result.isEmpty());
+    }
+
+    /**
+     * Test case for likePost
+     */
+    @Test
+    public void likePost_success_like() {
+        int groupPostId = 1;
+        String userEmail = "a@dal.ca";
+        Group group = new Group();
+        group.setGroupId(1);
+        GroupPost groupPost = new GroupPost(group, "Content", "b@dal.ca", "picture");
+        groupPost.setGroupPostId(groupPostId);
+
+        UserProfile userProfile = new UserProfile();
+        userProfile.setEmail(userEmail);
+        userProfile.setUserName("User A");
+
+        when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.of(groupPost));
+        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
+        when(groupPostLikeRepository.findByGroupPostGroupPostIdAndUserProfileEmail(groupPostId, userEmail)).thenReturn(Optional.empty());
+
+        GroupPost result = groupPostService.likePost(groupPostId, userEmail);
+        assertTrue(result.getPostLikes().stream().anyMatch(like -> like.getUserProfile().getEmail().equals(userEmail)));
+    }
+
+    @Test
+    public void likePost_success_unlike() {
+        int groupPostId = 1;
+        String userEmail = "a@dal.ca";
+        Group group = new Group();
+        group.setGroupId(1);
+        GroupPost groupPost = new GroupPost(group, "Content", "b@dal.ca", "picture");
+        groupPost.setGroupPostId(groupPostId);
+
+        UserProfile userProfile = new UserProfile();
+        userProfile.setEmail(userEmail);
+        userProfile.setUserName("User A");
+        GroupPostLike existingLike = new GroupPostLike(groupPost, userProfile);
+
+        when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.of(groupPost));
+        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
+        when(groupPostLikeRepository.findByGroupPostGroupPostIdAndUserProfileEmail(groupPostId, userEmail)).thenReturn(Optional.of(existingLike));
+
+        GroupPost result = groupPostService.likePost(groupPostId, userEmail);
+        assertTrue(result.getPostLikes().stream().noneMatch(like -> like.getUserProfile().getEmail().equals(userEmail)));
+    }
+
+    @Test
+    public void likePost_postNotFound() {
+        int groupPostId = 1;
+        String userEmail = "a@dal.ca";
+        when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.empty());
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            groupPostService.likePost(groupPostId, userEmail);
+        });
+        assertEquals("Post not found", exception.getMessage());
+    }
+
+    @Test
+    public void likePost_userNotFound() {
+        int groupPostId = 1;
+        String userEmail = "a@dal.ca";
+        Group group = new Group();
+        group.setGroupId(1);
+        GroupPost groupPost = new GroupPost(group, "Content", "b@dal.ca", "picture");
+        groupPost.setGroupPostId(groupPostId);
+
+        when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.of(groupPost));
+        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            groupPostService.likePost(groupPostId, userEmail);
+        });
+        assertEquals("User not found", exception.getMessage());
     }
 
 }

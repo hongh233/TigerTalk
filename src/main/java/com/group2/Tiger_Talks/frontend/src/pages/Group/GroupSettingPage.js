@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
-import { handleGetGroupById, handleUpdateGroup } from "../axios/GroupAxios";
-import "../assets/styles/CreateGroupPage.css";
-import {uploadImageToCloudinary} from "../utils/cloudinaryUtils";
+import Header from "../../components/Header";
+import NavBar from "../../components/NavBar";
+import { handleGetGroupById, handleUpdateGroup } from "../../axios/GroupAxios";
+import "../../assets/styles/CreateGroupPage.css";
+import {uploadImageToCloudinary} from "../../utils/cloudinaryUtils";
 
 const GroupSettingPage = () =>{
 	const { groupId } = useParams();

@@ -4,6 +4,7 @@ import com.group2.Tiger_Talks.backend.model.Post.Post;
 import com.group2.Tiger_Talks.backend.model.Post.PostDTO;
 import com.group2.Tiger_Talks.backend.service.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -109,7 +110,7 @@ public class PostController {
     public ResponseEntity<String> updatePostById(@PathVariable Integer postId, @RequestBody Post post) {
         Optional<String> postServiceOptional = postService.updatePostById(postId, post);
         return postServiceOptional
-                .map(ResponseEntity.status(401)::body)
+                .map(ResponseEntity.status(HttpStatus.UNAUTHORIZED)::body)
                 .orElseGet(() -> ResponseEntity.ok("Post updated successfully"));
     }
 
@@ -126,7 +127,7 @@ public class PostController {
             Post updatedPost = postService.likePost(postId, userEmail);
             return ResponseEntity.ok(updatedPost.getNumOfLike());
         } catch (RuntimeException e) {
-            return ResponseEntity.status(404).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

@@ -13,6 +13,7 @@ import com.group2.Tiger_Talks.backend.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,11 +37,18 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     // We have E->A, D->A, get(A) will get E, D
     @Override
     public List<FriendshipRequestDTO> getAllFriendRequests(String email) {
-        UserProfile user = userProfileRepository.findUserProfileByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("User not found"));
-        return friendshipRequestRepository.findByReceiver(user).stream()
-                .map(FriendshipRequest::toDto)
-                .collect(Collectors.toList());
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findUserProfileByEmail(email);
+        if (optionalUserProfile.isEmpty()) {
+            throw new IllegalStateException("User not found");
+        }
+        UserProfile user = optionalUserProfile.get();
+
+        List<FriendshipRequestDTO> list = new ArrayList<>();
+        for (FriendshipRequest friendshipRequest : friendshipRequestRepository.findByReceiver(user)) {
+            FriendshipRequestDTO dto = friendshipRequest.toDto();
+            list.add(dto);
+        }
+        return list;
     }
 
     @Override

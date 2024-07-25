@@ -11,9 +11,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
-import static com.group2.Tiger_Talks.backend.model.Authentication.PasswordTokenImpl.EXPIRATION_MINUTES;
 import static com.group2.Tiger_Talks.backend.model.Utils.COMPANY_EMAIL;
+import static com.group2.Tiger_Talks.backend.model.Utils.PASSWORD_TOKEN_EXPIRATION_MINUTES;
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Service
@@ -53,7 +52,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
                 new String[]{email},
                 COMPANY_EMAIL,
                 PASSWORD_RESET_SUBJECT,
-                PASSWORD_RESET_MESSAGE.formatted(passwordToken.getToken(), EXPIRATION_MINUTES)
+                PASSWORD_RESET_MESSAGE.formatted(passwordToken.getToken(), PASSWORD_TOKEN_EXPIRATION_MINUTES)
         ).sendMail(passwordResetMailer);
     }
 

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import axios from 'axios';
-import "../../assets/styles/ForgetPassword/EmailVerificationPage.css";
+import "../../../assets/styles/ForgetPassword/EmailVerificationPage.css";
+import {verifyEmailCode} from "../../../axios/AuthenticationAxios";
 
 const EmailVerificationPage = () => {
     const {state} = useLocation();
@@ -18,9 +18,7 @@ const EmailVerificationPage = () => {
         e.preventDefault();
         setErrors({});
         try {
-            await axios.post(`http://localhost:8085/api/passwordReset/checkToken/${code}`, {
-                email
-            });
+            await verifyEmailCode(email, code);
             alert('Email has verified! You can now reset your password!');
             navigate('/resetPassword', {state: {email}});
         } catch (error) {
