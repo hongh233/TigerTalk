@@ -1,9 +1,7 @@
 package com.group2.Tiger_Talks.backend.service._implementation.Friend;
 
-import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipMessage;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipMessageDTO;
-import com.group2.Tiger_Talks.backend.model.User.UserProfile;
 import com.group2.Tiger_Talks.backend.repository.Friend.FriendshipMessageRepository;
 import com.group2.Tiger_Talks.backend.repository.Friend.FriendshipRepository;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
@@ -32,10 +30,10 @@ public class FriendshipMessageServiceImpl implements FriendshipMessageService {
         if (friendshipRepository.findById(message.getFriendship().getFriendshipId()).isEmpty()) {
             return Optional.of("Friendship not found");
         }
-        if (userProfileRepository.findById(message.getSender().getEmail()).isEmpty()) {
+        if (userProfileRepository.findById(message.getSender().email()).isEmpty()) {
             return Optional.of("Sender not found");
         }
-        if (userProfileRepository.findById(message.getReceiver().getEmail()).isEmpty()) {
+        if (userProfileRepository.findById(message.getReceiver().email()).isEmpty()) {
             return Optional.of("Receiver not found");
         }
         friendshipMessageRepository.save(message);

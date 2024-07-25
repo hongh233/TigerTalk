@@ -95,7 +95,7 @@ public class Notification implements ToDTO<NotificationDTO> {
                 this.getContent(),
                 this.getCreateTime(),
                 this.getNotificationType(),
-                this.getUserProfile().getEmail()
+                this.getUserProfile().email()
         );
     }
 

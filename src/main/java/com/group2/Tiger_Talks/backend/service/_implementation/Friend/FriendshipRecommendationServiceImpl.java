@@ -27,13 +27,13 @@ public class FriendshipRecommendationServiceImpl implements FriendshipRecommenda
         return userProfileRepository.findById(email)
                 .map(myProfile -> {
                     // Assumes getAllFriends() returns a List<UserProfile>
-                    List<UserProfile> allMyFriends = friendshipRepository.findAllFriendsByEmail(myProfile.getEmail());
+                    List<UserProfile> allMyFriends = friendshipRepository.findAllFriendsByEmail(myProfile.email());
 
                     // Get all potential friends, except for current friends and the user themselves
                     List<UserProfile> potentialFriends = new LinkedList<>();
                     List<UserProfile> allUsers = userProfileRepository.findAll();
                     for (UserProfile userProfile : allUsers) {
-                        if (!allMyFriends.contains(userProfile) && !userProfile.getEmail().equals(email)) {
+                        if (!allMyFriends.contains(userProfile) && !userProfile.email().equals(email)) {
                             potentialFriends.add(userProfile);
                         }
                     }

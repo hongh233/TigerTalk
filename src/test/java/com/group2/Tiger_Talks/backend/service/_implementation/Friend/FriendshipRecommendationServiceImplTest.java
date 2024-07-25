@@ -42,8 +42,8 @@ public class FriendshipRecommendationServiceImplTest {
         userB = new UserProfile("Blong", "Bside", 23, "Female", "userB", "b@dal.ca", "bbbb1B@b", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
         userC = new UserProfile("Clong", "Cside", 24, "Male", "userC", "c@dal.ca", "cccc1C@c", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
         userD = new UserProfile("Dlong", "Dside", 25, "Female", "userD", "d@dal.ca", "dddd1D@d", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        lenient().when(userA.getEmail()).thenReturn("a@dal.ca");
-        lenient().when(friendshipRepository.findAllFriendsByEmail(userA.getEmail())).thenReturn(List.of(userB));
+        lenient().when(userA.email()).thenReturn("a@dal.ca");
+        lenient().when(friendshipRepository.findAllFriendsByEmail(userA.email())).thenReturn(List.of(userB));
     }
 
     /**

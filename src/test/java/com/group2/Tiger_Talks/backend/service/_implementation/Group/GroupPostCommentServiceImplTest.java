@@ -146,7 +146,7 @@ public class GroupPostCommentServiceImplTest {
 
         assertEquals("User commenter@dal.ca commented on your post in group Test Group", capturedNotification.getContent());
         assertEquals("GroupPostComment", capturedNotification.getNotificationType());
-        assertEquals("owner@dal.ca", capturedNotification.getUserProfile().getEmail());
+        assertEquals("owner@dal.ca", capturedNotification.getUserProfile().email());
     }
 
     @Test

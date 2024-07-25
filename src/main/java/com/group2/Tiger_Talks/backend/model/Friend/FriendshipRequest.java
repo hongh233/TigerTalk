@@ -41,12 +41,12 @@ public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestD
                              UserProfile receiver) {
         this.sender = sender;
         this.receiver = receiver;
-        this.senderEmailTemp = sender.getEmail();
-        this.receiverEmailTemp = receiver.getEmail();
+        this.senderEmailTemp = sender.email();
+        this.receiverEmailTemp = receiver.email();
         this.senderProfilePictureUrlTemp = sender.getProfilePictureUrl();
         this.receiverProfilePictureUrlTemp = receiver.getProfilePictureUrl();
-        this.senderUserNameTemp = sender.getUserName();
-        this.receiverUserNameTemp = receiver.getUserName();
+        this.senderUserNameTemp = sender.userName();
+        this.receiverUserNameTemp = receiver.userName();
     }
 
     public FriendshipRequest() {
@@ -139,10 +139,10 @@ public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestD
     public FriendshipRequestDTO toDto() {
         return new FriendshipRequestDTO(
                 this.friendshipRequestId,
-                this.sender.getEmail(),
-                this.sender.getUserName(),
-                this.receiver.getEmail(),
-                this.receiver.getUserName(),
+                this.sender.email(),
+                this.sender.userName(),
+                this.receiver.email(),
+                this.receiver.userName(),
                 this.sender.getProfilePictureUrl(),
                 this.receiver.getProfilePictureUrl()
         );

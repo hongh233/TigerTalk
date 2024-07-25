@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {HiAnnotation, HiChatAlt, HiChatAlt2, HiUserGroup} from "react-icons/hi";
+import {HiChatAlt, HiUserGroup} from "react-icons/hi";
 import {FaUserFriends, FaUserPlus} from "react-icons/fa";
 import "../assets/styles/FriendsTab.css";
 

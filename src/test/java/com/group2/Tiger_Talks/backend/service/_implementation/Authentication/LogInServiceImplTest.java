@@ -67,27 +67,27 @@ public class LogInServiceImplTest {
      */
     @Test
     public void logInUser_normal_resultExist() {
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
-        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.getEmail(), userA.getPassword());
+        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.email(), userA.getPassword());
         assertTrue(result.isPresent());
     }
 
     @Test
     public void logInUser_normal_resultCorrect() {
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
-        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.getEmail(), userA.getPassword());
+        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.email(), userA.getPassword());
         assertTrue(result.isPresent());
-        assertEquals(userA.getEmail(), result.get().email());
+        assertEquals(userA.email(), result.get().email());
     }
 
     @Test
     public void logInUser_normal_onlineCheck() {
         userA.setOnlineStatus(OFFLINE);
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
-        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.getEmail(), userA.getPassword());
+        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.email(), userA.getPassword());
         assertEquals(AVAILABLE, userA.getOnlineStatus());
         assertTrue(result.isPresent());
     }
@@ -95,17 +95,17 @@ public class LogInServiceImplTest {
     @Test
     public void logInUser_wrongPassword() {
         userA.setPassword("aaaa1A@a");
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
-        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.getEmail(), "bbbb2B@b");
+        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userA.email(), "bbbb2B@b");
         assertTrue(result.isEmpty());
     }
 
     @Test
     public void logInUser_userNotFound() {
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
-        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userB.getEmail(), userB.getPassword());
+        Optional<UserProfileDTO> result = logInServiceImpl.logInUser(userB.email(), userB.getPassword());
         assertTrue(result.isEmpty());
     }
 
@@ -115,25 +115,25 @@ public class LogInServiceImplTest {
     @Test
     public void logOut_normal_onlineCheck_online() {
         userA.setOnlineStatus(AVAILABLE);
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
-        logInServiceImpl.logOut(userA.getEmail());
+        logInServiceImpl.logOut(userA.email());
         assertEquals(OFFLINE, userA.getOnlineStatus());
     }
 
     @Test
     public void logOut_normal_onlineCheck_offline() {
         userA.setOnlineStatus(OFFLINE);
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
-        logInServiceImpl.logOut(userA.getEmail());
+        logInServiceImpl.logOut(userA.email());
         assertEquals(OFFLINE, userA.getOnlineStatus());
     }
 
     @Test
     public void logOut_userNotFound() {
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.empty());
-        logInServiceImpl.logOut(userA.getEmail());
+        when(userProfileRepository.findById(userA.email())).thenReturn(Optional.empty());
+        logInServiceImpl.logOut(userA.email());
         verify(userProfileRepository, never()).save(any(UserProfile.class));
     }
 }

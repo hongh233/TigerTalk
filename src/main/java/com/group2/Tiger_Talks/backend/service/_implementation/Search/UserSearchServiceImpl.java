@@ -34,13 +34,13 @@ public class UserSearchServiceImpl implements Searchable<UserProfileDTO> {
         Pattern intelijRegexPattern = RegexCheck.generate_intelij_matcher_pattern(searchQuery);
         return userProfileRepository.findAll()
                 .stream()
-                .filter(userProfile -> !userProfile.getEmail().equals(userEmail)
+                .filter(userProfile -> !userProfile.email().equals(userEmail)
                         && (RegexCheck.advancedSearch(
                         userProfile.getFullName(),
                         searchQuery,
                         intelijRegexPattern)
-                        || userProfile.getEmail().toLowerCase().startsWith(searchQuery.toLowerCase())
-                        || userProfile.getUserName().toLowerCase().startsWith(searchQuery.toLowerCase())))
+                        || userProfile.email().toLowerCase().startsWith(searchQuery.toLowerCase())
+                        || userProfile.userName().toLowerCase().startsWith(searchQuery.toLowerCase())))
                 .map(UserProfile::toDto)
                 .toList();
     }

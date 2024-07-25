@@ -40,7 +40,7 @@ public class GroupPostServiceImpl implements GroupPostService {
         List<GroupMembership> groupMembershipList = groupPost.getGroup().getGroupMemberList();
         for (GroupMembership groupMembership : groupMembershipList) {
             UserProfile userProfile = groupMembership.getUserProfile();
-            if (userProfile.getEmail().equals(email)) {
+            if (userProfile.email().equals(email)) {
                 return Optional.of(userProfile);
             }
         }
@@ -53,12 +53,17 @@ public class GroupPostServiceImpl implements GroupPostService {
                 groupRepository.existsById(groupPost.getGroup().getGroupId())) {
 
             groupPostRepository.save(groupPost);
-            Group group = groupRepository.findById(groupPost.getGroup().getGroupId()).get();
+            Optional<Group> groupId = groupRepository.findById(groupPost.getGroup().getGroupId());
+            if (groupId.isEmpty()) {
+                return Optional.of("Group not found, fail to create group post.");
+            }
+
+            Group group = groupId.get();
             List<GroupMembership> members = group.getGroupMemberList();
 
             for (GroupMembership member : members) {
                 UserProfile user = member.getUserProfile();
-                if (!user.getEmail().equals(groupPost.getGroupPostSenderEmail())) {
+                if (!user.email().equals(groupPost.getGroupPostSenderEmail())) {
                     Notification notification = new Notification(
                             user,
                             "User " + groupPost.getGroupPostSenderEmail() + " has created a new post in the group: " + group.getGroupName(),
@@ -69,7 +74,7 @@ public class GroupPostServiceImpl implements GroupPostService {
             }
             return Optional.empty();
         } else {
-            return Optional.of("User or Group not found, fail to create group post.");
+            return Optional.of("User not found, fail to create group post.");
         }
     }
 

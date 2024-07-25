@@ -30,7 +30,7 @@ public class GroupSearchServiceImpl implements Searchable<GroupDTO> {
                         intelijRegexPattern)
                         && !group.isPrivate()
                         && group.getGroupMemberList().stream()
-                        .noneMatch(membership -> membership.getUserProfile().getEmail().equals(userEmail)))
+                        .noneMatch(membership -> membership.getUserProfile().email().equals(userEmail)))
                 .map(Group::toDto)
                 .toList();
     }

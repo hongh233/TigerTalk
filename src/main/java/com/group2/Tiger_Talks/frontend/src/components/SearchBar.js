@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { handleFindGroups } from "./../axios/GroupAxios";
 import { findUsersByKeyword } from "./../axios/UserAxios";
 import { filterUsersAlreadyInGroup } from "./../utils/filterGroupMembers";
@@ -15,7 +14,6 @@ const SearchBar = ({
 	userEmail,
 	setSearchGroup,
 	setSearchFriendQuery,
-	setSearchPublicUser,
 	setSearchMember,
 	dropdownClassName,
 	searchBarClassName,

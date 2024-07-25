@@ -133,11 +133,11 @@ public class Post implements FullyDTOConvertible<PostDTO> {
     public PostDTO toDto() {
         return new PostDTO(
                 this.getPostId(),
-                this.getUserProfile().getEmail(),
+                this.getUserProfile().email(),
                 this.getContent(),
                 this.getTimestamp(),
                 this.getNumOfLike(),
-                this.getUserProfile().getUserName(),
+                this.getUserProfile().userName(),
                 this.getUserProfile().getProfilePictureUrl(),
                 this.getAssociatedImageURL(),
                 this.getEdited()

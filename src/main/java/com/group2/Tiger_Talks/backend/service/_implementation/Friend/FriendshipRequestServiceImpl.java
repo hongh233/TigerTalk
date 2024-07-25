@@ -97,7 +97,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         // send notification
         return notificationService.createNotification(new Notification(
                 friendshipRequest.getSender(),
-                "Your friend request to " + friendshipRequest.getReceiver().getEmail() + " has been accepted.",
+                "Your friend request to " + friendshipRequest.getReceiver().email() + " has been accepted.",
                 "FriendshipRequestAccept"
         ));
     }
@@ -112,7 +112,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         // send notification
         return notificationService.createNotification(new Notification(
                 friendshipRequest.getSender(),
-                "Your friend request to " + friendshipRequest.getReceiver().getEmail() + " has been rejected.",
+                "Your friend request to " + friendshipRequest.getReceiver().email() + " has been rejected.",
                 "FriendshipRequestReject"
         ));
     }

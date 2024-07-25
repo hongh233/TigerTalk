@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../assets/styles/Notification.css';
 import { FaEye, FaTrash } from 'react-icons/fa';
 import axios from "axios";

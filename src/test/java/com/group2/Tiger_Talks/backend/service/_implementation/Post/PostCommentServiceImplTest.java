@@ -233,8 +233,8 @@ public class PostCommentServiceImplTest {
 
         List<PostCommentDTO> result = postCommentService.getCommentsByPostId(1);
         PostCommentDTO dto = result.get(0);
-        assertEquals(userA.getEmail(), dto.commentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto.postSenderUserProfileDTO().email());
+        assertEquals(userA.email(), dto.commentSenderUserProfileDTO().email());
+        assertEquals(userB.email(), dto.postSenderUserProfileDTO().email());
     }
 
     @Test
@@ -272,10 +272,10 @@ public class PostCommentServiceImplTest {
         List<PostCommentDTO> result = postCommentService.getCommentsByPostId(1);
         PostCommentDTO dto1 = result.get(0);
         PostCommentDTO dto2 = result.get(1);
-        assertEquals(userA.getEmail(), dto1.commentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto1.postSenderUserProfileDTO().email());
-        assertEquals(userA.getEmail(), dto2.commentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto2.postSenderUserProfileDTO().email());
+        assertEquals(userA.email(), dto1.commentSenderUserProfileDTO().email());
+        assertEquals(userB.email(), dto1.postSenderUserProfileDTO().email());
+        assertEquals(userA.email(), dto2.commentSenderUserProfileDTO().email());
+        assertEquals(userB.email(), dto2.postSenderUserProfileDTO().email());
     }
 
     @Test
@@ -328,8 +328,8 @@ public class PostCommentServiceImplTest {
 
         List<PostCommentDTO> result = postCommentService.getAllComments();
         PostCommentDTO dto = result.get(0);
-        assertEquals(userA.getEmail(), dto.commentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto.postSenderUserProfileDTO().email());
+        assertEquals(userA.email(), dto.commentSenderUserProfileDTO().email());
+        assertEquals(userB.email(), dto.postSenderUserProfileDTO().email());
     }
 
     @Test
@@ -367,10 +367,10 @@ public class PostCommentServiceImplTest {
         List<PostCommentDTO> result = postCommentService.getAllComments();
         PostCommentDTO dto1 = result.get(0);
         PostCommentDTO dto2 = result.get(1);
-        assertEquals(userA.getEmail(), dto1.commentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto1.postSenderUserProfileDTO().email());
-        assertEquals(userA.getEmail(), dto2.commentSenderUserProfileDTO().email());
-        assertEquals(userB.getEmail(), dto2.postSenderUserProfileDTO().email());
+        assertEquals(userA.email(), dto1.commentSenderUserProfileDTO().email());
+        assertEquals(userB.email(), dto1.postSenderUserProfileDTO().email());
+        assertEquals(userA.email(), dto2.commentSenderUserProfileDTO().email());
+        assertEquals(userB.email(), dto2.postSenderUserProfileDTO().email());
     }
 
     @Test

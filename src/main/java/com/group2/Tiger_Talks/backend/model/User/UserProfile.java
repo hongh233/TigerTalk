@@ -2,6 +2,8 @@ package com.group2.Tiger_Talks.backend.model.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.group2.Tiger_Talks.backend.model.Authentication.UserValidation;
+import com.group2.Tiger_Talks.backend.model.Authentication.UserValidator;
 import com.group2.Tiger_Talks.backend.model.Friend.Friendship;
 import com.group2.Tiger_Talks.backend.model.Friend.FriendshipRequest;
 import com.group2.Tiger_Talks.backend.model.FullyDTOConvertible;
@@ -18,13 +20,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.*;
-import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
+public class UserProfile implements UserValidation, FullyDTOConvertible<UserProfileDTO> {
     @Id
     private String email;
 
@@ -90,6 +92,7 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
     private String firstName;
     private String lastName;
     private String profilePictureUrl = DEFAULT_PROFILE_PICTURE;
+
     public UserProfile(String firstName,
                        String lastName,
                        int age,
@@ -113,41 +116,30 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
     public UserProfile() {
     }
 
+
     public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
-        if (!NAME_NORM.matcher(userProfile.getFirstName()).matches()) {
-            return Optional.of("First name must contain no symbols");
+        Optional<String> intrinsicsResult = UserValidator.verifyUserIntrinsics(userProfile, userProfileRepository, isNewUser);
+
+        if (intrinsicsResult.isPresent()) {
+            return intrinsicsResult;
         }
-        if (!NAME_NORM.matcher(userProfile.getLastName()).matches()) {
-            return Optional.of("Last name must contain no symbols");
-        }
-        if (userProfile.getAge() <= 0) {
-            return Optional.of("Age must be greater than 0");
-        }
-        if (!EMAIL_NORM.matcher(userProfile.getEmail()).matches()) {
-            return Optional.of("Invalid email address. Please use dal email address!");
-        }
-        if (isNewUser && userProfileRepository.findUserProfileByUserName(userProfile.getUserName()).isPresent()) {
-            return Optional.of("Username has already existed!");
-        }
-        if (isNewUser && userProfileRepository.existsById(userProfile.getEmail())) {
-            return Optional.of("Email has already existed!");
-        }
-        if (!PASSWORD_NORM_LENGTH.matcher(userProfile.getPassword()).matches()) {
-            return Optional.of("Password must have a minimum length of 8 characters.");
-        }
-        if (!PASSWORD_NORM_UPPERCASE.matcher(userProfile.getPassword()).matches()) {
-            return Optional.of("Password must have at least 1 uppercase character.");
-        }
-        if (!PASSWORD_NORM_LOWERCASE.matcher(userProfile.getPassword()).matches()) {
-            return Optional.of("Password must have at least 1 lowercase character.");
-        }
-        if (!PASSWORD_NORM_NUMBER.matcher(userProfile.getPassword()).matches()) {
-            return Optional.of("Password must have at least 1 number.");
-        }
-        if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(userProfile.getPassword()).matches()) {
-            return Optional.of("Password must have at least 1 special character.");
-        }
-        return Optional.empty();
+
+        return getExtraValidationOptions(userProfileRepository, isNewUser)
+                .stream()
+                .map(validation -> validation.apply(userProfile))
+                .filter(Optional::isPresent)
+                .findFirst()
+                .orElseGet(Optional::empty);
+    }
+
+    private static List<Function<UserProfile, Optional<String>>> getExtraValidationOptions(UserProfileRepository userProfileRepository, boolean isNewUser) {
+        return List.of(
+                UserValidator::validatePasswordLength,
+                UserValidator::validatePasswordUppercase,
+                UserValidator::validatePasswordLowercase,
+                UserValidator::validatePasswordNumber,
+                UserValidator::validatePasswordSpecialCharacter
+        );
     }
 
     public List<PostLike> getPostLikeList() {
@@ -160,7 +152,7 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
         return groupPostLikeList;
     }
 
-    public String getEmail() {
+    public String email() {
         return email;
     }
 
@@ -232,7 +224,7 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
         this.onlineStatus = onlineStatus;
     }
 
-    public String getUserName() {
+    public String userName() {
         return userName;
     }
 
@@ -288,7 +280,7 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getAge() {
+    public int age() {
         return age;
     }
 
@@ -304,11 +296,11 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
         this.gender = gender;
     }
 
-    public String getFirstName() {
+    public String firstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void firstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -316,7 +308,7 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
         return firstName + " " + lastName;
     }
 
-    public String getLastName() {
+    public String lastName() {
         return lastName;
     }
 
