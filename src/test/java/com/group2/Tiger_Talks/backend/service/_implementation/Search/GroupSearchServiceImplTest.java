@@ -73,8 +73,11 @@ public class GroupSearchServiceImplTest {
         group3.setGroupMemberList(new ArrayList<>());
     }
 
+    /**
+     * Test case for search
+     */
     @Test
-    public void testSearch_NullQueryOrEmail() {
+    public void search_nullQueryOrEmail() {
         List<GroupDTO> result = groupSearchService.search(null, "a@dal.ca");
         assertEquals(Collections.emptyList(), result);
 
@@ -83,7 +86,7 @@ public class GroupSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_NoMatches() {
+    public void search_noMatches() {
         when(groupRepository.findAll()).thenReturn(Arrays.asList(group1, group2, group3));
 
         List<GroupDTO> result = groupSearchService.search("Non-matching query", "a@dal.ca");
@@ -91,7 +94,7 @@ public class GroupSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_PrivateGroup() {
+    public void search_privateGroup() {
         when(groupRepository.findAll()).thenReturn(Arrays.asList(group1, group2, group3));
 
         List<GroupDTO> result = groupSearchService.search("Group 2", "a@dal.ca");
@@ -99,7 +102,7 @@ public class GroupSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_AlreadyMember() {
+    public void search_alreadyMember() {
         when(groupRepository.findAll()).thenReturn(Arrays.asList(group1, group2, group3));
 
         List<GroupDTO> result = groupSearchService.search("Group 1", "a@dal.ca");
@@ -107,7 +110,7 @@ public class GroupSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_Success() {
+    public void search_success() {
         when(groupRepository.findAll()).thenReturn(Arrays.asList(group1, group2, group3));
 
         List<GroupDTO> result = groupSearchService.search("Group 3", "c@dal.ca");

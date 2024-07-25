@@ -306,8 +306,13 @@ public class GroupPostServiceImplTest {
         userProfile.setEmail(userEmail);
         userProfile.setUserName("User A");
 
+        UserProfile postSenderProfile = new UserProfile();
+        postSenderProfile.setEmail("b@dal.ca");
+        postSenderProfile.setUserName("User B");
+
         when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.of(groupPost));
         when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(postSenderProfile));
         when(groupPostLikeRepository.findByGroupPostGroupPostIdAndUserProfileEmail(groupPostId, userEmail)).thenReturn(Optional.empty());
 
         GroupPost result = groupPostService.likePost(groupPostId, userEmail);
@@ -363,6 +368,50 @@ public class GroupPostServiceImplTest {
             groupPostService.likePost(groupPostId, userEmail);
         });
         assertEquals("User not found", exception.getMessage());
+    }
+
+    /**
+     * Test case for findUserProfileByEmail
+     */
+    @Test
+    public void findUserProfileByEmail_userFound() {
+        Group group = new Group();
+        UserProfile userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+        UserProfile userB = new UserProfile("Blong", "Bside", 23, "Female", "userB", "b@dal.ca", "bbbb1B@b",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+
+        GroupMembership membershipA = new GroupMembership(group, userA, false);
+        GroupMembership membershipB = new GroupMembership(group, userB, false);
+        group.setGroupMemberList(List.of(membershipA, membershipB));
+
+        GroupPost groupPost = new GroupPost();
+        groupPost.setGroup(group);
+        groupPost.setGroupPostSenderEmail("a@dal.ca");
+
+        Optional<UserProfile> result = GroupPostServiceImpl.findUserProfileByEmail(groupPost);
+        assertTrue(result.isPresent());
+        assertEquals("a@dal.ca", result.get().getEmail());
+    }
+
+    @Test
+    public void findUserProfileByEmail_userNotFound() {
+        Group group = new Group();
+        UserProfile userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+        UserProfile userB = new UserProfile("Blong", "Bside", 23, "Female", "userB", "b@dal.ca", "bbbb1B@b",
+                new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+
+        GroupMembership membershipA = new GroupMembership(group, userA, false);
+        GroupMembership membershipB = new GroupMembership(group, userB, false);
+        group.setGroupMemberList(List.of(membershipA, membershipB));
+
+        GroupPost groupPost = new GroupPost();
+        groupPost.setGroup(group);
+        groupPost.setGroupPostSenderEmail("c@dal.ca");
+
+        Optional<UserProfile> result = GroupPostServiceImpl.findUserProfileByEmail(groupPost);
+        assertTrue(result.isEmpty());
     }
 
 }

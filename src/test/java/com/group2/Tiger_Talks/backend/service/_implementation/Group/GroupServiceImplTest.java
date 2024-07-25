@@ -286,6 +286,34 @@ public class GroupServiceImplTest {
         assertEquals("GroupJoin", creatorNotification.getNotificationType());
     }
 
+    @Test
+    public void joinGroup_notificationToUserFailure() {
+        GroupMembership creatorMembership = new GroupMembership(groupPub, userA, true);
+        groupPub.setGroupMemberList(List.of(creatorMembership));
+        lenient().when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
+        lenient().when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
+        lenient().when(notificationService.createNotification(any(Notification.class)))
+                .thenReturn(Optional.of("Failed to create notification: Database error"));
+        lenient().when(groupMembershipRepository.findGroupCreatorByGroupId(1)).thenReturn(Optional.of(creatorMembership));
+        Optional<String> result = groupService.joinGroupUser("b@dal.ca", 1);
+        assertTrue(result.isPresent());
+        assertEquals("Failed to create notification: Database error", result.get());
+    }
+
+    @Test
+    public void joinGroup_notificationToCreatorFailure() {
+        GroupMembership creatorMembership = new GroupMembership(groupPub, userA, true);
+        groupPub.setGroupMemberList(List.of(creatorMembership));
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty())
+                .thenReturn(Optional.of("Failed to create notification: Database error"));
+        when(groupMembershipRepository.findGroupCreatorByGroupId(1)).thenReturn(Optional.of(creatorMembership));
+        Optional<String> result = groupService.joinGroupUser("b@dal.ca", 1);
+        assertTrue(result.isPresent());
+        assertEquals("Failed to create notification: Database error", result.get());
+    }
+
     /**
      * Test case for getAllGroups
      */
@@ -515,6 +543,22 @@ public class GroupServiceImplTest {
         assertTrue(groupRepository.findById(1).isEmpty());
     }
 
+    @Test
+    public void deleteGroup_notificationToMemberFailure() {
+        GroupMembership membershipA = new GroupMembership(groupPub, userA, false);
+        GroupMembership membershipB = new GroupMembership(groupPub, userB, false);
+        groupPub.setGroupMemberList(List.of(membershipA, membershipB));
+
+        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
+        when(notificationService.createNotification(any(Notification.class)))
+                .thenReturn(Optional.of("Failed to create notification: Database error"));
+        Optional<String> result = groupService.deleteGroup(1);
+
+        assertTrue(result.isPresent());
+        assertEquals("Failed to create notification: Database error", result.get());
+    }
+
+
     /**
      * Test case for deleteGroupMembership
      */
@@ -596,6 +640,27 @@ public class GroupServiceImplTest {
         Notification capturedNotification = notificationCaptor.getAllValues().get(1);
         assertEquals("User " + userA.getEmail() + " has left your group: " + groupPub.getGroupName(), capturedNotification.getContent());
         assertEquals("GroupMembershipDeletion", capturedNotification.getNotificationType());
+    }
+
+    @Test
+    public void deleteGroupMembership_notificationToUserFailure() {
+        when(groupMembershipRepository.findById(2)).thenReturn(Optional.of(groupMembership1));
+        when(notificationService.createNotification(any(Notification.class)))
+                .thenReturn(Optional.of("Failed to create notification: Database error"));
+        Optional<String> result = groupService.deleteGroupMembership(2);
+        assertTrue(result.isPresent());
+        assertEquals("Failed to create notification: Database error", result.get());
+    }
+
+    @Test
+    public void deleteGroupMembership_notificationToCreatorFailure() {
+        when(groupMembershipRepository.findById(2)).thenReturn(Optional.of(groupMembership1));
+        when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty())
+                .thenReturn(Optional.of("Failed to create notification: Database error"));
+        when(groupMembershipRepository.findGroupCreatorByGroupId(groupPub.getGroupId())).thenReturn(Optional.of(groupMembership1));
+        Optional<String> result = groupService.deleteGroupMembership(2);
+        assertTrue(result.isPresent());
+        assertEquals("Failed to create notification: Database error", result.get());
     }
 
 

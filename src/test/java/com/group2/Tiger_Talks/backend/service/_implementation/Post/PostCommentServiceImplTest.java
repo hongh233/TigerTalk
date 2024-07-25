@@ -96,8 +96,7 @@ public class PostCommentServiceImplTest {
         postComment1 = new PostComment(
                 post,
                 "This is a comment.",
-                userA,
-                userB
+                userA
         );
         postComment1.setCommentId(1);
         postComment1.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 0));
@@ -106,8 +105,7 @@ public class PostCommentServiceImplTest {
         postComment2 = new PostComment(
                 post,
                 "This is another comment.",
-                userA,
-                userB
+                userA
         );
         postComment2.setCommentId(2);
         postComment2.setTimestamp(LocalDateTime.of(2024, 7, 5, 12, 30));
@@ -190,6 +188,15 @@ public class PostCommentServiceImplTest {
         when(userProfileRepository.findById("d@dal.ca")).thenReturn(Optional.empty());
         RuntimeException exception = assertThrows(RuntimeException.class, () -> postCommentService.addComment(postCommentDTO1));
         assertEquals("Comment sender user profile not found", exception.getMessage());
+    }
+
+    @Test
+    public void addComment_postSenderUserProfileNotFound() {
+        when(postRepository.findById(1)).thenReturn(Optional.of(post));
+        when(userProfileRepository.findById("d@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("hn582183@dal.ca")).thenReturn(Optional.empty());
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> postCommentService.addComment(postCommentDTO1));
+        assertEquals("Post sender user profile not found", exception.getMessage());
     }
 
     /**

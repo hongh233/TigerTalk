@@ -51,18 +51,24 @@ public class UserProfile implements FullyDTOConvertible<UserProfileDTO> {
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notificationList = new LinkedList<>();
 
+
+
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Post> postList = new LinkedList<>();
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLike> postLikeList = new LinkedList<>();
+    @OneToMany(mappedBy = "commentSenderUserProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostComment> postCommentList = new LinkedList<>();
+
+
 
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMembership> groupMembershipList = new LinkedList<>();
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupPostLike> groupPostLikeList = new LinkedList<>();
-    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostLike> postLikeList = new LinkedList<>();
-    @OneToMany(mappedBy = "commentSenderUserProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PostComment> postCommentList = new LinkedList<>();
+
+
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
     private String status = UserStatus.PENDING;      // blocked / pending / active

@@ -39,7 +39,9 @@ public class FriendshipServiceImplTest {
     private UserProfile userB;
     private UserProfile userC;
     private Friendship friendshipAB;
+    private Friendship friendshipBA;
     private Friendship friendshipAC;
+    private Friendship friendshipCA;
 
     @BeforeEach
     public void setUp() {
@@ -48,6 +50,8 @@ public class FriendshipServiceImplTest {
         userC = new UserProfile("Clong", "Cside", 24, "Male", "userC", "c@dal.ca", "cccc1C@c", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
         friendshipAB = new Friendship(userA, userB);
         friendshipAC = new Friendship(userA, userC);
+        friendshipBA = new Friendship(userB, userA);
+        friendshipCA = new Friendship(userC, userA);
     }
 
     /**
@@ -71,6 +75,41 @@ public class FriendshipServiceImplTest {
         assertEquals(2, friends.size());
         assertTrue(friends.stream().anyMatch(friend -> friend.email().equals("b@dal.ca")));
         assertTrue(friends.stream().anyMatch(friend -> friend.email().equals("c@dal.ca")));
+    }
+
+    @Test
+    public void getAllFriendsDTO_userAsSender() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB));
+        List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
+        assertEquals(1, friends.size());
+        assertEquals("b@dal.ca", friends.get(0).email());
+    }
+
+    @Test
+    public void getAllFriendsDTO_userAsReceiver() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipBA));
+        List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
+        assertEquals(1, friends.size());
+        assertEquals("b@dal.ca", friends.get(0).email());
+    }
+
+    @Test
+    public void getAllFriendsDTO_userAsBothSenderAndReceiver() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipCA));
+        List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
+        assertEquals(1, friends.size());
+        assertEquals("c@dal.ca", friends.get(0).email());
+    }
+
+    @Test
+    public void getAllFriendsDTO_userHasNoFriends() {
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of());
+        List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
+        assertTrue(friends.isEmpty());
     }
 
     /**
