@@ -4,6 +4,7 @@ import axios from "axios";
 import "../../assets/styles/Authentication/LoginPage.css";
 
 import { useDispatch } from "react-redux";
+import {userLogin} from "../../axios/AuthenticationAxios";
 
 const LoginPage = () => {
 	const [email, setEmail] = useState("");
@@ -17,16 +18,9 @@ const LoginPage = () => {
 		setError("");
 
 		try {
-			const response = await axios.post(
-				"http://localhost:8085/api/logIn/userLogIn",
-				null,
-				{
-					params: { email, password },
-				}
-			);
-			const userProfile = response.data;
+			const userProfile = await userLogin(email, password);
 
-			dispatch({ type: "SET_USER", payload: response.data });
+			dispatch({ type: "SET_USER", payload: userProfile });
 			alert("Log in successfully");
 			navigate("/main", { state: { userProfile } });
 		} catch (error) {

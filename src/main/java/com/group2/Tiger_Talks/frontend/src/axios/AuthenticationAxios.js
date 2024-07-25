@@ -11,3 +11,18 @@ export const fetchUserByEmail = async (userEmail, dispatch) => {
 		console.error("Error fetching profile user data:", error);
 	}
 };
+
+export const userLogin = async (email, password) => {
+	try {
+		const response = await axios.post(
+			`${URL}/api/logIn/userLogIn`,
+			null,
+			{
+				params: { email, password },
+			}
+		);
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
