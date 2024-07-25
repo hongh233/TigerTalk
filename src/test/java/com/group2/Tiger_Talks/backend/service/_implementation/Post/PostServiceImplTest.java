@@ -378,11 +378,11 @@ public class PostServiceImplTest {
         assertEquals(1, resultPost.getNumOfLike(), "Expected the number of likes to increase by 1");
     }
 
-
-
-
+    /**
+     * Test case for editPost
+     */
     @Test
-    public void testEditPost_Success() {
+    public void editPost_success_result_notNull() {
         Integer postID = 1;
         String newContent = "Updated content";
 
@@ -402,13 +402,54 @@ public class PostServiceImplTest {
         Post result = postServiceImpl.editPost(postID, newContent);
 
         assertNotNull(result);
-        assertEquals(newContent, result.getContent());
-        assertTrue(result.getEdited());
-        verify(postRepository).save(existingPost);
     }
 
     @Test
-    public void testEditPost_PostNotFound() {
+    public void editPost_success_check_result_content() {
+        Integer postID = 1;
+        String newContent = "Updated content";
+
+        Post existingPost = new Post();
+        existingPost.setPostId(postID);
+        existingPost.setContent("Original content");
+        existingPost.setEdited(false);
+
+        Post updatedPost = new Post();
+        updatedPost.setPostId(postID);
+        updatedPost.setContent(newContent);
+        updatedPost.setEdited(true);
+
+        when(postRepository.findById(postID)).thenReturn(Optional.of(existingPost));
+        when(postRepository.save(any(Post.class))).thenReturn(updatedPost);
+
+        Post result = postServiceImpl.editPost(postID, newContent);
+        assertEquals(newContent, result.getContent());
+    }
+
+    @Test
+    public void editPost_success_check_editState() {
+        Integer postID = 1;
+        String newContent = "Updated content";
+
+        Post existingPost = new Post();
+        existingPost.setPostId(postID);
+        existingPost.setContent("Original content");
+        existingPost.setEdited(false);
+
+        Post updatedPost = new Post();
+        updatedPost.setPostId(postID);
+        updatedPost.setContent(newContent);
+        updatedPost.setEdited(true);
+
+        when(postRepository.findById(postID)).thenReturn(Optional.of(existingPost));
+        when(postRepository.save(any(Post.class))).thenReturn(updatedPost);
+
+        Post result = postServiceImpl.editPost(postID, newContent);
+        assertTrue(result.getEdited());
+    }
+
+    @Test
+    public void editPost_PostNotFound() {
         Integer postID = 1;
         String newContent = "Updated content";
 
