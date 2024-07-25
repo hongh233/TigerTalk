@@ -11,7 +11,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-z
 import static com.group2.Tiger_Talks.backend.model.Utils.COMPANY_EMAIL;
 import static com.group2.Tiger_Talks.backend.model.Utils.PASSWORD_TOKEN_EXPIRATION_MINUTES;
 import static com.group2.Tiger_Talks.backend.model.Utils.RegexCheck.*;
