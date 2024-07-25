@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import NavBar from "../../components/NavBar";
 import Header from "../../components/Header";
 import "../../assets/styles/FriendRequestPage.css"; // Update to the new CSS file
 import FriendRequestComponent from "../../components/FriendRequestComponent";
 import {useSelector} from "react-redux";
+import {getAllFriendRequests} from "../../axios/FriendAxios";
 
 const FriendRequestPage = () => {
     const user = useSelector((state) => state.user.user);
@@ -16,10 +16,8 @@ const FriendRequestPage = () => {
         const fetchFriendRequests = async () => {
             if (user && user.email) {
                 try {
-                    const response = await axios.get(
-                        `http://localhost:8085/friendshipRequests/${user.email}`
-                    );
-                    setFriendRequests(response.data);
+                    const responseData = await getAllFriendRequests(user.email);
+                    setFriendRequests(responseData);
                     // dispatch({ type: "SET_FRIEND_REQUESTS", payload: response.data });
                 } catch (error) {
                     console.error("Failed to fetch friend requests", error);

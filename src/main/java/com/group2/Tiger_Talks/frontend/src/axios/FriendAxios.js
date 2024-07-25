@@ -5,7 +5,8 @@ const URL = process.env.REACT_APP_API_URL;
 // This axio is used in FriendListPage, FriendMessagePage
 export const getAllFriendsByEmail = async (email) => {
     try {
-        const response = await axios.get(`${URL}/friendships/DTO/${email}`);
+        const response = await axios.get(
+            `${URL}/friendships/DTO/${email}`);
         return response.data;
     } catch (error) {
         throw error;
@@ -16,7 +17,7 @@ export const getAllFriendsByEmail = async (email) => {
 export const handleDelete = async (senderEmail, receiverEmail) => {
     try {
         const response = await axios.delete(
-            `http://localhost:8085/friendships/deleteByEmail/${senderEmail}/${receiverEmail}`
+            `${URL}/friendships/deleteByEmail/${senderEmail}/${receiverEmail}`
         );
         if (response.status === 200) {
             window.alert("Friend deleted successfully!");
@@ -31,16 +32,30 @@ export const handleDelete = async (senderEmail, receiverEmail) => {
 // This axio is used in FriendMessagePage
 export const getAllMessagesByFriendshipId = async (friendshipId) => {
     try {
-        const response = await axios.get(`${URL}/friendships/message/getAll/${friendshipId}`);
+        const response = await axios.get(
+            `${URL}/friendships/message/getAll/${friendshipId}`);
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
+// This axio is used in FriendMessagePage
 export const createMessage = async (message) => {
     try {
-        return await axios.post(`${URL}/friendships/message/create`, message);
+        return await axios.post(
+            `${URL}/friendships/message/create`, message);
+    } catch (error) {
+        throw error;
+    }
+};
+
+// This axio is used in FriendRequestPage
+export const getAllFriendRequests = async (email) => {
+    try {
+        const response = await axios.get(
+            `${URL}/friendshipRequests/${email}`);
+        return response.data;
     } catch (error) {
         throw error;
     }
