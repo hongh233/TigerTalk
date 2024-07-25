@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../../assets/styles/Authentication/LoginPage.css";
 
 import { useDispatch } from "react-redux";
