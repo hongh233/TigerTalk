@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import NavBar from "../components/NavBar";
-import Header from "../components/Header";
-import "../assets/styles/GroupPage.css";
-import Group from "../components/Group";
-import SearchBar from "../components/SearchBar";
-import { handleGetGroupUserIsMember } from "../axios/GroupAxios";
+import NavBar from "../../components/NavBar";
+import Header from "../../components/Header";
+import "../../assets/styles/GroupPage.css";
+import Group from "../../components/Group";
+import SearchBar from "../../components/SearchBar";
+import { handleGetGroupUserIsMember } from "../../axios/GroupAxios";
 
 const GroupPage = () => {
 	const user = useSelector((state) => state.user.user);

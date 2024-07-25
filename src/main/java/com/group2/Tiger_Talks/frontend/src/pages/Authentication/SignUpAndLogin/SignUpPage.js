@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import axios from "axios";
-import "../../assets/styles/Authentication/SignUpPage.css";
+import "../../../assets/styles/Authentication/SignUpPage.css";
+import {userSignUp} from "../../../axios/AuthenticationAxios";
 
 const SECURITY_QUESTIONS = [
     "What was your favourite book as a child?",
@@ -84,25 +84,7 @@ const SignUpPage = () => {
         setErrors(errors);
         if (Object.keys(errors).length === 0) {
             try {
-                await axios.post("http://localhost:8085/api/signUp/userSignUp", {
-                    firstName: form.firstName,
-                    lastName: form.lastName,
-                    age: form.age,
-                    gender: form.gender,
-                    userName: form.userName,
-                    email: form.email,
-                    password: form.password,
-                    securityQuestionsAnswer: [
-                        form.securityAnswer1,
-                        form.securityAnswer2,
-                        form.securityAnswer3,
-                    ],
-                    securityQuestions: [
-                        form.securityQuestion1,
-                        form.securityQuestion2,
-                        form.securityQuestion3,
-                    ],
-                });
+                await userSignUp(form);
                 alert("Sign up successfully");
                 navigate("/");
             } catch (error) {

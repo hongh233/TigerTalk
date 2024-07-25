@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import NavBar from "../components/NavBar";
-import Header from "../components/Header";
-import "../assets/styles/GroupMemberPage.css";
-import UserComponent from "../components/UserComponent";
-import SearchBar from "../components/SearchBar";
+import NavBar from "../../components/NavBar";
+import Header from "../../components/Header";
+import "../../assets/styles/GroupMemberPage.css";
+import UserComponent from "../../components/UserComponent";
+import SearchBar from "../../components/SearchBar";
 import {FaUserPlus} from "react-icons/fa";
 import {
     handleAddUserToGroupByAdmin,
     handleDeleteGroupMembership,
     handleGetGroupMembersByGroupId, handleGetMembershipID,
-} from "./../axios/GroupAxios";
+} from "../../axios/GroupAxios";
 
 // TODO: {Tyson Pls Do a cleanUp I dont know what im doing :) }
 

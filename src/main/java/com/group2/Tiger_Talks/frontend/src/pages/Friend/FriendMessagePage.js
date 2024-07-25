@@ -1,11 +1,11 @@
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
+import Header from "../../components/Header";
+import NavBar from "../../components/NavBar";
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import "../assets/styles/FriendMessagePage.css";
+import "../../assets/styles/FriendMessagePage.css";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+import {createMessage, getAllFriendsByEmail, getAllMessagesByFriendshipId} from "../../axios/FriendAxios";
 
 const FriendMessagePage = () => {
     const user = useSelector((state) => state.user.user);
@@ -25,24 +25,22 @@ const FriendMessagePage = () => {
         const fetchFriends = async () => {
             if (user && user.email) {
                 try {
-                    const response = await axios.get(
-                        `http://localhost:8085/friendships/DTO/${user.email}`
-                    );
-                    if (response.data.length > 0) {
-                        setFriends(response.data);
+                    const responseData = await getAllFriendsByEmail(user.email);
+                    if (responseData.length > 0) {
+                        setFriends(responseData);
                         const savedFriendEmail = localStorage.getItem('selectedFriendEmail');
                         if (savedFriendEmail) {
-                            const friend = response.data.find(f => f.email === savedFriendEmail);
+                            const friend = responseData.find(f => f.email === savedFriendEmail);
                             if (friend) {
                                 setSelectedFriend(friend);
                                 fetchMessages(friend.id);
                             } else {
-                                setSelectedFriend(response.data[0]);
-                                fetchMessages(response.data[0].id);
+                                setSelectedFriend(responseData[0]);
+                                fetchMessages(responseData[0].id);
                             }
                         } else {
-                            setSelectedFriend(response.data[0]);
-                            fetchMessages(response.data[0].id);
+                            setSelectedFriend(responseData[0]);
+                            fetchMessages(responseData[0].id);
                         }
                     }
                 } catch (error) {
@@ -99,10 +97,8 @@ const FriendMessagePage = () => {
 
     const fetchMessages = async (friendshipId) => {
         try {
-            const response = await axios.get(
-                `http://localhost:8085/friendships/message/getAll/${friendshipId}`
-            );
-            setMessages(response.data);
+            const responseData = await getAllMessagesByFriendshipId(friendshipId);
+            setMessages(responseData);
         } catch (error) {
             console.error("Failed to fetch messages", error);
         }
@@ -131,17 +127,11 @@ const FriendMessagePage = () => {
         };
 
         try {
-            const response = await axios.post(
-                "http://localhost:8085/friendships/message/create",
-                message
-            );
-            if (response.status === 200) {
+            if (await createMessage(message)) {
                 setNewMessage("");
 
-                const messagesResponse = await axios.get(
-                    `http://localhost:8085/friendships/message/getAll/${selectedFriend.id}`
-                );
-                const latestMessage = messagesResponse.data[messagesResponse.data.length - 1];
+                const messagesResponseData = await getAllMessagesByFriendshipId(selectedFriend.id);
+                const latestMessage = messagesResponseData[messagesResponseData.length - 1];
                 console.log(latestMessage);
 
                 if (latestMessage && stompClient) {
