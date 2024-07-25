@@ -13,14 +13,14 @@ import ProfileSettingsPage from "./pages/ProfileSettingsPage";
 import ForgotPasswordPage from "./pages/Authentication/ForgetPassword/ForgotPasswordPage";
 import SecurityQuestionsPage from "./pages/Authentication/ForgetPassword/SecurityQuestionsPage";
 import EmailVerificationPage from "./pages/Authentication/ForgetPassword/EmailVerificationPage";
-import FriendRequestPage from "./pages/FriendRequestPage";
-import FriendListPage from "./pages/FriendListPage";
+import FriendRequestPage from "./pages/Friend/FriendRequestPage";
+import FriendListPage from "./pages/Friend/FriendListPage";
 import ViewGroupPage from "./pages/ViewGroupPage";
 import ResetPasswordPage from "./pages/Authentication/ForgetPassword/ResetPasswordPage";
 import AuthenticationFailPage from "./pages/AuthenticationFailPage";
 import GroupSettingPage from "./pages/Group/GroupSettingPage";
 import GroupMemberPage from "./pages/Group/GroupMembersPage";
-import FriendMessagePage from "./pages/FriendMessagePage";
+import FriendMessagePage from "./pages/Friend/FriendMessagePage";
 import SearchPage from "./pages/SearchPage";
 //REDUX
 import { useSelector } from "react-redux";

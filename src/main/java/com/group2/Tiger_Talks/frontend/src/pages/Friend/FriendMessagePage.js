@@ -1,9 +1,9 @@
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
+import Header from "../../components/Header";
+import NavBar from "../../components/NavBar";
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import "../assets/styles/FriendMessagePage.css";
+import "../../assets/styles/FriendMessagePage.css";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 
