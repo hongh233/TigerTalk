@@ -1,8 +1,7 @@
 import React from "react";
-import axios from "axios";
 import "../assets/styles/FriendComponent.css";
 
-const UserComponent = ({ user, userEmail, handleDeleteFn  }) => {
+const UserComponent = ({ user, handleDeleteFn  }) => {
 
 
 	return (

@@ -89,7 +89,7 @@ const FriendMessagePage = () => {
                 stompClient.deactivate();
             }
         };
-    }, [selectedFriend]);
+    }, [selectedFriend,stompClient]);
 
     useEffect(() => {
         scrollToBottom();
