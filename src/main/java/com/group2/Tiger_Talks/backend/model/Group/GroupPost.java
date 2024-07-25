@@ -134,7 +134,7 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
                 this.getGroupPostSenderEmail(),
                 this.getGroupPostContent(),
                 this.getPostCreateTime(),
-                userProfile.getUserName(),
+                userProfile.userName(),
                 userProfile.getProfilePictureUrl(),
                 this.getGroupPostPictureURL()
         );

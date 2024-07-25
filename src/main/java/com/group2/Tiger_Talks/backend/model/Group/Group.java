@@ -103,7 +103,7 @@ public class Group implements FullyDTOConvertible<GroupDTO> {
     public GroupDTO toDto() {
         String groupCreatorEmail = this.groupMemberList.stream()
                 .filter(GroupMembership::isCreator)
-                .map(groupMembership -> groupMembership.getUserProfile().getEmail())
+                .map(groupMembership -> groupMembership.getUserProfile().email())
                 .findFirst()
                 .orElse(null);
 

@@ -116,7 +116,7 @@ public class GroupServiceImpl implements GroupService {
             UserProfile groupCreator = creatorMembership.get().getUserProfile();
             Notification creatorNotification = new Notification(
                     groupCreator,
-                    "User " + userProfile.getEmail() + " has joined your group: " + group.getGroupName(),
+                    "User " + userProfile.email() + " has joined your group: " + group.getGroupName(),
                     "GroupJoin"
             );
             notificationResult = notificationService.createNotification(creatorNotification);
@@ -218,7 +218,7 @@ public class GroupServiceImpl implements GroupService {
             notificationResult = notificationService.createNotification(
                     new Notification(
                             groupCreator,
-                            "User " + userProfile.getEmail() + " has left your group: " + group.getGroupName(),
+                            "User " + userProfile.email() + " has left your group: " + group.getGroupName(),
                             "GroupMembershipDeletion"));
             if (notificationResult.isPresent()) {
                 return notificationResult;
@@ -239,7 +239,7 @@ public class GroupServiceImpl implements GroupService {
     public Optional<Integer> getMemberShipId(String userEmail, int groupId) {
         List<GroupMembership> memberships = groupMembershipRepository.findByGroup_GroupId(groupId);
         for (GroupMembership membership : memberships) {
-            if (membership.getUserProfile().getEmail().equals(userEmail)) {
+            if (membership.getUserProfile().email().equals(userEmail)) {
                 return Optional.of(membership.getGroupMembershipId());
             }
         }

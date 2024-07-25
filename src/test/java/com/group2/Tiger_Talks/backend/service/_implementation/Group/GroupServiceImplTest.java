@@ -594,7 +594,7 @@ public class GroupServiceImplTest {
         ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
         verify(notificationService, times(2)).createNotification(notificationCaptor.capture());
         Notification capturedNotification = notificationCaptor.getAllValues().get(1);
-        assertEquals("User " + userA.getEmail() + " has left your group: " + groupPub.getGroupName(), capturedNotification.getContent());
+        assertEquals("User " + userA.email() + " has left your group: " + groupPub.getGroupName(), capturedNotification.getContent());
         assertEquals("GroupMembershipDeletion", capturedNotification.getNotificationType());
     }
 

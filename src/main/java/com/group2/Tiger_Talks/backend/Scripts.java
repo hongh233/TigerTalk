@@ -175,7 +175,7 @@ public class Scripts {
             Raphael.setStatus(UserStatus.ACTIVE);
             Raphael.setGender("Male");
             Raphael.setUserName("Homelander");
-            Raphael.setFirstName("Not");
+            Raphael.firstName("Not");
             Raphael.setLastName("UrBusiness");
             Raphael.setBiography("Spreading Freedom to the world. Especially those with Oil");
             Raphael.setAge(25);

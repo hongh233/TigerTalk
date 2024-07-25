@@ -40,7 +40,7 @@ public class GroupPostServiceImpl implements GroupPostService {
         List<GroupMembership> groupMembershipList = groupPost.getGroup().getGroupMemberList();
         for (GroupMembership groupMembership : groupMembershipList) {
             UserProfile userProfile = groupMembership.getUserProfile();
-            if (userProfile.getEmail().equals(email)) {
+            if (userProfile.email().equals(email)) {
                 return Optional.of(userProfile);
             }
         }
@@ -58,7 +58,7 @@ public class GroupPostServiceImpl implements GroupPostService {
 
             for (GroupMembership member : members) {
                 UserProfile user = member.getUserProfile();
-                if (!user.getEmail().equals(groupPost.getGroupPostSenderEmail())) {
+                if (!user.email().equals(groupPost.getGroupPostSenderEmail())) {
                     Notification notification = new Notification(
                             user,
                             "User " + groupPost.getGroupPostSenderEmail() + " has created a new post in the group: " + group.getGroupName(),
@@ -136,7 +136,7 @@ public class GroupPostServiceImpl implements GroupPostService {
         // Send notification only on like, not on unlike
         // Send notification to the post-owner
         if (liked) {
-            String content = userProfile.getEmail() + " liked your post.";
+            String content = userProfile.email() + " liked your post.";
             notificationService.createNotification(
                     new Notification(
                             post.getUserProfile(),

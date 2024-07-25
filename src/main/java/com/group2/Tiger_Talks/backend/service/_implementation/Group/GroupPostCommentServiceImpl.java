@@ -46,7 +46,7 @@ public class GroupPostCommentServiceImpl implements GroupPostCommentService {
             GroupPost groupPost = groupPostOpt.get();
             groupPostComment.setGroupPost(groupPost);
             Optional<GroupMembership> groupMembershipOpt = groupMembershipRepository.findByGroupAndUserProfileEmail(
-                    groupPost.getGroup(), groupPostComment.getGroupMembership().getUserProfile().getEmail());
+                    groupPost.getGroup(), groupPostComment.getGroupMembership().getUserProfile().email());
 
             if (groupMembershipOpt.isPresent()) {
                 groupPostComment.setGroupMembership(groupMembershipOpt.get());
@@ -54,7 +54,7 @@ public class GroupPostCommentServiceImpl implements GroupPostCommentService {
 
                 // Create and send notification to GroupPost owner if it's not the same as the commenter
                 String groupPostOwnerEmail = groupPost.getGroupPostSenderEmail();
-                String commenterEmail = groupPostComment.getGroupMembership().getUserProfile().getEmail();
+                String commenterEmail = groupPostComment.getGroupMembership().getUserProfile().email();
                 if (!groupPostOwnerEmail.equals(commenterEmail)) {
                     Optional<UserProfile> groupPostOwnerOpt = userProfileRepository.findById(groupPostOwnerEmail);
                     if (groupPostOwnerOpt.isPresent()) {

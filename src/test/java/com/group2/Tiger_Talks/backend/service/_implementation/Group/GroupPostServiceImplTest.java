@@ -129,7 +129,7 @@ public class GroupPostServiceImplTest {
 
         assertEquals("User a@dal.ca has created a new post in the group: Test Group", capturedNotification.getContent());
         assertEquals("GroupPostCreation", capturedNotification.getNotificationType());
-        assertEquals("b@dal.ca", capturedNotification.getUserProfile().getEmail());
+        assertEquals("b@dal.ca", capturedNotification.getUserProfile().email());
     }
 
     @Test

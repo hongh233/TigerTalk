@@ -252,7 +252,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
@@ -324,7 +323,7 @@ class FriendshipMessageServiceImplTest {
 
         when(friendshipRepository.findById(1)).thenReturn(Optional.of(new Friendship()));
         when(userProfileRepository.findUserProfileByEmail("sender@example.com")).thenReturn(Optional.of(sender));
-        when(userProfileRepository.findById(sender.getEmail())).thenReturn(Optional.of(sender));  // 确保 sender 存在
+        when(userProfileRepository.findById(sender.email())).thenReturn(Optional.of(sender));  // 确保 sender 存在
         when(userProfileRepository.findById("receiver@example.com")).thenReturn(Optional.empty());  // 模拟 receiver 不存在
         when(userProfileRepository.findUserProfileByEmail("receiver@example.com")).thenReturn(Optional.empty());
 
@@ -346,8 +345,8 @@ class FriendshipMessageServiceImplTest {
         when(friendshipRepository.findById(1)).thenReturn(Optional.of(new Friendship()));
         when(userProfileRepository.findUserProfileByEmail("sender@example.com")).thenReturn(Optional.of(sender));
         when(userProfileRepository.findUserProfileByEmail("receiver@example.com")).thenReturn(Optional.of(receiver));
-        when(userProfileRepository.findById(sender.getEmail())).thenReturn(Optional.of(sender));  // 确保 sender 存在
-        when(userProfileRepository.findById(receiver.getEmail())).thenReturn(Optional.of(receiver));  // 确保 receiver 也存在
+        when(userProfileRepository.findById(sender.email())).thenReturn(Optional.of(sender));  // 确保 sender 存在
+        when(userProfileRepository.findById(receiver.email())).thenReturn(Optional.of(receiver));  // 确保 receiver 也存在
 
         Optional<String> result = friendshipMessageService.createMessage(message);
         assertTrue(result.isEmpty());

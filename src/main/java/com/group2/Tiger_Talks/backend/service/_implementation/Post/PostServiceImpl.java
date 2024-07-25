@@ -37,7 +37,7 @@ public class PostServiceImpl implements PostService {
         return userProfileRepository.findById(email)
                 .map(userProfile -> Stream.concat(
                                         userProfile.getPostList().stream(),
-                                        friendshipRepository.findAllFriendsByEmail(userProfile.getEmail()).stream()
+                                        friendshipRepository.findAllFriendsByEmail(userProfile.email()).stream()
                                                 .flatMap(friend -> friend.getPostList().stream())
                                 ).map(Post::toDto)
                                 .sorted(
@@ -60,16 +60,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<String> createPost(Post post) {
-        if (!userProfileRepository.existsById(post.getUserProfile().getEmail())) {
+        if (!userProfileRepository.existsById(post.getUserProfile().email())) {
             return Optional.of("Does not find user, fail to create post.");
         }
         postRepository.save(post);
 
         UserProfile user = post.getUserProfile();
-        List<UserProfile> friendList = friendshipRepository.findAllFriendsByEmail(user.getEmail());
+        List<UserProfile> friendList = friendshipRepository.findAllFriendsByEmail(user.email());
 
         // content of the notification
-        String content = user.getEmail() + " has created a new post.";
+        String content = user.email() + " has created a new post.";
 
         // send notification to all friends
         for (UserProfile friend : friendList) {
@@ -166,7 +166,7 @@ public class PostServiceImpl implements PostService {
         // Send notification only on like, not on unlike
         // Send notification to the post-owner
         if (liked) {
-            String content = userProfile.getEmail() + " liked your post.";
+            String content = userProfile.email() + " liked your post.";
             notificationService.createNotification(
                     new Notification(
                             post.getUserProfile(),

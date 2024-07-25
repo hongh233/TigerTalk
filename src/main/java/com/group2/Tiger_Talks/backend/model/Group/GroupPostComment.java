@@ -75,9 +75,9 @@ public class GroupPostComment implements FullyDTOConvertible<GroupPostCommentDTO
                 this.getGroupPostCommentId(),
                 this.getContent(),
                 this.getGroupPostCommentCreateTime(),
-                this.getGroupMembership().getUserProfile().getUserName(),
+                this.getGroupMembership().getUserProfile().userName(),
                 this.getGroupMembership().getUserProfile().getProfilePictureUrl(),
-                this.getGroupMembership().getUserProfile().getEmail()
+                this.getGroupMembership().getUserProfile().email()
         );
     }
 

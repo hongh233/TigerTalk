@@ -66,10 +66,10 @@ public class PostCommentServiceImpl implements PostCommentService {
         PostComment savedComment = postCommentRepository.save(postComment);
 
         // Create and send notification if your not the one commenting on your own post
-        if (!postSenderUserProfile.get().getEmail().equals(commentSenderUserProfile.get().getEmail())) {
+        if (!postSenderUserProfile.get().email().equals(commentSenderUserProfile.get().email())) {
             Notification notification = new Notification(
                     postSenderUserProfile.get(),
-                    "You have a new comment on your post by " + commentSenderUserProfile.get().getEmail(),
+                    "You have a new comment on your post by " + commentSenderUserProfile.get().email(),
                     "PostComment"
             );
             notificationService.createNotification(notification);
