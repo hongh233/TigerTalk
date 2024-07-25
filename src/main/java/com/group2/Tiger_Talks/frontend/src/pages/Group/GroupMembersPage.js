@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import NavBar from "../../components/NavBar";
 import Header from "../../components/Header";
@@ -16,7 +15,6 @@ import {
 // TODO: {Tyson Pls Do a cleanUp I dont know what im doing :) }
 
 const GroupMemberPage = () => {
-    const user = useSelector((state) => state.user.user);
     const {groupId} = useParams();
     const [members, setMembers] = useState(null);
     const [searchMember, setSearchMember] = useState(null);
@@ -24,36 +22,34 @@ const GroupMemberPage = () => {
 
     useEffect(() => {
         if (groupId) {
+            const getAllMembers = async () => {
+                try {
+                    const data = await handleGetGroupMembersByGroupId(groupId);
+                    setMembers(data);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
             getAllMembers();
-            console.log(members);
         }
         if (searchMember) {
+            const handleAddMember = async (email, groupId) => {
+                try {
+                    if (window.confirm("Are you sure to add this user to the group?")) {
+                        await handleAddUserToGroupByAdmin(email, groupId);
+                        window.alert("User successfully joined the group!");
+                        setSearchMember(null);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+        
+                setShowAddUser(false);
+            };
             handleAddMember(searchMember, groupId);
         }
     }, [searchMember, groupId]);
 
-    const getAllMembers = async () => {
-        try {
-            const data = await handleGetGroupMembersByGroupId(groupId);
-            setMembers(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const handleAddMember = async (email, groupId) => {
-        try {
-            if (window.confirm("Are you sure to add this user to the group?")) {
-                await handleAddUserToGroupByAdmin(email, groupId);
-                window.alert("User successfully joined the group!");
-                setSearchMember(null);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-
-        setShowAddUser(false);
-    };
 
        const handleDeleteGroupMember = async (userEmail, groupId) => {
         try {

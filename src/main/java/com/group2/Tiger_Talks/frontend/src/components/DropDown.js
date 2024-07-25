@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../assets/styles/DropDown.css";
 const Dropdown = ({ items, dropdownClassName, handleChoose }) => {
 	const getStatusColor = (status) => {
