@@ -187,6 +187,9 @@ public class Friendship {
     public Friendship() {
     }
 
+    public void setFriendshipId(Integer friendshipId) {
+        this.friendshipId = friendshipId;
+    }
     public Integer getFriendshipId() {
         return friendshipId;
     }
@@ -214,5 +217,6 @@ public class Friendship {
     public void setMessages(List<FriendshipMessage> messages) {
         this.messages = messages;
     }
+
 }
 
