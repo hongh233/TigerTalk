@@ -53,7 +53,12 @@ public class GroupPostServiceImpl implements GroupPostService {
                 groupRepository.existsById(groupPost.getGroup().getGroupId())) {
 
             groupPostRepository.save(groupPost);
-            Group group = groupRepository.findById(groupPost.getGroup().getGroupId()).get();
+            Optional<Group> groupId = groupRepository.findById(groupPost.getGroup().getGroupId());
+            if (groupId.isEmpty()) {
+                return Optional.of("Group not found, fail to create group post.");
+            }
+
+            Group group = groupId.get();
             List<GroupMembership> members = group.getGroupMemberList();
 
             for (GroupMembership member : members) {
@@ -69,7 +74,7 @@ public class GroupPostServiceImpl implements GroupPostService {
             }
             return Optional.empty();
         } else {
-            return Optional.of("User or Group not found, fail to create group post.");
+            return Optional.of("User not found, fail to create group post.");
         }
     }
 
