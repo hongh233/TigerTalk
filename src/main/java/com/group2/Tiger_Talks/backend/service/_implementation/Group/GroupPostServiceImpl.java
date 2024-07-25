@@ -115,7 +115,7 @@ public class GroupPostServiceImpl implements GroupPostService {
 
         // Check if the user has already liked the post
         Optional<GroupPostLike> existingLike = groupPostLikeRepository.
-                findByGroupPostGroupPostIdAndUserProfileEmail(post.getGroupPostId(), userProfile.getEmail());
+                findByGroupPostGroupPostIdAndUserProfileEmail(post.getGroupPostId(), userProfile.email());
 
         boolean liked; // Track if it is a like or unlike
         if (existingLike.isPresent()) {
