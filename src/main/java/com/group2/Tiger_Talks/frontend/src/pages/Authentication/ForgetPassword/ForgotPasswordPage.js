@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import "../../../assets/styles/ForgetPassword/ForgotPasswordPage.css";
 import {sendToken, validateEmailExist} from "../../../axios/AuthenticationAxios";
 

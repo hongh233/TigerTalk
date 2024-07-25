@@ -88,3 +88,44 @@ export const sendToken = async (email) => {
 		throw error;
 	}
 };
+
+// This axio is used in ResetPasswordPage
+export const resetPassword = async (email, password) => {
+	try {
+		const response = await axios.post(`${URL}/api/passwordReset/resetPassword`, {
+			email,
+			password,
+		});
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+// This axio is used in SecurityQuestionsPage
+export const getSecurityQuestions = async (email) => {
+	try {
+		const response = await axios.get(`${URL}/api/passwordReset/getSecurityQuestions`, {
+			params: { email },
+		});
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+// This axio is used in SecurityQuestionsPage
+export const verifySecurityAnswers = async (answer) => {
+	try {
+		const response = await axios.post(`${URL}/api/passwordReset/verifySecurityAnswers`, null, {
+			params: answer,
+		});
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+
+
+

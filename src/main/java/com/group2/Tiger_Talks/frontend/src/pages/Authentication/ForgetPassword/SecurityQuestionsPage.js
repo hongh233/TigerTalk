@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import axios from 'axios';
 import '../../../assets/styles/ForgetPassword/SecurityQuestionsPage.css'
+import {getSecurityQuestions, verifySecurityAnswers} from "../../../axios/AuthenticationAxios";
 
 const SecurityQuestionsPage = () => {
     const {state} = useLocation();
@@ -18,10 +18,8 @@ const SecurityQuestionsPage = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const response = await axios.get('http://localhost:8085/api/passwordReset/getSecurityQuestions', {
-                    params: {email}
-                });
-                setQuestions(response.data);
+                const responseData = await getSecurityQuestions(email);
+                setQuestions(responseData);
             } catch (error) {
                 setErrors({general: 'Failed to fetch security questions. Please try again later.'});
             }
@@ -47,9 +45,7 @@ const SecurityQuestionsPage = () => {
         e.preventDefault();
         setErrors({});
         try {
-            await axios.post('http://localhost:8085/api/passwordReset/verifySecurityAnswers', null, {
-                params: answer
-            });
+            await verifySecurityAnswers(answer);
             alert('Security questions have been verified! You can now reset your password!');
             navigate('/resetPassword', {state: {email}});
         } catch (error) {
