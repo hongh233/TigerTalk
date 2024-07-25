@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import "../../assets/styles/ForgetPassword/ForgotPasswordPage.css";
+import "../../../assets/styles/ForgetPassword/ForgotPasswordPage.css";
+import {sendToken, validateEmailExist} from "../../../axios/AuthenticationAxios";
 
 const ForgotPasswordPage = () => {
     const [email, setEmail] = useState('');
@@ -21,10 +22,8 @@ const ForgotPasswordPage = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8085/api/passwordReset/validateEmailExist', null, {
-                params: { email }
-            });
-            if (response.data === "Email exists and is valid.") {
+            const responseData = await validateEmailExist(email);
+            if (responseData === "Email exists and is valid.") {
                 setStep(2);
             }
         } catch (error) {
@@ -42,9 +41,7 @@ const ForgotPasswordPage = () => {
 
     const handleEmailVerification = async () => {
         try {
-            await axios.post('http://localhost:8085/api/passwordReset/sendToken', null, {
-                params: { email }
-            });
+            await sendToken(email);
             navigate('/emailVerification', { state: { email } });
         } catch (error) {
             setErrors({ email: "An error occurred during sending email. Please try again later." });

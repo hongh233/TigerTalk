@@ -5,13 +5,13 @@ const URL = process.env.REACT_APP_API_URL;
 export const fetchUserByEmail = async (userEmail, dispatch) => {
 	try {
 		const response = await axios.get(`${URL}/api/user/getByEmail/${userEmail}`);
-		const data = response.data;
-		return data;
+		return response.data;
 	} catch (error) {
 		console.error("Error fetching profile user data:", error);
 	}
 };
 
+// This axio is used in LoginPage
 export const userLogin = async (email, password) => {
 	try {
 		const response = await axios.post(
@@ -27,6 +27,7 @@ export const userLogin = async (email, password) => {
 	}
 };
 
+// This axio is used in SignUpPage
 export const userSignUp = async (form) => {
 	try {
 		const response = await axios.post(`${URL}/api/signUp/userSignUp`, {
@@ -47,6 +48,40 @@ export const userSignUp = async (form) => {
 				form.securityQuestion2,
 				form.securityQuestion3,
 			],
+		});
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+// This axio is used in EmailVerificationPage
+export const verifyEmailCode = async (email, code) => {
+	try {
+		const response = await axios.post(`${URL}/api/passwordReset/checkToken/${code}`, { email });
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+// This axio is used in ForgotPasswordPage
+export const validateEmailExist = async (email) => {
+	try {
+		const response = await axios.post(`${URL}/api/passwordReset/validateEmailExist`, null, {
+			params: { email },
+		});
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
+// This axio is used in ForgotPasswordPage
+export const sendToken = async (email) => {
+	try {
+		const response = await axios.post(`${URL}/api/passwordReset/sendToken`, null, {
+			params: { email },
 		});
 		return response.data;
 	} catch (error) {

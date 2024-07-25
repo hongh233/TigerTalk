@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 //PAGES
-import LoginPage from "./pages/Authentication/LoginPage";
-import SignUpPage from "./pages/Authentication/SignUpPage";
+import LoginPage from "./pages/Authentication/SignUpAndLogin/LoginPage";
+import SignUpPage from "./pages/Authentication/SignUpAndLogin/SignUpPage";
 import MainPage from "./pages/MainPage";
 import ProfilePage from "./pages/ProfilePage";
 import GroupPage from "./pages/GroupPage";
@@ -10,13 +10,13 @@ import CreateGroupPage from "./pages/CreateGroupPage";
 import AdminPage from "./pages/AdminPage";
 import AdminAddPage from "./pages/AdminAddPage";
 import ProfileSettingsPage from "./pages/ProfileSettingsPage";
-import ForgotPasswordPage from "./pages/ForgetPassword/ForgotPasswordPage";
-import SecurityQuestionsPage from "./pages/ForgetPassword/SecurityQuestionsPage";
-import EmailVerificationPage from "./pages/ForgetPassword/EmailVerificationPage";
+import ForgotPasswordPage from "./pages/Authentication/ForgetPassword/ForgotPasswordPage";
+import SecurityQuestionsPage from "./pages/Authentication/ForgetPassword/SecurityQuestionsPage";
+import EmailVerificationPage from "./pages/Authentication/ForgetPassword/EmailVerificationPage";
 import FriendRequestPage from "./pages/FriendRequestPage";
 import FriendListPage from "./pages/FriendListPage";
 import ViewGroupPage from "./pages/ViewGroupPage";
-import ResetPasswordPage from "./pages/ForgetPassword/ResetPasswordPage";
+import ResetPasswordPage from "./pages/Authentication/ForgetPassword/ResetPasswordPage";
 import AuthenticationFailPage from "./pages/AuthenticationFailPage";
 import GroupSettingPage from "./pages/GroupSettingPage";
 import GroupMemberPage from "./pages/GroupMembersPage";
