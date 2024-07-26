@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaComment, FaShare,FaThumbsUp,FaTrash } from "react-icons/fa";
+import { FaComment, FaShare, FaThumbsUp, FaTrash } from "react-icons/fa";
 import GroupComment from "./GroupComment";
 import {
 	handleAddGroupPostComment,
 	handleGetCommentsForOneGroupPost,
 	handleLikeAxios,
 	handleDeletePostAxios,
-	handleGetGroupById
+	handleGetGroupById,
 } from "./../axios/GroupAxios";
 import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/GroupPost.css";
@@ -21,10 +21,10 @@ const GroupPost = ({
 	userEmail,
 	removePost,
 }) => {
-	const [likes, setLikes] = useState(post.likes||post.numOfLikes);
+	const [likes, setLikes] = useState(post.likes || post.numOfLikes);
 	const [postComments, setPostComments] = useState(null);
 	const [newComment, setNewComment] = useState("");
-	const [isAuthorOrAdmin,setIsAuthorOrAdmin] = useState(false);
+	const [isAuthorOrAdmin, setIsAuthorOrAdmin] = useState(false);
 
 	useEffect(() => {}, [postComments]);
 
@@ -34,7 +34,6 @@ const GroupPost = ({
 		);
 		setPostComments(fetchedComments);
 	};
-
 
 	const handleLike = async () => {
 		const postId = post.groupPostId;
@@ -46,7 +45,6 @@ const GroupPost = ({
 		const updatedLikes = await handleLikeAxios(postId, userEmail);
 		setLikes(updatedLikes);
 	};
-
 
 	const handleCommentChange = (e) => {
 		setNewComment(e.target.value);
@@ -108,16 +106,17 @@ const GroupPost = ({
 	// 	});
 	// };
 
-
 	useEffect(() => {
 		const fetchGroupDetails = async () => {
 			try {
 				const groupData = await handleGetGroupById(groupId);
 
-				if (groupData.groupCreatorEmail === userEmail|| userEmail === post.email ) {
+				if (
+					groupData.groupCreatorEmail === userEmail ||
+					userEmail === post.email
+				) {
 					setIsAuthorOrAdmin(true);
-				}
-				else{
+				} else {
 					setIsAuthorOrAdmin(false);
 				}
 			} catch (error) {
@@ -127,17 +126,14 @@ const GroupPost = ({
 		fetchGroupDetails();
 	}, [userEmail, groupId, post]);
 
-
-    const handleDelete = async () => {
-        if (window.confirm("Are you sure you want to delete this post?")) {
-            await handleDeletePostAxios(post.groupPostId);
-            removePost(post.groupPostId);
-            setPostComments([]);
-            setLikes("");
-        }
-    };
-
-
+	const handleDelete = async () => {
+		if (window.confirm("Are you sure you want to delete this post?")) {
+			await handleDeletePostAxios(post.groupPostId);
+			removePost(post.groupPostId);
+			setPostComments([]);
+			setLikes("");
+		}
+	};
 
 	return (
 		<div className="group-post">
@@ -172,15 +168,15 @@ const GroupPost = ({
 			{post.postPictureURL && (
 				<div className="post-content-img-container">
 					<div className="post-content-img">
-						<img src={post.postPictureURL} alt="Post content"/>
+						<img src={post.postPictureURL} alt="Post content" />
 					</div>
 				</div>
 			)}
 
 			<div className="group-post-footer">
 				<button className="group-post-button" onClick={handleLike}>
-                    {likes} <FaThumbsUp />
-                </button>
+					{likes} <FaThumbsUp />
+				</button>
 				<button
 					className="group-post-button"
 					onClick={handleFetchAndDisplayComments}
@@ -191,10 +187,10 @@ const GroupPost = ({
 					<FaShare />
 				</button>
 				{isAuthorOrAdmin && (
-                    <button className="post-button delete-button" onClick={handleDelete}>
-                        <FaTrash />
-                    </button>
-                )}
+					<button className="post-button delete-button" onClick={handleDelete}>
+						<FaTrash />
+					</button>
+				)}
 			</div>
 			<div className="group-postComments-section">
 				{postComments &&

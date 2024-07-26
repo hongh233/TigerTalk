@@ -5,21 +5,34 @@ import Header from "../../components/Header";
 import "../../assets/styles/GroupPage.css";
 import Group from "../../components/Group";
 import SearchBar from "../../components/SearchBar";
-import { handleGetGroupUserIsMember } from "../../axios/GroupAxios";
+import { filterGroups } from "./../../utils/filterFunctions.js";
+import { ImFilter } from "react-icons/im";
+import {
+	handleGetGroupUserIsMember,
+	handleGetAllGroups,
+} from "../../axios/GroupAxios";
 
 const GroupPage = () => {
 	const user = useSelector((state) => state.user.user);
-	const [groups, setGroups] = useState([]);
-	const [searchGroup, setSearchGroup] = useState([]);
-
-    const [isNavVisible, setIsNavVisible] = useState(false);
+	const [myGroups, setMyGroups] = useState([]);
+	const [allGroups, setAllGroups] = useState([]);
+	const [filteredGroups, setFilteredGroups] = useState([]);
+	const [searchGroupQuery, setSearchGroupQuery] = useState("");
+	const [isNavVisible, setIsNavVisible] = useState(false);
+	const [filterOption, setFilterOption] = useState("all");
+	const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+	const [isSearchFocused, setIsSearchFocused] = useState(false);
 
 	useEffect(() => {
 		const fetchGroups = async () => {
 			try {
 				if (user) {
-					const data = await handleGetGroupUserIsMember(user.email);
-					setGroups(data);
+					const userGroups = await handleGetGroupUserIsMember(user.email);
+					setMyGroups(userGroups);
+
+					const allGroupsData = await handleGetAllGroups();
+					setAllGroups(allGroupsData);
+					setFilteredGroups(allGroupsData);
 				}
 			} catch (err) {
 				console.error(err);
@@ -28,45 +41,112 @@ const GroupPage = () => {
 		fetchGroups();
 	}, [user]);
 
+	useEffect(() => {
+		let filtered = allGroups;
+
+		if (isSearchFocused) {
+			filtered = allGroups;
+		} else {
+			if (filterOption === "myGroups") {
+				filtered = myGroups;
+			} else if (filterOption === "public") {
+				filtered = allGroups.filter((group) => !group.isPrivate);
+			}
+		}
+
+		if (searchGroupQuery) {
+			filtered = filterGroups(allGroups, searchGroupQuery);
+		}
+
+		setFilteredGroups(filtered);
+	}, [searchGroupQuery, allGroups, myGroups, filterOption, isSearchFocused]);
+
+	const handleFilterChange = (option) => {
+		setFilterOption(option);
+
+		setSearchGroupQuery(""); // Clear the search query when filter changes
+	};
+
+	const getFilterHeader = () => {
+		switch (filterOption) {
+			case "myGroups":
+				return "Groups you are a member of:";
+			case "public":
+				return "Public Groups:";
+
+			default:
+				return "All Groups:";
+		}
+	};
+
 	return (
 		<div className="group-page">
 			<Header />
-			<div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-
+			<div
+				className="menu-toggle"
+				onClick={() => setIsNavVisible(!isNavVisible)}
+			>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
 
 			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
-                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
-                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
-                    <NavBar />
-                </div>
+				<div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
+					<button className="close-btn" onClick={() => setIsNavVisible(false)}>
+						×
+					</button>
+					<NavBar />
+				</div>
 				<div className="group-content-container">
-					<h2>Search available groups:</h2>
+					<div className="group-page-header">
+						<h2>Search available groups:</h2>
+					</div>
 					<div className="group-page-search-bar">
 						<SearchBar
 							searchType="group"
-							userEmail={user.email}
-							setSearchGroup={setSearchGroup}
+							setSearchGroupQuery={setSearchGroupQuery}
+							dropdownClassName="group"
+							searchBarClassName="group"
+							onFocus={() => setIsSearchFocused(true)}
+							onBlur={() => setIsSearchFocused(false)}
 						/>
 					</div>
 
 					<br />
-					<div className="group-content">
-						{searchGroup.length > 0 &&
-							searchGroup.map((group) => (
-								<Group key={group.groupId} group={group} />
-							))}
+					<div className="group-member-section">
+						<div
+							className="filter-icon"
+							onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+						>
+							<ImFilter />
+						</div>
+						{showFilterDropdown && (
+							<div className="filter-dropdown">
+								<button
+									className="group-filter-button"
+									onClick={() => handleFilterChange("myGroups")}
+								>
+									My Groups
+								</button>
+								<button
+									className="group-filter-button"
+									onClick={() => handleFilterChange("public")}
+								>
+									Public Groups
+								</button>
+							</div>
+						)}
 					</div>
 
-					<h2>Groups you are a member of: </h2>
+					<h2>{getFilterHeader()}</h2>
 					<div className="group-content">
-						{groups.length > 0 ? (
-							groups.map((group) => <Group key={group.groupId} group={group} />)
+						{filteredGroups.length > 0 ? (
+							filteredGroups.map((group) => (
+								<Group key={group.groupId} group={group} />
+							))
 						) : (
-							<p>You have not joined any group yet!</p>
+							<p>No groups found.</p>
 						)}
 					</div>
 				</div>

@@ -3,7 +3,7 @@ const URL = process.env.REACT_APP_API_URL;
 
 export const handleCreateGroup = (form) => {
 	console.log(form);
-	let interest = "music" // TODO: Handle group interest
+	let interest = "music"; // TODO: Handle group interest
 	return axios
 		.post(
 			`${URL}/api/groups/create/${form.groupName}/${form.userEmail}/${form.status}/${interest}`
@@ -135,15 +135,14 @@ export const handleLikeAxios = (postId, userEmail) => {
 		});
 };
 
-
-export const handleDeletePostAxios = (postId) =>{
+export const handleDeletePostAxios = (postId) => {
 	return axios
-	.delete(`${URL}/api/groups/post/delete/${postId}`)
-	.then((response)=>response.data)
-	.catch((error)=>{
-		console.error("Error deleting post:",error);
-		throw error;
-	});
+		.delete(`${URL}/api/groups/post/delete/${postId}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error deleting post:", error);
+			throw error;
+		});
 };
 
 export const handleGetGroupUserIsMember = (userEmail) => {

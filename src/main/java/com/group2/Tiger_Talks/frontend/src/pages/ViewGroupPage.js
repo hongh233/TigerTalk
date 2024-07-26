@@ -44,7 +44,7 @@ const ViewGroupPage = () => {
 			try {
 				const groupData = await handleGetGroupById(groupId);
 				setGroup(groupData);
-				setIsPrivate(groupData.private);
+				setIsPrivate(groupData.isPrivate);
 
 				// Check if the current user is the creator/admin
 				if (groupData.groupCreatorEmail === userEmail) {
@@ -96,11 +96,15 @@ const ViewGroupPage = () => {
 	const leaveGroup = async () => {
 		try {
 			if (window.confirm(`Are you sure you want to leave this group?`)) {
-				if (isMember) {
+				if (isMember && !isCreator) {
 					await handleLeaveGroup(groupMembershipId);
 					window.alert("Leave group successfully!");
 					setIsMember(false);
 					window.location.reload();
+				} else if (isMember && isCreator) {
+					await handleDeleteGroup(groupId);
+					window.alert("Delete group successfully!");
+					navigate("/group");
 				}
 			}
 		} catch (error) {
@@ -150,8 +154,8 @@ const ViewGroupPage = () => {
 		}
 	};
 	const handleDeletePost = (postId) => {
-        setPosts(posts.filter(post => post.groupPostId !== postId));
-    };
+		setPosts(posts.filter((post) => post.groupPostId !== postId));
+	};
 	return (
 		group && (
 			<div className="group-page">

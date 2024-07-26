@@ -2,22 +2,29 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { handleFindGroups } from "./../axios/GroupAxios";
-import { findUsersByKeyword } from "./../axios/UserAxios";
-import { filterUsersAlreadyInGroup } from "./../utils/filterGroupMembers";
+import { handleGetAllGroups } from "./../axios/GroupAxios";
+import { findUsersByKeyword, getAllUsers } from "./../axios/UserAxios";
+
 import Dropdown from "./../components/DropDown";
 import { IoSearch } from "react-icons/io5";
 import "../assets/styles/SearchBar.css";
+import {
+	filterGroups,
+	filterUsersAlreadyInGroup,
+	filterUsers,
+} from "./../utils/filterFunctions.js";
 
 const SearchBar = ({
 	searchType,
 	userEmail,
-	setSearchGroup,
+	setSearchGroupQuery,
 	setSearchFriendQuery,
 	setSearchMember,
 	dropdownClassName,
 	searchBarClassName,
 	groupMembers,
+	onFocus,
+	onBlur,
 }) => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [items, setItems] = useState([]);
@@ -33,73 +40,76 @@ const SearchBar = ({
 			setShowDropdown(false);
 		} else {
 			setShowDropdown(true);
-			handleSearch(query);
 		}
+		handleSearch(query);
 	};
 
 	const handleSearch = async (query) => {
 		if (query.length > 0) {
 			if (searchType === "user") {
 				await fetchUsers(query);
-			} else if (searchType === "group") {
-				await fetchGroups(query);
-			} else if (searchType === "friend") {
-				await fetchFriends(query);
 			} else if (searchType === "member") {
 				await fetchMembers(query);
 			}
 		}
+		fetchGroups(query);
+		fetchFriends(query);
 	};
 
 	const fetchGlobal = async () => {
+		const responseGroups = await handleGetAllGroups();
+		const responseUsers = await getAllUsers();
 		if (searchQuery.length > 0) {
 			try {
-				const responseUsers = await findUsersByKeyword(searchQuery, email);
-				const responseGroups = await handleFindGroups(
-					searchQuery.toLowerCase(),
-					email
-				);
-				dispatch({ type: "SET_GLOBAL_USERS", payload: responseUsers });
-				dispatch({ type: "SET_GLOBAL_GROUPS", payload: responseGroups });
-				navigate("/search");
+				const filteredGroups = filterGroups(responseGroups, searchQuery);
+				const filteredUsers = filterUsers(responseUsers, searchQuery);
+				dispatch({ type: "SET_GLOBAL_USERS", payload: filteredUsers });
+				dispatch({ type: "SET_GLOBAL_GROUPS", payload: filteredGroups });
 			} catch (error) {
 				console.error(`Error fetching users and groups:`, error);
 			}
 		} else {
-			dispatch({ type: "SET_GLOBAL_USERS", payload: null });
-			dispatch({ type: "SET_GLOBAL_GROUPS", payload: null });
+			dispatch({ type: "SET_GLOBAL_USERS", payload: responseUsers });
+			dispatch({ type: "SET_GLOBAL_GROUPS", payload: responseGroups });
 		}
+		navigate("/search");
 	};
 
 	const fetchUsers = async (query) => {
 		try {
 			const response = await findUsersByKeyword(query, email);
 			setItems(response);
+			if (setSearchFriendQuery) {
+				setSearchFriendQuery(query);
+			}
 		} catch (error) {
 			console.error(`Error fetching users:`, error);
 		}
 	};
+
 	const fetchMembers = async (query) => {
 		try {
 			const response = await findUsersByKeyword(query, email);
 			const filteredUsers = filterUsersAlreadyInGroup(groupMembers, response);
 			setItems(filteredUsers);
+			if (setSearchFriendQuery) {
+				setSearchFriendQuery(query);
+			}
 		} catch (error) {
 			console.error(`Error fetching users:`, error);
 		}
 	};
 
-	const fetchGroups = async (query) => {
-		try {
-			const response = await handleFindGroups(query.toLowerCase(), userEmail);
-			setSearchGroup(response);
-		} catch (error) {
-			console.error(`Error fetching groups:`, error);
+	const fetchGroups = (query) => {
+		if (setSearchGroupQuery) {
+			setSearchGroupQuery(query);
 		}
 	};
 
-	const fetchFriends = async (query) => {
-		setSearchFriendQuery(query);
+	const fetchFriends = (query) => {
+		if (setSearchFriendQuery) {
+			setSearchFriendQuery(query);
+		}
 	};
 
 	const handleChoose = (email) => {
@@ -109,6 +119,7 @@ const SearchBar = ({
 			setSearchMember(email);
 		}
 	};
+
 	const handleKeyDown = (e) => {
 		if (e.key === "Enter" && searchType === "global") {
 			fetchGlobal();
@@ -124,18 +135,14 @@ const SearchBar = ({
 						placeholder="Search..."
 						value={searchQuery}
 						onChange={handleInputChange}
-						onFocus={() => setShowDropdown(true)}
+						onFocus={onFocus}
+						onBlur={onBlur}
 						onKeyDown={handleKeyDown}
 					/>
-					{searchType === "global" ? (
-						<div
-							className="header-search-button"
-							onClick={(e) => fetchGlobal()}
-						>
+					{searchType === "global" && (
+						<div className="header-search-button" onClick={fetchGlobal}>
 							<IoSearch />
 						</div>
-					) : (
-						""
 					)}
 				</div>
 			</div>
