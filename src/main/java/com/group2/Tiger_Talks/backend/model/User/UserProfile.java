@@ -16,10 +16,7 @@ import com.group2.Tiger_Talks.backend.model.Post.PostLike;
 import com.group2.Tiger_Talks.backend.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 
 import static com.group2.Tiger_Talks.backend.model.Utils.*;
@@ -39,22 +36,16 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "receiver-friendship")
     private List<Friendship> receiverFriendshipList = new LinkedList<>();
-
     // User Sending request to others, e.g. user is A, and A ---> B,C,D , return B,C,D
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "sender-friendship-request")
     private List<FriendshipRequest> senderFriendshipRequestList = new LinkedList<>();
-
     // User Receiving request from others, e.g. user is A, and B,C,D ---> A, return B,C,D
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "receiver-friendship-request")
     private List<FriendshipRequest> receiverFriendshipRequestList = new LinkedList<>();
-
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notificationList = new LinkedList<>();
-
-
-
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Post> postList = new LinkedList<>();
@@ -62,15 +53,10 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
     private List<PostLike> postLikeList = new LinkedList<>();
     @OneToMany(mappedBy = "commentSenderUserProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostComment> postCommentList = new LinkedList<>();
-
-
-
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupMembership> groupMembershipList = new LinkedList<>();
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupPostLike> groupPostLikeList = new LinkedList<>();
-
-
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
     private String status = UserStatus.PENDING;      // blocked / pending / active
@@ -116,7 +102,6 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
     public UserProfile() {
     }
 
-
     public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
         Optional<String> intrinsicsResult = UserValidator.verifyUserIntrinsics(userProfile, userProfileRepository, isNewUser);
 
@@ -140,6 +125,33 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
                 UserValidator::validatePasswordNumber,
                 UserValidator::validatePasswordSpecialCharacter
         );
+    }
+
+    @Override
+    public String toString() {
+        return "UserProfile{\n" +
+                "\npassword='" + password + '\'' +
+                ",\n userLevel='" + userLevel + '\'' +
+                ",\n status='" + status + '\'' +
+                ",\n isValidated=" + isValidated +
+                ",\n securityQuestionsAnswer=" + Arrays.toString(securityQuestionsAnswer) +
+                ",\n role='" + role + '\'' +
+                ",\n onlineStatus='" + onlineStatus + '\'' +
+                ",\n userName='" + userName + '\'' +
+                ",\n personalInterest='" + personalInterest + '\'' +
+                ",\n location='" + location + '\'' +
+                ",\n postalCode='" + postalCode + '\'' +
+                ",\n biography='" + biography + '\'' +
+                ",\n profileAccessLevel='" + profileAccessLevel + '\'' +
+                ",\n phoneNumber='" + phoneNumber + '\'' +
+                ",\n age=" + age +
+                ",\n gender='" + gender + '\'' +
+                ",\n firstName='" + firstName + '\'' +
+                ",\n lastName='" + lastName + '\'' +
+                ",\n profilePictureUrl='" + profilePictureUrl + '\'' +
+                ",\n email='" + email + '\'' +
+                ",\n securityQuestions=" + Arrays.toString(securityQuestions) +
+                "\n}";
     }
 
     public List<PostLike> getPostLikeList() {
@@ -310,6 +322,10 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
 
     public String lastName() {
         return lastName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public void setLastName(String lastName) {
