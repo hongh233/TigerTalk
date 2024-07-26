@@ -150,10 +150,11 @@ public class GroupPostServiceImplTest {
         group.setGroupId(1);
         GroupPost groupPost = new GroupPost(group, "Content", "a@dal.ca", "picture");
         when(userProfileRepository.existsById(anyString())).thenReturn(true);
-        when(groupRepository.existsById(anyInt())).thenReturn(false);
+        when(groupRepository.existsById(anyInt())).thenReturn(true);
+        when(groupRepository.findById(anyInt())).thenReturn(Optional.empty());
         Optional<String> result = groupPostService.createGroupPost(groupPost);
         assertTrue(result.isPresent());
-        assertEquals("User not found, fail to create group post.", result.get());
+        assertEquals("Group not found, fail to create group post.", result.get());
     }
 
     @Test

@@ -1,7 +1,8 @@
 .notification-popup {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 400px;
     max-height: 300px;
     overflow-y: auto;
@@ -59,9 +60,16 @@
     .notification-popup {
         position: fixed;
         top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
         z-index: 1200;
         width: 150px;
-        left: 75%;
         max-height: 50%;
     }
+}
+
+.notification-popup .notification-empty {
+    padding: 20px;
+    text-align: center;
+    color: #0e0a0a;
 }

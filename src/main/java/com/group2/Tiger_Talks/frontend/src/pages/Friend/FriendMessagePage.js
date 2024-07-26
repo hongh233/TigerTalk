@@ -5,11 +5,7 @@ import { useSelector } from "react-redux";
 import "../../assets/styles/FriendMessagePage.css";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import {
-	createMessage,
-	getAllFriendsByEmail,
-	getAllMessagesByFriendshipId,
-} from "../../axios/FriendAxios";
+import { createMessage, getAllFriendsByEmail, getAllMessagesByFriendshipId } from "../../axios/FriendAxios";
 
 const FriendMessagePage = () => {
 	const user = useSelector((state) => state.user.user);
@@ -59,35 +55,19 @@ const FriendMessagePage = () => {
 		fetchFriends();
 	}, [user]);
 
-	useEffect(() => {
-		const socket = new SockJS("http://localhost:8085/ws");
-		const client = new Client({
-			webSocketFactory: () => socket,
-			reconnectDelay: 5000,
-			debug: function (str) {
-				console.log(str);
-			},
-		});
-		client.onConnect = () => {
-			console.log("Connected to WebSocket");
-			client.subscribe("/topic/messages", (message) => {
-				const receivedMessage = JSON.parse(message.body);
-				if (
-					selectedFriend &&
-					receivedMessage.friendshipId === selectedFriend.id
-				) {
-					setMessages((prevMessages) => {
-						const messageExists = prevMessages.some(
-							(msg) => msg.messageId === receivedMessage.messageId
-						);
-						if (!messageExists) {
-							return [...prevMessages, receivedMessage];
-						}
-						return prevMessages;
-					});
-				}
-			});
-		};
+    useEffect(() => {
+        const socket = new SockJS("http://localhost:8085/ws");
+        const client = new Client({
+            webSocketFactory: () => socket,
+            reconnectDelay: 5000,
+            debug: function (str) {
+                console.log(str);
+            },
+        });
+
+        client.onConnect = () => {
+            console.log("Connected to WebSocket");
+        };
 
 		client.onStompError = (frame) => {
 			console.error("Broker reported error: " + frame.headers["message"]);
@@ -97,12 +77,31 @@ const FriendMessagePage = () => {
 		client.activate();
 		setStompClient(client);
 
-		return () => {
-			if (stompClient) {
-				stompClient.deactivate();
-			}
-		};
-	}, [selectedFriend]);
+        return () => {
+            client.deactivate();
+        };
+    }, []);
+
+    useEffect(() => {
+        if (stompClient && selectedFriend) {
+            const subscription = stompClient.subscribe("/topic/messages", (message) => {
+                const receivedMessage = JSON.parse(message.body);
+                if (receivedMessage.friendshipId === selectedFriend.id) {
+                    setMessages((prevMessages) => {
+                        const messageExists = prevMessages.some(msg => msg.messageId === receivedMessage.messageId);
+                        if (!messageExists) {
+                            return [...prevMessages, receivedMessage];
+                        }
+                        return prevMessages;
+                    });
+                }
+            });
+
+            return () => {
+                subscription.unsubscribe();
+            };
+        }
+    }, [stompClient, selectedFriend]);
 
 	useEffect(() => {
 		scrollToBottom();
