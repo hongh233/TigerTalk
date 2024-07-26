@@ -21,3 +21,13 @@ export const getAllUsers = () => {
 			throw error;
 		});
 };
+
+export const updateUser = (updatedUser) => {
+	return axios
+		.put(`${URL}/api/user/update`, updatedUser)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error updating users", error);
+			throw error;
+		});
+};

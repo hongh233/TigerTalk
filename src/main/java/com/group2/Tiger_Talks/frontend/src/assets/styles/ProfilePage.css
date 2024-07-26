@@ -21,11 +21,103 @@
 
 .profile-main-content {
 	height: 100vh;
-	width: 80%;
-	padding-left: 20px;
+	width: 85%;
+	display: flex;
+	flex-direction: column;
 }
 
-.friend-button-friend {
+.profile-page-user-info {
+	height: 30%;
+	width: 90%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.profile-page-user-info-container {
+	display: flex;
+	width: 100%;
+}
+
+.profile-page-user-info-picture-container {
+	width: 200px; /* Set a fixed width */
+	height: 200px; /* Set a fixed height */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.profile-page-user-info-picture {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.profile-page-user-info-picture img {
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.profile-page-user-info-text {
+	width: 70%;
+	padding-left: 3%;
+}
+
+.profile-page-user-info-text h2 {
+	font-size: 24px;
+	font-weight: bold;
+	margin: 0;
+}
+
+.profile-button {
+	background-color: #333;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	margin: 10px 10px 10px 0;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.profile-button:hover {
+	background-color: #555;
+}
+
+.profile-stats {
+	display: flex;
+	gap: 20px;
+}
+
+.profile-stats span {
+	font-size: 16px;
+}
+
+.profile-content-post-list {
+	height: 70%;
+	width: 100%;
+	display: flex;
+}
+.profile-page-profile-name-status {
+	display: flex;
+
+	align-items: center;
+	width: 100%;
+}
+.profile-page-status-circle {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	display: inline-block;
+	margin-left: 8px;
+}
+.profile-content-post {
+	display: flex;
+	flex-direction: column;
+	width: 90%;
 }
 
 @media (max-width: 768px) {
