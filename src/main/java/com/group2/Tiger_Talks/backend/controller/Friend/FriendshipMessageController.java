@@ -22,19 +22,6 @@ public class FriendshipMessageController {
      *
      * @param message the FriendshipMessage object containing the message details
      * @return a ResponseEntity containing a success message or an error message
-     * @apiExample {json} Request-Example:
-     * {
-     *   "messageContent": "Hello, how are you?",
-     *   "sender": {
-     *     "email": "a@dal.ca"
-     *   },
-     *   "receiver": {
-     *     "email": "n@dal.ca"
-     *   },
-     *   "friendship": {
-     *     "friendshipId": 23
-     *   }
-     * }
      */
     @PostMapping("/message/create")
     public ResponseEntity<String> createMessage(@RequestBody FriendshipMessage message) {
