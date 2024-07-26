@@ -30,6 +30,15 @@ const Post = ({ post, user, removePost }) => {
 
 	const navigate = useNavigate();
 
+	//get number of comments
+	useEffect(() => {
+		async function fetchComments() {
+			const fetchedComments = await getCommentFromPostId(post.id);
+			setPostComments(fetchedComments);
+		}
+		fetchComments();
+	}, [commentToggle, post.id]);
+
 	const handleLike = async () => {
 		const postId = post.id || post.postId;
 		const userEmail = user.email;
@@ -42,10 +51,8 @@ const Post = ({ post, user, removePost }) => {
 		setLikes(updatedLikes);
 	};
 
-	const handleFetchAndDisplayComments = async () => {
+	const handleFetchAndDisplayComments = () => {
 		setCommentToggle((prevState) => !prevState); // Works don't touch
-		const fetchedComments = await getCommentFromPostId(post.id);
-		setPostComments(fetchedComments);
 	};
 
 	const handleCommentChange = (e) => {
@@ -188,7 +195,7 @@ const Post = ({ post, user, removePost }) => {
 					{likes} <FaThumbsUp />
 				</button>
 				<button className="post-button" onClick={handleFetchAndDisplayComments}>
-					<FaComment />
+					{postComments.length > 0 ? postComments.length : ""} <FaComment />
 				</button>
 				<button className="post-button" onClick={handleShare}>
 					<FaShare />

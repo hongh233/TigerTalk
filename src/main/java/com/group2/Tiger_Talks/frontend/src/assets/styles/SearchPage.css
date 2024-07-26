@@ -18,7 +18,10 @@
 .search-content-container {
 	width: 85%;
 }
-
+.search-content-section {
+	max-height: 600px;
+	overflow: scroll;
+}
 .global-search-group-list {
 	margin: 0 8%;
 }

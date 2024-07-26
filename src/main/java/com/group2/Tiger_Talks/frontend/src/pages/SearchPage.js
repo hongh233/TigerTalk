@@ -8,7 +8,7 @@ import "./../assets/styles/SearchPage.css";
 const SearchPage = () => {
 	const { globalUsers } = useSelector((state) => state.globalUsers);
 	const { globalGroups } = useSelector((state) => state.globalGroups);
-	console.log(globalGroups);
+
 	const navigate = useNavigate();
 	const handleChoose = (email) => {
 		navigate(`/profile/${email}`);
@@ -34,18 +34,19 @@ const SearchPage = () => {
 					) : (
 						<p>No users found with this keyword</p>
 					)}
-
+					<br />
 					<h2>Groups matched with keyword:</h2>
-
-					{globalGroups && globalGroups.length > 0 ? (
-						globalGroups.map((group) => (
-							<div className="global-search-group-list">
-								<Group key={group.groupId} group={group} />
-							</div>
-						))
-					) : (
-						<p>No groups found with this keyword</p>
-					)}
+					<div className="search-content-section">
+						{globalGroups && globalGroups.length > 0 ? (
+							globalGroups.map((group) => (
+								<div className="global-search-group-list">
+									<Group key={group.groupId} group={group} />
+								</div>
+							))
+						) : (
+							<p>No groups found with this keyword</p>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>
