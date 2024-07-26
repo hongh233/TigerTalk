@@ -22,17 +22,23 @@ const GroupPost = ({
 	removePost,
 }) => {
 	const [likes, setLikes] = useState(post.likes || post.numOfLikes);
-	const [postComments, setPostComments] = useState(null);
+	const [postComments, setPostComments] = useState([]);
 	const [newComment, setNewComment] = useState("");
 	const [isAuthorOrAdmin, setIsAuthorOrAdmin] = useState(false);
+	const [commentToggle, setCommentToggle] = useState(false);
+	//get number of comments
+	useEffect(() => {
+		async function fetchComments() {
+			const fetchedComments = await handleGetCommentsForOneGroupPost(
+				post.groupPostId
+			);
+			setPostComments(fetchedComments);
+		}
+		fetchComments();
+	}, [commentToggle, post.groupPostId]);
 
-	useEffect(() => {}, [postComments]);
-
-	const handleFetchAndDisplayComments = async () => {
-		const fetchedComments = await handleGetCommentsForOneGroupPost(
-			post.groupPostId
-		);
-		setPostComments(fetchedComments);
+	const handleFetchAndDisplayComments = () => {
+		setCommentToggle((prevState) => !prevState); // Works don't touch
 	};
 
 	const handleLike = async () => {
@@ -52,6 +58,7 @@ const GroupPost = ({
 
 	const handleAddCommentToAxios = async () => {
 		try {
+			setCommentToggle(false); // IT works don't touch
 			if (newComment.trim() === "") return;
 
 			const newCommentObj = {
@@ -181,7 +188,7 @@ const GroupPost = ({
 					className="group-post-button"
 					onClick={handleFetchAndDisplayComments}
 				>
-					<FaComment />
+					{postComments.length > 0 ? postComments.length : ""} <FaComment />
 				</button>
 				<button className="group-post-button" onClick={handleShare}>
 					<FaShare />
@@ -194,6 +201,7 @@ const GroupPost = ({
 			</div>
 			<div className="group-postComments-section">
 				{postComments &&
+					commentToggle &&
 					postComments.map((postComment, index) => (
 						<GroupComment key={index} postComment={postComment} />
 					))}

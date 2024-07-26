@@ -208,6 +208,10 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
         return securityQuestionsAnswer;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public void setSecurityQuestionsAnswer(String[] securityQuestionsAnswer) {
         this.securityQuestionsAnswer = securityQuestionsAnswer;
     }
