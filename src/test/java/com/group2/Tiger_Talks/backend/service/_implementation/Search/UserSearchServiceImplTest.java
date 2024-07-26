@@ -63,8 +63,11 @@ public class UserSearchServiceImplTest {
         );
     }
 
+    /**
+     * Test case for search
+     */
     @Test
-    public void testSearch_NullQueryOrEmail() {
+    public void search_nullQueryOrEmail() {
         List<UserProfileDTO> result = userSearchService.search(null, "a@dal.ca");
         assertEquals(Collections.emptyList(), result);
 
@@ -73,7 +76,7 @@ public class UserSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_NoMatches() {
+    public void search_noMatches() {
         when(userProfileRepository.findAll()).thenReturn(Arrays.asList(userA, userB, userC));
 
         List<UserProfileDTO> result = userSearchService.search("Non-matching query", "a@dal.ca");
@@ -81,7 +84,7 @@ public class UserSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_ExcludeSelf() {
+    public void search_excludeSelf() {
         when(userProfileRepository.findAll()).thenReturn(Arrays.asList(userA, userB, userC));
 
         List<UserProfileDTO> result = userSearchService.search("userA", "a@dal.ca");
@@ -89,7 +92,7 @@ public class UserSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_ByName() {
+    public void search_byName() {
         when(userProfileRepository.findAll()).thenReturn(Arrays.asList(userA, userB, userC));
 
         List<UserProfileDTO> result = userSearchService.search("Along", "c@dal.ca");
@@ -98,7 +101,7 @@ public class UserSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_ByEmail() {
+    public void search_byEmail() {
         when(userProfileRepository.findAll()).thenReturn(Arrays.asList(userA, userB, userC));
 
         List<UserProfileDTO> result = userSearchService.search("b@dal.ca", "c@dal.ca");
@@ -107,7 +110,7 @@ public class UserSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_ByUsername() {
+    public void search_byUsername() {
         when(userProfileRepository.findAll()).thenReturn(Arrays.asList(userA, userB, userC));
 
         List<UserProfileDTO> result = userSearchService.search("userB", "c@dal.ca");
@@ -116,7 +119,7 @@ public class UserSearchServiceImplTest {
     }
 
     @Test
-    public void testSearch_MultipleMatches() {
+    public void search_multipleMatches() {
         when(userProfileRepository.findAll()).thenReturn(Arrays.asList(userA, userB, userC));
 
         List<UserProfileDTO> result = userSearchService.search("user", "c@dal.ca");

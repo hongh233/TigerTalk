@@ -111,7 +111,7 @@ public class GroupPostServiceImpl implements GroupPostService {
     @Override
     public GroupPost likePost(Integer groupPostId, String userEmail) {
         // Retrieve the post by postId
-        GroupPost post = groupPostRepository.findById(groupPostId)
+        GroupPost groupPost = groupPostRepository.findById(groupPostId)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
 
         // Retrieve the user profile by userEmail
@@ -120,36 +120,35 @@ public class GroupPostServiceImpl implements GroupPostService {
 
         // Check if the user has already liked the post
         Optional<GroupPostLike> existingLike = groupPostLikeRepository.
-                findByGroupPostGroupPostIdAndUserProfileEmail(post.getGroupPostId(), userProfile.email());
+                findByGroupPostGroupPostIdAndUserProfileEmail(groupPost.getGroupPostId(), userProfile.email());
 
         boolean liked; // Track if it is a like or unlike
         if (existingLike.isPresent()) {
             // Unlike the post
             groupPostLikeRepository.delete(existingLike.get());
-            post.getPostLikes().remove(existingLike.get());
+            groupPost.getPostLikes().remove(existingLike.get());
             liked = false;
         } else {
             // Like the post
-            GroupPostLike newPostLike = new GroupPostLike(post, userProfile);
+            GroupPostLike newPostLike = new GroupPostLike(groupPost, userProfile);
             groupPostLikeRepository.save(newPostLike);
-            post.getPostLikes().add(newPostLike);
+            groupPost.getPostLikes().add(newPostLike);
             liked = true;
         }
 
         // Save the updated post
-        groupPostRepository.save(post);
+        groupPostRepository.save(groupPost);
 
         // Send notification only on like, not on unlike
         // Send notification to the post-owner
         if (liked) {
-            String content = userProfile.email() + " liked your post.";
             notificationService.createNotification(
                     new Notification(
-                            post.getUserProfile(),
-                            content,
-                            "PostLiked"));
+                            userProfileRepository.findById(groupPost.getGroupPostSenderEmail()).get(),
+                            userProfile.email() + " liked your post in group " + groupPost.getGroup().getGroupName(),
+                            "GroupPostLiked"));
         }
 
-        return post;
+        return groupPost;
     }
 }

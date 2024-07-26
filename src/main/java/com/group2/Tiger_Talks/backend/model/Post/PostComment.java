@@ -22,11 +22,6 @@ public class PostComment implements FullyDTOConvertible<PostCommentDTO> {
     @JoinColumn(name = "comment_sender_user_profile", referencedColumnName = "email")
     private UserProfile commentSenderUserProfile;
 
-    @ManyToOne
-    @JoinColumn(name = "post_sender_user_profile", referencedColumnName = "email")
-    private UserProfile postSenderUserProfile;
-
-
     private String content;
 
     @Column(nullable = false)
@@ -35,11 +30,10 @@ public class PostComment implements FullyDTOConvertible<PostCommentDTO> {
     public PostComment() {
     }
 
-    public PostComment(Post post, String content, UserProfile commentSenderUserProfile, UserProfile postSenderUserProfile) {
+    public PostComment(Post post, String content, UserProfile commentSenderUserProfile) {
         this.post = post;
         this.content = content;
         this.commentSenderUserProfile = commentSenderUserProfile;
-        this.postSenderUserProfile = postSenderUserProfile;
     }
 
     public Integer getCommentId() {
@@ -81,14 +75,6 @@ public class PostComment implements FullyDTOConvertible<PostCommentDTO> {
 
     public void setCommentSenderUserProfile(UserProfile commentSenderUserProfile) {
         this.commentSenderUserProfile = commentSenderUserProfile;
-    }
-
-    public UserProfile getPostSenderUserProfile() {
-        return postSenderUserProfile;
-    }
-
-    public void setPostSenderUserProfile(UserProfile postSenderUserProfile) {
-        this.postSenderUserProfile = postSenderUserProfile;
     }
 
     @Override

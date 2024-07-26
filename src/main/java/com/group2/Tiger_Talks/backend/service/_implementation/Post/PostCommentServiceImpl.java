@@ -58,8 +58,7 @@ public class PostCommentServiceImpl implements PostCommentService {
         PostComment postComment = new PostComment(
                 post.get(),
                 postCommentDTO.content(),
-                commentSenderUserProfile.get(),
-                postSenderUserProfile.get()
+                commentSenderUserProfile.get()
         );
 
         // save the comment

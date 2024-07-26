@@ -29,7 +29,7 @@ public class Notification implements ToDTO<NotificationDTO> {
     // GroupJoin
     // GroupDeletion
     // GroupPostCreation
-    // TODO: GroupPostLiked  notification
+    // GroupPostLiked
     // GroupPostComment
 
     private String notificationType;

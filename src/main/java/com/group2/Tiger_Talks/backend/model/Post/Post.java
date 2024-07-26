@@ -18,11 +18,6 @@ public class Post implements FullyDTOConvertible<PostDTO> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer postId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
-    @JsonBackReference
-    private UserProfile userProfile;
-
     private String content;
     private int numOfLike;
     private String associatedImageURL;
@@ -32,8 +27,14 @@ public class Post implements FullyDTOConvertible<PostDTO> {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<PostComment> postComments = new ArrayList<>();
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostLike> postLikes = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
+    @JsonBackReference
+    private UserProfile userProfile;
 
     public Post() {
     }

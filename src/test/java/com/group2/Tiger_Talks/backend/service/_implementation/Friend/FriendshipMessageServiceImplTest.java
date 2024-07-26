@@ -40,7 +40,6 @@ class FriendshipMessageServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        // 重置mocks
         reset(friendshipMessageRepository, friendshipRepository, userProfileRepository);
     }
 
@@ -174,7 +173,7 @@ class FriendshipMessageServiceImplTest {
 
         List<FriendshipMessageDTO> expectedDTOs = messages.stream()
                 .map(FriendshipMessage::toDto)
-                .collect(Collectors.toList());
+                .toList();
 
         assertEquals(expectedDTOs.size(), actualDTOs.size());
         for (int i = 0; i < expectedDTOs.size(); i++) {

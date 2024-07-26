@@ -174,6 +174,28 @@ public class PostServiceImplTest {
         verify(notificationService, times(1)).createNotification(any(Notification.class));
     }
 
+    @Test
+    public void createPost_notificationServiceFailure() {
+        Post post = new Post();
+        UserProfile userProfile = new UserProfile();
+        userProfile.setEmail("test@dal.ca");
+        post.setUserProfile(userProfile);
+        List<UserProfile> friends = new LinkedList<>();
+        for (int i = 0; i < 2; i++) {
+            UserProfile friend = new UserProfile();
+            friend.setEmail("friend" + i + "@dal.ca");
+            friends.add(friend);
+        }
+
+        when(userProfileRepository.existsById(userProfile.email())).thenReturn(true);
+        when(friendshipRepository.findAllFriendsByEmail(userProfile.email())).thenReturn(friends);
+        when(notificationService.createNotification(any())).thenReturn(Optional.of("Failed to create notification"));
+
+        Optional<String> result = postServiceImpl.createPost(post);
+        assertTrue(result.isPresent(), "Expected error message");
+        assertEquals("Failed to create notification", result.get());
+    }
+
     /**
      * Test case for deletePostById
      */

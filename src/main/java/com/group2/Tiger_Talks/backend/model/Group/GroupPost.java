@@ -18,20 +18,6 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupPostId;
 
-
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public List<GroupPostLike> getGroupPostLikes() {
-        return groupPostLikes;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
-    @JsonBackReference
-    private UserProfile userProfile;
-
     @ManyToOne
     @JoinColumn(name = "groupId", referencedColumnName = "groupId", nullable = false)
     private Group group;
@@ -124,6 +110,10 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
 
     public void setGroupPostPictureURL(String groupPostPictureURL) {
         this.groupPostPictureURL = groupPostPictureURL;
+    }
+
+    public List<GroupPostLike> getGroupPostLikes() {
+        return groupPostLikes;
     }
 
     @Override
