@@ -73,6 +73,13 @@ public class FriendshipRequestController {
                 .orElseGet(() -> ResponseEntity.ok("Friend request has been rejected."));
     }
 
+    /**
+     * Checks if a friendship request exists between two users.
+     *
+     * @param email1 the email of the user1
+     * @param email2 the email of the user2
+     * @return true if a friendship request exists, false otherwise
+     */
     @GetMapping("/areFriendshipRequestExist/{email1}/{email2}")
     public boolean areFriendshipRequestExist(@PathVariable("email1") String email1, @PathVariable("email2") String email2) {
         return friendshipRequestService.areFriendshipRequestExist(email1, email2);
