@@ -187,8 +187,8 @@ public class PostServiceImplTest {
             friends.add(friend);
         }
 
-        when(userProfileRepository.existsById(userProfile.getEmail())).thenReturn(true);
-        when(friendshipRepository.findAllFriendsByEmail(userProfile.getEmail())).thenReturn(friends);
+        when(userProfileRepository.existsById(userProfile.email())).thenReturn(true);
+        when(friendshipRepository.findAllFriendsByEmail(userProfile.email())).thenReturn(friends);
         when(notificationService.createNotification(any())).thenReturn(Optional.of("Failed to create notification"));
 
         Optional<String> result = postServiceImpl.createPost(post);

@@ -141,7 +141,7 @@ public class GroupPostServiceImplTest {
         lenient().when(groupRepository.existsById(anyInt())).thenReturn(true);
         Optional<String> result = groupPostService.createGroupPost(groupPost);
         assertTrue(result.isPresent());
-        assertEquals("User or Group not found, fail to create group post.", result.get());
+        assertEquals("User not found, fail to create group post.", result.get());
     }
 
     @Test
@@ -153,7 +153,7 @@ public class GroupPostServiceImplTest {
         when(groupRepository.existsById(anyInt())).thenReturn(false);
         Optional<String> result = groupPostService.createGroupPost(groupPost);
         assertTrue(result.isPresent());
-        assertEquals("User or Group not found, fail to create group post.", result.get());
+        assertEquals("User not found, fail to create group post.", result.get());
     }
 
     @Test
@@ -165,7 +165,7 @@ public class GroupPostServiceImplTest {
         lenient().when(groupRepository.existsById(anyInt())).thenReturn(false);
         Optional<String> result = groupPostService.createGroupPost(groupPost);
         assertTrue(result.isPresent());
-        assertEquals("User or Group not found, fail to create group post.", result.get());
+        assertEquals("User not found, fail to create group post.", result.get());
     }
 
     /**
@@ -316,7 +316,7 @@ public class GroupPostServiceImplTest {
         when(groupPostLikeRepository.findByGroupPostGroupPostIdAndUserProfileEmail(groupPostId, userEmail)).thenReturn(Optional.empty());
 
         GroupPost result = groupPostService.likePost(groupPostId, userEmail);
-        assertTrue(result.getPostLikes().stream().anyMatch(like -> like.getUserProfile().getEmail().equals(userEmail)));
+        assertTrue(result.getPostLikes().stream().anyMatch(like -> like.getUserProfile().email().equals(userEmail)));
     }
 
     @Test
@@ -338,7 +338,7 @@ public class GroupPostServiceImplTest {
         when(groupPostLikeRepository.findByGroupPostGroupPostIdAndUserProfileEmail(groupPostId, userEmail)).thenReturn(Optional.of(existingLike));
 
         GroupPost result = groupPostService.likePost(groupPostId, userEmail);
-        assertTrue(result.getPostLikes().stream().noneMatch(like -> like.getUserProfile().getEmail().equals(userEmail)));
+        assertTrue(result.getPostLikes().stream().noneMatch(like -> like.getUserProfile().email().equals(userEmail)));
     }
 
     @Test
@@ -391,7 +391,7 @@ public class GroupPostServiceImplTest {
 
         Optional<UserProfile> result = GroupPostServiceImpl.findUserProfileByEmail(groupPost);
         assertTrue(result.isPresent());
-        assertEquals("a@dal.ca", result.get().getEmail());
+        assertEquals("a@dal.ca", result.get().email());
     }
 
     @Test
