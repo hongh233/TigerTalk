@@ -44,7 +44,7 @@ const ViewGroupPage = () => {
 			try {
 				const groupData = await handleGetGroupById(groupId);
 				setGroup(groupData);
-				setIsPrivate(groupData.private);
+				setIsPrivate(groupData.isPrivate);
 
 				// Check if the current user is the creator/admin
 				if (groupData.groupCreatorEmail === userEmail) {
@@ -150,8 +150,8 @@ const ViewGroupPage = () => {
 		}
 	};
 	const handleDeletePost = (postId) => {
-        setPosts(posts.filter(post => post.groupPostId !== postId));
-    };
+		setPosts(posts.filter((post) => post.groupPostId !== postId));
+	};
 	return (
 		group && (
 			<div className="group-page">

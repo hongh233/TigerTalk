@@ -146,8 +146,30 @@
 }
 
 .group-content {
-	max-height: 500px;
+	max-height: 600px;
 	overflow: scroll;
+}
+
+.group-filter-button {
+	align-self: center;
+	padding: 10px 20px;
+	background-color: #17a2b8;
+	color: white;
+	font-size: 1em;
+	margin-right: 5px;
+
+	margin-bottom: 8px;
+}
+.filter-icon {
+	width: 5%;
+	cursor: pointer;
+}
+.group-filter-button svg {
+	margin-right: 5px;
+}
+
+.group-filter-button:hover {
+	color: #333;
 }
 
 @media (max-width: 768px) {

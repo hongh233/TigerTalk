@@ -56,7 +56,7 @@ const Group = ({ group }) => {
 						navigate(`/group/viewgroup/${group.groupId}`);
 					}}
 				>
-					{group.groupName} {group.private ? <FaLock /> : <FaUnlock />}
+					{group.groupName} {group.isPrivate ? <FaLock /> : <FaUnlock />}
 					<p>{group.dateCreated}</p>
 				</div>
 
@@ -68,7 +68,7 @@ const Group = ({ group }) => {
 				>
 					<img src={group.groupImg} alt="Group cover" />
 				</div>
-				{group.private && !isMember ? (
+				{group.isPrivate && !isMember ? (
 					<div className="group-action lock">
 						<FaLock />
 					</div>

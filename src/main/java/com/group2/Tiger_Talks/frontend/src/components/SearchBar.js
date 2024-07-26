@@ -12,12 +12,14 @@ import "../assets/styles/SearchBar.css";
 const SearchBar = ({
 	searchType,
 	userEmail,
-	setSearchGroup,
+	setSearchGroupQuery,
 	setSearchFriendQuery,
 	setSearchMember,
 	dropdownClassName,
 	searchBarClassName,
 	groupMembers,
+	onFocus,
+	onBlur,
 }) => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [items, setItems] = useState([]);
@@ -33,22 +35,20 @@ const SearchBar = ({
 			setShowDropdown(false);
 		} else {
 			setShowDropdown(true);
-			handleSearch(query);
 		}
+		handleSearch(query);
 	};
 
 	const handleSearch = async (query) => {
 		if (query.length > 0) {
 			if (searchType === "user") {
 				await fetchUsers(query);
-			} else if (searchType === "group") {
-				await fetchGroups(query);
-			} else if (searchType === "friend") {
-				await fetchFriends(query);
 			} else if (searchType === "member") {
 				await fetchMembers(query);
 			}
 		}
+		fetchGroups(query);
+		fetchFriends(query);
 	};
 
 	const fetchGlobal = async () => {
@@ -75,31 +75,37 @@ const SearchBar = ({
 		try {
 			const response = await findUsersByKeyword(query, email);
 			setItems(response);
+			if (setSearchFriendQuery) {
+				setSearchFriendQuery(query);
+			}
 		} catch (error) {
 			console.error(`Error fetching users:`, error);
 		}
 	};
+
 	const fetchMembers = async (query) => {
 		try {
 			const response = await findUsersByKeyword(query, email);
 			const filteredUsers = filterUsersAlreadyInGroup(groupMembers, response);
 			setItems(filteredUsers);
+			if (setSearchFriendQuery) {
+				setSearchFriendQuery(query);
+			}
 		} catch (error) {
 			console.error(`Error fetching users:`, error);
 		}
 	};
 
-	const fetchGroups = async (query) => {
-		try {
-			const response = await handleFindGroups(query.toLowerCase(), userEmail);
-			setSearchGroup(response);
-		} catch (error) {
-			console.error(`Error fetching groups:`, error);
+	const fetchGroups = (query) => {
+		if (setSearchGroupQuery) {
+			setSearchGroupQuery(query);
 		}
 	};
 
-	const fetchFriends = async (query) => {
-		setSearchFriendQuery(query);
+	const fetchFriends = (query) => {
+		if (setSearchFriendQuery) {
+			setSearchFriendQuery(query);
+		}
 	};
 
 	const handleChoose = (email) => {
@@ -109,6 +115,7 @@ const SearchBar = ({
 			setSearchMember(email);
 		}
 	};
+
 	const handleKeyDown = (e) => {
 		if (e.key === "Enter" && searchType === "global") {
 			fetchGlobal();
@@ -124,18 +131,14 @@ const SearchBar = ({
 						placeholder="Search..."
 						value={searchQuery}
 						onChange={handleInputChange}
-						onFocus={() => setShowDropdown(true)}
+						onFocus={onFocus}
+						onBlur={onBlur}
 						onKeyDown={handleKeyDown}
 					/>
-					{searchType === "global" ? (
-						<div
-							className="header-search-button"
-							onClick={(e) => fetchGlobal()}
-						>
+					{searchType === "global" && (
+						<div className="header-search-button" onClick={fetchGlobal}>
 							<IoSearch />
 						</div>
-					) : (
-						""
 					)}
 				</div>
 			</div>
