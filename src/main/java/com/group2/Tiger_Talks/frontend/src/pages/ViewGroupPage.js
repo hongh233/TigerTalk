@@ -96,11 +96,15 @@ const ViewGroupPage = () => {
 	const leaveGroup = async () => {
 		try {
 			if (window.confirm(`Are you sure you want to leave this group?`)) {
-				if (isMember) {
+				if (isMember && !isCreator) {
 					await handleLeaveGroup(groupMembershipId);
 					window.alert("Leave group successfully!");
 					setIsMember(false);
 					window.location.reload();
+				} else if (isMember && isCreator) {
+					await handleDeleteGroup(groupId);
+					window.alert("Delete group successfully!");
+					navigate("/group");
 				}
 			}
 		} catch (error) {

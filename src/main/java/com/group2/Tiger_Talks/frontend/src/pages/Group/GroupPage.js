@@ -14,7 +14,6 @@ import {
 
 const GroupPage = () => {
 	const user = useSelector((state) => state.user.user);
-	const [groups, setGroups] = useState([]);
 	const [myGroups, setMyGroups] = useState([]);
 	const [allGroups, setAllGroups] = useState([]);
 	const [filteredGroups, setFilteredGroups] = useState([]);

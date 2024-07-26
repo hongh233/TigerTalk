@@ -8,6 +8,7 @@ import "./../assets/styles/SearchPage.css";
 const SearchPage = () => {
 	const { globalUsers } = useSelector((state) => state.globalUsers);
 	const { globalGroups } = useSelector((state) => state.globalGroups);
+	console.log(globalGroups);
 	const navigate = useNavigate();
 	const handleChoose = (email) => {
 		navigate(`/profile/${email}`);

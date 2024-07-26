@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { handleFindGroups } from "./../axios/GroupAxios";
+import { handleGetAllGroups } from "./../axios/GroupAxios";
 import { findUsersByKeyword } from "./../axios/UserAxios";
 import { filterUsersAlreadyInGroup } from "./../utils/filterGroupMembers";
 import Dropdown from "./../components/DropDown";
 import { IoSearch } from "react-icons/io5";
 import "../assets/styles/SearchBar.css";
+import { filterGroups } from "./../utils/filterGroups";
 
 const SearchBar = ({
 	searchType,
@@ -55,12 +56,14 @@ const SearchBar = ({
 		if (searchQuery.length > 0) {
 			try {
 				const responseUsers = await findUsersByKeyword(searchQuery, email);
-				const responseGroups = await handleFindGroups(
-					searchQuery.toLowerCase(),
-					email
-				);
+				// const responseGroups = await handleFindGroups(
+				// 	searchQuery.toLowerCase(),
+				// 	email
+				// );
+				const responseGroups = await handleGetAllGroups();
+				const filtered = filterGroups(responseGroups, searchQuery);
 				dispatch({ type: "SET_GLOBAL_USERS", payload: responseUsers });
-				dispatch({ type: "SET_GLOBAL_GROUPS", payload: responseGroups });
+				dispatch({ type: "SET_GLOBAL_GROUPS", payload: filtered });
 				navigate("/search");
 			} catch (error) {
 				console.error(`Error fetching users and groups:`, error);
