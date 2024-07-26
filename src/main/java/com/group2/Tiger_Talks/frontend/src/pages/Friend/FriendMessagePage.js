@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import "../../assets/styles/FriendMessagePage.css";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import {createMessage, getAllFriendsByEmail, getAllMessagesByFriendshipId} from "../../axios/FriendAxios";
+import { createMessage, getAllFriendsByEmail, getAllMessagesByFriendshipId } from "../../axios/FriendAxios";
 
 const FriendMessagePage = () => {
     const user = useSelector((state) => state.user.user);
@@ -60,20 +60,9 @@ const FriendMessagePage = () => {
                 console.log(str);
             },
         });
+
         client.onConnect = () => {
             console.log("Connected to WebSocket");
-            client.subscribe("/topic/messages", (message) => {
-                const receivedMessage = JSON.parse(message.body);
-                if (selectedFriend && receivedMessage.friendshipId === selectedFriend.id) {
-                    setMessages((prevMessages) => {
-                        const messageExists = prevMessages.some(msg => msg.messageId === receivedMessage.messageId);
-                        if (!messageExists) {
-                            return [...prevMessages, receivedMessage];
-                        }
-                        return prevMessages;
-                    });
-                }
-            });
         };
 
         client.onStompError = (frame) => {
@@ -85,11 +74,30 @@ const FriendMessagePage = () => {
         setStompClient(client);
 
         return () => {
-            if (stompClient) {
-                stompClient.deactivate();
-            }
+            client.deactivate();
         };
-    }, [selectedFriend]);
+    }, []);
+
+    useEffect(() => {
+        if (stompClient && selectedFriend) {
+            const subscription = stompClient.subscribe("/topic/messages", (message) => {
+                const receivedMessage = JSON.parse(message.body);
+                if (receivedMessage.friendshipId === selectedFriend.id) {
+                    setMessages((prevMessages) => {
+                        const messageExists = prevMessages.some(msg => msg.messageId === receivedMessage.messageId);
+                        if (!messageExists) {
+                            return [...prevMessages, receivedMessage];
+                        }
+                        return prevMessages;
+                    });
+                }
+            });
+
+            return () => {
+                subscription.unsubscribe();
+            };
+        }
+    }, [stompClient, selectedFriend]);
 
     useEffect(() => {
         scrollToBottom();
