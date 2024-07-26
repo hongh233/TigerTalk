@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 import "../../assets/styles/FriendListPage.css"; // New CSS file
 import UserComponent from "../../components/UserComponent";
 import SearchBar from "../../components/SearchBar";
-import { filterUsers } from "../../utils/filterUsers";
+import { filterUsers } from "../../utils/filterFunctions.js";
 import { handleDelete, getAllFriendsByEmail } from "../../axios/FriendAxios";
 
 const FriendListPage = () => {

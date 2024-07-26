@@ -1,6 +1,7 @@
 import React from "react";
 import "../assets/styles/DropDown.css";
 const Dropdown = ({ items, dropdownClassName, handleChoose }) => {
+	console.log(items);
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "available":

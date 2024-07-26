@@ -3,12 +3,16 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleGetAllGroups } from "./../axios/GroupAxios";
-import { findUsersByKeyword } from "./../axios/UserAxios";
-import { filterUsersAlreadyInGroup } from "./../utils/filterGroupMembers";
+import { findUsersByKeyword, getAllUsers } from "./../axios/UserAxios";
+
 import Dropdown from "./../components/DropDown";
 import { IoSearch } from "react-icons/io5";
 import "../assets/styles/SearchBar.css";
-import { filterGroups } from "./../utils/filterGroups";
+import {
+	filterGroups,
+	filterUsersAlreadyInGroup,
+	filterUsers,
+} from "./../utils/filterFunctions.js";
 
 const SearchBar = ({
 	searchType,
@@ -53,25 +57,22 @@ const SearchBar = ({
 	};
 
 	const fetchGlobal = async () => {
+		const responseGroups = await handleGetAllGroups();
+		const responseUsers = await getAllUsers();
 		if (searchQuery.length > 0) {
 			try {
-				const responseUsers = await findUsersByKeyword(searchQuery, email);
-				// const responseGroups = await handleFindGroups(
-				// 	searchQuery.toLowerCase(),
-				// 	email
-				// );
-				const responseGroups = await handleGetAllGroups();
-				const filtered = filterGroups(responseGroups, searchQuery);
-				dispatch({ type: "SET_GLOBAL_USERS", payload: responseUsers });
-				dispatch({ type: "SET_GLOBAL_GROUPS", payload: filtered });
-				navigate("/search");
+				const filteredGroups = filterGroups(responseGroups, searchQuery);
+				const filteredUsers = filterUsers(responseUsers, searchQuery);
+				dispatch({ type: "SET_GLOBAL_USERS", payload: filteredUsers });
+				dispatch({ type: "SET_GLOBAL_GROUPS", payload: filteredGroups });
 			} catch (error) {
 				console.error(`Error fetching users and groups:`, error);
 			}
 		} else {
-			dispatch({ type: "SET_GLOBAL_USERS", payload: null });
-			dispatch({ type: "SET_GLOBAL_GROUPS", payload: null });
+			dispatch({ type: "SET_GLOBAL_USERS", payload: responseUsers });
+			dispatch({ type: "SET_GLOBAL_GROUPS", payload: responseGroups });
 		}
+		navigate("/search");
 	};
 
 	const fetchUsers = async (query) => {

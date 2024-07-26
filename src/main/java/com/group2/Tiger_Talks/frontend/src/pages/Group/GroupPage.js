@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 import "../../assets/styles/GroupPage.css";
 import Group from "../../components/Group";
 import SearchBar from "../../components/SearchBar";
-import { filterGroups } from "./../../utils/filterGroups";
+import { filterGroups } from "./../../utils/filterFunctions.js";
 import { ImFilter } from "react-icons/im";
 import {
 	handleGetGroupUserIsMember,
@@ -127,7 +127,7 @@ const GroupPage = () => {
 									className="group-filter-button"
 									onClick={() => handleFilterChange("myGroups")}
 								>
-									Groups I'm a Member Of
+									My Groups
 								</button>
 								<button
 									className="group-filter-button"
