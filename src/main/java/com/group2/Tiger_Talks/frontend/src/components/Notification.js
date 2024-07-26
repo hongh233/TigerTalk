@@ -85,27 +85,31 @@ const Notification = ({ notifications, setNotifications }) => {
 
     return (
         <div className="notification-popup">
-            <ul>
-                {notifications.map((notification) => (
-                    <li key={notification.notificationId}>
-                        <div className="notification-left">
-                            <span className="notification-text">{notification.content}</span>
-                            <div className="notification-time">
-                                {new Date(notification.createTime).toLocaleString()}
+            {notifications.length > 0 ? (
+                <ul>
+                    {notifications.map((notification) => (
+                        <li key={notification.notificationId}>
+                            <div className="notification-left">
+                                <span className="notification-text">{notification.content}</span>
+                                <div className="notification-time">
+                                    {new Date(notification.createTime).toLocaleString()}
+                                </div>
                             </div>
-                        </div>
-                        <div className="notification-buttons">
-                            <FaEye style={{ cursor: 'pointer' }}
-                                   onClick={() => handleView(notification)}
-                            />
-                            <FaTrash
-                                onClick={() => handleDelete(notification.notificationId)}
-                                style={{ cursor: 'pointer' }}
-                            />
-                        </div>
-                    </li>
-                ))}
-            </ul>
+                            <div className="notification-buttons">
+                                <FaEye style={{ cursor: 'pointer' }}
+                                       onClick={() => handleView(notification)}
+                                />
+                                <FaTrash
+                                    onClick={() => handleDelete(notification.notificationId)}
+                                    style={{ cursor: 'pointer' }}
+                                />
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+            <div className="notification-empty">There is no new notification!</div>
+            )}
         </div>
     );
 };
