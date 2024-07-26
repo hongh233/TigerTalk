@@ -18,6 +18,12 @@ public class GroupPostController {
     @Autowired
     private GroupPostService groupPostService;
 
+    /**
+     * Creates a new group post.
+     *
+     * @param groupPost the group post to be created
+     * @return ResponseEntity with a success or error message
+     */
     @PostMapping("/create")
     public ResponseEntity<String> createGroupPost(@RequestBody GroupPost groupPost) {
         Optional<String> result = groupPostService.createGroupPost(groupPost);
@@ -26,6 +32,12 @@ public class GroupPostController {
                 .orElseGet(() -> ResponseEntity.ok("Group post created successfully."));
     }
 
+    /**
+     * Deletes a group post by its ID.
+     *
+     * @param groupPostId the ID of the group post to be deleted
+     * @return ResponseEntity with a success or error message
+     */
     @DeleteMapping("/delete/{groupPostId}")
     public ResponseEntity<String> deleteGroupPost(@PathVariable Integer groupPostId) {
         Optional<String> result = groupPostService.deleteGroupPostById(groupPostId);
@@ -34,6 +46,12 @@ public class GroupPostController {
                 .orElseGet(() -> ResponseEntity.ok("Group post deleted successfully."));
     }
 
+    /**
+     * Retrieves all group posts for a specific group by its ID.
+     *
+     * @param groupId the ID of the group
+     * @return a list of group post DTOs
+     */
     @GetMapping("/getAll/{groupId}")
     public List<GroupPostDTO> getAllGroupPostsByGroupId(@PathVariable Integer groupId) {
         return groupPostService.getAllGroupPostsByGroupId(groupId);
