@@ -1,26 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaComment, FaShare, FaThumbsUp, FaTrash, FaEdit } from "react-icons/fa";
+import {
+	FaComment,
+	FaShare,
+	FaThumbsUp,
+	FaTrash,
+	FaEdit,
+} from "react-icons/fa";
 import Comment from "./Comment";
 import {
-    handleLikeAxios,
-    handleAddCommentAxios,
-    getCommentFromPostId,
-    handleEditPostAxios,
-    handleDeletePostAxios
+	handleLikeAxios,
+	handleAddCommentAxios,
+	getCommentFromPostId,
+	handleEditPostAxios,
+	handleDeletePostAxios,
 } from "./../axios/PostAxios";
 import { fetchUserByEmail } from "./../axios/AuthenticationAxios";
 import { formatDate } from "./../utils/formatDate";
 import "../assets/styles/Post.css";
 
 const Post = ({ post, user, removePost }) => {
-    const [likes, setLikes] = useState(post.likes||post.numOfLikes);
-    const [postComments, setPostComments] = useState([]);
-    const [newComment, setNewComment] = useState("");
-    const [isEditing, setIsEditing] = useState(false); 
-    const [editedContent, setEditedContent] = useState(post.content);
-    const [isEdited, setIsEdited] = useState(post.edited);
-    const [commentToggle, setCommentToggle] = useState(false);
+	const [likes, setLikes] = useState(post.likes || post.numOfLikes);
+	const [postComments, setPostComments] = useState([]);
+	const [newComment, setNewComment] = useState("");
+	const [isEditing, setIsEditing] = useState(false);
+	const [editedContent, setEditedContent] = useState(post.content);
+	const [isEdited, setIsEdited] = useState(post.edited);
+	const [commentToggle, setCommentToggle] = useState(false);
 
 	const navigate = useNavigate();
 
@@ -86,30 +92,29 @@ const Post = ({ post, user, removePost }) => {
 		navigate(`/friends`);
 	};
 
-    const renderPostContent = (content = "") => {
-        if (typeof content !== 'string') {
-          console.error("Content is not a string:", content);
-          return null;
-        }
-        const parts = content.split(/(@\w+)/g);
-        return parts.map((part, index) => {
-          if (part.startsWith("@")) {
-            return (
-              <span
-                key={index}
-                className="tag"
-                onClick={() => handleTagClick(part)}
-                style={{ color: "blue", cursor: "pointer" }}
-              >
-                {part}
-              </span>
-            );
-          } else {
-            return part;
-          }
-        });
-      };
-      
+	const renderPostContent = (content = "") => {
+		if (typeof content !== "string") {
+			console.error("Content is not a string:", content);
+			return null;
+		}
+		const parts = content.split(/(@\w+)/g);
+		return parts.map((part, index) => {
+			if (part.startsWith("@")) {
+				return (
+					<span
+						key={index}
+						className="tag"
+						onClick={() => handleTagClick(part)}
+						style={{ color: "blue", cursor: "pointer" }}
+					>
+						{part}
+					</span>
+				);
+			} else {
+				return part;
+			}
+		});
+	};
 
 	const handleEditClick = () => {
 		setIsEditing(true);
@@ -120,24 +125,25 @@ const Post = ({ post, user, removePost }) => {
 		setEditedContent(post.content);
 	};
 
-    const handleSaveEdit = async () => {
-        if (editedContent.trim() === "") return;
-        await handleEditPostAxios(post.id, editedContent);
-        setIsEditing(false);
-        setEditedContent(editedContent);
-        setIsEdited(true);
-    };
+	const handleSaveEdit = async () => {
+		if (editedContent.trim() === "") return;
+		await handleEditPostAxios(post.id, editedContent);
+		setIsEditing(false);
+		setEditedContent(editedContent);
+		setIsEdited(true);
+	};
 
-    const handleDelete = async () => {
-        if (window.confirm("Are you sure you want to delete this post?")) {
-            await handleDeletePostAxios(post.id);
-            removePost(post.id);
-            setPostComments([]);
-            setLikes("");
-        }
-    };
+	const handleDelete = async () => {
+		if (window.confirm("Are you sure you want to delete this post?")) {
+			await handleDeletePostAxios(post.id);
+			removePost(post.id);
+			setPostComments([]);
+			setLikes("");
+		}
+	};
 
-    const isAuthorOrAdmin = user.email === post.email || user.userLevel === "admin";
+	const isAuthorOrAdmin =
+		user.email === post.email || user.userLevel === "admin";
 
 	return (
 		<div className="post">
@@ -163,8 +169,9 @@ const Post = ({ post, user, removePost }) => {
 						value={editedContent}
 						onChange={(e) => setEditedContent(e.target.value)}
 					/>
-				) :
-                    <p>{renderPostContent(editedContent)}</p>}
+				) : (
+					<p>{renderPostContent(editedContent)}</p>
+				)}
 				{isEdited && <small className="edited-text">(edited)</small>}
 			</div>
 
@@ -176,37 +183,37 @@ const Post = ({ post, user, removePost }) => {
 				</div>
 			)}
 
-            <div className="post-footer">
-                <button className="post-button" onClick={handleLike}>
-                    {likes} <FaThumbsUp />
-                </button>
-                <button className="post-button" onClick={handleFetchAndDisplayComments}>
-                    <FaComment />
-                </button>
-                <button className="post-button" onClick={handleShare}>
-                    <FaShare />
-                </button>
-                {user.email === post.email && !isEditing && (
-                    <button className="post-button" onClick={handleEditClick}>
-                        <FaEdit />
-                    </button>
-                )}
-                {user.email === post.email && isEditing && (
-                    <>
-                        <button className="post-button" onClick={handleSaveEdit}>
-                            Save
-                        </button>
-                        <button className="post-button" onClick={handleCancelEdit}>
-                            Cancel
-                        </button>
-                    </>
-                )}
-                {isAuthorOrAdmin && (
-                    <button className="post-button delete-button" onClick={handleDelete}>
-                        <FaTrash />
-                    </button>
-                )}
-            </div>
+			<div className="post-footer">
+				<button className="post-button" onClick={handleLike}>
+					{likes} <FaThumbsUp />
+				</button>
+				<button className="post-button" onClick={handleFetchAndDisplayComments}>
+					<FaComment />
+				</button>
+				<button className="post-button" onClick={handleShare}>
+					<FaShare />
+				</button>
+				{user.email === post.email && !isEditing && (
+					<button className="post-button" onClick={handleEditClick}>
+						<FaEdit />
+					</button>
+				)}
+				{user.email === post.email && isEditing && (
+					<>
+						<button className="post-button" onClick={handleSaveEdit}>
+							Save
+						</button>
+						<button className="post-button" onClick={handleCancelEdit}>
+							Cancel
+						</button>
+					</>
+				)}
+				{isAuthorOrAdmin && (
+					<button className="post-button delete-button" onClick={handleDelete}>
+						<FaTrash />
+					</button>
+				)}
+			</div>
 
 			<div className="postComments-section">
 				{postComments &&
