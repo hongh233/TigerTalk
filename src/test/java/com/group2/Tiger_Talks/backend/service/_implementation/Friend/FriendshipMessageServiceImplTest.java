@@ -68,11 +68,11 @@ class FriendshipMessageServiceImplTest {
         FriendshipMessage message = new FriendshipMessage();
         message.setFriendship(mockFriendship(1));
         UserProfile sender = new UserProfile();
-        sender.setEmail("sender@example.com");
+        sender.setEmail("a@dal.ca");
         message.setSender(sender);
 
         when(friendshipRepository.findById(1)).thenReturn(Optional.of(new Friendship()));
-        when(userProfileRepository.findUserProfileByEmail("sender@example.com")).thenReturn(Optional.empty());
+        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.empty());
 
         Optional<String> result = friendshipMessageService.createMessage(message);
         assertEquals("Sender not found", result.get());
@@ -83,17 +83,17 @@ class FriendshipMessageServiceImplTest {
         FriendshipMessage message = new FriendshipMessage();
         message.setFriendship(mockFriendship(1));
         UserProfile sender = new UserProfile();
-        sender.setEmail("sender@example.com");
+        sender.setEmail("sender@dal.ca");
         message.setSender(sender);
         UserProfile receiver = new UserProfile();
-        receiver.setEmail("receiver@example.com");
+        receiver.setEmail("receiver@dal.ca");
         message.setReceiver(receiver);
 
         when(friendshipRepository.findById(1)).thenReturn(Optional.of(new Friendship()));
-        when(userProfileRepository.findUserProfileByEmail("sender@example.com")).thenReturn(Optional.of(sender));
-        when(userProfileRepository.findById(sender.email())).thenReturn(Optional.of(sender));  // 确保 sender 存在
-        when(userProfileRepository.findById("receiver@example.com")).thenReturn(Optional.empty());  // 模拟 receiver 不存在
-        when(userProfileRepository.findUserProfileByEmail("receiver@example.com")).thenReturn(Optional.empty());
+        when(userProfileRepository.findUserProfileByEmail("sender@dal.ca")).thenReturn(Optional.of(sender));
+        when(userProfileRepository.findById(sender.email())).thenReturn(Optional.of(sender));
+        when(userProfileRepository.findById("receiver@dal.ca")).thenReturn(Optional.empty());
+        when(userProfileRepository.findUserProfileByEmail("receiver@dal.ca")).thenReturn(Optional.empty());
 
         Optional<String> result = friendshipMessageService.createMessage(message);
         assertEquals("Receiver not found", result.get());
@@ -104,17 +104,17 @@ class FriendshipMessageServiceImplTest {
         FriendshipMessage message = new FriendshipMessage();
         message.setFriendship(mockFriendship(1));
         UserProfile sender = new UserProfile();
-        sender.setEmail("sender@example.com");
+        sender.setEmail("sender@dal.ca");
         message.setSender(sender);
         UserProfile receiver = new UserProfile();
-        receiver.setEmail("receiver@example.com");
+        receiver.setEmail("receiver@dal.ca");
         message.setReceiver(receiver);
 
         when(friendshipRepository.findById(1)).thenReturn(Optional.of(new Friendship()));
-        when(userProfileRepository.findUserProfileByEmail("sender@example.com")).thenReturn(Optional.of(sender));
-        when(userProfileRepository.findUserProfileByEmail("receiver@example.com")).thenReturn(Optional.of(receiver));
-        when(userProfileRepository.findById(sender.email())).thenReturn(Optional.of(sender));  // 确保 sender 存在
-        when(userProfileRepository.findById(receiver.email())).thenReturn(Optional.of(receiver));  // 确保 receiver 也存在
+        when(userProfileRepository.findUserProfileByEmail("sender@dal.ca")).thenReturn(Optional.of(sender));
+        when(userProfileRepository.findUserProfileByEmail("receiver@dal.ca")).thenReturn(Optional.of(receiver));
+        when(userProfileRepository.findById(sender.email())).thenReturn(Optional.of(sender));
+        when(userProfileRepository.findById(receiver.email())).thenReturn(Optional.of(receiver));
 
         Optional<String> result = friendshipMessageService.createMessage(message);
         assertTrue(result.isEmpty());
@@ -137,12 +137,12 @@ class FriendshipMessageServiceImplTest {
         Friendship mockFriendship = mockFriendship(friendshipId);
 
         UserProfile sender = new UserProfile();
-        sender.setEmail("sender@example.com");
+        sender.setEmail("sender@@dal.ca");
         sender.setUserName("SenderName");
         sender.setProfilePictureUrl("senderPicUrl");
 
         UserProfile receiver = new UserProfile();
-        receiver.setEmail("receiver@example.com");
+        receiver.setEmail("receiver@@dal.ca");
         receiver.setUserName("ReceiverName");
         receiver.setProfilePictureUrl("receiverPicUrl");
 

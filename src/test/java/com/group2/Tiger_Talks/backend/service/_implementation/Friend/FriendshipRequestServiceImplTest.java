@@ -66,10 +66,10 @@ public class FriendshipRequestServiceImplTest {
      */
     @Test
     public void getAllFriendRequests_userNotFound() {
-        when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
+        when(userProfileRepository.findUserProfileByEmail("nonexistent@dal.ca")).thenReturn(Optional.empty());
         Exception exception = assertThrows(
                 IllegalStateException.class,
-                () -> friendshipRequestService.getAllFriendRequests("nonexistent@example.com")
+                () -> friendshipRequestService.getAllFriendRequests("nonexistent@dal.ca")
         );
         assertEquals("User not found", exception.getMessage());
     }
@@ -87,10 +87,10 @@ public class FriendshipRequestServiceImplTest {
      */
     @Test
     public void sendFriendshipRequest_senderNotFound() {
-        when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
+        when(userProfileRepository.findUserProfileByEmail("nonexistent@dal.ca")).thenReturn(Optional.empty());
         Exception exception = assertThrows(
                 IllegalStateException.class,
-                () -> friendshipRequestService.sendFriendshipRequest("nonexistent@example.com", "b@dal.ca")
+                () -> friendshipRequestService.sendFriendshipRequest("nonexistent@dal.ca", "b@dal.ca")
         );
         assertEquals("Sender not found", exception.getMessage());
     }
@@ -98,10 +98,10 @@ public class FriendshipRequestServiceImplTest {
     @Test
     public void sendFriendshipRequest_receiverNotFound() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
+        when(userProfileRepository.findUserProfileByEmail("nonexistent@dal.ca")).thenReturn(Optional.empty());
         Exception exception = assertThrows(
                 IllegalStateException.class,
-                () -> friendshipRequestService.sendFriendshipRequest("a@dal.ca", "nonexistent@example.com")
+                () -> friendshipRequestService.sendFriendshipRequest("a@dal.ca", "nonexistent@dal.ca")
         );
         assertEquals("Receiver not found", exception.getMessage());
     }
@@ -276,10 +276,10 @@ public class FriendshipRequestServiceImplTest {
      */
     @Test
     public void areFriendshipRequestExist_userNotFound() {
-        when(userProfileRepository.findUserProfileByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
+        when(userProfileRepository.findUserProfileByEmail("nonexistent@dal.ca")).thenReturn(Optional.empty());
         Exception exception = assertThrows(
                 IllegalStateException.class,
-                () -> friendshipRequestService.areFriendshipRequestExist("nonexistent@example.com", "a@dal.ca")
+                () -> friendshipRequestService.areFriendshipRequestExist("nonexistent@dal.ca", "a@dal.ca")
         );
         assertEquals("Sender not found", exception.getMessage());
     }

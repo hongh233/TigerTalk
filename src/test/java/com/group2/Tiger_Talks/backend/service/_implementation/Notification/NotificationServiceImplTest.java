@@ -73,7 +73,7 @@ public class NotificationServiceImplTest {
         lenient().when(notification3.getUserProfile()).thenReturn(userProfile);
         lenient().when(notification4.getUserProfile()).thenReturn(userProfile);
         lenient().when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification3, notification4));
-        lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
+        lenient().when(userProfileRepository.findById("user@dal.ca")).thenReturn(Optional.of(userProfile));
         NotificationDTO dto3 = mock(NotificationDTO.class);
         NotificationDTO dto4 = mock(NotificationDTO.class);
 
@@ -82,7 +82,7 @@ public class NotificationServiceImplTest {
         lenient().when(notification3.toDto()).thenReturn(dto3);
         lenient().when(notification4.toDto()).thenReturn(dto4);
 
-        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@dal.ca");
         assertFalse(results.isEmpty());
         assertEquals(2, results.size());
     }
@@ -98,7 +98,7 @@ public class NotificationServiceImplTest {
         lenient().when(notification3.getUserProfile()).thenReturn(userProfile);
         lenient().when(notification4.getUserProfile()).thenReturn(userProfile);
         lenient().when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification3, notification4));
-        lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
+        lenient().when(userProfileRepository.findById("user@dal.ca")).thenReturn(Optional.of(userProfile));
         NotificationDTO dto3 = mock(NotificationDTO.class);
         NotificationDTO dto4 = mock(NotificationDTO.class);
         lenient().when(dto3.createTime()).thenReturn(now.minusHours(1));
@@ -106,7 +106,7 @@ public class NotificationServiceImplTest {
         lenient().when(notification3.toDto()).thenReturn(dto3);
         lenient().when(notification4.toDto()).thenReturn(dto4);
 
-        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@dal.ca");
         assertEquals(dto4.createTime(), results.get(0).createTime());
         assertEquals(dto3.createTime(), results.get(1).createTime());
     }
@@ -122,7 +122,7 @@ public class NotificationServiceImplTest {
         lenient().when(notification3.getUserProfile()).thenReturn(userProfile);
         lenient().when(notification4.getUserProfile()).thenReturn(userProfile);
         lenient().when(userProfile.getNotificationList()).thenReturn(Arrays.asList(notification3, notification4));
-        lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
+        lenient().when(userProfileRepository.findById("user@dal.ca")).thenReturn(Optional.of(userProfile));
         NotificationDTO dto3 = mock(NotificationDTO.class);
         NotificationDTO dto4 = mock(NotificationDTO.class);
         lenient().when(dto3.createTime()).thenReturn(now.minusHours(1));
@@ -130,7 +130,7 @@ public class NotificationServiceImplTest {
         lenient().when(notification3.toDto()).thenReturn(dto3);
         lenient().when(notification4.toDto()).thenReturn(dto4);
 
-        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@dal.ca");
         assertEquals(dto4.content(), results.get(0).content());
         assertEquals(dto3.content(), results.get(1).content());
     }
@@ -144,17 +144,17 @@ public class NotificationServiceImplTest {
         lenient().when(notification.createTime()).thenReturn(now);
         lenient().when(userProfile.getNotificationList()).thenReturn(List.of(notification1));
         lenient().when(notification1.getUserProfile()).thenReturn(userProfile);
-        lenient().when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.of(userProfile));
+        lenient().when(userProfileRepository.findById("user@dal.ca")).thenReturn(Optional.of(userProfile));
 
-        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@dal.ca");
         assertFalse(results.isEmpty());
         assertEquals(1, results.size());
     }
 
     @Test
     public void getNotificationListByUserEmail_userNotFound() {
-        when(userProfileRepository.findById("user@example.com")).thenReturn(Optional.empty());
-        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@example.com");
+        when(userProfileRepository.findById("user@dal.ca")).thenReturn(Optional.empty());
+        List<NotificationDTO> results = notificationService.getNotificationListByUserEmail("user@dal.ca");
         assertTrue(results.isEmpty());
     }
 
