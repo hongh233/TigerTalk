@@ -16,12 +16,24 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
+    /**
+     * Retrieves all notifications for a specific user by their email.
+     *
+     * @param email the email of the user
+     * @return ResponseEntity with a list of notification DTOs
+     */
     @GetMapping("/get/{email}")
     public ResponseEntity<List<NotificationDTO>> getNotificationsByUserEmail(@PathVariable String email) {
         List<NotificationDTO> notifications = notificationService.getNotificationListByUserEmail(email);
         return ResponseEntity.ok(notifications);
     }
 
+    /**
+     * Deletes a notification by its ID.
+     *
+     * @param notificationId the ID of the notification to be deleted
+     * @return ResponseEntity with a success message or a not found status
+     */
     @DeleteMapping("/delete/{notificationId}")
     public ResponseEntity<String> deleteNotification(@PathVariable int notificationId) {
         Optional<String> result = notificationService.deleteNotificationById(notificationId);

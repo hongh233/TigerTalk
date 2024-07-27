@@ -17,6 +17,13 @@ public class GroupSearchController {
     @Autowired
     private Searchable<GroupDTO> groupSearchService;
 
+    /**
+     * Searches for public groups by name based on the search query and user email.
+     *
+     * @param searchQuery the search query string
+     * @param userEmail   the email of the user performing the search
+     * @return a list of GroupDTO objects matching the search criteria
+     */
     @GetMapping("/{searchQuery}/{userEmail}")
     public List<GroupDTO> findPublicGroupByName(@PathVariable String searchQuery, @PathVariable String userEmail) {
         return groupSearchService.search(searchQuery, userEmail);

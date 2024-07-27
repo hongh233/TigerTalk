@@ -7,6 +7,12 @@ import java.util.Optional;
 
 public interface FriendshipService {
 
+    /**
+     * Retrieves all friends of a user as DTOs.
+     *
+     * @param email the email of the user
+     * @return a list of UserProfileDTOFriendship objects representing the user's friends
+     */
     List<UserProfileDTOFriendship> getAllFriendsDTO(String email);
 
     /**
@@ -23,7 +29,9 @@ public interface FriendshipService {
     /**
      * Checks if the given users are friends with each-other
      *
-     * @return True if so else false
+     * @param email1 the email of the first user
+     * @param email2 the email of the second user
+     * @return true if the users are friends, false otherwise
      */
     boolean areFriends(String email1, String email2);
 }

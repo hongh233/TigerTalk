@@ -7,6 +7,12 @@ import java.util.Optional;
 
 public interface FriendshipRequestService {
 
+    /**
+     * Retrieves all friendship requests for a given user.
+     *
+     * @param email the email of the user
+     * @return a list of FriendshipRequestDTO objects
+     */
     List<FriendshipRequestDTO> getAllFriendRequests(String email);
 
     /**
@@ -36,9 +42,18 @@ public interface FriendshipRequestService {
     Optional<String> rejectFriendshipRequest(Integer friendshipRequestId);
 
     /**
-     * @return The number of friend requests in the database
+     * Retrieves the total number of friendship requests in the database.
+     *
+     * @return the number of friendship requests
      */
     int findNumOfTotalRequests();
 
+    /**
+     * Checks if a friendship request exists between two users.
+     *
+     * @param email1 the email of the first user
+     * @param email2 the email of the second user
+     * @return true if a friendship request exists, false otherwise
+     */
     boolean areFriendshipRequestExist(String email1, String email2);
 }

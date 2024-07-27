@@ -19,6 +19,13 @@ public class GeneralSearchController {
     @Autowired
     private Searchable<UserProfileDTO> userSearchController;
 
+    /**
+     * Run a general search for both user profiles and groups based on the search query and user email.
+     *
+     * @param searchQuery the search query string
+     * @param userEmail   the email of the user performing the search
+     * @return a GeneralSearchResult containing the search results for users and groups
+     */
     @GetMapping("/{searchQuery}/{userEmail}")
     public GeneralSearchResult generalSearchResult(@PathVariable String searchQuery, @PathVariable String userEmail) {
         return new GeneralSearchResult(
