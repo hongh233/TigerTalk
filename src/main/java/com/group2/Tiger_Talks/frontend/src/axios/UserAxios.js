@@ -31,3 +31,23 @@ export const updateUser = (updatedUser) => {
 			throw error;
 		});
 };
+
+export const getCurrentUser = (email) => {
+	return axios
+		.get(`${URL}/api/user/getByEmail/${email}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error fetching user", error);
+			throw error;
+		});
+};
+
+export const getGuestUser = (email) => {
+	return axios
+		.get(`${URL}/api/user/getByEmail/${email}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error fetching guest user", error);
+			throw error;
+		});
+};

@@ -1,6 +1,15 @@
 import axios from "axios";
 const URL = process.env.REACT_APP_API_URL;
 
+export const FetchPostsOfOneUser = (email) => {
+	return axios
+		.get(`${URL}/posts/getPostForUser/${email}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error fetching post:", error);
+			throw error;
+		});
+};
 export const handleLikeAxios = (postId, userEmail) => {
 	return axios
 		.put(`${URL}/posts/like/${postId}?userEmail=${userEmail}`)
@@ -21,25 +30,24 @@ export const handleAddCommentAxios = (commentObj) => {
 		});
 };
 
-export const handleEditPostAxios = (postId, content) =>{
+export const handleEditPostAxios = (postId, content) => {
 	return axios
 		.post(`${URL}/posts/editPost/${postId}/${content}`)
-		.then((response)=> response.data)
-		.catch((error)=>{
+		.then((response) => response.data)
+		.catch((error) => {
 			console.error("Error editing post: ", error);
 			throw error;
 		});
 };
 
-
-export const handleDeletePostAxios = (postId) =>{
+export const handleDeletePostAxios = (postId) => {
 	return axios
-	.delete(`${URL}/posts/delete/${postId}`)
-	.then((response)=>response.data)
-	.catch((error)=>{
-		console.error("Error deleting post:",error);
-		throw error;
-	});
+		.delete(`${URL}/posts/delete/${postId}`)
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error deleting post:", error);
+			throw error;
+		});
 };
 
 export const getCommentFromPostId = (postId) => {
@@ -51,4 +59,3 @@ export const getCommentFromPostId = (postId) => {
 			throw error;
 		});
 };
-

@@ -28,13 +28,15 @@ const GroupPost = ({
 	const [commentToggle, setCommentToggle] = useState(false);
 	//get number of comments
 	useEffect(() => {
-		async function fetchComments() {
-			const fetchedComments = await handleGetCommentsForOneGroupPost(
-				post.groupPostId
-			);
-			setPostComments(fetchedComments);
+		if (post.groupPostId) {
+			async function fetchComments() {
+				const fetchedComments = await handleGetCommentsForOneGroupPost(
+					post.groupPostId
+				);
+				setPostComments(fetchedComments);
+			}
+			fetchComments();
 		}
-		fetchComments();
 	}, [commentToggle, post.groupPostId]);
 
 	const handleFetchAndDisplayComments = () => {

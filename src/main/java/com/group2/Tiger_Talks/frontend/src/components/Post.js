@@ -32,11 +32,13 @@ const Post = ({ post, user, removePost }) => {
 
 	//get number of comments
 	useEffect(() => {
-		async function fetchComments() {
-			const fetchedComments = await getCommentFromPostId(post.id);
-			setPostComments(fetchedComments);
+		if (post.id) {
+			async function fetchComments() {
+				const fetchedComments = await getCommentFromPostId(post.id);
+				setPostComments(fetchedComments);
+			}
+			fetchComments();
 		}
-		fetchComments();
 	}, [commentToggle, post.id]);
 
 	const handleLike = async () => {
