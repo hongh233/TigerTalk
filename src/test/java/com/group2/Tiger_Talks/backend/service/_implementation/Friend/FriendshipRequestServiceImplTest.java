@@ -288,7 +288,7 @@ public class FriendshipRequestServiceImplTest {
     public void areFriendshipRequestExist_areFriends_returnsTrue() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
-        when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(new Friendship()));
+        when(friendshipRequestRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(new FriendshipRequest()));
 
         boolean result = friendshipRequestService.areFriendshipRequestExist("a@dal.ca", "b@dal.ca");
         assertTrue(result, "Expected true as a and b are friends");
@@ -298,8 +298,8 @@ public class FriendshipRequestServiceImplTest {
     public void areFriendshipRequestExist_notFriends_returnsFalse() {
         when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
-        when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
-        when(friendshipRepository.findBySenderAndReceiver(userB, userA)).thenReturn(Optional.empty());
+        when(friendshipRequestRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
+        when(friendshipRequestRepository.findBySenderAndReceiver(userB, userA)).thenReturn(Optional.empty());
 
         boolean result = friendshipRequestService.areFriendshipRequestExist("a@dal.ca", "b@dal.ca");
         assertFalse(result, "Expected false as there is no friendship between a and b");

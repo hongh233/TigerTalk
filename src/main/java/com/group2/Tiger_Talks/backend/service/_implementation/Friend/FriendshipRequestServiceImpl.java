@@ -128,8 +128,8 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
                 .orElseThrow(() -> new IllegalStateException("Sender not found"));
         UserProfile receiver = userProfileRepository.findUserProfileByEmail(email2)
                 .orElseThrow(() -> new IllegalStateException("Receiver not found"));
-        return friendshipRepository.findBySenderAndReceiver(sender, receiver).isPresent() ||
-                friendshipRepository.findBySenderAndReceiver(receiver, sender).isPresent();
+        return friendshipRequestRepository.findBySenderAndReceiver(sender, receiver).isPresent() ||
+                friendshipRequestRepository.findBySenderAndReceiver(receiver, sender).isPresent();
     }
 
 

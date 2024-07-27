@@ -4,6 +4,7 @@ import {
 	addFriend,
 	handleDelete,
 	checkFriendship,
+	checkFriendShipRequest,
 } from "./../axios/FriendAxios";
 import { getCurrentUser, getGuestUser } from "./../axios/UserAxios";
 import { FetchPostsOfOneUser } from "./../axios/PostAxios";
@@ -34,6 +35,7 @@ const ProfilePage = () => {
 	const { userEmail } = useParams();
 	const [profileUser, setProfileUser] = useState(null);
 	const [isFriend, setIsFriend] = useState(false);
+	const [requestPending, setRequestPending] = useState(false);
 	const [posts, setPosts] = useState([]);
 	const [friendButtonText, setFriendButtonText] = useState("Add Friend");
 	const [message, setMessage] = useState("");
@@ -78,7 +80,6 @@ const ProfilePage = () => {
 			const checkAreFriends = async () => {
 				try {
 					const response = await checkFriendship(userEmail, user.email);
-					console.log(response);
 					setIsFriend(response);
 					if (response) {
 						setFriendButtonText("Unfriend");
@@ -87,9 +88,17 @@ const ProfilePage = () => {
 					console.error("Error checking friendship status:", error);
 				}
 			};
+			const checkFriendShipRequestExist = async () => {
+				const response = await checkFriendShipRequest(userEmail, user.email);
+				setRequestPending(response);
+				if (response) {
+					setFriendButtonText("Request Pending");
+				}
+			};
 			checkAreFriends();
+			checkFriendShipRequestExist();
 		}
-	}, [profileUser, user, userEmail]);
+	}, [profileUser, user, userEmail, friendButtonText]);
 
 	useEffect(() => {
 		if (profileUser && user) {
@@ -119,22 +128,16 @@ const ProfilePage = () => {
 					handleDelete(user.email, profileUser.email);
 					setIsFriend(false);
 				}
-			} else {
+			} else if (!requestPending) {
 				let params = {
 					senderEmail: user.email,
 					receiverEmail: profileUser.email,
 				};
 				addFriend(params);
-				setFriendButtonText("Friend request sent");
+				window.location.reload();
 			}
 		} catch (error) {
-			if (
-				error.response.data ===
-				"Friendship request has already existed between these users."
-			) {
-				setFriendButtonText("Friend request pending");
-			}
-			console.error("Error sending friend request:", error);
+			console.log("Error sending friend request:", error);
 		}
 	};
 

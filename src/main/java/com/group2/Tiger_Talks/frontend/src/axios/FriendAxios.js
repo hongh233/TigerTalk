@@ -23,6 +23,17 @@ export const checkFriendship = async (senderEmail, receiverEmail) => {
 	}
 };
 
+export const checkFriendShipRequest = async (email1, email2) => {
+	try {
+		const response = await axios.get(
+			`${URL}/friendshipRequests/areFriendshipRequestExist/${email1}/${email2}`
+		);
+		return response.data;
+	} catch (error) {
+		throw error;
+	}
+};
+
 // This axio is used in FriendListPage, FriendMessagePage
 export const getAllFriendsByEmail = async (email) => {
 	try {
