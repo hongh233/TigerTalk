@@ -45,6 +45,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-left: 3%;
 }
 
 .profile-page-user-info-picture {
@@ -64,7 +65,7 @@
 
 .profile-page-user-info-text {
 	width: 70%;
-	padding-left: 3%;
+	padding-left: 2%;
 }
 
 .profile-page-user-info-text h2 {

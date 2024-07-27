@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import {
+	addFriend,
+	handleDelete,
+	checkFriendship,
+} from "./../axios/FriendAxios";
+import { getCurrentUser, getGuestUser } from "./../axios/UserAxios";
+import { FetchPostsOfOneUser } from "./../axios/PostAxios";
 import { useParams, useNavigate } from "react-router-dom";
 // import ProfileNavBar from "../components/ProfileNavBar";
 import NavBar from "../components/NavBar";
@@ -31,7 +37,6 @@ const ProfilePage = () => {
 	const [posts, setPosts] = useState([]);
 	const [friendButtonText, setFriendButtonText] = useState("Add Friend");
 	const [message, setMessage] = useState("");
-
 	const paramUserEmail = useParams().userEmail;
 	const navigate = useNavigate();
 	const [showSetting, setShowSetting] = useState(false);
@@ -43,15 +48,13 @@ const ProfilePage = () => {
 			setShowSetting(false);
 		}
 	}, [paramUserEmail, user.email]);
+
 	useEffect(() => {
 		if (user?.email && userEmail) {
 			const fetchCurrentUser = async (email) => {
 				try {
-					const response = await axios.get(
-						`http://localhost:8085/api/user/getByEmail/${email}`
-					);
-					const data = response.data;
-					dispatch({ type: "SET_USER", payload: data });
+					const response = await getCurrentUser(email);
+					dispatch({ type: "SET_USER", payload: response });
 				} catch (error) {
 					console.error("Error fetching current user data:", error);
 				}
@@ -59,11 +62,8 @@ const ProfilePage = () => {
 
 			const fetchProfileUser = async (email) => {
 				try {
-					const response = await axios.get(
-						`http://localhost:8085/api/user/getByEmail/${email}`
-					);
-					const data = response.data;
-					setProfileUser(data);
+					const response = await getGuestUser(email);
+					setProfileUser(response);
 				} catch (error) {
 					console.error("Error fetching profile user data:", error);
 				}
@@ -77,18 +77,16 @@ const ProfilePage = () => {
 		if (profileUser && user) {
 			const checkAreFriends = async () => {
 				try {
-					const response = await axios.get(
-						`http://localhost:8085/friendships/areFriends/${userEmail}/${user.email}`
-					);
-					setIsFriend(response.data);
-					if (response.data) {
-						setFriendButtonText("You are friends");
+					const response = await checkFriendship(userEmail, user.email);
+					console.log(response);
+					setIsFriend(response);
+					if (response) {
+						setFriendButtonText("Unfriend");
 					}
 				} catch (error) {
 					console.error("Error checking friendship status:", error);
 				}
 			};
-
 			checkAreFriends();
 		}
 	}, [profileUser, user, userEmail]);
@@ -106,26 +104,29 @@ const ProfilePage = () => {
 
 	const fetchPosts = async (email) => {
 		try {
-			const response = await axios.get(
-				`http://localhost:8085/posts/getPostForUser/${email}`
-			);
-			const transformedPosts = formatPost(response.data);
+			const response = await FetchPostsOfOneUser(email);
+			const transformedPosts = formatPost(response);
 			setPosts(transformedPosts);
 		} catch (err) {
 			console.error("There was an error fetching posts!", err);
 		}
 	};
-	console.log(profileUser);
-	const handleAddFriend = async () => {
+
+	const handleFriendShip = async () => {
 		try {
-			await axios.post("http://localhost:8085/friendshipRequests/send", null, {
-				params: {
+			if (isFriend) {
+				if (window.confirm("Are you sure to unfriend?")) {
+					handleDelete(user.email, profileUser.email);
+					setIsFriend(false);
+				}
+			} else {
+				let params = {
 					senderEmail: user.email,
 					receiverEmail: profileUser.email,
-				},
-			});
-
-			setFriendButtonText("Friend request sent");
+				};
+				addFriend(params);
+				setFriendButtonText("Friend request sent");
+			}
 		} catch (error) {
 			if (
 				error.response.data ===
@@ -172,13 +173,23 @@ const ProfilePage = () => {
 											}}
 										></span>
 									</h2>
-									{showSetting && (
+									{showSetting ? (
 										<button
 											className="profile-button"
 											onClick={() => navigate(`/profile/edit`)}
 										>
 											Edit profile
 										</button>
+									) : (
+										profileUser &&
+										profileUser.email !== user.email && (
+											<button
+												className={`profile-button`}
+												onClick={handleFriendShip}
+											>
+												{friendButtonText}
+											</button>
+										)
 									)}
 
 									<p className="profile-stats">
@@ -197,28 +208,18 @@ const ProfilePage = () => {
 										</span>
 									</p>
 									<p>
-										<strong>
-											{profileUser.firstName} {profileUser.lastName}
-										</strong>
+										<strong>Full Name:</strong> {profileUser.firstName}{" "}
+										{profileUser.lastName}
 									</p>
 									<p>
-										<strong>Bio: {profileUser.biography}</strong>
+										<strong>Bio: </strong>
+										{profileUser.biography}
 									</p>
 								</div>
 							</div>
 						</div>
 						<div className="profile-content-post-list">
 							<div className="profile-content-post">
-								{profileUser && profileUser.email !== user.email && (
-									<button
-										className={`friend-button-${
-											isFriend ? "friend" : "not-friend"
-										}`}
-										onClick={handleAddFriend}
-									>
-										{friendButtonText}
-									</button>
-								)}
 								{message.length > 0 ? (
 									<p>{message}</p>
 								) : (
