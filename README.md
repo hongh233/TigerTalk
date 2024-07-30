@@ -152,7 +152,12 @@ curl -X POST http://localhost:8085/api/scripts/setUp
 3. Ensure you have Maven installed on your system. You can check by running `mvn -v` in your terminal. If Maven is not installed, you can download and install it from [Apache Maven's official site](https://maven.apache.org/download.cgi).
 
 
-
+---
+## Group Contribution
+```bash
+chmod +x ./git-stats.sh
+./git-stats.sh
+```
 
 
 
