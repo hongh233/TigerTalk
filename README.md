@@ -25,17 +25,17 @@ To set up and run the frontend, navigate to the `frontend` directory and run the
 
 _Install Dependencies:_
 ```shell
-cd src/main/java/com/group2/Tiger_Talks/frontend
+cd ./frontend
 npm install
 ```
 _Run the Frontend:_
 ```shell
-cd src/main/java/com/group2/Tiger_Talks/frontend
+cd ./frontend
 npm start
 ```
 _Stop Frontend Running:_
 ```shell
-chmod +x ./stop-running-script/stop-frontend-mac.sh
+chmod +x ./backend/stop-running-script/stop-frontend-mac.sh
 ./stop-running-script/stop-frontend-mac.sh
 ```
 </details>
