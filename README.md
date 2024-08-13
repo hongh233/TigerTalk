@@ -2,144 +2,121 @@
 
 The social media platform for Dalhousie University, written in Java, React, Springboot
 
-_[GitLab Repository](https://git.cs.dal.ca/courses/2024-summer/csci3130/Group02)_
+---
+## Contributing
+See [CONTRIBUTING](CONTRIBUTING.md).
+
 
 ---
 ## Build and Run
 To build on your own, follow these instructions. First, make sure you have [JDK 17](https://www.oracle.com/ca-en/java/technologies/downloads/#java17) installed. Other JDk may not work. Open a terminal in the Group02 directory and run the following commands:
 
 
+<!--------------------------------------- frontend --------------------------------------->
 
-
-<!---------------------------------------Linux/macOS--------------------------------------->
-
-
-<details>
-<summary><span style="color: rgb(100, 149, 237);">Linux/macOS</span></summary>
-
-
-<!---------------------------------------Linux/macOS for frontend--------------------------------------->
-<details style="margin-left: 20px;">
-<summary>Frontend</summary>
+### Frontend
 To set up and run the frontend, navigate to the `frontend` directory and run the following commands:
 
-_Install Dependencies:_
+<div class="inline-container">
+<span class="inline-title">
+Install Dependencies:
+</span>
+
 ```shell
-cd ./frontend
-npm install
+cd ./frontend && npm install
 ```
-_Run the Frontend:_
+</div>
+
+
+<div class="inline-container">
+<span class="inline-title">
+Run:
+</span>
+
 ```shell
-cd ./frontend
-npm start
+cd ./frontend && npm start
 ```
-_Stop Frontend Running:_
+</div>
+
+
+<div class="inline-container">
+<span class="inline-title">
+Stop (only for linux/macOS):
+</span>
+
 ```shell
-chmod +x ./backend/stop-running-script/stop-frontend-mac.sh
-./stop-running-script/stop-frontend-mac.sh
+chmod +x ./shell/stopFrontend.sh && ./shell/stopFrontend.sh
 ```
-</details>
+</div>
 
 
-<!---------------------------------------Linux/macOS for backend--------------------------------------->
-<details style="margin-left: 20px;">
-<summary>Backend</summary>
-To build and run the backend, navigate to the `Group02` (root) directory and run the following commands:
+<!--------------------------------------- backend --------------------------------------->
+### Backend
+To build and run the backend, navigate to the `backend` (root) directory and run the following commands:
 
-_Build the Backend:_
+<div class="inline-container">
+<span class="inline-title">
+Build:
+</span>
+
 ```shell
-mvn clean package
+cd ./backend && mvn clean package
 ```
-_Run the Backend:_
+</div>
+
+
+<div class="inline-container">
+<span class="inline-title">
+Run:
+</span>
+
 ```shell
-java -jar target/Tiger_Talks-0.0.1-SNAPSHOT.jar
+java -jar ./backend/target/Tiger_Talks-0.0.1-SNAPSHOT.jar
 ```
-_Stop Backend Running:_
+</div>
+
+
+<div class="inline-container">
+<span class="inline-title">
+Stop (only for linux/macOS):
+</span>
+
 ```shell
-chmod +x ./stop-running-script/stop-backend-mac.sh
-./stop-running-script/stop-backend-mac.sh
+chmod +x ./shell/stopBackend.sh && ./shell/stopBackend.sh
 ```
-</details>
-</details>
-
-
-
-
-<!---------------------------------------Windows--------------------------------------->
-
-
-<details>
-<summary><span style="color: rgb(100, 149, 237);">Windows</span></summary>
-
-
-<!---------------------------------------Windows for frontend--------------------------------------->
-<details style="margin-left: 20px;">
-<summary>Frontend</summary>
-To set up and run the frontend, navigate to the `frontend` directory and run the following commands:
-
-_Install Dependencies:_
-```bash
-cd src/main/java/com/group2/Tiger_Talks/frontend
-npm install
-```
-_Run the Frontend:_
-```bash
-cd src/main/java/com/group2/Tiger_Talks/frontend
-npm run start
-```
-_Stop Frontend Running:_
-```bash
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-./stop-running-script/stop-frontend-win.ps1
-```
-</details>
-
-
-<!---------------------------------------Windows for backend--------------------------------------->
-<details style="margin-left: 20px;">
-<summary>Backend</summary>
-To build and run the backend, navigate to the `Group02` (root) directory and run the following commands:
-
-_Build the Backend:_
-```bash
-mvn clean package
-```
-_Run the Backend:_
-```bash
-java -jar target/Tiger_Talks-0.0.1-SNAPSHOT.jar
-```
-_Stop Backend Running:_
-```bash
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-./stop-running-script/stop-backend-win.ps1
-```
-</details>
-</details>
-
+</div>
 
 
 
 ---
 ## Unit Test
 To run all unit tests in the project, run this command:
-
-`mvn clean test -X`
-
+```shell
+cd ./backend && mvn clean test -X
+```
 
 ---
 ## Database Setting
-_Drop The Database:_
+<div class="inline-container">
+<span class="inline-title">
+Drop Database:
+</span>
 
 ```shell
 curl -X POST http://localhost:8085/api/scripts/dropTables
 ```
+</div>
 
-_Initialize the Database:_
+
+<div class="inline-container">
+<span class="inline-title">
+Initialize Database:
+</span>
 
 ```shell
 curl -X POST http://localhost:8085/api/scripts/setUp
 ```
-
+</div>
 
 ---
 ## Tips
@@ -153,11 +130,21 @@ curl -X POST http://localhost:8085/api/scripts/setUp
 
 
 
-
-
-
 <style>
-details summary:hover {
-  text-decoration: underline;
-}
+   pre {
+      font-size: 14px;
+      padding: 2px 5px 2px 5px;
+      border-radius: 5px;
+      display: inline-block;
+      margin: 0;
+      vertical-align: middle;
+   }
+   .inline-title {
+      margin-right: 8px;
+      line-height: 1.5;
+   }
+   .inline-container {
+      margin-bottom: 3px;
+   }
 </style>
+
