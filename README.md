@@ -18,9 +18,7 @@ To build on your own, follow these instructions. First, make sure you have [JDK 
 To set up and run the frontend, navigate to the `frontend` directory and run the following commands:
 
 <div class="inline-container">
-<span class="inline-title">
-Install Dependencies:
-</span>
+<span class="inline-title">Install Dependencies :</span>
 
 ```shell
 cd ./frontend && npm install
@@ -29,9 +27,7 @@ cd ./frontend && npm install
 
 
 <div class="inline-container">
-<span class="inline-title">
-Run:
-</span>
+<span class="inline-title">Run :</span>
 
 ```shell
 cd ./frontend && npm start
@@ -40,9 +36,7 @@ cd ./frontend && npm start
 
 
 <div class="inline-container">
-<span class="inline-title">
-Stop (only for linux/macOS):
-</span>
+<span class="inline-title">Stop :</span>
 
 ```shell
 chmod +x ./shell/stopFrontend.sh && ./shell/stopFrontend.sh
@@ -55,9 +49,7 @@ chmod +x ./shell/stopFrontend.sh && ./shell/stopFrontend.sh
 To build and run the backend, navigate to the `backend` (root) directory and run the following commands:
 
 <div class="inline-container">
-<span class="inline-title">
-Build:
-</span>
+<span class="inline-title">Build :</span>
 
 ```shell
 cd ./backend && mvn clean package
@@ -66,9 +58,7 @@ cd ./backend && mvn clean package
 
 
 <div class="inline-container">
-<span class="inline-title">
-Run:
-</span>
+<span class="inline-title">Run :</span>
 
 ```shell
 java -jar ./backend/target/Tiger_Talks-0.0.1-SNAPSHOT.jar
@@ -77,14 +67,14 @@ java -jar ./backend/target/Tiger_Talks-0.0.1-SNAPSHOT.jar
 
 
 <div class="inline-container">
-<span class="inline-title">
-Stop (only for linux/macOS):
-</span>
+<span class="inline-title">Stop :</span>
 
 ```shell
 chmod +x ./shell/stopBackend.sh && ./shell/stopBackend.sh
 ```
 </div>
+
+*** Stop only works for linux/macOS ***
 
 
 
@@ -98,9 +88,7 @@ cd ./backend && mvn clean test -X
 ---
 ## Database Setting
 <div class="inline-container">
-<span class="inline-title">
-Drop Database:
-</span>
+<span class="inline-title">Drop Database:</span>
 
 ```shell
 curl -X POST http://localhost:8085/api/scripts/dropTables
@@ -109,9 +97,7 @@ curl -X POST http://localhost:8085/api/scripts/dropTables
 
 
 <div class="inline-container">
-<span class="inline-title">
-Initialize Database:
-</span>
+<span class="inline-title">Initialize Database:</span>
 
 ```shell
 curl -X POST http://localhost:8085/api/scripts/setUp
@@ -128,7 +114,7 @@ curl -X POST http://localhost:8085/api/scripts/setUp
    In application-dev.properties, feel free to set your database info.
 3. Ensure you have Maven installed on your system. You can check by running `mvn -v` in your terminal. If Maven is not installed, you can download and install it from [Apache Maven's official site](https://maven.apache.org/download.cgi).
 
-
+---
 
 <style>
    pre {
@@ -145,6 +131,7 @@ curl -X POST http://localhost:8085/api/scripts/setUp
    }
    .inline-container {
       margin-bottom: 3px;
+margin-left: 2px;
    }
 </style>
 
