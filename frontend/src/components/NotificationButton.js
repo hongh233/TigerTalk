@@ -40,10 +40,12 @@ const NotificationButton = () => {
 					className="notification-icon"
 					onClick={() => navigate(`/profile/${user.email}`)}
 				/>
-				<FaBell className="notification-icon" onClick={toggleNotifications} />
-				{notifications.length > 0 && (
-					<span className="notification-count">{notifications.length}</span>
-				)}
+				<div className="notification-icon-wrapper-real">
+					<FaBell className="notification-icon" onClick={toggleNotifications} />
+					{notifications.length > 0 && (
+						<span className="notification-count">{notifications.length}</span>
+					)}
+				</div>
 				<MdMessage
 					className="notification-icon"
 					onClick={() => navigate(`/friends/message`)}

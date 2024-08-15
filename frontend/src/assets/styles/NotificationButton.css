@@ -9,7 +9,15 @@
 	display: flex;
 	width: 90%;
 	align-items: center;
-	justify-content: space-evenly;
+	gap: 30px;
+}
+
+.notification-icon-wrapper-real {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 }
 
 .notification-icon {
@@ -25,7 +33,7 @@
 .notification-count {
 	position: absolute;
 	top: -8px; /* adjust the position of red icon: up and down */
-	left: 145px; /* adjust the position of red icon: left and right */
+	left: 16px; /* adjust the position of red icon: left and right */
 	background: red;
 	color: white;
 	border-radius: 50%;
