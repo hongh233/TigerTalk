@@ -8,7 +8,7 @@
         <version>3.3.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.group2</groupId>
+    <groupId>tigertalk</groupId>
     <artifactId>Tiger_Talks</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Tiger_Talks</name>
