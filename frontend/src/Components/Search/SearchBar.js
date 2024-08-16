@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { handleGetAllGroups } from "../../axios/GroupAxios";
+import { handleGetAllGroups } from "../../axios/Group/GroupAxios";
 import { findUsersByKeyword, getAllUsers } from "../../axios/UserAxios";
 
 import Dropdown from "./DropDown";

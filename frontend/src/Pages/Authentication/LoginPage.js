@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../assets/styles/Pages/Authentication/LoginPage.css";
 import { useDispatch } from "react-redux";
-import {userLogin} from "../../axios/AuthenticationAxios";
+import {userLogin} from "../../axios/Authentication/LoginAxios";
 
 const LoginPage = () => {
 	const [email, setEmail] = useState("");

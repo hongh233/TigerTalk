@@ -1,23 +1,22 @@
 import React from 'react';
 import '../../assets/styles/Components/Notification/Notification.css';
 import { FaEye, FaTrash } from 'react-icons/fa';
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import {deleteNotification} from "../../axios/Notification/NotificationAxios";
 
 const Notification = ({ notifications, setNotifications }) => {
 
     const navigate = useNavigate();
 
-    const handleDelete = (notificationId) => {
-        axios.delete(`http://localhost:8085/api/notification/delete/${notificationId}`)
-            .then(response => {
-                setNotifications(prevNotifications =>
-                    [...prevNotifications.filter(notification => notification.notificationId !== notificationId)]
-                );
-            })
-            .catch(error => {
-                console.error("There was an error deleting the notification!", error);
-            });
+    const handleDelete = async (notificationId) => {
+        try {
+            await deleteNotification(notificationId);
+            setNotifications(prevNotifications =>
+                prevNotifications.filter(notification => notification.notificationId !== notificationId)
+            );
+        } catch (error) {
+            console.error("Failed to delete the notification.", error);
+        }
     };
 
     const handleView = (notification) => {

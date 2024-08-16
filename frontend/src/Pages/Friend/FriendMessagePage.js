@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 import "../../assets/styles/Pages/Friend/FriendMessagePage.css";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
-import { createMessage, getAllFriendsByEmail, getAllMessagesByFriendshipId } from "../../axios/FriendAxios";
+import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
+import { createMessage, getAllMessagesByFriendshipId } from "../../axios/Friend/FriendshipMessageAxios";
 
 const FriendMessagePage = () => {
 	const user = useSelector((state) => state.user.user);
@@ -25,7 +26,7 @@ const FriendMessagePage = () => {
 		const fetchFriends = async () => {
 			if (user && user.email) {
 				try {
-					const responseData = await getAllFriendsByEmail(user.email);
+					const responseData = await getAllFriendsDTO(user.email);
 					if (responseData.length > 0) {
 						setFriends(responseData);
 						const savedFriendEmail = localStorage.getItem(

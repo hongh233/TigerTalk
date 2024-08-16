@@ -16,16 +16,18 @@ import "../../assets/styles/Pages/Group/ViewGroupPage.css";
 import NavBar from "../../Components/Main/NavBar";
 import PostCreation from "../../Components/Post/PostCreation";
 // axios
-import {
-	handleGetGroupById,
-	checkIsMember,
-	handleJoinGroup,
-	handleLeaveGroup,
-	handleCreatePost,
-	handleGetAllPost,
-	handleGetGroupMembershipId,
-	handleDeleteGroup,
-} from "../../axios/GroupAxios";
+import { handleJoinGroup, handleDeleteGroup, handleGetGroupById,
+	handleGetMembershipID, handleDeleteGroupMembership } from "../../axios/Group/GroupAxios";
+import { handleGetAllPost, handleCreatePost } from "../../axios/Group/GroupPostAxios";
+
+export const checkIsMember = (userEmail, groupId) => {
+	return handleGetMembershipID(userEmail, groupId)
+		.then(() => true)
+		.catch((error) => {
+			console.error("Error getting all groups");
+			return false;
+		});
+};
 
 const ViewGroupPage = () => {
 	const { groupId } = useParams();
@@ -53,7 +55,7 @@ const ViewGroupPage = () => {
 
 				// Check if the current user is a member
 				const memberStatus = await checkIsMember(userEmail, groupId);
-				const groupMembership = await handleGetGroupMembershipId(
+				const groupMembership = await handleGetMembershipID(
 					userEmail,
 					groupId
 				);
@@ -97,7 +99,7 @@ const ViewGroupPage = () => {
 		try {
 			if (window.confirm(`Are you sure you want to leave this group?`)) {
 				if (isMember && !isCreator) {
-					await handleLeaveGroup(groupMembershipId);
+					await handleDeleteGroupMembership(groupMembershipId);
 					window.alert("Leave group successfully!");
 					setIsMember(false);
 					window.location.reload();

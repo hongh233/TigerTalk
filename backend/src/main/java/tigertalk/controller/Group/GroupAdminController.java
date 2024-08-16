@@ -17,17 +17,6 @@ public class GroupAdminController {
     }
 
     /**
-     * Removes a user from a group by their membership ID.
-     *
-     * @param membershipID the ID of the membership to be removed
-     * @return ResponseEntity with a success or error message
-     */
-    @DeleteMapping("/deleteUser/{membershipID}")
-    public ResponseEntity<String> removeUser(@PathVariable Integer membershipID) {
-        return groupController.deleteGroupMembership(membershipID);
-    }
-
-    /**
      * Adds a user to a group by their email and group ID.
      *
      * @param email the email of the user to be added

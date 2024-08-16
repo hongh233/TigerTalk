@@ -6,7 +6,8 @@ import "../../assets/styles/Pages/Friend/FriendListPage.css"; // New CSS file
 import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
 import SearchBar from "../../Components/Search/SearchBar";
 import { filterUsers } from "../../utils/filterFunctions.js";
-import { handleDelete, getAllFriendsByEmail } from "../../axios/FriendAxios";
+import { deleteFriendshipByEmail } from "../../axios/Friend/FriendshipAxios";
+import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
 
 const FriendListPage = () => {
 	const user = useSelector((state) => state.user.user);
@@ -22,7 +23,7 @@ const FriendListPage = () => {
 		const fetchFriends = async () => {
 			if (user && user.email) {
 				try {
-					const responseData = await getAllFriendsByEmail(user.email);
+					const responseData = await getAllFriendsDTO(user.email);
 					if (responseData.length > 0) {
 						setAllFriends(responseData);
 						setFriends(responseData);
@@ -71,7 +72,7 @@ const FriendListPage = () => {
 								user={friend}
 								userEmail={user.email}
 								onDelete={handleDeleteFriend}
-								handleDeleteFn={() => handleDelete(user.email, friend.email)}
+								handleDeleteFn={() => deleteFriendshipByEmail(user.email, friend.email)}
 							/>
 						))
 					) : (

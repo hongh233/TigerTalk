@@ -4,7 +4,7 @@ import Header from "../../Components/Main/Header";
 import NavBar from "../../Components/Main/NavBar";
 import { useSelector } from "react-redux";
 import "../../assets/styles/Pages/Group/CreateGroupPage.css";
-import { handleCreateGroup } from "../../axios/GroupAxios";
+import { handleCreateGroup } from "../../axios/Group/GroupAxios";
 const CreateGroupPage = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user.user);

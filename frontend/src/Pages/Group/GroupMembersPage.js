@@ -5,11 +5,8 @@ import Header from "../../Components/Main/Header";
 import "../../assets/styles/Pages/Group/GroupMemberPage.css";
 import SearchBar from "../../Components/Search/SearchBar";
 import {FaUserPlus} from "react-icons/fa";
-import {
-    handleAddUserToGroupByAdmin,
-    handleDeleteGroupMembership,
-    handleGetGroupMembersByGroupId, handleGetMembershipID,
-} from "../../axios/GroupAxios";
+import { handleAddUserToGroupByAdmin } from "../../axios/Group/GroupAdminAxios";
+import { handleDeleteGroupMembership, handleGetGroupMembersByGroupId, handleGetMembershipID } from "../../axios/Group/GroupAxios";
 import GroupMembership from "../../Components/Group/GroupMembership";
 
 // TODO: {Tyson Pls Do a cleanUp I dont know what im doing :) }

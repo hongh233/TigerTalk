@@ -7,10 +7,7 @@ import Group from "../../Components/Group/Group";
 import SearchBar from "../../Components/Search/SearchBar";
 import { filterGroups } from "../../utils/filterFunctions.js";
 import { ImFilter } from "react-icons/im";
-import {
-	handleGetGroupUserIsMember,
-	handleGetAllGroups,
-} from "../../axios/GroupAxios";
+import { handleGetAllGroups, handleGetGroupUserIsMember } from "../../axios/Group/GroupAxios";
 
 const GroupPage = () => {
 	const user = useSelector((state) => state.user.user);

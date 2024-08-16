@@ -1,7 +1,7 @@
 import React from "react";
-import axios from "axios";
 import {useSelector} from "react-redux";
 import "../../assets/styles/Components/Friend/FriendRecommendations.css";
+import {recommendFriends} from "../../axios/Friend/FriendshipRecommendationAxios";
 
 const FriendRecommendations = () => {
     const user = useSelector((state) => state.user.user);
@@ -9,23 +9,17 @@ const FriendRecommendations = () => {
     const numOfFriends = 4;
 
     React.useEffect(() => {
-        if (user) {
-            axios
-                .get(
-                    `http://localhost:8085/friendships/recommendFriends/${user.email}/${numOfFriends}`,
-                    {
-                        params: {
-                            numOfFriends: numOfFriends,
-                        },
-                    }
-                )
-                .then((response) => {
+        const fetchRecommendations = async () => {
+            if (user) {
+                try {
+                    const response = await recommendFriends(user.email, numOfFriends);
                     setRecommendations(response.data);
-                })
-                .catch((error) => {
+                } catch (error) {
                     console.error("Error fetching friend recommendations:", error);
-                });
+                }
+            }
         }
+        fetchRecommendations();
     }, [user]);
 
     return (

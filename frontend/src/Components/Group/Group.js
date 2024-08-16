@@ -8,7 +8,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/Components/Group/Group.css";
 import { useSelector } from "react-redux";
-import { handleJoinGroup, handleLeaveGroup } from "../../axios/GroupAxios";
+import { handleJoinGroup, handleDeleteGroupMembership } from "../../axios/Group/GroupAxios";
+
+
 const Group = ({ group }) => {
 	const email = useSelector((state) => state.user.user.email);
 	const member = group.groupMemberList.find(
@@ -32,7 +34,7 @@ const Group = ({ group }) => {
 			window.confirm(`Are you sure you want to ${action} this group?`)
 		) {
 			if (isMember) {
-				await handleLeaveGroup(groupMembershipId);
+				await handleDeleteGroupMembership(groupMembershipId);
 				window.alert("Leave group successfully!");
 				window.location.reload();
 			} else {

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	addFriend,
-	handleDelete,
-	checkFriendship,
-	checkFriendShipRequest,
-} from "../../axios/FriendAxios";
+	sendFriendRequest,
+	areFriendshipRequestExist,
+} from "../../axios/Friend/FriendshipRequestAxios";
+import { areFriends } from "../../axios/Friend/FriendshipAxios";
+import {deleteFriendshipByEmail} from "../../axios/Friend/FriendshipAxios";
 import { getCurrentUser, getGuestUser } from "../../axios/UserAxios";
 import { FetchPostsOfOneUser } from "../../axios/PostAxios";
 import { useParams, useNavigate } from "react-router-dom";
@@ -79,7 +79,7 @@ const ProfilePage = () => {
 		if (profileUser && user) {
 			const checkAreFriends = async () => {
 				try {
-					const response = await checkFriendship(userEmail, user.email);
+					const response = await areFriends(userEmail, user.email);
 					setIsFriend(response);
 					if (response) {
 						setFriendButtonText("Unfriend");
@@ -89,7 +89,7 @@ const ProfilePage = () => {
 				}
 			};
 			const checkFriendShipRequestExist = async () => {
-				const response = await checkFriendShipRequest(userEmail, user.email);
+				const response = await areFriendshipRequestExist(userEmail, user.email);
 				setRequestPending(response);
 				if (response) {
 					setFriendButtonText("Request Pending");
@@ -125,7 +125,7 @@ const ProfilePage = () => {
 		try {
 			if (isFriend) {
 				if (window.confirm("Are you sure to unfriend?")) {
-					handleDelete(user.email, profileUser.email);
+					deleteFriendshipByEmail(user.email, profileUser.email);
 					setIsFriend(false);
 				}
 			} else if (!requestPending) {
@@ -133,7 +133,7 @@ const ProfilePage = () => {
 					senderEmail: user.email,
 					receiverEmail: profileUser.email,
 				};
-				addFriend(params);
+				sendFriendRequest(params);
 				window.location.reload();
 			}
 		} catch (error) {

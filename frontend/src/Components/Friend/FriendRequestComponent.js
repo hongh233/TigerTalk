@@ -1,13 +1,11 @@
 import React from "react";
-import axios from "axios";
 import "../../assets/styles/Components/Friend/FriendRequestComponent.css";
+import {acceptFriendRequest, rejectFriendRequest} from "../../axios/Friend/FriendshipRequestAxios";
 
 const FriendRequestComponent = ({request}) => {
     const handleAccept = async () => {
         try {
-            const response = await axios.post(
-                `http://localhost:8085/friendshipRequests/accept?id=${request.id}`
-            );
+            const response = await acceptFriendRequest(request.id);
             if (response.status === 200) {
                 window.alert("Friend request accepted!");
                 window.location.reload();
@@ -20,9 +18,7 @@ const FriendRequestComponent = ({request}) => {
 
     const handleReject = async () => {
         try {
-            const response = await axios.post(
-                `http://localhost:8085/friendshipRequests/reject?id=${request.id}`
-            );
+            const response = await rejectFriendRequest(request.id);
             if (response.status === 200) {
                 window.alert("Friend request rejected!");
                 window.location.reload();

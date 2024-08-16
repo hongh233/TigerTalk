@@ -4,8 +4,8 @@ import { FaBell, FaUser } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import Notification from "./Notification";
 import "../../assets/styles/Components/Notification/NotificationButton.css";
-import axios from "axios";
 import { useSelector } from "react-redux";
+import {getNotifications} from "../../axios/Notification/NotificationAxios";
 
 const NotificationButton = () => {
 	const navigate = useNavigate();
@@ -17,10 +17,8 @@ const NotificationButton = () => {
 		if (user) {
 			const fetchNotifications = async () => {
 				try {
-					const response = await axios.get(
-						`http://localhost:8085/api/notification/get/${user.email}`
-					);
-					setNotifications(response.data);
+					const data = await getNotifications(user.email);
+					setNotifications(data);
 				} catch (err) {
 					console.error("There was an error fetching notifications!", err);
 				}
@@ -28,6 +26,7 @@ const NotificationButton = () => {
 			fetchNotifications();
 		}
 	}, [user]);
+
 
 	const toggleNotifications = () => {
 		setShowNotifications(!showNotifications);

@@ -24,6 +24,6 @@ This means:
 Until now, we don't have too much lists to insert and delete elements. Therefore, arraylist is better for get elements.
 
 ### Align controller with axios calling
-Once a controller method is created, make sure have a correspond Axios calling: `axios.post(URL)` added into the `./frontend/src/axios` folder
+Axios calling is one-to-one mapping to the controller. Once a controller method is created, make sure have a correspond Axios calling: `axios.post(URL)` added into the `./frontend/src/axios` folder
 
 ### To be added...

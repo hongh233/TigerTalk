@@ -1,11 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaHome, FaSignOutAlt, FaUserShield } from "react-icons/fa";
 import GroupTab from "../Group/GroupTab";
 import FriendsTab from "../Friend/FriendsTab";
 import "../../assets/styles/Components/Main/NavBar.css";
+import {userLogout} from "../../axios/Authentication/LoginAxios";
 
 const NavBar = () => {
 	const dispatch = useDispatch();
@@ -13,9 +13,7 @@ const NavBar = () => {
 	const user = useSelector((state) => state.user.user);
 	const handleLogOut = async () => {
 		try {
-			const response = await axios.post(
-				`http://localhost:8085/api/logIn/userLogOut?email=${user.email}`
-			);
+			const response = await userLogout(user.email);
 			if (response.status === 200) {
 				dispatch({ type: "SET_USER", payload: null });
 				navigate("/");

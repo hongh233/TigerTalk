@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import '../../../assets/styles/Pages/Authentication/ForgetPassword/SecurityQuestionsPage.css'
-import {getSecurityQuestions, verifySecurityAnswers} from "../../../axios/AuthenticationAxios";
+import {getSecurityQuestions, verifySecurityAnswers} from "../../../axios/Authentication/PasswordResetAxios";
 
 const SecurityQuestionsPage = () => {
     const {state} = useLocation();

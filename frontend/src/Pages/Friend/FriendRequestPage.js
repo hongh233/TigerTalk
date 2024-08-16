@@ -4,7 +4,7 @@ import Header from "../../Components/Main/Header";
 import "../../assets/styles/Pages/Friend/FriendRequestPage.css"; // Update to the new CSS file
 import FriendRequestComponent from "../../Components/Friend/FriendRequestComponent";
 import {useSelector} from "react-redux";
-import {getAllFriendRequests} from "../../axios/FriendAxios";
+import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
 
 const FriendRequestPage = () => {
     const user = useSelector((state) => state.user.user);
