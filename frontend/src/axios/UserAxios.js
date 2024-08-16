@@ -2,16 +2,6 @@ import axios from "axios";
 
 const URL = process.env.REACT_APP_API_URL;
 
-export const findUsersByKeyword = (searchQuery, userEmail) => {
-	return axios
-		.get(`${URL}/api/search/users/${searchQuery}/${userEmail}`)
-		.then((response) => response.data)
-		.catch((error) => {
-			console.error("Error fetching users", error);
-			throw error;
-		});
-};
-
 export const getAllUsers = () => {
 	return axios
 		.get(`${URL}/api/user/getAllProfiles`)
@@ -40,6 +30,15 @@ export const getCurrentUser = (email) => {
 			console.error("Error fetching user", error);
 			throw error;
 		});
+};
+
+export const fetchUserByEmail = async (userEmail, dispatch) => {
+	try {
+		const response = await axios.get(`${URL}/api/user/getByEmail/${userEmail}`);
+		return response.data;
+	} catch (error) {
+		console.error("Error fetching profile user data:", error);
+	}
 };
 
 export const getGuestUser = (email) => {

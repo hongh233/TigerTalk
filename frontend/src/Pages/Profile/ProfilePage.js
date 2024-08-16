@@ -7,7 +7,7 @@ import {
 import { areFriends } from "../../axios/Friend/FriendshipAxios";
 import {deleteFriendshipByEmail} from "../../axios/Friend/FriendshipAxios";
 import { getCurrentUser, getGuestUser } from "../../axios/UserAxios";
-import { FetchPostsOfOneUser } from "../../axios/PostAxios";
+import { FetchPostsOfOneUser } from "../../axios/Post/PostAxios";
 import { useParams, useNavigate } from "react-router-dom";
 
 import NavBar from "../../Components/Main/NavBar";

@@ -87,19 +87,6 @@ public class PostController {
     }
 
     /**
-     * Deletes a post.
-     *
-     * @param post the post to be deleted
-     * @return ResponseEntity with a success message or an error message if deletion fails
-     */
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deletePost(@RequestBody Post post) {
-        return postService.deletePost(post)
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Post deleted successfully."));
-    }
-
-    /**
      * Updates a post by ID.
      *
      * @param postId the ID of the post to be updated

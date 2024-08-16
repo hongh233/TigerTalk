@@ -39,14 +39,4 @@ public class PostCommentController {
         return ResponseEntity.ok(comments);
     }
 
-    /**
-     * Retrieves all comments.
-     *
-     * @return ResponseEntity with a list of all post comment DTOs
-     */
-    @GetMapping("/getAllComments")
-    public ResponseEntity<List<PostCommentDTO>> getAllComments() {
-        List<PostCommentDTO> comments = postCommentService.getAllComments();
-        return ResponseEntity.ok(comments);
-    }
 }

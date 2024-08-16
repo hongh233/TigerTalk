@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleGetAllGroups } from "../../axios/Group/GroupAxios";
-import { findUsersByKeyword, getAllUsers } from "../../axios/UserAxios";
+import { getAllUsers } from "../../axios/UserAxios";
+import { findUsersByKeyword } from "../../axios/Search/UserSearchAxios";
 
 import Dropdown from "./DropDown";
 import { IoSearch } from "react-icons/io5";

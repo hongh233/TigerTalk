@@ -7,7 +7,7 @@ import PostCreation from "../Components/Post/PostCreation";
 import FriendRecommendations from "../Components/Friend/FriendRecommendations";
 import "../assets/styles/Pages/MainPage.css";
 import axios from "axios";
-import { formatPost } from "../utils/formatPost";
+import {createPost, fetchPosts} from "../axios/Post/PostAxios";
 
 const MainPage = () => {
 	const user = useSelector((state) => state.user.user);
@@ -17,15 +17,11 @@ const MainPage = () => {
 	const [reload, setReload] = useState(false);
 
 	useEffect(() => {
-		axios
-			.get(`http://localhost:8085/posts/getPostForUserAndFriends/${user.email}`)
-			.then((response) => {
-				const transformedPosts = formatPost(response.data);
-				setPosts(transformedPosts);
-			})
-			.catch((error) => {
-				console.error("There was an error on posts!", error);
-			});
+		if (user) {
+			fetchPosts(user.email)
+				.then(transformedPosts => setPosts(transformedPosts))
+				.catch(error => setMessage("Error fetching posts"));
+		}
 	}, [user]);
 
 	useEffect(() => {
@@ -62,17 +58,13 @@ const MainPage = () => {
 		};
 		
 		// Save the new post to the database
-		await axios
-			.post("http://localhost:8085/posts/create", newPost)
-			.then((response) => {
-				const createdPost = response.data;
-				setPosts((prevPosts) => [createdPost, ...prevPosts]);
-				setReload(!reload);
-			})
-			.catch((error) => {
-				console.error("There was an error creating the post!", error);
-				setMessage("Error creating post");
-			});
+		try {
+			const createdPost = await createPost(newPost);
+			setPosts((prevPosts) => [createdPost, ...prevPosts]);
+			setReload(!reload);
+		} catch (error) {
+			setMessage("Error creating post");
+		}
 	};
 	const handleDeletePost = (postId) => {
         setPosts(posts.filter(post => post.id !== postId));

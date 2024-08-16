@@ -8,14 +8,9 @@ import {
 	FaEdit,
 } from "react-icons/fa";
 import Comment from "./Comment";
-import {
-	handleLikeAxios,
-	handleAddCommentAxios,
-	getCommentFromPostId,
-	handleEditPostAxios,
-	handleDeletePostAxios,
-} from "../../axios/PostAxios";
-import { fetchUserByEmail } from "../../axios/AuthenticationAxios";
+import { handleAddCommentAxios, getCommentFromPostId } from "../../axios/Post/PostCommentAxios";
+import { handleLikeAxios, handleEditPostAxios, handleDeletePostAxios } from "../../axios/Post/PostAxios";
+import { fetchUserByEmail } from "../../axios/UserAxios";
 import { formatDate } from "../../utils/formatDate";
 import "../../assets/styles/Components/Post/Post.css";
 
