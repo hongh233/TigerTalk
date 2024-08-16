@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
-import Dropdown from "../components/DropDown";
-import Group from "../components/Group";
-import { filterUsers, filterGroups } from "./../utils/filterFunctions";
+import Header from "../../components/Header";
+import NavBar from "../../components/NavBar";
+import Dropdown from "../../components/DropDown";
+import Group from "../../components/Group";
+import { filterUsers, filterGroups } from "../../utils/filterFunctions";
 import { ImFilter } from "react-icons/im";
-import "./../assets/styles/SearchPage.css";
+import "../../assets/styles/SearchPage.css";
 
 const SearchPage = () => {
 	const { globalUsers } = useSelector((state) => state.globalUsers);
@@ -58,14 +58,13 @@ const SearchPage = () => {
 	};
 
 	return (
-		<div className="search-page-container">
-			<div className="search-content-header">
-				<Header />
-			</div>
-			<div className="search-page">
-				<div className="search-content-nav">
+		<div className="main-page">
+			<Header />
+			<div className="content">
+				<div className="sidebar">
 					<NavBar />
 				</div>
+
 				<div className="search-content-container">
 					<h2>{getFilterHeader()}</h2>
 					<div className="filter-section">

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
+import Header from "../../components/Header";
+import NavBar from "../../components/NavBar";
 import { useSelector } from "react-redux";
-import "../assets/styles/CreateGroupPage.css";
-import { handleCreateGroup } from "./../axios/GroupAxios";
+import "../../assets/styles/CreateGroupPage.css";
+import { handleCreateGroup } from "../../axios/GroupAxios";
 const CreateGroupPage = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user.user);
@@ -42,24 +42,14 @@ const CreateGroupPage = () => {
 			navigate("/group");
 		}
 	};
-    
-	const [isNavVisible, setIsNavVisible] = useState(false);
 
 	return (
-		<div className="group-create-container">
+		<div className="main-page">
 			<Header />
-			<div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-
-
-			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
-                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
-                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
-                    <NavBar />
-                </div>
+			<div className="content">
+				<div className="sidebar">
+					<NavBar />
+				</div>
 
 				<form className="group-create-form" onSubmit={handleSubmit}>
 					<div className="form-group">

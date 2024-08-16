@@ -171,12 +171,13 @@ const FriendMessagePage = () => {
 	};
 
 	return (
-		<div className="group-page" style={{ overflow: "hidden" }}>
+		<div className="main-page">
 			<Header />
-			<div className="group-page-wrapper">
-				<div className="group-nav">
+			<div className="content">
+				<div className="sidebar">
 					<NavBar />
 				</div>
+
 				<div className="friend-message-content-container">
 					<div className="friend-list">
 						<h2>Messages</h2>

@@ -89,10 +89,10 @@ const GroupSettingPage = () =>{
 		}
 	};
 	return (
-		<div className="group-create-container">
+		<div className="main-page">
 			<Header />
-			<div className="group-create-wrapper">
-				<div className="group-create-nav">
+			<div className="content">
+				<div className="sidebar">
 					<NavBar />
 				</div>
 

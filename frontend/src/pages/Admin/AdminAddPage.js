@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import "../assets/styles/AdminAddPage.css";
+import "../../assets/styles/AdminAddPage.css";
 
 const SECURITY_QUESTIONS = [
     "What was your favourite book as a child?",

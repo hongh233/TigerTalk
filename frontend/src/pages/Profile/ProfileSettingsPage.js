@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../components/Header";
+import Header from "../../components/Header";
 
-import "../assets/styles/ProfileSettingsPage.css";
+import "../../assets/styles/ProfileSettingsPage.css";
 import axios from "axios";
-import { uploadImageToCloudinary } from "../utils/cloudinaryUtils";
-import NavBar from "../components/NavBar";
+import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
+import NavBar from "../../components/NavBar";
+
 const ProfileSettingsPage = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user.user);
@@ -101,10 +102,12 @@ const ProfileSettingsPage = () => {
 	}
 
 	return (
-		<div className="profile-settings-container">
+		<div className="main-page">
 			<Header />
-			<div className="profile-settings-wrapper">
-				<NavBar />
+			<div className="content">
+				<div className="sidebar">
+					<NavBar />
+				</div>
 
 				<form className="profile-settings-form" onSubmit={handleSubmit}>
 					<div className="form-group">

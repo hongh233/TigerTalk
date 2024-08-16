@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 import "../../assets/styles/GroupPage.css";
 import Group from "../../components/Group";
 import SearchBar from "../../components/SearchBar";
-import { filterGroups } from "./../../utils/filterFunctions.js";
+import { filterGroups } from "../../utils/filterFunctions.js";
 import { ImFilter } from "react-icons/im";
 import {
 	handleGetGroupUserIsMember,
@@ -18,7 +18,6 @@ const GroupPage = () => {
 	const [allGroups, setAllGroups] = useState([]);
 	const [filteredGroups, setFilteredGroups] = useState([]);
 	const [searchGroupQuery, setSearchGroupQuery] = useState("");
-	const [isNavVisible, setIsNavVisible] = useState(false);
 	const [filterOption, setFilterOption] = useState("all");
 	const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 	const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -80,24 +79,13 @@ const GroupPage = () => {
 	};
 
 	return (
-		<div className="group-page">
+		<div className="main-page">
 			<Header />
-			<div
-				className="menu-toggle"
-				onClick={() => setIsNavVisible(!isNavVisible)}
-			>
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
-
-			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
-				<div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
-					<button className="close-btn" onClick={() => setIsNavVisible(false)}>
-						×
-					</button>
+			<div className="content">
+				<div className="sidebar">
 					<NavBar />
 				</div>
+
 				<div className="group-content-container">
 					<div className="group-page-header">
 						<h2>Search available groups:</h2>

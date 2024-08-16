@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import NavBar from "../components/NavBar";
-import Header from "../components/Header";
-import UserList from "../components/UserList";
+import NavBar from "../../components/NavBar";
+import Header from "../../components/Header";
+import UserList from "../../components/UserList";
 import axios from "axios";
-import "../assets/styles/AdminPage.css";
+import "../../assets/styles/AdminPage.css";
 import { useNavigate } from "react-router-dom";
 
 const AdminPage = () => {
@@ -74,20 +74,13 @@ const AdminPage = () => {
     };
 
     return (
-        <div className="admin-page">
+        <div className="main-page">
             <Header/>
-            <div className="menu-toggle" onClick={() => setIsNavVisible(!isNavVisible)}>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-
-
-			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
-                <div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
-                    <button className="close-btn" onClick={() => setIsNavVisible(false)}>×</button>
+			<div className="content">
+                <div className="sidebar">
                     <NavBar />
                 </div>
+
                 <div className="admin-content">
                     <UserList
                         selectedUsers={selectedUsers}

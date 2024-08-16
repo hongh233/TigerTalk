@@ -1,6 +1,6 @@
 import React from "react"
 import {useNavigate} from 'react-router-dom';
-import '../assets/styles/AdminFailPage.css';
+import '../../assets/styles/AdminFailPage.css';
 
 const AdminFailPage = () => {
     const navigate = useNavigate();

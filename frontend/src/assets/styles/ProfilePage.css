@@ -1,24 +1,3 @@
-.profile-page {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #f0f2f5;
-	height: 100vh;
-}
-
-.profile-nav {
-	height: 100vh;
-	width: 15%;
-}
-
-.profile-content {
-	margin-top: 6vh;
-	display: flex;
-	width: 100vw;
-	height: 100vh;
-	overflow: auto;
-}
-
 .profile-main-content {
 	height: 100vh;
 	width: 85%;

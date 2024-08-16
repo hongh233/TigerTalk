@@ -4,30 +4,30 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/Authentication/SignUpAndLogin/LoginPage";
 import SignUpPage from "./pages/Authentication/SignUpAndLogin/SignUpPage";
 import MainPage from "./pages/MainPage";
-import ProfilePage from "./pages/ProfilePage";
+import ProfilePage from "./pages/Profile/ProfilePage";
 import GroupPage from "./pages/Group/GroupPage";
-import CreateGroupPage from "./pages/CreateGroupPage";
-import AdminPage from "./pages/AdminPage";
-import AdminAddPage from "./pages/AdminAddPage";
-import ProfileSettingsPage from "./pages/ProfileSettingsPage";
+import CreateGroupPage from "./pages/Group/CreateGroupPage";
+import AdminPage from "./pages/Admin/AdminPage";
+import AdminAddPage from "./pages/Admin/AdminAddPage";
+import ProfileSettingsPage from "./pages/Profile/ProfileSettingsPage";
 import ForgotPasswordPage from "./pages/Authentication/ForgetPassword/ForgotPasswordPage";
 import SecurityQuestionsPage from "./pages/Authentication/ForgetPassword/SecurityQuestionsPage";
 import EmailVerificationPage from "./pages/Authentication/ForgetPassword/EmailVerificationPage";
 import FriendRequestPage from "./pages/Friend/FriendRequestPage";
 import FriendListPage from "./pages/Friend/FriendListPage";
-import ViewGroupPage from "./pages/ViewGroupPage";
+import ViewGroupPage from "./pages/Group/ViewGroupPage";
 import ResetPasswordPage from "./pages/Authentication/ForgetPassword/ResetPasswordPage";
-import AuthenticationFailPage from "./pages/AuthenticationFailPage";
+import AuthenticationFailPage from "./pages/FailPage/AuthenticationFailPage";
 import GroupSettingPage from "./pages/Group/GroupSettingPage";
 import GroupMemberPage from "./pages/Group/GroupMembersPage";
 import FriendMessagePage from "./pages/Friend/FriendMessagePage";
-import SearchPage from "./pages/SearchPage";
+import SearchPage from "./pages/Search/SearchPage";
 //REDUX
 import { useSelector } from "react-redux";
 
 import "./assets/styles/App.css";
-import ValidationFailPage from "./pages/ValidationFailPage";
-import AdminFailPage from "./pages/AdminFailPage";
+import ValidationFailPage from "./pages/FailPage/ValidationFailPage";
+import AdminFailPage from "./pages/FailPage/AdminFailPage";
 
 const App = () => {
 	return <AppRoutes />;

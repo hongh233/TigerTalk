@@ -68,12 +68,13 @@ const GroupMemberPage = () => {
     };
 
     return (
-        <div className="member-list-page">
-            <Header/>
+        <div className="main-page">
+            <Header />
             <div className="content">
-                <div className="member-list-nav">
-                    <NavBar/>
+                <div className="sidebar">
+                    <NavBar />
                 </div>
+
                 <div className="member-list-content">
                     <h3>Add new member:</h3>
                     <div

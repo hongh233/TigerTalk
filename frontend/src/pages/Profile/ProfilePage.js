@@ -5,16 +5,16 @@ import {
 	handleDelete,
 	checkFriendship,
 	checkFriendShipRequest,
-} from "./../axios/FriendAxios";
-import { getCurrentUser, getGuestUser } from "./../axios/UserAxios";
-import { FetchPostsOfOneUser } from "./../axios/PostAxios";
+} from "../../axios/FriendAxios";
+import { getCurrentUser, getGuestUser } from "../../axios/UserAxios";
+import { FetchPostsOfOneUser } from "../../axios/PostAxios";
 import { useParams, useNavigate } from "react-router-dom";
-// import ProfileNavBar from "../components/ProfileNavBar";
-import NavBar from "../components/NavBar";
-import Post from "../components/Post";
-import Header from "../components/Header";
-import "../assets/styles/ProfilePage.css";
-import { formatPost } from "./../utils/formatPost";
+
+import NavBar from "../../components/NavBar";
+import Post from "../../components/Post";
+import Header from "../../components/Header";
+import "../../assets/styles/ProfilePage.css";
+import { formatPost } from "../../utils/formatPost";
 
 const getStatusColor = (status) => {
 	switch (status) {
@@ -145,13 +145,13 @@ const ProfilePage = () => {
 		setPosts(posts.filter((post) => post.id !== postId));
 	};
 	return (
-		<div className="profile-page">
+		<div className="main-page">
 			<Header />
-			<div className="profile-content">
-				<div className="profile-nav">
-					{/* {profileUser && <ProfileNavBar profileUser={profileUser} />} */}
-					{profileUser && <NavBar profileUser={profileUser} />}
+			<div className="content">
+				<div className="sidebar">
+					<NavBar />
 				</div>
+
 				{profileUser && (
 					<div className="profile-main-content">
 						<div className="profile-page-user-info">

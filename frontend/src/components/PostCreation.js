@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../assets/styles/PostCreation.css";
 import { useSelector } from "react-redux";
 import { uploadImageToCloudinary } from "../utils/cloudinaryUtils";
+import {FaImage} from "react-icons/fa";
 
 const PostCreation = ({ addPost }) => {
 	const [postContent, setPostContent] = useState("");
@@ -51,10 +52,6 @@ const PostCreation = ({ addPost }) => {
 		handleInputChange({ target: { value: updatedContent } });
 	};
 
-	// const handleTagClick = (tag) => {
-	// 	const userName = tag.substring(1); // Remove the '@' from the tag
-	// 	navigate(`/friends`);
-	// };
 
 	const handleFileChange = async (e) => {
 		const file = e.target.files[0];
@@ -88,18 +85,8 @@ const PostCreation = ({ addPost }) => {
 						<textarea
 							placeholder="What's Happening?"
 							value={postContent}
-							onChange={handleInputChange}
-						></textarea>
-						<div className="location-and-image">
-							{/*TODO: {Raphael} Add tags to posts */}
-							<input
-								type="text"
-								placeholder="Want to tag someone?"
-								value={tagInput}
-								onChange={handleTagInputChange}
-							/>
-							<button onClick={handleAddTag}>+</button>
-						</div>
+							onChange={handleInputChange}>
+						</textarea>
 						<div className="image-upload">
 							<input
 								type="file"
@@ -109,7 +96,7 @@ const PostCreation = ({ addPost }) => {
 								id="fileInput"
 							/>
 							<label htmlFor="fileInput">
-								<span>+</span>
+								<FaImage />
 							</label>
 						</div>
 
@@ -118,13 +105,6 @@ const PostCreation = ({ addPost }) => {
 						<button className="post-creation-button" onClick={handleAddPost}>
 							Post
 						</button>
-						<div className="tags">
-							{/*tags.map((tag, index) => (
-          <span key={index} className="tag" onClick={() => handleTagClick(tag)}>
-            {tag}
-          </span>
-        ))*/}
-						</div>
 					</div>
 				</div>
 			)}

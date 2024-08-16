@@ -7,15 +7,13 @@ import PostCreation from "../components/PostCreation";
 import FriendRecommendations from "../components/FriendRecommendations";
 import "../assets/styles/Main.css";
 import axios from "axios";
-import { formatPost } from "./../utils/formatPost";
+import { formatPost } from "../utils/formatPost";
 const MainPage = () => {
 	const user = useSelector((state) => state.user.user);
 	const dispatch = useDispatch();
 	const [message, setMessage] = useState("");
 	const [posts, setPosts] = useState([]);
 	const [reload, setReload] = useState(false);
-
-	const [isNavVisible, setIsNavVisible] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -82,23 +80,11 @@ const MainPage = () => {
 	return (
 		<div className="main-page">
 			<Header />
-
-			<div
-				className="menu-toggle"
-				onClick={() => setIsNavVisible(!isNavVisible)}
-			>
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
-
-			<div className={`content ${isNavVisible ? "nav-visible" : ""}`}>
-				<div className={`sidebar ${isNavVisible ? "visible" : ""}`}>
-					<button className="close-btn" onClick={() => setIsNavVisible(false)}>
-						×
-					</button>
+			<div className="content">
+				<div className="sidebar">
 					<NavBar />
 				</div>
+
 				<div className="main-content">
 					<div className="post-creation-section">
 						<PostCreation addPost={addPost} />

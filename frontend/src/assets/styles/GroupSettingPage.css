@@ -1,22 +1,4 @@
-.group-create-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	background-color: #f0f2f5;
-	height: 100vh;
-}
 
-.group-create-nav {
-	width: 15%;
-}
-
-.group-create-wrapper {
-	margin-top: 4%;
-	display: flex;
-	width: 100vw;
-	height: 100vh;
-	overflow: auto;
-}
 
 .group-create-form {
 	width: 55%;

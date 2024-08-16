@@ -10,11 +10,11 @@ import {
 	FaUserPlus,
 	FaUserMinus,
 } from "react-icons/fa";
-import GroupPost from "../components/GroupPost";
-import Header from "../components/Header";
-import "../assets/styles/GroupPage.css";
-import NavBar from "../components/NavBar";
-import PostCreation from "./../components/PostCreation";
+import GroupPost from "../../components/GroupPost";
+import Header from "../../components/Header";
+import "../../assets/styles/GroupPage.css";
+import NavBar from "../../components/NavBar";
+import PostCreation from "../../components/PostCreation";
 // axios
 import {
 	handleGetGroupById,
@@ -25,7 +25,7 @@ import {
 	handleGetAllPost,
 	handleGetGroupMembershipId,
 	handleDeleteGroup,
-} from "./../axios/GroupAxios";
+} from "../../axios/GroupAxios";
 
 const ViewGroupPage = () => {
 	const { groupId } = useParams();
@@ -158,10 +158,10 @@ const ViewGroupPage = () => {
 	};
 	return (
 		group && (
-			<div className="group-page">
+			<div className="main-page">
 				<Header />
-				<div className="group-container">
-					<div className="group-nav">
+				<div className="content">
+					<div className="sidebar">
 						<NavBar />
 					</div>
 
