@@ -1,7 +1,7 @@
 import React from "react";
-import "../assets/styles/FriendComponent.css";
+import "../../assets/styles/Components/Friend/FriendshipMembership.css";
 
-const UserComponent = ({ user, handleDeleteFn  }) => {
+const FriendshipMembership = ({ user, handleDeleteFn  }) => {
 
 
 	return (
@@ -24,4 +24,4 @@ const UserComponent = ({ user, handleDeleteFn  }) => {
 	);
 };
 
-export default UserComponent;
+export default FriendshipMembership;

@@ -1,5 +1,5 @@
 import React from 'react';
-import '../assets/styles/Notification.css';
+import '../../assets/styles/Components/Notification/Notification.css';
 import { FaEye, FaTrash } from 'react-icons/fa';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';

@@ -14,10 +14,10 @@ import {
 	getCommentFromPostId,
 	handleEditPostAxios,
 	handleDeletePostAxios,
-} from "./../axios/PostAxios";
-import { fetchUserByEmail } from "./../axios/AuthenticationAxios";
-import { formatDate } from "./../utils/formatDate";
-import "../assets/styles/Post.css";
+} from "../../axios/PostAxios";
+import { fetchUserByEmail } from "../../axios/AuthenticationAxios";
+import { formatDate } from "../../utils/formatDate";
+import "../../assets/styles/Components/Post/Post.css";
 
 const Post = ({ post, user, removePost }) => {
 	const [likes, setLikes] = useState(post.likes || post.numOfLikes);

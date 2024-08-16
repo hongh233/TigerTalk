@@ -1,5 +1,5 @@
 import React from "react";
-import "../assets/styles/DropDown.css";
+import "../../assets/styles/Components/Search/DropDown.css";
 const Dropdown = ({ items, dropdownClassName, handleChoose }) => {
 	console.log(items);
 	const getStatusColor = (status) => {

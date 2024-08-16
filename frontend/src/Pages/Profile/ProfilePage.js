@@ -10,9 +10,9 @@ import { getCurrentUser, getGuestUser } from "../../axios/UserAxios";
 import { FetchPostsOfOneUser } from "../../axios/PostAxios";
 import { useParams, useNavigate } from "react-router-dom";
 
-import NavBar from "../../Components/NavBar";
-import Post from "../../Components/Post";
-import Header from "../../Components/Header";
+import NavBar from "../../Components/Main/NavBar";
+import Post from "../../Components/Post/Post";
+import Header from "../../Components/Main/Header";
 import "../../assets/styles/Pages/Profile/ProfilePage.css";
 import { formatPost } from "../../utils/formatPost";
 

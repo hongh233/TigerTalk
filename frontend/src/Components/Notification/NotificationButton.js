@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaBell, FaUser } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import Notification from "./Notification";
-import "../assets/styles/NotificationButton.css";
+import "../../assets/styles/Components/Notification/NotificationButton.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
 

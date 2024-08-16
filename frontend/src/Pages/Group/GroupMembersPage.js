@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import NavBar from "../../Components/NavBar";
-import Header from "../../Components/Header";
+import NavBar from "../../Components/Main/NavBar";
+import Header from "../../Components/Main/Header";
 import "../../assets/styles/Pages/Group/GroupMemberPage.css";
-import UserComponent from "../../Components/UserComponent";
-import SearchBar from "../../Components/SearchBar";
+import SearchBar from "../../Components/Search/SearchBar";
 import {FaUserPlus} from "react-icons/fa";
 import {
     handleAddUserToGroupByAdmin,
     handleDeleteGroupMembership,
     handleGetGroupMembersByGroupId, handleGetMembershipID,
 } from "../../axios/GroupAxios";
+import GroupMembership from "../../Components/Group/GroupMembership";
 
 // TODO: {Tyson Pls Do a cleanUp I dont know what im doing :) }
 
@@ -96,7 +96,7 @@ const GroupMemberPage = () => {
                     <div className="group-member-list">
                         {members && members.length > 0 ? (
                             members.map((member) => (
-                                <UserComponent
+                                <GroupMembership
                                     key={member.userProfileDTO.email}
                                     user={member.userProfileDTO}
                                     userEmail={member.userProfileDTO.email}

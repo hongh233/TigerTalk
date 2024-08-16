@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import NavBar from "../../Components/NavBar";
-import Header from "../../Components/Header";
+import NavBar from "../../Components/Main/NavBar";
+import Header from "../../Components/Main/Header";
 import "../../assets/styles/Pages/Friend/FriendRequestPage.css"; // Update to the new CSS file
-import FriendRequestComponent from "../../Components/FriendRequestComponent";
+import FriendRequestComponent from "../../Components/Friend/FriendRequestComponent";
 import {useSelector} from "react-redux";
 import {getAllFriendRequests} from "../../axios/FriendAxios";
 

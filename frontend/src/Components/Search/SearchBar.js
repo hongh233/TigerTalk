@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { handleGetAllGroups } from "./../axios/GroupAxios";
-import { findUsersByKeyword, getAllUsers } from "./../axios/UserAxios";
+import { handleGetAllGroups } from "../../axios/GroupAxios";
+import { findUsersByKeyword, getAllUsers } from "../../axios/UserAxios";
 
-import Dropdown from ".//DropDown";
+import Dropdown from "./DropDown";
 import { IoSearch } from "react-icons/io5";
-import "../assets/styles/SearchBar.css";
+import "../../assets/styles/Components/Search/SearchBar.css";
 import {
 	filterGroups,
 	filterUsersAlreadyInGroup,
 	filterUsers,
-} from "./../utils/filterFunctions.js";
+} from "../../utils/filterFunctions.js";
 
 const SearchBar = ({
 	searchType,

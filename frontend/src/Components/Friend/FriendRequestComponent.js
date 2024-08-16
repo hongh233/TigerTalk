@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import "../assets/styles/FriendRequestComponent.css";
+import "../../assets/styles/Components/Friend/FriendRequestComponent.css";
 
 const FriendRequestComponent = ({request}) => {
     const handleAccept = async () => {

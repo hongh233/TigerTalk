@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {HiAcademicCap, HiPlus} from "react-icons/hi";
 import {FaComments} from "react-icons/fa";
-import "../assets/styles/GroupTab.css";
+import "../../assets/styles/Components/Group/GroupTab.css";
 
 const GroupTab = () => {
     const [showGroupTab, setShowGroupTab] = useState(false);

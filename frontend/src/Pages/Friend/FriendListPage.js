@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import NavBar from "../../Components/NavBar";
-import Header from "../../Components/Header";
+import NavBar from "../../Components/Main/NavBar";
+import Header from "../../Components/Main/Header";
 import "../../assets/styles/Pages/Friend/FriendListPage.css"; // New CSS file
-import UserComponent from "../../Components/UserComponent";
-import SearchBar from "../../Components/SearchBar";
+import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
+import SearchBar from "../../Components/Search/SearchBar";
 import { filterUsers } from "../../utils/filterFunctions.js";
 import { handleDelete, getAllFriendsByEmail } from "../../axios/FriendAxios";
 
@@ -66,7 +66,7 @@ const FriendListPage = () => {
 
 					{friends.length > 0 ? (
 						friends.map((friend) => (
-							<UserComponent
+							<FriendshipMembership
 								key={friend.email}
 								user={friend}
 								userEmail={user.email}

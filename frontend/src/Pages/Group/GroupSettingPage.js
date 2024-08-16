@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import Header from "../../Components/Header";
-import NavBar from "../../Components/NavBar";
+import Header from "../../Components/Main/Header";
+import NavBar from "../../Components/Main/NavBar";
 import { handleGetGroupById, handleUpdateGroup } from "../../axios/GroupAxios";
 import "../../assets/styles/Pages/Group/GroupSettingPage.css";
 import {uploadImageToCloudinary} from "../../utils/cloudinaryUtils";

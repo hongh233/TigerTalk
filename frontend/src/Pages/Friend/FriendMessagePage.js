@@ -1,5 +1,5 @@
-import Header from "../../Components/Header";
-import NavBar from "../../Components/NavBar";
+import Header from "../../Components/Main/Header";
+import NavBar from "../../Components/Main/NavBar";
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import "../../assets/styles/Pages/Friend/FriendMessagePage.css";

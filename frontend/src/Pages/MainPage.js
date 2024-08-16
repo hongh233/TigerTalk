@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../Components/Header";
-import NavBar from "../Components/NavBar";
-import Post from "../Components/Post";
-import PostCreation from "../Components/PostCreation";
-import FriendRecommendations from "../Components/FriendRecommendations";
-import "../assets/styles/Main.css";
+import Header from "../Components/Main/Header";
+import NavBar from "../Components/Main/NavBar";
+import Post from "../Components/Post/Post";
+import PostCreation from "../Components/Post/PostCreation";
+import FriendRecommendations from "../Components/Friend/FriendRecommendations";
+import "../assets/styles/Pages/MainPage.css";
 import axios from "axios";
 import { formatPost } from "../utils/formatPost";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import {useSelector} from "react-redux";
-import "../assets/styles/FriendRecommendations.css";
+import "../../assets/styles/Components/Friend/FriendRecommendations.css";
 
 const FriendRecommendations = () => {
     const user = useSelector((state) => state.user.user);

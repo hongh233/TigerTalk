@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import NavBar from "../../Components/NavBar";
-import Header from "../../Components/Header";
+import NavBar from "../../Components/Main/NavBar";
+import Header from "../../Components/Main/Header";
 import "../../assets/styles/Pages/Group/GroupPage.css";
-import Group from "../../Components/Group";
-import SearchBar from "../../Components/SearchBar";
+import Group from "../../Components/Group/Group";
+import SearchBar from "../../Components/Search/SearchBar";
 import { filterGroups } from "../../utils/filterFunctions.js";
 import { ImFilter } from "react-icons/im";
 import {

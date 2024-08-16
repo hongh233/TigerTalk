@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../Components/Header";
-import NavBar from "../../Components/NavBar";
+import Header from "../../Components/Main/Header";
+import NavBar from "../../Components/Main/NavBar";
 import { useSelector } from "react-redux";
 import "../../assets/styles/Pages/Group/CreateGroupPage.css";
 import { handleCreateGroup } from "../../axios/GroupAxios";

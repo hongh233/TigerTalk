@@ -10,11 +10,11 @@ import {
 	FaUserPlus,
 	FaUserMinus,
 } from "react-icons/fa";
-import GroupPost from "../../Components/GroupPost";
-import Header from "../../Components/Header";
+import GroupPost from "../../Components/Group/GroupPost";
+import Header from "../../Components/Main/Header";
 import "../../assets/styles/Pages/Group/ViewGroupPage.css";
-import NavBar from "../../Components/NavBar";
-import PostCreation from "../../Components/PostCreation";
+import NavBar from "../../Components/Main/NavBar";
+import PostCreation from "../../Components/Post/PostCreation";
 // axios
 import {
 	handleGetGroupById,

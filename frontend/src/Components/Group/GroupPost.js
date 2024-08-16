@@ -7,11 +7,9 @@ import {
 	handleLikeAxios,
 	handleDeletePostAxios,
 	handleGetGroupById,
-} from "./../axios/GroupAxios";
-import { formatDate } from "./../utils/formatDate";
-import "../assets/styles/GroupPost.css";
-// import GroupPostDelete from "./GroupPostDelete";
-// import {handleDeleteGroupPost} from "../axios/GroupAxios";
+} from "../../axios/GroupAxios";
+import { formatDate } from "../../utils/formatDate";
+import "../../assets/styles/Components/Group/GroupPost.css";
 
 const GroupPost = ({
 	post,
@@ -94,26 +92,6 @@ const GroupPost = ({
 			alert("Web Share API is not supported in your browser.");
 		}
 	};
-
-	// const renderPostContent = (content) => {
-	// 	const parts = content.split(/(@\w+)/g);
-	// 	return parts.map((part, index) => {
-	// 		if (part.startsWith("@")) {
-	// 			return (
-	// 				<span
-	// 					key={index}
-	// 					className="tag"
-	// 					onClick={() => handleTagClick(part)}
-	// 					style={{ color: "blue", cursor: "pointer" }}
-	// 				>
-	// 					{part}
-	// 				</span>
-	// 			);
-	// 		} else {
-	// 			return part;
-	// 		}
-	// 	});
-	// };
 
 	useEffect(() => {
 		const fetchGroupDetails = async () => {

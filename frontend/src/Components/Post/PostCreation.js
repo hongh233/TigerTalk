@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../assets/styles/PostCreation.css";
+import "../../assets/styles/Components/Post/PostCreation.css";
 import { useSelector } from "react-redux";
-import { uploadImageToCloudinary } from "../utils/cloudinaryUtils";
+import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
 import {FaImage} from "react-icons/fa";
 
 const PostCreation = ({ addPost }) => {

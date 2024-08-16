@@ -6,9 +6,9 @@ import {
 	FaSignInAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import "../assets/styles/Group.css";
+import "../../assets/styles/Components/Group/Group.css";
 import { useSelector } from "react-redux";
-import { handleJoinGroup, handleLeaveGroup } from "./../axios/GroupAxios";
+import { handleJoinGroup, handleLeaveGroup } from "../../axios/GroupAxios";
 const Group = ({ group }) => {
 	const email = useSelector((state) => state.user.user.email);
 	const member = group.groupMemberList.find(

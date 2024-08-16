@@ -1,0 +1,57 @@
+.friend {
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.friend-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.friend-picture img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.friend-details a {
+    font-weight: bold;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.friend-details a:hover {
+    text-decoration: underline;
+}
+
+.friend-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.friend-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.friend-actions button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+}
+
+.friend-actions button:hover {
+    background-color: #e53935;
+}

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import NavBar from "../../Components/NavBar";
-import Header from "../../Components/Header";
-import UserList from "../../Components/UserList";
+import NavBar from "../../Components/Main/NavBar";
+import Header from "../../Components/Main/Header";
+import UserList from "../../Components/Admin/UserList";
 import axios from "axios";
 import "../../assets/styles/Pages/Admin/AdminPage.css";
 import { useNavigate } from "react-router-dom";

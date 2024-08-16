@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Header from "../../Components/Header";
-import NavBar from "../../Components/NavBar";
-import Dropdown from "../../Components/DropDown";
-import Group from "../../Components/Group";
+import Header from "../../Components/Main/Header";
+import NavBar from "../../Components/Main/NavBar";
+import Dropdown from "../../Components/Search/DropDown";
+import Group from "../../Components/Group/Group";
 import { filterUsers, filterGroups } from "../../utils/filterFunctions";
 import { ImFilter } from "react-icons/im";
 import "../../assets/styles/Pages/Search/SearchPage.css";
