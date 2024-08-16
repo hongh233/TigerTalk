@@ -1,0 +1,16 @@
+
+
+.group-create-form {
+	width: 55%;
+	padding-top: 5%;
+	margin: 0 auto;
+}
+
+
+@media (max-width: 768px) {
+	.group-create-form {
+		margin-left: 0;
+		padding: 10px;
+		margin-top: 15%;
+	}
+}

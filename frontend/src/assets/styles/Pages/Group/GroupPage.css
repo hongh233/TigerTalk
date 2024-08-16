@@ -1,0 +1,49 @@
+
+.group-page-search-bar {
+	width: 50%;
+}
+
+
+.group-content-container {
+	display: flex;
+	width: 75%;
+	flex-direction: column;
+}
+
+.group-content-container {
+	display: flex;
+	flex-direction: column;
+	width: 75%;
+	height: 100%;
+}
+
+.group-content {
+	max-height: 600px;
+	overflow: scroll;
+}
+
+.group-filter-button {
+	align-self: center;
+	padding: 10px 20px;
+	background-color: #17a2b8;
+	color: white;
+	font-size: 1em;
+	margin-right: 5px;
+
+	margin-bottom: 8px;
+}
+.filter-icon {
+	width: 10%;
+	cursor: pointer;
+}
+.group-filter-button svg {
+	margin-right: 5px;
+}
+
+.group-filter-button:hover {
+	color: #333;
+}
+
+@media (max-width: 768px) {
+
+}
