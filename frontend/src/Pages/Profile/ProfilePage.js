@@ -6,7 +6,7 @@ import {
 } from "../../axios/Friend/FriendshipRequestAxios";
 import { areFriends } from "../../axios/Friend/FriendshipAxios";
 import {deleteFriendshipByEmail} from "../../axios/Friend/FriendshipAxios";
-import { getCurrentUser, getGuestUser } from "../../axios/UserAxios";
+import { getCurrentUser } from "../../axios/UserAxios";
 import { FetchPostsOfOneUser } from "../../axios/Post/PostAxios";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -64,7 +64,7 @@ const ProfilePage = () => {
 
 			const fetchProfileUser = async (email) => {
 				try {
-					const response = await getGuestUser(email);
+					const response = await getCurrentUser(email);
 					setProfileUser(response);
 				} catch (error) {
 					console.error("Error fetching profile user data:", error);

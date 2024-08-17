@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import "../../assets/styles/Pages/Admin/AdminAddPage.css";
+import {userSignUp} from "../../axios/Authentication/SignUpAxios";
 
 const SECURITY_QUESTIONS = [
     "What was your favourite book as a child?",
@@ -80,30 +81,12 @@ const AdminAddPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const errors = validate();
-        setErrors(errors);
-        if (Object.keys(errors).length === 0) {
+        const validationErrors = validate();
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length === 0) {
             try {
-                await axios.post("http://localhost:8085/api/signUp/userSignUp", {
-                    firstName: form.firstName,
-                    lastName: form.lastName,
-                    age: form.age,
-                    gender: form.gender,
-                    userName: form.userName,
-                    email: form.email,
-                    password: form.password,
-                    securityQuestionsAnswer: [
-                        form.securityAnswer1,
-                        form.securityAnswer2,
-                        form.securityAnswer3,
-                    ],
-                    securityQuestions: [
-                        form.securityQuestion1,
-                        form.securityQuestion2,
-                        form.securityQuestion3,
-                    ],
-                    validated:true,
-                });
+                await userSignUp(form);
                 alert("Added user successfully");
                 navigate("/admin");
             } catch (error) {

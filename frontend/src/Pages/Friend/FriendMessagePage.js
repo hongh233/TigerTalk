@@ -7,6 +7,7 @@ import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
 import { createMessage, getAllMessagesByFriendshipId } from "../../axios/Friend/FriendshipMessageAxios";
+const URL = process.env.REACT_APP_API_URL;
 
 const FriendMessagePage = () => {
 	const user = useSelector((state) => state.user.user);
@@ -57,7 +58,7 @@ const FriendMessagePage = () => {
 	}, [user]);
 
     useEffect(() => {
-        const socket = new SockJS("http://localhost:8085/ws");
+        const socket = new SockJS(`${URL}/ws`);
         const client = new Client({
             webSocketFactory: () => socket,
             reconnectDelay: 5000,

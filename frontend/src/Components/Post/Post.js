@@ -10,7 +10,7 @@ import {
 import Comment from "./Comment";
 import { handleAddCommentAxios, getCommentFromPostId } from "../../axios/Post/PostCommentAxios";
 import { handleLikeAxios, handleEditPostAxios, handleDeletePostAxios } from "../../axios/Post/PostAxios";
-import { fetchUserByEmail } from "../../axios/UserAxios";
+import { getCurrentUser } from "../../axios/UserAxios";
 import { formatDate } from "../../utils/formatDate";
 import "../../assets/styles/Components/Post/Post.css";
 
@@ -59,7 +59,7 @@ const Post = ({ post, user, removePost }) => {
 	const handleAddComment = async () => {
 		setCommentToggle(false); // IT works don't touch
 		//fetch post owner DTO
-		const postSenderUserProfileDTO = await fetchUserByEmail(post.email);
+		const postSenderUserProfileDTO = await getCurrentUser(post.email);
 
 		if (newComment.trim() === "") return;
 		if (postSenderUserProfileDTO) {

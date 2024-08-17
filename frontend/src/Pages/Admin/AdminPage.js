@@ -6,6 +6,7 @@ import UserList from "../../Components/Admin/UserList";
 import axios from "axios";
 import "../../assets/styles/Pages/Admin/AdminPage.css";
 import { useNavigate } from "react-router-dom";
+import {deleteUserProfileByEmail, getAllUsers, updateUser} from "../../axios/UserAxios";
 
 const AdminPage = () => {
     const navigate = useNavigate();
@@ -14,15 +15,11 @@ const AdminPage = () => {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [data, setData] = useState([]);
 
-    const [isNavVisible, setIsNavVisible] = useState(false);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(
-                    "http://localhost:8085/api/user/getAllProfiles"
-                );
-                setData(response.data);
+                const users = await getAllUsers();
+                setData(users);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -33,7 +30,7 @@ const AdminPage = () => {
     const handleEnableDisableUsers = async () => {
         try {
             const promises = selectedUsers.map((email) =>
-                axios.put(`http://localhost:8085/api/user/update`, {
+                updateUser({
                     ...data.find((user) => user.email === email),
                     validated: !data.find((user) => user.email === email).validated,
                 })
@@ -57,9 +54,7 @@ const AdminPage = () => {
     };
     const handleDeleteUsers = async () => {
         try {
-            const promises = selectedUsers.map((email) =>
-                axios.delete(`http://localhost:8085/api/user/deleteByEmail/${email}`)
-            );
+            const promises = selectedUsers.map((email) => deleteUserProfileByEmail(email));
             await Promise.all(promises);
 
             setData((prevData) =>

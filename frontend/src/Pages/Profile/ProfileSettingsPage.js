@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../Components/Main/Header";
 
 import "../../assets/styles/Pages/Profile/ProfileSettingsPage.css";
-import axios from "axios";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
 import NavBar from "../../Components/Main/NavBar";
+import {updateUser} from "../../axios/UserAxios";
 
 const ProfileSettingsPage = () => {
 	const dispatch = useDispatch();
@@ -75,17 +75,9 @@ const ProfileSettingsPage = () => {
 		setErrors({});
 		const updatedUser = { ...user, ...form };
 		try {
-			const response = await axios.put(
-				"http://localhost:8085/api/user/update",
-				updatedUser,
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
+			const responseData = await updateUser(updatedUser);
 			alert("Profile updated successfully");
-			dispatch({ type: "SET_USER", payload: response.data });
+			dispatch({ type: "SET_USER", payload: responseData });
 		} catch (error) {
 			if (error.response && error.response.data) {
 				setErrors(error.response.data);

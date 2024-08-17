@@ -6,8 +6,8 @@ import Post from "../Components/Post/Post";
 import PostCreation from "../Components/Post/PostCreation";
 import FriendRecommendations from "../Components/Friend/FriendRecommendations";
 import "../assets/styles/Pages/MainPage.css";
-import axios from "axios";
 import {createPost, fetchPosts} from "../axios/Post/PostAxios";
+import {getCurrentUser} from "../axios/UserAxios";
 
 const MainPage = () => {
 	const user = useSelector((state) => state.user.user);
@@ -26,19 +26,12 @@ const MainPage = () => {
 
 	useEffect(() => {
 		if (user && reload) {
-			const fetchCurrentUser = async (userEmail) => {
-				try {
-					const response = await axios.get(
-						`http://localhost:8085/api/user/getByEmail/${userEmail}`
-					);
-					const data = response.data;
+			getCurrentUser(user.email)
+				.then(data => {
 					setReload(false);
-					await dispatch({ type: "SET_USER", payload: data });
-				} catch (error) {
-					console.error("Error fetching profile user data:", error);
-				}
-			};
-			fetchCurrentUser(user.email);
+					dispatch({ type: "SET_USER", payload: data });
+				})
+				.catch(error => console.error("Error fetching profile user data:", error));
 		}
 	}, [user, dispatch, reload]);
 
