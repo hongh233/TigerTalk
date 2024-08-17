@@ -21,12 +21,15 @@
 	text-decoration: none;
 	color: #333;
 	font-weight: bold;
+	padding: 5px 10px;
+	transition: background-color 0.3s ease;
 }
 
-.notification-button {
-	width: 20%;
-	display: flex;
-	justify-content: center;
+.home-link:hover {
+	color: #03193d;
+	text-shadow: 0 0 8px rgba(141, 175, 229, 0.8);
+	background-color: #e0e0e0;
+	border-radius: 5px;
 }
 
 
@@ -69,7 +72,6 @@
 
 /* profile icon popup */
 .header-profile-popup {
-	display: none;
 	position: absolute;
 	top: 50px;
 	right: 0;
@@ -93,10 +95,6 @@
 }
 .header-profile-popup p:not(:first-child) {
 	color: #ddd;
-}
-
-.header-profile-picture:hover .header-profile-popup {
-	display: block;
 }
 
 

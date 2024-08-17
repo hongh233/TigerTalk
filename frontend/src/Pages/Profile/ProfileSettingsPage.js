@@ -3,15 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../../Components/Main/Header";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
 import NavBar from "../../Components/Main/NavBar";
+import {useNavigate} from "react-router-dom";
 // Axio:
 import {updateUser} from "../../axios/UserAxios";
 // CSS:
 import "../../assets/styles/Pages/Profile/ProfileSettingsPage.css";
 
 
+
 const ProfileSettingsPage = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user.user);
+	const navigate = useNavigate();
 
 	const [form, setForm] = useState({
 		id: "",
@@ -80,6 +83,7 @@ const ProfileSettingsPage = () => {
 			const responseData = await updateUser(updatedUser);
 			alert("Profile updated successfully");
 			dispatch({ type: "SET_USER", payload: responseData });
+			navigate(`/profile/${user.email}`);
 		} catch (error) {
 			if (error.response && error.response.data) {
 				setErrors(error.response.data);

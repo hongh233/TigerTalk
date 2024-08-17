@@ -1,33 +1,33 @@
 .notification-button {
 	position: relative;
-	display: inline-block;
 	margin-left: 20px;
+	width: 20%;
+	display: flex;
+	justify-content: center;
 }
 
 .notification-icon-wrapper {
 	position: relative;
 	display: flex;
-	width: 90%;
+	width: auto;
 	align-items: center;
-	gap: 30px;
+}
+.notification-icon-wrapper:hover .notification-popup {
+	opacity: 1;
+	transform: translateX(-50%) scale(1);
 }
 
-.notification-icon-wrapper-real {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-}
 
 .notification-icon {
 	font-size: 24px;
 	color: #17a2b8;
 	cursor: pointer;
+	transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .notification-icon:hover {
 	color: #0056b3;
+	transform: scale(1.1);
 }
 
 .notification-count {
@@ -41,4 +41,103 @@
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 1;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
+
+
+
+/* notification page */
+.notification-popup {
+	position: absolute;
+	top: 40px;
+	left: 10%;
+	transform: translateX(-50%);
+	width: 350px;
+	max-height: 300px;
+	overflow-y: auto;
+	background-color: #ffffff;
+	border: 1px solid #ddd;
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	z-index: 1000;
+}
+
+
+
+.notification-popup ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.notification-popup li {
+	display: flex;
+	justify-content: space-between;
+	padding: 12px 15px;
+	color: #343a40;
+	border-bottom: 1px solid #ffffff;
+	border-radius: 5px;
+	transition: background 0.3s ease;
+}
+
+.notification-popup li:hover {
+	background-color: #f1f3f5;
+}
+
+.notification-popup li:last-child {
+	border-bottom: none;
+}
+
+.notification-popup .notification-left {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+.notification-popup .notification-text {
+	font-weight: 500;
+}
+
+.notification-popup .notification-time {
+	color: #868e96;
+	font-size: 0.85em;
+	margin-top: 5px;
+}
+
+.notification-popup .notification-buttons {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.notification-popup .notification-empty {
+	padding: 20px;
+	text-align: center;
+	color: #0e0a0a;
+}
+
+.notification-popup .notification-buttons svg {
+	font-size: 16px;
+	color: #495057;
+	transition: color 0.3s ease;
+}
+
+.notification-popup .notification-buttons svg:hover {
+	color: #212529;
+}
+
+@media (max-width: 768px) {
+	.notification-popup {
+		position: fixed;
+		top: 5%;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 1200;
+		width: 150px;
+		max-height: 50%;
+	}
+}
+
+
+

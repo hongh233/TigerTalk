@@ -167,8 +167,7 @@ const Post = ({ post, user, removePost }) => {
 
 			<div className="post-content">
 				{isEditing ? (
-					<textarea
-						value={editedContent}
+					<textarea value={editedContent}
 						onChange={(e) => setEditedContent(e.target.value)}
 					/>
 				) : (
@@ -202,12 +201,8 @@ const Post = ({ post, user, removePost }) => {
 				)}
 				{user.email === post.email && isEditing && (
 					<>
-						<button className="post-button" onClick={handleSaveEdit}>
-							Save
-						</button>
-						<button className="post-button" onClick={handleCancelEdit}>
-							Cancel
-						</button>
+						<button className="post-button" onClick={handleSaveEdit}>Save</button>
+						<button className="post-button" onClick={handleCancelEdit}>Cancel</button>
 					</>
 				)}
 				{isAuthorOrAdmin && (
