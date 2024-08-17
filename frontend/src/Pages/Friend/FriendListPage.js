@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import NavBar from "../../Components/Main/NavBar";
 import Header from "../../Components/Main/Header";
-import "../../assets/styles/Pages/Friend/FriendListPage.css"; // New CSS file
 import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
 import SearchBar from "../../Components/Search/SearchBar";
 import { filterUsers } from "../../utils/filterFunctions.js";
+// Axio:
 import { deleteFriendshipByEmail } from "../../axios/Friend/FriendshipAxios";
 import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
+// CSS:
+import "../../assets/styles/Pages/Friend/FriendListPage.css";
+
 
 const FriendListPage = () => {
 	const user = useSelector((state) => state.user.user);

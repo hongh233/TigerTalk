@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import "../../../assets/styles/Pages/Authentication/ForgetPassword/EmailVerificationPage.css";
+// Axio:
 import {validateToken} from "../../../axios/Authentication/PasswordResetAxios";
+// CSS:
+import "../../../assets/styles/Pages/Authentication/ForgetPassword/EmailVerificationPage.css";
+
 
 const EmailVerificationPage = () => {
     const {state} = useLocation();

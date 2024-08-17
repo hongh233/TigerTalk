@@ -5,9 +5,12 @@ import NavBar from "../Components/Main/NavBar";
 import Post from "../Components/Post/Post";
 import PostCreation from "../Components/Post/PostCreation";
 import FriendRecommendations from "../Components/Friend/FriendRecommendations";
-import "../assets/styles/Pages/MainPage.css";
+// Axio:
 import {createPost, fetchPosts} from "../axios/Post/PostAxios";
 import {getCurrentUser} from "../axios/UserAxios";
+// CSS:
+import "../assets/styles/Pages/MainPage.css";
+
 
 const MainPage = () => {
 	const user = useSelector((state) => state.user.user);

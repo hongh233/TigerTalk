@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { FaBell } from "react-icons/fa";
 import Notification from "./Notification";
-import "../../assets/styles/Components/Notification/NotificationButton.css";
 import { useSelector } from "react-redux";
+// Icon:
+import { FaBell } from "react-icons/fa";
+// Axio:
 import {getNotifications} from "../../axios/Notification/NotificationAxios";
+// CSS:
+import "../../assets/styles/Components/Notification/NotificationButton.css";
+
 
 const NotificationButton = () => {
 	const user = useSelector((state) => state.user.user);

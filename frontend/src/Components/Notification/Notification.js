@@ -1,8 +1,12 @@
 import React from 'react';
-import '../../assets/styles/Components/Notification/Notification.css';
-import { FaEye, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+// Icon:
+import { FaEye, FaTrash } from 'react-icons/fa';
+// Axio:
 import {deleteNotification} from "../../axios/Notification/NotificationAxios";
+// CSS:
+import '../../assets/styles/Components/Notification/Notification.css';
+
 
 const Notification = ({ notifications, setNotifications }) => {
 

@@ -1,5 +1,8 @@
 import React from "react";
+// CSS:
 import "../../assets/styles/Components/Group/GroupComment.css";
+
+
 const GroupComment = ({ postComment }) => {
 	const formatDate = (timestamp) => {
 		const date = new Date(timestamp);

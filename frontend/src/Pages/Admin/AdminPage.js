@@ -3,10 +3,12 @@ import {useDispatch, useSelector} from "react-redux";
 import NavBar from "../../Components/Main/NavBar";
 import Header from "../../Components/Main/Header";
 import UserList from "../../Components/Admin/UserList";
-import axios from "axios";
-import "../../assets/styles/Pages/Admin/AdminPage.css";
 import { useNavigate } from "react-router-dom";
+// Axio:
 import {deleteUserProfileByEmail, getAllUsers, updateUser} from "../../axios/UserAxios";
+// CSS:
+import "../../assets/styles/Pages/Admin/AdminPage.css";
+
 
 const AdminPage = () => {
     const navigate = useNavigate();

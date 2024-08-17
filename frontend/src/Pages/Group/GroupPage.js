@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import NavBar from "../../Components/Main/NavBar";
 import Header from "../../Components/Main/Header";
-import "../../assets/styles/Pages/Group/GroupPage.css";
 import Group from "../../Components/Group/Group";
 import SearchBar from "../../Components/Search/SearchBar";
 import { filterGroups } from "../../utils/filterFunctions.js";
+// Icon:
 import { ImFilter } from "react-icons/im";
+// Axio:
 import { handleGetAllGroups, handleGetGroupUserIsMember } from "../../axios/Group/GroupAxios";
+// CSS:
+import "../../assets/styles/Pages/Group/GroupPage.css";
+
 
 const GroupPage = () => {
 	const user = useSelector((state) => state.user.user);

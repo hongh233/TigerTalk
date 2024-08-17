@@ -2,14 +2,16 @@ import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import NavBar from "../../Components/Main/NavBar";
 import Header from "../../Components/Main/Header";
-import "../../assets/styles/Pages/Group/GroupMemberPage.css";
+import GroupMembership from "../../Components/Group/GroupMembership";
 import SearchBar from "../../Components/Search/SearchBar";
+// Icon:
 import {FaUserPlus} from "react-icons/fa";
+// Axio:
 import { handleAddUserToGroupByAdmin } from "../../axios/Group/GroupAdminAxios";
 import { handleDeleteGroupMembership, handleGetGroupMembersByGroupId, handleGetMembershipID } from "../../axios/Group/GroupAxios";
-import GroupMembership from "../../Components/Group/GroupMembership";
+// CSS:
+import "../../assets/styles/Pages/Group/GroupMemberPage.css";
 
-// TODO: {Tyson Pls Do a cleanUp I dont know what im doing :) }
 
 const GroupMemberPage = () => {
     const {groupId} = useParams();

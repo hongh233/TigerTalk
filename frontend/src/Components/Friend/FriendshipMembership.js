@@ -1,5 +1,7 @@
 import React from "react";
+// CSS:
 import "../../assets/styles/Components/Friend/FriendshipMembership.css";
+
 
 const FriendshipMembership = ({ user, handleDeleteFn  }) => {
 

@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-	FaComment,
-	FaShare,
-	FaThumbsUp,
-	FaTrash,
-	FaEdit,
-} from "react-icons/fa";
 import Comment from "./Comment";
+import { formatDate } from "../../utils/formatDate";
+// Icon:
+import { FaComment, FaShare, FaThumbsUp, FaTrash, FaEdit } from "react-icons/fa";
+// Axio:
 import { handleAddCommentAxios, getCommentFromPostId } from "../../axios/Post/PostCommentAxios";
 import { handleLikeAxios, handleEditPostAxios, handleDeletePostAxios } from "../../axios/Post/PostAxios";
 import { getCurrentUser } from "../../axios/UserAxios";
-import { formatDate } from "../../utils/formatDate";
+// CSS:
 import "../../assets/styles/Components/Post/Post.css";
+
 
 const Post = ({ post, user, removePost }) => {
 	const [likes, setLikes] = useState(post.likes || post.numOfLikes);

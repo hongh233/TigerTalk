@@ -2,12 +2,15 @@ import Header from "../../Components/Main/Header";
 import NavBar from "../../Components/Main/NavBar";
 import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
-import "../../assets/styles/Pages/Friend/FriendMessagePage.css";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+const URL = process.env.REACT_APP_API_URL;
+// Axio:
 import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
 import { createMessage, getAllMessagesByFriendshipId } from "../../axios/Friend/FriendshipMessageAxios";
-const URL = process.env.REACT_APP_API_URL;
+// CSS:
+import "../../assets/styles/Pages/Friend/FriendMessagePage.css";
+
 
 const FriendMessagePage = () => {
 	const user = useSelector((state) => state.user.user);

@@ -1,6 +1,8 @@
 import React from "react"
 import {useNavigate} from 'react-router-dom';
+// CSS:
 import '../../assets/styles/Pages/FailPage/ValidationFailPage.css';
+
 
 const ValidationFailPage = () => {
     const navigate = useNavigate();

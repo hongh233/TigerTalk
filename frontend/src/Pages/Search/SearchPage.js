@@ -6,8 +6,11 @@ import NavBar from "../../Components/Main/NavBar";
 import Dropdown from "../../Components/Search/DropDown";
 import Group from "../../Components/Group/Group";
 import { filterUsers, filterGroups } from "../../utils/filterFunctions";
+// Icon:
 import { ImFilter } from "react-icons/im";
+// CSS:
 import "../../assets/styles/Pages/Search/SearchPage.css";
+
 
 const SearchPage = () => {
 	const { globalUsers } = useSelector((state) => state.globalUsers);

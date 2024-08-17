@@ -1,7 +1,10 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import "../../assets/styles/Pages/Authentication/SignUpPage.css";
+// Axio:
 import {userSignUp} from "../../axios/Authentication/SignUpAxios";
+// CSS:
+import "../../assets/styles/Pages/Authentication/SignUpPage.css";
+
 
 const SECURITY_QUESTIONS = [
     "What was your favourite book as a child?",

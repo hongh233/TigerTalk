@@ -1,11 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaHome, FaSignOutAlt, FaUserShield } from "react-icons/fa";
 import GroupTab from "./GroupTab";
 import FriendsTab from "./FriendsTab";
-import "../../assets/styles/Components/Main/NavBar.css";
+// Icon:
+import { FaHome, FaSignOutAlt, FaUserShield } from "react-icons/fa";
+// Axio:
 import {userLogout} from "../../axios/Authentication/LoginAxios";
+// CSS:
+import "../../assets/styles/Components/Main/NavBar.css";
+
 
 const NavBar = () => {
 	const dispatch = useDispatch();

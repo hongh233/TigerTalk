@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../Components/Main/Header";
-
-import "../../assets/styles/Pages/Profile/ProfileSettingsPage.css";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
 import NavBar from "../../Components/Main/NavBar";
+// Axio:
 import {updateUser} from "../../axios/UserAxios";
+// CSS:
+import "../../assets/styles/Pages/Profile/ProfileSettingsPage.css";
+
 
 const ProfileSettingsPage = () => {
 	const dispatch = useDispatch();

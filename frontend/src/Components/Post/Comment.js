@@ -1,5 +1,8 @@
 import React from "react";
+// CSS:
 import "../../assets/styles/Components/Post/Comment.css";
+
+
 const Comment = ({ postComment }) => {
 	const formatDate = (timestamp) => {
 		const date = new Date(timestamp);

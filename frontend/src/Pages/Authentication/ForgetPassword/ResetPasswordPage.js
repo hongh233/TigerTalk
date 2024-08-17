@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import "../../../assets/styles/Pages/Authentication/ForgetPassword/ResetPasswordPage.css";
+// Axio:
 import {resetPassword} from "../../../axios/Authentication/PasswordResetAxios";
+// CSS:
+import "../../../assets/styles/Pages/Authentication/ForgetPassword/ResetPasswordPage.css";
+
 
 const ResetPasswordPage = () => {
     const {state} = useLocation();

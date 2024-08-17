@@ -3,8 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../Components/Main/Header";
 import NavBar from "../../Components/Main/NavBar";
 import { useSelector } from "react-redux";
-import "../../assets/styles/Pages/Group/CreateGroupPage.css";
+// Axio:
 import { handleCreateGroup } from "../../axios/Group/GroupAxios";
+// CSS:
+import "../../assets/styles/Pages/Group/CreateGroupPage.css";
+
+
 const CreateGroupPage = () => {
 	const navigate = useNavigate();
 	const user = useSelector((state) => state.user.user);

@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	sendFriendRequest,
-	areFriendshipRequestExist,
-} from "../../axios/Friend/FriendshipRequestAxios";
+import { useParams, useNavigate } from "react-router-dom";
+import NavBar from "../../Components/Main/NavBar";
+import Post from "../../Components/Post/Post";
+import Header from "../../Components/Main/Header";
+import { formatPost } from "../../utils/formatPost";
+// Axio:
+import { sendFriendRequest, areFriendshipRequestExist } from "../../axios/Friend/FriendshipRequestAxios";
 import { areFriends } from "../../axios/Friend/FriendshipAxios";
 import {deleteFriendshipByEmail} from "../../axios/Friend/FriendshipAxios";
 import { getCurrentUser } from "../../axios/UserAxios";
 import { FetchPostsOfOneUser } from "../../axios/Post/PostAxios";
-import { useParams, useNavigate } from "react-router-dom";
-
-import NavBar from "../../Components/Main/NavBar";
-import Post from "../../Components/Post/Post";
-import Header from "../../Components/Main/Header";
+// CSS:
 import "../../assets/styles/Pages/Profile/ProfilePage.css";
-import { formatPost } from "../../utils/formatPost";
+
 
 const getStatusColor = (status) => {
 	switch (status) {

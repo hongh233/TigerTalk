@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+// Icon:
 import { HiUserGroup } from "react-icons/hi";
 import { FaUserFriends, FaUserPlus } from "react-icons/fa";
-import "../../assets/styles/Components/Friend/FriendsTab.css";
 import {MdMessage} from "react-icons/md";
+// CSS:
+import "../../assets/styles/Components/Friend/FriendsTab.css";
+
 
 const FriendsTab = () => {
 	const [showGroupTab, setShowGroupTab] = useState(false);

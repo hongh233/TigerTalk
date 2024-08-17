@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import "../../assets/styles/Components/Post/PostCreation.css";
 import { useSelector } from "react-redux";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
+// Icon:
 import {FaImage} from "react-icons/fa";
+// CSS:
+import "../../assets/styles/Components/Post/PostCreation.css";
+
 
 const PostCreation = ({ addPost }) => {
 	const [postContent, setPostContent] = useState("");

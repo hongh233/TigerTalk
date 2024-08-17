@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from "react";
 import NavBar from "../../Components/Main/NavBar";
 import Header from "../../Components/Main/Header";
-import "../../assets/styles/Pages/Friend/FriendRequestPage.css"; // Update to the new CSS file
 import FriendRequestComponent from "../../Components/Friend/FriendRequestComponent";
 import {useSelector} from "react-redux";
+// Axio:
 import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
+// CSS:
+import "../../assets/styles/Pages/Friend/FriendRequestPage.css";
+
 
 const FriendRequestPage = () => {
     const user = useSelector((state) => state.user.user);

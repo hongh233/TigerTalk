@@ -1,8 +1,10 @@
 import React from "react";
 import NotificationButton from "../Notification/NotificationButton";
 import SearchBar from "../Search/SearchBar";
-import "../../assets/styles/Components/Main/Header.css";
 import {useSelector} from "react-redux";
+// CSS:
+import "../../assets/styles/Components/Main/Header.css";
+
 
 const Header = () => {
 	const user = useSelector((state) => state.user.user);

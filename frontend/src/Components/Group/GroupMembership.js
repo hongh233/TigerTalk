@@ -1,5 +1,7 @@
 import React from "react";
+// CSS:
 import "../../assets/styles/Components/Group/GroupMembership.css";
+
 
 const GroupMembership = ({ user, handleDeleteFn  }) => {
 

@@ -1,9 +1,11 @@
-import { FaLock, FaUnlock, FaCog,
-	FaSignOutAlt, FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import "../../assets/styles/Components/Group/Group.css";
 import { useSelector } from "react-redux";
+// Icon:
+import { FaLock, FaUnlock, FaCog, FaSignOutAlt, FaSignInAlt } from "react-icons/fa";
+// Axio:
 import { handleJoinGroup, handleDeleteGroupMembership } from "../../axios/Group/GroupAxios";
+// CSS:
+import "../../assets/styles/Components/Group/Group.css";
 
 
 const Group = ({ group }) => {

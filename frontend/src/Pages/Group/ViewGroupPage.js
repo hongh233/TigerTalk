@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-	FaCog,
-	FaLock,
-	FaTrashAlt,
-	FaUsers,
-	FaUnlock,
-	FaUserPlus,
-	FaUserMinus,
-} from "react-icons/fa";
 import GroupPost from "../../Components/Group/GroupPost";
 import Header from "../../Components/Main/Header";
-import "../../assets/styles/Pages/Group/ViewGroupPage.css";
 import NavBar from "../../Components/Main/NavBar";
 import PostCreation from "../../Components/Post/PostCreation";
-// axios
-import { handleJoinGroup, handleDeleteGroup, handleGetGroupById,
-	handleGetMembershipID, handleDeleteGroupMembership } from "../../axios/Group/GroupAxios";
+// Icon:
+import { FaCog, FaLock, FaTrashAlt, FaUsers, FaUnlock, FaUserPlus, FaUserMinus } from "react-icons/fa";
+// Axio:
+import { handleJoinGroup, handleDeleteGroup, handleGetGroupById, handleGetMembershipID, handleDeleteGroupMembership } from "../../axios/Group/GroupAxios";
 import { handleGetAllPost, handleCreatePost } from "../../axios/Group/GroupPostAxios";
+// CSS:
+import "../../assets/styles/Pages/Group/ViewGroupPage.css";
+
 
 export const checkIsMember = (userEmail, groupId) => {
 	return handleGetMembershipID(userEmail, groupId)
