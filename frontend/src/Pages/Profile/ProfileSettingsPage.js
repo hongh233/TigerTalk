@@ -110,57 +110,27 @@ const ProfileSettingsPage = () => {
 				<form className="profile-settings-form" onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label>First Name</label>
-						<input
-							type="text"
-							name="firstName"
-							placeholder="First name"
-							value={form.firstName}
-							onChange={handleChange}
-						/>
+						<input type="text" name="firstName" placeholder="First name" value={form.firstName} onChange={handleChange}/>
 						{errors.firstName && <p className="error">{errors.firstName}</p>}
 					</div>
 					<div className="form-group">
 						<label>Last Name</label>
-						<input
-							type="text"
-							name="lastName"
-							placeholder="Last name"
-							value={form.lastName}
-							onChange={handleChange}
-						/>
+						<input type="text" name="lastName" placeholder="Last name" value={form.lastName} onChange={handleChange}/>
 						{errors.lastName && <p className="error">{errors.lastName}</p>}
 					</div>
 					<div className="form-group">
 						<label>User Name</label>
-						<input
-							type="text"
-							name="userName"
-							placeholder="User name"
-							value={form.userName}
-							onChange={handleChange}
-						/>
+						<input type="text" name="userName" placeholder="User name" value={form.userName} onChange={handleChange}/>
 						{errors.userName && <p className="error">{errors.userName}</p>}
 					</div>
 					<div className="form-group">
 						<label>Personal Interest</label>
-						<input
-							type="text"
-							name="biography"
-							placeholder="Personal Interest"
-							value={form.biography}
-							onChange={handleChange}
-						/>
+						<input type="text" name="biography" placeholder="Personal Interest" value={form.biography} onChange={handleChange}/>
 						{errors.biography && <p className="error">{errors.biography}</p>}
 					</div>
 					<div className="form-group">
 						<label>Age</label>
-						<input
-							type="number"
-							name="age"
-							placeholder="Age"
-							value={form.age}
-							onChange={handleChange}
-						/>
+						<input type="number" name="age" placeholder="Age" value={form.age} onChange={handleChange}/>
 						{errors.age && <p className="error">{errors.age}</p>}
 					</div>
 					<div className="form-group">
@@ -175,11 +145,7 @@ const ProfileSettingsPage = () => {
 					</div>
 					<div className="form-group">
 						<label>Status</label>
-						<select
-							name="onlineStatus"
-							value={form.onlineStatus}
-							onChange={handleChange}
-						>
+						<select name="onlineStatus" value={form.onlineStatus} onChange={handleChange}>
 							<option value="">Select Status</option>
 							<option value="available">Available</option>
 							<option value="busy">Busy</option>
@@ -191,11 +157,7 @@ const ProfileSettingsPage = () => {
 					</div>
 					<div className="form-group">
 						<label>Profile Picture</label>
-						<input
-							type="file"
-							name="profilePicture"
-							onChange={handleFileChange}
-						/>
+						<input type="file" name="profilePicture" onChange={handleFileChange}/>
 						{uploading && <p>Uploading...</p>}
 						{form.profilePictureUrl && (
 							<img src={form.profilePictureUrl} alt="Profile" width="100" />

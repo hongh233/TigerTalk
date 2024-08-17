@@ -5,6 +5,9 @@ import NavBar from "../../Components/Main/NavBar";
 import Post from "../../Components/Post/Post";
 import Header from "../../Components/Main/Header";
 import { formatPost } from "../../utils/formatPost";
+// Icon:
+import { MdCheckCircle, MdRemoveCircle, MdAccessTimeFilled } from 'react-icons/md';
+import { IoMdCloseCircle } from "react-icons/io";
 // Axio:
 import { sendFriendRequest, areFriendshipRequestExist } from "../../axios/Friend/FriendshipRequestAxios";
 import { areFriends } from "../../axios/Friend/FriendshipAxios";
@@ -15,18 +18,19 @@ import { FetchPostsOfOneUser } from "../../axios/Post/PostAxios";
 import "../../assets/styles/Pages/Profile/ProfilePage.css";
 
 
-const getStatusColor = (status) => {
+const getStatusClass = (status) => {
 	switch (status) {
 		case "available":
-			return "green";
+			return <MdCheckCircle style={{ color: '#4caf50' }} />;
 		case "busy":
-			return "#DC143C";
+			return <MdRemoveCircle style={{ color: '#f44336' }} />;
 		case "away":
-			return "#FDDA0D";
+			return <MdAccessTimeFilled style={{ color: '#ff9800' }} />;
 		default:
-			return "gray";
+			return <IoMdCloseCircle style={{ color: '#9e9e9e' }} />;
 	}
 };
+
 
 const ProfilePage = () => {
 	const user = useSelector((state) => state.user.user);
@@ -166,20 +170,10 @@ const ProfilePage = () => {
 								<div className="profile-page-user-info-text">
 									<h2 className="profile-page-profile-name-status">
 										{profileUser.userName}
-										<span
-											className="profile-page-status-circle"
-											style={{
-												backgroundColor: getStatusColor(
-													profileUser.onlineStatus
-												),
-											}}
-										></span>
+										<span className="profile-page-status-icon">{getStatusClass(profileUser.onlineStatus)}</span>
 									</h2>
 									{showSetting ? (
-										<button
-											className="profile-button"
-											onClick={() => navigate(`/profile/edit`)}
-										>
+										<button className="profile-button" onClick={() => navigate(`/profile/edit`)}>
 											Edit profile
 										</button>
 									) : (
@@ -195,19 +189,10 @@ const ProfilePage = () => {
 									)}
 
 									<p className="profile-stats">
-										<span>
-											<strong>Posts: </strong>
-											{posts.length} posts
-										</span>
-										<span>
-											<strong>Age:</strong> {profileUser.age}
-										</span>
-										<span>
-											<strong>Gender:</strong> {profileUser.gender}
-										</span>
-										<span>
-											<strong>Role:</strong> {profileUser.role}
-										</span>
+										<span><strong>Posts: </strong>{posts.length} posts</span>
+										<span><strong>Age:</strong> {profileUser.age}</span>
+										<span><strong>Gender:</strong> {profileUser.gender}</span>
+										<span><strong>Role:</strong> {profileUser.role}</span>
 									</p>
 									<p>
 										<strong>Full Name:</strong> {profileUser.firstName}{" "}
@@ -226,12 +211,7 @@ const ProfilePage = () => {
 									<p>{message}</p>
 								) : (
 									posts.map((post) => (
-										<Post
-											key={post.id}
-											post={post}
-											user={user}
-											removePost={handleDeletePost}
-										/>
+										<Post key={post.id} post={post} user={user} removePost={handleDeletePost}/>
 									))
 								)}
 							</div>

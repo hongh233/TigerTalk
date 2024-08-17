@@ -87,13 +87,13 @@
 	align-items: center;
 	width: 100%;
 }
-.profile-page-status-circle {
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
+
+.profile-page-status-icon {
 	display: inline-block;
 	margin-left: 8px;
+	margin-top: 6px;
 }
+
 .profile-content-post {
 	display: flex;
 	flex-direction: column;
