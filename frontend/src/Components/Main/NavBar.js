@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaHome, FaSignOutAlt, FaUserShield } from "react-icons/fa";
-import GroupTab from "../Group/GroupTab";
-import FriendsTab from "../Friend/FriendsTab";
+import GroupTab from "./GroupTab";
+import FriendsTab from "./FriendsTab";
 import "../../assets/styles/Components/Main/NavBar.css";
 import {userLogout} from "../../axios/Authentication/LoginAxios";
 

@@ -1,10 +1,5 @@
-import {
-	FaLock,
-	FaUnlock,
-	FaCog,
-	FaSignOutAlt,
-	FaSignInAlt,
-} from "react-icons/fa";
+import { FaLock, FaUnlock, FaCog,
+	FaSignOutAlt, FaSignInAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "../../assets/styles/Components/Group/Group.css";
 import { useSelector } from "react-redux";

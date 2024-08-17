@@ -111,6 +111,12 @@
     background-color: #c82333;
 }
 
+
+.group-post-container {
+    overflow-y: auto;
+    max-height: 400px;
+}
+
 @media (max-width: 768px) {
 
 }

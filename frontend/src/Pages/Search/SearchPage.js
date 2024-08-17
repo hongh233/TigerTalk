@@ -68,48 +68,33 @@ const SearchPage = () => {
 				<div className="search-content-container">
 					<h2>{getFilterHeader()}</h2>
 					<div className="filter-section">
-						<div
-							className="filter-icon"
-							onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-						>
+						<div className="filter-icon" onClick={() => setShowFilterDropdown(!showFilterDropdown)}>
 							<ImFilter />
 						</div>
 						{showFilterDropdown && (
 							<div className="filter-dropdown">
-								<button
-									className="filter-button"
-									onClick={() => handleFilterChange("all")}
-								>
+								<button className="filter-button" onClick={() => handleFilterChange("all")}>
 									Keyword
 								</button>
 
-								<button
-									className="filter-button"
-									onClick={() => handleFilterChange("online")}
-								>
+								<button className="filter-button" onClick={() => handleFilterChange("online")}>
 									Online Users
 								</button>
 
-								<button
-									className="filter-button"
-									onClick={() => handleFilterChange("public")}
-								>
+								<button className="filter-button" onClick={() => handleFilterChange("public")}>
 									Public Groups
 								</button>
 							</div>
 						)}
 					</div>
+
 					<h2>Users matched with keyword:</h2>
+					<div className="search-content-section">
 					{filteredUsers && filteredUsers.length > 0 ? (
-						<Dropdown
-							items={filteredUsers}
-							dropdownClassName="global"
-							handleChoose={handleChoose}
-						/>
-					) : (
-						<p>No users found with this keyword</p>
-					)}
-					<br />
+						<Dropdown items={filteredUsers} dropdownClassName="global" handleChoose={handleChoose}/>
+					) : (<p>No users found with this keyword</p>)}
+					</div>
+
 					<h2>Groups matched with keyword:</h2>
 					<div className="search-content-section">
 						{filteredGroups && filteredGroups.length > 0 ? (
@@ -118,10 +103,9 @@ const SearchPage = () => {
 									<Group group={group} />
 								</div>
 							))
-						) : (
-							<p>No groups found with this keyword</p>
-						)}
+						) : (<p>No groups found with this keyword</p>)}
 					</div>
+
 				</div>
 			</div>
 		</div>

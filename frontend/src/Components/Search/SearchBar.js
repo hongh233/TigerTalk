@@ -9,11 +9,7 @@ import { findUsersByKeyword } from "../../axios/Search/UserSearchAxios";
 import Dropdown from "./DropDown";
 import { IoSearch } from "react-icons/io5";
 import "../../assets/styles/Components/Search/SearchBar.css";
-import {
-	filterGroups,
-	filterUsersAlreadyInGroup,
-	filterUsers,
-} from "../../utils/filterFunctions.js";
+import { filterGroups, filterUsersAlreadyInGroup, filterUsers } from "../../utils/filterFunctions.js";
 
 const SearchBar = ({
 	searchType,

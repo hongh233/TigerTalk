@@ -1,14 +1,14 @@
-/* Header */
+
 .search-bar-header {
 	display: flex;
 	width: 40%;
-	justify-content: end;
+	justify-content: center;
 	padding-right: 2%;
 }
 
 .search-bar-header-input {
-	width: 50%;
-	border-radius: 4px;
+	width: 100%;
+	border-radius: 10px;
 }
 .search-input-and-button {
 	display: flex;

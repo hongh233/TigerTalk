@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { HiUserGroup } from "react-icons/hi";
 import { FaUserFriends, FaUserPlus } from "react-icons/fa";
 import "../../assets/styles/Components/Friend/FriendsTab.css";
+import {MdMessage} from "react-icons/md";
 
 const FriendsTab = () => {
 	const [showGroupTab, setShowGroupTab] = useState(false);
@@ -23,6 +24,10 @@ const FriendsTab = () => {
 				<a href="/friends/friend-list" className="group-tab-item">
 					<HiUserGroup />
 					<span className="text-hide"> View Friends</span>
+				</a>
+				<a href="/friends/message" className="group-tab-item">
+					<MdMessage />
+					<span className="text-hide"> Message</span>
 				</a>
 			</div>
 		</div>
