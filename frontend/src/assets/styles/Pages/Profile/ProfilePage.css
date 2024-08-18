@@ -61,10 +61,11 @@
 	margin: 10px 10px 10px 0;
 	border-radius: 5px;
 	cursor: pointer;
+	width: 120px;
 }
 
 .profile-button:hover {
-	background-color: #555;
+	background-color: #626262;
 }
 
 .profile-stats {

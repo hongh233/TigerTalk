@@ -1,8 +1,68 @@
-
+/* group search bar */
 .group-page-search-bar {
-	width: 50%;
+	width: 550px;
 	margin-bottom: 20px;
+	margin-top: 40px;
+
+	border-radius: 25px;
+	overflow: hidden;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.group-page-search-bar input {
+	width: 100%;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 25px;
+	outline: none;
+	font-size: 16px;
+	box-sizing: border-box;
+}
+
+
+
+
+
+/* create group button */
+.create-group-button {
+	background: #333;
+	color: #fff;
+
+	border: none;
+	padding: 10px 20px;
+	margin-bottom: 20px;
+	margin-top: 40px;
+	margin-left: 60px;
+
+
+	border-radius: 5px;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+
+	width: 150px;
+	justify-content: center;
+	transition: background 0.3s ease;
+}
+.create-group-button:hover {
+	background-color: #626262;
+}
+
+
+
+
+
+
+/* box contain search bar and create group button */
+.group-page-search-and-create {
+	display: flex;
+	align-items: center;
+	justify-content: left;
+}
+
+
+
+
 
 .group-content-container {
 	display: flex;

@@ -3,25 +3,19 @@ import { useSelector } from "react-redux";
 import NavBar from "../../Components/Main/NavBar";
 import Header from "../../Components/Main/Header";
 import Group from "../../Components/Group/Group";
-import SearchBar from "../../Components/Search/SearchBar";
 import { filterGroups } from "../../utils/filterFunctions.js";
 // Axio:
 import { handleGetGroupUserIsMember } from "../../axios/Group/GroupAxios";
 // CSS:
 import "../../assets/styles/Pages/Group/GroupPage.css";
-import {HiPlus} from "react-icons/hi";
 
 
 const GroupPage = () => {
 	const user = useSelector((state) => state.user.user);
-	const [createdGroups, setCreatedGroups] = useState([]);
-	const [joinedGroups, setJoinedGroups] = useState([]);
-	const [filteredCreatedGroups, setFilteredCreatedGroups] = useState([]);
-	const [filteredJoinedGroups, setFilteredJoinedGroups] = useState([]);
+	const [groups, setGroups] = useState({ created: [], joined: [] });
+	const [filteredGroups, setFilteredGroups] = useState({ created: [], joined: [] });
 	const [searchGroupQuery, setSearchGroupQuery] = useState("");
-
-	const [showAllCreatedGroups, setShowAllCreatedGroups] = useState(false);
-	const [showAllJoinedGroups, setShowAllJoinedGroups] = useState(false);
+	const [showAllGroups, setShowAllGroups] = useState({ created: false, joined: false });
 
 	useEffect(() => {
 		const fetchGroups = async () => {
@@ -30,10 +24,8 @@ const GroupPage = () => {
 					const userGroups = await handleGetGroupUserIsMember(user.email);
 					const created = userGroups.filter(group => group.groupCreatorEmail === user.email);
 					const joined = userGroups.filter(group => group.groupCreatorEmail !== user.email);
-					setCreatedGroups(created);
-					setJoinedGroups(joined);
-					setFilteredCreatedGroups(created);
-					setFilteredJoinedGroups(joined);
+					setGroups({ created, joined });
+					setFilteredGroups({ created, joined });
 				}
 			} catch (err) {
 				console.error(err);
@@ -43,28 +35,17 @@ const GroupPage = () => {
 	}, [user]);
 
 	useEffect(() => {
-		if (searchGroupQuery) {
-			const filteredCreated = filterGroups(createdGroups, searchGroupQuery);
-			const filteredJoined = filterGroups(joinedGroups, searchGroupQuery);
-			setFilteredCreatedGroups(filteredCreated);
-			setFilteredJoinedGroups(filteredJoined);
-		} else {
-			setFilteredCreatedGroups(createdGroups);
-			setFilteredJoinedGroups(joinedGroups);
-		}
-	}, [searchGroupQuery, createdGroups, joinedGroups]);
+		const filteredCreated = filterGroups(groups.created, searchGroupQuery);
+		const filteredJoined = filterGroups(groups.joined, searchGroupQuery);
+		setFilteredGroups({ created: filteredCreated, joined: filteredJoined });
+	}, [searchGroupQuery, groups]);
 
-
-	const handleToggleShowCreatedGroups = () => {
-		setShowAllCreatedGroups(!showAllCreatedGroups);
+	const handleToggleShowGroups = (type) => {
+		setShowAllGroups((prev) => ({ ...prev, [type]: !prev[type] }));
 	};
 
-	const handleToggleShowJoinedGroups = () => {
-		setShowAllJoinedGroups(!showAllJoinedGroups);
-	};
-
-	const renderGroupSection = (groups, showAllGroups, toggleShowGroups) => {
-		const groupsToShow = showAllGroups ? groups : groups.slice(0, 4);
+	const renderGroupSection = (type) => {
+		const groupsToShow = showAllGroups[type] ? filteredGroups[type] : filteredGroups[type].slice(0, 4);
 		return (
 			<>
 				<div className="group-content">
@@ -72,15 +53,16 @@ const GroupPage = () => {
 						<Group key={group.groupId} group={group} />
 					))}
 				</div>
-				{groups.length > 4 && (
-					<p onClick={toggleShowGroups} className="toggle-groups">
-						{showAllGroups ? "View Less" : "View More"}
+				{filteredGroups[type].length > 4 && (
+					<p onClick={() => handleToggleShowGroups(type)} className="toggle-groups">
+						{showAllGroups[type] ? "View Less" : "View More"}
 					</p>
 				)}
 			</>
 		);
 	};
 
+	const handleInputChange = (e) => setSearchGroupQuery(e.target.value);
 
 	return (
 		<div className="main-page">
@@ -92,26 +74,27 @@ const GroupPage = () => {
 
 				<div className="group-content-container">
 
-					<div className="group-page-header">
-						<h2>Search Available Groups:</h2>
-					</div>
+					<div className="group-page-search-and-create">
+						<div className="group-page-search-bar">
+							<input
+								type="text"
+								placeholder="Search Available Groups..."
+								onChange={handleInputChange}
+							/>
+						</div>
 
-					<div className="group-page-search-bar">
-						<SearchBar searchType="group" setSearchGroupQuery={setSearchGroupQuery} dropdownClassName="group" searchBarClassName="group"/>
+						<a href="/group/creategroup/" className="create-group-button">
+							<span className="text-hide">Create a New Group</span>
+						</a>
 					</div>
-
-					<a href="/group/creategroup/" className="create-group-button">
-						<HiPlus/> <span className="text-hide">Create a new group</span>
-					</a>
 
 					<div className="group-list-container">
 						<h2>Created Groups:</h2>
-						{renderGroupSection(filteredCreatedGroups, showAllCreatedGroups, handleToggleShowCreatedGroups)}
+						{renderGroupSection("created")}
 
 						<h2>Joined Groups:</h2>
-						{renderGroupSection(filteredJoinedGroups, showAllJoinedGroups, handleToggleShowJoinedGroups)}
+						{renderGroupSection("joined")}
 					</div>
-
 				</div>
 			</div>
 		</div>
