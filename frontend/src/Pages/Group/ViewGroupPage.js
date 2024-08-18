@@ -170,25 +170,17 @@ const ViewGroupPage = () => {
 							<div className="group-content-nav">
 								<h1>
 									{group.groupName}{" "}
-									{isPrivate ? (
-										<FaLock className="status-icon" />
-									) : (
-										<FaUnlock className="status-icon" />
-									)}
+									{isPrivate ? (<FaLock className="status-icon" />) : (<FaUnlock className="status-icon" />)}
 								</h1>
 								{isCreator && (
 									<ul>
 										<li className="members">
-											<a className="group-link" href={`/group/${groupId}/members`}>
-												<FaUsers />
-											</a>
+											<a className="group-link" href={`/group/${groupId}/members`}><FaUsers /></a>
 										</li>
 
 										<>
 											<li className="setting">
-												<a className="group-link" href={`/group/${groupId}/setting`}>
-													<FaCog />
-												</a>
+												<a className="group-link" href={`/group/${groupId}/setting`}><FaCog /></a>
 											</li>
 											<li className="delete group-link" onClick={deleteGroup}>
 												<FaTrashAlt />

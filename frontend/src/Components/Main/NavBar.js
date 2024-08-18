@@ -1,14 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import GroupTab from "./GroupTab";
 import FriendsTab from "./FriendsTab";
 // Icon:
-import { FaHome, FaSignOutAlt, FaUserShield } from "react-icons/fa";
+import {FaComments, FaHome, FaSignOutAlt, FaUserShield} from "react-icons/fa";
 // Axio:
 import {userLogout} from "../../axios/Authentication/LoginAxios";
 // CSS:
 import "../../assets/styles/Components/Main/NavBar.css";
+import {HiAcademicCap} from "react-icons/hi";
 
 
 const NavBar = () => {
@@ -33,7 +33,9 @@ const NavBar = () => {
 				<FaHome />
 				<span className="text-hide">Home</span>
 			</NavLink>
-			<GroupTab />
+			<NavLink to="/group">
+				<HiAcademicCap/><span className="text-hide">Groups</span>
+			</NavLink>
 			<FriendsTab />
 			{user.userLevel === "admin" && (
 				<NavLink to="/admin">
@@ -44,6 +46,7 @@ const NavBar = () => {
 				<FaSignOutAlt /> <span className="text-hide">Logout</span>
 			</NavLink>
 		</nav>
+
 	);
 };
 export default NavBar;

@@ -9,6 +9,7 @@ import { filterGroups } from "../../utils/filterFunctions.js";
 import { handleGetGroupUserIsMember } from "../../axios/Group/GroupAxios";
 // CSS:
 import "../../assets/styles/Pages/Group/GroupPage.css";
+import {HiPlus} from "react-icons/hi";
 
 
 const GroupPage = () => {
@@ -90,12 +91,18 @@ const GroupPage = () => {
 				</div>
 
 				<div className="group-content-container">
+
 					<div className="group-page-header">
 						<h2>Search Available Groups:</h2>
 					</div>
+
 					<div className="group-page-search-bar">
 						<SearchBar searchType="group" setSearchGroupQuery={setSearchGroupQuery} dropdownClassName="group" searchBarClassName="group"/>
 					</div>
+
+					<a href="/group/creategroup/" className="create-group-button">
+						<HiPlus/> <span className="text-hide">Create a new group</span>
+					</a>
 
 					<div className="group-list-container">
 						<h2>Created Groups:</h2>

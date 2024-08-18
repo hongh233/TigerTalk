@@ -1,10 +1,10 @@
-.group-tab {
+.friend-tab {
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-.group-tab-button {
+.friend-tab-button {
     display: flex;
     align-items: center;
     padding: 10px 15px;
@@ -17,15 +17,15 @@
     cursor: pointer;
 }
 
-.group-tab-button:hover {
+.friend-tab-button:hover {
     background-color: #ddd;
 }
 
-.group-tab-button svg {
+.friend-tab-button svg {
     margin-right: 10px;
 }
 
-.group-tab-dropdown {
+.friend-tab-dropdown {
     max-height: 0;
     width: inherit;
     overflow: hidden;
@@ -37,7 +37,7 @@
     margin-bottom: 15px;
 }
 
-.group-tab-item {
+.friend-tab-item {
     background-color: #f9f9f9;
     border-radius: 4px;
     padding: 10px 15px;
@@ -47,68 +47,22 @@
     color: #333;
 }
 
-.group-tab-dropdown p,
-.group-tab-dropdown .group-tab-item {
+.friend-tab-dropdown p,
+.friend-tab-dropdown .friend-tab-item {
     padding: 10px;
     margin: 0;
     border-bottom: 1px solid #ddd;
 }
 
-.group-tab-dropdown p:last-child,
-.group-tab-dropdown {
+.friend-tab-dropdown p:last-child,
+.friend-tab-dropdown {
     border-bottom: none;
 }
 
-.group-tab-dropdown.show {
+.friend-tab-dropdown.show {
     max-height: 200px;
 }
 
 @media (max-width: 768px) {
-    .group-tab {
-        flex-direction: row;
-        justify-content: space-between;
-    }
 
-    .text-hide {
-        display: none;
-    }
-
-    .group-tab-button {
-        margin-bottom: 0;
-        color: #fff;
-    }
-
-    .navbar a:hover {
-        background-color: #333;
-    }
-
-    .group-tab-dropdown {
-        max-width: 0;
-        height: inherit;
-        overflow: hidden;
-        transition: max-width 0.3s ease;
-
-        display: flex;
-        flex-direction: row;
-        background-color: #333;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        margin-bottom: 0;
-    }
-
-    .group-tab-dropdown a {
-        background-color: #333;
-        flex-direction: row;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        margin-bottom: 0;
-    }
-
-    .group-tab button:hover {
-        background-color: #939191;
-    }
-
-    .group-tab-dropdown.show {
-        max-width: 200px;
-    }
 }
