@@ -5,34 +5,34 @@ import Header from "../../Components/Main/Header";
 import Group from "../../Components/Group/Group";
 import SearchBar from "../../Components/Search/SearchBar";
 import { filterGroups } from "../../utils/filterFunctions.js";
-// Icon:
-import { ImFilter } from "react-icons/im";
 // Axio:
-import { handleGetAllGroups, handleGetGroupUserIsMember } from "../../axios/Group/GroupAxios";
+import { handleGetGroupUserIsMember } from "../../axios/Group/GroupAxios";
 // CSS:
 import "../../assets/styles/Pages/Group/GroupPage.css";
 
 
 const GroupPage = () => {
 	const user = useSelector((state) => state.user.user);
-	const [myGroups, setMyGroups] = useState([]);
-	const [allGroups, setAllGroups] = useState([]);
-	const [filteredGroups, setFilteredGroups] = useState([]);
+	const [createdGroups, setCreatedGroups] = useState([]);
+	const [joinedGroups, setJoinedGroups] = useState([]);
+	const [filteredCreatedGroups, setFilteredCreatedGroups] = useState([]);
+	const [filteredJoinedGroups, setFilteredJoinedGroups] = useState([]);
 	const [searchGroupQuery, setSearchGroupQuery] = useState("");
-	const [filterOption, setFilterOption] = useState("all");
-	const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-	const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+	const [showAllCreatedGroups, setShowAllCreatedGroups] = useState(false);
+	const [showAllJoinedGroups, setShowAllJoinedGroups] = useState(false);
 
 	useEffect(() => {
 		const fetchGroups = async () => {
 			try {
 				if (user) {
 					const userGroups = await handleGetGroupUserIsMember(user.email);
-					setMyGroups(userGroups);
-
-					const allGroupsData = await handleGetAllGroups();
-					setAllGroups(allGroupsData);
-					setFilteredGroups(allGroupsData);
+					const created = userGroups.filter(group => group.groupCreatorEmail === user.email);
+					const joined = userGroups.filter(group => group.groupCreatorEmail !== user.email);
+					setCreatedGroups(created);
+					setJoinedGroups(joined);
+					setFilteredCreatedGroups(created);
+					setFilteredJoinedGroups(joined);
 				}
 			} catch (err) {
 				console.error(err);
@@ -42,42 +42,44 @@ const GroupPage = () => {
 	}, [user]);
 
 	useEffect(() => {
-		let filtered = allGroups;
-
-		if (isSearchFocused) {
-			filtered = allGroups;
-		} else {
-			if (filterOption === "myGroups") {
-				filtered = myGroups;
-			} else if (filterOption === "public") {
-				filtered = allGroups.filter((group) => !group.isPrivate);
-			}
-		}
-
 		if (searchGroupQuery) {
-			filtered = filterGroups(allGroups, searchGroupQuery);
+			const filteredCreated = filterGroups(createdGroups, searchGroupQuery);
+			const filteredJoined = filterGroups(joinedGroups, searchGroupQuery);
+			setFilteredCreatedGroups(filteredCreated);
+			setFilteredJoinedGroups(filteredJoined);
+		} else {
+			setFilteredCreatedGroups(createdGroups);
+			setFilteredJoinedGroups(joinedGroups);
 		}
+	}, [searchGroupQuery, createdGroups, joinedGroups]);
 
-		setFilteredGroups(filtered);
-	}, [searchGroupQuery, allGroups, myGroups, filterOption, isSearchFocused]);
 
-	const handleFilterChange = (option) => {
-		setFilterOption(option);
-
-		setSearchGroupQuery(""); // Clear the search query when filter changes
+	const handleToggleShowCreatedGroups = () => {
+		setShowAllCreatedGroups(!showAllCreatedGroups);
 	};
 
-	const getFilterHeader = () => {
-		switch (filterOption) {
-			case "myGroups":
-				return "Groups you are a member of:";
-			case "public":
-				return "Public Groups:";
-
-			default:
-				return "All Groups:";
-		}
+	const handleToggleShowJoinedGroups = () => {
+		setShowAllJoinedGroups(!showAllJoinedGroups);
 	};
+
+	const renderGroupSection = (groups, showAllGroups, toggleShowGroups) => {
+		const groupsToShow = showAllGroups ? groups : groups.slice(0, 4);
+		return (
+			<>
+				<div className="group-content">
+					{groupsToShow.map((group) => (
+						<Group key={group.groupId} group={group} />
+					))}
+				</div>
+				{groups.length > 4 && (
+					<p onClick={toggleShowGroups} className="toggle-groups">
+						{showAllGroups ? "View Less" : "View More"}
+					</p>
+				)}
+			</>
+		);
+	};
+
 
 	return (
 		<div className="main-page">
@@ -89,55 +91,20 @@ const GroupPage = () => {
 
 				<div className="group-content-container">
 					<div className="group-page-header">
-						<h2>Search available groups:</h2>
+						<h2>Search Available Groups:</h2>
 					</div>
 					<div className="group-page-search-bar">
-						<SearchBar
-							searchType="group"
-							setSearchGroupQuery={setSearchGroupQuery}
-							dropdownClassName="group"
-							searchBarClassName="group"
-							onFocus={() => setIsSearchFocused(true)}
-							onBlur={() => setIsSearchFocused(false)}
-						/>
+						<SearchBar searchType="group" setSearchGroupQuery={setSearchGroupQuery} dropdownClassName="group" searchBarClassName="group"/>
 					</div>
 
-					<br />
-					<div className="group-member-section">
-						<div
-							className="filter-icon"
-							onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-						>
-							<ImFilter />
-						</div>
-						{showFilterDropdown && (
-							<div className="filter-dropdown">
-								<button
-									className="group-filter-button"
-									onClick={() => handleFilterChange("myGroups")}
-								>
-									My Groups
-								</button>
-								<button
-									className="group-filter-button"
-									onClick={() => handleFilterChange("public")}
-								>
-									Public Groups
-								</button>
-							</div>
-						)}
+					<div className="group-list-container">
+						<h2>Created Groups:</h2>
+						{renderGroupSection(filteredCreatedGroups, showAllCreatedGroups, handleToggleShowCreatedGroups)}
+
+						<h2>Joined Groups:</h2>
+						{renderGroupSection(filteredJoinedGroups, showAllJoinedGroups, handleToggleShowJoinedGroups)}
 					</div>
 
-					<h2>{getFilterHeader()}</h2>
-					<div className="group-content">
-						{filteredGroups.length > 0 ? (
-							filteredGroups.map((group) => (
-								<Group key={group.groupId} group={group} />
-							))
-						) : (
-							<p>No groups found.</p>
-						)}
-					</div>
 				</div>
 			</div>
 		</div>

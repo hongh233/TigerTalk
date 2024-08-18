@@ -19,7 +19,7 @@ const Group = ({ group }) => {
 	const navigate = useNavigate();
 
 	const handleActionClick = async () => {
-		let action = "";
+		let action;
 		if (isMember) {
 			action = "leave";
 		} else {
@@ -27,8 +27,7 @@ const Group = ({ group }) => {
 		}
 
 		if (
-			!isOwner &&
-			window.confirm(`Are you sure you want to ${action} this group?`)
+			!isOwner && window.confirm(`Are you sure you want to ${action} this group?`)
 		) {
 			if (isMember) {
 				await handleDeleteGroupMembership(groupMembershipId);
@@ -49,46 +48,24 @@ const Group = ({ group }) => {
 	return (
 		<div className="group">
 			<div className="group-header">
-				<div
-					className="group-creator-details"
-					onClick={() => {
-						navigate(`/group/viewgroup/${group.groupId}`);
-					}}
-				>
+
+				<div className="one-group-background-image" onClick={() => {navigate(`/group/viewgroup/${group.groupId}`);}}>
+					<img src={group.groupImg} alt="Group cover" />
+				</div>
+
+				<div className="group-creator-details" onClick={() => {navigate(`/group/viewgroup/${group.groupId}`);}}>
 					{group.groupName} {group.isPrivate ? <FaLock /> : <FaUnlock />}
 					<p>{group.dateCreated}</p>
 				</div>
 
-				<div
-					className="one-group-background-image"
-					onClick={() => {
-						navigate(`/group/viewgroup/${group.groupId}`);
-					}}
-				>
-					<img src={group.groupImg} alt="Group cover" />
-				</div>
 				{group.isPrivate && !isMember ? (
-					<div className="group-action lock">
-						<FaLock />
-					</div>
+					<div className="group-action lock"><FaLock /></div>
 				) : (
-					<div
-						className={`group-action ${
-							isOwner ? "settings" : isMember ? "leave" : "join"
-						}`}
-						onClick={handleActionClick}
-					>
-						<div className="group-action-text">
-							{isOwner ? (
-								<FaCog />
-							) : isMember ? (
-								<FaSignOutAlt />
-							) : (
-								<FaSignInAlt />
-							)}
-						</div>
+					<div className={`group-action ${isOwner ? "settings" : isMember ? "leave" : "join"}`} onClick={handleActionClick}>
+						<div className="group-action-text">{isOwner ? (<FaCog />) : isMember ? (<FaSignOutAlt />) : (<FaSignInAlt />)}</div>
 					</div>
 				)}
+
 			</div>
 		</div>
 	);

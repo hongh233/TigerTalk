@@ -179,20 +179,14 @@ const ViewGroupPage = () => {
 								{isCreator && (
 									<ul>
 										<li className="members">
-											<a
-												className="group-link"
-												href={`/group/${groupId}/members`}
-											>
+											<a className="group-link" href={`/group/${groupId}/members`}>
 												<FaUsers />
 											</a>
 										</li>
 
 										<>
 											<li className="setting">
-												<a
-													className="group-link"
-													href={`/group/${groupId}/setting`}
-												>
+												<a className="group-link" href={`/group/${groupId}/setting`}>
 													<FaCog />
 												</a>
 											</li>
@@ -208,12 +202,8 @@ const ViewGroupPage = () => {
 							{isMember ? (
 								<>
 									<div className="group-member-actions">
-										<span className="member-status">
-											You are {isCreator ? "the admin" : "a member"}
-										</span>
-										<button onClick={leaveGroup} className="leave-group-button">
-											<FaUserMinus /> Leave Group
-										</button>
+										<span className="member-status">You are {isCreator ? "the admin" : "a member"}</span>
+										<button onClick={leaveGroup} className="leave-group-button"><FaUserMinus /> Leave Group</button>
 									</div>
 								</>
 							) : isPrivate ? (
@@ -240,11 +230,10 @@ const ViewGroupPage = () => {
 												userEmail={userEmail}
 												removePost={handleDeletePost}
 											/>
-										))}
+										))
+									}
 								</>
-							) : (
-								""
-							)}
+							) : ("")}
 						</div>
 					</div>
 				</div>
