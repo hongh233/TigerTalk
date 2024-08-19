@@ -1,14 +1,13 @@
 import React from "react";
+import "../../assets/styles/Components/Main/NavBar.css";
+import {userLogout} from "../../axios/Authentication/LoginAxios";
+import {FaSignOutAlt} from "react-icons/fa";
+import {IoHomeSharp} from "react-icons/io5";
+import {BsChatDotsFill} from "react-icons/bs";
+import {MdAdminPanelSettings} from "react-icons/md";
+import {FaUserGroup, FaUserLarge} from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import FriendsTab from "./FriendsTab";
-// Icon:
-import {FaComments, FaHome, FaSignOutAlt, FaUserShield} from "react-icons/fa";
-// Axio:
-import {userLogout} from "../../axios/Authentication/LoginAxios";
-// CSS:
-import "../../assets/styles/Components/Main/NavBar.css";
-import {HiAcademicCap} from "react-icons/hi";
 
 
 const NavBar = () => {
@@ -29,22 +28,33 @@ const NavBar = () => {
 
 	return (
 		<nav className="navbar">
-			<NavLink to="/main">
-				<FaHome />
-				<span className="text-hide">Home</span>
+
+			<NavLink to="/main" className="navbar-icon-box">
+				<IoHomeSharp /><span className="navbar-icon-text">Home</span>
 			</NavLink>
-			<NavLink to="/group">
-				<HiAcademicCap/><span className="text-hide">Groups</span>
+
+			<NavLink to="/friends/message" className="navbar-icon-box">
+				<BsChatDotsFill /><span className="navbar-icon-text">Chat</span>
 			</NavLink>
-			<FriendsTab />
+
+			<NavLink to="/friends/friend-list" className="navbar-icon-box">
+				<FaUserLarge /><span className="navbar-icon-text">Friend</span>
+			</NavLink>
+
+			<NavLink to="/group" className="navbar-icon-box">
+				<FaUserGroup /><span className="navbar-icon-text">Group</span>
+			</NavLink>
+
 			{user.userLevel === "admin" && (
-				<NavLink to="/admin">
-					<FaUserShield /> <span className="text-hide">Admin</span>
+				<NavLink to="/admin" className="navbar-icon-box">
+					<MdAdminPanelSettings /> <span className="navbar-icon-text">Admin</span>
 				</NavLink>
 			)}
-			<NavLink to="/" onClick={handleLogOut}>
-				<FaSignOutAlt /> <span className="text-hide">Logout</span>
+
+			<NavLink to="/" onClick={handleLogOut} className="navbar-icon-box">
+				<FaSignOutAlt /> <span className="navbar-icon-text">Logout</span>
 			</NavLink>
+
 		</nav>
 
 	);

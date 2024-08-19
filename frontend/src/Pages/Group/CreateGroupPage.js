@@ -1,12 +1,9 @@
 import React, { useState } from "react";
+import "../../assets/styles/Pages/Group/CreateGroupPage.css";
+import { handleCreateGroup } from "../../axios/Group/GroupAxios";
 import { useNavigate } from "react-router-dom";
 import Header from "../../Components/Main/Header";
-import NavBar from "../../Components/Main/NavBar";
 import { useSelector } from "react-redux";
-// Axio:
-import { handleCreateGroup } from "../../axios/Group/GroupAxios";
-// CSS:
-import "../../assets/styles/Pages/Group/CreateGroupPage.css";
 
 
 const CreateGroupPage = () => {
@@ -51,10 +48,6 @@ const CreateGroupPage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-
 				<form className="group-create-form" onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label>Group Name</label>

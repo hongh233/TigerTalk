@@ -128,15 +128,7 @@
 }
 
 @media (max-width: 768px) {
-	.notification-popup {
-		position: fixed;
-		top: 5%;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 1200;
-		width: 150px;
-		max-height: 50%;
-	}
+
 }
 
 

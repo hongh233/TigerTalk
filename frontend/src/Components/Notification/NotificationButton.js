@@ -1,12 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
+import "../../assets/styles/Components/Notification/NotificationButton.css";
+import {deleteNotification, getNotifications} from "../../axios/Notification/NotificationAxios";
+import {FaBell, FaEye, FaTrash} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
-// Icon:
-import {FaBell, FaEye, FaTrash} from "react-icons/fa";
-// Axio:
-import {deleteNotification, getNotifications} from "../../axios/Notification/NotificationAxios";
-// CSS:
-import "../../assets/styles/Components/Notification/NotificationButton.css";
 
 
 const NotificationButton = () => {

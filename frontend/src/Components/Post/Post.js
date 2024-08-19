@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Comment from "./Comment";
-import { formatDate } from "../../utils/formatDate";
-// Icon:
-import { FaComment, FaShare, FaThumbsUp, FaTrash, FaEdit } from "react-icons/fa";
-// Axio:
+import "../../assets/styles/Components/Post/Post.css";
 import { handleAddCommentAxios, getCommentFromPostId } from "../../axios/Post/PostCommentAxios";
 import { handleLikeAxios, handleEditPostAxios, handleDeletePostAxios } from "../../axios/Post/PostAxios";
 import { getCurrentUser } from "../../axios/UserAxios";
-// CSS:
-import "../../assets/styles/Components/Post/Post.css";
+import { FaComment, FaShare, FaThumbsUp, FaTrash, FaEdit } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import Comment from "./Comment";
+import { formatDate } from "../../utils/formatDate";
 
 
 const Post = ({ post, user, removePost }) => {

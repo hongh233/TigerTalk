@@ -1,8 +1,6 @@
 import React from "react";
-// Axio:
-import {acceptFriendRequest, rejectFriendRequest} from "../../axios/Friend/FriendshipRequestAxios";
-// CSS:
 import "../../assets/styles/Components/Friend/FriendRequestComponent.css";
+import {acceptFriendRequest, rejectFriendRequest} from "../../axios/Friend/FriendshipRequestAxios";
 
 
 const FriendRequestComponent = ({request}) => {

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-// Axio:
-import {sendToken, validateEmailExist} from "../../../axios/Authentication/PasswordResetAxios";
-// CSS:
 import "../../../assets/styles/Pages/Authentication/ForgetPassword/ForgotPasswordPage.css";
+import {sendToken, validateEmailExist} from "../../../axios/Authentication/PasswordResetAxios";
+import { useNavigate } from 'react-router-dom';
 
 
 const ForgotPasswordPage = () => {

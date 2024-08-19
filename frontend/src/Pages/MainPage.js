@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
+import "../assets/styles/Pages/MainPage.css";
+import {createPost, fetchPosts} from "../axios/Post/PostAxios";
+import {getCurrentUser} from "../axios/UserAxios";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../Components/Main/Header";
-import NavBar from "../Components/Main/NavBar";
 import Post from "../Components/Post/Post";
 import PostCreation from "../Components/Post/PostCreation";
 import FriendRecommendations from "../Components/Friend/FriendRecommendations";
-// Axio:
-import {createPost, fetchPosts} from "../axios/Post/PostAxios";
-import {getCurrentUser} from "../axios/UserAxios";
-// CSS:
-import "../assets/styles/Pages/MainPage.css";
 
 
 const MainPage = () => {
@@ -70,10 +67,6 @@ const MainPage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-
 				<div className="main-content">
 					<div className="post-creation-section">
 						<PostCreation addPost={addPost} />

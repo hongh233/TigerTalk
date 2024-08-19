@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import GroupComment from "./GroupComment";
-import { formatDate } from "../../utils/formatDate";
-// Icon:
-import { FaComment, FaShare, FaThumbsUp, FaTrash } from "react-icons/fa";
-// Axio:
+import "../../assets/styles/Components/Group/GroupPost.css";
 import { handleAddGroupPostComment, handleGetCommentsForOneGroupPost } from "../../axios/Group/GroupPostCommentAxios";
 import { handleDeletePostAxios, handleLikeAxios } from "../../axios/Group/GroupPostAxios";
 import { handleGetGroupById } from "../../axios/Group/GroupAxios";
-// CSS:
-import "../../assets/styles/Components/Group/GroupPost.css";
+import { FaComment, FaShare, FaThumbsUp, FaTrash } from "react-icons/fa";
+import GroupComment from "./GroupComment";
+import { formatDate } from "../../utils/formatDate";
 
 
 const GroupPost = ({

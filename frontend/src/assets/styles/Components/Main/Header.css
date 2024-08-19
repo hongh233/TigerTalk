@@ -4,11 +4,13 @@
 	background-color: #ffffff;
 	color: #333;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	position: fixed;
 	width: 100%;
 	height: 60px;
-	z-index: 1000;
 	border-bottom: 1px solid #e5e5e5;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1000;
 }
 
 
@@ -105,29 +107,5 @@
 
 
 @media (max-width: 768px) {
-	.header {
-		grid-template-columns: 1fr;
-		justify-items: center;
-		padding: 10px;
-	}
 
-	.header h1 {
-		order: 1;
-		position: static;
-		margin-bottom: 10px;
-	}
-
-	.search-bar {
-		order: 2;
-		width: 80%;
-		margin-top: 10px;
-	}
-
-	.search-bar input {
-		width: 80%;
-	}
-
-	.search-bar button {
-		width: auto;
-	}
 }

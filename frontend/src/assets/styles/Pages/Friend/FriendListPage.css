@@ -1,3 +1,28 @@
+/* friend search bar */
+.friend-list-search-bar {
+    width: 550px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.friend-list-search-bar input {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    outline: none;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+
+
+
+
+
 
 .friend-list-content {
     width: 75%;

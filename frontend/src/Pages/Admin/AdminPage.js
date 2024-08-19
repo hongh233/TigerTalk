@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from "react";
+import "../../assets/styles/Pages/Admin/AdminPage.css";
+import {deleteUserProfileByEmail, getAllUsers, updateUser} from "../../axios/UserAxios";
 import {useDispatch, useSelector} from "react-redux";
-import NavBar from "../../Components/Main/NavBar";
 import Header from "../../Components/Main/Header";
 import UserList from "../../Components/Admin/UserList";
 import { useNavigate } from "react-router-dom";
-// Axio:
-import {deleteUserProfileByEmail, getAllUsers, updateUser} from "../../axios/UserAxios";
-// CSS:
-import "../../assets/styles/Pages/Admin/AdminPage.css";
 
 
 const AdminPage = () => {
@@ -74,10 +71,6 @@ const AdminPage = () => {
         <div className="main-page">
             <Header/>
 			<div className="content">
-                <div className="sidebar">
-                    <NavBar />
-                </div>
-
                 <div className="admin-content">
                     <UserList
                         selectedUsers={selectedUsers}

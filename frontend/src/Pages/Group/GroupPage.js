@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
+import "../../assets/styles/Pages/Group/GroupPage.css";
+import { handleGetGroupUserIsMember } from "../../axios/Group/GroupAxios";
 import { useSelector } from "react-redux";
-import NavBar from "../../Components/Main/NavBar";
 import Header from "../../Components/Main/Header";
 import Group from "../../Components/Group/Group";
 import { filterGroups } from "../../utils/filterFunctions.js";
-// Axio:
-import { handleGetGroupUserIsMember } from "../../axios/Group/GroupAxios";
-// CSS:
-import "../../assets/styles/Pages/Group/GroupPage.css";
 
 
 const GroupPage = () => {
@@ -68,12 +65,7 @@ const GroupPage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-
-				<div className="group-content-container">
-
+				<div>
 					<div className="group-page-search-and-create">
 						<div className="group-page-search-bar">
 							<input

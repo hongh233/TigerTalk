@@ -1,15 +1,12 @@
-import Header from "../../Components/Main/Header";
-import NavBar from "../../Components/Main/NavBar";
 import React, { useEffect, useState, useRef } from "react";
+import "../../assets/styles/Pages/Friend/FriendMessagePage.css";
+import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
+import { createMessage, getAllMessagesByFriendshipId } from "../../axios/Friend/FriendshipMessageAxios";
+import Header from "../../Components/Main/Header";
 import { useSelector } from "react-redux";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 const URL = process.env.REACT_APP_API_URL;
-// Axio:
-import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
-import { createMessage, getAllMessagesByFriendshipId } from "../../axios/Friend/FriendshipMessageAxios";
-// CSS:
-import "../../assets/styles/Pages/Friend/FriendMessagePage.css";
 
 
 const FriendMessagePage = () => {
@@ -179,28 +176,19 @@ const FriendMessagePage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-
 				<div className="friend-message-content-container">
 					<div className="friend-list">
 						<h2>Messages</h2>
 						<ul>
 							{friends.map((friend) => (
-								<li
-									key={friend.email}
-									onClick={() => handleFriendClick(friend)}
-								>
+								<li key={friend.email} onClick={() => handleFriendClick(friend)}>
 									<div className="friend">
 										<div className="friend-header">
 											<div className="friend-picture">
 												<img src={friend.profilePictureUrl} alt="avatar" />
 											</div>
 											<div className="friend-details">
-												<a href={"/profile/" + friend.email}>
-													{friend.userName}
-												</a>
+												<a href={"/profile/" + friend.email}>{friend.userName}</a>
 												<p>Email: {friend.email}</p>
 											</div>
 										</div>
@@ -210,9 +198,7 @@ const FriendMessagePage = () => {
 						</ul>
 					</div>
 					<div className="chat-box">
-						{selectedFriend && (
-							<div className="chat-header">{selectedFriend.userName}</div>
-						)}
+						{selectedFriend && (<div className="chat-header">{selectedFriend.userName}</div>)}
 						<div className="messages">
 							{messages.length === 0 ? (
 								<div>No messages to display</div>
@@ -220,19 +206,11 @@ const FriendMessagePage = () => {
 								messages.map((message) => (
 									<div
 										key={message.messageId}
-										className={
-											message.messageSenderEmail === user.email
-												? "message-right"
-												: "message-left"
-										}
+										className={message.messageSenderEmail === user.email ? "message-right" : "message-left"}
 									>
 										{message.messageSenderEmail !== user.email && (
 											<div className="friend-picture">
-												<img
-													src={message.messageSenderProfilePictureUrl}
-													alt="Avatar"
-													className="avatar"
-												/>
+												<img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar"/>
 											</div>
 										)}
 										<div className="message-bubble">
@@ -240,11 +218,7 @@ const FriendMessagePage = () => {
 										</div>
 										{message.messageSenderEmail === user.email && (
 											<div className="friend-picture">
-												<img
-													src={message.messageSenderProfilePictureUrl}
-													alt="Avatar"
-													className="avatar"
-												/>
+												<img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar"/>
 											</div>
 										)}
 									</div>

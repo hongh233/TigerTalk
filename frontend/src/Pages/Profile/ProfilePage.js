@@ -1,21 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import NavBar from "../../Components/Main/NavBar";
-import Post from "../../Components/Post/Post";
-import Header from "../../Components/Main/Header";
-import { formatPost } from "../../utils/formatPost";
-// Icon:
-import { MdCheckCircle, MdRemoveCircle, MdAccessTimeFilled } from 'react-icons/md';
-import { IoMdCloseCircle } from "react-icons/io";
-// Axio:
+import "../../assets/styles/Pages/Profile/ProfilePage.css";
 import { sendFriendRequest, areFriendshipRequestExist } from "../../axios/Friend/FriendshipRequestAxios";
 import { areFriends } from "../../axios/Friend/FriendshipAxios";
 import {deleteFriendshipByEmail} from "../../axios/Friend/FriendshipAxios";
 import { getCurrentUser } from "../../axios/UserAxios";
 import { FetchPostsOfOneUser } from "../../axios/Post/PostAxios";
-// CSS:
-import "../../assets/styles/Pages/Profile/ProfilePage.css";
+import { MdCheckCircle, MdRemoveCircle, MdAccessTimeFilled } from 'react-icons/md';
+import { IoMdCloseCircle } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import Post from "../../Components/Post/Post";
+import Header from "../../Components/Main/Header";
+import { formatPost } from "../../utils/formatPost";
 
 
 const getStatusClass = (status) => {
@@ -151,10 +147,6 @@ const ProfilePage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-
 				{profileUser && (
 					<div className="profile-main-content">
 						<div className="profile-page-user-info">

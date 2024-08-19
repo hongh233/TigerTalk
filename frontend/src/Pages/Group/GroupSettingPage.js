@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
+import "../../assets/styles/Pages/Group/GroupSettingPage.css";
+import { handleGetGroupById, handleUpdateGroup } from "../../axios/Group/GroupAxios";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../../Components/Main/Header";
-import NavBar from "../../Components/Main/NavBar";
 import {uploadImageToCloudinary} from "../../utils/cloudinaryUtils";
-// Axio:
-import { handleGetGroupById, handleUpdateGroup } from "../../axios/Group/GroupAxios";
-// CSS:
-import "../../assets/styles/Pages/Group/GroupSettingPage.css";
 
 
 const GroupSettingPage = () =>{
@@ -95,10 +92,6 @@ const GroupSettingPage = () =>{
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-
 				<form className="group-create-form" onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label>Group Name</label>

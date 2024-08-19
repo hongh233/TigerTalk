@@ -1,16 +1,12 @@
 import React, {useEffect, useState} from "react";
+import "../../assets/styles/Pages/Group/GroupMemberPage.css";
+import { handleAddUserToGroupByAdmin } from "../../axios/Group/GroupAdminAxios";
+import { handleDeleteGroupMembership, handleGetGroupMembersByGroupId, handleGetMembershipID } from "../../axios/Group/GroupAxios";
+import {FaUserPlus} from "react-icons/fa";
 import {useParams} from "react-router-dom";
-import NavBar from "../../Components/Main/NavBar";
 import Header from "../../Components/Main/Header";
 import GroupMembership from "../../Components/Group/GroupMembership";
 import SearchBar from "../../Components/Search/SearchBar";
-// Icon:
-import {FaUserPlus} from "react-icons/fa";
-// Axio:
-import { handleAddUserToGroupByAdmin } from "../../axios/Group/GroupAdminAxios";
-import { handleDeleteGroupMembership, handleGetGroupMembersByGroupId, handleGetMembershipID } from "../../axios/Group/GroupAxios";
-// CSS:
-import "../../assets/styles/Pages/Group/GroupMemberPage.css";
 
 
 const GroupMemberPage = () => {
@@ -70,10 +66,6 @@ const GroupMemberPage = () => {
         <div className="main-page">
             <Header />
             <div className="content">
-                <div className="sidebar">
-                    <NavBar />
-                </div>
-
                 <div className="member-list-content">
                     <h3>Add new member:</h3>
                     <div

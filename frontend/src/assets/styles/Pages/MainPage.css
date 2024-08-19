@@ -3,27 +3,26 @@
     flex-direction: column;
     align-items: center;
     background-color: #f0f2f5;
-    height: 100vh;
+    min-height: 100vh;
+    padding-top: 60px;
+    box-sizing: border-box;
 }
 
 .content {
-    margin-top: 4%;
     display: flex;
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
-}
-
-.sidebar {
-    width: 15%;
-    transition: all 0.3s ease;
+    justify-content: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .main-content {
-    width: 75%;
+    width: 100%;
+    max-width: 800px;
     border-radius: 8px;
-    overflow: scroll;
-    padding-top: 60px;
+    overflow-y: auto;
+    padding-top: 20px;
 }
 
 .post-creation {

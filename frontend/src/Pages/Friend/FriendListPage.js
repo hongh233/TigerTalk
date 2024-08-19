@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import NavBar from "../../Components/Main/NavBar";
-import Header from "../../Components/Main/Header";
-import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
-import SearchBar from "../../Components/Search/SearchBar";
-import { filterUsers } from "../../utils/filterFunctions.js";
-// Axio:
+import "../../assets/styles/Pages/Friend/FriendListPage.css";
 import { deleteFriendshipByEmail } from "../../axios/Friend/FriendshipAxios";
 import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
-// CSS:
-import "../../assets/styles/Pages/Friend/FriendListPage.css";
+import {FaUserPlus} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import Header from "../../Components/Main/Header";
+import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
+import { filterUsers } from "../../utils/filterFunctions.js";
 
 
 const FriendListPage = () => {
@@ -49,24 +46,29 @@ const FriendListPage = () => {
 		}
 	}, [searchFriendQuery, allFriends]);
 
+	const handleInputChange = (e) => {
+		setSearchFriendQuery(e.target.value);
+	};
+
 	return (
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-
 				<div className="friend-list-content">
-					<h3>Friend list:</h3>
+
 					<div className="friend-list-search-bar">
-						<SearchBar
-							searchType="friend"
-							setSearchFriendQuery={setSearchFriendQuery}
-							dropdownClassName="friend"
-							searchBarClassName="friend"
+						<input
+							type="text"
+							placeholder="Search Available Friends..."
+							value={searchFriendQuery}
+							onChange={handleInputChange}
 						/>
 					</div>
+
+					<a href="/friends/friend-request-list" className="friend-tab-item">
+						<FaUserPlus />
+						<span className="text-hide">Friend request list</span>
+					</a>
 
 					{friends.length > 0 ? (
 						friends.map((friend) => (
@@ -79,9 +81,7 @@ const FriendListPage = () => {
 							/>
 						))
 					) : (
-						<div className="no-friends">
-							<p>You have no friends.</p>
-						</div>
+						<div className="no-friends"><p>There is no friend available.</p></div>
 					)}
 				</div>
 			</div>

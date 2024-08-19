@@ -1,9 +1,7 @@
 import React from "react";
-import {useSelector} from "react-redux";
-// Axio:
-import {recommendFriends} from "../../axios/Friend/FriendshipRecommendationAxios";
-// CSS:
 import "../../assets/styles/Components/Friend/FriendRecommendations.css";
+import {recommendFriends} from "../../axios/Friend/FriendshipRecommendationAxios";
+import {useSelector} from "react-redux";
 
 
 const FriendRecommendations = () => {

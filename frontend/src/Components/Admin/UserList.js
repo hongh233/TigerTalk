@@ -1,9 +1,7 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-// Axio:
-import { updateUser } from "../../axios/UserAxios";
-// CSS:
 import "../../assets/styles/Components/Admin/UserList.css";
+import { updateUser } from "../../axios/UserAxios";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const UserList = ({ selectedUsers, setSelectedUsers, data, setData }) => {

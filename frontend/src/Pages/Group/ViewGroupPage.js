@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
+import "../../assets/styles/Pages/Group/ViewGroupPage.css";
+import { handleJoinGroup, handleDeleteGroup, handleGetGroupById, handleGetMembershipID, handleDeleteGroupMembership } from "../../axios/Group/GroupAxios";
+import { handleGetAllPost, handleCreatePost } from "../../axios/Group/GroupPostAxios";
+import { FaCog, FaLock, FaTrashAlt, FaUsers, FaUnlock, FaUserPlus, FaUserMinus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import GroupPost from "../../Components/Group/GroupPost";
 import Header from "../../Components/Main/Header";
-import NavBar from "../../Components/Main/NavBar";
 import PostCreation from "../../Components/Post/PostCreation";
-// Icon:
-import { FaCog, FaLock, FaTrashAlt, FaUsers, FaUnlock, FaUserPlus, FaUserMinus } from "react-icons/fa";
-// Axio:
-import { handleJoinGroup, handleDeleteGroup, handleGetGroupById, handleGetMembershipID, handleDeleteGroupMembership } from "../../axios/Group/GroupAxios";
-import { handleGetAllPost, handleCreatePost } from "../../axios/Group/GroupPostAxios";
-// CSS:
-import "../../assets/styles/Pages/Group/ViewGroupPage.css";
 
 
 export const checkIsMember = (userEmail, groupId) => {
@@ -157,10 +153,6 @@ const ViewGroupPage = () => {
 			<div className="main-page">
 				<Header />
 				<div className="content">
-					<div className="sidebar">
-						<NavBar />
-					</div>
-
 					<div className="group-content-container">
 						<div className="group-details-header">
 							<div className="group-background-image">

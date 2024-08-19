@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from "react";
-import NavBar from "../../Components/Main/NavBar";
+import "../../assets/styles/Pages/Friend/FriendRequestPage.css";
+import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
 import Header from "../../Components/Main/Header";
 import FriendRequestComponent from "../../Components/Friend/FriendRequestComponent";
 import {useSelector} from "react-redux";
-// Axio:
-import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
-// CSS:
-import "../../assets/styles/Pages/Friend/FriendRequestPage.css";
 
 
 const FriendRequestPage = () => {
@@ -33,10 +30,6 @@ const FriendRequestPage = () => {
         <div className="main-page">
             <Header />
             <div className="content">
-                <div className="sidebar">
-                    <NavBar />
-                </div>
-
                 <div className="friend-request-list-content">
                     {friendRequests.length > 0 ? (
                         friendRequests.map((request) => (

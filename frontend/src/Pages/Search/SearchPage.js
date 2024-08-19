@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
+import "../../assets/styles/Pages/Search/SearchPage.css";
+import { ImFilter } from "react-icons/im";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Header from "../../Components/Main/Header";
-import NavBar from "../../Components/Main/NavBar";
 import Dropdown from "../../Components/Search/DropDown";
 import Group from "../../Components/Group/Group";
 import { filterUsers, filterGroups } from "../../utils/filterFunctions";
-// Icon:
-import { ImFilter } from "react-icons/im";
-// CSS:
-import "../../assets/styles/Pages/Search/SearchPage.css";
 
 
 const SearchPage = () => {
@@ -64,10 +61,6 @@ const SearchPage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-
 				<div className="search-content-container">
 					<h2>{getFilterHeader()}</h2>
 					<div className="filter-section">

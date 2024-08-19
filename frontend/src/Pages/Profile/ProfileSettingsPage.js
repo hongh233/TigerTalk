@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
+import "../../assets/styles/Pages/Profile/ProfileSettingsPage.css";
+import {updateUser} from "../../axios/UserAxios";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../Components/Main/Header";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
-import NavBar from "../../Components/Main/NavBar";
 import {useNavigate} from "react-router-dom";
-// Axio:
-import {updateUser} from "../../axios/UserAxios";
-// CSS:
-import "../../assets/styles/Pages/Profile/ProfileSettingsPage.css";
-
 
 
 const ProfileSettingsPage = () => {
@@ -103,10 +99,6 @@ const ProfileSettingsPage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div className="sidebar">
-					<NavBar />
-				</div>
-
 				<form className="profile-settings-form" onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label>First Name</label>

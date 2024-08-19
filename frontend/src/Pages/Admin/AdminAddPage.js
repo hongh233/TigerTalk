@@ -1,9 +1,8 @@
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
-// Axio:
-import {userSignUp} from "../../axios/Authentication/SignUpAxios";
-// CSS:
 import "../../assets/styles/Pages/Admin/AdminAddPage.css";
+import {userSignUp} from "../../axios/Authentication/SignUpAxios";
+import {useNavigate} from "react-router-dom";
+
 
 
 const SECURITY_QUESTIONS = [

@@ -1,9 +1,8 @@
+import React from "react";
+import "../../assets/styles/Components/Group/Group.css";
+import { FaLock, FaUnlock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-// Icon:
-import { FaLock, FaUnlock } from "react-icons/fa";
-// CSS:
-import "../../assets/styles/Components/Group/Group.css";
 
 
 const Group = ({ group }) => {
