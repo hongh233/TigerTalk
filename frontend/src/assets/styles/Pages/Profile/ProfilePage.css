@@ -20,29 +20,79 @@
 	width: 100%;
 }
 
+
+
+
+
+
+
+
+
+/************************* This section refers to profile picture *************************/
+/* This is the outside box of the profile picture*/
 .profile-page-user-info-picture-container {
+	position: relative;
 	width: 200px; /* Set a fixed width */
 	height: 200px; /* Set a fixed height */
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	margin-left: 3%;
+	transition: transform 0.3s ease;
+}
+.profile-page-user-info-picture-container:hover {
+	transform: scale(1.05);
 }
 
+/* Real Profile picture */
 .profile-page-user-info-picture {
 	width: 100%;
 	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.profile-page-user-info-picture img {
 	border-radius: 50%;
-	width: 100%;
-	height: 100%;
 	object-fit: cover;
 }
+
+/* The grey background button to change profile picture
+   (when you move your mouse onto the profile picture) */
+.profile-picture-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	opacity: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: opacity 0.3s ease;
+	cursor: pointer;
+	border-radius: 50%;
+}
+.profile-page-user-info-picture-container:hover .profile-picture-overlay {
+	opacity: 1;
+}
+/* camera icon in the profile picture */
+.profile-picture-overlay-icon {
+	color: white;
+	font-size: 3em;
+}
+/* When uploading picture show the info in the middle of the profile picture */
+.profile-picture-uploading-text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-size: 1em;
+	z-index: 10;
+}
+/******************************************************************************************/
+
+
+
+
+
+
+
+
 
 .profile-page-user-info-text {
 	width: 70%;

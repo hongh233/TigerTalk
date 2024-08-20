@@ -3,15 +3,16 @@ import "../../assets/styles/Pages/Profile/ProfilePage.css";
 import { sendFriendRequest, areFriendshipRequestExist } from "../../axios/Friend/FriendshipRequestAxios";
 import { areFriends } from "../../axios/Friend/FriendshipAxios";
 import {deleteFriendshipByEmail} from "../../axios/Friend/FriendshipAxios";
-import { getCurrentUser } from "../../axios/UserAxios";
+import {getCurrentUser, updateUser} from "../../axios/UserAxios";
 import { FetchPostsOfOneUser } from "../../axios/Post/PostAxios";
-import { MdCheckCircle, MdRemoveCircle, MdAccessTimeFilled } from 'react-icons/md';
+import {MdCheckCircle, MdRemoveCircle, MdAccessTimeFilled, MdPhotoCamera} from 'react-icons/md';
 import { IoMdCloseCircle } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import Post from "../../Components/Post/Post";
 import Header from "../../Components/Main/Header";
 import { formatPost } from "../../utils/formatPost";
+import {uploadImageToCloudinary} from "../../utils/cloudinaryUtils";
 
 
 const getStatusClass = (status) => {
@@ -41,6 +42,7 @@ const ProfilePage = () => {
 	const paramUserEmail = useParams().userEmail;
 	const navigate = useNavigate();
 	const [showSetting, setShowSetting] = useState(false);
+	const [uploading, setUploading] = useState(false);
 
 	useEffect(() => {
 		if (paramUserEmail === user.email) {
@@ -140,29 +142,63 @@ const ProfilePage = () => {
 		}
 	};
 
+
 	const handleDeletePost = (postId) => {
 		setPosts(posts.filter((post) => post.id !== postId));
 	};
+
+
+	const handleUpdateProfilePicture = async (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			setUploading(true);
+			try {
+				const imageUrl = await uploadImageToCloudinary(file);
+				const updatedUser = { ...profileUser, profilePictureUrl: imageUrl };
+				await updateUser(updatedUser);
+				dispatch({ type: "SET_USER", payload: updatedUser });
+				setProfileUser(updatedUser); // Update the local profileUser state
+				setUploading(false);
+			} catch (error) {
+				console.error("Error updating profile picture:", error);
+				setUploading(false);
+			}
+		}
+	};
+
+
+
 	return (
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				{profileUser && (<div className="profile-main-content">
+				{profileUser && (
+					<div className="profile-main-content">
 
 						<div className="profile-page-user-info">
 							<div className="profile-page-user-info-container">
 
-								<div className="profile-page-user-info-picture-container">
-									<div className="profile-page-user-info-picture">
-										<img src={profileUser && profileUser.profilePictureUrl} alt="user profile"/>
-									</div>
+
+								<div className="profile-page-user-info-picture-container" title="Change or add profile picture">
+									<img src={profileUser && profileUser.profilePictureUrl} alt="user profile" className="profile-page-user-info-picture" />
+									{showSetting && (
+										<>
+											<div className="profile-picture-overlay" onClick={() => document.getElementById('update-profile-picture').click()}>
+												<MdPhotoCamera className="profile-picture-overlay-icon" />
+											</div>
+											<input type="file" id="update-profile-picture" style={{ display: "none" }} onChange={handleUpdateProfilePicture}/>
+											{uploading && <p className="profile-picture-uploading-text">Uploading...</p>}
+										</>
+									)}
 								</div>
+
 
 								<div className="profile-page-user-info-text">
 									<h2 className="profile-page-profile-name-status">
 										{profileUser.userName}
 										<span className="profile-page-status-icon">{getStatusClass(profileUser.onlineStatus)}</span>
 									</h2>
+
 									{showSetting ? (
 										<button className="profile-button" onClick={() => navigate(`/profile/edit`)}>Edit profile</button>
 									) : (
@@ -177,8 +213,10 @@ const ProfilePage = () => {
 										<span><strong>Gender:</strong> {profileUser.gender}</span>
 										<span><strong>Role:</strong> {profileUser.role}</span>
 									</p>
+
 									<p><strong>Full Name:</strong> {profileUser.firstName}{" "}{profileUser.lastName}</p>
 									<p><strong>Bio: </strong>{profileUser.biography}</p>
+
 								</div>
 
 							</div>
