@@ -56,14 +56,16 @@ const FriendListPage = () => {
 			<div className="content">
 				<div className="friend-list-content">
 
-					<div className="friend-list-search-bar">
-						<input type="text" placeholder="Search Available Friends..." value={searchFriendQuery} onChange={handleInputChange}/>
-					</div>
+					<div className="friend-request-page-search-and-create">
+						<div className="friend-list-search-bar">
+							<input type="text" placeholder="Search Available Friends..." value={searchFriendQuery} onChange={handleInputChange}/>
+						</div>
 
-					<a href="/friends/friend-request-list" className="friend-tab-item">
-						<FaUserPlus />
-						<span className="text-hide">Friend request list</span>
-					</a>
+						<a href="/friends/friend-request-list" className="friend-request-page-button">
+							<FaUserPlus />
+							<span>Friend request list</span>
+						</a>
+					</div>
 
 					{friends.length > 0 ? (
 						friends.map((friend) => (

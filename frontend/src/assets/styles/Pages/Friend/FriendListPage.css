@@ -36,6 +36,45 @@
     color: #555;
 }
 
+
+
+
+
+
+
+
+
+
+.friend-request-page-search-and-create {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.friend-request-page-button {
+    background: #333;
+    color: #fff;
+
+    border: none;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    margin-left: 60px;
+
+
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+
+    width: 150px;
+    justify-content: center;
+    transition: background 0.3s ease;
+}
+.friend-request-page-button:hover {
+    background-color: #626262;
+}
+
 @media (max-width: 768px) {
 
 }
