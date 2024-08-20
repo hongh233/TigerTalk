@@ -1,12 +1,10 @@
 /* group search bar */
 .group-page-search-bar {
 	width: 550px;
-	margin-bottom: 20px;
-	margin-top: 40px;
-
+	margin-bottom: 40px;
 	border-radius: 25px;
-	overflow: hidden;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: box-shadow 0.3s ease;
 }
 .group-page-search-bar input {
 	width: 100%;
@@ -16,9 +14,14 @@
 	outline: none;
 	font-size: 16px;
 	box-sizing: border-box;
+	transition: box-shadow 0.3s ease;
 }
-
-
+.group-page-search-bar:hover {
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.group-page-search-bar input:hover {
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
 
 
 
@@ -26,31 +29,25 @@
 .create-group-button {
 	background: #333;
 	color: #fff;
-
 	border: none;
-	padding: 10px 20px;
-	margin-bottom: 20px;
-	margin-top: 40px;
-	margin-left: 60px;
-
-
 	border-radius: 5px;
+	transition: background 0.3s ease;
+
 	cursor: pointer;
 	text-decoration: none;
 	display: inline-flex;
 	align-items: center;
-
-	width: 150px;
 	justify-content: center;
-	transition: background 0.3s ease;
+
+	padding: 10px 20px;
+	margin-left: 60px;
+	width: 160px;
+	/*height: 24px;*/
+	margin-bottom: 40px;
 }
 .create-group-button:hover {
 	background-color: #626262;
 }
-
-
-
-
 
 
 /* box contain search bar and create group button */
@@ -58,21 +55,47 @@
 	display: flex;
 	align-items: center;
 	justify-content: left;
+
+	/*border: 1px solid red;*/
 }
 
 
-.group-list-container {
-	flex: 1;
-	overflow: scroll;
+
+
+/* box contain group-page-search-and-create and group-list-container */
+.group-page-content-control {
+	margin-top: 50px; /* control the distance between content to the header bar*/
+	width: 100%;
+	border-radius: 8px;
+
+	/*border: 1px solid black;*/
 }
 
+
+
+
+
+/* box contain each group items */
 .group-content {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: flex-start;
-	/*gap: 20px;*/
+	gap: 30px;
+
+	/*border: 1px solid red;*/
 }
 
+
+/* box that contain group-content */
+.group-list-container {
+	flex-grow: 1;
+	overflow: scroll;
+}
+
+
+
+
+/* view more, view less button */
 .toggle-groups {
 	cursor: pointer;
 	color: #3c95f5;
@@ -80,10 +103,13 @@
 	margin-top: 10px;
 	transition: color 0.3s ease;
 }
-
 .toggle-groups:hover {
 	color: #791eb7;
 }
+
+
+
+
 
 .no-groups {
 	text-align: center;

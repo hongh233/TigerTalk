@@ -1,3 +1,4 @@
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 .main-page {
     display: flex;
     flex-direction: column;
@@ -8,33 +9,30 @@
     box-sizing: border-box;
 }
 
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 .content {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 1200px;
-    padding: 20px;
+    max-width: 1100px;
     box-sizing: border-box;
 
-    border: 10px solid black;
+    border: 1px solid black;
 }
 
 .main-content {
     width: 100%;
-    max-width: 900px;  /* !!! real controller adjusting the width of the main page*/
     border-radius: 8px;
     overflow-y: auto;
+
     padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
-.post-creation {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    border-bottom: 1px solid #ddd;
-}
 
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 .profile-picture {
     width: 40px;
     height: 40px;
@@ -43,6 +41,7 @@
     margin-bottom: 10px;
 }
 
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 textarea {
     width: 100%;
     height: 60px;
@@ -52,12 +51,14 @@ textarea {
     margin-bottom: 10px;
 }
 
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 .location-and-image {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 input[type="text"] {
     flex: 1;
     padding: 10px;
@@ -66,6 +67,7 @@ input[type="text"] {
     margin-right: 10px;
 }
 
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 .image-upload {
     display: flex;
     align-items: center;
@@ -77,6 +79,7 @@ input[type="text"] {
     cursor: pointer;
 }
 
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 .image-upload span {
     font-size: 24px;
 }

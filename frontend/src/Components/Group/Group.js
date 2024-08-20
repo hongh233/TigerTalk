@@ -14,13 +14,13 @@ const Group = ({ group }) => {
 
 	return (
 		<div className="group">
-			<div className="group-header">
+			<div className="group-header"  onClick={() => {navigate(`/group/viewgroup/${group.groupId}`);}}>
 
-				<div className="one-group-background-image" onClick={() => {navigate(`/group/viewgroup/${group.groupId}`);}}>
+				<div className="one-group-background-image">
 					<img src={group.groupImg} alt="Group cover" />
 				</div>
 
-				<div className="group-creator-details" onClick={() => {navigate(`/group/viewgroup/${group.groupId}`);}}>
+				<div className="group-creator-details">
 					{group.groupName} {group.isPrivate ? <FaLock /> : <FaUnlock />}
 					<p>{group.dateCreated}</p>
 				</div>

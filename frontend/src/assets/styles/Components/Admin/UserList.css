@@ -8,12 +8,12 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+td {
     border: 1px solid #ddd;
-    padding: 8px;
 }
 
 th {
+    border: 1px solid #ddd;
     background-color: #f2f2f2;
     text-align: left;
 }

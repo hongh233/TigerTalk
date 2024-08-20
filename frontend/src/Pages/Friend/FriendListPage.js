@@ -63,7 +63,7 @@ const FriendListPage = () => {
 
 						<a href="/friends/friend-request-list" className="friend-request-page-button">
 							<FaUserPlus />
-							<span>Friend request list</span>
+							<span>Friend Request List</span>
 						</a>
 					</div>
 

@@ -1,12 +1,10 @@
 /* friend search bar */
 .friend-list-search-bar {
     width: 550px;
-    margin-bottom: 20px;
-    margin-top: 40px;
-
+    margin-bottom: 40px;
     border-radius: 25px;
-    overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 }
 .friend-list-search-bar input {
     width: 100%;
@@ -16,18 +14,63 @@
     outline: none;
     font-size: 16px;
     box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+}
+.friend-list-search-bar:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.friend-list-search-bar input:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/* friend request list button */
+.friend-request-page-button {
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 20px;
+    margin-left: 60px;
+    width: 160px;
+    /*height: 24px;*/
+    margin-bottom: 40px;
+}
+.friend-request-page-button:hover {
+    background-color: #626262;
+}
+
+
+/* box contain friend search bar and friend request list button */
+.friend-request-page-search-and-create {
+    display: flex;
+    align-items: center;
+    justify-content: left;
 }
 
 
 
 
-
-
-
+/* box contain friend-request-page-search-and-create box and FriendshipMembership component*/
 .friend-list-content {
+    margin-top: 50px; /* control the distance between content to the header bar*/
     width: 100%;
     border-radius: 8px;
+
+    /*border: 1px solid black;*/
 }
+
+
+
+
 
 .no-friends {
     text-align: center;
@@ -44,36 +87,6 @@
 
 
 
-
-.friend-request-page-search-and-create {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-}
-.friend-request-page-button {
-    background: #333;
-    color: #fff;
-
-    border: none;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    margin-top: 40px;
-    margin-left: 60px;
-
-
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-
-    width: 150px;
-    justify-content: center;
-    transition: background 0.3s ease;
-}
-.friend-request-page-button:hover {
-    background-color: #626262;
-}
 
 @media (max-width: 768px) {
 

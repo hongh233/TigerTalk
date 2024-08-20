@@ -1,9 +1,11 @@
 .admin-content {
-    width: 75%;
+    width: 100%;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    /*border: 1px solid black;*/
 }
 
 .admin-buttons {

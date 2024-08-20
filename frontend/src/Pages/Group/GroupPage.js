@@ -71,7 +71,8 @@ const GroupPage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<div>
+				<div className="group-page-content-control">
+
 					<div className="group-page-search-and-create">
 						<div className="group-page-search-bar">
 							<input type="text" placeholder="Search Available Groups..." onChange={handleInputChange}/>
@@ -89,6 +90,7 @@ const GroupPage = () => {
 						<h2>Joined Groups:</h2>
 						{renderGroupSection("joined")}
 					</div>
+
 				</div>
 			</div>
 		</div>

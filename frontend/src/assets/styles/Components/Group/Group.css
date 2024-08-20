@@ -1,27 +1,51 @@
 .group {
 	background-color: #fff;
 	border: 1px solid #ddd;
-	border-radius: 8px;
+	border-radius: 18px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	margin: 15px;
-	width: 240px;  	/*width of one group box*/
+	cursor: pointer;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+	width: 250px;  	/*width of one group box*/
 	height: 200px;	/*height of one group box*/
 }
+.group:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
 
+
+
+
+
+/* box include background image and group name, also with hyper link to a specific group page*/
 .group-header {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	height: 100%;
 	width: 100%;
+
+	/*border: 1px solid black;*/
 }
+
+
+/* group name and other text information */
 .group-creator-details {
-	cursor: pointer;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	grid-row-gap: 5px;
 	width: 100%;
+}
+.group-creator-details a {
+	margin: 0;
+	font-size: 1rem;
+}
+.group-creator-details p {
+	margin: 0;
+	color: #888;
+	font-size: 0.875rem;
 }
 
 
@@ -29,7 +53,6 @@
 
 /* group figure box */
 .one-group-background-image {
-	cursor: pointer;
 	width: 100px;
 	height: 100px;
 	overflow: hidden;
@@ -53,17 +76,6 @@
 
 
 
-
-.group-creator-details a {
-	margin: 0;
-	font-size: 1rem;
-}
-
-.group-creator-details p {
-	margin: 0;
-	color: #888;
-	font-size: 0.875rem;
-}
 
 .group-footer {
 	display: flex;
