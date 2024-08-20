@@ -42,7 +42,13 @@ const GroupPage = () => {
 	};
 
 	const renderGroupSection = (type) => {
+
+		if (filteredGroups[type].length === 0) {
+			return <p className="no-groups">There is no group available.</p>;
+		}
+
 		const groupsToShow = showAllGroups[type] ? filteredGroups[type] : filteredGroups[type].slice(0, 4);
+
 		return (
 			<>
 				<div className="group-content">
@@ -68,11 +74,7 @@ const GroupPage = () => {
 				<div>
 					<div className="group-page-search-and-create">
 						<div className="group-page-search-bar">
-							<input
-								type="text"
-								placeholder="Search Available Groups..."
-								onChange={handleInputChange}
-							/>
+							<input type="text" placeholder="Search Available Groups..." onChange={handleInputChange}/>
 						</div>
 
 						<a href="/group/creategroup/" className="create-group-button">

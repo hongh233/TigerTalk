@@ -127,30 +127,16 @@ const SearchBar = ({
 		<div className={`search-bar-${searchBarClassName}`}>
 			<div className={`search-bar-${searchBarClassName}-input`}>
 				<div className="search-input-and-button">
-					<input
-						type="text"
-						placeholder="Search..."
-						value={searchQuery}
-						onChange={handleInputChange}
-						onFocus={onFocus}
-						onBlur={onBlur}
-						onKeyDown={handleKeyDown}
+					<input type="text" placeholder="Search..." value={searchQuery} onChange={handleInputChange}
+						onFocus={onFocus} onBlur={onBlur} onKeyDown={handleKeyDown}
 					/>
 					{searchType === "global" && (
-						<div className="header-search-button" onClick={fetchGlobal}>
-							<IoSearch />
-						</div>
+						<div className="header-search-button" onClick={fetchGlobal}><IoSearch /></div>
 					)}
 				</div>
 			</div>
 
-			{showDropdown && items && (
-				<Dropdown
-					handleChoose={handleChoose}
-					items={items}
-					dropdownClassName={dropdownClassName}
-				/>
-			)}
+			{showDropdown && items && (<Dropdown handleChoose={handleChoose} items={items} dropdownClassName={dropdownClassName}/>)}
 		</div>
 	);
 };

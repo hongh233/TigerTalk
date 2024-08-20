@@ -20,25 +20,15 @@ const Dropdown = ({ items, dropdownClassName, handleChoose }) => {
 		<div className={`search-results-dropdown-${dropdownClassName}`}>
 			{items.map((item, index) => (
 				<div key={index} className="search-result-item">
-					<div
-						className="post-user-email"
-						onClick={(e) => handleChoose(item.email)}
-					>
+					<div className="post-user-email" onClick={(e) => handleChoose(item.email)}>
 						<div className="profile-header">
-							<div className="profile-user-picture">
-								<img src={item.profilePictureUrl} alt="Profile" />
-							</div>
+							<div className="profile-user-picture"><img src={item.profilePictureUrl} alt="Profile" /></div>
 
 							<div className="profile-info">
 								<div className="profile-name-status">
 									<h3>
 										{item.userName}
-										<span
-											className="status-circle"
-											style={{
-												backgroundColor: getStatusColor(item.onlineStatus),
-											}}
-										></span>
+										<span className="status-circle" style={{backgroundColor: getStatusColor(item.onlineStatus),}}></span>
 									</h3>
 								</div>
 								<p>{item.email}</p>

@@ -32,15 +32,9 @@ const FriendRecommendations = () => {
                         <li key={index}>
                             <a href={`/profile/${friend.email}`} className="friend-link">
                                 <div className="recommend-friend-picture">
-                                    <img
-                                        src={friend.profilePictureUrl}
-                                        alt={friend.userName}
-                                        className="friend-avatar"
-                                    />
+                                    <img src={friend.profilePictureUrl} alt={friend.userName} className="friend-avatar"/>
                                 </div>
-                                <div className="friend-name">
-                                    <b>{friend.userName}</b>
-                                </div>
+                                <div className="friend-name"><b>{friend.userName}</b></div>
                             </a>
                         </li>
                     ))}

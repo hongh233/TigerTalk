@@ -44,21 +44,11 @@ const ResetPasswordPage = () => {
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label>New Password</label>
-                        <input
-                            type="password"
-                            name="newPassword"
-                            value={newPassword}
-                            onChange={handleChange}
-                        />
+                        <input type="password" name="newPassword" value={newPassword} onChange={handleChange}/>
                     </div>
                     <div>
                         <label>Confirm Password</label>
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            value={confirmPassword}
-                            onChange={handleChange}
-                        />
+                        <input type="password" name="confirmPassword" value={confirmPassword} onChange={handleChange}/>
                     </div>
                     <button type="submit">Submit</button>
                 </form>

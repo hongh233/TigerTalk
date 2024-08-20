@@ -171,12 +171,8 @@ const ViewGroupPage = () => {
 										</li>
 
 										<>
-											<li className="setting">
-												<a className="group-link" href={`/group/${groupId}/setting`}><FaCog /></a>
-											</li>
-											<li className="delete group-link" onClick={deleteGroup}>
-												<FaTrashAlt />
-											</li>
+											<li className="setting"><a className="group-link" href={`/group/${groupId}/setting`}><FaCog /></a></li>
+											<li className="delete group-link" onClick={deleteGroup}><FaTrashAlt /></li>
 										</>
 									</ul>
 								)}
@@ -193,9 +189,7 @@ const ViewGroupPage = () => {
 							) : isPrivate ? (
 								<p>This is a private group. You cannot join.</p>
 							) : (
-								<button onClick={joinGroup} className="join-group-button">
-									<FaUserPlus /> Join Group
-								</button>
+								<button onClick={joinGroup} className="join-group-button"><FaUserPlus /> Join Group</button>
 							)}
 						</div>
 
@@ -203,16 +197,9 @@ const ViewGroupPage = () => {
 							{isMember && <PostCreation addPost={addPost} />}
 							{!isPrivate || isMember ? (
 								<>
-									{posts &&
-										posts.map((post) => (
-											<GroupPost
-												key={post.groupPostId}
-												isMember={isMember}
-												post={post}
-												groupId={groupId}
-												groupMembershipId={groupMembershipId}
-												userEmail={userEmail}
-												removePost={handleDeletePost}
+									{posts && posts.map((post) => (
+											<GroupPost key={post.groupPostId} isMember={isMember} post={post} groupId={groupId}
+												groupMembershipId={groupMembershipId} userEmail={userEmail} removePost={handleDeletePost}
 											/>
 										))
 									}

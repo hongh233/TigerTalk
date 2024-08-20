@@ -53,13 +53,7 @@ const ForgotPasswordPage = () => {
             {step === 1 && (
                 <div className="forgot-password-card">
                     <h1>Forgot Password</h1>
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={handleChange}
-                    />
+                    <input type="email" name="email" placeholder="Enter your email" value={email} onChange={handleChange}/>
                     {errors.email && <div className="error-css">{errors.email}</div>}
                     <button onClick={handleNext}>Next Step</button>
                 </div>

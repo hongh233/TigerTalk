@@ -40,7 +40,7 @@ const FriendRequestPage = () => {
                         ))
                     ) : (
                         <div className="no-friend-requests">
-                            <p>You have no friend requests</p>
+                            <p>There is no friend request.</p>
                         </div>
                     )}
                 </div>

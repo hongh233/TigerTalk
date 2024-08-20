@@ -85,6 +85,13 @@
 	color: #791eb7;
 }
 
+.no-groups {
+	text-align: center;
+	margin-top: 20px;
+	font-size: 18px;
+	color: #555;
+}
+
 @media (max-width: 768px) {
 
 }

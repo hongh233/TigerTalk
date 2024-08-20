@@ -9,17 +9,20 @@
 }
 
 .content {
+    width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     max-width: 1200px;
-    width: 100%;
     padding: 20px;
     box-sizing: border-box;
+
+    border: 10px solid black;
 }
 
 .main-content {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;  /* !!! real controller adjusting the width of the main page*/
     border-radius: 8px;
     overflow-y: auto;
     padding-top: 20px;

@@ -17,9 +17,7 @@ const FriendshipMembership = ({ user, handleDeleteFn  }) => {
 				</div>
 			</div>
 			<div className="friend-actions">
-				<button className="delete-button" onClick={handleDeleteFn}>
-					Delete
-				</button>
+				<button className="delete-button" onClick={handleDeleteFn}>Delete</button>
 			</div>
 		</div>
 	);

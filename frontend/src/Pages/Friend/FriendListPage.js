@@ -57,12 +57,7 @@ const FriendListPage = () => {
 				<div className="friend-list-content">
 
 					<div className="friend-list-search-bar">
-						<input
-							type="text"
-							placeholder="Search Available Friends..."
-							value={searchFriendQuery}
-							onChange={handleInputChange}
-						/>
+						<input type="text" placeholder="Search Available Friends..." value={searchFriendQuery} onChange={handleInputChange}/>
 					</div>
 
 					<a href="/friends/friend-request-list" className="friend-tab-item">
@@ -73,9 +68,7 @@ const FriendListPage = () => {
 					{friends.length > 0 ? (
 						friends.map((friend) => (
 							<FriendshipMembership
-								key={friend.email}
-								user={friend}
-								userEmail={user.email}
+								key={friend.email} user={friend} userEmail={user.email}
 								onDelete={handleDeleteFriend}
 								handleDeleteFn={() => deleteFriendshipByEmail(user.email, friend.email)}
 							/>
@@ -83,6 +76,7 @@ const FriendListPage = () => {
 					) : (
 						<div className="no-friends"><p>There is no friend available.</p></div>
 					)}
+
 				</div>
 			</div>
 		</div>

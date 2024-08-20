@@ -148,16 +148,10 @@ const Post = ({ post, user, removePost }) => {
 		<div className="post">
 			<div className="post-header">
 				<div className="profile-picture">
-					<a className="post-user-email" href={`/profile/${post.email}`}>
-						<img src={post.profileProfileURL} alt="avatar" />
-					</a>
+					<a className="post-user-email" href={`/profile/${post.email}`}><img src={post.profileProfileURL} alt="avatar" /></a>
 				</div>
 				<div className="post-user-details">
-					<h3>
-						<a className="post-user-email" href={`/profile/${post.email}`}>
-							{post.userProfileUserName}
-						</a>
-					</h3>
+					<h3><a className="post-user-email" href={`/profile/${post.email}`}>{post.userProfileUserName}</a></h3>
 					<p>{formatDate(post.timestamp)}</p>
 				</div>
 			</div>
@@ -175,53 +169,30 @@ const Post = ({ post, user, removePost }) => {
 
 			{post.postImageURL && (
 				<div className="post-content-img-container">
-					<div className="post-content-img">
-						<img src={post.postImageURL} alt="Post content" />
-					</div>
+					<div className="post-content-img"><img src={post.postImageURL} alt="Post content" /></div>
 				</div>
 			)}
 
 			<div className="post-footer">
-				<button className="post-button" onClick={handleLike}>
-					{likes} <FaThumbsUp />
-				</button>
-				<button className="post-button" onClick={handleFetchAndDisplayComments}>
-					{postComments.length > 0 ? postComments.length : ""} <FaComment />
-				</button>
-				<button className="post-button" onClick={handleShare}>
-					<FaShare />
-				</button>
-				{user.email === post.email && !isEditing && (
-					<button className="post-button" onClick={handleEditClick}>
-						<FaEdit />
-					</button>
-				)}
+
+				<button className="post-button" onClick={handleLike}>{likes} <FaThumbsUp /></button>
+				<button className="post-button" onClick={handleFetchAndDisplayComments}>{postComments.length > 0 ? postComments.length : ""} <FaComment /></button>
+				<button className="post-button" onClick={handleShare}><FaShare /></button>
+				{user.email === post.email && !isEditing && (<button className="post-button" onClick={handleEditClick}><FaEdit /></button>)}
+
 				{user.email === post.email && isEditing && (
 					<>
 						<button className="post-button" onClick={handleSaveEdit}>Save</button>
 						<button className="post-button" onClick={handleCancelEdit}>Cancel</button>
 					</>
 				)}
-				{isAuthorOrAdmin && (
-					<button className="post-button delete-button" onClick={handleDelete}>
-						<FaTrash />
-					</button>
-				)}
+				{isAuthorOrAdmin && (<button className="post-button delete-button" onClick={handleDelete}><FaTrash /></button>)}
 			</div>
 
 			<div className="postComments-section">
-				{postComments &&
-					commentToggle &&
-					postComments.map((postComment, index) => (
-						<Comment key={index} postComment={postComment} />
-					))}
+				{postComments && commentToggle && postComments.map((postComment, index) => (<Comment key={index} postComment={postComment} />))}
 				<div className="add-comment">
-					<input
-						type="text"
-						placeholder="Add a comment..."
-						value={newComment}
-						onChange={handleCommentChange}
-					/>
+					<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
 					<button onClick={handleAddComment}>Post</button>
 				</div>
 			</div>

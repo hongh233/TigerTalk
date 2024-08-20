@@ -51,13 +51,7 @@ const CreateGroupPage = () => {
 				<form className="group-create-form" onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label>Group Name</label>
-						<input
-							type="text"
-							name="groupName"
-							placeholder="Group name"
-							value={form.groupName}
-							onChange={handleChange}
-						/>
+						<input type="text" name="groupName" placeholder="Group name" value={form.groupName} onChange={handleChange}/>
 						{errors.groupName && <p className="error">{errors.groupName}</p>}
 					</div>
 					<div className="form-group">

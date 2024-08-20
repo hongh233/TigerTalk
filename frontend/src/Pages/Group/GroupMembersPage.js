@@ -68,36 +68,24 @@ const GroupMemberPage = () => {
             <div className="content">
                 <div className="member-list-content">
                     <h3>Add new member:</h3>
-                    <div
-                        className="add-user-icon"
-                        onClick={() => setShowAddUser(!showAddUser)}
-                    >
+                    <div className="add-user-icon" onClick={() => setShowAddUser(!showAddUser)}>
                         <FaUserPlus/>
                     </div>
                     {showAddUser && (
-                        <SearchBar
-                            searchType="member"
-                            setSearchMember={setSearchMember}
-                            dropdownClassName="member"
-                            searchBarClassName="member"
-                            groupMembers={members}
+                        <SearchBar searchType="member" setSearchMember={setSearchMember} dropdownClassName="member"
+                            searchBarClassName="member" groupMembers={members}
                         />
                     )}
                     <h3>Existing members:</h3>
                     <div className="group-member-list">
                         {members && members.length > 0 ? (
                             members.map((member) => (
-                                <GroupMembership
-                                    key={member.userProfileDTO.email}
-                                    user={member.userProfileDTO}
-                                    userEmail={member.userProfileDTO.email}
+                                <GroupMembership key={member.userProfileDTO.email} user={member.userProfileDTO} userEmail={member.userProfileDTO.email}
                                     handleDeleteFn={() => handleDeleteGroupMember(member.userProfileDTO.email, groupId)}
                                 />
                             ))
                         ) : (
-                            <div className="no-members">
-                                <p>This group has no members</p>
-                            </div>
+                            <div className="no-members"><p>This group has no members</p></div>
                         )}
                     </div>
                 </div>

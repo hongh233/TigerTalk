@@ -73,9 +73,7 @@ const MainPage = () => {
 					</div>
 					<FriendRecommendations />
 					<div className="post-list">
-						{posts.map((post) => (
-							<Post key={post.id} post={post} user={user} removePost={handleDeletePost} />
-						))}
+						{posts.map((post) => (<Post key={post.id} post={post} user={user} removePost={handleDeletePost} />))}
 					</div>
 					<p>{message}</p>
 				</div>

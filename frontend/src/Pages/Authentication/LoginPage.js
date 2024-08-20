@@ -37,27 +37,19 @@ const LoginPage = () => {
 				<h2>Welcome Back</h2>
 				<p>Login with Email and Password</p>
 
-				{error && (
-					<div className="error-css">
-						<p>{error}</p>
-					</div>
-				)}
+				{error && (<div className="error-css"><p>{error}</p></div>)}
 
 				<form onSubmit={handleSubmit}>
 					<label>Email</label>
 					<input
-						type="email"
-						placeholder="Enter your email"
-						value={email}
+						type="email" placeholder="Enter your email" value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
 
 					<label>Password</label>
 					<input
-						type="password"
-						placeholder="Enter your password"
-						value={password}
+						type="password" placeholder="Enter your password" value={password}
 						onChange={(e) => setPassword(e.target.value)}
 						required
 					/>
@@ -67,9 +59,7 @@ const LoginPage = () => {
 				</form>
 				<div className="additional-links">
 					<Link to="/forgotPassword">Forgot Password?</Link>
-					<p>
-						New User? <Link to="/signup">Sign Up Here Instead</Link>
-					</p>
+					<p>New User? <Link to="/signup">Sign Up Here Instead</Link></p>
 				</div>
 			</div>
 		</div>

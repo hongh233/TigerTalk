@@ -143,21 +143,15 @@ const ProfileSettingsPage = () => {
 							<option value="busy">Busy</option>
 							<option value="away">Away</option>
 						</select>
-						{errors.onlineStatus && (
-							<p className="error">{errors.onlineStatus}</p>
-						)}
+						{errors.onlineStatus && (<p className="error">{errors.onlineStatus}</p>)}
 					</div>
 					<div className="form-group">
 						<label>Profile Picture</label>
 						<input type="file" name="profilePicture" onChange={handleFileChange}/>
 						{uploading && <p>Uploading...</p>}
-						{form.profilePictureUrl && (
-							<img src={form.profilePictureUrl} alt="Profile" width="100" />
-						)}
+						{form.profilePictureUrl && (<img src={form.profilePictureUrl} alt="Profile" width="100" />)}
 					</div>
-					<button type="submit" disabled={uploading}>
-						{uploading ? "Uploading..." : "Update Profile"}
-					</button>
+					<button type="submit" disabled={uploading}>{uploading ? "Uploading..." : "Update Profile"}</button>
 				</form>
 			</div>
 		</div>

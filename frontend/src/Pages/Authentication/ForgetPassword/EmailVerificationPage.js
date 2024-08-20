@@ -33,12 +33,7 @@ const EmailVerificationPage = () => {
             <div className="email-verification-card">
                 <h1>Enter Verification Code</h1>
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Enter code sent to your email"
-                        value={code}
-                        onChange={handleChange}
-                    />
+                    <input type="text" placeholder="Enter code sent to your email" value={code} onChange={handleChange}/>
                     <button type="submit">Submit</button>
                 </form>
                 {errors.general && <p className="error-css">{errors.general}</p>}

@@ -58,35 +58,21 @@ const UserList = ({ selectedUsers, setSelectedUsers, data, setData }) => {
 			<table>
 				<thead>
 					<tr>
-						<th>Select</th>
-						<th>Email</th>
-						<th>User Name</th>
-						<th>First Name</th>
-						<th>Last Name</th>
-						<th>Role</th>
-						<th>Admin</th>
-						<th>Validation</th>
+						<th>Select</th><th>Email</th><th>User Name</th><th>First Name</th><th>Last Name</th><th>Role</th><th>Admin</th><th>Validation</th>
 					</tr>
 				</thead>
 				<tbody>
 					{data.map((user) => (
 						<tr key={user.email}>
 							<td>
-								<input
-									type="checkbox"
-									checked={selectedUsers.includes(user.email)}
-									onChange={() => handleSelectUser(user.email)}
-								/>
+								<input type="checkbox" checked={selectedUsers.includes(user.email)} onChange={() => handleSelectUser(user.email)}/>
 							</td>
 							<td>{user.email}</td>
 							<td>{user.userName}</td>
 							<td>{user.firstName}</td>
 							<td>{user.lastName}</td>
 							<td>
-								<select
-									value={user.role}
-									onChange={(e) => handleRoleChange(user.email, e.target.value)}
-								>
+								<select value={user.role} onChange={(e) => handleRoleChange(user.email, e.target.value)}>
 									<option value="default">default</option>
 									<option value="student">student</option>
 									<option value="instructor">instructor</option>
@@ -94,11 +80,7 @@ const UserList = ({ selectedUsers, setSelectedUsers, data, setData }) => {
 								</select>
 							</td>
 							<td>
-								<input
-									type="checkbox"
-									checked={user.userLevel === "admin"}
-									onChange={() => handleAdminChange(user.email)}
-								/>
+								<input type="checkbox" checked={user.userLevel === "admin"} onChange={() => handleAdminChange(user.email)}/>
 							</td>
 							<td>{user.validated ? "Enabled" : "Disabled"}</td>
 						</tr>

@@ -72,33 +72,11 @@ const AdminPage = () => {
             <Header/>
 			<div className="content">
                 <div className="admin-content">
-                    <UserList
-                        selectedUsers={selectedUsers}
-                        setSelectedUsers={setSelectedUsers}
-                        setData={setData}
-                        data={data}
-                    />
+                    <UserList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} setData={setData} data={data}/>
                     <div className="admin-buttons">
-                        <button
-                            className="add-user-button"
-                            onClick={()=>navigate("/admin/add")}
-                        >
-                            Add Users
-                        </button>
-                        <button
-                            className="delete-user-button"
-                            disabled={selectedUsers.length === 0}
-                            onClick={handleDeleteUsers}
-                        >
-                            Delete Users
-                        </button>
-                        <button
-                            className="toggle-user-button"
-                            disabled={selectedUsers.length === 0}
-                            onClick={handleEnableDisableUsers}
-                        >
-                            Enable/Disable Users
-                        </button>
+                        <button className="add-user-button" onClick={()=>navigate("/admin/add")}>Add Users</button>
+                        <button className="delete-user-button" disabled={selectedUsers.length === 0} onClick={handleDeleteUsers}>Delete Users</button>
+                        <button className="toggle-user-button" disabled={selectedUsers.length === 0} onClick={handleEnableDisableUsers}>Enable/Disable Users</button>
                     </div>
                 </div>
             </div>

@@ -91,7 +91,7 @@ const ProfilePage = () => {
 				const response = await areFriendshipRequestExist(userEmail, user.email);
 				setRequestPending(response);
 				if (response) {
-					setFriendButtonText("Request Pending");
+					setFriendButtonText("Pending");
 				}
 			};
 			checkAreFriends();
@@ -153,10 +153,7 @@ const ProfilePage = () => {
 							<div className="profile-page-user-info-container">
 								<div className="profile-page-user-info-picture-container">
 									<div className="profile-page-user-info-picture">
-										<img
-											src={profileUser && profileUser.profilePictureUrl}
-											alt="user profile"
-										/>
+										<img src={profileUser && profileUser.profilePictureUrl} alt="user profile"/>
 									</div>
 								</div>
 								<div className="profile-page-user-info-text">
@@ -165,18 +162,10 @@ const ProfilePage = () => {
 										<span className="profile-page-status-icon">{getStatusClass(profileUser.onlineStatus)}</span>
 									</h2>
 									{showSetting ? (
-										<button className="profile-button" onClick={() => navigate(`/profile/edit`)}>
-											Edit profile
-										</button>
+										<button className="profile-button" onClick={() => navigate(`/profile/edit`)}>Edit profile</button>
 									) : (
-										profileUser &&
-										profileUser.email !== user.email && (
-											<button
-												className={`profile-button`}
-												onClick={handleFriendShip}
-											>
-												{friendButtonText}
-											</button>
+										profileUser && profileUser.email !== user.email && (
+											<button className={`profile-button`} onClick={handleFriendShip}>{friendButtonText}</button>
 										)
 									)}
 
@@ -186,14 +175,8 @@ const ProfilePage = () => {
 										<span><strong>Gender:</strong> {profileUser.gender}</span>
 										<span><strong>Role:</strong> {profileUser.role}</span>
 									</p>
-									<p>
-										<strong>Full Name:</strong> {profileUser.firstName}{" "}
-										{profileUser.lastName}
-									</p>
-									<p>
-										<strong>Bio: </strong>
-										{profileUser.biography}
-									</p>
+									<p><strong>Full Name:</strong> {profileUser.firstName}{" "}{profileUser.lastName}</p>
+									<p><strong>Bio: </strong>{profileUser.biography}</p>
 								</div>
 							</div>
 						</div>
@@ -202,9 +185,7 @@ const ProfilePage = () => {
 								{message.length > 0 ? (
 									<p>{message}</p>
 								) : (
-									posts.map((post) => (
-										<Post key={post.id} post={post} user={user} removePost={handleDeletePost}/>
-									))
+									posts.map((post) => (<Post key={post.id} post={post} user={user} removePost={handleDeletePost}/>))
 								)}
 							</div>
 						</div>

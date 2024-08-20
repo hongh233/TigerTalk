@@ -95,13 +95,7 @@ const GroupSettingPage = () =>{
 				<form className="group-create-form" onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label>Group Name</label>
-						<input
-							type="text"
-							name="groupName"
-							placeholder="Group name"
-							value={form.groupName}
-							onChange={handleChange}
-						/>
+						<input type="text" name="groupName" placeholder="Group name" value={form.groupName} onChange={handleChange}/>
 						{errors.groupName && <p className="error">{errors.groupName}</p>}
 					</div>
 					<div className="form-group">
@@ -116,11 +110,7 @@ const GroupSettingPage = () =>{
 
 					<div className="form-group">
 						<label>Group Picture</label>
-						<input
-							type="file"
-							name="groupPicture"
-							onChange={handleFileChange}
-						/>
+						<input type="file" name="groupPicture" onChange={handleFileChange}/>
 						{uploading && <p>Uploading...</p>}
 						{form.groupPicture && <img src={form.groupPicture} alt="Group" width="100" />}
 					</div>

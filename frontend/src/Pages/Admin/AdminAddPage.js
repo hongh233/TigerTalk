@@ -144,46 +144,22 @@ const AdminAddPage = () => {
                 <h1>Add a user to the site</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <input
-                            type="text"
-                            name="firstName"
-                            placeholder="First name"
-                            value={form.firstName}
-                            onChange={handleChange}
-                        />
+                        <input type="text" name="firstName" placeholder="First name" value={form.firstName} onChange={handleChange}/>
                         {errors.firstName && <p className="error-css">{errors.firstName}</p>}
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="text"
-                            name="lastName"
-                            placeholder="Last name"
-                            value={form.lastName}
-                            onChange={handleChange}
-                        />
+                        <input type="text" name="lastName" placeholder="Last name" value={form.lastName} onChange={handleChange}/>
                         {errors.lastName && <p className="error-css">{errors.lastName}</p>}
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="text"
-                            name="age"
-                            placeholder="Age"
-                            value={form.age}
-                            onChange={handleChange}
-                        />
+                        <input type="text" name="age" placeholder="Age" value={form.age} onChange={handleChange}/>
                         {errors.age && <p className="error-css">{errors.age}</p>}
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="text"
-                            name="userName"
-                            placeholder="User name"
-                            value={form.userName}
-                            onChange={handleChange}
-                        />
+                        <input type="text" name="userName" placeholder="User name" value={form.userName} onChange={handleChange}/>
                         {errors.userName && <p className="error-css">{errors.userName}</p>}
                     </div>
 
@@ -198,131 +174,63 @@ const AdminAddPage = () => {
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={form.email}
-                            onChange={handleChange}
-                        />
+                        <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange}/>
                         {errors.email && <p className="error-css">{errors.email}</p>}
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={form.password}
-                            onChange={handleChange}
-                        />
+                        <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange}/>
                         {errors.password && <p className="error-css">{errors.password}</p>}
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="password"
-                            name="confirmPassword"
-                            placeholder="Confirm Password"
-                            value={form.confirmPassword}
-                            onChange={handleChange}
-                        />
-                        {errors.confirmPassword && (
-                            <p className="error-css">{errors.confirmPassword}</p>
-                        )}
+                        <input type="password" name="confirmPassword" placeholder="Confirm Password" value={form.confirmPassword} onChange={handleChange}/>
+                        {errors.confirmPassword && (<p className="error-css">{errors.confirmPassword}</p>)}
                     </div>
 
                     <div className="form-group">
-                        <select
-                            name="securityQuestion1"
-                            value={form.securityQuestion1}
-                            onChange={handleChange}
-                        >
+                        <select name="securityQuestion1" value={form.securityQuestion1} onChange={handleChange}>
                             <option value="">Select Security Question 1</option>
                             {SECURITY_QUESTIONS.slice(0, 5).map((question, index) => (
-                                <option key={index} value={question}>
-                                    {question}
-                                </option>
+                                <option key={index} value={question}>{question}</option>
                             ))}
                         </select>
-                        {errors.securityQuestion1 && (
-                            <p className="error-css">{errors.securityQuestion1}</p>
-                        )}
+                        {errors.securityQuestion1 && (<p className="error-css">{errors.securityQuestion1}</p>)}
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="text"
-                            name="securityAnswer1"
-                            placeholder="Answer:"
-                            value={form.securityAnswer1}
-                            onChange={handleChange}
-                        />
-                        {errors.securityAnswer1 && (
-                            <p className="error-css">{errors.securityAnswer1}</p>
-                        )}
+                        <input type="text" name="securityAnswer1" placeholder="Answer:" value={form.securityAnswer1} onChange={handleChange}/>
+                        {errors.securityAnswer1 && (<p className="error-css">{errors.securityAnswer1}</p>)}
                     </div>
 
                     <div className="form-group">
-                        <select
-                            name="securityQuestion2"
-                            value={form.securityQuestion2}
-                            onChange={handleChange}
-                        >
+                        <select name="securityQuestion2" value={form.securityQuestion2} onChange={handleChange}>
                             <option value="">Select Security Question 2</option>
                             {SECURITY_QUESTIONS.slice(5, 10).map((question, index) => (
-                                <option key={index} value={question}>
-                                    {question}
-                                </option>
+                                <option key={index} value={question}>{question}</option>
                             ))}
                         </select>
-                        {errors.securityQuestion2 && (
-                            <p className="error-css">{errors.securityQuestion2}</p>
-                        )}
+                        {errors.securityQuestion2 && (<p className="error-css">{errors.securityQuestion2}</p>)}
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="text"
-                            name="securityAnswer2"
-                            placeholder="Answer:"
-                            value={form.securityAnswer2}
-                            onChange={handleChange}
-                        />
-                        {errors.securityAnswer2 && (
-                            <p className="error-css">{errors.securityAnswer2}</p>
-                        )}
+                        <input type="text" name="securityAnswer2" placeholder="Answer:" value={form.securityAnswer2} onChange={handleChange}/>
+                        {errors.securityAnswer2 && (<p className="error-css">{errors.securityAnswer2}</p>)}
                     </div>
 
                     <div className="form-group">
-                        <select
-                            name="securityQuestion3"
-                            value={form.securityQuestion3}
-                            onChange={handleChange}
-                        >
+                        <select name="securityQuestion3" value={form.securityQuestion3} onChange={handleChange}>
                             <option value="">Select Security Question 3</option>
                             {SECURITY_QUESTIONS.slice(10, 15).map((question, index) => (
-                                <option key={index} value={question}>
-                                    {question}
-                                </option>
+                                <option key={index} value={question}>{question}</option>
                             ))}
                         </select>
-                        {errors.securityQuestion3 && (
-                            <p className="error-css">{errors.securityQuestion3}</p>
-                        )}
+                        {errors.securityQuestion3 && (<p className="error-css">{errors.securityQuestion3}</p>)}
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="text"
-                            name="securityAnswer3"
-                            placeholder="Answer:"
-                            value={form.securityAnswer3}
-                            onChange={handleChange}
-                        />
-                        {errors.securityAnswer3 && (
-                            <p className="error-css">{errors.securityAnswer3}</p>
-                        )}
+                        <input type="text" name="securityAnswer3" placeholder="Answer:" value={form.securityAnswer3} onChange={handleChange}/>
+                        {errors.securityAnswer3 && (<p className="error-css">{errors.securityAnswer3}</p>)}
                     </div>
 
                     <button type="submit">Add User</button>

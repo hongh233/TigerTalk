@@ -61,9 +61,7 @@ const PostCreation = ({ addPost }) => {
 						<textarea placeholder="What's Happening?" value={postContent} onChange={handleInputChange}></textarea>
 						<div className="image-upload">
 							<input type="file" name="profilePicture" onChange={handleFileChange} style={{ display: "none" }} id="fileInput"/>
-							<label htmlFor="fileInput">
-								<FaImage />
-							</label>
+							<label htmlFor="fileInput"><FaImage /></label>
 						</div>
 
 						{uploading && <p>Uploading...</p>}

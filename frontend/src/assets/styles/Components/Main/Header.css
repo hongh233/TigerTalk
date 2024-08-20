@@ -42,7 +42,6 @@
 	transition: transform 0.3s ease;
 	margin-right: 10px;
 }
-
 .header-profile-picture img {
 	width: 40px;
 	height: 40px;
@@ -85,7 +84,6 @@
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	z-index: 1001;
 }
-
 .header-profile-popup p {
 	margin: 0;
 	padding: 5px 0;
@@ -99,6 +97,116 @@
 	color: #ddd;
 }
 
+
+
+
+/************************************** nav bar **************************************/
+
+
+/* navigation bar toggle button style */
+.navbar-toggle-button {
+	background-color: #f6f8fa;
+	border: 1px solid #d1d5da;
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: background-color 0.2s ease, box-shadow 0.2s ease;
+
+	padding: 8px;
+	margin-left: 9px; /* left right position of toggle button */
+}
+.navbar-toggle-button:hover {
+	background-color: #e1e4e8;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.navbar-toggle-button:active {
+	background-color: #d1d5da;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.navbar-toggle-button svg {
+	color: #24292e;
+	width: 24px;
+	height: 24px;
+}
+
+
+
+
+
+
+
+.navbar {
+	width: 60px;
+	position: fixed;
+	top: 6vh;
+
+	display: flex;
+	flex-direction: column;
+	transition: height 0.3s ease-out, transform 0.3s ease-out;
+}
+.navbar-visible {
+	transform: translateX(0);
+}
+.navbar-hidden {
+	transform: translateX(-100%);
+}
+
+
+.navbar a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 15px;
+	color: #333;
+	text-decoration: none;
+	margin-bottom: 5px;
+	border-radius: 4px;
+	transition: background-color 0.3s;
+
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.navbar a:hover {
+	background-color: #ddd;
+}
+
+.navbar a svg {
+	font-size: 1.8rem;
+}
+
+
+.navbar-icon-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	color: #333;
+	text-decoration: none;
+
+	border-radius: 4px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.navbar-icon-box:hover {
+	background-color: #ddd;
+	color: #000;
+}
+
+.navbar-icon-box svg {
+	font-size: 1.5rem;
+}
+.navbar-icon-text {
+	font-size: 1rem;
+	text-align: center;
+}
 
 
 

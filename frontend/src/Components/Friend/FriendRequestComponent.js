@@ -41,12 +41,8 @@ const FriendRequestComponent = ({request}) => {
                 </div>
             </div>
             <div className="friend-request-actions">
-                <button className="accept-button" onClick={handleAccept}>
-                    Accept
-                </button>
-                <button className="reject-button" onClick={handleReject}>
-                    Reject
-                </button>
+                <button className="accept-button" onClick={handleAccept}>Accept</button>
+                <button className="reject-button" onClick={handleReject}>Reject</button>
             </div>
         </div>
     );

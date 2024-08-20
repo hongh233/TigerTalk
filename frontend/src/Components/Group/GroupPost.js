@@ -123,22 +123,10 @@ const GroupPost = ({
 		<div className="group-post">
 			<div className="group-post-header">
 				<div className="profile-picture">
-					<a
-						className="group-post-user-email"
-						href={`/profile/${post.postSenderEmail}`}
-					>
-						<img src={post.groupPostSenderProfilePictureURL} alt="avatar" />
-					</a>
+					<a className="group-post-user-email" href={`/profile/${post.postSenderEmail}`}><img src={post.groupPostSenderProfilePictureURL} alt="avatar" /></a>
 				</div>
 				<div className="group-post-user-details">
-					<h3>
-						<a
-							className="group-post-user-email"
-							href={`/profile/${post.postSenderEmail}`}
-						>
-							{post.groupPostSenderUserName}
-						</a>
-					</h3>
+					<h3><a className="group-post-user-email" href={`/profile/${post.postSenderEmail}`}>{post.groupPostSenderUserName}</a></h3>
 					<p>{formatDate(post.groupPostCreateTime)}</p>
 				</div>
 				{/* <GroupPostDelete
@@ -150,47 +138,21 @@ const GroupPost = ({
 				<p>{post.groupPostContent}</p>
 			</div>
 			{post.postPictureURL && (
-				<div className="post-content-img-container">
-					<div className="post-content-img">
-						<img src={post.postPictureURL} alt="Post content" />
-					</div>
-				</div>
+				<div className="post-content-img-container"><div className="post-content-img"><img src={post.postPictureURL} alt="Post content" /></div></div>
 			)}
 
 			<div className="group-post-footer">
-				<button className="group-post-button" onClick={handleLike}>
-					{likes} <FaThumbsUp />
-				</button>
-				<button
-					className="group-post-button"
-					onClick={handleFetchAndDisplayComments}
-				>
-					{postComments.length > 0 ? postComments.length : ""} <FaComment />
-				</button>
-				<button className="group-post-button" onClick={handleShare}>
-					<FaShare />
-				</button>
-				{isAuthorOrAdmin && (
-					<button className="post-button delete-button" onClick={handleDelete}>
-						<FaTrash />
-					</button>
-				)}
+				<button className="group-post-button" onClick={handleLike}>{likes} <FaThumbsUp /></button>
+				<button className="group-post-button" onClick={handleFetchAndDisplayComments}>{postComments.length > 0 ? postComments.length : ""} <FaComment /></button>
+				<button className="group-post-button" onClick={handleShare}><FaShare /></button>
+				{isAuthorOrAdmin && (<button className="post-button delete-button" onClick={handleDelete}><FaTrash /></button>)}
 			</div>
 			<div className="group-postComments-section">
-				{postComments &&
-					commentToggle &&
-					postComments.map((postComment, index) => (
-						<GroupComment key={index} postComment={postComment} />
-					))}
+				{postComments && commentToggle && postComments.map((postComment, index) => (<GroupComment key={index} postComment={postComment} />))}
 
 				{isMember && (
 					<div className="add-comment">
-						<input
-							type="text"
-							placeholder="Add a comment..."
-							value={newComment}
-							onChange={handleCommentChange}
-						/>
+						<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
 						<button onClick={handleAddCommentToAxios}>Post</button>
 					</div>
 				)}
