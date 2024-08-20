@@ -1,8 +1,10 @@
 .profile-main-content {
-	height: 100vh;
-	width: 85%;
+	margin-top: 30px;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
+
+	/*border: 1px solid black;*/
 }
 
 .profile-page-user-info {
@@ -77,11 +79,14 @@
 	font-size: 16px;
 }
 
+
 .profile-content-post-list {
-	height: 70%;
 	width: 100%;
 	display: flex;
+	justify-content: center;
+	align-items: center;
 }
+
 .profile-page-profile-name-status {
 	display: flex;
 
@@ -98,7 +103,11 @@
 .profile-content-post {
 	display: flex;
 	flex-direction: column;
-	width: 90%;
+	width: 100%; /* width of the box wrap several posts */
+	align-items: center;
+	justify-content: center;
+
+	/*border: 1px solid black;*/
 }
 
 @media (max-width: 768px) {

@@ -5,6 +5,8 @@
 	margin-bottom: 20px;
 	padding: 20px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+	width: 1000px; /* width of a real post */
 }
 
 .post-user-email {
@@ -111,14 +113,8 @@
 	background-color: #0056b3;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-	.post-button {
-		font-size: 0.75rem;
-		padding: 0.6em 1em;
-	}
 
-	.add-comment button {
-		padding: 0.4em 0.8em;
-	}
+
+@media (max-width: 768px) {
+
 }

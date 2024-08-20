@@ -147,15 +147,17 @@ const ProfilePage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				{profileUser && (
-					<div className="profile-main-content">
+				{profileUser && (<div className="profile-main-content">
+
 						<div className="profile-page-user-info">
 							<div className="profile-page-user-info-container">
+
 								<div className="profile-page-user-info-picture-container">
 									<div className="profile-page-user-info-picture">
 										<img src={profileUser && profileUser.profilePictureUrl} alt="user profile"/>
 									</div>
 								</div>
+
 								<div className="profile-page-user-info-text">
 									<h2 className="profile-page-profile-name-status">
 										{profileUser.userName}
@@ -178,6 +180,7 @@ const ProfilePage = () => {
 									<p><strong>Full Name:</strong> {profileUser.firstName}{" "}{profileUser.lastName}</p>
 									<p><strong>Bio: </strong>{profileUser.biography}</p>
 								</div>
+
 							</div>
 						</div>
 						<div className="profile-content-post-list">
