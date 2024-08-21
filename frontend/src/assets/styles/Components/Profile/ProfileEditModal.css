@@ -25,22 +25,60 @@
     animation: fadeIn 0.3s ease;
 }
 
-/* Close button for modal */
+
+
+
+
+
+
+
+
+
+
 .close-button {
     position: absolute;
-    top: 10px; /* Position the button inside the modal */
-    right: 10px;
-    background: none;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    background-color: #ffffff;
+    border-radius: 50%;
     border: none;
-    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-weight: bold;
-    color: #333;
+    transition: background-color 0.3s ease;
+    color: #6b6b6b;
+    font-size: 30px;
 }
+.close-button:hover {
+    background-color: #e0e0e0;
+    color: #000000;
+}
+.close-button:focus {
+    outline: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .profile-settings-form {
     display: flex;
     flex-direction: column;
+    margin-top: 30px;
 }
 
 /* Form groups for spacing */

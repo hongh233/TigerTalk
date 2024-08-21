@@ -72,7 +72,7 @@ const ProfileEditModal = ({ isOpen, onClose }) => {
     return (
         <div className="profile-edit-modal-overlay">
             <div className="profile-edit-modal">
-                <button className="close-button" onClick={onClose}>X</button>
+                <button className="close-button" onClick={onClose}>&times;</button>
                 <form className="profile-settings-form" onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>First Name</label>
