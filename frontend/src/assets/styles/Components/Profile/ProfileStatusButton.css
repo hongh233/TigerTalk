@@ -1,0 +1,44 @@
+.profile-page-profile-name-status {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+
+
+
+
+
+
+/* CSS of status icon and status menu */
+.profile-page-status-icon {
+    position: relative;
+    display: inline-block;
+    margin-left: 8px;
+    margin-top: 6px;
+}
+.status-menu {
+    position: absolute;
+    top: 0; /* align top with the status button */
+    left: 100%;
+    margin-left: 5px;   /* distance between the status button and menu */
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    padding: 10px;
+    width: 150px;
+}
+.status-menu div {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+}
+.status-menu div:hover {
+    background-color: #f0f0f0;
+}

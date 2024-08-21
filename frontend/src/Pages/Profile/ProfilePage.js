@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../assets/styles/Pages/Profile/ProfilePage.css";
 import { sendFriendRequest, areFriendshipRequestExist } from "../../axios/Friend/FriendshipRequestAxios";
 import { areFriends } from "../../axios/Friend/FriendshipAxios";
 import {deleteFriendshipByEmail} from "../../axios/Friend/FriendshipAxios";
 import {getCurrentUser, updateUser} from "../../axios/UserAxios";
 import { FetchPostsOfOneUser } from "../../axios/Post/PostAxios";
-import {MdCheckCircle, MdRemoveCircle, MdAccessTimeFilled, MdPhotoCamera} from 'react-icons/md';
-import { IoMdCloseCircle } from "react-icons/io";
+import { MdPhotoCamera } from 'react-icons/md';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import Post from "../../Components/Post/Post";
 import Header from "../../Components/Main/Header";
 import { formatPost } from "../../utils/formatPost";
 import {uploadImageToCloudinary} from "../../utils/cloudinaryUtils";
+import ProfileStatusButton from "../../Components/Profile/ProfileStatusButton";
 
 
 const ProfilePage = () => {
@@ -30,48 +30,6 @@ const ProfilePage = () => {
 	const [showSetting, setShowSetting] = useState(false);
 	const [uploading, setUploading] = useState(false);
 
-	const [showStatusMenu, setShowStatusMenu] = useState(false);
-	const [currentStatus, setCurrentStatus] = useState(user.onlineStatus || "offline");
-
-	const getStatusClass = (status) => {
-		switch (status) {
-			case "available":
-				return <MdCheckCircle style={{ color: '#4caf50' }} />;
-			case "busy":
-				return <MdRemoveCircle style={{ color: '#f44336' }} />;
-			case "away":
-				return <MdAccessTimeFilled style={{ color: '#ff9800' }} />;
-			default:
-				return <IoMdCloseCircle style={{ color: '#9e9e9e' }} />;
-		}
-	};
-
-	const getStatusText = (status) => {
-		switch (status) {
-			case "available":
-				return "Available";
-			case "busy":
-				return "Busy";
-			case "away":
-				return "Away";
-			default:
-				return "Offline";
-		}
-	};
-
-	const handleStatusChange = async (status) => {
-		setCurrentStatus(status);
-		setShowStatusMenu(false);
-
-		const updatedUser = { ...profileUser, onlineStatus: status };
-		try {
-			const responseData = await updateUser(updatedUser);
-			dispatch({ type: "SET_USER", payload: responseData });
-			setProfileUser(responseData);
-		} catch (error) {
-			console.error("Error updating user status:", error);
-		}
-	};
 
 	useEffect(() => {
 		if (paramUserEmail === user.email) {
@@ -200,7 +158,6 @@ const ProfilePage = () => {
 	};
 
 
-
 	return (
 		<div className="main-page">
 			<Header />
@@ -230,41 +187,7 @@ const ProfilePage = () => {
 
 
 								<div className="profile-page-user-info-text">
-									<h2 className="profile-page-profile-name-status">
-										{profileUser.userName}
-										{paramUserEmail === user.email ? (
-											<span
-												className="profile-page-status-icon"
-												onClick={() => setShowStatusMenu(!showStatusMenu)}
-												style={{ cursor: 'pointer' }}
-											>
-												{getStatusClass(profileUser.onlineStatus)}
-												{showStatusMenu && (
-													<div className="status-menu">
-														<div onClick={() => handleStatusChange("available")}>
-															<MdCheckCircle style={{ color: '#4caf50' }} /> Available
-														</div>
-														<div onClick={() => handleStatusChange("busy")}>
-															<MdRemoveCircle style={{ color: '#f44336' }} /> Busy
-														</div>
-														<div onClick={() => handleStatusChange("away")}>
-															<MdAccessTimeFilled style={{ color: '#ff9800' }} /> Away
-														</div>
-														<div onClick={() => handleStatusChange("offline")}>
-															<IoMdCloseCircle style={{ color: '#9e9e9e' }} /> Offline
-														</div>
-													</div>
-												)}
-											</span>
-										) : (
-											<span
-												className="profile-page-status-icon"
-												title={getStatusText(profileUser.onlineStatus)}
-											>
-												{getStatusClass(profileUser.onlineStatus)}
-											</span>
-										)}
-									</h2>
+									<ProfileStatusButton profileUser={profileUser} paramUserEmail={paramUserEmail} user={user}/>
 
 									{showSetting ? (
 										<button className="edit-profile-button" onClick={() => navigate(`/profile/edit`)}>Edit profile</button>
@@ -284,8 +207,7 @@ const ProfilePage = () => {
 									<p><strong>Full Name:</strong> {profileUser.firstName}{" "}{profileUser.lastName}</p>
 									<p><strong>Bio: </strong>{profileUser.biography}</p>
 								</div>
-
-
+								
 
 							</div>
 						</div>
