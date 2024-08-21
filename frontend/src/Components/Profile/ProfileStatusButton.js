@@ -45,6 +45,7 @@ const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
         try {
             const responseData = await updateUser(updatedUser);
             dispatch({ type: "SET_USER", payload: responseData });
+            window.location.reload();
         } catch (error) {
             console.error("Error updating user status:", error);
         }
@@ -71,33 +72,32 @@ const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
 
     return (
         <h2 className="profile-page-profile-name-status">
-            {profileUser.userName}
+            <div className="profile-status-button-user-name">{profileUser.userName}</div>
             {paramUserEmail === user.email ? (
                 <span
                     className="profile-page-status-icon"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                     onClick={handleToggleClick}
-                    style={{ cursor: 'pointer' }}
                 >
                     {getStatusClass(profileUser.onlineStatus)}
                     {showStatusMenu && (
                         <div
-                            className="status-menu"
+                            className={`status-menu ${showStatusMenu ? 'show' : ''}`}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                         >
                             <div onClick={() => handleStatusChange("available")}>
-                                <MdCheckCircle style={{ color: '#4caf50' }} /> Available
+                                <MdCheckCircle style={{ color: '#4caf50' }} />&nbsp;Available
                             </div>
                             <div onClick={() => handleStatusChange("busy")}>
-                                <MdRemoveCircle style={{ color: '#f44336' }} /> Busy
+                                <MdRemoveCircle style={{ color: '#f44336' }} />&nbsp;Busy
                             </div>
                             <div onClick={() => handleStatusChange("away")}>
-                                <MdAccessTimeFilled style={{ color: '#ff9800' }} /> Away
+                                <MdAccessTimeFilled style={{ color: '#ff9800' }} />&nbsp;Away
                             </div>
                             <div onClick={() => handleStatusChange("offline")}>
-                                <IoMdCloseCircle style={{ color: '#9e9e9e' }} /> Offline
+                                <IoMdCloseCircle style={{ color: '#9e9e9e' }} />&nbsp;Offline
                             </div>
                         </div>
                     )}

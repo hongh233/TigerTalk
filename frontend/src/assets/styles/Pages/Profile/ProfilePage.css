@@ -9,15 +9,20 @@
 
 .profile-page-user-info {
 	height: 30%;
-	width: 90%;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+
+	/*border: 1px solid red;*/
 }
 
 .profile-page-user-info-container {
 	display: flex;
 	width: 100%;
+	margin-bottom: 20px;
+
+	/*border: 1px solid blue;*/
 }
 
 
@@ -99,13 +104,17 @@
 .profile-page-user-info-text {
 	width: 70%;
 	padding-left: 2%;
+
+	border: 1px solid black;
 }
 
 
 
+.profile-status-and-edit-button-box {
+	display: flex;
 
-
-
+	border: 1px solid black;
+}
 
 
 
@@ -121,7 +130,7 @@
 	margin: 10px 10px 10px 0;
 	border-radius: 5px;
 	cursor: pointer;
-	width: 120px;
+	width: 140px;
 }
 .edit-profile-button:hover {
 	background-color: #626262;
@@ -137,11 +146,11 @@
 
 
 /************************** Post number, age, gender, role, etc. **************************/
-.profile-stats {
+.profile-personal-information {
 	display: flex;
 	gap: 20px;
 }
-.profile-stats span {
+.profile-personal-information span {
 	font-size: 16px;
 }
 

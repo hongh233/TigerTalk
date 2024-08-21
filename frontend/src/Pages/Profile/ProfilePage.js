@@ -187,29 +187,29 @@ const ProfilePage = () => {
 
 
 								<div className="profile-page-user-info-text">
-									<ProfileStatusButton profileUser={profileUser} paramUserEmail={paramUserEmail} user={user}/>
+									<div className="profile-status-and-edit-button-box">
+										<ProfileStatusButton profileUser={profileUser} paramUserEmail={paramUserEmail} user={user}/>
 
-									{showSetting ? (
-										<button className="edit-profile-button" onClick={() => navigate(`/profile/edit`)}>Edit profile</button>
-									) : (
-										profileUser && profileUser.email !== user.email && (
-											<button className={`edit-profile-button`} onClick={handleFriendShip}>{friendButtonText}</button>
-										)
-									)}
+										{showSetting ? (
+											<button className="edit-profile-button" onClick={() => navigate(`/profile/edit`)}>Edit profile</button>
+										) : (
+											profileUser && profileUser.email !== user.email && (
+												<button className={`edit-profile-button`} onClick={handleFriendShip}>{friendButtonText}</button>
+											)
+										)}
+									</div>
 
-									<p className="profile-stats">
+									<p className="profile-personal-information">
 										<span><strong>Posts: </strong>{posts.length} posts</span>
 										<span><strong>Age:</strong> {profileUser.age}</span>
 										<span><strong>Gender:</strong> {profileUser.gender}</span>
 										<span><strong>Role:</strong> {profileUser.role}</span>
 									</p>
-
 									<p><strong>Full Name:</strong> {profileUser.firstName}{" "}{profileUser.lastName}</p>
 									<p><strong>Bio: </strong>{profileUser.biography}</p>
 								</div>
-								
-
 							</div>
+
 						</div>
 						<div className="profile-content-post-list">
 							<div className="profile-content-post">

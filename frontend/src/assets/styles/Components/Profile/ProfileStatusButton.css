@@ -5,11 +5,13 @@
     display: flex;
     align-items: center;
     width: 100%;
+
 }
 
 
 
-
+.profile-status-button-user-name {
+}
 
 
 
@@ -19,26 +21,54 @@
     display: inline-block;
     margin-left: 8px;
     margin-top: 6px;
+    cursor: pointer;
+    transition: filter 0.5s ease;
 }
+.profile-page-status-icon:hover > svg {
+    filter: brightness(1.2);
+}
+
+
+
+
 .status-menu {
     position: absolute;
     top: 0; /* align top with the status button */
     left: 100%;
-    margin-left: 5px;   /* distance between the status button and menu */
+    margin-top: -10px;  /* vertical distance between the status button and menu */
+    margin-left: 5px;   /* horizontal distance between the status button and menu */
     background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    padding: 10px;
-    width: 150px;
+    width: 160px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
 }
+.status-menu.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
 .status-menu div {
     display: flex;
     align-items: center;
-    padding: 8px;
+    padding: 10px 12px;
     cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
 }
+
 .status-menu div:hover {
-    background-color: #f0f0f0;
+    background-color: #e0e0e0;
+    transform: scale(1.02);
+}
+
+.status-menu div:active {
+    background-color: #d0d0d0;
+    transform: none;
 }
