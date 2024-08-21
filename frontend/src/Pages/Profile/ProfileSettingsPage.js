@@ -3,7 +3,6 @@ import "../../assets/styles/Pages/Profile/ProfileSettingsPage.css";
 import {updateUser} from "../../axios/UserAxios";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../Components/Main/Header";
-import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
 import {useNavigate} from "react-router-dom";
 
 
@@ -126,19 +125,6 @@ const ProfileSettingsPage = () => {
 						</select>
 						{errors.gender && <p className="error">{errors.gender}</p>}
 					</div>
-
-
-					<div className="form-group">
-						<label>Status</label>
-						<select name="onlineStatus" value={form.onlineStatus} onChange={handleChange}>
-							<option value="">Offline</option>
-							<option value="available">Available</option>
-							<option value="busy">Busy</option>
-							<option value="away">Away</option>
-						</select>
-						{errors.onlineStatus && (<p className="error">{errors.onlineStatus}</p>)}
-					</div>
-
 
 
 					<button type="submit" disabled={uploading}>{uploading ? "Uploading..." : "Update Profile"}</button>

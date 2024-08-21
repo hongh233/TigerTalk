@@ -84,7 +84,7 @@
 	font-size: 1em;
 	z-index: 10;
 }
-/******************************************************************************************/
+/******************************************* END *******************************************/
 
 
 
@@ -93,19 +93,64 @@
 
 
 
-
+/* A box contain profile status(offline, online, busy, ...) and status setting menu */
 .profile-page-user-info-text {
 	width: 70%;
 	padding-left: 2%;
 }
 
-.profile-page-user-info-text h2 {
+.profile-page-profile-name-status {
 	font-size: 24px;
 	font-weight: bold;
 	margin: 0;
+	display: flex;
+	align-items: center;
+	width: 100%;
 }
 
-.profile-button {
+
+
+
+
+/* CSS of status icon and status menu */
+.profile-page-status-icon {
+	position: relative;
+	display: inline-block;
+	margin-left: 8px;
+	margin-top: 6px;
+}
+.status-menu {
+	position: absolute;
+	top: 0; /* align top with the status button */
+	left: 100%;
+	margin-left: 5px;   /* distance between the status button and menu */
+	background-color: white;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	z-index: 1000;
+	padding: 10px;
+	width: 150px;
+}
+.status-menu div {
+	display: flex;
+	align-items: center;
+	padding: 8px;
+	cursor: pointer;
+}
+.status-menu div:hover {
+	background-color: #f0f0f0;
+}
+
+
+
+
+
+
+
+
+/* edit profile or unfollow follow button (when you see other people's account) */
+.edit-profile-button {
 	background-color: #333;
 	color: #fff;
 	border: none;
@@ -115,19 +160,31 @@
 	cursor: pointer;
 	width: 120px;
 }
-
-.profile-button:hover {
+.edit-profile-button:hover {
 	background-color: #626262;
 }
 
+
+
+
+
+
+
+
+
+
+/************************** Post number, age, gender, role, etc. **************************/
 .profile-stats {
 	display: flex;
 	gap: 20px;
 }
-
 .profile-stats span {
 	font-size: 16px;
 }
+
+
+
+
 
 
 .profile-content-post-list {
@@ -137,18 +194,8 @@
 	align-items: center;
 }
 
-.profile-page-profile-name-status {
-	display: flex;
 
-	align-items: center;
-	width: 100%;
-}
 
-.profile-page-status-icon {
-	display: inline-block;
-	margin-left: 8px;
-	margin-top: 6px;
-}
 
 .profile-content-post {
 	display: flex;

@@ -15,20 +15,6 @@ import { formatPost } from "../../utils/formatPost";
 import {uploadImageToCloudinary} from "../../utils/cloudinaryUtils";
 
 
-const getStatusClass = (status) => {
-	switch (status) {
-		case "available":
-			return <MdCheckCircle style={{ color: '#4caf50' }} />;
-		case "busy":
-			return <MdRemoveCircle style={{ color: '#f44336' }} />;
-		case "away":
-			return <MdAccessTimeFilled style={{ color: '#ff9800' }} />;
-		default:
-			return <IoMdCloseCircle style={{ color: '#9e9e9e' }} />;
-	}
-};
-
-
 const ProfilePage = () => {
 	const user = useSelector((state) => state.user.user);
 	const dispatch = useDispatch();
@@ -44,6 +30,49 @@ const ProfilePage = () => {
 	const [showSetting, setShowSetting] = useState(false);
 	const [uploading, setUploading] = useState(false);
 
+	const [showStatusMenu, setShowStatusMenu] = useState(false);
+	const [currentStatus, setCurrentStatus] = useState(user.onlineStatus || "offline");
+
+	const getStatusClass = (status) => {
+		switch (status) {
+			case "available":
+				return <MdCheckCircle style={{ color: '#4caf50' }} />;
+			case "busy":
+				return <MdRemoveCircle style={{ color: '#f44336' }} />;
+			case "away":
+				return <MdAccessTimeFilled style={{ color: '#ff9800' }} />;
+			default:
+				return <IoMdCloseCircle style={{ color: '#9e9e9e' }} />;
+		}
+	};
+
+	const getStatusText = (status) => {
+		switch (status) {
+			case "available":
+				return "Available";
+			case "busy":
+				return "Busy";
+			case "away":
+				return "Away";
+			default:
+				return "Offline";
+		}
+	};
+
+	const handleStatusChange = async (status) => {
+		setCurrentStatus(status);
+		setShowStatusMenu(false);
+
+		const updatedUser = { ...profileUser, onlineStatus: status };
+		try {
+			const responseData = await updateUser(updatedUser);
+			dispatch({ type: "SET_USER", payload: responseData });
+			setProfileUser(responseData);
+		} catch (error) {
+			console.error("Error updating user status:", error);
+		}
+	};
+
 	useEffect(() => {
 		if (paramUserEmail === user.email) {
 			setShowSetting(true);
@@ -51,6 +80,7 @@ const ProfilePage = () => {
 			setShowSetting(false);
 		}
 	}, [paramUserEmail, user.email]);
+
 
 	useEffect(() => {
 		if (user?.email && userEmail) {
@@ -75,6 +105,7 @@ const ProfilePage = () => {
 			fetchProfileUser(userEmail);
 		}
 	}, [user?.email, userEmail, dispatch]);
+
 
 	useEffect(() => {
 		if (profileUser && user) {
@@ -101,6 +132,7 @@ const ProfilePage = () => {
 		}
 	}, [profileUser, user, userEmail, friendButtonText]);
 
+
 	useEffect(() => {
 		if (profileUser && user) {
 			if (profileUser.email === user.email || isFriend) {
@@ -111,6 +143,7 @@ const ProfilePage = () => {
 			}
 		}
 	}, [profileUser, user, isFriend]);
+
 
 	const fetchPosts = async (email) => {
 		try {
@@ -172,11 +205,13 @@ const ProfilePage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
+
 				{profileUser && (
 					<div className="profile-main-content">
 
 						<div className="profile-page-user-info">
 							<div className="profile-page-user-info-container">
+
 
 
 								<div className="profile-page-user-info-picture-container" title="Change or add profile picture">
@@ -193,17 +228,49 @@ const ProfilePage = () => {
 								</div>
 
 
+
 								<div className="profile-page-user-info-text">
 									<h2 className="profile-page-profile-name-status">
 										{profileUser.userName}
-										<span className="profile-page-status-icon">{getStatusClass(profileUser.onlineStatus)}</span>
+										{paramUserEmail === user.email ? (
+											<span
+												className="profile-page-status-icon"
+												onClick={() => setShowStatusMenu(!showStatusMenu)}
+												style={{ cursor: 'pointer' }}
+											>
+												{getStatusClass(profileUser.onlineStatus)}
+												{showStatusMenu && (
+													<div className="status-menu">
+														<div onClick={() => handleStatusChange("available")}>
+															<MdCheckCircle style={{ color: '#4caf50' }} /> Available
+														</div>
+														<div onClick={() => handleStatusChange("busy")}>
+															<MdRemoveCircle style={{ color: '#f44336' }} /> Busy
+														</div>
+														<div onClick={() => handleStatusChange("away")}>
+															<MdAccessTimeFilled style={{ color: '#ff9800' }} /> Away
+														</div>
+														<div onClick={() => handleStatusChange("offline")}>
+															<IoMdCloseCircle style={{ color: '#9e9e9e' }} /> Offline
+														</div>
+													</div>
+												)}
+											</span>
+										) : (
+											<span
+												className="profile-page-status-icon"
+												title={getStatusText(profileUser.onlineStatus)}
+											>
+												{getStatusClass(profileUser.onlineStatus)}
+											</span>
+										)}
 									</h2>
 
 									{showSetting ? (
-										<button className="profile-button" onClick={() => navigate(`/profile/edit`)}>Edit profile</button>
+										<button className="edit-profile-button" onClick={() => navigate(`/profile/edit`)}>Edit profile</button>
 									) : (
 										profileUser && profileUser.email !== user.email && (
-											<button className={`profile-button`} onClick={handleFriendShip}>{friendButtonText}</button>
+											<button className={`edit-profile-button`} onClick={handleFriendShip}>{friendButtonText}</button>
 										)
 									)}
 
@@ -216,8 +283,9 @@ const ProfilePage = () => {
 
 									<p><strong>Full Name:</strong> {profileUser.firstName}{" "}{profileUser.lastName}</p>
 									<p><strong>Bio: </strong>{profileUser.biography}</p>
-
 								</div>
+
+
 
 							</div>
 						</div>
