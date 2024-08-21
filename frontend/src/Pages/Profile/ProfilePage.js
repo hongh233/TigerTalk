@@ -7,12 +7,13 @@ import {getCurrentUser, updateUser} from "../../axios/UserAxios";
 import { FetchPostsOfOneUser } from "../../axios/Post/PostAxios";
 import { MdPhotoCamera } from 'react-icons/md';
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Post from "../../Components/Post/Post";
 import Header from "../../Components/Main/Header";
 import { formatPost } from "../../utils/formatPost";
 import {uploadImageToCloudinary} from "../../utils/cloudinaryUtils";
 import ProfileStatusButton from "../../Components/Profile/ProfileStatusButton";
+import ProfileEditModal from "../../Components/Profile/ProfileEditModal";
 
 
 const ProfilePage = () => {
@@ -26,9 +27,9 @@ const ProfilePage = () => {
 	const [friendButtonText, setFriendButtonText] = useState("Add Friend");
 	const [message, setMessage] = useState("");
 	const paramUserEmail = useParams().userEmail;
-	const navigate = useNavigate();
 	const [showSetting, setShowSetting] = useState(false);
 	const [uploading, setUploading] = useState(false);
+	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
 
 	useEffect(() => {
@@ -157,6 +158,15 @@ const ProfilePage = () => {
 		}
 	};
 
+	const openEditModal = () => {
+		setIsEditModalOpen(true);
+	};
+
+	const closeEditModal = () => {
+		setIsEditModalOpen(false);
+	};
+
+
 
 	return (
 		<div className="main-page">
@@ -189,9 +199,8 @@ const ProfilePage = () => {
 								<div className="profile-page-user-info-text">
 									<div className="profile-status-and-edit-button-box">
 										<ProfileStatusButton profileUser={profileUser} paramUserEmail={paramUserEmail} user={user}/>
-
 										{showSetting ? (
-											<button className="edit-profile-button" onClick={() => navigate(`/profile/edit`)}>Edit profile</button>
+											<button className="edit-profile-button" onClick={openEditModal}>Edit profile</button>
 										) : (
 											profileUser && profileUser.email !== user.email && (
 												<button className={`edit-profile-button`} onClick={handleFriendShip}>{friendButtonText}</button>
@@ -222,6 +231,7 @@ const ProfilePage = () => {
 						</div>
 					</div>
 				)}
+				<ProfileEditModal isOpen={isEditModalOpen} onClose={closeEditModal} />
 			</div>
 		</div>
 	);

@@ -1,0 +1,99 @@
+/* Background overlay to blur the page behind the modal */
+.profile-edit-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 999; /* Ensure it stays above other content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Modal container */
+.profile-edit-modal {
+    position: relative; /* Ensure close button can be absolutely positioned */
+    background-color: #fff; /* White background for the modal */
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px; /* Width of the modal */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    z-index: 1000; /* Ensure it stays above the overlay */
+    animation: fadeIn 0.3s ease;
+}
+
+/* Close button for modal */
+.close-button {
+    position: absolute;
+    top: 10px; /* Position the button inside the modal */
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #333;
+}
+
+.profile-settings-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form groups for spacing */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Styling the input fields */
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Styling the error message */
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+/* Submit button styling */
+button[type="submit"] {
+    background-color: #ff7f50; /* Coral color */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #ff6347; /* Darker coral on hover */
+}
+
+button[type="submit"]:disabled {
+    background-color: #ddd; /* Disabled button style */
+    cursor: not-allowed;
+}
+
+/* Fade-in animation for modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

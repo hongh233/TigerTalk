@@ -9,7 +9,6 @@ import GroupPage from "./Pages/Group/GroupPage";
 import CreateGroupPage from "./Pages/Group/CreateGroupPage";
 import AdminPage from "./Pages/Admin/AdminPage";
 import AdminAddPage from "./Pages/Admin/AdminAddPage";
-import ProfileSettingsPage from "./Pages/Profile/ProfileSettingsPage";
 import ForgotPasswordPage from "./Pages/Authentication/ForgetPassword/ForgotPasswordPage";
 import SecurityQuestionsPage from "./Pages/Authentication/ForgetPassword/SecurityQuestionsPage";
 import EmailVerificationPage from "./Pages/Authentication/ForgetPassword/EmailVerificationPage";
@@ -57,12 +56,6 @@ const AppRoutes = () => {
 				<Route path={`/profile/:userEmail`} element={
 						isLoggedIn ? (
 							isValidated ? (<ProfilePage />) : (<ValidationFailPage />)
-						) : (<AuthenticationFailPage />)
-					}
-				/>
-				<Route path="/profile/edit" element={
-						isLoggedIn ? (
-							isValidated ? (<ProfileSettingsPage />) : (<ValidationFailPage />)
 						) : (<AuthenticationFailPage />)
 					}
 				/>
