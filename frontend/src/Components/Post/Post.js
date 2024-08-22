@@ -193,7 +193,7 @@ const Post = ({ post, user, removePost }) => {
 				{postComments && commentToggle && postComments.map((postComment, index) => (<Comment key={index} postComment={postComment} />))}
 				<div className="add-comment">
 					<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
-					<button onClick={handleAddComment}>Post</button>
+					<button onClick={handleAddComment}>Sent</button>
 				</div>
 			</div>
 		</div>

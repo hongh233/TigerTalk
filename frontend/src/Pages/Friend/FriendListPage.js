@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Header from "../../Components/Main/Header";
 import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
 import { filterUsers } from "../../utils/filterFunctions.js";
+import FriendRequestList from "../../Components/Friend/FriendRequestList";
 
 
 const FriendListPage = () => {
@@ -14,6 +15,8 @@ const FriendListPage = () => {
 	const [friends, setFriends] = useState([]);
 	const [allFriends, setAllFriends] = useState([]);
 	const [searchFriendQuery, setSearchFriendQuery] = useState("");
+	const [showFriendRequestList, setShowFriendRequestList] = useState(false);
+	const [hoverTimeout, setHoverTimeout] = useState(null);
 
 	const handleDeleteFriend = (id) => {
 		setFriends(friends.filter((friend) => friend.id !== id));
@@ -50,6 +53,26 @@ const FriendListPage = () => {
 		setSearchFriendQuery(e.target.value);
 	};
 
+	const handleMouseEnter = () => {
+		setHoverTimeout(setTimeout(() => {
+			setShowFriendRequestList(true);
+		}, 300));
+	};
+
+	const handleMouseLeave = () => {
+		if (hoverTimeout) {
+			clearTimeout(hoverTimeout);
+			setHoverTimeout(null);
+		}
+		setTimeout(() => {
+			setShowFriendRequestList(false);
+		}, 300);
+	};
+
+	const handleToggleClick = () => {
+		setShowFriendRequestList((prev) => !prev);
+	};
+
 	return (
 		<div className="main-page">
 			<Header />
@@ -61,10 +84,14 @@ const FriendListPage = () => {
 							<input type="text" placeholder="Search Available Friends..." value={searchFriendQuery} onChange={handleInputChange}/>
 						</div>
 
-						<a href="/friends/friend-request-list" className="friend-request-page-button">
-							<FaUserPlus />
-							<span>Friend Request List</span>
-						</a>
+						<div className="friend-request-list-and-button"
+							 onMouseEnter={handleMouseEnter}
+							 onMouseLeave={handleMouseLeave}>
+							<button className="friend-request-page-button" onClick={handleToggleClick}>
+								<FaUserPlus /><span>Friend Request</span>
+							</button>
+							{showFriendRequestList && (<FriendRequestList />)}
+						</div>
 					</div>
 
 					{friends.length > 0 ? (

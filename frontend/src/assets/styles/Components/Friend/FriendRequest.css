@@ -1,18 +1,33 @@
 .friend-request {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 16px;
     margin: 10px 0;
     background-color: #f9f9f9;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.friend-request:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
 }
 
+
+/* box contain friend picture and detail */
 .friend-request-header {
     display: flex;
     align-items: center;
+
+    /*border: 1px solid black;*/
 }
 
+
+.friend-picture {
+    display: flex;
+    align-content: center;
+}
 .friend-picture img {
     width: 50px;
     height: 50px;
@@ -20,48 +35,55 @@
     object-fit: cover;
 }
 
+
+
 .friend-details a {
     font-size: 18px;
     font-weight: bold;
     color: #333;
     text-decoration: none;
 }
-
 .friend-details p {
     margin: 0;
     color: #666;
 }
 
+
+/* box contain accept button and reject button */
 .friend-request-actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 15px;
+    align-content: center;
+    flex-grow: 1;
+
+    /*border: 1px solid black;*/
 }
 
 .accept-button,
 .reject-button {
     border: none;
     border-radius: 5px;
-    padding: 10px 15px;
     cursor: pointer;
-    font-size: 14px;
-    margin-left: 10px;
-}
+    color: white;
 
+    font-size: 14px;
+    height: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .accept-button {
     background-color: #4caf50;
-    color: white;
 }
-
 .reject-button {
     background-color: #f44336;
-    color: white;
 }
-
 .accept-button:hover {
     background-color: #45a049;
 }
-
 .reject-button:hover {
     background-color: #da190b;
 }

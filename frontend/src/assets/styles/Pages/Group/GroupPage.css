@@ -40,7 +40,6 @@
 	justify-content: center;
 
 	padding: 10px 20px;
-	margin-left: 60px;
 	width: 160px;
 	/*height: 24px;*/
 	margin-bottom: 40px;
@@ -54,7 +53,7 @@
 .group-page-search-and-create {
 	display: flex;
 	align-items: center;
-	justify-content: left;
+	justify-content: space-between;
 
 	/*border: 1px solid red;*/
 }

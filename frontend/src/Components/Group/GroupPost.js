@@ -153,7 +153,7 @@ const GroupPost = ({
 				{isMember && (
 					<div className="add-comment">
 						<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
-						<button onClick={handleAddCommentToAxios}>Post</button>
+						<button onClick={handleAddCommentToAxios}>Sent</button>
 					</div>
 				)}
 			</div>

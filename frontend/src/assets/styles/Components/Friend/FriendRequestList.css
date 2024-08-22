@@ -1,0 +1,16 @@
+.friend-request-list {
+    position: absolute;
+    top: 0;
+
+    right: 180px;   /* left-right position of friend request list menu */
+    width: 400px;   /* real width of the box */
+    max-height: 400px;
+    overflow-y: auto;
+
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 10px;
+    border-radius: 4px;
+}

@@ -12,7 +12,6 @@ import AdminAddPage from "./Pages/Admin/AdminAddPage";
 import ForgotPasswordPage from "./Pages/Authentication/ForgetPassword/ForgotPasswordPage";
 import SecurityQuestionsPage from "./Pages/Authentication/ForgetPassword/SecurityQuestionsPage";
 import EmailVerificationPage from "./Pages/Authentication/ForgetPassword/EmailVerificationPage";
-import FriendRequestPage from "./Pages/Friend/FriendRequestPage";
 import FriendListPage from "./Pages/Friend/FriendListPage";
 import ViewGroupPage from "./Pages/Group/ViewGroupPage";
 import ResetPasswordPage from "./Pages/Authentication/ForgetPassword/ResetPasswordPage";
@@ -90,12 +89,6 @@ const AppRoutes = () => {
 					}
 				/>
 				{/* FRIENDS ROUTE */}
-				<Route path="/friends/friend-request-list" element={
-						isLoggedIn ? (
-							isValidated ? (<FriendRequestPage />) : (<ValidationFailPage />)
-						) : (<AuthenticationFailPage />)
-					}
-				/>
 				<Route path="/friends/friend-list" element={
 						isLoggedIn ? (
 							isValidated ? (<FriendListPage />) : (<ValidationFailPage />)

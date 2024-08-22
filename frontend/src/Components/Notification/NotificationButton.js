@@ -59,7 +59,7 @@ const NotificationButton = () => {
 	const handleView = (notification) => {
 		switch (notification.notificationType) {
 			case 'FriendshipRequestSend':
-				navigate('/friends/friend-request-list');
+				navigate('/friends/friend-list');
 				handleDelete(notification.notificationId);
 				break;
 			case 'FriendshipRequestAccept':

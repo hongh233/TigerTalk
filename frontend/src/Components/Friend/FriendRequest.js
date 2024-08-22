@@ -1,9 +1,9 @@
 import React from "react";
-import "../../assets/styles/Components/Friend/FriendRequestComponent.css";
+import "../../assets/styles/Components/Friend/FriendRequest.css";
 import {acceptFriendRequest, rejectFriendRequest} from "../../axios/Friend/FriendshipRequestAxios";
 
 
-const FriendRequestComponent = ({request}) => {
+const FriendRequest = ({request}) => {
     const handleAccept = async () => {
         try {
             const response = await acceptFriendRequest(request.id);
@@ -48,4 +48,4 @@ const FriendRequestComponent = ({request}) => {
     );
 };
 
-export default FriendRequestComponent;
+export default FriendRequest;
