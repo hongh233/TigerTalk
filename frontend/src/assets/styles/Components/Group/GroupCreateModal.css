@@ -1,5 +1,5 @@
 /* Background overlay to blur the page behind the modal */
-.profile-edit-modal-overlay {
+.group-create-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -14,7 +14,7 @@
 }
 
 /* Modal container */
-.profile-edit-modal {
+.group-create-modal {
     position: relative; /* Ensure close button can be absolutely positioned */
     background-color: #fff; /* White background for the modal */
     padding: 20px;
@@ -32,7 +32,7 @@
 
 
 
-.profile-edit-page-close-button {
+.group-create-page-close-button {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -49,11 +49,11 @@
     color: #6b6b6b;
     font-size: 30px;
 }
-.profile-edit-page-close-button:hover {
+.group-create-page-close-button:hover {
     background-color: #e0e0e0;
     color: #000000;
 }
-.profile-edit-page-close-button:focus {
+.group-create-page-close-button:focus {
     outline: none;
 }
 
@@ -63,13 +63,13 @@
 
 
 
-.profile-edit-form {
+.group-create-form {
     display: flex;
     flex-direction: column;
     margin-top: 30px;
 }
 
-.profile-edit-form-item {
+.group-create-form-item {
 
 }
 
@@ -80,52 +80,8 @@
 
 
 
-/* Styling the input fields */
-input[type="text"], input[type="number"], select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
 
-/* Styling the error message */
-.error {
-    color: red;
-    font-size: 12px;
-}
 
-/* Submit button styling */
-button[type="submit"] {
-    background-color: #ff7f50; /* Coral color */
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
 
-button[type="submit"]:hover {
-    background-color: #ff6347; /* Darker coral on hover */
-}
 
-button[type="submit"]:disabled {
-    background-color: #ddd; /* Disabled button style */
-    cursor: not-allowed;
-}
 
-/* Fade-in animation for modal */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}

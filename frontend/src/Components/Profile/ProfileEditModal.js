@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/styles/Components/Profile/ProfileEditModal.css";
 import { updateUser } from "../../axios/UserAxios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-const ProfileEditModal = ({ isOpen, onClose }) => {
+const ProfileEditModal = ({ isOpen, onClose, user }) => {
     const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.user);
 
     const [form, setForm] = useState({
         id: "",
@@ -72,34 +71,35 @@ const ProfileEditModal = ({ isOpen, onClose }) => {
     return (
         <div className="profile-edit-modal-overlay">
             <div className="profile-edit-modal">
-                <button className="close-button" onClick={onClose}>&times;</button>
-                <form className="profile-settings-form" onSubmit={handleSubmit}>
-                    <div className="form-group">
+
+                <button className="profile-edit-page-close-button" onClick={onClose}>&times;</button>
+                <form className="profile-edit-form" onSubmit={handleSubmit}>
+                    <div className="profile-edit-form-item">
                         <label>First Name</label>
                         <input type="text" name="firstName" placeholder="First name" value={form.firstName} onChange={handleChange}/>
                         {errors.firstName && <p className="error">{errors.firstName}</p>}
                     </div>
-                    <div className="form-group">
+                    <div className="profile-edit-form-item">
                         <label>Last Name</label>
                         <input type="text" name="lastName" placeholder="Last name" value={form.lastName} onChange={handleChange}/>
                         {errors.lastName && <p className="error">{errors.lastName}</p>}
                     </div>
-                    <div className="form-group">
+                    <div className="profile-edit-form-item">
                         <label>User Name</label>
                         <input type="text" name="userName" placeholder="User name" value={form.userName} onChange={handleChange}/>
                         {errors.userName && <p className="error">{errors.userName}</p>}
                     </div>
-                    <div className="form-group">
+                    <div className="profile-edit-form-item">
                         <label>Personal Interest</label>
                         <input type="text" name="biography" placeholder="Personal Interest" value={form.biography} onChange={handleChange}/>
                         {errors.biography && <p className="error">{errors.biography}</p>}
                     </div>
-                    <div className="form-group">
+                    <div className="profile-edit-form-item">
                         <label>Age</label>
                         <input type="number" name="age" placeholder="Age" value={form.age} onChange={handleChange}/>
                         {errors.age && <p className="error">{errors.age}</p>}
                     </div>
-                    <div className="form-group">
+                    <div className="profile-edit-form-item">
                         <label>Gender</label>
                         <select name="gender" value={form.gender} onChange={handleChange}>
                             <option value="">Select Gender</option>
@@ -109,8 +109,10 @@ const ProfileEditModal = ({ isOpen, onClose }) => {
                         </select>
                         {errors.gender && <p className="error">{errors.gender}</p>}
                     </div>
+
                     <button type="submit" disabled={uploading}>{uploading ? "Uploading..." : "Update Profile"}</button>
                 </form>
+
             </div>
         </div>
     );

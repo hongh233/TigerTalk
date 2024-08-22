@@ -179,8 +179,6 @@ const ProfilePage = () => {
 						<div className="profile-page-user-info">
 							<div className="profile-page-user-info-container">
 
-
-
 								<div className="profile-page-user-info-picture-container" title="Change or add profile picture">
 									<img src={profileUser && profileUser.profilePictureUrl} alt="user profile" className="profile-page-user-info-picture" />
 									{showSetting && (
@@ -193,8 +191,6 @@ const ProfilePage = () => {
 										</>
 									)}
 								</div>
-
-
 
 								<div className="profile-page-user-info-text">
 									<div className="profile-status-and-edit-button-box">
@@ -222,16 +218,16 @@ const ProfilePage = () => {
 						</div>
 						<div className="profile-content-post-list">
 							<div className="profile-content-post">
-								{message.length > 0 ? (
-									<p>{message}</p>
-								) : (
+								{message.length > 0 ? (<p>{message}</p>) : (
 									posts.map((post) => (<Post key={post.id} post={post} user={user} removePost={handleDeletePost}/>))
 								)}
 							</div>
 						</div>
 					</div>
 				)}
-				<ProfileEditModal isOpen={isEditModalOpen} onClose={closeEditModal} />
+
+				<ProfileEditModal isOpen={isEditModalOpen} onClose={closeEditModal} user={user}/>
+
 			</div>
 		</div>
 	);

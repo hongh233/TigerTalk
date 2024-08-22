@@ -92,7 +92,7 @@ const GroupSettingPage = () =>{
 		<div className="main-page">
 			<Header />
 			<div className="content">
-				<form className="group-create-form" onSubmit={handleSubmit}>
+				<form className="group-setting-form" onSubmit={handleSubmit}>
 					<div className="form-group">
 						<label>Group Name</label>
 						<input type="text" name="groupName" placeholder="Group name" value={form.groupName} onChange={handleChange}/>

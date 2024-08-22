@@ -6,7 +6,6 @@ import SignUpPage from "./Pages/Authentication/SignUpPage";
 import MainPage from "./Pages/MainPage";
 import ProfilePage from "./Pages/Profile/ProfilePage";
 import GroupPage from "./Pages/Group/GroupPage";
-import CreateGroupPage from "./Pages/Group/CreateGroupPage";
 import AdminPage from "./Pages/Admin/AdminPage";
 import AdminAddPage from "./Pages/Admin/AdminAddPage";
 import ForgotPasswordPage from "./Pages/Authentication/ForgetPassword/ForgotPasswordPage";
@@ -61,12 +60,6 @@ const AppRoutes = () => {
 				<Route path="/group" element={
 						isLoggedIn ? (
 							isValidated ? (<GroupPage />) : (<ValidationFailPage />)
-						) : (<AuthenticationFailPage />)
-					}
-				/>
-				<Route path="/group/creategroup" element={
-						isLoggedIn ? (
-							isValidated ? (<CreateGroupPage />) : (<ValidationFailPage />)
 						) : (<AuthenticationFailPage />)
 					}
 				/>

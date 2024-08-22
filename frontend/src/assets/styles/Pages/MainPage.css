@@ -61,11 +61,18 @@ textarea {
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 input[type="text"] {
     flex: 1;
-    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-right: 10px;
 }
+
+
+
+
+
+
+
+
 
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 .image-upload {

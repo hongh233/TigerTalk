@@ -27,10 +27,9 @@ form {
     flex-direction: column;
 }
 
-.form-group {
-    margin-bottom: 15px;
 
-}
+
+
 
 input, select {
     width: 100%;

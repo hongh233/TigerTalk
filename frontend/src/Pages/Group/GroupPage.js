@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Header from "../../Components/Main/Header";
 import Group from "../../Components/Group/Group";
 import { filterGroups } from "../../utils/filterFunctions.js";
+import GroupCreateModal from "../../Components/Group/GroupCreateModal";
 
 
 const GroupPage = () => {
@@ -13,6 +14,7 @@ const GroupPage = () => {
 	const [filteredGroups, setFilteredGroups] = useState({ created: [], joined: [] });
 	const [searchGroupQuery, setSearchGroupQuery] = useState("");
 	const [showAllGroups, setShowAllGroups] = useState({ created: false, joined: false });
+	const [isCreateGroupOpen, setIsCreateGroupOpen] = useState(false);
 
 	useEffect(() => {
 		const fetchGroups = async () => {
@@ -42,7 +44,6 @@ const GroupPage = () => {
 	};
 
 	const renderGroupSection = (type) => {
-
 		if (filteredGroups[type].length === 0) {
 			return <p className="no-groups">There is no group available.</p>;
 		}
@@ -71,6 +72,7 @@ const GroupPage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
+
 				<div className="group-page-content-control">
 
 					<div className="group-page-search-and-create">
@@ -78,23 +80,26 @@ const GroupPage = () => {
 							<input type="text" placeholder="Search Available Groups..." onChange={handleInputChange}/>
 						</div>
 
-						<a href="/group/creategroup/" className="create-group-button">
-							<span className="text-hide">Create a New Group</span>
-						</a>
+						<button onClick={() => setIsCreateGroupOpen(true)} className="create-group-button">
+							<span className="text-hide">Create Group</span>
+						</button>
 					</div>
 
 					<div className="group-list-container">
-						<h2>Created Groups:</h2>
-						{renderGroupSection("created")}
-
-						<h2>Joined Groups:</h2>
-						{renderGroupSection("joined")}
+						<h2>Created Groups:</h2>{renderGroupSection("created")}
+						<h2>Joined Groups:</h2>{renderGroupSection("joined")}
 					</div>
 
 				</div>
+
+				<GroupCreateModal isOpen={isCreateGroupOpen} onClose={() => setIsCreateGroupOpen(false)} user={user}/>
+
 			</div>
 		</div>
 	);
 };
 
 export default GroupPage;
+
+
+
