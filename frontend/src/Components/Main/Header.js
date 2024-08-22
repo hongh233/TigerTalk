@@ -1,7 +1,7 @@
 import React, {useRef, useState} from "react";
 import "../../assets/styles/Components/Main/Header.css";
 import {FaBars, FaSignOutAlt} from "react-icons/fa";
-import NotificationButton from "../Notification/NotificationButton";
+import NotificationButton from "./NotificationButton";
 import SearchBar from "../Search/SearchBar";
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink, useNavigate} from "react-router-dom";

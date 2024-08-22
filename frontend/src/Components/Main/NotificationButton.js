@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
-import "../../assets/styles/Components/Notification/NotificationButton.css";
+import "../../assets/styles/Components/Main/NotificationButton.css";
 import {deleteNotification, getNotifications} from "../../axios/Notification/NotificationAxios";
 import {FaBell, FaEye, FaTrash} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
-
+import { Badge } from '@mui/material';
 
 const NotificationButton = () => {
 	const navigate = useNavigate();
@@ -123,9 +123,12 @@ const NotificationButton = () => {
 	return (
 		<div className="notification-button">
 			<div className="notification-icon-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-				<FaBell className="notification-icon" onClick={() => setShowNotifications(!showNotifications)} />
+				<Badge>
+					<FaBell className="notification-icon" onClick={() => setShowNotifications(!showNotifications)} />
+				</Badge>
 				{notifications.length > 0 && (<span className="notification-count">{notifications.length}</span>)}
 			</div>
+
 			{showNotifications && (
 				<div className="notification-popup" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 					{notifications.length > 0 ? (

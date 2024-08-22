@@ -36,6 +36,15 @@ cd ./frontend && npm start
 
 
 <div class="inline-container">
+<span class="inline-title">Build :</span>
+
+```shell
+cd ./frontend && npm run build
+```
+</div>
+
+
+<div class="inline-container">
 <span class="inline-title">Stop :</span>
 
 ```shell

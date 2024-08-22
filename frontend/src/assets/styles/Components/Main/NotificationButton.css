@@ -12,10 +12,6 @@
 	width: auto;
 	align-items: center;
 }
-.notification-icon-wrapper:hover .notification-popup {
-	opacity: 1;
-	transform: translateX(-50%) scale(1);
-}
 
 
 .notification-icon {
@@ -24,11 +20,12 @@
 	cursor: pointer;
 	transition: color 0.3s ease, transform 0.3s ease;
 }
-
 .notification-icon:hover {
 	color: #0056b3;
 	transform: scale(1.25);
 }
+
+
 
 .notification-count {
 	position: absolute;
