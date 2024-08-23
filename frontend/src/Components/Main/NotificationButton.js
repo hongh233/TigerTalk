@@ -5,6 +5,7 @@ import {FaBell, FaEye, FaTrash} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
 import { Badge } from '@mui/material';
+import { FaRegBell } from "react-icons/fa6";
 
 const NotificationButton = () => {
 	const navigate = useNavigate();
@@ -123,10 +124,9 @@ const NotificationButton = () => {
 	return (
 		<div className="notification-button">
 			<div className="notification-icon-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-				<Badge>
-					<FaBell className="notification-icon" onClick={() => setShowNotifications(!showNotifications)} />
+				<Badge badgeContent={notifications.length} max={99} color="error">
+					<FaRegBell className="notification-icon" onClick={() => setShowNotifications(!showNotifications)} />
 				</Badge>
-				{notifications.length > 0 && (<span className="notification-count">{notifications.length}</span>)}
 			</div>
 
 			{showNotifications && (

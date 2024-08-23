@@ -6,6 +6,7 @@ import Header from "../../Components/Main/Header";
 import Group from "../../Components/Group/Group";
 import { filterGroups } from "../../utils/filterFunctions.js";
 import GroupCreateModal from "../../Components/Group/GroupCreateModal";
+import { FaPlusCircle } from "react-icons/fa";
 
 
 const GroupPage = () => {
@@ -81,7 +82,8 @@ const GroupPage = () => {
 						</div>
 
 						<button onClick={() => setIsCreateGroupOpen(true)} className="create-group-button">
-							<span className="text-hide">Create Group</span>
+							<FaPlusCircle />
+							<span className="text-hide">&nbsp;&nbsp;Create Group</span>
 						</button>
 					</div>
 

@@ -8,6 +8,8 @@ import Header from "../../Components/Main/Header";
 import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
 import { filterUsers } from "../../utils/filterFunctions.js";
 import FriendRequestList from "../../Components/Friend/FriendRequestList";
+import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
+import {Badge} from "@mui/material";
 
 
 const FriendListPage = () => {
@@ -73,6 +75,22 @@ const FriendListPage = () => {
 		setShowFriendRequestList((prev) => !prev);
 	};
 
+
+	const [friendRequests, setFriendRequests] = useState([]);
+	useEffect(() => {
+		const fetchFriendRequests = async () => {
+			if (user && user.email) {
+				try {
+					const responseData = await getAllFriendRequests(user.email);
+					setFriendRequests(responseData);
+				} catch (error) {
+					console.error("Failed to fetch friend requests", error);
+				}
+			}
+		};
+		fetchFriendRequests();
+	}, [user]);
+
 	return (
 		<div className="main-page">
 			<Header />
@@ -87,10 +105,20 @@ const FriendListPage = () => {
 						<div className="friend-request-list-and-button"
 							 onMouseEnter={handleMouseEnter}
 							 onMouseLeave={handleMouseLeave}>
-							<button className="friend-request-page-button" onClick={handleToggleClick}>
-								<FaUserPlus /><span>Friend Request</span>
-							</button>
-							{showFriendRequestList && (<FriendRequestList />)}
+
+							<Badge badgeContent={friendRequests.length} max={99} color="error">
+								<button className="friend-request-page-button" onClick={handleToggleClick}>
+									<FaUserPlus />
+									<span>&nbsp;Friend Requests</span>
+								</button>
+							</Badge>
+
+							{showFriendRequestList && (
+								<FriendRequestList
+									user={user}
+									friendRequests={friendRequests}
+								/>
+							)}
 						</div>
 					</div>
 
