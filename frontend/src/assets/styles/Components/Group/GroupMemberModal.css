@@ -1,0 +1,23 @@
+.group-member-member-list-content {
+    position: absolute;
+    top: 50px;
+
+    right: -10px; /* -:right, +:left */
+    width: 400px; /* real width of the box */
+    max-height: 600px;
+    overflow-y: auto;
+
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.group-member-group-member-list {
+    overflow-y: auto;
+    max-height: 360px;
+    margin-bottom: 10px;
+}
+
