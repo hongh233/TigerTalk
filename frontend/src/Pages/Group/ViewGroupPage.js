@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import "../../assets/styles/Pages/Group/ViewGroupPage.css";
-import { handleJoinGroup, handleDeleteGroup, handleGetGroupById, handleGetMembershipID, handleDeleteGroupMembership } from "../../axios/Group/GroupAxios";
-import { handleGetAllPost, handleCreatePost } from "../../axios/Group/GroupPostAxios";
-import { FaCog, FaLock, FaTrashAlt, FaUsers, FaUnlock, FaUserPlus, FaUserMinus } from "react-icons/fa";
+import {
+	handleJoinGroup,
+	handleDeleteGroup,
+	handleGetGroupById,
+	handleGetMembershipID,
+	handleDeleteGroupMembership,
+} from "../../axios/Group/GroupAxios";
+import {
+	handleGetAllPost,
+	handleCreatePost,
+} from "../../axios/Group/GroupPostAxios";
+import { FaLock, FaUsers, FaUnlock, FaUserPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import GroupPost from "../../Components/Group/GroupPost";
 import Header from "../../Components/Main/Header";
 import PostCreation from "../../Components/Post/PostCreation";
+import GroupMemberModal from "../../Components/Group/GroupMemberModal";
+import GroupSettingModal from "../../Components/Group/GroupSettingModal";
+import { IoIosMore } from "react-icons/io";
+import GroupMore from "../../Components/Group/GroupMore";
 
-
-export const checkIsMember = (userEmail, groupId) => {
-	return handleGetMembershipID(userEmail, groupId)
-		.then(() => true)
-		.catch((error) => {
-			console.error("Error getting all groups");
-			return false;
-		});
-};
 
 const ViewGroupPage = () => {
 	const { groupId } = useParams();
@@ -30,6 +34,25 @@ const ViewGroupPage = () => {
 	const [group, setGroup] = useState(null);
 	const [posts, setPosts] = useState(null);
 	const [reload, setReload] = useState(false);
+	const [showMembersModal, setShowMembersModal] = useState(false);
+	const [showSettingsModal, setShowSettingsModal] = useState(false);
+	const [showMoreOptions, setShowMoreOptions] = useState(false);
+	const moreOptionsRef = useRef(null);
+
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (moreOptionsRef.current && !moreOptionsRef.current.contains(event.target)) {
+				setShowMoreOptions(false);
+				setShowMembersModal(false);
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [moreOptionsRef]);
+
 
 	useEffect(() => {
 		const fetchGroupDetails = async () => {
@@ -44,13 +67,14 @@ const ViewGroupPage = () => {
 				}
 
 				// Check if the current user is a member
-				const memberStatus = await checkIsMember(userEmail, groupId);
-				const groupMembership = await handleGetMembershipID(
-					userEmail,
-					groupId
-				);
-				setIsMember(memberStatus);
-				setGroupMembershipId(groupMembership);
+				try {
+					const groupMembership = await handleGetMembershipID(userEmail, groupId);
+					setIsMember(true);
+					setGroupMembershipId(groupMembership);
+				} catch {
+					setIsMember(false);
+				}
+
 			} catch (error) {
 				console.error("Failed to fetch group details", error);
 			}
@@ -92,7 +116,7 @@ const ViewGroupPage = () => {
 					await handleDeleteGroupMembership(groupMembershipId);
 					window.alert("Leave group successfully!");
 					setIsMember(false);
-					window.location.reload();
+					navigate("/group");
 				} else if (isMember && isCreator) {
 					await handleDeleteGroup(groupId);
 					window.alert("Delete group successfully!");
@@ -104,22 +128,6 @@ const ViewGroupPage = () => {
 		}
 	};
 
-	const deleteGroup = async () => {
-		if (
-			window.confirm(
-				"Are you sure you want to delete this group? This action cannot be undone."
-			)
-		) {
-			try {
-				await handleDeleteGroup(groupId);
-				alert("Group deleted successfully!");
-				navigate("/group"); // Navigate to a different page after deletion
-			} catch (error) {
-				console.error("Failed to delete the group", error);
-				alert("Error deleting group");
-			}
-		}
-	};
 
 	const addPost = async (postContent, postImageURL, tags) => {
 		try {
@@ -145,56 +153,117 @@ const ViewGroupPage = () => {
 			console.error("Failed to create a post", error);
 		}
 	};
+
 	const handleDeletePost = (postId) => {
 		setPosts(posts.filter((post) => post.groupPostId !== postId));
 	};
+
+
+
 	return (
 		group && (
 			<div className="main-page">
 				<Header />
 				<div className="content">
+
 					<div className="group-content-container">
+
 						<div className="group-details-header">
 							<div className="group-background-image">
 								<img src={group.groupImg} alt="Group Background" />
 							</div>
 
-							<div className="group-content-nav">
-								<h1>
-									{group.groupName}{" "}
-									{isPrivate ? (<FaLock className="status-icon" />) : (<FaUnlock className="status-icon" />)}
-								</h1>
-								{isCreator && (
-									<ul>
-										<li className="members">
-											<a className="group-link" href={`/group/${groupId}/members`}><FaUsers /></a>
-										</li>
+							<div className="group-content-info">
 
-										<>
-											<li className="setting"><a className="group-link" href={`/group/${groupId}/setting`}><FaCog /></a></li>
-											<li className="delete group-link" onClick={deleteGroup}><FaTrashAlt /></li>
-										</>
-									</ul>
-								)}
-							</div>
-						</div>
-						<div className="group-member-actions-container">
-							{isMember ? (
-								<>
-									<div className="group-member-actions">
-										<span className="member-status">You are {isCreator ? "the admin" : "a member"}</span>
-										<button onClick={leaveGroup} className="leave-group-button"><FaUserMinus /> Leave Group</button>
+
+								<div className="group-name-and-status-icon-and-member-more-box">
+
+									<div className="group-name-and-status-icon-left">
+										<h1>{group.groupName}</h1>
+										{isPrivate ? (<FaLock />) : (<FaUnlock />)}
 									</div>
-								</>
-							) : isPrivate ? (
-								<p>This is a private group. You cannot join.</p>
-							) : (
-								<button onClick={joinGroup} className="join-group-button"><FaUserPlus /> Join Group</button>
-							)}
+
+									{isCreator ? (
+										<div className="group-member-and-more-icon-right" ref={moreOptionsRef}>
+											<div className="group-member-list-button-and-menu-show">
+												<FaUsers className="group-icon-button-view-group-page"
+														 onClick={() => {
+															 setShowMembersModal(!showMembersModal);
+															 setShowMoreOptions(false);
+														 }}
+												/>
+												{showMembersModal && (
+													<GroupMemberModal
+														groupId={groupId}
+														onClose={() => setShowMembersModal(false)}
+													/>
+												)}
+											</div>
+											<IoIosMore className="group-icon-button-view-group-page"
+													   onClick={() => {
+														   setShowMoreOptions(!showMoreOptions)
+														   setShowMembersModal(false)
+													   }}
+											/>
+											{showMoreOptions && (
+												<GroupMore
+													isCreator={isCreator}
+													isMember={isMember}
+													leaveGroup={leaveGroup}
+													setShowSettingsModal={setShowSettingsModal}
+													setShowMoreOptions={setShowMoreOptions}
+												/>
+											)}
+										</div>
+									) : isMember ? (
+										<div className="group-member-and-more-icon-right" ref={moreOptionsRef}>
+											<div className="group-member-list-button-and-menu-show">
+												<FaUsers className="group-icon-button-view-group-page"
+														 onClick={() => {
+															 setShowMembersModal(!showMembersModal);
+															 setShowMoreOptions(false);
+														 }}
+												/>
+												{showMembersModal && (
+													<GroupMemberModal
+														groupId={groupId}
+														onClose={() => setShowMembersModal(false)}
+													/>
+												)}
+											</div>
+											<IoIosMore className="group-icon-button-view-group-page"
+													   onClick={() => {
+														   setShowMoreOptions(!showMoreOptions)
+														   setShowMembersModal(false)
+													   }}
+											/>
+											{showMoreOptions && (
+												<GroupMore
+													isCreator={isCreator}
+													isMember={isMember}
+													leaveGroup={leaveGroup}
+													setShowSettingsModal={setShowSettingsModal}
+												/>
+											)}
+										</div>
+									) : isPrivate ? (
+										<p>This is a private group. You cannot join.</p>
+									) : (
+										<button onClick={joinGroup} className="join-group-button"><FaUserPlus /> Join Group</button>
+									)}
+
+
+								</div>
+
+
+
+							</div>
 						</div>
 
 						<div className="group-post-container">
+
 							{isMember && <PostCreation addPost={addPost} />}
+
 							{!isPrivate || isMember ? (
 								<>
 									{posts && posts.map((post) => (
@@ -205,9 +274,19 @@ const ViewGroupPage = () => {
 									}
 								</>
 							) : ("")}
+
 						</div>
+
 					</div>
 				</div>
+
+
+				{showSettingsModal && (
+					<GroupSettingModal
+						groupId={groupId}
+						onClose={() => setShowSettingsModal(false)}
+					/>
+				)}
 			</div>
 		)
 	);

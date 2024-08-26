@@ -34,6 +34,9 @@ const GroupCreateModal = ({ isOpen, onClose, user }) => {
             await handleCreateGroup(form);
             alert("Group created successfully");
             onClose();
+
+            // TODO: we need to go inside, this will require group id from axio calling, since navigate(group/viewgroup/id)
+
         }
     };
 

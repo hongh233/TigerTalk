@@ -1,87 +1,86 @@
-
 .group-content-container {
     display: flex;
-    width: 75%;
     flex-direction: column;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-left: 30px;
+    padding-right: 30px;
+
+    border: 5px solid green;
 }
 
 .group-details-header {
+    display: flex;
+    align-items: center;
     width: 100%;
-    height: 40%;
+    flex-shrink: 0;
+
+    border: 3px solid blue;
 }
+
+
+
 .group-background-image {
-    width: 100%;
-    height: 80%;
+    margin: 10px 20px 10px 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
 }
 .group-background-image img {
     object-fit: cover;
     width: 100%;
     height: 100%;
 }
-.group-content-container {
+
+
+
+
+
+
+.group-content-info {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    width: 75%;
-    height: 100%;
-}
-.group-content-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 20%;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-.group-content-nav h1 {
-    font-size: 2em;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
+    /*justify-content: left;*/
+    align-items: flex-start;
+    min-width: 0;
 }
 
 
-.group-content-nav p {
-    margin: 0;
-    font-size: 1em;
-    color: #666;
-}
 
-.group-content-nav ul {
-    list-style: none;
-    display: flex;
-    padding: 0;
-    margin: 0;
-}
 
-.group-content-nav ul li {
-    font-size: 1em;
-    margin: 0 10px;
-    display: flex;
-    align-items: center;
-}
 
-.group-member-actions-container {
-    height: 5%;
-    margin: 1% 0;
-}
-.group-member-actions {
-    display: flex;
-}
 
-.group-content-nav ul li.setting li.delete li.members {
-    margin-left: auto; /* Push the setting to the far right */
-}
-.group-link {
-    text-decoration: none;
-    color: #17a2b8;
-    cursor: pointer;
-}
-.member-status,
-.join-group-button,
-.leave-group-button {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.join-group-button {
     display: inline-flex;
     align-items: center;
     padding: 10px 20px;
@@ -93,30 +92,76 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
-.join-group-button:hover,
-.leave-group-button:hover {
+.join-group-button:hover {
     background-color: #0056b3;
 }
 
-.leave-group-button {
-    background-color: #dc3545;
-}
-.member-status {
-    background-color: #17a2b8;
-    cursor: default;
-    margin-right: 1%;
-}
-.leave-group-button:hover {
-    background-color: #c82333;
-}
+
 
 
 .group-post-container {
     overflow-y: auto;
-    max-height: 400px;
+    flex-grow: 1;
 }
 
 @media (max-width: 768px) {
 
+}
+
+
+
+
+
+
+
+/* a box contain group name and status icon */
+.group-name-and-status-icon-and-member-more-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%; /* crucial property*/
+}
+.group-name-and-status-icon-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+/*********************************************/
+
+.group-member-and-more-icon-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
+.group-icon-button-view-group-page {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    font-size: 30px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.group-icon-button-view-group-page:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+}
+.group-icon-button-view-group-page:active {
+    background-color: rgba(0, 0, 0, 0.2);
+    transform: scale(0.95);
+}
+
+
+
+
+.group-member-list-button-and-menu-show {
+    position: relative;
+    display: inline-block;
 }
