@@ -109,4 +109,7 @@ public interface GroupService {
      * @return The membership id if the user is a member of the group, Empty otherwise.
      */
     Optional<Integer> getMemberShipId(String userEmail, int groupId);
+
+
+    Optional<String> transferGroupOwnership(int previousOwnerMembershipId, int newOwnerMembershipId);
 }

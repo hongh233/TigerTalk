@@ -245,4 +245,35 @@ public class GroupServiceImpl implements GroupService {
         }
         return Optional.empty();
     }
+
+    @Override
+    public Optional<String> transferGroupOwnership(int previousOwnerMembershipId, int newOwnerMembershipId) {
+        Optional<GroupMembership> previousOwnerMembershipOpt = groupMembershipRepository.findById(previousOwnerMembershipId);
+        Optional<GroupMembership> newOwnerMembershipOpt = groupMembershipRepository.findById(newOwnerMembershipId);
+
+        if (previousOwnerMembershipOpt.isPresent() && newOwnerMembershipOpt.isPresent()) {
+            GroupMembership previousOwnerMembership = previousOwnerMembershipOpt.get();
+            GroupMembership newOwnerMembership = newOwnerMembershipOpt.get();
+            previousOwnerMembership.setCreator(false);
+            newOwnerMembership.setCreator(true);
+            groupMembershipRepository.save(previousOwnerMembership);
+            groupMembershipRepository.save(newOwnerMembership);
+
+            Notification previousOwnerNotification = new Notification(
+                    previousOwnerMembership.getUserProfile(),
+                    "You have transferred ownership of the group: " + newOwnerMembership.getGroup().getGroupName(),
+                    "GroupOwnershipTransfer"
+            );
+            Notification newOwnerNotification = new Notification(
+                    newOwnerMembership.getUserProfile(),
+                    "You are now the owner of the group: " + newOwnerMembership.getGroup().getGroupName(),
+                    "GroupOwnershipTransfer"
+            );
+            notificationService.createNotification(previousOwnerNotification);
+            notificationService.createNotification(newOwnerNotification);
+            return Optional.empty();
+        }else {
+            return Optional.of("Error, can not find group membership!");
+        }
+    }
 }

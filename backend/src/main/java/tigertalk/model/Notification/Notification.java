@@ -31,6 +31,7 @@ public class Notification implements ToDTO<NotificationDTO> {
     // GroupPostCreation
     // GroupPostLiked
     // GroupPostComment
+    // GroupOwnershipTransfer
     private String notificationType;
 
     @ManyToOne

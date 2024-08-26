@@ -103,6 +103,13 @@ public class GroupController {
                 .orElseGet(() -> ResponseEntity.ok("Group Info Successfully updated"));
     }
 
+    @PostMapping("/transfer/group/ownership/{previousOwnerMembershipId}/{newOwnerMembershipId}")
+    public ResponseEntity<String> transferGroupOwnership(@PathVariable int previousOwnerMembershipId, @PathVariable int newOwnerMembershipId) {
+        Optional<String> result = groupService.transferGroupOwnership(previousOwnerMembershipId, newOwnerMembershipId);
+        return result.map(ResponseEntity.badRequest()::body)
+                .orElseGet(() -> ResponseEntity.ok("Group Ownership transferred Successfully"));
+    }
+
     /**
      * Deletes a group by its ID.
      *
