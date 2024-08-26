@@ -91,7 +91,7 @@ input[type="text"], input[type="number"], select {
 }
 
 /* Styling the error message */
-.error {
+.profile-edit-error {
     color: red;
     font-size: 12px;
 }

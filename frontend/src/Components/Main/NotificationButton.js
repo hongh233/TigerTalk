@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import "../../assets/styles/Components/Main/NotificationButton.css";
 import {deleteNotification, getNotifications} from "../../axios/Notification/NotificationAxios";
-import {FaBell, FaEye, FaTrash} from "react-icons/fa";
+import {FaEye, FaTrash} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
 import { Badge } from '@mui/material';
@@ -111,6 +111,10 @@ const NotificationButton = () => {
 				handleDelete(notification.notificationId);
 				break;
 			case 'GroupPostComment':
+				navigate('/group');
+				handleDelete(notification.notificationId);
+				break;
+			case 'GroupOwnershipTransfer':
 				navigate('/group');
 				handleDelete(notification.notificationId);
 				break;

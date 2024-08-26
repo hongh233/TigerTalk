@@ -15,8 +15,6 @@ import FriendListPage from "./Pages/Friend/FriendListPage";
 import ViewGroupPage from "./Pages/Group/ViewGroupPage";
 import ResetPasswordPage from "./Pages/Authentication/ForgetPassword/ResetPasswordPage";
 import AuthenticationFailPage from "./Pages/FailPage/AuthenticationFailPage";
-import GroupSettingPage from "./Pages/Group/GroupSettingPage";
-import GroupMemberPage from "./Pages/Group/GroupMembersPage";
 import FriendMessagePage from "./Pages/Friend/FriendMessagePage";
 import SearchPage from "./Pages/Search/SearchPage";
 //REDUX
@@ -63,24 +61,13 @@ const AppRoutes = () => {
 						) : (<AuthenticationFailPage />)
 					}
 				/>
-				<Route path="/group/:groupId/setting" element={
-						isLoggedIn ? (
-							isValidated ? (<GroupSettingPage />) : (<ValidationFailPage />)
-						) : (<AuthenticationFailPage />)
-					}
-				/>
 				<Route path="/group/viewgroup/:groupId" element={
 						isLoggedIn ? (
 							isValidated ? (<ViewGroupPage />) : (<ValidationFailPage />)
 						) : (<AuthenticationFailPage />)
 					}
 				/>
-				<Route path="/group/:groupId/members" element={
-						isLoggedIn ? (
-							isValidated ? (<GroupMemberPage />) : (<ValidationFailPage />)
-						) : (<AuthenticationFailPage />)
-					}
-				/>
+
 				{/* FRIENDS ROUTE */}
 				<Route path="/friends/friend-list" element={
 						isLoggedIn ? (

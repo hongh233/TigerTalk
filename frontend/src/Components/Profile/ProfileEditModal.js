@@ -97,7 +97,7 @@ const ProfileEditModal = ({ isOpen, onClose, user }) => {
                     <div className="profile-edit-form-item">
                         <label>Age</label>
                         <input type="number" name="age" placeholder="Age" value={form.age} onChange={handleChange}/>
-                        {errors.age && <p className="error">{errors.age}</p>}
+                        {errors.age && <p className="profile-edit-error">{errors.age}</p>}
                     </div>
                     <div className="profile-edit-form-item">
                         <label>Gender</label>

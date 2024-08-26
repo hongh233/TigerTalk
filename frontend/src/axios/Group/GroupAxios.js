@@ -66,6 +66,22 @@ export const handleUpdateGroup = (groupUpdate) => {
         });
 };
 
+
+
+export const transferGroupOwnership = (previousOwnerMembershipId, newOwnerMembershipId) => {
+    return axios
+        .post(`${URL}/api/groups/transfer/group/ownership/${previousOwnerMembershipId}/${newOwnerMembershipId}`)
+        .then((response) => response.data)
+        .catch((error) => {
+            console.error("Error transfer group ownership");
+            throw error;
+        });
+}
+
+
+
+
+
 export const handleDeleteGroup = (groupId) => {
     return axios
         .delete(`${URL}/api/groups/delete/group/${groupId}`)
