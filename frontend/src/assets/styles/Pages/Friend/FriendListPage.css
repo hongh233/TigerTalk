@@ -1,12 +1,12 @@
 /* friend search bar */
-.friend-list-search-bar {
+div.friend-list-search-bar {
     width: 550px;
     margin-bottom: 40px;
     border-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
 }
-.friend-list-search-bar input {
+div.friend-list-search-bar input {
     width: 100%;
     padding: 12px 20px;
     border: none;
@@ -16,10 +16,10 @@
     box-sizing: border-box;
     transition: box-shadow 0.3s ease;
 }
-.friend-list-search-bar:hover {
+div.friend-list-search-bar:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-.friend-list-search-bar input:hover {
+div.friend-list-search-bar input:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 

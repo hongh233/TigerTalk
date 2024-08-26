@@ -1,8 +1,8 @@
+import React, { useEffect, useState } from "react";
 import "../../assets/styles/Pages/Friend/FriendListPage.css";
 import { deleteFriendshipByEmail } from "../../axios/Friend/FriendshipAxios";
 import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
 import {FaUserPlus} from "react-icons/fa";
-import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Header from "../../Components/Main/Header";
 import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
@@ -115,7 +115,6 @@ const FriendListPage = () => {
 
 							{showFriendRequestList && (
 								<FriendRequestList
-									user={user}
 									friendRequests={friendRequests}
 								/>
 							)}

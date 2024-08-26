@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../../assets/styles/Components/Friend/FriendRequestList.css";
-import { getAllFriendRequests } from "../../axios/Friend/FriendshipRequestAxios";
 import FriendRequestComponent from "../../Components/Friend/FriendRequest";
-import { useSelector } from "react-redux";
 
-const FriendRequestList = ({ onClose, user, friendRequests }) => {
+const FriendRequestList = ({ friendRequests }) => {
 
     return (
         <div className="friend-request-list">
