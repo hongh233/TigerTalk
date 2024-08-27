@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import "../../assets/styles/Components/Group/GroupMemberModal.css";
 import { handleAddUserToGroupByAdmin } from "../../axios/Group/GroupAdminAxios";
 import { handleDeleteGroupMembership, handleGetGroupMembersByGroupId, handleGetMembershipID } from "../../axios/Group/GroupAxios";
-import { FaUserPlus } from "react-icons/fa";
 import SearchBar from "../../Components/Search/SearchBar";
 import GroupMembership from "../../Components/Group/GroupMembership";
 
@@ -64,7 +63,9 @@ const GroupMemberModal = ({ groupId, onClose }) => {
                     <div className="group-member-group-member-list">
                         {members && members.length > 0 ? (
                             members.map((member) => (
-                                <GroupMembership key={member.userProfileDTO.email} user={member.userProfileDTO} userEmail={member.userProfileDTO.email}
+                                <GroupMembership key={member.userProfileDTO.email}
+                                                 user={member.userProfileDTO}
+                                                 userEmail={member.userProfileDTO.email}
                                                  handleDeleteFn={() => handleDeleteGroupMember(member.userProfileDTO.email, groupId)}
                                 />
                             ))

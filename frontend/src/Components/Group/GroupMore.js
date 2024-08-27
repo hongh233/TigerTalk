@@ -1,11 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import "../../assets/styles/Components/Group/GroupMore.css";
 import { FaCog, FaUserMinus } from "react-icons/fa";
 import {handleDeleteGroup} from "../../axios/Group/GroupAxios";
 import { MdDelete } from "react-icons/md";
 import { BiTransferAlt } from "react-icons/bi";
+import GroupTransferOwnership from "./GroupTransferOwnership";
 
-const GroupMore = ({ groupId, isCreator, isMember, leaveGroup, setShowSettingsModal, setShowMoreOptions }) => {
+const GroupMore = ({ groupId, isCreator, isMember, leaveGroup, setShowSettingsModal, setShowMoreOptions, groupMembershipList, previousOwnerMembershipId }) => {
+    const [showTransferOwnership, setShowTransferOwnership] = useState(false);
+
     const deleteGroup = async () => {
         const userConfirmed = window.confirm("Are you sure you want to delete this group? This action cannot be undone.");
         if (!userConfirmed) {
@@ -33,7 +36,7 @@ const GroupMore = ({ groupId, isCreator, isMember, leaveGroup, setShowSettingsMo
                     <button type="button" onClick={deleteGroup}>
                         <MdDelete className="group-more-options-icon-spc"/> Delete Group
                     </button>
-                    <button>
+                    <button onClick={() => setShowTransferOwnership(true)}>
                         <BiTransferAlt className="group-more-options-icon-spc"/> Transfer Group
                     </button>
                 </>
@@ -43,6 +46,16 @@ const GroupMore = ({ groupId, isCreator, isMember, leaveGroup, setShowSettingsMo
                 </button>
             ) : (
                 <p>No additional options available</p>
+            )}
+
+            {showTransferOwnership && (
+                <div className="group-transfer-ownership-modal-overlay">
+                    <GroupTransferOwnership
+                        groupMembershipList={groupMembershipList}
+                        previousOwnerMembershipId={previousOwnerMembershipId}
+                        onClose={() => setShowTransferOwnership(false)}
+                    />
+                </div>
             )}
         </div>
     );

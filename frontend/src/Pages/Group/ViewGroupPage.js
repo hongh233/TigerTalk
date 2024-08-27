@@ -5,7 +5,7 @@ import {
 	handleDeleteGroup,
 	handleGetGroupById,
 	handleGetMembershipID,
-	handleDeleteGroupMembership,
+	handleDeleteGroupMembership, handleGetGroupMembersByGroupId,
 } from "../../axios/Group/GroupAxios";
 import {
 	handleGetAllPost,
@@ -38,7 +38,22 @@ const ViewGroupPage = () => {
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
 	const moreOptionsRef = useRef(null);
+	const [members, setMembers] = useState(null);
 
+
+	useEffect(() => {
+		if (groupId) {
+			const getAllMembers = async () => {
+				try {
+					const data = await handleGetGroupMembersByGroupId(groupId);
+					setMembers(data);
+				} catch (error) {
+					console.error(error);
+				}
+			};
+			getAllMembers();
+		}
+	}, []);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -212,6 +227,8 @@ const ViewGroupPage = () => {
 													leaveGroup={leaveGroup}
 													setShowSettingsModal={setShowSettingsModal}
 													setShowMoreOptions={setShowMoreOptions}
+													groupMembershipList={members}
+													previousOwnerMembershipId={groupMembershipId}
 												/>
 											)}
 										</div>
