@@ -14,6 +14,7 @@ const FriendshipMembership = ({ user, handleDeleteFn  }) => {
 				<div className="friend-details">
 					<a href={"/profile/" + user.email}>{user.userName}</a>
 					<p>Email: {user.email}</p>
+					<p>Add Time: {user.createTime}</p>
 				</div>
 			</div>
 			<div className="friend-actions">

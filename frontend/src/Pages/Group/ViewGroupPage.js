@@ -210,15 +210,14 @@ const ViewGroupPage = () => {
 												{showMembersModal && (
 													<GroupMemberModal
 														groupId={groupId}
-														onClose={() => setShowMembersModal(false)}
+														isCreator={isCreator}
 													/>
 												)}
 											</div>
 											<IoIosMore className="group-icon-button-view-group-page"
 													   onClick={() => {
 														   setShowMoreOptions(!showMoreOptions)
-														   setShowMembersModal(false)
-													   }}
+														   setShowMembersModal(false)}}
 											/>
 											{showMoreOptions && (
 												<GroupMore
@@ -238,14 +237,10 @@ const ViewGroupPage = () => {
 												<FaUsers className="group-icon-button-view-group-page"
 														 onClick={() => {
 															 setShowMembersModal(!showMembersModal);
-															 setShowMoreOptions(false);
-														 }}
+															 setShowMoreOptions(false);}}
 												/>
 												{showMembersModal && (
-													<GroupMemberModal
-														groupId={groupId}
-														onClose={() => setShowMembersModal(false)}
-													/>
+													<GroupMemberModal groupId={groupId}/>
 												)}
 											</div>
 											<IoIosMore className="group-icon-button-view-group-page"
@@ -271,9 +266,6 @@ const ViewGroupPage = () => {
 
 
 								</div>
-
-
-
 							</div>
 						</div>
 

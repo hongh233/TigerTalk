@@ -124,7 +124,9 @@ const FriendListPage = () => {
 					{friends.length > 0 ? (
 						friends.map((friend) => (
 							<FriendshipMembership
-								key={friend.email} user={friend} userEmail={user.email}
+								key={friend.email}
+								user={friend}
+								userEmail={user.email}
 								onDelete={handleDeleteFriend}
 								handleDeleteFn={() => deleteFriendshipByEmail(user.email, friend.email)}
 							/>

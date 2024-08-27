@@ -5,7 +5,7 @@ import { handleDeleteGroupMembership, handleGetGroupMembersByGroupId, handleGetM
 import SearchBar from "../../Components/Search/SearchBar";
 import GroupMembership from "../../Components/Group/GroupMembership";
 
-const GroupMemberModal = ({ groupId, onClose }) => {
+const GroupMemberModal = ({ groupId, isCreator }) => {
     const [members, setMembers] = useState(null);
     const [searchMember, setSearchMember] = useState(null);
     const [showAddUser, setShowAddUser] = useState(false);
@@ -60,13 +60,14 @@ const GroupMemberModal = ({ groupId, onClose }) => {
         <div className="group-member-modal-overlay">
             <div className="group-member-modal-content">
                 <div className="group-member-member-list-content">
+
                     <div className="group-member-group-member-list">
                         {members && members.length > 0 ? (
                             members.map((member) => (
-                                <GroupMembership key={member.userProfileDTO.email}
-                                                 user={member.userProfileDTO}
-                                                 userEmail={member.userProfileDTO.email}
-                                                 handleDeleteFn={() => handleDeleteGroupMember(member.userProfileDTO.email, groupId)}
+                                <GroupMembership
+                                    member={member}
+                                    handleDeleteFn={() => handleDeleteGroupMember(member.userProfileDTO.email, groupId)}
+                                    isCreator={isCreator}
                                 />
                             ))
                         ) : (
@@ -85,7 +86,6 @@ const GroupMemberModal = ({ groupId, onClose }) => {
                                    groupMembers={members}
                         />
                     </div>
-
                 </div>
 
 

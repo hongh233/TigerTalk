@@ -155,6 +155,7 @@ import tigertalk.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -178,7 +179,7 @@ public class Friendship {
     @OneToMany(mappedBy = "friendship", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FriendshipMessage> messages = new LinkedList<>();
 
-    private LocalDate createTime = LocalDate.now();
+    private LocalDateTime createTime = LocalDateTime.now();
 
     public Friendship(UserProfile sender, UserProfile receiver) {
         this.sender = sender;
@@ -203,11 +204,11 @@ public class Friendship {
         return receiver;
     }
 
-    public LocalDate getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDate createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
