@@ -1,6 +1,6 @@
 import React from "react";
 import "../../assets/styles/Components/Group/Group.css";
-import { FaLock, FaUnlock } from "react-icons/fa";
+import { FaLock, FaLockOpen } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -21,8 +21,8 @@ const Group = ({ group }) => {
 				</div>
 
 				<div className="group-creator-details">
-					{group.groupName} {group.isPrivate ? <FaLock /> : <FaUnlock />}
-					<p>{group.dateCreated}</p>
+					{group.groupName} {group.isPrivate ? <FaLock /> : <FaLockOpen />}
+					<p>{group.dateCreated}</p>{/*TODO: wait to see what to do here*/}
 				</div>
 
 			</div>

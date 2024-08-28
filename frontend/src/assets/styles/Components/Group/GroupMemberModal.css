@@ -3,7 +3,7 @@
     top: 50px;
 
     right: -10px; /* -:right, +:left */
-    width: 400px; /* real width of the box */
+    width: 420px; /* real width of the box */
     max-height: 600px;
     overflow-y: auto;
 
@@ -17,7 +17,7 @@
 
 .group-member-group-member-list {
     overflow-y: auto;
-    max-height: 360px;
+    max-height: 430px;
     margin-bottom: 10px;
 }
 

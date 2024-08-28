@@ -1,9 +1,9 @@
 .friend-request-list {
     position: absolute;
-    top: 0;
+    top: 40px;
 
-    right: 180px;   /* left-right position of friend request list menu */
-    width: 400px;   /* real width of the box */
+    right: 0;   /* +:left, -:right */
+    width: 370px;   /* real width of the box */
     max-height: 400px;
     overflow-y: auto;
 

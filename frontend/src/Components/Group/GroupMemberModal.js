@@ -5,10 +5,9 @@ import { handleDeleteGroupMembership, handleGetGroupMembersByGroupId, handleGetM
 import SearchBar from "../../Components/Search/SearchBar";
 import GroupMembership from "../../Components/Group/GroupMembership";
 
-const GroupMemberModal = ({ groupId, isCreator }) => {
+const GroupMemberModal = ({ groupId, isCreator, groupMembershipId }) => {
     const [members, setMembers] = useState(null);
     const [searchMember, setSearchMember] = useState(null);
-    const [showAddUser, setShowAddUser] = useState(false);
 
     useEffect(() => {
         if (groupId) {
@@ -33,19 +32,22 @@ const GroupMemberModal = ({ groupId, isCreator }) => {
                 } catch (error) {
                     console.error(error);
                 }
-
-                setShowAddUser(false);
             };
             handleAddMember(searchMember, groupId);
         }
     }, [searchMember, groupId]);
 
     const handleDeleteGroupMember = async (userEmail, groupId) => {
+        const userConfirmed = window.confirm(`Are you sure you want to delete ${userEmail}? This action cannot be undone!`);
+        if (!userConfirmed) {
+            return;
+        }
         try {
             const membershipID = await handleGetMembershipID(userEmail, groupId);
             await handleDeleteGroupMembership(membershipID);
             handleDeleteMember(userEmail); // Call handleDeleteMember after deletion
             window.alert("Member deleted successfully!");
+            window.location.reload();
         } catch (err) {
             window.alert("Failed to delete member. Please try again.");
             console.error(err);
@@ -68,6 +70,7 @@ const GroupMemberModal = ({ groupId, isCreator }) => {
                                     member={member}
                                     handleDeleteFn={() => handleDeleteGroupMember(member.userProfileDTO.email, groupId)}
                                     isCreator={isCreator}
+                                    groupMembershipId={groupMembershipId}
                                 />
                             ))
                         ) : (
