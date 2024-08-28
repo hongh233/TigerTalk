@@ -5,9 +5,20 @@ import {handleDeleteGroup} from "../../axios/Group/GroupAxios";
 import { MdDelete } from "react-icons/md";
 import { BiTransferAlt } from "react-icons/bi";
 import GroupTransferOwnership from "./GroupTransferOwnership";
+import { useNavigate } from 'react-router-dom';
 
-const GroupMore = ({ groupId, isCreator, isMember, leaveGroup, setShowSettingsModal, setShowMoreOptions, groupMembershipList, previousOwnerMembershipId }) => {
+const GroupMore = ({
+       groupId,
+       isCreator,
+       isMember,
+       leaveGroup,
+       setShowSettingsModal,
+       setShowMoreOptions,
+       groupMembershipList,
+       previousOwnerMembershipId
+}) => {
     const [showTransferOwnership, setShowTransferOwnership] = useState(false);
+    const navigate = useNavigate();
 
     const deleteGroup = async () => {
         const userConfirmed = window.confirm("Are you sure you want to delete this group? This action cannot be undone.");
@@ -17,6 +28,7 @@ const GroupMore = ({ groupId, isCreator, isMember, leaveGroup, setShowSettingsMo
         try {
             await handleDeleteGroup(groupId);
             alert("Group deleted successfully!");
+            navigate('/group');
         } catch (error) {
             console.error("Failed to delete the group", error);
             alert("Error deleting group");

@@ -22,8 +22,6 @@ public class GroupMembership implements ToDTO<GroupMembershipDTO> {
     @JoinColumn(name = "email")
     private UserProfile userProfile;
 
-    @OneToMany(mappedBy = "groupMembership", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GroupPostComment> groupPostCommentList;
 
     private LocalDateTime joinTime = LocalDateTime.now();
 
@@ -42,51 +40,42 @@ public class GroupMembership implements ToDTO<GroupMembershipDTO> {
     public int getGroupMembershipId() {
         return groupMembershipId;
     }
-
     public void setGroupMembershipId(int membershipId) {
         this.groupMembershipId = membershipId;
     }
 
+
     public Group getGroup() {
         return group;
     }
-
     public void setGroup(Group group) {
         this.group = group;
     }
 
+
     public UserProfile getUserProfile() {
         return userProfile;
     }
-
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
 
+
     public LocalDateTime getJoinTime() {
         return joinTime;
     }
-
     public void setJoinTime(LocalDateTime joinTime) {
         this.joinTime = joinTime;
     }
 
+
     public boolean isCreator() {
         return isCreator;
     }
-
     public void setCreator(boolean creator) {
         isCreator = creator;
     }
 
-
-    public List<GroupPostComment> getGroupPostCommentList() {
-        return groupPostCommentList;
-    }
-
-    public void setGroupPostCommentList(List<GroupPostComment> groupPostCommentList) {
-        this.groupPostCommentList = groupPostCommentList;
-    }
 
     @Override
     public GroupMembershipDTO toDto() {

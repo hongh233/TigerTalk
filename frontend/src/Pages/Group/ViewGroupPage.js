@@ -156,7 +156,9 @@ const ViewGroupPage = () => {
 			const newPost = {
 				group: group,
 				groupPostContent: postContent,
-				groupPostSenderEmail: userEmail,
+				userProfile: {
+					email: userEmail
+				},
 				groupPostPictureURL: postImageURL,
 				timestamp: new Date().toISOString(),
 			};
@@ -242,6 +244,7 @@ const ViewGroupPage = () => {
 											/>
 											{showMoreOptions && (
 												<GroupMore
+													groupId={groupId}
 													isCreator={isCreator}
 													isMember={isMember}
 													leaveGroup={leaveGroup}
@@ -275,6 +278,7 @@ const ViewGroupPage = () => {
 											/>
 											{showMoreOptions && (
 												<GroupMore
+													groupId={groupId}
 													isCreator={isCreator}
 													isMember={isMember}
 													leaveGroup={leaveGroup}

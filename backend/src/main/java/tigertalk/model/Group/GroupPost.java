@@ -1,5 +1,6 @@
 package tigertalk.model.Group;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.User.UserProfile;
 import tigertalk.service._implementation.Group.GroupPostServiceImpl;
@@ -21,24 +22,20 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
     @JoinColumn(name = "groupId", referencedColumnName = "groupId", nullable = false)
     private Group group;
 
+    @ManyToOne
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
+    @JsonBackReference
+    private UserProfile userProfile;
+
     @OneToMany(mappedBy = "groupPost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupPostComment> groupPostCommentList = new ArrayList<>();
     @OneToMany(mappedBy = "groupPost", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupPostLike> groupPostLikes = new ArrayList<>();
+
+
     private LocalDateTime postCreateTime = LocalDateTime.now();
     private String groupPostContent;
-    private String groupPostSenderEmail;
     private String groupPostPictureURL;
-
-    public GroupPost(Group group,
-                     String groupPostContent,
-                     String groupPostSenderEmail,
-                     String groupPostPictureURL) {
-        this.group = group;
-        this.groupPostContent = groupPostContent;
-        this.groupPostSenderEmail = groupPostSenderEmail;
-        this.groupPostPictureURL = groupPostPictureURL;
-    }
 
     public GroupPost() {
     }
@@ -87,13 +84,6 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
         this.groupPostId = groupPostId;
     }
 
-    public String getGroupPostSenderEmail() {
-        return groupPostSenderEmail;
-    }
-
-    public void setGroupPostSenderEmail(String groupPostSenderEmail) {
-        this.groupPostSenderEmail = groupPostSenderEmail;
-    }
 
     public List<GroupPostComment> getGroupPostCommentList() {
         return groupPostCommentList;
@@ -115,16 +105,23 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
         return groupPostLikes;
     }
 
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
     @Override
     public GroupPostDTO toDto() {
-        UserProfile userProfile = GroupPostServiceImpl.findUserProfileByEmail(this).orElseThrow();
         return new GroupPostDTO(
                 this.getGroupPostId(),
-                this.getGroupPostSenderEmail(),
+                this.userProfile.email(),
                 this.getGroupPostContent(),
                 this.getPostCreateTime(),
-                userProfile.userName(),
-                userProfile.getProfilePictureUrl(),
+                this.userProfile.userName(),
+                this.userProfile.getProfilePictureUrl(),
                 this.getGroupPostPictureURL()
         );
     }

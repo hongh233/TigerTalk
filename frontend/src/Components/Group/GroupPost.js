@@ -56,11 +56,8 @@ const GroupPost = ({
 
 			const newCommentObj = {
 				content: newComment,
-				groupMembership: {
-					groupMembershipId: groupMembershipId,
-					userProfile: {
-						email: userEmail,
-					},
+				groupPostCommentCreator: {
+					email: userEmail
 				},
 			};
 			await handleAddGroupPostComment(post.groupPostId, newCommentObj);

@@ -1,12 +1,10 @@
 package tigertalk.service._implementation.Group;
 
-import tigertalk.model.Group.GroupMembership;
 import tigertalk.model.Group.GroupPost;
 import tigertalk.model.Group.GroupPostComment;
 import tigertalk.model.Group.GroupPostCommentDTO;
 import tigertalk.model.Notification.Notification;
 import tigertalk.model.User.UserProfile;
-import tigertalk.repository.Group.GroupMembershipRepository;
 import tigertalk.repository.Group.GroupPostCommentRepository;
 import tigertalk.repository.Group.GroupPostRepository;
 import tigertalk.repository.User.UserProfileRepository;
@@ -25,9 +23,6 @@ import java.util.stream.Collectors;
 public class GroupPostCommentServiceImpl implements GroupPostCommentService {
 
     @Autowired
-    private GroupMembershipRepository groupMembershipRepository;
-
-    @Autowired
     private GroupPostRepository groupPostRepository;
 
     @Autowired
@@ -39,22 +34,23 @@ public class GroupPostCommentServiceImpl implements GroupPostCommentService {
     @Autowired
     private NotificationService notificationService;
 
+
     @Override
     public Optional<String> createGroupPostComment(int groupPostId, GroupPostComment groupPostComment) {
         Optional<GroupPost> groupPostOpt = groupPostRepository.findById(groupPostId);
         if (groupPostOpt.isPresent()) {
             GroupPost groupPost = groupPostOpt.get();
             groupPostComment.setGroupPost(groupPost);
-            Optional<GroupMembership> groupMembershipOpt = groupMembershipRepository.findByGroupAndUserProfileEmail(
-                    groupPost.getGroup(), groupPostComment.getGroupMembership().getUserProfile().email());
 
-            if (groupMembershipOpt.isPresent()) {
-                groupPostComment.setGroupMembership(groupMembershipOpt.get());
+            Optional<UserProfile> userProfileOpt = userProfileRepository.findById(groupPostComment.getGroupPostCommentCreator().email());
+
+            if (userProfileOpt.isPresent()) {
+                groupPostComment.setGroupPostCommentCreator( userProfileOpt.get());
                 groupPostCommentRepository.save(groupPostComment);
 
                 // Create and send notification to GroupPost owner if it's not the same as the commenter
-                String groupPostOwnerEmail = groupPost.getGroupPostSenderEmail();
-                String commenterEmail = groupPostComment.getGroupMembership().getUserProfile().email();
+                String groupPostOwnerEmail = groupPost.getUserProfile().email();
+                String commenterEmail = groupPostComment.getGroupPostCommentCreator().email();
                 if (!groupPostOwnerEmail.equals(commenterEmail)) {
                     Optional<UserProfile> groupPostOwnerOpt = userProfileRepository.findById(groupPostOwnerEmail);
                     if (groupPostOwnerOpt.isPresent()) {
@@ -71,7 +67,7 @@ public class GroupPostCommentServiceImpl implements GroupPostCommentService {
 
                 return Optional.empty();
             } else {
-                return Optional.of("User is not a member of the group, fail to create group post comment.");
+                return Optional.of("user email not found, fail to create group post comment.");
             }
         } else {
             return Optional.of("Group post id not found, fail to create group post comment.");

@@ -8,6 +8,8 @@ import tigertalk.model.Friend.Friendship;
 import tigertalk.model.Friend.FriendshipRequest;
 import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.Group.GroupMembership;
+import tigertalk.model.Group.GroupPost;
+import tigertalk.model.Group.GroupPostComment;
 import tigertalk.model.Group.GroupPostLike;
 import tigertalk.model.Notification.Notification;
 import tigertalk.model.Post.Post;
@@ -50,6 +52,9 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
     @JsonManagedReference
     private List<Post> postList = new LinkedList<>();
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<GroupPost> groupPostList = new LinkedList<>();
+    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostLike> postLikeList = new LinkedList<>();
     @OneToMany(mappedBy = "commentSenderUserProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostComment> postCommentList = new LinkedList<>();
@@ -57,6 +62,10 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
     private List<GroupMembership> groupMembershipList = new LinkedList<>();
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupPostLike> groupPostLikeList = new LinkedList<>();
+    @OneToMany(mappedBy = "groupPostCommentCreator", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupPostComment> groupPostCommentList = new LinkedList<>();
+
+
     private String password;
     private String userLevel = UserLevel.USER;   // admin / user
     private String status = UserStatus.PENDING;      // blocked / pending / active
@@ -327,9 +336,6 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
     public String lastName() {
         return lastName;
     }
-
-
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -406,6 +412,24 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
     public void setPostCommentList(List<PostComment> postCommentList) {
         this.postCommentList = postCommentList;
     }
+
+    public List<GroupPostComment> getGroupPostCommentList() {
+        return groupPostCommentList;
+    }
+
+    public void setGroupPostCommentList(List<GroupPostComment> groupPostCommentList) {
+        this.groupPostCommentList = groupPostCommentList;
+    }
+
+
+    public List<GroupPost> getGroupPostList() {
+        return groupPostList;
+    }
+
+    public void setGroupPostList(List<GroupPost> groupPostList) {
+        this.groupPostList = groupPostList;
+    }
+
 
 
     public Optional<String> findAnswerForSecurityQuestion(String securityQuestion) {

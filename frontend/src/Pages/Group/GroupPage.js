@@ -94,7 +94,11 @@ const GroupPage = () => {
 
 				</div>
 
-				<GroupCreateModal isOpen={isCreateGroupOpen} onClose={() => setIsCreateGroupOpen(false)} user={user}/>
+				<GroupCreateModal
+					isOpen={isCreateGroupOpen}
+					onClose={() => setIsCreateGroupOpen(false)}
+					user={user}
+				/>
 
 			</div>
 		</div>

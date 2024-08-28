@@ -2,6 +2,7 @@ package tigertalk.model.Group;
 
 import tigertalk.model.FullyDTOConvertible;
 import jakarta.persistence.*;
+import tigertalk.model.User.UserProfile;
 
 import java.time.LocalDateTime;
 
@@ -13,8 +14,8 @@ public class GroupPostComment implements FullyDTOConvertible<GroupPostCommentDTO
     private Integer groupPostCommentId;
 
     @ManyToOne
-    @JoinColumn(name = "group_membership_id", referencedColumnName = "groupMembershipId", nullable = false)
-    private GroupMembership groupMembership;
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
+    private UserProfile groupPostCommentCreator;
 
     @ManyToOne
     @JoinColumn(name = "group_post_id", referencedColumnName = "groupPostId", nullable = false)
@@ -36,13 +37,6 @@ public class GroupPostComment implements FullyDTOConvertible<GroupPostCommentDTO
         this.groupPostCommentId = groupPostCommentId;
     }
 
-    public GroupMembership getGroupMembership() {
-        return groupMembership;
-    }
-
-    public void setGroupMembership(GroupMembership groupMembership) {
-        this.groupMembership = groupMembership;
-    }
 
     public GroupPost getGroupPost() {
         return groupPost;
@@ -68,6 +62,14 @@ public class GroupPostComment implements FullyDTOConvertible<GroupPostCommentDTO
     public void setGroupPostCommentCreateTime(LocalDateTime groupPostCommentCreateTime) {
         this.groupPostCommentCreateTime = groupPostCommentCreateTime;
     }
+    public UserProfile getGroupPostCommentCreator() {
+        return groupPostCommentCreator;
+    }
+
+    public void setGroupPostCommentCreator(UserProfile postCommentCreator) {
+        this.groupPostCommentCreator = postCommentCreator;
+    }
+
 
     @Override
     public GroupPostCommentDTO toDto() {
@@ -75,9 +77,9 @@ public class GroupPostComment implements FullyDTOConvertible<GroupPostCommentDTO
                 this.getGroupPostCommentId(),
                 this.getContent(),
                 this.getGroupPostCommentCreateTime(),
-                this.getGroupMembership().getUserProfile().userName(),
-                this.getGroupMembership().getUserProfile().getProfilePictureUrl(),
-                this.getGroupMembership().getUserProfile().email()
+                this.groupPostCommentCreator.userName(),
+                this.groupPostCommentCreator.getProfilePictureUrl(),
+                this.groupPostCommentCreator.email()
         );
     }
 
