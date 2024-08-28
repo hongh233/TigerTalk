@@ -21,6 +21,7 @@ import GroupMemberModal from "../../Components/Group/GroupMemberModal";
 import GroupSettingModal from "../../Components/Group/GroupSettingModal";
 import { IoIosMore } from "react-icons/io";
 import GroupMore from "../../Components/Group/GroupMore";
+import { FiEdit3 } from "react-icons/fi";
 
 
 const ViewGroupPage = () => {
@@ -39,6 +40,7 @@ const ViewGroupPage = () => {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
 	const moreOptionsRef = useRef(null);
 	const [members, setMembers] = useState(null);
+	const [showPostContainer, setShowPostContainer] = useState(false);
 
 
 	useEffect(() => {
@@ -209,8 +211,10 @@ const ViewGroupPage = () => {
 											)}
 										</div>
 										<div className="group-name-and-status-icon-and-group-info-down">
-											<div><span>Posts: </span>{posts ? posts.length : 0}</div>
+											<div><span>Group ID: </span>{groupId ? groupId : "unknown"}</div>
 											<div><span>Members: </span>{members ? members.length : 0}</div>
+											<div><span>Posts: </span>{posts ? posts.length : 0}</div>
+											<div><span>Create Time: </span>{group ? group.groupCreateTime : "unknown"}</div>
 										</div>
 									</div>
 
@@ -288,19 +292,35 @@ const ViewGroupPage = () => {
 							</div>
 						</div>
 
-						<div className="group-post-container">
-							{isMember && <PostCreation addPost={addPost} />}
-							{!isPrivate || isMember ? (
-								<>
-									{posts && posts.map((post) => (
-											<GroupPost key={post.groupPostId} isMember={isMember} post={post} groupId={groupId}
-												groupMembershipId={groupMembershipId} userEmail={userEmail} removePost={handleDeletePost}
-											/>
-										))
-									}
-								</>
-							) : ("")}
-						</div>
+						{isMember &&
+							<button
+								onClick={() => setShowPostContainer(!showPostContainer)}
+								className="view-group-create-post-show-button"
+							>
+								<FiEdit3 /><span>&nbsp;&nbsp;Start a Post</span>
+							</button>
+						}
+
+						{showPostContainer && (
+							<div>
+								{isMember && <PostCreation addPost={addPost} />}
+							</div>
+						)}
+
+						{isMember &&
+							<div className="group-post-container">
+								{posts && posts.map((post) => (
+									<GroupPost key={post.groupPostId}
+											   isMember={isMember}
+											   post={post}
+											   groupId={groupId}
+											   groupMembershipId={groupMembershipId}
+											   userEmail={userEmail}
+											   removePost={handleDeletePost}
+									/>
+								))}
+							</div>
+						}
 
 					</div>
 				</div>

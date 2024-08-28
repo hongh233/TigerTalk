@@ -7,7 +7,7 @@
     padding-left: 30px;
     padding-right: 30px;
 
-    border: 5px solid green;
+    /*border: 5px solid green;*/
 }
 
 .group-details-header {
@@ -15,8 +15,11 @@
     align-items: center;
     width: 100%;
     flex-shrink: 0;
-
-    border: 3px solid blue;
+    margin-top: 3px;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
 }
 
 
@@ -63,23 +66,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .join-group-button {
     display: inline-flex;
     align-items: center;
@@ -103,13 +89,6 @@
     overflow-y: auto;
     flex-grow: 1;
 }
-
-@media (max-width: 768px) {
-
-}
-
-
-
 
 
 
@@ -182,4 +161,50 @@
 .group-member-list-button-and-menu-show {
     position: relative;
     display: inline-block;
+}
+
+
+
+
+
+
+
+
+.view-group-create-post-show-button {
+    width: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #5e71e3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    padding: 10px 10px 10px 7px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.view-group-create-post-show-button:hover {
+    background-color: #4558d4;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+
 }

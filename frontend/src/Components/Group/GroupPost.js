@@ -49,10 +49,6 @@ const GroupPost = ({
 		setLikes(updatedLikes);
 	};
 
-	const handleCommentChange = (e) => {
-		setNewComment(e.target.value);
-	};
-
 	const handleAddCommentToAxios = async () => {
 		try {
 			setCommentToggle(false); // IT works don't touch
@@ -129,10 +125,6 @@ const GroupPost = ({
 					<h3><a className="group-post-user-email" href={`/profile/${post.postSenderEmail}`}>{post.groupPostSenderUserName}</a></h3>
 					<p>{formatDate(post.groupPostCreateTime)}</p>
 				</div>
-				{/* <GroupPostDelete
-					groupPostId={post.groupPostId}
-					onDelete={handlePostDelete}
-				/> */}
 			</div>
 			<div className="group-post-content">
 				<p>{post.groupPostContent}</p>
@@ -152,8 +144,17 @@ const GroupPost = ({
 
 				{isMember && (
 					<div className="add-comment">
-						<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
-						<button onClick={handleAddCommentToAxios}>Sent</button>
+
+						<input
+							type="text"
+							placeholder="Add a comment..."
+							value={newComment}
+							onChange={(e) => setNewComment(e.target.value)}
+						/>
+
+						<button onClick={handleAddCommentToAxios}>
+							Sent
+						</button>
 					</div>
 				)}
 			</div>
