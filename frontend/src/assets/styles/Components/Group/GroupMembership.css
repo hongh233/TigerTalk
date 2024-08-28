@@ -60,9 +60,14 @@
     flex-grow: 1;
 }
 
-.group-membership-item-delete-button {
+
+
+
+
+.group-membership-item-delete-button,
+.group-membership-item-owner-button,
+.group-membership-item-user-button {
     border-radius: 5px;
-    cursor: pointer;
     color: white;
     font-size: 14px;
     height: 30px;
@@ -71,9 +76,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    width: 80px;
+}
+
+
+.group-membership-item-delete-button {
+    cursor: pointer !important;
     background-color: #f44336;
 }
+.group-membership-item-owner-button {
+    cursor: default !important;
+    background-color: #ffcd15;
+    color: #000000;
+}
+.group-membership-item-user-button {
+    cursor: default !important;
+    background-color: #4bd218;
+}
+
+
 
 .group-membership-item-delete-button:hover {
     background-color: #da190b;
+}
+.group-membership-item-owner-button:hover {
+    background-color: #ffcd15;
+}
+.group-membership-item-user-button:hover {
+    background-color: #4bd218;
 }

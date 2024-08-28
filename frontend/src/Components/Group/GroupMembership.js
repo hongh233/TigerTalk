@@ -2,9 +2,7 @@ import React from "react";
 import "../../assets/styles/Components/Group/GroupMembership.css";
 
 
-const GroupMembership = ({ member, handleDeleteFn, isCreator }) => {
-
-
+const GroupMembership = ({ member, handleDeleteFn, isCreator, groupMembershipId }) => {
     return (
         <div className="group-membership-item-friend">
             <div className="group-membership-item-friend-header">
@@ -18,7 +16,21 @@ const GroupMembership = ({ member, handleDeleteFn, isCreator }) => {
                 </div>
             </div>
             <div className="group-membership-item-friend-actions">
-                {isCreator && <button className="group-membership-item-delete-button" onClick={handleDeleteFn}>Delete</button>}
+                {isCreator && !member.isCreator &&
+                    <button className="group-membership-item-delete-button" onClick={handleDeleteFn}>
+                        Delete
+                    </button>
+                }
+                {member.isCreator &&
+                    <button className="group-membership-item-owner-button">
+                        Owner
+                    </button>
+                }
+                {!isCreator && member.groupMembershipId === groupMembershipId &&
+                    <button className="group-membership-item-user-button">
+                        You
+                    </button>
+                }
             </div>
         </div>
     );
