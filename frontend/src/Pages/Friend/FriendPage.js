@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/styles/Pages/Friend/FriendListPage.css";
+import "../../assets/styles/Pages/Friend/FriendPage.css";
 import { deleteFriendshipByEmail } from "../../axios/Friend/FriendshipAxios";
 import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
 import {FaUserPlus} from "react-icons/fa";
@@ -12,7 +12,7 @@ import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
 import {Badge} from "@mui/material";
 
 
-const FriendListPage = () => {
+const FriendPage = () => {
 	const user = useSelector((state) => state.user.user);
 	const [friends, setFriends] = useState([]);
 	const [allFriends, setAllFriends] = useState([]);
@@ -141,4 +141,4 @@ const FriendListPage = () => {
 	);
 };
 
-export default FriendListPage;
+export default FriendPage;
