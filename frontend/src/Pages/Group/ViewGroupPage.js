@@ -11,7 +11,7 @@ import {
 	handleGetAllPost,
 	handleCreatePost,
 } from "../../axios/Group/GroupPostAxios";
-import { FaLock, FaUsers, FaUnlock, FaUserPlus } from "react-icons/fa";
+import { FaLock, FaLockOpen, FaUsers, FaUserPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import GroupPost from "../../Components/Group/GroupPost";
@@ -83,9 +83,9 @@ const ViewGroupPage = () => {
 
 				// Check if the current user is a member
 				try {
-					const groupMembership = await handleGetMembershipID(userEmail, groupId);
+					const groupMembershipId = await handleGetMembershipID(userEmail, groupId);
 					setIsMember(true);
-					setGroupMembershipId(groupMembership);
+					setGroupMembershipId(groupMembershipId);
 				} catch {
 					setIsMember(false);
 				}
@@ -193,9 +193,25 @@ const ViewGroupPage = () => {
 
 								<div className="group-name-and-status-icon-and-member-more-box">
 
-									<div className="group-name-and-status-icon-left">
-										<h1>{group.groupName}</h1>
-										{isPrivate ? (<FaLock />) : (<FaUnlock />)}
+									<div className="group-name-and-status-icon-and-group-info-box">
+										<div className="group-name-and-status-icon-and-group-info-up">
+											<h1>{group.groupName}</h1>
+											{ isPrivate ? (
+												<FaLock
+													className="group-name-and-status-icon-and-group-info-icon"
+													title="Private Group"
+												/>
+											) : (
+												<FaLockOpen
+													className="group-name-and-status-icon-and-group-info-icon"
+													title="Public Group"
+												/>
+											)}
+										</div>
+										<div className="group-name-and-status-icon-and-group-info-down">
+											<div><span>Posts: </span>{posts ? posts.length : 0}</div>
+											<div><span>Members: </span>{members ? members.length : 0}</div>
+										</div>
 									</div>
 
 									{isCreator ? (
@@ -211,6 +227,7 @@ const ViewGroupPage = () => {
 													<GroupMemberModal
 														groupId={groupId}
 														isCreator={isCreator}
+														groupMembershipId={groupMembershipId}
 													/>
 												)}
 											</div>
@@ -240,21 +257,23 @@ const ViewGroupPage = () => {
 															 setShowMoreOptions(false);}}
 												/>
 												{showMembersModal && (
-													<GroupMemberModal groupId={groupId}/>
+													<GroupMemberModal
+														groupId={groupId}
+														isCreator={isCreator}
+														groupMembershipId={groupMembershipId}
+													/>
 												)}
 											</div>
 											<IoIosMore className="group-icon-button-view-group-page"
 													   onClick={() => {
 														   setShowMoreOptions(!showMoreOptions)
-														   setShowMembersModal(false)
-													   }}
+														   setShowMembersModal(false)}}
 											/>
 											{showMoreOptions && (
 												<GroupMore
 													isCreator={isCreator}
 													isMember={isMember}
 													leaveGroup={leaveGroup}
-													setShowSettingsModal={setShowSettingsModal}
 												/>
 											)}
 										</div>
@@ -270,9 +289,7 @@ const ViewGroupPage = () => {
 						</div>
 
 						<div className="group-post-container">
-
 							{isMember && <PostCreation addPost={addPost} />}
-
 							{!isPrivate || isMember ? (
 								<>
 									{posts && posts.map((post) => (
@@ -283,7 +300,6 @@ const ViewGroupPage = () => {
 									}
 								</>
 							) : ("")}
-
 						</div>
 
 					</div>
