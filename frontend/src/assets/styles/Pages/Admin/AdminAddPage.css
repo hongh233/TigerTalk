@@ -56,7 +56,9 @@ input:focus, select:focus {
     outline: none;
 }
 
-button {
+
+
+.admin-add-page button {
     padding: 15px;
     font-size: 16px;
     cursor: pointer;
@@ -66,10 +68,11 @@ button {
     border-radius: 4px;
     transition: background-color 0.3s;
 }
-
-button:hover {
+.admin-add-page button:hover {
     background-color: #2575fc;
 }
+
+
 
 .admin-add-page .error-css {
     color: red;

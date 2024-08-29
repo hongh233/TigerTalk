@@ -1,25 +1,40 @@
 .post-creation {
 	display: flex;
 	flex-direction: column;
-	padding: 20px;
 	border-bottom: 1px solid #ddd;
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 	margin-bottom: 20px;
+	/*margin-top: 10px;*/
+	width: 100%;
+	padding: 20px;
+	box-sizing: border-box;
 }
+
+.post-creation-container {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+
+	width: 100%;
+	padding: 0;
+}
+
+
+
+
+
+
 
 
 .post-creation-header {
 	display: flex;
 	align-items: center;
-	margin-bottom: 10px;
+	margin-bottom: 10px; /* adjust */
 }
-
-
-
-
-
 .post-creation-profile-picture {
 	margin-right: 10px;
 	width: 50px;
@@ -28,43 +43,55 @@
 	background-color: #ccc;
 }
 .post-creation-profile-picture img {
-	margin-right: 10px;
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
 	object-fit: cover;
 }
-
-
-
-
-
 .post-user-details h2 {
 	margin: 0;
 	font-size: 1rem;
 }
 
-textarea {
-	width: 80%;
-	height: 80px;
-	padding: 10px;
+
+
+
+
+
+
+
+
+
+.post-creation-container textarea {
 	border: 1px solid #ddd;
 	border-radius: 4px;
-	margin-bottom: 10px;
-	resize: none;
+	resize: vertical; /* allow user adjust vertically */
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+	box-sizing: border-box;
+
+	font-size: 1rem;
+	font-family: inherit;
+	color: #333;
+
+
+	margin: 0;
+	width: 100%;
+	min-height: 100px;
+	padding: 10px;
 }
 
 
 
-input[type="text"] {
-	flex: 1;
-	padding: 10px;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	margin-right: 10px;
-}
 
-.image-upload {
+
+
+
+
+
+
+
+
+.post-creation-image-upload {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -74,10 +101,8 @@ input[type="text"] {
 	border-radius: 4px;
 	cursor: pointer;
 	position: relative;
-	margin-right: 10px;
 }
-
-.image-upload label {
+.post-creation-image-upload label {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -87,10 +112,14 @@ input[type="text"] {
 	color: #17a2b8;
 	font-size: 1.5rem;
 }
-
-.image-upload input[type="file"] {
+.post-creation-image-upload input[type="file"] {
 	display: none;
 }
+
+
+
+
+
 
 
 .post-creation-button {
@@ -104,22 +133,26 @@ input[type="text"] {
 	cursor: pointer;
 	margin-top: 10px;
 }
-.post-creation-container {
-	width: 95%;
-	display: flex;
-	flex-direction: column;
-}
 
 
 
 
-.tag {
-	display: inline-block;
-	background-color: #17a2b8;
-	color: #fff;
-	padding: 5px 10px;
-	border-radius: 15px;
-	margin-right: 5px;
-	margin-top: 5px;
-	cursor: pointer;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

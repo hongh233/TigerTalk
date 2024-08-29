@@ -102,7 +102,7 @@ const Post = ({ post, user, removePost }) => {
 				return (
 					<span
 						key={index}
-						className="tag"
+						className="post-tag"
 						onClick={() => handleTagClick(part)}
 						style={{ color: "blue", cursor: "pointer" }}
 					>

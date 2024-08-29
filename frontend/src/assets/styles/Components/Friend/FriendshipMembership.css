@@ -18,20 +18,29 @@
 
 
 
-.friend-header {
+.friendship-membership-friend-header {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
 }
 
 
 
-.friend-details a:hover {
+
+.friendship-membership-friend-details a {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff;
+    text-decoration: none;
+}
+.friendship-membership-friend-details a:hover {
     text-decoration: underline;
 }
-.friend-details p {
+.friendship-membership-friend-details p {
     margin: 0;
     color: #666;
+}
+.friendship-membership-friend-details {
+    /*border: 1px solid black;*/
 }
 
 
@@ -57,3 +66,26 @@
     background-color: #e53935;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
+
+
+
+
+
+
+
+
+.friendship-membership-friend-picture {
+    display: flex;
+    align-content: center;
+    /*border: 1px solid black;*/
+}
+.friendship-membership-friend-picture img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+
+

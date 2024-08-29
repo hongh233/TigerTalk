@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "../../assets/styles/Components/Post/PostCreation.css";
+import "../../assets/styles/Components/Group/GroupPostCreation.css";
 import {FaImage} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
 
 
-const PostCreation = ({ addPost }) => {
+const GroupPostCreation = ({ addPost, onclose, onopen }) => {
 	const [postContent, setPostContent] = useState("");
 	const [tags, setTags] = useState([]);
 	const [uploading, setUploading] = useState(false);
@@ -52,21 +52,30 @@ const PostCreation = ({ addPost }) => {
 	return (
 		<>
 			{user && (
-				<div className="post-creation">
-					<div className="post-creation-container">
-						<div className="post-creation-header">
-							<div className="post-creation-profile-picture"><img src={user.profilePictureUrl} alt="avatar" /></div>
-							<div className="post-user-details">{user && <h2>{user.userName}</h2>}</div>
+				<div className="group-post-creation">
+					<div className="group-post-creation-container">
+
+						<button className="group-post-creation-close-button" onClick={() => {onclose();onopen();}}>
+							&times;
+						</button>
+
+						<div className="group-post-creation-header">
+							<div className="group-post-creation-profile-picture"><img src={user.profilePictureUrl} alt="avatar" /></div>
+							<div className="group-post-user-details">{user && <h2>{user.userName}</h2>}</div>
 						</div>
-						<textarea placeholder="What's Happening?" value={postContent} onChange={handleInputChange}></textarea>
-						<div className="post-creation-image-upload">
+						<textarea
+							placeholder="What's Happening?"
+							value={postContent}
+							onChange={handleInputChange}>
+						</textarea>
+						<div className="group-post-creation-image-upload">
 							<input type="file" name="profilePicture" onChange={handleFileChange} style={{ display: "none" }} id="fileInput"/>
 							<label htmlFor="fileInput"><FaImage /></label>
 						</div>
 
 						{uploading && <p>Uploading...</p>}
 						{imageUrl && <img src={imageUrl} alt="Uploaded" width="100" />}
-						<button className="post-creation-button" onClick={handleAddPost}>Post</button>
+						<button className="group-post-creation-button" onClick={handleAddPost}>Post</button>
 					</div>
 				</div>
 			)}
@@ -74,4 +83,4 @@ const PostCreation = ({ addPost }) => {
 	);
 };
 
-export default PostCreation;
+export default GroupPostCreation;

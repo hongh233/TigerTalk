@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../assets/styles/Components/Group/GroupCreateModal.css";
 import { handleCreateGroup } from "../../axios/Group/GroupAxios";
 
+
 const GroupCreateModal = ({ isOpen, onClose, user }) => {
     const [form, setForm] = useState({
         groupName: "",

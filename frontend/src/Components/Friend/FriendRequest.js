@@ -34,10 +34,10 @@ const FriendRequest = ({request}) => {
     return (
         <div className="friend-request">
             <div className="friend-request-header">
-                <div className="friend-picture">
+                <div className="friend-request-friend-picture">
                     <img src={request.senderProfilePictureUrl} alt="avatar"/>
                 </div>
-                <div className="friend-details">
+                <div className="friend-request-friend-details">
                     <a href={"/profile/" + request.senderEmail}>{request.senderName}</a>
                     <div>Email: {request.senderEmail}</div>
                     <div>{formatDate(request.createTime)}</div>

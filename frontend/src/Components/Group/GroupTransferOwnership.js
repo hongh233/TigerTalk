@@ -29,7 +29,10 @@ const GroupTransferOwnership = ({ groupMembershipList, previousOwnerMembershipId
 
     return (
         <div className="group-transfer-ownership-modal">
-            <button className="group-transfer-ownership-close-button" onClick={onClose}>&times;</button>
+
+            <button className="group-transfer-ownership-close-button" onClick={onClose}>
+                &times;
+            </button>
 
             <div className="group-transfer-ownership-membership-box-with-title">
                 <div className="group-member-list-transfer">

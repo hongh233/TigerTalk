@@ -8,11 +8,11 @@ const FriendshipMembership = ({ user, handleDeleteFn  }) => {
 
 	return (
 		<div className="friendship-membership">
-			<div className="friend-header">
-				<div className="friend-picture">
+			<div className="friendship-membership-friend-header">
+				<div className="friendship-membership-friend-picture">
 					<img src={user.profilePictureUrl} alt="avatar" />
 				</div>
-				<div className="friend-details">
+				<div className="friendship-membership-friend-details">
 					<a href={"/profile/" + user.email}>{user.userName}</a>
 					<p>Email: {user.email}</p>
 					<p>Add Time: {formatDate(user.createTime)}</p>

@@ -25,7 +25,9 @@ const FriendRecommendations = () => {
 
     return (
         <>
-            <h3 className="friend-recommendations-header">Friends Recommend</h3>
+            <h3 className="friend-recommendations-header">
+                Discover People
+            </h3>
             <div className="friend-recommendations">
                 <ul>
                     {recommendations.map((friend, index) => (

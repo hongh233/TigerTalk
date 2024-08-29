@@ -184,10 +184,10 @@ const FriendMessagePage = () => {
 								<li key={friend.email} onClick={() => handleFriendClick(friend)}>
 									<div className="friend-message-friend">
 										<div className="friend-message-header">
-											<div className="friend-picture">
+											<div className="friend-message-friend-picture">
 												<img src={friend.profilePictureUrl} alt="avatar" />
 											</div>
-											<div className="friend-details">
+											<div className="friend-message-details">
 												<a href={"/profile/" + friend.email}>{friend.userName}</a>
 												<p>Email: {friend.email}</p>
 											</div>
@@ -209,7 +209,7 @@ const FriendMessagePage = () => {
 										className={message.messageSenderEmail === user.email ? "message-right" : "message-left"}
 									>
 										{message.messageSenderEmail !== user.email && (
-											<div className="friend-picture">
+											<div className="friend-message-friend-picture">
 												<img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar"/>
 											</div>
 										)}
@@ -217,7 +217,7 @@ const FriendMessagePage = () => {
 											{message.messageContent}
 										</div>
 										{message.messageSenderEmail === user.email && (
-											<div className="friend-picture">
+											<div className="friend-message-friend-picture">
 												<img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar"/>
 											</div>
 										)}

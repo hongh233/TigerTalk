@@ -120,7 +120,16 @@
 	background-color: #0056b3;
 }
 
-
+.post-tag {
+	display: inline-block;
+	background-color: #17a2b8;
+	color: #fff;
+	padding: 5px 10px;
+	border-radius: 15px;
+	margin-right: 5px;
+	margin-top: 5px;
+	cursor: pointer;
+}
 
 @media (max-width: 768px) {
 

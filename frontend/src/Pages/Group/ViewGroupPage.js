@@ -16,13 +16,13 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import GroupPost from "../../Components/Group/GroupPost";
 import Header from "../../Components/Main/Header";
-import PostCreation from "../../Components/Post/PostCreation";
 import GroupMemberModal from "../../Components/Group/GroupMemberModal";
 import GroupSettingModal from "../../Components/Group/GroupSettingModal";
 import { IoIosMore } from "react-icons/io";
 import GroupMore from "../../Components/Group/GroupMore";
 import { FiEdit3 } from "react-icons/fi";
 import {formatDate} from "../../utils/formatDate";
+import GroupPostCreation from "../../Components/Group/GroupPostCreation";
 
 
 const ViewGroupPage = () => {
@@ -41,8 +41,8 @@ const ViewGroupPage = () => {
 	const [showMoreOptions, setShowMoreOptions] = useState(false);
 	const moreOptionsRef = useRef(null);
 	const [members, setMembers] = useState(null);
-	const [showPostContainer, setShowPostContainer] = useState(false);
-	const [showStartPostButton, setShowStartPostButton] = useState(true);
+	const [showStartGroupPost, setShowStartGroupPost] = useState(false);
+	const [showStartGroupPostButton, setShowStartGroupPostButton] = useState(true);
 
 	useEffect(() => {
 		if (groupId) {
@@ -297,11 +297,11 @@ const ViewGroupPage = () => {
 							</div>
 						</div>
 
-						{isMember && showStartPostButton &&
+						{isMember && showStartGroupPostButton &&
 							<button
 								onClick={() => {
-									setShowPostContainer(!showPostContainer);
-									setShowStartPostButton(!showStartPostButton);
+									setShowStartGroupPost(!showStartGroupPost);
+									setShowStartGroupPostButton(!showStartGroupPostButton);
 								}}
 								className="view-group-create-post-show-button"
 							>
@@ -309,9 +309,15 @@ const ViewGroupPage = () => {
 							</button>
 						}
 
-						{showPostContainer && (
+						{showStartGroupPost && (
 							<div>
-								{isMember && <PostCreation addPost={addPost} />}
+								{isMember &&
+									<GroupPostCreation
+										addPost={addPost}
+										onclose={() => setShowStartGroupPost(false)}
+										onopen={() => setShowStartGroupPostButton(true)}
+									/>
+								}
 							</div>
 						)}
 

@@ -25,11 +25,14 @@
 }
 
 
-.friend-picture {
+
+
+.friend-request-friend-picture {
     display: flex;
     align-content: center;
+    /*border: 1px solid black;*/
 }
-.friend-picture img {
+.friend-request-friend-picture img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -39,12 +42,17 @@
 
 
 
-.friend-details a {
+
+.friend-request-friend-details a {
     font-size: 18px;
     font-weight: bold;
     color: #007bff;
     text-decoration: none;
 }
+.friend-request-friend-details a:hover {
+    text-decoration: underline;
+}
+
 
 
 

@@ -126,3 +126,29 @@
     border: 1px solid #ccc;
     margin: 0 10px;
 }
+
+
+
+
+
+
+.friend-message-friend-picture {
+    display: flex;
+    align-content: center;
+
+    border: 1px solid black;
+}
+.friend-message-friend-picture img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+
+
+
+
+
+
