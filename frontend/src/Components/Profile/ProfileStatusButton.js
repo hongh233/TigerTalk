@@ -88,16 +88,16 @@ const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
                             onMouseLeave={handleMouseLeave}
                         >
                             <div onClick={() => handleStatusChange("available")}>
-                                <MdCheckCircle style={{ color: '#4caf50' }} />&nbsp;Available
+                                <MdCheckCircle style={{ color: '#4caf50' }} /><span>&nbsp;Available</span>
                             </div>
                             <div onClick={() => handleStatusChange("busy")}>
-                                <MdRemoveCircle style={{ color: '#f44336' }} />&nbsp;Busy
+                                <MdRemoveCircle style={{ color: '#f44336' }} /><span>&nbsp;Busy</span>
                             </div>
                             <div onClick={() => handleStatusChange("away")}>
-                                <MdAccessTimeFilled style={{ color: '#ff9800' }} />&nbsp;Away
+                                <MdAccessTimeFilled style={{ color: '#ff9800' }} /><span>&nbsp;Away</span>
                             </div>
                             <div onClick={() => handleStatusChange("offline")}>
-                                <IoMdCloseCircle style={{ color: '#9e9e9e' }} />&nbsp;Offline
+                                <IoMdCloseCircle style={{ color: '#9e9e9e' }} /><span>&nbsp;Offline</span>
                             </div>
                         </div>
                     )}

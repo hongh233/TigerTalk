@@ -183,10 +183,17 @@ const ProfilePage = () => {
 									<img src={profileUser && profileUser.profilePictureUrl} alt="user profile" className="profile-page-user-info-picture" />
 									{showSetting && (
 										<>
-											<div className="profile-picture-overlay" onClick={() => document.getElementById('update-profile-picture').click()}>
+											<div
+												className="profile-picture-overlay"
+												onClick={() => document.getElementById('update-profile-picture').click()}>
 												<MdPhotoCamera className="profile-picture-overlay-icon" />
 											</div>
-											<input type="file" id="update-profile-picture" style={{ display: "none" }} onChange={handleUpdateProfilePicture}/>
+											<input
+												type="file"
+												id="update-profile-picture"
+												style={{ display: "none" }}
+												onChange={handleUpdateProfilePicture}
+											/>
 											{uploading && <p className="profile-picture-uploading-text">Uploading...</p>}
 										</>
 									)}
@@ -194,7 +201,11 @@ const ProfilePage = () => {
 
 								<div className="profile-page-user-info-text">
 									<div className="profile-status-and-edit-button-box">
-										<ProfileStatusButton profileUser={profileUser} paramUserEmail={paramUserEmail} user={user}/>
+										<ProfileStatusButton
+											profileUser={profileUser}
+											paramUserEmail={paramUserEmail}
+											user={user}
+										/>
 										{showSetting ? (
 											<button className="edit-profile-button" onClick={openEditModal}>Edit profile</button>
 										) : (

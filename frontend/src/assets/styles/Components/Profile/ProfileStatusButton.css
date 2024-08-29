@@ -53,7 +53,6 @@
     transform: translateY(0);
     pointer-events: auto;
 }
-
 .status-menu div {
     display: flex;
     align-items: center;
@@ -62,12 +61,13 @@
     border-radius: 8px;
     transition: background-color 0.2s ease;
 }
-
+.status-menu div span{
+    font-size: 20px;
+}
 .status-menu div:hover {
     background-color: #e0e0e0;
     transform: scale(1.02);
 }
-
 .status-menu div:active {
     background-color: #d0d0d0;
     transform: none;
