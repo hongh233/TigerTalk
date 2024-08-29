@@ -146,8 +146,8 @@ const Post = ({ post, user, removePost }) => {
 
 	return (
 		<div className="post">
-			<div className="post-header">
-				<div className="profile-picture">
+			<div className="real-post-header">
+				<div className="real-post-profile-picture">
 					<a className="post-user-email" href={`/profile/${post.email}`}><img src={post.profileProfileURL} alt="avatar" /></a>
 				</div>
 				<div className="post-user-details">

@@ -20,9 +20,6 @@ const FriendPage = () => {
 	const [showFriendRequestList, setShowFriendRequestList] = useState(false);
 	const [hoverTimeout, setHoverTimeout] = useState(null);
 
-	const handleDeleteFriend = (id) => {
-		setFriends(friends.filter((friend) => friend.id !== id));
-	};
 
 	useEffect(() => {
 		const fetchFriends = async () => {
@@ -127,7 +124,6 @@ const FriendPage = () => {
 								key={friend.email}
 								user={friend}
 								userEmail={user.email}
-								onDelete={handleDeleteFriend}
 								handleDeleteFn={() => deleteFriendshipByEmail(user.email, friend.email)}
 							/>
 						))

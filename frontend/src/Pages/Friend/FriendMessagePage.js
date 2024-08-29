@@ -182,8 +182,8 @@ const FriendMessagePage = () => {
 						<ul>
 							{friends.map((friend) => (
 								<li key={friend.email} onClick={() => handleFriendClick(friend)}>
-									<div className="friend">
-										<div className="friend-header">
+									<div className="friend-message-friend">
+										<div className="friend-message-header">
 											<div className="friend-picture">
 												<img src={friend.profilePictureUrl} alt="avatar" />
 											</div>

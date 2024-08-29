@@ -1,5 +1,6 @@
 import React from "react";
 import "../../assets/styles/Components/Group/GroupMembership.css";
+import {formatDate} from "../../utils/formatDate";
 
 
 const GroupMembership = ({ member, handleDeleteFn, isCreator, groupMembershipId }) => {
@@ -7,12 +8,14 @@ const GroupMembership = ({ member, handleDeleteFn, isCreator, groupMembershipId 
         <div className="group-membership-item-friend">
             <div className="group-membership-item-friend-header">
                 <div className="group-membership-item-friend-picture">
-                    <img src={member.userProfileDTO.profilePictureUrl} alt="avatar" />
+                    <a href={"/profile/" + member.userProfileDTO.email}>
+                        <img src={member.userProfileDTO.profilePictureUrl} alt="avatar"/>
+                    </a>
                 </div>
                 <div className="group-membership-item-friend-details">
                     <a href={"/profile/" + member.userProfileDTO.email}>{member.userProfileDTO.userName}</a>
                     <p>Email: {member.userProfileDTO.email}</p>
-                    <p>Join Time: {member.joinTime}</p>
+                    <p>Join Time: {formatDate(member.joinTime)}</p>
                 </div>
             </div>
             <div className="group-membership-item-friend-actions">

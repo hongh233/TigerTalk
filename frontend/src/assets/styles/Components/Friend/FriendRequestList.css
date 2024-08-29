@@ -3,8 +3,8 @@
     top: 40px;
 
     right: 0;   /* +:left, -:right */
-    width: 370px;   /* real width of the box */
-    max-height: 400px;
+    width: 450px;   /* real width of the box */
+    max-height: 520px;
     overflow-y: auto;
 
     background-color: white;

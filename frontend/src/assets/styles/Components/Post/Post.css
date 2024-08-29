@@ -14,28 +14,35 @@
 	color: #333;
 }
 
-.post-header:hover .post-user-email {
+.real-post-header:hover .post-user-email {
 	text-decoration: none;
 	color: #17a2b8;
 }
 
-.post-header {
+.real-post-header {
 	display: flex;
 	align-items: center;
 	margin-bottom: 10px;
 }
 
-.profile-picture {
-	margin-right: 10px;
-}
 
-.profile-picture img {
+
+
+.real-post-profile-picture {
 	margin-right: 10px;
-	width: 40px;
-	height: 40px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+}
+.real-post-profile-picture img {
+	width: 50px;
+	height: 50px;
 	border-radius: 50%;
 	object-fit: cover;
 }
+
+
+
 
 .post-user-details h3 {
 	margin: 0;
@@ -57,7 +64,7 @@
 .edited-text {
     margin-left: 10px; 
     font-size: 0.9em;  
-    color: gray;        
+    color: rgb(128, 128, 128);
 }
 
 .post-footer {

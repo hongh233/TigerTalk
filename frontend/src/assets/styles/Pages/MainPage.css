@@ -32,14 +32,6 @@
 }
 
 
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-.profile-picture {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #ccc;
-    margin-bottom: 10px;
-}
 
 /*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 textarea {
@@ -51,45 +43,7 @@ textarea {
     margin-bottom: 10px;
 }
 
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-.location-and-image {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-input[type="text"] {
-    flex: 1;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 10px;
-}
-
-
-
-
-
-
-
-
-
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-.image-upload {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px dashed #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! public CSS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-.image-upload span {
-    font-size: 24px;
-}
 
 
 @media (max-width: 768px) {

@@ -1,6 +1,7 @@
 import React from "react";
 import "../../assets/styles/Components/Friend/FriendRequest.css";
 import {acceptFriendRequest, rejectFriendRequest} from "../../axios/Friend/FriendshipRequestAxios";
+import {formatDate} from "../../utils/formatDate";
 
 
 const FriendRequest = ({request}) => {
@@ -38,6 +39,8 @@ const FriendRequest = ({request}) => {
                 </div>
                 <div className="friend-details">
                     <a href={"/profile/" + request.senderEmail}>{request.senderName}</a>
+                    <div>Email: {request.senderEmail}</div>
+                    <div>{formatDate(request.createTime)}</div>
                 </div>
             </div>
             <div className="friend-request-actions">

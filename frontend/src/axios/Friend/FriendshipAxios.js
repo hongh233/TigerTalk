@@ -15,17 +15,20 @@ export const getAllFriendsDTO = async (email) => {
 
 // This axio is used in FriendListPage
 export const deleteFriendshipByEmail = async (senderEmail, receiverEmail) => {
-    try {
-        const response = await axios.delete(
-            `${URL}/friendships/deleteByEmail/${senderEmail}/${receiverEmail}`
-        );
-        if (response.status === 200) {
-            window.alert("Friend deleted successfully!");
-            window.location.reload();
+    const userConfirmed = window.confirm(`Are you sure you want to delete ${receiverEmail}?`);
+    if (userConfirmed) {
+        try {
+            const response = await axios.delete(
+                `${URL}/friendships/deleteByEmail/${senderEmail}/${receiverEmail}`
+            );
+            if (response.status === 200) {
+                window.alert("Friend deleted successfully!");
+                window.location.reload();
+            }
+        } catch (error) {
+            window.alert("Failed to delete friend. Please try again.");
+            console.error(error);
         }
-    } catch (error) {
-        window.alert("Failed to delete friend. Please try again.");
-        console.error(error);
     }
 };
 

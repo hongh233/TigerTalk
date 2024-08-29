@@ -91,8 +91,69 @@
 
 
 
-.group-membership-item-friend.selected {
+
+.group-membership-item-friend-transfer {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    padding: 5px;
+}
+.group-membership-item-friend-transfer:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+.group-membership-item-friend-transfer.selected {
     border: 2px solid #4CAF50;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+
+
+
+
+.group-membership-item-friend-header-transfer {
+    display: flex;
+    align-items: center;
+}
+
+
+
+.group-membership-item-friend-picture-transfer {
+    display: flex;
+    align-content: center;
+    width: 50px;
+    height: 50px;
+    margin-left: 4px;
+}
+.group-membership-item-friend-picture-transfer img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+
+
+
+.group-membership-item-friend-details-transfer {
+    /*border: 1px solid black;*/
+    margin-left: 10px;
+}
+.group-membership-item-friend-details-transfer a {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+.group-membership-item-friend-details-transfer p {
+    margin: 0;
+    color: #666;
 }

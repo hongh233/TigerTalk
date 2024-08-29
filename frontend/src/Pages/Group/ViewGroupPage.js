@@ -22,6 +22,7 @@ import GroupSettingModal from "../../Components/Group/GroupSettingModal";
 import { IoIosMore } from "react-icons/io";
 import GroupMore from "../../Components/Group/GroupMore";
 import { FiEdit3 } from "react-icons/fi";
+import {formatDate} from "../../utils/formatDate";
 
 
 const ViewGroupPage = () => {
@@ -41,7 +42,7 @@ const ViewGroupPage = () => {
 	const moreOptionsRef = useRef(null);
 	const [members, setMembers] = useState(null);
 	const [showPostContainer, setShowPostContainer] = useState(false);
-
+	const [showStartPostButton, setShowStartPostButton] = useState(true);
 
 	useEffect(() => {
 		if (groupId) {
@@ -216,7 +217,7 @@ const ViewGroupPage = () => {
 											<div><span>Group ID: </span>{groupId ? groupId : "unknown"}</div>
 											<div><span>Members: </span>{members ? members.length : 0}</div>
 											<div><span>Posts: </span>{posts ? posts.length : 0}</div>
-											<div><span>Create Time: </span>{group ? group.groupCreateTime : "unknown"}</div>
+											<div><span>Create Time: </span>{group ? formatDate(group.groupCreateTime) : "unknown"}</div>
 										</div>
 									</div>
 
@@ -296,9 +297,12 @@ const ViewGroupPage = () => {
 							</div>
 						</div>
 
-						{isMember &&
+						{isMember && showStartPostButton &&
 							<button
-								onClick={() => setShowPostContainer(!showPostContainer)}
+								onClick={() => {
+									setShowPostContainer(!showPostContainer);
+									setShowStartPostButton(!showStartPostButton);
+								}}
 								className="view-group-create-post-show-button"
 							>
 								<FiEdit3 /><span>&nbsp;&nbsp;Start a Post</span>

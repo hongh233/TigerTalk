@@ -115,7 +115,7 @@ const GroupPost = ({
 	return (
 		<div className="group-post">
 			<div className="group-post-header">
-				<div className="profile-picture">
+				<div className="group-post-profile-picture">
 					<a className="group-post-user-email" href={`/profile/${post.postSenderEmail}`}><img src={post.groupPostSenderProfilePictureURL} alt="avatar" /></a>
 				</div>
 				<div className="group-post-user-details">

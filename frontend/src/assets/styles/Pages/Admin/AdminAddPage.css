@@ -84,11 +84,6 @@ p {
     color: #333;
 }
 
-p a {
-    color: #6a11cb;
-    text-decoration: none;
-}
-
 p a:hover {
     text-decoration: underline;
 }

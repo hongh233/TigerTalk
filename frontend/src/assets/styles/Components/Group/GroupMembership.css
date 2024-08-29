@@ -25,18 +25,20 @@
 .group-membership-item-friend-picture {
     display: flex;
     align-content: center;
+    width: 50px;
+    height: 50px;
+    margin-left: 4px;
 }
-
 .group-membership-item-friend-picture img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
+    margin: 0 0 0 0;
 }
 
 
 .group-membership-item-friend-details {
-    /*border: 1px solid black;*/
     margin-left: 10px;
 }
 .group-membership-item-friend-details a {

@@ -1,5 +1,7 @@
 package tigertalk.model.Friend;
 
+import java.time.LocalDateTime;
+
 /**
  * Data Transfer Object for FriendshipRequest.
  * This record is used to transfer friendship request data between processes.
@@ -11,6 +13,7 @@ package tigertalk.model.Friend;
  * @param receiverName              the name of the user who received the friendship request
  * @param senderProfilePictureUrl   the profile picture URL of the user who sent the friendship request
  * @param receiverProfilePictureUrl the profile picture URL of the user who received the friendship request
+ * @param createTime
  */
 public record FriendshipRequestDTO(
         Integer id,
@@ -19,6 +22,7 @@ public record FriendshipRequestDTO(
         String receiverEmail,
         String receiverName,
         String senderProfilePictureUrl,
-        String receiverProfilePictureUrl
+        String receiverProfilePictureUrl,
+        LocalDateTime createTime
 ) {
 }

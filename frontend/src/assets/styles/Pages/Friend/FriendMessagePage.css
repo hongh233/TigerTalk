@@ -1,3 +1,21 @@
+.friend-message-friend {
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.friend-message-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
 .friend-message-content-container {
     display: flex;
     flex-grow: 1;

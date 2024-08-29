@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.User.UserProfile;
 import jakarta.persistence.*;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "friendship_request")
@@ -34,7 +33,7 @@ public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestD
     private String senderUserNameTemp;
     private String receiverUserNameTemp;
 
-    private LocalDate createTime = LocalDate.now();              // yyyy/mm/dd/00:00:00
+    private LocalDateTime createTime = LocalDateTime.now();
 
 
     public FriendshipRequest(UserProfile sender,
@@ -77,11 +76,11 @@ public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestD
         this.receiver = userFriendshipReceiver;
     }
 
-    public LocalDate getCreateTime() {
+
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
-
-    public void setCreateTime(LocalDate createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
@@ -144,7 +143,8 @@ public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestD
                 this.receiver.email(),
                 this.receiver.userName(),
                 this.sender.getProfilePictureUrl(),
-                this.receiver.getProfilePictureUrl()
+                this.receiver.getProfilePictureUrl(),
+                this.createTime
         );
     }
 

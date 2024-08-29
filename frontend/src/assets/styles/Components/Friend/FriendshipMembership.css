@@ -1,12 +1,13 @@
-.friend {
+.friendship-membership {
     margin: 10px 0;
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #fff;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .friend-header {
@@ -15,18 +16,7 @@
     margin-bottom: 10px;
 }
 
-.friend-picture img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-}
 
-.friend-details a {
-    font-weight: bold;
-    color: #007bff;
-    text-decoration: none;
-}
 
 .friend-details a:hover {
     text-decoration: underline;
