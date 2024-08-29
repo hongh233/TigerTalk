@@ -22,10 +22,13 @@
     margin-left: 8px;
     margin-top: 6px;
     cursor: pointer;
-    transition: filter 0.5s ease;
 }
-.profile-page-status-icon:hover > svg {
+.profile-page-status-icon .status-adjust-302{
+    transition: filter 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+.profile-page-status-icon .status-adjust-302:hover {
     filter: brightness(1.2);
+    transform: scale(1.2);
 }
 
 
@@ -35,23 +38,25 @@
     position: absolute;
     top: 0; /* align top with the status button */
     left: 100%;
-    margin-top: -10px;  /* vertical distance between the status button and menu */
+    margin-top: -13px;  /* +: down, -: up */
     margin-left: 5px;   /* horizontal distance between the status button and menu */
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    width: 160px;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-20px) scale(0.9);
     pointer-events: none;
+
+    width: 160px;
 }
 .status-menu.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     pointer-events: auto;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 .status-menu div {
     display: flex;
@@ -59,16 +64,19 @@
     padding: 10px 12px;
     cursor: pointer;
     border-radius: 8px;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 4px;
 }
 .status-menu div span{
     font-size: 20px;
 }
 .status-menu div:hover {
     background-color: #e0e0e0;
-    transform: scale(1.02);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 .status-menu div:active {
     background-color: #d0d0d0;
-    transform: none;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

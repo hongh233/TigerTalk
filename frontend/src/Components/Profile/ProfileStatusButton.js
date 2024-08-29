@@ -7,20 +7,31 @@ import { useDispatch } from "react-redux";
 
 const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
     const [showStatusMenu, setShowStatusMenu] = useState(false);
-    const [currentStatus, setCurrentStatus] = useState(user.onlineStatus || "offline");
     const hoverTimeout = useRef(null);
     const dispatch = useDispatch();
 
     const getStatusClass = (status) => {
         switch (status) {
             case "available":
-                return <MdCheckCircle style={{ color: '#4caf50' }} />;
+                return <MdCheckCircle
+                    style={{ color: '#4caf50' }}
+                    className="status-adjust-302"
+                />;
             case "busy":
-                return <MdRemoveCircle style={{ color: '#f44336' }} />;
+                return <MdRemoveCircle
+                    style={{ color: '#f44336' }}
+                    className="status-adjust-302"
+                />;
             case "away":
-                return <MdAccessTimeFilled style={{ color: '#ff9800' }} />;
+                return <MdAccessTimeFilled
+                    style={{ color: '#ff9800' }}
+                    className="status-adjust-302"
+                />;
             default:
-                return <IoMdCloseCircle style={{ color: '#9e9e9e' }} />;
+                return <IoMdCloseCircle
+                    style={{ color: '#9e9e9e' }}
+                    className="status-adjust-302"
+                />;
         }
     };
 
@@ -38,7 +49,6 @@ const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
     };
 
     const handleStatusChange = async (status) => {
-        setCurrentStatus(status);
         setShowStatusMenu(false);
 
         const updatedUser = { ...profileUser, onlineStatus: status };
@@ -88,16 +98,20 @@ const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
                             onMouseLeave={handleMouseLeave}
                         >
                             <div onClick={() => handleStatusChange("available")}>
-                                <MdCheckCircle style={{ color: '#4caf50' }} /><span>&nbsp;Available</span>
+                                <MdCheckCircle style={{ color: '#4caf50' }} />
+                                <span>&nbsp;Available</span>
                             </div>
                             <div onClick={() => handleStatusChange("busy")}>
-                                <MdRemoveCircle style={{ color: '#f44336' }} /><span>&nbsp;Busy</span>
+                                <MdRemoveCircle style={{ color: '#f44336' }} />
+                                <span>&nbsp;Busy</span>
                             </div>
                             <div onClick={() => handleStatusChange("away")}>
-                                <MdAccessTimeFilled style={{ color: '#ff9800' }} /><span>&nbsp;Away</span>
+                                <MdAccessTimeFilled style={{ color: '#ff9800' }} />
+                                <span>&nbsp;Away</span>
                             </div>
                             <div onClick={() => handleStatusChange("offline")}>
-                                <IoMdCloseCircle style={{ color: '#9e9e9e' }} /><span>&nbsp;Offline</span>
+                                <IoMdCloseCircle style={{ color: '#9e9e9e' }} />
+                                <span>&nbsp;Offline</span>
                             </div>
                         </div>
                     )}
