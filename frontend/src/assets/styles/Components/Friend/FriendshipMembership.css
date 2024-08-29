@@ -2,13 +2,21 @@
     margin: 10px 0;
     padding: 15px;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 10px;
     background-color: #fff;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+.friendship-membership:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
 
 .friend-header {
     display: flex;
@@ -21,27 +29,31 @@
 .friend-details a:hover {
     text-decoration: underline;
 }
-
 .friend-details p {
-    margin: 5px 0;
-    color: #555;
+    margin: 0;
+    color: #666;
 }
+
+
+
+
 
 .friend-actions {
     display: flex;
     justify-content: flex-end;
 }
-
 .friend-actions button {
     margin-left: 10px;
     padding: 5px 10px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     background-color: #f44336;
     color: white;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 .friend-actions button:hover {
     background-color: #e53935;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
