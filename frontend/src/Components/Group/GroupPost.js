@@ -3,7 +3,7 @@ import "../../assets/styles/Components/Group/GroupPost.css";
 import { handleAddGroupPostComment, handleGetCommentsForOneGroupPost } from "../../axios/Group/GroupPostCommentAxios";
 import { handleDeletePostAxios, handleLikeAxios } from "../../axios/Group/GroupPostAxios";
 import { handleGetGroupById } from "../../axios/Group/GroupAxios";
-import { FaComment, FaShare, FaThumbsUp, FaTrash } from "react-icons/fa";
+import {FaComment, FaHeart, FaShareSquare, FaTrash} from "react-icons/fa";
 import GroupComment from "./GroupComment";
 import { formatDate } from "../../utils/formatDate";
 
@@ -127,34 +127,55 @@ const GroupPost = ({
 				<p>{post.groupPostContent}</p>
 			</div>
 			{post.postPictureURL && (
-				<div className="post-content-img-container"><div className="post-content-img"><img src={post.postPictureURL} alt="Post content" /></div></div>
+				<div className="group-post-content-img-container">
+					<div className="group-post-content-img">
+						<img src={post.postPictureURL} alt="Post content" />
+					</div>
+				</div>
 			)}
 
 			<div className="group-post-footer">
-				<button className="group-post-button" onClick={handleLike}>{likes} <FaThumbsUp /></button>
-				<button className="group-post-button" onClick={handleFetchAndDisplayComments}>{postComments.length > 0 ? postComments.length : ""} <FaComment /></button>
-				<button className="group-post-button" onClick={handleShare}><FaShare /></button>
-				{isAuthorOrAdmin && (<button className="post-button delete-button" onClick={handleDelete}><FaTrash /></button>)}
+
+				<button className="group-post-button" onClick={handleLike}>
+					<FaHeart />{likes}
+				</button>
+
+				<button className="group-post-button" onClick={handleFetchAndDisplayComments}>
+					<FaComment />{postComments.length > 0 ? postComments.length : ""}
+				</button>
+
+				<button className="group-post-button" onClick={handleShare}>
+					<FaShareSquare />{"share"}
+				</button>
+
+				{isAuthorOrAdmin && (
+					<button className="group-post-button" onClick={handleDelete}>
+						<FaTrash />{"delete"}
+					</button>
+				)}
 			</div>
+
 			<div className="group-postComments-section">
-				{postComments && commentToggle && postComments.map((postComment, index) => (<GroupComment key={index} postComment={postComment} />))}
-
-				{isMember && (
-					<div className="add-comment">
-
-						<input
-							type="text"
-							placeholder="Add a comment..."
-							value={newComment}
-							onChange={(e) => setNewComment(e.target.value)}
-						/>
-
-						<button onClick={handleAddCommentToAxios}>
-							Sent
-						</button>
+				{postComments && commentToggle && (
+					<div>
+						<div className="group-post-add-comment">
+							<input
+								type="text"
+								placeholder="Add a comment..."
+								value={newComment}
+								onChange={(e) => setNewComment(e.target.value)}
+							/>
+							<button onClick={handleAddCommentToAxios}>
+								Sent
+							</button>
+						</div>
+						{postComments.map((postComment, index) => (
+							<GroupComment key={index} postComment={postComment} />
+						))}
 					</div>
 				)}
 			</div>
+
 		</div>
 	);
 };

@@ -3,10 +3,12 @@ import "../../assets/styles/Components/Post/Post.css";
 import { handleAddCommentAxios, getCommentFromPostId } from "../../axios/Post/PostCommentAxios";
 import { handleLikeAxios, handleEditPostAxios, handleDeletePostAxios } from "../../axios/Post/PostAxios";
 import { getCurrentUser } from "../../axios/UserAxios";
-import { FaComment, FaShare, FaThumbsUp, FaTrash, FaEdit } from "react-icons/fa";
+import { FaComment, FaTrash, FaEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Comment from "./Comment";
 import { formatDate } from "../../utils/formatDate";
+import { FaShareSquare } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 
 
 const Post = ({ post, user, removePost }) => {
@@ -147,13 +149,22 @@ const Post = ({ post, user, removePost }) => {
 	return (
 		<div className="post">
 			<div className="real-post-header">
+
 				<div className="real-post-profile-picture">
-					<a className="post-user-email" href={`/profile/${post.email}`}><img src={post.profileProfileURL} alt="avatar" /></a>
+					<a className="post-user-email" href={`/profile/${post.email}`}>
+						<img src={post.profileProfileURL} alt="avatar" />
+					</a>
 				</div>
+
 				<div className="post-user-details">
-					<h3><a className="post-user-email" href={`/profile/${post.email}`}>{post.userProfileUserName}</a></h3>
+					<h3>
+						<a className="post-user-email" href={`/profile/${post.email}`}>
+							{post.userProfileUserName}
+						</a>
+					</h3>
 					<p>{formatDate(post.timestamp)}</p>
 				</div>
+
 			</div>
 
 			<div className="post-content">
@@ -173,12 +184,25 @@ const Post = ({ post, user, removePost }) => {
 				</div>
 			)}
 
-			<div className="post-footer">
+			<div className="post-function-button-box">
 
-				<button className="post-button" onClick={handleLike}>{likes} <FaThumbsUp /></button>
-				<button className="post-button" onClick={handleFetchAndDisplayComments}>{postComments.length > 0 ? postComments.length : ""} <FaComment /></button>
-				<button className="post-button" onClick={handleShare}><FaShare /></button>
-				{user.email === post.email && !isEditing && (<button className="post-button" onClick={handleEditClick}><FaEdit /></button>)}
+				<button className="post-button" onClick={handleLike}>
+					<FaHeart />{likes}
+				</button>
+
+				<button className="post-button" onClick={handleFetchAndDisplayComments}>
+					<FaComment />{postComments.length > 0 ? postComments.length : ""}
+				</button>
+
+				<button className="post-button" id="post-function-share" onClick={handleShare}>
+					<FaShareSquare />{"share"}
+				</button>
+
+				{user.email === post.email && !isEditing && (
+					<button className="post-button" id="post-function-edit" onClick={handleEditClick}>
+						<FaEdit />{"edit"}
+					</button>
+				)}
 
 				{user.email === post.email && isEditing && (
 					<>
@@ -186,16 +210,28 @@ const Post = ({ post, user, removePost }) => {
 						<button className="post-button" onClick={handleCancelEdit}>Cancel</button>
 					</>
 				)}
-				{isAuthorOrAdmin && (<button className="post-button delete-button" onClick={handleDelete}><FaTrash /></button>)}
+
+				{isAuthorOrAdmin && (
+					<button className="post-button" id="post-function-delete" onClick={handleDelete}>
+						<FaTrash />{"delete"}
+					</button>
+				)}
 			</div>
 
 			<div className="postComments-section">
-				{postComments && commentToggle && postComments.map((postComment, index) => (<Comment key={index} postComment={postComment} />))}
-				<div className="add-comment">
-					<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
-					<button onClick={handleAddComment}>Sent</button>
-				</div>
+					{postComments && commentToggle && (
+						<div>
+							<div className="post-add-comment">
+								<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
+								<button onClick={handleAddComment}>Send</button>
+							</div>
+							{postComments.slice().reverse().map((postComment, index) => (
+								<Comment key={index} postComment={postComment} />
+							))}
+						</div>
+					)}
 			</div>
+
 		</div>
 	);
 };
