@@ -15,6 +15,6 @@ public interface SignUpService {
      * @param userProfile the user profile to be signed up
      * @return an Optional containing a confirmation message or an error message, if the sign-up fails
      */
-    Optional<String> signUpUserProfile(UserProfile userProfile);
+    Optional<String> signupUserProfile(UserProfile userProfile);
 }
 

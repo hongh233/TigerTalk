@@ -16,7 +16,7 @@ public interface LogInService {
      * @param password the password of the user attempting to log in
      * @return an Optional containing the UserProfileDTO if login is successful, or an empty Optional if login fails
      */
-    Optional<UserProfileDTO> logInUser(String email, String password);
+    Optional<UserProfileDTO> loginUser(String email, String password);
 
     /**
      * Logs out the user associated with the provided email.

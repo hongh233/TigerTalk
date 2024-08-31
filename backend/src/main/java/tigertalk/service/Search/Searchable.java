@@ -1,7 +1,6 @@
 package tigertalk.service.Search;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Functional interface for performing a search operation.

@@ -1,8 +1,6 @@
 package tigertalk.service.UserProfile;
-
 import tigertalk.model.User.UserProfile;
 import tigertalk.model.User.UserProfileDTO;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -39,11 +37,4 @@ public interface UserProfileService {
      */
     Optional<String> updateUserProfile(UserProfile userProfile);
 
-    /**
-     * Updates a user profile based on a DTO
-     *
-     * @param userProfileDTO The DTO to use to update
-     * @return Err if one is encountered
-     */
-    Optional<String> updateUserProfile(UserProfileDTO userProfileDTO);
 }

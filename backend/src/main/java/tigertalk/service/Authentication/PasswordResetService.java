@@ -1,6 +1,6 @@
 package tigertalk.service.Authentication;
 
-import tigertalk.model.Authentication.ForgotPasswordDTO;
+import tigertalk.model.Authentication.EmailPassword;
 
 import java.util.Optional;
 
@@ -20,7 +20,7 @@ public interface PasswordResetService {
      * @param passwordDTO The email for said user
      * @return An error if one was encountered
      */
-    Optional<String> resetPassword(ForgotPasswordDTO passwordDTO);
+    Optional<String> resetPassword(EmailPassword passwordDTO);
 
     /**
      * Constructs a password OTP token that would be sent to the user's email
