@@ -1,4 +1,4 @@
-import { SET_GLOBAL_GROUPS } from "./../actions/globalSearchActions";
+import { SET_GLOBAL_GROUPS } from "../actions/globalSearchActions";
 
 const initialState = {
 	globalGroups: null,

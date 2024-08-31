@@ -16,9 +16,7 @@ export const getAllFriendRequests = async (email) => {
 
 export const sendFriendRequest = async (params) => {
     try {
-        const response = axios.post(`${URL}/friendshipRequests/send`, null, {
-            params,
-        });
+        const response = axios.post(`${URL}/friendshipRequests/send`, null, {params});
         return response.data;
     } catch (error) {
         throw error;

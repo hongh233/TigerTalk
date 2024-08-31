@@ -1,4 +1,4 @@
-import { SET_GLOBAL_USERS } from "./../actions/globalSearchActions";
+import { SET_GLOBAL_USERS } from "../actions/globalSearchActions";
 
 const initialState = {
 	globalUsers: null,

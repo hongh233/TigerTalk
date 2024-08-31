@@ -176,8 +176,11 @@ const FriendMessagePage = () => {
 		<div className="main-page">
 			<Header />
 			<div className="content">
+
 				<div className="friend-message-content-container">
+
 					<div className="friend-list">
+
 						<h2>Messages</h2>
 						<ul>
 							{friends.map((friend) => (
@@ -196,26 +199,30 @@ const FriendMessagePage = () => {
 								</li>
 							))}
 						</ul>
+
 					</div>
+
 					<div className="chat-box">
 						{selectedFriend && (<div className="chat-header">{selectedFriend.userName}</div>)}
+
 						<div className="messages">
 							{messages.length === 0 ? (
 								<div>No messages to display</div>
 							) : (
 								messages.map((message) => (
-									<div
-										key={message.messageId}
-										className={message.messageSenderEmail === user.email ? "message-right" : "message-left"}
-									>
+									<div key={message.messageId}
+										className={message.messageSenderEmail === user.email ? "message-right" : "message-left"}>
+
 										{message.messageSenderEmail !== user.email && (
 											<div className="friend-message-friend-picture">
 												<img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar"/>
 											</div>
 										)}
+
 										<div className="message-bubble">
 											{message.messageContent}
 										</div>
+
 										{message.messageSenderEmail === user.email && (
 											<div className="friend-message-friend-picture">
 												<img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar"/>
@@ -226,8 +233,11 @@ const FriendMessagePage = () => {
 							)}
 							<div ref={messagesEndRef} />
 						</div>
+
 						<div className="message-input">
+
 							<button className="emoji-button">😊</button>
+
 							<input
 								type="text"
 								placeholder="Type a message..."
@@ -235,10 +245,12 @@ const FriendMessagePage = () => {
 								onChange={(e) => setNewMessage(e.target.value)}
 								onKeyPress={handleKeyPress}
 							/>
+
 							<button className="send-button" onClick={handleSendMessage}>
 								Send
 							</button>
 						</div>
+
 					</div>
 				</div>
 			</div>

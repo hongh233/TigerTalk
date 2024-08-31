@@ -135,8 +135,6 @@
 .friend-message-friend-picture {
     display: flex;
     align-content: center;
-
-    border: 1px solid black;
 }
 .friend-message-friend-picture img {
     width: 60px;
