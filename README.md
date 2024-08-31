@@ -1,6 +1,6 @@
 # Tiger Talk
 
-The social media platform for Dalhousie University, written in Java, React, Springboot
+The social media platform for Dalhousie University, written in Java, React, Springboot, see the [website](http://hongh651.s3-website.ca-west-1.amazonaws.com): http://hongh651.s3-website.ca-west-1.amazonaws.com
 
 ---
 ## Contributing
