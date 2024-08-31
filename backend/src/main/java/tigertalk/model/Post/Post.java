@@ -3,7 +3,6 @@ package tigertalk.model.Post;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.User.UserProfile;
 import jakarta.persistence.*;
 
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Post implements FullyDTOConvertible<PostDTO> {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer postId;
@@ -129,7 +128,6 @@ public class Post implements FullyDTOConvertible<PostDTO> {
         this.edited = edited;
     }
 
-    @Override
     public PostDTO toDto() {
         return new PostDTO(
                 this.getPostId(),
@@ -142,18 +140,5 @@ public class Post implements FullyDTOConvertible<PostDTO> {
                 this.getAssociatedImageURL(),
                 this.getEdited()
         );
-    }
-
-
-    @Override
-    public void updateFromDto(PostDTO postDTO) {
-        this.content = postDTO.content();
-        this.timestamp = getTimestamp();
-        this.associatedImageURL = postDTO.postImageURL();
-        this.edited=postDTO.edited();
-        /*
-            Num of likes should not be updated as this would cause a break of synchronization
-            between the post like list and num_of_likes
-         */
     }
 }

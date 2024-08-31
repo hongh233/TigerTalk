@@ -1,13 +1,12 @@
 package tigertalk.model.Group;
 
-import tigertalk.model.FullyDTOConvertible;
 import jakarta.persistence.*;
 import tigertalk.model.User.UserProfile;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class GroupPostComment implements FullyDTOConvertible<GroupPostCommentDTO> {
+public class GroupPostComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,7 +70,6 @@ public class GroupPostComment implements FullyDTOConvertible<GroupPostCommentDTO
     }
 
 
-    @Override
     public GroupPostCommentDTO toDto() {
         return new GroupPostCommentDTO(
                 this.getGroupPostCommentId(),
@@ -83,7 +81,6 @@ public class GroupPostComment implements FullyDTOConvertible<GroupPostCommentDTO
         );
     }
 
-    @Override
     public void updateFromDto(GroupPostCommentDTO groupPostCommentDTO) {
         this.content = groupPostCommentDTO.groupPostCommentContent();
         this.groupPostCommentCreateTime = groupPostCommentDTO.groupPostCommentCreateTime();

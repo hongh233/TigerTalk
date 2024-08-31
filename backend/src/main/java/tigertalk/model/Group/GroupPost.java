@@ -1,9 +1,7 @@
 package tigertalk.model.Group;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.User.UserProfile;
-import tigertalk.service._implementation.Group.GroupPostServiceImpl;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
+public class GroupPost {
     // TODO: Add number of likes to a group post and number of comments
 
     @Id
@@ -113,7 +111,6 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
         this.userProfile = userProfile;
     }
 
-    @Override
     public GroupPostDTO toDto() {
         return new GroupPostDTO(
                 this.getGroupPostId(),
@@ -126,7 +123,6 @@ public class GroupPost implements FullyDTOConvertible<GroupPostDTO> {
         );
     }
 
-    @Override
     public void updateFromDto(GroupPostDTO groupPostDTO) {
         this.groupPostContent = groupPostDTO.groupPostContent();
         this.postCreateTime = groupPostDTO.groupPostCreateTime();

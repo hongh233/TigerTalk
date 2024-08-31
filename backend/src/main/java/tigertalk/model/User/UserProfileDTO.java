@@ -1,11 +1,5 @@
 package tigertalk.model.User;
 
-import tigertalk.model.Authentication.UserValidation;
-import tigertalk.model.Authentication.UserValidator;
-import tigertalk.repository.User.UserProfileRepository;
-
-import java.util.Optional;
-
 /**
  * Data Transfer Object for UserProfile.
  *
@@ -23,7 +17,6 @@ import java.util.Optional;
  * @param lastName           the last name of the user
  * @param profilePictureUrl  the URL of the user's profile picture
  * @param userLevel          the level of the user
- * @param friends            the list of friends associated with the user
  */
 public record UserProfileDTO(
         int age,
@@ -40,16 +33,5 @@ public record UserProfileDTO(
         String lastName,
         String profilePictureUrl,
         String userLevel
-) implements UserValidation {
-    /**
-     * Verifies the basic fields of a user profile.
-     *
-     * @param userProfile           the user profile to verify
-     * @param userProfileRepository the repository to check existing users
-     * @param isNewUser             indicates if the user is new
-     * @return an Optional containing an error message if validation fails, or empty if validation succeeds
-     */
-    public static Optional<String> verifyBasics(UserProfileDTO userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
-        return UserValidator.verifyUserIntrinsics(userProfile, userProfileRepository, isNewUser);
-    }
+) {
 }

@@ -1,6 +1,5 @@
 package tigertalk.model.Group;
 
-import tigertalk.model.ToDTO;
 import tigertalk.model.User.UserProfile;
 import jakarta.persistence.*;
 
@@ -8,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-public class GroupMembership implements ToDTO<GroupMembershipDTO> {
+public class GroupMembership {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,7 +76,6 @@ public class GroupMembership implements ToDTO<GroupMembershipDTO> {
     }
 
 
-    @Override
     public GroupMembershipDTO toDto() {
         return new GroupMembershipDTO(
                 getGroupMembershipId(),

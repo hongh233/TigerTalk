@@ -22,21 +22,4 @@ public record PostCommentDTO(
         UserProfileDTO postSenderUserProfileDTO,
         Integer postId
 ) {
-    /**
-     * <h1>For testing purposes only.<h1>
-     *
-     * @param id                          the unique identifier of the comment and post
-     * @param commentSenderUserProfileDTO the profile of the user who sent the comment
-     * @param postSenderUserProfileDTO    the profile of the user who sent the post
-     */
-    public PostCommentDTO(Integer id, UserProfileDTO commentSenderUserProfileDTO, UserProfileDTO postSenderUserProfileDTO) {
-        this(
-                id,
-                null,
-                null,
-                commentSenderUserProfileDTO,
-                postSenderUserProfileDTO,
-                id
-        );
-    }
 }

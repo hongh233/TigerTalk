@@ -1,14 +1,13 @@
 package tigertalk.model.Post;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class PostComment implements FullyDTOConvertible<PostCommentDTO> {
+public class PostComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentId;
@@ -77,7 +76,6 @@ public class PostComment implements FullyDTOConvertible<PostCommentDTO> {
         this.commentSenderUserProfile = commentSenderUserProfile;
     }
 
-    @Override
     public PostCommentDTO toDto() {
         return new PostCommentDTO(
                 this.getCommentId(),
@@ -87,11 +85,5 @@ public class PostComment implements FullyDTOConvertible<PostCommentDTO> {
                 this.getPost().getUserProfile().toDto(),
                 this.getPost().getPostId()
         );
-    }
-
-    @Override
-    public void updateFromDto(PostCommentDTO postCommentDTO) {
-        this.content = postCommentDTO.content();
-        this.timestamp = postCommentDTO.timestamp();
     }
 }

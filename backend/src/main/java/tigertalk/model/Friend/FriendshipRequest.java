@@ -1,14 +1,13 @@
 package tigertalk.model.Friend;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.User.UserProfile;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "friendship_request")
-public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestDTO> {
+public class FriendshipRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -134,7 +133,6 @@ public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestD
         this.receiverUserNameTemp = receiverUserNameTemp;
     }
 
-    @Override
     public FriendshipRequestDTO toDto() {
         return new FriendshipRequestDTO(
                 this.friendshipRequestId,
@@ -148,13 +146,4 @@ public class FriendshipRequest implements FullyDTOConvertible<FriendshipRequestD
         );
     }
 
-    @Override
-    public void updateFromDto(FriendshipRequestDTO dto) {
-        this.sender.setEmail(dto.senderEmail());
-        this.sender.setUserName(dto.senderName());
-        this.receiver.setEmail(dto.receiverEmail());
-        this.receiver.setUserName(dto.receiverName());
-        this.sender.setProfilePictureUrl(dto.senderProfilePictureUrl());
-        this.receiver.setProfilePictureUrl(dto.receiverProfilePictureUrl());
-    }
 }

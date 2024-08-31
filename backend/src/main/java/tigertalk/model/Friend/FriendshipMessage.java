@@ -1,13 +1,11 @@
 package tigertalk.model.Friend;
-
-import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageDTO> {
+public class FriendshipMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +26,6 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
     @ManyToOne
     @JoinColumn(name = "receiver_id")
     private UserProfile receiver;
-
-    public FriendshipMessage(String messageContent) {
-        this.messageContent = messageContent;
-    }
 
     public FriendshipMessage() {
     }
@@ -93,7 +87,6 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
         isRead = read;
     }
 
-    @Override
     public FriendshipMessageDTO toDto() {
         return new FriendshipMessageDTO(
                 this.messageId,
@@ -110,8 +103,4 @@ public class FriendshipMessage implements FullyDTOConvertible<FriendshipMessageD
         );
     }
 
-    @Override
-    public void updateFromDto(FriendshipMessageDTO friendshipMessageDTO) {
-        this.setMessageContent(friendshipMessageDTO.messageContent());
-    }
 }

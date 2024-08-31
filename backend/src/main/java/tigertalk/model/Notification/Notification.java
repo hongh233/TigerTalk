@@ -1,13 +1,11 @@
 package tigertalk.model.Notification;
-
-import tigertalk.model.ToDTO;
 import tigertalk.model.User.UserProfile;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Notification implements ToDTO<NotificationDTO> {
+public class Notification{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,7 +86,6 @@ public class Notification implements ToDTO<NotificationDTO> {
         this.notificationType = notificationType;
     }
 
-    @Override
     public NotificationDTO toDto() {
         return new NotificationDTO(
                 this.getNotificationId(),

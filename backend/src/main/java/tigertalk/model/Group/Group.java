@@ -1,6 +1,4 @@
 package tigertalk.model.Group;
-
-import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.Utils;
 import jakarta.persistence.*;
 
@@ -10,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user_group") // TODO (Bounty) : Change to group_all
-public class Group implements FullyDTOConvertible<GroupDTO> {
+public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,7 +97,6 @@ public class Group implements FullyDTOConvertible<GroupDTO> {
         this.groupImg = groupImg;
     }
 
-    @Override
     public GroupDTO toDto() {
         String groupCreatorEmail = this.groupMemberList.stream()
                 .filter(GroupMembership::isCreator)
@@ -128,7 +125,6 @@ public class Group implements FullyDTOConvertible<GroupDTO> {
         );
     }
 
-    @Override
     public void updateFromDto(GroupDTO groupDTO) {
         this.groupName = groupDTO.groupName();
         this.isPrivate = groupDTO.isPrivate();

@@ -2,11 +2,8 @@ package tigertalk.model.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import tigertalk.model.Authentication.UserValidation;
-import tigertalk.model.Authentication.UserValidator;
 import tigertalk.model.Friend.Friendship;
 import tigertalk.model.Friend.FriendshipRequest;
-import tigertalk.model.FullyDTOConvertible;
 import tigertalk.model.Group.GroupMembership;
 import tigertalk.model.Group.GroupPost;
 import tigertalk.model.Group.GroupPostComment;
@@ -17,15 +14,13 @@ import tigertalk.model.Post.PostComment;
 import tigertalk.model.Post.PostLike;
 import tigertalk.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
-
 import java.util.*;
-import java.util.function.Function;
-
 import static tigertalk.model.Utils.*;
+import static tigertalk.model.Utils.RegexCheck.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserProfile implements UserValidation, FullyDTOConvertible<UserProfileDTO> {
+public class UserProfile {
     @Id
     private String email;
 
@@ -111,63 +106,46 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
     public UserProfile() {
     }
 
-    public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser) {
-        Optional<String> intrinsicsResult = UserValidator.verifyUserIntrinsics(userProfile, userProfileRepository, isNewUser);
-
-        if (intrinsicsResult.isPresent()) {
-            return intrinsicsResult;
+    public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser ) {
+        if (!NAME_NORM.matcher(userProfile.firstName).matches()) {
+            return Optional.of("First name must contain no symbols");
         }
-
-        return getExtraValidationOptions(userProfileRepository, isNewUser)
-                .stream()
-                .map(validation -> validation.apply(userProfile))
-                .filter(Optional::isPresent)
-                .findFirst()
-                .orElseGet(Optional::empty);
-    }
-
-    private static List<Function<UserProfile, Optional<String>>> getExtraValidationOptions(UserProfileRepository userProfileRepository, boolean isNewUser) {
-        return List.of(
-                UserValidator::validatePasswordLength,
-                UserValidator::validatePasswordUppercase,
-                UserValidator::validatePasswordLowercase,
-                UserValidator::validatePasswordNumber,
-                UserValidator::validatePasswordSpecialCharacter
-        );
-    }
-
-    @Override
-    public String toString() {
-        return "UserProfile{\n" +
-                "\npassword='" + password + '\'' +
-                ",\n userLevel='" + userLevel + '\'' +
-                ",\n status='" + status + '\'' +
-                ",\n isValidated=" + isValidated +
-                ",\n securityQuestionsAnswer=" + Arrays.toString(securityQuestionsAnswer) +
-                ",\n role='" + role + '\'' +
-                ",\n onlineStatus='" + onlineStatus + '\'' +
-                ",\n userName='" + userName + '\'' +
-                ",\n personalInterest='" + personalInterest + '\'' +
-                ",\n location='" + location + '\'' +
-                ",\n postalCode='" + postalCode + '\'' +
-                ",\n biography='" + biography + '\'' +
-                ",\n profileAccessLevel='" + profileAccessLevel + '\'' +
-                ",\n phoneNumber='" + phoneNumber + '\'' +
-                ",\n age=" + age +
-                ",\n gender='" + gender + '\'' +
-                ",\n firstName='" + firstName + '\'' +
-                ",\n lastName='" + lastName + '\'' +
-                ",\n profilePictureUrl='" + profilePictureUrl + '\'' +
-                ",\n email='" + email + '\'' +
-                ",\n securityQuestions=" + Arrays.toString(securityQuestions) +
-                "\n}";
+        if (!NAME_NORM.matcher(userProfile.lastName).matches()) {
+            return Optional.of("Last name must contain no symbols");
+        }
+        if (userProfile.age <= 0) {
+            return Optional.of("Age must be greater than 0");
+        }
+        if (!EMAIL_NORM.matcher(userProfile.email).matches()) {
+            return Optional.of("Invalid email address. Please use dal email address!");
+        }
+        if (isNewUser && userProfileRepository.findUserProfileByUserName(userProfile.userName).isPresent()) {
+            return Optional.of("Username has already existed!");
+        }
+        if (isNewUser && userProfileRepository.existsById(userProfile.email)) {
+            return Optional.of("Email has already existed!");
+        }
+        if (!PASSWORD_NORM_LENGTH.matcher(userProfile.password).matches()) {
+            return Optional.of("Password must have a minimum length of 8 characters.");
+        }
+        if (!PASSWORD_NORM_UPPERCASE.matcher(userProfile.password).matches()) {
+            return Optional.of("Password must have at least 1 uppercase character.");
+        }
+        if (!PASSWORD_NORM_LOWERCASE.matcher(userProfile.password).matches()) {
+            return Optional.of("Password must have at least 1 lowercase character.");
+        }
+        if (!PASSWORD_NORM_NUMBER.matcher(userProfile.password).matches()) {
+            return Optional.of("Password must have at least 1 number.");
+        }
+        if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(userProfile.password).matches()) {
+            return Optional.of("Password must have at least 1 special character.");
+        }
+        return Optional.empty();
     }
 
     public List<PostLike> getPostLikeList() {
         return postLikeList;
     }
-
-    // Getters and setters
 
     public List<GroupPostLike> getGroupPostLikeList() {
         return groupPostLikeList;
@@ -454,7 +432,6 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
         return Objects.hashCode(email);
     }
 
-    @Override
     public UserProfileDTO toDto() {
         return new UserProfileDTO(
                 age,
@@ -474,21 +451,4 @@ public class UserProfile implements UserValidation, FullyDTOConvertible<UserProf
         );
     }
 
-    @Override
-    public void updateFromDto(UserProfileDTO dto) {
-        this.age = dto.age();
-        this.email = dto.email();
-        this.status = dto.status();
-        this.isValidated = dto.validated();
-        this.role = dto.role();
-        this.onlineStatus = dto.onlineStatus();
-        this.userName = dto.userName();
-        this.biography = dto.biography();
-        this.profileAccessLevel = dto.profileAccessLevel();
-        this.gender = dto.gender();
-        this.firstName = dto.firstName();
-        this.lastName = dto.lastName();
-        this.userLevel = dto.userLevel();
-        this.profilePictureUrl = dto.profilePictureUrl();
-    }
 }

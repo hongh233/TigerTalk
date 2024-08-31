@@ -11,7 +11,7 @@ import java.util.UUID;
 import static tigertalk.model.Utils.PASSWORD_TOKEN_EXPIRATION_MINUTES;
 
 @Entity
-public class PasswordTokenImpl {
+public class PasswordToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,21 +23,15 @@ public class PasswordTokenImpl {
 
     private LocalDateTime timestamp;
 
-    private PasswordTokenImpl(String token, LocalDateTime timestamp, String email) {
-        this.token = token;
-        this.timestamp = timestamp;
-        this.email = email;
+    public PasswordToken() {
     }
 
-    public PasswordTokenImpl() {
-    }
-
-    public static PasswordTokenImpl createPasswordResetToken(String email) {
-        return new PasswordTokenImpl(
-                UUID.randomUUID().toString(),
-                LocalDateTime.now(),
-                email
-        );
+    public static PasswordToken createPasswordResetToken(String email) {
+        PasswordToken passwordToken = new PasswordToken();
+        passwordToken.token = UUID.randomUUID().toString();
+        passwordToken.timestamp = LocalDateTime.now();
+        passwordToken.email = email;
+        return passwordToken;
     }
 
     public String getToken() {

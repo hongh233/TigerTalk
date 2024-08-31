@@ -1,7 +1,5 @@
 package tigertalk.model.Friend;
-
 import tigertalk.model.User.UserProfile;
-
 import java.time.LocalDateTime;
 
 public record UserProfileDTOFriendship(
