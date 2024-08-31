@@ -239,7 +239,7 @@ public class FriendshipRequestServiceImplTest {
                 IllegalStateException.class,
                 () -> friendshipRequestService.rejectFriendshipRequest(1)
         );
-        assertEquals("friendship request ID does not exist!", exception.getMessage());
+        assertEquals("Friendship request ID does not exist!", exception.getMessage());
     }
 
     @Test

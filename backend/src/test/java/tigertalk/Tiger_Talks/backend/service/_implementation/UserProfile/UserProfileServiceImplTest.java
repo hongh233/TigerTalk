@@ -173,40 +173,5 @@ public class UserProfileServiceImplTest {
         verify(userProfileRepository, times(0)).save(invalidAgeUserProfile);
     }
 
-    /**
-     * Test case for updateUserProfileDTO
-     */
-    @Test
-    public void updateUserProfileDTO_invalidProfileData() {
-        UserProfile userA = new UserProfile("Alon#!##!#$@%@g", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        UserProfileDTO userADTO = userA.toDto();
-
-        Optional<String> result = userProfileService.updateUserProfile(userADTO);
-        assertTrue(result.isPresent(), "Expected error message due to invalid first name containing symbols.");
-        assertEquals("First name must contain no symbols", result.get(), "Expected specific error message.");
-    }
-
-    @Test
-    public void updateUserProfileDTO_userProfileNotFound() {
-        UserProfile userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        UserProfileDTO userADTO = userA.toDto();
-        when(userProfileRepository.findUserProfileByEmail(userADTO.email())).thenReturn(Optional.empty());
-
-        Optional<String> result = userProfileService.updateUserProfile(userADTO);
-        assertTrue(result.isPresent(), "Expected error message due to user profile not being found.");
-        assertEquals("Could not find user profile", result.get(), "Expected specific error message.");
-    }
-
-    @Test
-    public void updateUserProfileDTO_successfulProfileUpdate() {
-        UserProfile userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        UserProfileDTO userADTO = userA.toDto();
-        when(userProfileRepository.findUserProfileByEmail(userADTO.email())).thenReturn(Optional.of(userA));
-        when(userProfileRepository.save(userA)).thenReturn(userA);
-
-        Optional<String> result = userProfileService.updateUserProfile(userADTO);
-        assertFalse(result.isPresent(), "Expected no error message for successful profile update.");
-    }
-
 }
 

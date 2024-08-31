@@ -1,9 +1,9 @@
 package tigertalk.Tiger_Talks.backend.service._implementation.Authentication;
 
-import tigertalk.model.Authentication.ForgotPasswordDTO;
-import tigertalk.model.Authentication.PasswordTokenImpl;
+import tigertalk.model.Authentication.EmailPassword;
+import tigertalk.model.Authentication.PasswordToken;
 import tigertalk.model.User.UserProfile;
-import tigertalk.repository.PasswordTokenRepository;
+import tigertalk.repository.Authentication.PasswordTokenRepository;
 import tigertalk.repository.User.UserProfileRepository;
 import tigertalk.service._implementation.Authentication.PasswordResetServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,7 +78,7 @@ public class PasswordResetServiceImplTest {
     public void createAndSendResetMail_email_exist() {
         when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         passwordResetServiceImpl.createAndSendResetMail(userA.email());
-        verify(passwordTokenRepository).save(any(PasswordTokenImpl.class));
+        verify(passwordTokenRepository).save(any(PasswordToken.class));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class PasswordResetServiceImplTest {
     @Test
     public void validateToken_token_exist_notExpired() {
         String token = "token exist not expired";
-        PasswordTokenImpl foundToken = mock(PasswordTokenImpl.class);
+        PasswordToken foundToken = mock(PasswordToken.class);
         when(passwordTokenRepository.findPasswordTokenByToken(token)).thenReturn(Optional.of(foundToken));
         when(foundToken.isTokenExpired()).thenReturn(false);
         Optional<String> result = passwordResetServiceImpl.validateToken(token);
@@ -113,7 +113,7 @@ public class PasswordResetServiceImplTest {
     @Test
     public void validateToken_token_exist_expired() {
         String token = "token exist expired";
-        PasswordTokenImpl foundToken = mock(PasswordTokenImpl.class);
+        PasswordToken foundToken = mock(PasswordToken.class);
         when(passwordTokenRepository.findPasswordTokenByToken(token)).thenReturn(Optional.of(foundToken));
         when(foundToken.isTokenExpired()).thenReturn(true);
         Optional<String> result = passwordResetServiceImpl.validateToken(token);
@@ -136,7 +136,7 @@ public class PasswordResetServiceImplTest {
     @Test
     public void resetPassword_invalid_length() {
         Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new ForgotPasswordDTO("user@dal.ca", "aaaa"));
+                new EmailPassword("user@dal.ca", "aaaa"));
         assertTrue(result.isPresent());
         assertEquals("Password must have a minimum length of 8 characters.", result.get());
     }
@@ -144,7 +144,7 @@ public class PasswordResetServiceImplTest {
     @Test
     public void resetPassword_invalid_noUppercase() {
         Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new ForgotPasswordDTO("user@dal.ca", "aaaaaaaa"));
+                new EmailPassword("user@dal.ca", "aaaaaaaa"));
         assertTrue(result.isPresent());
         assertEquals("Password must have at least 1 uppercase character.", result.get());
     }
@@ -152,7 +152,7 @@ public class PasswordResetServiceImplTest {
     @Test
     public void resetPassword_invalid_noLowercase() {
         Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new ForgotPasswordDTO("user@dal.ca", "AAAAAAAA"));
+                new EmailPassword("user@dal.ca", "AAAAAAAA"));
         assertTrue(result.isPresent());
         assertEquals("Password must have at least 1 lowercase character.", result.get());
     }
@@ -160,7 +160,7 @@ public class PasswordResetServiceImplTest {
     @Test
     public void resetPassword_invalid_noNumber() {
         Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new ForgotPasswordDTO("user@dal.ca", "AAAAaaaa"));
+                new EmailPassword("user@dal.ca", "AAAAaaaa"));
         assertTrue(result.isPresent());
         assertEquals("Password must have at least 1 number.", result.get());
     }
@@ -168,7 +168,7 @@ public class PasswordResetServiceImplTest {
     @Test
     public void resetPassword_invalid_noSpecialCharacter() {
         Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new ForgotPasswordDTO("user@dal.ca", "aaaa1Aaa"));
+                new EmailPassword("user@dal.ca", "aaaa1Aaa"));
         assertTrue(result.isPresent());
         assertEquals("Password must have at least 1 special character.", result.get());
     }
@@ -177,13 +177,13 @@ public class PasswordResetServiceImplTest {
     public void resetPassword_valid_userExist() {
         when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         assertTrue(passwordResetServiceImpl.resetPassword(
-                new ForgotPasswordDTO(userA.email(), userA.getPassword())).isEmpty());
+                new EmailPassword(userA.email(), userA.getPassword())).isEmpty());
     }
 
     @Test
     public void resetPassword_valid_userNotExist() {
         Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new ForgotPasswordDTO(userB.email(), userA.getPassword()));
+                new EmailPassword(userB.email(), userA.getPassword()));
         lenient().when(userProfileRepository.findById(userA.email())).thenReturn(Optional.of(userA));
         assertTrue(result.isPresent());
         assertEquals("An error occurred while resetting your password. " +
