@@ -1,7 +1,5 @@
 package tigertalk.service.Post;
-
 import tigertalk.model.Post.PostCommentDTO;
-
 import java.util.List;
 
 public interface PostCommentService {
@@ -21,11 +19,5 @@ public interface PostCommentService {
      */
     List<PostCommentDTO> getCommentsByPostId(Integer postId);
 
-    /**
-     * Retrieves all comments.
-     *
-     * @return a list of all PostCommentDTO objects
-     */
-    List<PostCommentDTO> getAllComments();
 }
 

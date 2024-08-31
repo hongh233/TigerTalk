@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PostCommentServiceImpl implements PostCommentService {
@@ -35,36 +34,29 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     @Override
     public PostCommentDTO addComment(PostCommentDTO postCommentDTO) {
-
-        // Get the Post entity
         Optional<Post> post = postRepository.findById(postCommentDTO.postId());
         if (post.isEmpty()) {
             throw new RuntimeException("Post not found");
         }
 
-        // Get the user information of the comment sent
         Optional<UserProfile> commentSenderUserProfile = userProfileRepository.findById(postCommentDTO.commentSenderUserProfileDTO().email());
         if (commentSenderUserProfile.isEmpty()) {
             throw new RuntimeException("Comment sender user profile not found");
         }
 
-        // Get the user information of the poster
         Optional<UserProfile> postSenderUserProfile = userProfileRepository.findById(postCommentDTO.postSenderUserProfileDTO().email());
         if (postSenderUserProfile.isEmpty()) {
             throw new RuntimeException("Post sender user profile not found");
         }
 
-        // Create and set PostComment
         PostComment postComment = new PostComment(
                 post.get(),
                 postCommentDTO.content(),
                 commentSenderUserProfile.get()
         );
 
-        // save the comment
         PostComment savedComment = postCommentRepository.save(postComment);
 
-        // Create and send notification if your not the one commenting on your own post
         if (!postSenderUserProfile.get().email().equals(commentSenderUserProfile.get().email())) {
             Notification notification = new Notification(
                     postSenderUserProfile.get(),
@@ -80,16 +72,6 @@ public class PostCommentServiceImpl implements PostCommentService {
     @Override
     public List<PostCommentDTO> getCommentsByPostId(Integer postId) {
         List<PostComment> postComments = postCommentRepository.findByPost_PostId(postId);
-        List<PostCommentDTO> postCommentDTOs = new ArrayList<>();
-        for (PostComment postComment : postComments) {
-            postCommentDTOs.add(postComment.toDto());
-        }
-        return postCommentDTOs;
-    }
-
-    @Override
-    public List<PostCommentDTO> getAllComments() {
-        List<PostComment> postComments = postCommentRepository.findAll();
         List<PostCommentDTO> postCommentDTOs = new ArrayList<>();
         for (PostComment postComment : postComments) {
             postCommentDTOs.add(postComment.toDto());
