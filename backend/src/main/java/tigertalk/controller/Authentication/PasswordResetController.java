@@ -1,6 +1,6 @@
 package tigertalk.controller.Authentication;
 
-import tigertalk.model.Authentication.ForgotPasswordDTO;
+import tigertalk.model.Authentication.EmailPassword;
 import tigertalk.service.Authentication.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,20 +26,20 @@ public class PasswordResetController {
     @PostMapping("/validateEmailExist")
     public ResponseEntity<String> validateEmailExist(@RequestParam("email") String email) {
         return passwordResetService.validateEmailExist(email)
-                .map(err -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err))
+                .map(err -> ResponseEntity.status(400).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Email exists and is valid."));
     }
 
     /**
      * Resets the password for the given user.
      *
-     * @param passwordDTO the password reset data transfer object
+     * @param emailPassword the password reset data transfer object
      * @return ResponseEntity with a success or error message
      */
     @PostMapping("/resetPassword")
-    public ResponseEntity<String> resetPassword(@RequestBody ForgotPasswordDTO passwordDTO) {
-        return passwordResetService.resetPassword(passwordDTO)
-                .map(err -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(err))
+    public ResponseEntity<String> resetPassword(@RequestBody EmailPassword emailPassword) {
+        return passwordResetService.resetPassword(emailPassword)
+                .map(err -> ResponseEntity.status(404).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Password was successfully reset"));
     }
 
@@ -52,7 +52,7 @@ public class PasswordResetController {
     @PostMapping("/sendToken")
     public ResponseEntity<String> sendToken(@RequestParam("email") String email) {
         return passwordResetService.createAndSendResetMail(email)
-                .map(err -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err))
+                .map(err -> ResponseEntity.status(400).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Email was sent successfully to " + email + " for resetting your password"));
     }
 
@@ -65,7 +65,7 @@ public class PasswordResetController {
     @PostMapping("/checkToken/{token}")
     public ResponseEntity<String> validateToken(@PathVariable("token") String token) {
         return passwordResetService.validateToken(token)
-                .map(err -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(err))
+                .map(err -> ResponseEntity.status(404).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Token validated successfully"));
     }
 
@@ -83,7 +83,7 @@ public class PasswordResetController {
             @RequestParam("question") String question,
             @RequestParam("questionAnswer") String questionAnswer) {
         return passwordResetService.verifySecurityAnswers(email, question, questionAnswer)
-                .map(err -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err))
+                .map(err -> ResponseEntity.status(400).body(err))
                 .orElseGet(() -> ResponseEntity.ok("Security questions verified successfully."));
     }
 

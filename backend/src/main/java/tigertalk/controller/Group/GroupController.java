@@ -1,5 +1,6 @@
 package tigertalk.controller.Group;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import tigertalk.model.Group.GroupDTO;
 import tigertalk.model.Group.GroupMembershipDTO;
 import tigertalk.service.Group.GroupService;
@@ -13,11 +14,8 @@ import java.util.Optional;
 @RequestMapping("/api/groups")
 public class GroupController {
 
-    private final GroupService groupService;
-
-    public GroupController(GroupService groupService) {
-        this.groupService = groupService;
-    }
+    @Autowired
+    private GroupService groupService;
 
     /**
      * Creates a new group.

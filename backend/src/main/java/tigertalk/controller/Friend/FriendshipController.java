@@ -42,7 +42,7 @@ public class FriendshipController {
                                                           @PathVariable("receiverEmail") String receiverEmail) {
         return friendshipService.deleteFriendshipByEmail(receiverEmail, senderEmail)
                 .map(err -> friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail)
-                        .map(ResponseEntity.status(HttpStatus.NOT_FOUND)::body)
+                        .map(ResponseEntity.status(404)::body)
                         .orElseGet(() -> ResponseEntity.ok("Friendship successfully deleted."))
                 ).orElseGet(() -> ResponseEntity.ok("Friendship successfully deleted."));
     }

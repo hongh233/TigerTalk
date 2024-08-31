@@ -1,5 +1,6 @@
 package tigertalk.controller.Group;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import tigertalk.service.Group.GroupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,13 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/groups/admin")
 public class GroupAdminController {
 
-    private final GroupController groupController;
-    private final GroupService groupService;
-
-    public GroupAdminController(GroupService groupService) {
-        groupController = new GroupController(groupService);
-        this.groupService = groupService;
-    }
+    @Autowired
+    private GroupService groupService;
 
     /**
      * Adds a user to a group by their email and group ID.

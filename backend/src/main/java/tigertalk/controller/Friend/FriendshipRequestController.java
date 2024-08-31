@@ -69,7 +69,7 @@ public class FriendshipRequestController {
     @PostMapping("/reject")
     public ResponseEntity<String> rejectFriendRequest(@RequestParam("id") Integer friendshipRequestId) {
         return friendshipRequestService.rejectFriendshipRequest(friendshipRequestId)
-                .map(ResponseEntity.status(HttpStatus.NOT_FOUND)::body)
+                .map(ResponseEntity.status(404)::body)
                 .orElseGet(() -> ResponseEntity.ok("Friend request has been rejected."));
     }
 

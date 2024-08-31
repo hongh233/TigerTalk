@@ -41,11 +41,11 @@ public class LoginController {
      */
     @PostMapping("/userLogIn")
     public ResponseEntity<?> logIn(@RequestParam("email") String email, @RequestParam("password") String password) {
-        Optional<UserProfileDTO> userProfileOptional = logInService.logInUser(email, password);
+        Optional<UserProfileDTO> userProfileOptional = logInService.loginUser(email, password);
         if (userProfileOptional.isPresent()) {
             return ResponseEntity.ok(userProfileOptional.get());
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password.");
+            return ResponseEntity.status(401).body("Invalid email or password.");
         }
     }
 }

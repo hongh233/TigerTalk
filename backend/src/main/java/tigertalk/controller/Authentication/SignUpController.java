@@ -27,7 +27,7 @@ public class SignUpController {
      */
     @PostMapping("/userSignUp")
     public ResponseEntity<String> signUp(@RequestBody UserProfile userProfile) {
-        return signUpService.signUpUserProfile(userProfile)
+        return signUpService.signupUserProfile(userProfile)
                 .map(ResponseEntity.badRequest()::body)
                 .orElseGet(() -> ResponseEntity.ok("Successfully saved user to database"));
     }

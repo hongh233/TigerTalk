@@ -1,5 +1,6 @@
 package tigertalk.controller;
 
+import tigertalk.model.User.UserProfile;
 import tigertalk.model.User.UserProfileDTO;
 import tigertalk.service.UserProfile.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,16 @@ public class UserProfileController {
     /**
      * Updates an existing user profile.
      *
-     * @param userProfileDTO the user profile data transfer object containing updated information
+     * @param userProfile the user profile data transfer object containing updated information
      * @return ResponseEntity with the updated user profile DTO or an error message
      */
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody UserProfileDTO userProfileDTO) {
-        Optional<String> err = userProfileService.updateUserProfile(userProfileDTO);
+    public ResponseEntity<?> updateUser(@RequestBody UserProfile userProfile) {
+        Optional<String> err = userProfileService.updateUserProfile(userProfile);
         if (err.isPresent()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.get());
         } else {
-            return ResponseEntity.ok(userProfileDTO);
+            return ResponseEntity.ok(userProfile);
         }
     }
 
