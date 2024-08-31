@@ -1,5 +1,4 @@
 package tigertalk.controller.Friend;
-
 import tigertalk.model.User.UserProfileDTOPost;
 import tigertalk.service.Friend.FriendshipRecommendationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,6 @@ public class FriendshipRecommendationController {
     @GetMapping("/recommendFriends/{email}/{numOfFriends}")
     public ResponseEntity<List<UserProfileDTOPost>> recommendFriends(@PathVariable String email, @PathVariable int numOfFriends) {
         List<UserProfileDTOPost> recommendedFriends = friendRecommendationService.recommendFriends(email, numOfFriends);
-        return ResponseEntity.ok(recommendedFriends);
+        return ResponseEntity.status(200).body(recommendedFriends);
     }
 }

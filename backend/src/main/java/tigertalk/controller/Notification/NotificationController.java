@@ -1,11 +1,9 @@
 package tigertalk.controller.Notification;
-
 import tigertalk.model.Notification.NotificationDTO;
 import tigertalk.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +21,8 @@ public class NotificationController {
      * @return ResponseEntity with a list of notification DTOs
      */
     @GetMapping("/get/{email}")
-    public ResponseEntity<List<NotificationDTO>> getNotificationsByUserEmail(@PathVariable String email) {
-        List<NotificationDTO> notifications = notificationService.getNotificationListByUserEmail(email);
-        return ResponseEntity.ok(notifications);
+    public List<NotificationDTO> getNotificationsByUserEmail(@PathVariable String email) {
+        return notificationService.getNotificationListByUserEmail(email);
     }
 
     /**
@@ -36,9 +33,12 @@ public class NotificationController {
      */
     @DeleteMapping("/delete/{notificationId}")
     public ResponseEntity<String> deleteNotification(@PathVariable int notificationId) {
-        Optional<String> result = notificationService.deleteNotificationById(notificationId);
-        return result.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<String> error = notificationService.deleteNotificationById(notificationId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(404).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Notification deleted successfully.");
+        }
     }
 
 }

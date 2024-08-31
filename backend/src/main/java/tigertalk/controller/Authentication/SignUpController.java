@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 /**
  * REST controller for user sign-up operations.
  */
@@ -27,8 +29,11 @@ public class SignUpController {
      */
     @PostMapping("/userSignUp")
     public ResponseEntity<String> signUp(@RequestBody UserProfile userProfile) {
-        return signUpService.signupUserProfile(userProfile)
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Successfully saved user to database"));
+        Optional<String> error = signUpService.signupUserProfile(userProfile);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Successfully saved user to database");
+        }
     }
 }

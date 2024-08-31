@@ -25,8 +25,12 @@ public class FriendshipMessageController {
      */
     @PostMapping("/message/create")
     public ResponseEntity<String> createMessage(@RequestBody FriendshipMessage message) {
-        Optional<String> result = friendshipMessageService.createMessage(message);
-        return result.map(s -> ResponseEntity.badRequest().body(s)).orElseGet(() -> ResponseEntity.ok("Message created successfully"));
+        Optional<String> error = friendshipMessageService.createMessage(message);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Message created successfully");
+        }
     }
 
     /**
@@ -48,9 +52,12 @@ public class FriendshipMessageController {
      */
     @PatchMapping("/message/setRead/{messageId}")
     public ResponseEntity<String> markMessageAsRead(@PathVariable int messageId) {
-        Optional<String> result = friendshipMessageService.markMessageAsRead(messageId);
-        return result.map(s -> ResponseEntity.badRequest().body(s))
-                .orElseGet(() -> ResponseEntity.ok("Message ID " + messageId + " marked as read"));
+        Optional<String> error = friendshipMessageService.markMessageAsRead(messageId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Message ID " + messageId + " marked as read");
+        }
     }
 
 }

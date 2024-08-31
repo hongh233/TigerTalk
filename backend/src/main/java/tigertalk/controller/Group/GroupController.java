@@ -31,9 +31,12 @@ public class GroupController {
                                               @PathVariable String creatorEmail,
                                               @PathVariable boolean isPrivate,
                                               @PathVariable String interest) {
-        Optional<String> result = groupService.createGroup(groupName, creatorEmail, isPrivate, interest);
-        return result.map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Group successfully created"));
+        Optional<String> error = groupService.createGroup(groupName, creatorEmail, isPrivate, interest);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Group successfully created");
+        }
     }
 
     /**
@@ -45,9 +48,12 @@ public class GroupController {
      */
     @PostMapping("/join/{email}/{groupId}")
     public ResponseEntity<String> joinGroup(@PathVariable String email, @PathVariable int groupId) {
-        Optional<String> result = groupService.joinGroupUser(email, groupId);
-        return result.map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("User successfully joined the group"));
+        Optional<String> error = groupService.joinGroupUser(email, groupId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("User successfully joined the group");
+        }
     }
 
     /**
@@ -70,9 +76,9 @@ public class GroupController {
     public ResponseEntity<?> getGroup(@PathVariable int groupId) {
         Optional<GroupDTO> groupDTO = groupService.getGroup(groupId);
         if (groupDTO.isPresent()) {
-            return ResponseEntity.ok(groupDTO);
+            return ResponseEntity.status(200).body(groupDTO);
         } else {
-            return ResponseEntity.badRequest().body("No group for this id was found");
+            return ResponseEntity.status(400).body("No group for this id was found");
         }
     }
 
@@ -83,9 +89,8 @@ public class GroupController {
      * @return ResponseEntity with a list of group DTOs
      */
     @GetMapping("/get/allGroups/{userEmail}")
-    public ResponseEntity<List<GroupDTO>> getAllGroupsByUser(@PathVariable String userEmail) {
-        List<GroupDTO> groups = groupService.getAllGroupsByUser(userEmail);
-        return ResponseEntity.ok(groups);
+    public List<GroupDTO> getAllGroupsByUser(@PathVariable String userEmail) {
+        return groupService.getAllGroupsByUser(userEmail);
     }
 
     /**
@@ -96,16 +101,22 @@ public class GroupController {
      */
     @PostMapping("/update/groupInfo")
     public ResponseEntity<String> updateGroupInfo(@RequestBody GroupDTO groupDTO) {
-        Optional<String> result = groupService.updateGroupInfo(groupDTO);
-        return result.map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Group Info Successfully updated"));
+        Optional<String> error = groupService.updateGroupInfo(groupDTO);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Group Info Successfully updated");
+        }
     }
 
     @PostMapping("/transfer/group/ownership/{previousOwnerMembershipId}/{newOwnerMembershipId}")
     public ResponseEntity<String> transferGroupOwnership(@PathVariable int previousOwnerMembershipId, @PathVariable int newOwnerMembershipId) {
-        Optional<String> result = groupService.transferGroupOwnership(previousOwnerMembershipId, newOwnerMembershipId);
-        return result.map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Group Ownership transferred Successfully"));
+        Optional<String> error = groupService.transferGroupOwnership(previousOwnerMembershipId, newOwnerMembershipId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Group Ownership transferred Successfully");
+        }
     }
 
     /**
@@ -116,9 +127,12 @@ public class GroupController {
      */
     @DeleteMapping("/delete/group/{groupId}")
     public ResponseEntity<String> deleteGroup(@PathVariable int groupId) {
-        Optional<String> result = groupService.deleteGroup(groupId);
-        return result.map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Group Successfully deleted"));
+        Optional<String> error = groupService.deleteGroup(groupId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Group Successfully deleted");
+        }
     }
 
     /**
@@ -127,12 +141,14 @@ public class GroupController {
      * @param groupMembershipId the ID of the group membership to be deleted
      * @return ResponseEntity with a success or error message
      */
-    // I haven't considered whether we can delete group creator
     @DeleteMapping("/delete/groupMembership/{groupMembershipId}")
     public ResponseEntity<String> deleteGroupMembership(@PathVariable int groupMembershipId) {
-        Optional<String> result = groupService.deleteGroupMembership(groupMembershipId);
-        return result.map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Group membership Successfully deleted"));
+        Optional<String> error = groupService.deleteGroupMembership(groupMembershipId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Group membership Successfully deleted");
+        }
     }
 
     /**
@@ -157,9 +173,9 @@ public class GroupController {
     public ResponseEntity<?> getMemberShipId(@PathVariable String userEmail, @PathVariable int groupId) {
         Optional<Integer> membershipId = groupService.getMemberShipId(userEmail, groupId);
         if (membershipId.isPresent()) {
-            return ResponseEntity.ok(membershipId.get());
+            return ResponseEntity.status(200).body(membershipId.get());
         } else {
-            return ResponseEntity.badRequest().body("User is not a member");
+            return ResponseEntity.status(400).body("User is not a member");
         }
     }
 

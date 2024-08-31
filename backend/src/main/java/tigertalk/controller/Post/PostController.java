@@ -51,9 +51,12 @@ public class PostController {
      */
     @PostMapping("/create")
     public ResponseEntity<String> createPost(@RequestBody Post post) {
-        return postService.createPost(post)
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Post created successfully."));
+        Optional<String> error = postService.createPost(post);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Post created successfully.");
+        }
     }
 
     /**
@@ -67,9 +70,9 @@ public class PostController {
     public ResponseEntity<String> editPost(@PathVariable Integer postID, @PathVariable String content) {
         try {
             postService.editPost(postID, content);
-            return ResponseEntity.ok("Post edited successfully.");
+            return ResponseEntity.status(200).body("Post edited successfully.");
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 
@@ -81,9 +84,12 @@ public class PostController {
      */
     @DeleteMapping("/delete/{postId}")
     public ResponseEntity<String> deletePostById(@PathVariable Integer postId) {
-        return postService.deletePostById(postId)
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Post deleted successfully."));
+        Optional<String> error = postService.deletePostById(postId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Post deleted successfully.");
+        }
     }
 
     /**
@@ -95,10 +101,12 @@ public class PostController {
      */
     @PutMapping("/update/{postId}")
     public ResponseEntity<String> updatePostById(@PathVariable Integer postId, @RequestBody Post post) {
-        Optional<String> postServiceOptional = postService.updatePostById(postId, post);
-        return postServiceOptional
-                .map(ResponseEntity.status(HttpStatus.UNAUTHORIZED)::body)
-                .orElseGet(() -> ResponseEntity.ok("Post updated successfully"));
+        Optional<String> error = postService.updatePostById(postId, post);
+        if (error.isPresent()) {
+            return ResponseEntity.status(401).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Post updated successfully");
+        }
     }
 
     /**
@@ -112,9 +120,9 @@ public class PostController {
     public ResponseEntity<?> likePost(@PathVariable Integer postId, @RequestParam String userEmail) {
         try {
             Post updatedPost = postService.likePost(postId, userEmail);
-            return ResponseEntity.ok(updatedPost.getNumOfLike());
+            return ResponseEntity.status(200).body(updatedPost.getNumOfLike());
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 

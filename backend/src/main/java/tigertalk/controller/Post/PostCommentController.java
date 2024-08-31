@@ -23,8 +23,7 @@ public class PostCommentController {
      */
     @PostMapping("/createComment")
     public ResponseEntity<PostCommentDTO> addComment(@RequestBody PostCommentDTO postCommentDTO) {
-        PostCommentDTO createdComment = postCommentService.addComment(postCommentDTO);
-        return ResponseEntity.ok(createdComment);
+        return ResponseEntity.status(200).body(postCommentService.addComment(postCommentDTO));
     }
 
     /**
@@ -34,9 +33,8 @@ public class PostCommentController {
      * @return ResponseEntity with a list of post comment DTOs
      */
     @GetMapping("/getComments/{postId}")
-    public ResponseEntity<List<PostCommentDTO>> getCommentsByPostId(@PathVariable Integer postId) {
-        List<PostCommentDTO> comments = postCommentService.getCommentsByPostId(postId);
-        return ResponseEntity.ok(comments);
+    public List<PostCommentDTO> getCommentsByPostId(@PathVariable Integer postId) {
+        return postCommentService.getCommentsByPostId(postId);
     }
 
 }

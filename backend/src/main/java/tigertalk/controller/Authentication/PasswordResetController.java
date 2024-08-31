@@ -3,9 +3,10 @@ package tigertalk.controller.Authentication;
 import tigertalk.model.Authentication.EmailPassword;
 import tigertalk.service.Authentication.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 /**
  * REST controller for handling password reset operations.
@@ -25,9 +26,12 @@ public class PasswordResetController {
      */
     @PostMapping("/validateEmailExist")
     public ResponseEntity<String> validateEmailExist(@RequestParam("email") String email) {
-        return passwordResetService.validateEmailExist(email)
-                .map(err -> ResponseEntity.status(400).body(err))
-                .orElseGet(() -> ResponseEntity.ok("Email exists and is valid."));
+        Optional<String> error = passwordResetService.validateEmailExist(email);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Email exists and is valid.");
+        }
     }
 
     /**
@@ -38,9 +42,12 @@ public class PasswordResetController {
      */
     @PostMapping("/resetPassword")
     public ResponseEntity<String> resetPassword(@RequestBody EmailPassword emailPassword) {
-        return passwordResetService.resetPassword(emailPassword)
-                .map(err -> ResponseEntity.status(404).body(err))
-                .orElseGet(() -> ResponseEntity.ok("Password was successfully reset"));
+        Optional<String> error = passwordResetService.resetPassword(emailPassword);
+        if (error.isPresent()) {
+            return ResponseEntity.status(404).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Password was successfully reset");
+        }
     }
 
     /**
@@ -51,9 +58,12 @@ public class PasswordResetController {
      */
     @PostMapping("/sendToken")
     public ResponseEntity<String> sendToken(@RequestParam("email") String email) {
-        return passwordResetService.createAndSendResetMail(email)
-                .map(err -> ResponseEntity.status(400).body(err))
-                .orElseGet(() -> ResponseEntity.ok("Email was sent successfully to " + email + " for resetting your password"));
+        Optional<String> error = passwordResetService.createAndSendResetMail(email);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Email was sent successfully to " + email + " for resetting your password");
+        }
     }
 
     /**
@@ -64,9 +74,12 @@ public class PasswordResetController {
      */
     @PostMapping("/checkToken/{token}")
     public ResponseEntity<String> validateToken(@PathVariable("token") String token) {
-        return passwordResetService.validateToken(token)
-                .map(err -> ResponseEntity.status(404).body(err))
-                .orElseGet(() -> ResponseEntity.ok("Token validated successfully"));
+        Optional<String> error = passwordResetService.validateToken(token);
+        if (error.isPresent()) {
+            return ResponseEntity.status(404).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Token validated successfully");
+        }
     }
 
     /**
@@ -82,9 +95,12 @@ public class PasswordResetController {
             @RequestParam("email") String email,
             @RequestParam("question") String question,
             @RequestParam("questionAnswer") String questionAnswer) {
-        return passwordResetService.verifySecurityAnswers(email, question, questionAnswer)
-                .map(err -> ResponseEntity.status(400).body(err))
-                .orElseGet(() -> ResponseEntity.ok("Security questions verified successfully."));
+        Optional<String> error = passwordResetService.verifySecurityAnswers(email, question, questionAnswer);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Security questions verified successfully.");
+        }
     }
 
     /**
@@ -94,7 +110,7 @@ public class PasswordResetController {
      * @return ResponseEntity containing an array of security questions
      */
     @GetMapping("/getSecurityQuestions")
-    public ResponseEntity<String[]> getSecurityQuestions(@RequestParam("email") String email) {
-        return ResponseEntity.ok(passwordResetService.getSecurityQuestions(email));
+    public String[] getSecurityQuestions(@RequestParam("email") String email) {
+        return passwordResetService.getSecurityQuestions(email);
     }
 }

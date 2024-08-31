@@ -26,10 +26,12 @@ public class GroupPostController {
      */
     @PostMapping("/create")
     public ResponseEntity<String> createGroupPost(@RequestBody GroupPost groupPost) {
-        Optional<String> result = groupPostService.createGroupPost(groupPost);
-        return result
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Group post created successfully."));
+        Optional<String> error = groupPostService.createGroupPost(groupPost);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Group post created successfully.");
+        }
     }
 
     /**
@@ -40,10 +42,12 @@ public class GroupPostController {
      */
     @DeleteMapping("/delete/{groupPostId}")
     public ResponseEntity<String> deleteGroupPost(@PathVariable Integer groupPostId) {
-        Optional<String> result = groupPostService.deleteGroupPostById(groupPostId);
-        return result
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Group post deleted successfully."));
+        Optional<String> error = groupPostService.deleteGroupPostById(groupPostId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Group post deleted successfully.");
+        }
     }
 
     /**
@@ -68,9 +72,9 @@ public class GroupPostController {
     public ResponseEntity<?> likePost(@PathVariable Integer groupPostId, @RequestParam String userEmail) {
         try {
             GroupPost updatedPost = groupPostService.likePost(groupPostId, userEmail);
-            return ResponseEntity.ok(updatedPost.getNumOfLike());
+            return ResponseEntity.status(200).body(updatedPost.getNumOfLike());
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 }

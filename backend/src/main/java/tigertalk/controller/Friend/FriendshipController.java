@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing user friendships.
@@ -40,11 +41,15 @@ public class FriendshipController {
     @DeleteMapping("/deleteByEmail/{senderEmail}/{receiverEmail}")
     public ResponseEntity<String> deleteFriendshipByEmail(@PathVariable("senderEmail") String senderEmail,
                                                           @PathVariable("receiverEmail") String receiverEmail) {
-        return friendshipService.deleteFriendshipByEmail(receiverEmail, senderEmail)
-                .map(err -> friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail)
-                        .map(ResponseEntity.status(404)::body)
-                        .orElseGet(() -> ResponseEntity.ok("Friendship successfully deleted."))
-                ).orElseGet(() -> ResponseEntity.ok("Friendship successfully deleted."));
+        Optional<String> deleteResultReceiverToSender = friendshipService.deleteFriendshipByEmail(receiverEmail, senderEmail);
+        if (deleteResultReceiverToSender.isEmpty()) {
+            return ResponseEntity.status(200).body("Friendship successfully deleted.");
+        }
+        Optional<String> deleteResultSenderToReceiver = friendshipService.deleteFriendshipByEmail(senderEmail, receiverEmail);
+        if (deleteResultSenderToReceiver.isEmpty()) {
+            return ResponseEntity.status(200).body("Friendship successfully deleted.");
+        }
+        return ResponseEntity.status(404).body(deleteResultSenderToReceiver.get());
     }
 
     /**

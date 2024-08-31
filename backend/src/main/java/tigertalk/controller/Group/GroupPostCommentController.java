@@ -27,10 +27,12 @@ public class GroupPostCommentController {
     @PostMapping("/create/{groupPostId}")
     public ResponseEntity<String> createGroupPostComment(@PathVariable int groupPostId,
                                                          @RequestBody GroupPostComment groupPostComment) {
-        Optional<String> result = groupPostCommentService.createGroupPostComment(groupPostId, groupPostComment);
-        return result
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Group post comment created successfully."));
+        Optional<String> error = groupPostCommentService.createGroupPostComment(groupPostId, groupPostComment);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Group post comment created successfully.");
+        }
     }
 
     /**
@@ -41,10 +43,12 @@ public class GroupPostCommentController {
      */
     @DeleteMapping("/delete/{groupPostCommentId}")
     public ResponseEntity<String> deleteGroupPostComment(@PathVariable int groupPostCommentId) {
-        Optional<String> result = groupPostCommentService.deleteGroupPostCommentById(groupPostCommentId);
-        return result
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Group post comment deleted successfully."));
+        Optional<String> error = groupPostCommentService.deleteGroupPostCommentById(groupPostCommentId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Group post comment deleted successfully.");
+        }
     }
 
     /**

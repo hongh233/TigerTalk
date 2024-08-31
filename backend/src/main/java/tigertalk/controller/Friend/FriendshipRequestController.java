@@ -1,5 +1,6 @@
 package tigertalk.controller.Friend;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import tigertalk.model.Friend.FriendshipRequestDTO;
 import tigertalk.service.Friend.FriendshipRequestService;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for handling friendship requests.
@@ -15,11 +17,8 @@ import java.util.List;
 @RequestMapping("/friendshipRequests")
 public class FriendshipRequestController {
 
-    private final FriendshipRequestService friendshipRequestService;
-
-    public FriendshipRequestController(FriendshipRequestService friendshipRequestService) {
-        this.friendshipRequestService = friendshipRequestService;
-    }
+    @Autowired
+    private FriendshipRequestService friendshipRequestService;
 
     /**
      * Retrieves all friendship requests for a given email.
@@ -28,9 +27,8 @@ public class FriendshipRequestController {
      * @return ResponseEntity with a list of friendship request DTOs
      */
     @GetMapping("/{email}")
-    public ResponseEntity<List<FriendshipRequestDTO>> getAllFriendRequests(@PathVariable("email") String email) {
-        List<FriendshipRequestDTO> requests = friendshipRequestService.getAllFriendRequests(email);
-        return ResponseEntity.ok(requests);
+    public List<FriendshipRequestDTO> getAllFriendRequests(@PathVariable("email") String email) {
+        return friendshipRequestService.getAllFriendRequests(email);
     }
 
     /**
@@ -42,9 +40,12 @@ public class FriendshipRequestController {
      */
     @PostMapping("/send")
     public ResponseEntity<String> sendFriendRequest(@RequestParam String senderEmail, @RequestParam String receiverEmail) {
-        return friendshipRequestService.sendFriendshipRequest(senderEmail, receiverEmail)
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("Friend request has been sent."));
+        Optional<String> error = friendshipRequestService.sendFriendshipRequest(senderEmail, receiverEmail);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Friend request has been sent.");
+        }
     }
 
     /**
@@ -55,9 +56,12 @@ public class FriendshipRequestController {
      */
     @PostMapping("/accept")
     public ResponseEntity<String> acceptFriendRequest(@RequestParam("id") Integer friendshipRequestId) {
-        return friendshipRequestService.acceptFriendshipRequest(friendshipRequestId)
-                .map(ResponseEntity.status(HttpStatus.NOT_FOUND)::body)
-                .orElseGet(() -> ResponseEntity.ok("Friend request has been accepted."));
+        Optional<String> error = friendshipRequestService.acceptFriendshipRequest(friendshipRequestId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(404).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Friend request has been accepted.");
+        }
     }
 
     /**
@@ -68,9 +72,12 @@ public class FriendshipRequestController {
      */
     @PostMapping("/reject")
     public ResponseEntity<String> rejectFriendRequest(@RequestParam("id") Integer friendshipRequestId) {
-        return friendshipRequestService.rejectFriendshipRequest(friendshipRequestId)
-                .map(ResponseEntity.status(404)::body)
-                .orElseGet(() -> ResponseEntity.ok("Friend request has been rejected."));
+        Optional<String> error = friendshipRequestService.rejectFriendshipRequest(friendshipRequestId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(404).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("Friend request has been rejected.");
+        }
     }
 
     /**

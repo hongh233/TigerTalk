@@ -5,6 +5,8 @@ import tigertalk.service.Group.GroupService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/groups/admin")
 public class GroupAdminController {
@@ -21,8 +23,12 @@ public class GroupAdminController {
      */
     @PostMapping("/addUser/{email}/{groupId}")
     public ResponseEntity<String> addUser(@PathVariable String email, @PathVariable int groupId) {
-        return groupService.joinGroupAdmin(email, groupId)
-                .map(ResponseEntity.badRequest()::body)
-                .orElseGet(() -> ResponseEntity.ok("User added to group successfully"));
+        Optional<String> error = groupService.joinGroupAdmin(email, groupId);
+        if (error.isPresent()) {
+            return ResponseEntity.status(400).body(error.get());
+        } else {
+            return ResponseEntity.status(200).body("User added to group successfully");
+        }
     }
+
 }
