@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class GroupPostCommentServiceImpl implements GroupPostCommentService {
@@ -39,15 +38,15 @@ public class GroupPostCommentServiceImpl implements GroupPostCommentService {
             GroupPost groupPost = groupPostOpt.get();
             groupPostComment.setGroupPost(groupPost);
 
-            Optional<UserProfile> userProfileOpt = userProfileRepository.findById(groupPostComment.getGroupPostCommentCreator().email());
+            Optional<UserProfile> userProfileOpt = userProfileRepository.findById(groupPostComment.getGroupPostCommentCreator().getEmail());
 
             if (userProfileOpt.isPresent()) {
                 groupPostComment.setGroupPostCommentCreator( userProfileOpt.get());
                 groupPostCommentRepository.save(groupPostComment);
 
                 // Create and send notification to GroupPost owner if it's not the same as the commenter
-                String groupPostOwnerEmail = groupPost.getUserProfile().email();
-                String commenterEmail = groupPostComment.getGroupPostCommentCreator().email();
+                String groupPostOwnerEmail = groupPost.getUserProfile().getEmail();
+                String commenterEmail = groupPostComment.getGroupPostCommentCreator().getEmail();
                 if (!groupPostOwnerEmail.equals(commenterEmail)) {
                     Optional<UserProfile> groupPostOwnerOpt = userProfileRepository.findById(groupPostOwnerEmail);
                     if (groupPostOwnerOpt.isPresent()) {

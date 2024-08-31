@@ -75,9 +75,9 @@ public class GroupPostComment {
                 this.getGroupPostCommentId(),
                 this.getContent(),
                 this.getGroupPostCommentCreateTime(),
-                this.groupPostCommentCreator.userName(),
+                this.groupPostCommentCreator.getUserName(),
                 this.groupPostCommentCreator.getProfilePictureUrl(),
-                this.groupPostCommentCreator.email()
+                this.groupPostCommentCreator.getEmail()
         );
     }
 

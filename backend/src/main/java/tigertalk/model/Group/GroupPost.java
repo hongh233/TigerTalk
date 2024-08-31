@@ -114,10 +114,10 @@ public class GroupPost {
     public GroupPostDTO toDto() {
         return new GroupPostDTO(
                 this.getGroupPostId(),
-                this.userProfile.email(),
+                this.userProfile.getEmail(),
                 this.getGroupPostContent(),
                 this.getPostCreateTime(),
-                this.userProfile.userName(),
+                this.userProfile.getUserName(),
                 this.userProfile.getProfilePictureUrl(),
                 this.getGroupPostPictureURL()
         );

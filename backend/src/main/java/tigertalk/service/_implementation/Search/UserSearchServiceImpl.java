@@ -41,10 +41,10 @@ public class UserSearchServiceImpl implements Searchable<UserProfileDTO> {
         List<UserProfileDTO> searchResults = new ArrayList<>();
 
         for (UserProfile userProfile : allUserProfiles) {
-            boolean isNotCurrentUser = !userProfile.email().equals(userEmail);
+            boolean isNotCurrentUser = !userProfile.getEmail().equals(userEmail);
             boolean matchesFullName = RegexCheck.advancedSearch(userProfile.getFullName(), searchQuery, intelijRegexPattern);
-            boolean matchesEmail = userProfile.email().toLowerCase().startsWith(searchQuery.toLowerCase());
-            boolean matchesUserName = userProfile.userName().toLowerCase().startsWith(searchQuery.toLowerCase());
+            boolean matchesEmail = userProfile.getEmail().toLowerCase().startsWith(searchQuery.toLowerCase());
+            boolean matchesUserName = userProfile.getUserName().toLowerCase().startsWith(searchQuery.toLowerCase());
 
             if (isNotCurrentUser && (matchesFullName || matchesEmail || matchesUserName)) {
                 searchResults.add(userProfile.toDto());

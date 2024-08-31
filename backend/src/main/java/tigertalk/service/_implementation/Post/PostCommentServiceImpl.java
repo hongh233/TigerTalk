@@ -57,10 +57,10 @@ public class PostCommentServiceImpl implements PostCommentService {
 
         PostComment savedComment = postCommentRepository.save(postComment);
 
-        if (!postSenderUserProfile.get().email().equals(commentSenderUserProfile.get().email())) {
+        if (!postSenderUserProfile.get().getEmail().equals(commentSenderUserProfile.get().getEmail())) {
             Notification notification = new Notification(
                     postSenderUserProfile.get(),
-                    "You have a new comment on your post by " + commentSenderUserProfile.get().email(),
+                    "You have a new comment on your post by " + commentSenderUserProfile.get().getEmail(),
                     "PostComment"
             );
             notificationService.createNotification(notification);

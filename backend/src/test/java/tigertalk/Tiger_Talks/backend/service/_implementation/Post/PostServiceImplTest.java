@@ -63,7 +63,7 @@ public class PostServiceImplTest {
         UserProfile userProfile = mock(UserProfile.class);
         when(userProfileRepository.findById(email)).thenReturn(Optional.of(userProfile));
         when(userProfile.getPostList()).thenReturn(new LinkedList<>());
-        when(friendshipRepository.findAllFriendsByEmail(userProfile.email())).thenReturn(new LinkedList<>());
+        when(friendshipRepository.findAllFriendsByEmail(userProfile.getEmail())).thenReturn(new LinkedList<>());
         List<PostDTO> result = postServiceImpl.getPostsForUserAndFriends(email);
         assertNotNull(result, "Expected non-null list of PostDTOs");
     }
@@ -107,7 +107,7 @@ public class PostServiceImplTest {
         Post post = mock(Post.class);
         UserProfile userProfile = mock(UserProfile.class);
         when(post.getUserProfile()).thenReturn(userProfile);
-        when(userProfile.email()).thenReturn("test@dal.ca");
+        when(userProfile.getEmail()).thenReturn("test@dal.ca");
         when(userProfileRepository.existsById("test@dal.ca")).thenReturn(true);
         Optional<String> result = postServiceImpl.createPost(post);
         assertFalse(result.isPresent(), "Expected no error message");
@@ -118,7 +118,7 @@ public class PostServiceImplTest {
         Post post = mock(Post.class);
         UserProfile userProfile = mock(UserProfile.class);
         when(post.getUserProfile()).thenReturn(userProfile);
-        when(userProfile.email()).thenReturn("test@dal.ca");
+        when(userProfile.getEmail()).thenReturn("test@dal.ca");
         when(userProfileRepository.existsById("test@dal.ca")).thenReturn(false);
         Optional<String> result = postServiceImpl.createPost(post);
         assertTrue(result.isPresent(), "Expected error message");
@@ -141,9 +141,9 @@ public class PostServiceImplTest {
         Post post = new Post();
         post.setUserProfile(user);
 
-        when(userProfileRepository.existsById(user.email())).thenReturn(true);
+        when(userProfileRepository.existsById(user.getEmail())).thenReturn(true);
         lenient().when(postRepository.save(post)).thenReturn(post);
-        when(friendshipRepository.findAllFriendsByEmail(user.email())).thenReturn(friends);
+        when(friendshipRepository.findAllFriendsByEmail(user.getEmail())).thenReturn(friends);
         when(notificationService.createNotification(any())).thenReturn(Optional.empty());
 
         Optional<String> result = postServiceImpl.createPost(post);
@@ -165,9 +165,9 @@ public class PostServiceImplTest {
         Post post = new Post();
         post.setUserProfile(user);
 
-        when(userProfileRepository.existsById(user.email())).thenReturn(true);
+        when(userProfileRepository.existsById(user.getEmail())).thenReturn(true);
         lenient().when(postRepository.save(post)).thenReturn(post);
-        when(friendshipRepository.findAllFriendsByEmail(user.email())).thenReturn(friends);
+        when(friendshipRepository.findAllFriendsByEmail(user.getEmail())).thenReturn(friends);
         when(notificationService.createNotification(any())).thenReturn(Optional.empty());
 
         Optional<String> result = postServiceImpl.createPost(post);
@@ -188,8 +188,8 @@ public class PostServiceImplTest {
             friends.add(friend);
         }
 
-        when(userProfileRepository.existsById(userProfile.email())).thenReturn(true);
-        when(friendshipRepository.findAllFriendsByEmail(userProfile.email())).thenReturn(friends);
+        when(userProfileRepository.existsById(userProfile.getEmail())).thenReturn(true);
+        when(friendshipRepository.findAllFriendsByEmail(userProfile.getEmail())).thenReturn(friends);
         when(notificationService.createNotification(any())).thenReturn(Optional.of("Failed to create notification"));
 
         Optional<String> result = postServiceImpl.createPost(post);

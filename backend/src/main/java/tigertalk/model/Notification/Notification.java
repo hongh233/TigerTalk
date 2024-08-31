@@ -92,7 +92,7 @@ public class Notification{
                 this.getContent(),
                 this.getCreateTime(),
                 this.getNotificationType(),
-                this.getUserProfile().email()
+                this.getUserProfile().getEmail()
         );
     }
 

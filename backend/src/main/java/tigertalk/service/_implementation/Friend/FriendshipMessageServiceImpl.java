@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class FriendshipMessageServiceImpl implements FriendshipMessageService {
@@ -31,10 +30,10 @@ public class FriendshipMessageServiceImpl implements FriendshipMessageService {
         if (friendshipRepository.findById(message.getFriendship().getFriendshipId()).isEmpty()) {
             return Optional.of("Friendship not found");
         }
-        if (userProfileRepository.findById(message.getSender().email()).isEmpty()) {
+        if (userProfileRepository.findById(message.getSender().getEmail()).isEmpty()) {
             return Optional.of("Sender not found");
         }
-        if (userProfileRepository.findById(message.getReceiver().email()).isEmpty()) {
+        if (userProfileRepository.findById(message.getReceiver().getEmail()).isEmpty()) {
             return Optional.of("Receiver not found");
         }
         friendshipMessageRepository.save(message);

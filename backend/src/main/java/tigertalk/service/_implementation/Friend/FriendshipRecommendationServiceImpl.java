@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class FriendshipRecommendationServiceImpl implements FriendshipRecommendationService {
@@ -28,12 +27,12 @@ public class FriendshipRecommendationServiceImpl implements FriendshipRecommenda
 
         if (myProfileOptional.isPresent()) {
             UserProfile myProfile = myProfileOptional.get();
-            List<UserProfile> allMyFriends = friendshipRepository.findAllFriendsByEmail(myProfile.email());
+            List<UserProfile> allMyFriends = friendshipRepository.findAllFriendsByEmail(myProfile.getEmail());
             List<UserProfile> potentialFriends = new LinkedList<>();
             List<UserProfile> allUsers = userProfileRepository.findAll();
 
             for (UserProfile userProfile : allUsers) {
-                if (!allMyFriends.contains(userProfile) && !userProfile.email().equals(email)) {
+                if (!allMyFriends.contains(userProfile) && !userProfile.getEmail().equals(email)) {
                     potentialFriends.add(userProfile);
                 }
             }

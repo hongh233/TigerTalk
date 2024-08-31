@@ -27,8 +27,8 @@ public record UserProfileDTOPost(
      */
     public UserProfileDTOPost(UserProfile userProfile) {
         this(
-                userProfile.email(),
-                userProfile.userName(),
+                userProfile.getEmail(),
+                userProfile.getUserName(),
                 userProfile.getProfilePictureUrl(),
                 userProfile.getPostList().stream()
                         .map(Post::toDto)

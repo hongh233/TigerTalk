@@ -34,7 +34,7 @@ public class GroupPostServiceImpl implements GroupPostService {
 
     @Override
     public Optional<String> createGroupPost(GroupPost groupPost) {
-        if (userProfileRepository.existsById(groupPost.getUserProfile().email()) &&
+        if (userProfileRepository.existsById(groupPost.getUserProfile().getEmail()) &&
                 groupRepository.existsById(groupPost.getGroup().getGroupId())) {
 
             groupPostRepository.save(groupPost);
@@ -48,10 +48,10 @@ public class GroupPostServiceImpl implements GroupPostService {
 
             for (GroupMembership member : members) {
                 UserProfile user = member.getUserProfile();
-                if (!user.email().equals(groupPost.getUserProfile().email())) {
+                if (!user.getEmail().equals(groupPost.getUserProfile().getEmail())) {
                     Notification notification = new Notification(
                             user,
-                            "User " + groupPost.getUserProfile().email() + " has created a new post in the group: " + group.getGroupName(),
+                            "User " + groupPost.getUserProfile().getEmail() + " has created a new post in the group: " + group.getGroupName(),
                             "GroupPostCreation"
                     );
                     notificationService.createNotification(notification);
@@ -118,7 +118,7 @@ public class GroupPostServiceImpl implements GroupPostService {
         UserProfile userProfile = userProfileOptional.get();
 
         Optional<GroupPostLike> existingLike = groupPostLikeRepository
-                .findByGroupPostGroupPostIdAndUserProfileEmail(groupPost.getGroupPostId(), userProfile.email());
+                .findByGroupPostGroupPostIdAndUserProfileEmail(groupPost.getGroupPostId(), userProfile.getEmail());
 
         boolean liked;
         if (existingLike.isPresent()) {
@@ -137,8 +137,8 @@ public class GroupPostServiceImpl implements GroupPostService {
         if (liked) {
             notificationService.createNotification(
                     new Notification(
-                            userProfileRepository.findById(groupPost.getUserProfile().email()).get(),
-                            userProfile.email() + " liked your post in group " + groupPost.getGroup().getGroupName(),
+                            userProfileRepository.findById(groupPost.getUserProfile().getEmail()).get(),
+                            userProfile.getEmail() + " liked your post in group " + groupPost.getGroup().getGroupName(),
                             "GroupPostLiked"));
         }
 

@@ -38,7 +38,7 @@ public class PostServiceImpl implements PostService {
             UserProfile userProfile = userProfileOptional.get();
             List<Post> allPosts = new ArrayList<>(userProfile.getPostList());
 
-            List<UserProfile> friends = friendshipRepository.findAllFriendsByEmail(userProfile.email());
+            List<UserProfile> friends = friendshipRepository.findAllFriendsByEmail(userProfile.getEmail());
             for (UserProfile friend : friends) {
                 allPosts.addAll(friend.getPostList());
             }
@@ -83,16 +83,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<String> createPost(Post post) {
-        if (!userProfileRepository.existsById(post.getUserProfile().email())) {
+        if (!userProfileRepository.existsById(post.getUserProfile().getEmail())) {
             return Optional.of("Does not find user, fail to create post.");
         }
         postRepository.save(post);
 
         UserProfile user = post.getUserProfile();
-        List<UserProfile> friendList = friendshipRepository.findAllFriendsByEmail(user.email());
+        List<UserProfile> friendList = friendshipRepository.findAllFriendsByEmail(user.getEmail());
 
         // content of the notification
-        String content = user.email() + " has created a new post.";
+        String content = user.getEmail() + " has created a new post.";
 
         // send notification to all friends
         for (UserProfile friend : friendList) {
@@ -193,7 +193,7 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
 
         if (liked) {
-            String content = userProfile.email() + " liked your post.";
+            String content = userProfile.getEmail() + " liked your post.";
             notificationService.createNotification(
                     new Notification(
                             post.getUserProfile(),

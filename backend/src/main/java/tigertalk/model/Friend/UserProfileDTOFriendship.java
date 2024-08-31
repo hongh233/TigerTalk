@@ -12,8 +12,8 @@ public record UserProfileDTOFriendship(
     public UserProfileDTOFriendship(UserProfile userProfile, Friendship friendship) {
         this(
                 friendship.getFriendshipId(),
-                userProfile.email(),
-                userProfile.userName(),
+                userProfile.getEmail(),
+                userProfile.getUserName(),
                 userProfile.getProfilePictureUrl(),
                 friendship.getCreateTime()
         );

@@ -70,7 +70,7 @@ public class SignUpServiceImplTest {
      */
     @Test
     public void signUpUserProfile_invalid_firstName() {
-        userA.firstName("Eric@");
+        userA.getFirstName("Eric@");
         Optional<String> result = signUpServiceImpl.signupUserProfile(userA);
         assertTrue(result.isPresent());
         assertEquals("First name must contain no symbols", result.get());
@@ -104,8 +104,8 @@ public class SignUpServiceImplTest {
     public void signUpUserProfile_existed_username() {
         userA.setUserName("kirito");
         userB.setUserName("kirito");
-        lenient().when(userProfileRepository.findUserProfileByUserName(userA.userName())).thenReturn(Optional.of(userB));
-        lenient().when(userProfileRepository.existsById(userA.email())).thenReturn(false);
+        lenient().when(userProfileRepository.findUserProfileByUserName(userA.getUserName())).thenReturn(Optional.of(userB));
+        lenient().when(userProfileRepository.existsById(userA.getEmail())).thenReturn(false);
         Optional<String> result = signUpServiceImpl.signupUserProfile(userA);
         assertTrue(result.isPresent());
         assertEquals("Username has already existed!", result.get());
@@ -113,7 +113,7 @@ public class SignUpServiceImplTest {
 
     @Test
     public void signUpUserProfile_existed_email() {
-        when(userProfileRepository.existsById(userA.email())).thenReturn(true);
+        when(userProfileRepository.existsById(userA.getEmail())).thenReturn(true);
         Optional<String> result = signUpServiceImpl.signupUserProfile(userA);
         assertTrue(result.isPresent());
         assertEquals("Email has already existed!", result.get());
@@ -167,8 +167,8 @@ public class SignUpServiceImplTest {
     @Test
     public void signUpUserProfile_normal_save() {
         userA.setEmail("123@dal.ca");
-        when(userProfileRepository.findUserProfileByUserName(userA.userName())).thenReturn(Optional.empty());
-        when(userProfileRepository.existsById(userA.email())).thenReturn(false);
+        when(userProfileRepository.findUserProfileByUserName(userA.getUserName())).thenReturn(Optional.empty());
+        when(userProfileRepository.existsById(userA.getEmail())).thenReturn(false);
         Optional<String> result = signUpServiceImpl.signupUserProfile(userA);
 
         assertTrue(result.isEmpty());

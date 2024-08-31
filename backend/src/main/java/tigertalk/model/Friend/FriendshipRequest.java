@@ -39,12 +39,12 @@ public class FriendshipRequest {
                              UserProfile receiver) {
         this.sender = sender;
         this.receiver = receiver;
-        this.senderEmailTemp = sender.email();
-        this.receiverEmailTemp = receiver.email();
+        this.senderEmailTemp = sender.getEmail();
+        this.receiverEmailTemp = receiver.getEmail();
         this.senderProfilePictureUrlTemp = sender.getProfilePictureUrl();
         this.receiverProfilePictureUrlTemp = receiver.getProfilePictureUrl();
-        this.senderUserNameTemp = sender.userName();
-        this.receiverUserNameTemp = receiver.userName();
+        this.senderUserNameTemp = sender.getUserName();
+        this.receiverUserNameTemp = receiver.getUserName();
     }
 
     public FriendshipRequest() {
@@ -136,10 +136,10 @@ public class FriendshipRequest {
     public FriendshipRequestDTO toDto() {
         return new FriendshipRequestDTO(
                 this.friendshipRequestId,
-                this.sender.email(),
-                this.sender.userName(),
-                this.receiver.email(),
-                this.receiver.userName(),
+                this.sender.getEmail(),
+                this.sender.getUserName(),
+                this.receiver.getEmail(),
+                this.receiver.getUserName(),
                 this.sender.getProfilePictureUrl(),
                 this.receiver.getProfilePictureUrl(),
                 this.createTime

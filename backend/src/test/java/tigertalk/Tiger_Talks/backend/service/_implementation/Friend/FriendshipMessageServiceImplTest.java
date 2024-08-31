@@ -90,7 +90,7 @@ class FriendshipMessageServiceImplTest {
 
         when(friendshipRepository.findById(1)).thenReturn(Optional.of(new Friendship()));
         when(userProfileRepository.findUserProfileByEmail("sender@dal.ca")).thenReturn(Optional.of(sender));
-        when(userProfileRepository.findById(sender.email())).thenReturn(Optional.of(sender));
+        when(userProfileRepository.findById(sender.getEmail())).thenReturn(Optional.of(sender));
         when(userProfileRepository.findById("receiver@dal.ca")).thenReturn(Optional.empty());
         when(userProfileRepository.findUserProfileByEmail("receiver@dal.ca")).thenReturn(Optional.empty());
 
@@ -112,8 +112,8 @@ class FriendshipMessageServiceImplTest {
         when(friendshipRepository.findById(1)).thenReturn(Optional.of(new Friendship()));
         when(userProfileRepository.findUserProfileByEmail("sender@dal.ca")).thenReturn(Optional.of(sender));
         when(userProfileRepository.findUserProfileByEmail("receiver@dal.ca")).thenReturn(Optional.of(receiver));
-        when(userProfileRepository.findById(sender.email())).thenReturn(Optional.of(sender));
-        when(userProfileRepository.findById(receiver.email())).thenReturn(Optional.of(receiver));
+        when(userProfileRepository.findById(sender.getEmail())).thenReturn(Optional.of(sender));
+        when(userProfileRepository.findById(receiver.getEmail())).thenReturn(Optional.of(receiver));
 
         Optional<String> result = friendshipMessageService.createMessage(message);
         assertTrue(result.isEmpty());

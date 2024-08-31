@@ -151,7 +151,7 @@ public class UserProfile {
         return groupPostLikeList;
     }
 
-    public String email() {
+    public String getEmail() {
         return email;
     }
 
@@ -227,7 +227,7 @@ public class UserProfile {
         this.onlineStatus = onlineStatus;
     }
 
-    public String userName() {
+    public String getUserName() {
         return userName;
     }
 
@@ -283,7 +283,7 @@ public class UserProfile {
         this.phoneNumber = phoneNumber;
     }
 
-    public int age() {
+    public int getAge() {
         return age;
     }
 
@@ -303,7 +303,7 @@ public class UserProfile {
         return firstName;
     }
 
-    public void firstName(String firstName) {
+    public void getFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -311,7 +311,7 @@ public class UserProfile {
         return firstName + " " + lastName;
     }
 
-    public String lastName() {
+    public String getLastName() {
         return lastName;
     }
     public void setLastName(String lastName) {

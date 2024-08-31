@@ -131,11 +131,11 @@ public class Post {
     public PostDTO toDto() {
         return new PostDTO(
                 this.getPostId(),
-                this.getUserProfile().email(),
+                this.getUserProfile().getEmail(),
                 this.getContent(),
                 this.getTimestamp(),
                 this.getNumOfLike(),
-                this.getUserProfile().userName(),
+                this.getUserProfile().getUserName(),
                 this.getUserProfile().getProfilePictureUrl(),
                 this.getAssociatedImageURL(),
                 this.getEdited()

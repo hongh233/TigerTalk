@@ -38,7 +38,7 @@ public class GroupSearchServiceImpl implements Searchable<GroupDTO> {
             boolean isNotMember = true;
 
             for (GroupMembership membership : group.getGroupMemberList()) {
-                if (membership.getUserProfile().email().equals(userEmail)) {
+                if (membership.getUserProfile().getEmail().equals(userEmail)) {
                     isNotMember = false;
                     break;
                 }
