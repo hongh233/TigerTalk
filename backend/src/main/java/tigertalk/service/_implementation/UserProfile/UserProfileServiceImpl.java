@@ -7,6 +7,7 @@ import tigertalk.service.UserProfile.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,16 +19,25 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public List<UserProfileDTO> getAllUserProfiles() {
-        return userProfileRepository.findAll()
-                .stream()
-                .map(UserProfile::toDto)
-                .toList();
+        List<UserProfile> userProfiles = userProfileRepository.findAll();
+        List<UserProfileDTO> userProfileDTOs = new ArrayList<>();
+        for (UserProfile userProfile : userProfiles) {
+            UserProfileDTO dto = userProfile.toDto();
+            userProfileDTOs.add(dto);
+        }
+        return userProfileDTOs;
     }
 
     @Override
     public Optional<UserProfileDTO> getUserProfileByEmail(String email) {
-        return userProfileRepository.findUserProfileByEmail(email)
-                .map(UserProfile::toDto);
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findUserProfileByEmail(email);
+        if (userProfileOptional.isPresent()) {
+            UserProfile userProfile = userProfileOptional.get();
+            UserProfileDTO userProfileDTO = userProfile.toDto();
+            return Optional.of(userProfileDTO);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -42,22 +52,12 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public Optional<String> updateUserProfile(UserProfile userProfile) {
-        return UserProfile.verifyBasics(userProfile, userProfileRepository, false)
-                .map(Optional::of)
-                .orElseGet(() -> {
-                    userProfileRepository.save(userProfile);
-                    return Optional.empty();
-                });
+        Optional<String> validationError = UserProfile.verifyBasics(userProfile, userProfileRepository, false);
+        if (validationError.isPresent()) {
+            return validationError;
+        }
+        userProfileRepository.save(userProfile);
+        return Optional.empty();
     }
 
-    @Override
-    public Optional<String> updateUserProfile(UserProfileDTO userProfileDTO) {
-        return UserProfileDTO.verifyBasics(userProfileDTO, userProfileRepository, false)
-                .or(() -> userProfileRepository.findUserProfileByEmail(userProfileDTO.email())
-                        .map(userProfile -> {
-                            userProfile.updateFromDto(userProfileDTO);
-                            userProfileRepository.save(userProfile);
-                            return Optional.<String>empty();
-                        }).orElseGet(() -> Optional.of("Could not find user profile")));
-    }
 }

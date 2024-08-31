@@ -103,17 +103,19 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
 
     @Override
     public Optional<String> rejectFriendshipRequest(Integer friendshipRequestId) {
-        FriendshipRequest friendshipRequest = friendshipRequestRepository.findById(friendshipRequestId)
-                .orElseThrow(() -> new IllegalStateException("friendship request ID does not exist!"));
-        friendshipRequestRepository.delete(friendshipRequest);
-
-
-        // send notification
-        return notificationService.createNotification(new Notification(
-                friendshipRequest.getSender(),
-                "Your friend request to " + friendshipRequest.getReceiver().email() + " has been rejected.",
-                "FriendshipRequestReject"
-        ));
+        Optional<FriendshipRequest> friendshipRequestOptional = friendshipRequestRepository.findById(friendshipRequestId);
+        if (friendshipRequestOptional.isPresent()) {
+            FriendshipRequest friendshipRequest = friendshipRequestOptional.get();
+            friendshipRequestRepository.delete(friendshipRequest);
+            Notification notification = new Notification(
+                    friendshipRequest.getSender(),
+                    "Your friend request to " + friendshipRequest.getReceiver().email() + " has been rejected.",
+                    "FriendshipRequestReject"
+            );
+            return notificationService.createNotification(notification);
+        } else {
+            throw new IllegalStateException("Friendship request ID does not exist!");
+        }
     }
 
     @Override
@@ -123,10 +125,18 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
 
     @Override
     public boolean areFriendshipRequestExist(String email1, String email2) {
-        UserProfile sender = userProfileRepository.findUserProfileByEmail(email1)
-                .orElseThrow(() -> new IllegalStateException("Sender not found"));
-        UserProfile receiver = userProfileRepository.findUserProfileByEmail(email2)
-                .orElseThrow(() -> new IllegalStateException("Receiver not found"));
+        Optional<UserProfile> senderOptional = userProfileRepository.findUserProfileByEmail(email1);
+        if (senderOptional.isEmpty()) {
+            throw new IllegalStateException("Sender not found");
+        }
+        UserProfile sender = senderOptional.get();
+
+        Optional<UserProfile> receiverOptional = userProfileRepository.findUserProfileByEmail(email2);
+        if (receiverOptional.isEmpty()) {
+            throw new IllegalStateException("Receiver not found");
+        }
+        UserProfile receiver = receiverOptional.get();
+
         return friendshipRequestRepository.findBySenderAndReceiver(sender, receiver).isPresent() ||
                 friendshipRequestRepository.findBySenderAndReceiver(receiver, sender).isPresent();
     }

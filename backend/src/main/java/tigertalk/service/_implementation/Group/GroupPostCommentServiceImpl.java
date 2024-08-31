@@ -13,10 +13,7 @@ import tigertalk.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,13 +84,22 @@ public class GroupPostCommentServiceImpl implements GroupPostCommentService {
 
     @Override
     public List<GroupPostCommentDTO> getCommentsByGroupPostId(Integer groupPostId) {
-        return groupPostRepository.findById(groupPostId)
-                .map(groupPost -> groupPost.getGroupPostCommentList().stream()
-                        .map(GroupPostComment::toDto)
-                        .sorted(Comparator.comparing(GroupPostCommentDTO::groupPostCommentCreateTime).reversed())
-                        .collect(Collectors.toList())
-                )
-                .orElse(Collections.emptyList());
+        Optional<GroupPost> groupPostOptional = groupPostRepository.findById(groupPostId);
+
+        if (groupPostOptional.isPresent()) {
+            GroupPost groupPost = groupPostOptional.get();
+            List<GroupPostComment> comments = groupPost.getGroupPostCommentList();
+
+            List<GroupPostCommentDTO> commentDTOs = new ArrayList<>();
+            for (GroupPostComment comment : comments) {
+                commentDTOs.add(comment.toDto());
+            }
+
+            commentDTOs.sort(Comparator.comparing(GroupPostCommentDTO::groupPostCommentCreateTime).reversed());
+            return commentDTOs;
+        } else {
+            return Collections.emptyList();
+        }
     }
 
 }

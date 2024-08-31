@@ -8,6 +8,7 @@ import tigertalk.service.Search.Searchable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -30,18 +31,25 @@ public class UserSearchServiceImpl implements Searchable<UserProfileDTO> {
      */
     @Override
     public List<UserProfileDTO> search(String searchQuery, String userEmail) {
-        if (searchQuery == null || userEmail == null) return Collections.emptyList();
+        if (searchQuery == null || userEmail == null) {
+            return Collections.emptyList();
+        }
+
         Pattern intelijRegexPattern = RegexCheck.generate_intelij_matcher_pattern(searchQuery);
-        return userProfileRepository.findAll()
-                .stream()
-                .filter(userProfile -> !userProfile.email().equals(userEmail)
-                        && (RegexCheck.advancedSearch(
-                        userProfile.getFullName(),
-                        searchQuery,
-                        intelijRegexPattern)
-                        || userProfile.email().toLowerCase().startsWith(searchQuery.toLowerCase())
-                        || userProfile.userName().toLowerCase().startsWith(searchQuery.toLowerCase())))
-                .map(UserProfile::toDto)
-                .toList();
+
+        List<UserProfile> allUserProfiles = userProfileRepository.findAll();
+        List<UserProfileDTO> searchResults = new ArrayList<>();
+
+        for (UserProfile userProfile : allUserProfiles) {
+            boolean isNotCurrentUser = !userProfile.email().equals(userEmail);
+            boolean matchesFullName = RegexCheck.advancedSearch(userProfile.getFullName(), searchQuery, intelijRegexPattern);
+            boolean matchesEmail = userProfile.email().toLowerCase().startsWith(searchQuery.toLowerCase());
+            boolean matchesUserName = userProfile.userName().toLowerCase().startsWith(searchQuery.toLowerCase());
+
+            if (isNotCurrentUser && (matchesFullName || matchesEmail || matchesUserName)) {
+                searchResults.add(userProfile.toDto());
+            }
+        }
+        return searchResults;
     }
 }

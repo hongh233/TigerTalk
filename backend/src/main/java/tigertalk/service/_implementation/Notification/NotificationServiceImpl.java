@@ -2,16 +2,14 @@ package tigertalk.service._implementation.Notification;
 
 import tigertalk.model.Notification.Notification;
 import tigertalk.model.Notification.NotificationDTO;
+import tigertalk.model.User.UserProfile;
 import tigertalk.repository.Notification.NotificationRepository;
 import tigertalk.repository.User.UserProfileRepository;
 import tigertalk.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,23 +33,33 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<NotificationDTO> getNotificationListByUserEmail(String userEmail) {
-        return userProfileRepository.findById(userEmail)
-                .map(userProfile -> userProfile.getNotificationList()
-                        .stream()
-                        .map(Notification::toDto)
-                        .sorted(Comparator.comparing(NotificationDTO::createTime).reversed())
-                        .collect(Collectors.toList()))
-                .orElse(Collections.emptyList());
-    }
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(userEmail);
 
+        if (userProfileOptional.isPresent()) {
+            UserProfile userProfile = userProfileOptional.get();
+            List<Notification> notifications = userProfile.getNotificationList();
+
+            List<NotificationDTO> notificationDTOs = new ArrayList<>();
+            for (Notification notification : notifications) {
+                notificationDTOs.add(notification.toDto());
+            }
+
+            notificationDTOs.sort(Comparator.comparing(NotificationDTO::createTime).reversed());
+            return notificationDTOs;
+        } else {
+            return Collections.emptyList();
+        }
+    }
 
     @Override
     public Optional<String> deleteNotificationById(int notificationId) {
-        return notificationRepository.findById(notificationId)
-                .map(notificationDTO -> {
-                    notificationRepository.delete(notificationDTO);
-                    return Optional.<String>empty();
-                })
-                .orElse(Optional.of("Notification not found with id: " + notificationId));
+        Optional<Notification> notificationOptional = notificationRepository.findById(notificationId);
+        if (notificationOptional.isPresent()) {
+            Notification notification = notificationOptional.get();
+            notificationRepository.delete(notification);
+            return Optional.empty();
+        } else {
+            return Optional.of("Notification not found with id: " + notificationId);
+        }
     }
 }

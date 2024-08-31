@@ -11,6 +11,7 @@ import tigertalk.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,17 +29,23 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Override
     public List<UserProfileDTOFriendship> getAllFriendsDTO(String email) {
-        UserProfile user = userProfileRepository.findUserProfileByEmail(email)
-                .orElseThrow(() -> new IllegalStateException("User not found"));
+        Optional<UserProfile> userOptional = userProfileRepository.findUserProfileByEmail(email);
+
+        if (userOptional.isEmpty()) {
+            throw new IllegalStateException("User not found");
+        }
+        UserProfile user = userOptional.get();
+
         List<Friendship> friendships = friendshipRepository.findBySenderOrReceiver(user, user);
-        return friendships.stream()
-                .map(friendship -> {
-                    UserProfile friend = user.equals(friendship.getSender())
-                            ? friendship.getReceiver()
-                            : friendship.getSender();
-                    return new UserProfileDTOFriendship(friend, friendship);
-                })
-                .toList();
+        List<UserProfileDTOFriendship> friendsDTOList = new ArrayList<>();
+
+        for (Friendship friendship : friendships) {
+            UserProfile friend = user.equals(friendship.getSender())
+                    ? friendship.getReceiver()
+                    : friendship.getSender();
+            friendsDTOList.add(new UserProfileDTOFriendship(friend, friendship));
+        }
+        return friendsDTOList;
     }
 
     @Override
@@ -75,9 +82,14 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Override
     public boolean areFriends(String email1, String email2) {
-        return getAllFriendsDTO(email1)
-                .stream()
-                .anyMatch(userProfileDTOFriendship -> userProfileDTOFriendship.email().equals(email2));
+        List<UserProfileDTOFriendship> friendsList = getAllFriendsDTO(email1);
+
+        for (UserProfileDTOFriendship userProfileDTOFriendship : friendsList) {
+            if (userProfileDTOFriendship.email().equals(email2)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

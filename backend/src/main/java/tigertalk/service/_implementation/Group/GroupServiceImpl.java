@@ -14,6 +14,7 @@ import tigertalk.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -130,37 +131,54 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<GroupDTO> getAllGroups() {
-        return groupRepository.findAll().stream()
-                .map(Group::toDto)
-                .toList();
+        List<Group> groups = groupRepository.findAll();
+        List<GroupDTO> groupDTOs = new ArrayList<>();
+        for (Group group : groups) {
+            groupDTOs.add(group.toDto());
+        }
+        return groupDTOs;
     }
 
     @Override
     public Optional<GroupDTO> getGroup(int groupId) {
-        Optional<Group> group = groupRepository.findById(groupId);
-        return group.map(Group::toDto);
+        Optional<Group> groupOptional = groupRepository.findById(groupId);
+        if (groupOptional.isPresent()) {
+            Group group = groupOptional.get();
+            GroupDTO groupDTO = group.toDto();
+            return Optional.of(groupDTO);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<GroupDTO> getAllGroupsByUser(String userEmail) {
-        Optional<UserProfile> userProfile = userProfileRepository.findById(userEmail);
-        if (userProfile.isEmpty()) {
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(userEmail);
+        if (userProfileOptional.isEmpty()) {
             return Collections.emptyList();
         }
+
         List<GroupMembership> memberships = groupMembershipRepository.findByUserProfile_Email(userEmail);
-        return memberships.stream()
-                .map(membership -> membership.getGroup().toDto())
-                .toList();
+
+        List<GroupDTO> groupDTOs = new ArrayList<>();
+        for (GroupMembership membership : memberships) {
+            GroupDTO groupDTO = membership.getGroup().toDto();
+            groupDTOs.add(groupDTO);
+        }
+        return groupDTOs;
     }
 
     @Override
     public Optional<String> updateGroupInfo(GroupDTO groupDTO) {
-        Optional<Group> groupTemp = groupRepository.findById(groupDTO.groupId());
-        return groupTemp.map(group -> {
+        Optional<Group> groupOptional = groupRepository.findById(groupDTO.groupId());
+        if (groupOptional.isPresent()) {
+            Group group = groupOptional.get();
             group.updateFromDto(groupDTO);
             groupRepository.save(group);
-            return Optional.<String>empty();
-        }).orElseGet(() -> Optional.of("Group id not found"));
+            return Optional.empty();
+        } else {
+            return Optional.of("Group id not found");
+        }
     }
 
     @Override
@@ -230,9 +248,12 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<GroupMembershipDTO> getGroupMembersByGroupId(int groupId) {
         List<GroupMembership> memberships = groupMembershipRepository.findByGroup_GroupId(groupId);
-        return memberships.stream()
-                .map(GroupMembership::toDto)
-                .toList();
+        List<GroupMembershipDTO> membershipDTOs = new ArrayList<>();
+
+        for (GroupMembership membership : memberships) {
+            membershipDTOs.add(membership.toDto());
+        }
+        return membershipDTOs;
     }
 
     @Override

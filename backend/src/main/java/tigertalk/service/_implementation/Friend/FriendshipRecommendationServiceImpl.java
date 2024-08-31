@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,30 +24,34 @@ public class FriendshipRecommendationServiceImpl implements FriendshipRecommenda
     private FriendshipRepository friendshipRepository;
 
     public List<UserProfileDTOPost> recommendFriends(String email, int numOfFriends) {
-        // Retrieve the user's profile and their list of friends
-        return userProfileRepository.findById(email)
-                .map(myProfile -> {
-                    // Assumes getAllFriends() returns a List<UserProfile>
-                    List<UserProfile> allMyFriends = friendshipRepository.findAllFriendsByEmail(myProfile.email());
+        Optional<UserProfile> myProfileOptional = userProfileRepository.findById(email);
 
-                    // Get all potential friends, except for current friends and the user themselves
-                    List<UserProfile> potentialFriends = new LinkedList<>();
-                    List<UserProfile> allUsers = userProfileRepository.findAll();
-                    for (UserProfile userProfile : allUsers) {
-                        if (!allMyFriends.contains(userProfile) && !userProfile.email().equals(email)) {
-                            potentialFriends.add(userProfile);
-                        }
-                    }
+        if (myProfileOptional.isPresent()) {
+            UserProfile myProfile = myProfileOptional.get();
+            List<UserProfile> allMyFriends = friendshipRepository.findAllFriendsByEmail(myProfile.email());
+            List<UserProfile> potentialFriends = new LinkedList<>();
+            List<UserProfile> allUsers = userProfileRepository.findAll();
 
-                    // make it random
-                    Collections.shuffle(potentialFriends);
+            for (UserProfile userProfile : allUsers) {
+                if (!allMyFriends.contains(userProfile) && !userProfile.email().equals(email)) {
+                    potentialFriends.add(userProfile);
+                }
+            }
 
-                    // Return the first 'numOfFriends' users as recommendations, mapped to DTOs
-                    return potentialFriends.stream()
-                            .limit(numOfFriends)
-                            .map(UserProfileDTOPost::new)
-                            .collect(Collectors.toList());
-                })
-                .orElseGet(LinkedList::new); // Return an empty list if user profile is not found
+            Collections.shuffle(potentialFriends);
+            List<UserProfileDTOPost> recommendedFriends = new LinkedList<>();
+
+            int count = 0;
+            for (UserProfile userProfile : potentialFriends) {
+                if (count >= numOfFriends) {
+                    break;
+                }
+                recommendedFriends.add(new UserProfileDTOPost(userProfile));
+                count++;
+            }
+            return recommendedFriends;
+        } else {
+            return new LinkedList<>();
+        }
     }
 }

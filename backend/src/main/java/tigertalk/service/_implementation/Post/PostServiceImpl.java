@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -34,28 +32,53 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDTO> getPostsForUserAndFriends(String email) {
-        return userProfileRepository.findById(email)
-                .map(userProfile -> Stream.concat(
-                                        userProfile.getPostList().stream(),
-                                        friendshipRepository.findAllFriendsByEmail(userProfile.email()).stream()
-                                                .flatMap(friend -> friend.getPostList().stream())
-                                ).map(Post::toDto)
-                                .sorted(
-                                        Comparator.comparing(PostDTO::timestamp, Comparator.nullsLast(Comparator.naturalOrder()))
-                                                .reversed()
-                                ).toList()
-                ).orElseGet(Collections::emptyList);
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
+
+        if (userProfileOptional.isPresent()) {
+            UserProfile userProfile = userProfileOptional.get();
+            List<Post> allPosts = new ArrayList<>(userProfile.getPostList());
+
+            List<UserProfile> friends = friendshipRepository.findAllFriendsByEmail(userProfile.email());
+            for (UserProfile friend : friends) {
+                allPosts.addAll(friend.getPostList());
+            }
+
+            List<PostDTO> postDTOs = new ArrayList<>();
+            for (Post post : allPosts) {
+                postDTOs.add(post.toDto());
+            }
+
+            postDTOs.sort(Comparator.comparing(
+                    PostDTO::timestamp,
+                    Comparator.nullsLast(Comparator.naturalOrder())
+            ).reversed());
+            return postDTOs;
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override
     public List<PostDTO> getPostsForUser(String email) {
-        return userProfileRepository.findById(email)
-                .map(userProfile -> userProfile.getPostList().stream()
-                        .map(Post::toDto)
-                        .sorted(Comparator.comparing(PostDTO::timestamp, Comparator.nullsLast(Comparator.naturalOrder())).reversed())
-                        .collect(Collectors.toCollection(LinkedList::new))
-                )
-                .orElseGet(LinkedList::new);
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
+
+        if (userProfileOptional.isPresent()) {
+            UserProfile userProfile = userProfileOptional.get();
+            List<Post> userPosts = userProfile.getPostList();
+
+            List<PostDTO> postDTOs = new LinkedList<>();
+            for (Post post : userPosts) {
+                postDTOs.add(post.toDto());
+            }
+
+            postDTOs.sort(Comparator.comparing(
+                    PostDTO::timestamp,
+                    Comparator.nullsLast(Comparator.naturalOrder())
+            ).reversed());
+            return postDTOs;
+        } else {
+            return new LinkedList<>();
+        }
     }
 
     @Override
@@ -79,7 +102,6 @@ public class PostServiceImpl implements PostService {
                 return error;
             }
         }
-
         return Optional.empty();
     }
 
@@ -103,6 +125,7 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    @Override
     public Post editPost(Integer postId, String newContent) {
         Optional<Post> optionalPost = postRepository.findById(postId);
         if (optionalPost.isPresent()) {
@@ -114,45 +137,52 @@ public class PostServiceImpl implements PostService {
             throw new RuntimeException("Post not found with id: " + postId);
         }
     }
+
     @Override
     public Optional<String> updatePostById(Integer postId, Post post) {
-        return postRepository.findById(postId)
-                .map(existingPost -> {
-                    existingPost.setUserProfile(post.getUserProfile());
-                    existingPost.setComments(post.getComments());
-                    existingPost.setAssociatedImageURL(post.getAssociatedImageURL());
-                    existingPost.setLikes(post.getLikes());
-                    existingPost.setNumOfLike(post.getNumOfLike());
-                    existingPost.setTimestamp(post.getTimestamp());
-                    existingPost.setContent(post.getContent());
-                    postRepository.save(existingPost);
-                    return Optional.<String>empty();
-                })
-                .orElse(Optional.of("Post with ID " + postId + " was not found"));
+        Optional<Post> existingPostOptional = postRepository.findById(postId);
+
+        if (existingPostOptional.isPresent()) {
+            Post existingPost = existingPostOptional.get();
+
+            existingPost.setUserProfile(post.getUserProfile());
+            existingPost.setComments(post.getComments());
+            existingPost.setAssociatedImageURL(post.getAssociatedImageURL());
+            existingPost.setLikes(post.getLikes());
+            existingPost.setNumOfLike(post.getNumOfLike());
+            existingPost.setTimestamp(post.getTimestamp());
+            existingPost.setContent(post.getContent());
+
+            postRepository.save(existingPost);
+            return Optional.empty();
+        } else {
+            return Optional.of("Post with ID " + postId + " was not found");
+        }
     }
 
     @Override
     public Post likePost(Integer postId, String userEmail) {
-        // Retrieve the post by postId
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+        Optional<Post> postOptional = postRepository.findById(postId);
+        if (postOptional.isEmpty()) {
+            throw new RuntimeException("Post not found");
+        }
+        Post post = postOptional.get();
 
-        // Retrieve the user profile by userEmail
-        UserProfile userProfile = userProfileRepository.findUserProfileByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findUserProfileByEmail(userEmail);
+        if (userProfileOptional.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        UserProfile userProfile = userProfileOptional.get();
 
-        // Check if the user has already liked the post
         Optional<PostLike> existingLike = postLikeRepository.findByPostAndUserProfile(post, userProfile);
 
-        boolean liked; // Track if it is a like or unlike
+        boolean liked;
         if (existingLike.isPresent()) {
-            // Unlike the post
             postLikeRepository.delete(existingLike.get());
             post.setNumOfLike(post.getNumOfLike() - 1);
             post.getLikes().remove(existingLike.get());
             liked = false;
         } else {
-            // Like the post
             PostLike newPostLike = new PostLike(post, userProfile);
             postLikeRepository.save(newPostLike);
             post.setNumOfLike(post.getNumOfLike() + 1);
@@ -160,20 +190,18 @@ public class PostServiceImpl implements PostService {
             liked = true;
         }
 
-        // Save the updated post
         postRepository.save(post);
 
-        // Send notification only on like, not on unlike
-        // Send notification to the post-owner
         if (liked) {
             String content = userProfile.email() + " liked your post.";
             notificationService.createNotification(
                     new Notification(
                             post.getUserProfile(),
                             content,
-                            "PostLiked"));
+                            "PostLiked"
+                    )
+            );
         }
-
         return post;
     }
 

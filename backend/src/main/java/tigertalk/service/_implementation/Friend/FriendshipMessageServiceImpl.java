@@ -9,6 +9,7 @@ import tigertalk.service.Friend.FriendshipMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,10 +43,12 @@ public class FriendshipMessageServiceImpl implements FriendshipMessageService {
 
     @Override
     public List<FriendshipMessageDTO> getAllMessagesByFriendshipId(int friendshipId) {
-        return friendshipMessageRepository.findByFriendship_FriendshipId(friendshipId)
-                .stream()
-                .map(FriendshipMessage::toDto)
-                .collect(Collectors.toList());
+        List<FriendshipMessage> messages = friendshipMessageRepository.findByFriendship_FriendshipId(friendshipId);
+        List<FriendshipMessageDTO> messageDTOs = new ArrayList<>();
+        for (FriendshipMessage message : messages) {
+            messageDTOs.add(message.toDto());
+        }
+        return messageDTOs;
     }
 
     @Override

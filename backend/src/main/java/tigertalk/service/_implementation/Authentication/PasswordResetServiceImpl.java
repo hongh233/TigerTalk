@@ -1,9 +1,10 @@
 package tigertalk.service._implementation.Authentication;
 
-import tigertalk.model.Authentication.ForgotPasswordDTO;
+import tigertalk.model.Authentication.EmailPassword;
 import tigertalk.model.Authentication.MailClient;
-import tigertalk.model.Authentication.PasswordTokenImpl;
-import tigertalk.repository.PasswordTokenRepository;
+import tigertalk.model.Authentication.PasswordToken;
+import tigertalk.model.User.UserProfile;
+import tigertalk.repository.Authentication.PasswordTokenRepository;
 import tigertalk.repository.User.UserProfileRepository;
 import tigertalk.service.Authentication.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         }
 
         // Create a request token that will be used
-        PasswordTokenImpl passwordToken = PasswordTokenImpl.createPasswordResetToken(email);
+        PasswordToken passwordToken = PasswordToken.createPasswordResetToken(email);
         passwordTokenRepository.save(passwordToken);
 
         // Send mail for OTP token
@@ -58,18 +59,22 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
     @Override
     public Optional<String> validateToken(String token) {
-        return passwordTokenRepository.findPasswordTokenByToken(token)
-                .map(retrievedToken -> {
-                    passwordTokenRepository.deleteById(retrievedToken.getId());
-                    if (retrievedToken.isTokenExpired())
-                        return Optional.of("Token has exceeded its time limit and is now expired");
-                    return Optional.<String>empty();
-                })
-                .orElseGet(() -> Optional.of("Token is expired / invalid. Try resending the mail"));
+        Optional<PasswordToken> retrievedTokenOptional = passwordTokenRepository.findPasswordTokenByToken(token);
+        if (retrievedTokenOptional.isPresent()) {
+            PasswordToken retrievedToken = retrievedTokenOptional.get();
+            passwordTokenRepository.deleteById(retrievedToken.getId());
+            if (retrievedToken.isTokenExpired()) {
+                return Optional.of("Token has exceeded its time limit and is now expired");
+            } else {
+                return Optional.empty();
+            }
+        } else {
+            return Optional.of("Token is expired / invalid. Try resending the mail");
+        }
     }
 
     @Override
-    public Optional<String> resetPassword(ForgotPasswordDTO passwordDTO) {
+    public Optional<String> resetPassword(EmailPassword passwordDTO) {
         if (!PASSWORD_NORM_LENGTH.matcher(passwordDTO.password()).matches()) {
             return Optional.of("Password must have a minimum length of 8 characters.");
         }
@@ -86,13 +91,15 @@ public class PasswordResetServiceImpl implements PasswordResetService {
             return Optional.of("Password must have at least 1 special character.");
         }
 
-        return userProfileRepository.findById(passwordDTO.email())
-                .map(user -> {
-                    user.setPassword(passwordDTO.password());
-                    userProfileRepository.save(user);
-                    return Optional.<String>empty();
-                })
-                .orElseGet(() -> Optional.of("An error occurred while resetting your password. The email used no longer belongs to any account"));
+        Optional<UserProfile> userOptional = userProfileRepository.findById(passwordDTO.email());
+        if (userOptional.isPresent()) {
+            UserProfile user = userOptional.get();
+            user.setPassword(passwordDTO.password());
+            userProfileRepository.save(user);
+            return Optional.empty();
+        } else {
+            return Optional.of("An error occurred while resetting your password. The email used no longer belongs to any account");
+        }
     }
 
     @Override
@@ -108,19 +115,28 @@ public class PasswordResetServiceImpl implements PasswordResetService {
 
     @Override
     public Optional<String> verifySecurityAnswers(String email, String question, String questionAnswer) {
-        return userProfileRepository.findById(email)
-                .map(userProfile -> userProfile.findAnswerForSecurityQuestion(question)
-                        .map(answer ->
-                                (answer.equals(questionAnswer))
-                                        ? Optional.<String>empty()
-                                        : Optional.of("Security questions answers are incorrect.")
-                        ).orElseGet(() -> Optional.of("Fatal Error: Answer doesn't exist for this question"))
-                )
-                .orElseGet(() -> Optional.of("Fatal Error: Cannot find email specified in the database"));
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
+        if (userProfileOptional.isPresent()) {
+            UserProfile userProfile = userProfileOptional.get();
+            Optional<String> answerOptional = userProfile.findAnswerForSecurityQuestion(question);
+            if (answerOptional.isPresent()) {
+                String answer = answerOptional.get();
+                if (answer.equals(questionAnswer)) {
+                    return Optional.empty();
+                } else {
+                    return Optional.of("Security questions answers are incorrect.");
+                }
+            } else {
+                return Optional.of("Fatal Error: Answer doesn't exist for this question");
+            }
+        } else {
+            return Optional.of("Fatal Error: Cannot find email specified in the database");
+        }
     }
 
     @Override
     public String[] getSecurityQuestions(String email) {
         return userProfileRepository.findById(email).get().getSecurityQuestions();
     }
+
 }

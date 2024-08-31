@@ -12,10 +12,7 @@ import tigertalk.service.Notification.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class GroupPostServiceImpl implements GroupPostService {
@@ -34,18 +31,6 @@ public class GroupPostServiceImpl implements GroupPostService {
 
     @Autowired
     private NotificationService notificationService;
-
-    public static Optional<UserProfile> findUserProfileByEmail(GroupPost groupPost) {
-        String email = groupPost.getUserProfile().email();
-        List<GroupMembership> groupMembershipList = groupPost.getGroup().getGroupMemberList();
-        for (GroupMembership groupMembership : groupMembershipList) {
-            UserProfile userProfile = groupMembership.getUserProfile();
-            if (userProfile.email().equals(email)) {
-                return Optional.of(userProfile);
-            }
-        }
-        return Optional.empty();
-    }
 
     @Override
     public Optional<String> createGroupPost(GroupPost groupPost) {
@@ -97,50 +82,58 @@ public class GroupPostServiceImpl implements GroupPostService {
 
     @Override
     public List<GroupPostDTO> getAllGroupPostsByGroupId(Integer groupId) {
-        return groupRepository.findById(groupId)
-                .map(group -> group.getGroupPostList().stream()
-                        .map(GroupPost::toDto)
-                        .sorted(
-                                Comparator.comparing(
-                                        GroupPostDTO::groupPostCreateTime,
-                                        Comparator.nullsLast(Comparator.naturalOrder())).reversed()
-                        ).toList()
-                ).orElseGet(Collections::emptyList);
+        Optional<Group> groupOptional = groupRepository.findById(groupId);
+        if (groupOptional.isPresent()) {
+            Group group = groupOptional.get();
+            List<GroupPost> groupPosts = group.getGroupPostList();
+
+            List<GroupPostDTO> groupPostDTOs = new ArrayList<>();
+            for (GroupPost groupPost : groupPosts) {
+                groupPostDTOs.add(groupPost.toDto());
+            }
+
+            groupPostDTOs.sort(Comparator.comparing(
+                    GroupPostDTO::groupPostCreateTime,
+                    Comparator.nullsLast(Comparator.naturalOrder())
+                    ).reversed());
+
+            return groupPostDTOs;
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override
     public GroupPost likePost(Integer groupPostId, String userEmail) {
-        // Retrieve the post by postId
-        GroupPost groupPost = groupPostRepository.findById(groupPostId)
-                .orElseThrow(() -> new RuntimeException("Post not found"));
+        Optional<GroupPost> groupPostOptional = groupPostRepository.findById(groupPostId);
+        if (groupPostOptional.isEmpty()) {
+            throw new RuntimeException("Post not found");
+        }
+        GroupPost groupPost = groupPostOptional.get();
 
-        // Retrieve the user profile by userEmail
-        UserProfile userProfile = userProfileRepository.findUserProfileByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findUserProfileByEmail(userEmail);
+        if (userProfileOptional.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        UserProfile userProfile = userProfileOptional.get();
 
-        // Check if the user has already liked the post
-        Optional<GroupPostLike> existingLike = groupPostLikeRepository.
-                findByGroupPostGroupPostIdAndUserProfileEmail(groupPost.getGroupPostId(), userProfile.email());
+        Optional<GroupPostLike> existingLike = groupPostLikeRepository
+                .findByGroupPostGroupPostIdAndUserProfileEmail(groupPost.getGroupPostId(), userProfile.email());
 
-        boolean liked; // Track if it is a like or unlike
+        boolean liked;
         if (existingLike.isPresent()) {
-            // Unlike the post
             groupPostLikeRepository.delete(existingLike.get());
             groupPost.getPostLikes().remove(existingLike.get());
             liked = false;
         } else {
-            // Like the post
             GroupPostLike newPostLike = new GroupPostLike(groupPost, userProfile);
             groupPostLikeRepository.save(newPostLike);
             groupPost.getPostLikes().add(newPostLike);
             liked = true;
         }
 
-        // Save the updated post
         groupPostRepository.save(groupPost);
 
-        // Send notification only on like, not on unlike
-        // Send notification to the post-owner
         if (liked) {
             notificationService.createNotification(
                     new Notification(

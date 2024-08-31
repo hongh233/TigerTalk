@@ -13,6 +13,7 @@ import tigertalk.service.Post.PostCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,7 +32,6 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     @Autowired
     private NotificationService notificationService;
-
 
     @Override
     public PostCommentDTO addComment(PostCommentDTO postCommentDTO) {
@@ -79,19 +79,22 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     @Override
     public List<PostCommentDTO> getCommentsByPostId(Integer postId) {
-        return postCommentRepository.findByPost_PostId(postId)
-                .stream()
-                .map(PostComment::toDto)
-                .toList();
+        List<PostComment> postComments = postCommentRepository.findByPost_PostId(postId);
+        List<PostCommentDTO> postCommentDTOs = new ArrayList<>();
+        for (PostComment postComment : postComments) {
+            postCommentDTOs.add(postComment.toDto());
+        }
+        return postCommentDTOs;
     }
 
-    //System.out.println(postCommentDTO);
     @Override
     public List<PostCommentDTO> getAllComments() {
-        return postCommentRepository.findAll()
-                .stream()
-                .map(PostComment::toDto)
-                .collect(Collectors.toList());
+        List<PostComment> postComments = postCommentRepository.findAll();
+        List<PostCommentDTO> postCommentDTOs = new ArrayList<>();
+        for (PostComment postComment : postComments) {
+            postCommentDTOs.add(postComment.toDto());
+        }
+        return postCommentDTOs;
     }
 
 }
