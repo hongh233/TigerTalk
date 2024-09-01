@@ -3,7 +3,7 @@ import "../../assets/styles/Pages/Profile/ProfilePage.css";
 import { sendFriendRequest, areFriendshipRequestExist } from "../../axios/Friend/FriendshipRequestAxios";
 import { areFriends } from "../../axios/Friend/FriendshipAxios";
 import {deleteFriendshipByEmail} from "../../axios/Friend/FriendshipAxios";
-import {getCurrentUser, updateUser} from "../../axios/UserAxios";
+import {getCurrentUser, updateUserProfileSetProfilePicture} from "../../axios/UserAxios";
 import { FetchPostsOfOneUser } from "../../axios/Post/PostAxios";
 import { MdPhotoCamera } from 'react-icons/md';
 import { useDispatch, useSelector } from "react-redux";
@@ -146,8 +146,9 @@ const ProfilePage = () => {
 			setUploading(true);
 			try {
 				const imageUrl = await uploadImageToCloudinary(file);
+				await updateUserProfileSetProfilePicture(profileUser.email, imageUrl);
+
 				const updatedUser = { ...profileUser, profilePictureUrl: imageUrl };
-				await updateUser(updatedUser);
 				dispatch({ type: "SET_USER", payload: updatedUser });
 				setProfileUser(updatedUser); // Update the local profileUser state
 				setUploading(false);
@@ -237,7 +238,12 @@ const ProfilePage = () => {
 					</div>
 				)}
 
-				<ProfileEditModal isOpen={isEditModalOpen} onClose={closeEditModal} user={user}/>
+				<ProfileEditModal
+					isOpen={isEditModalOpen}
+					onClose={closeEditModal}
+					user={user}
+					setProfileUser={setProfileUser}
+				/>
 
 			</div>
 		</div>

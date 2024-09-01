@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "../../assets/styles/Pages/Admin/AdminPage.css";
-import {deleteUserProfileByEmail, getAllUsers, updateUser} from "../../axios/UserAxios";
+import {getAllUsers} from "../../axios/UserAxios";
 import {useDispatch, useSelector} from "react-redux";
 import Header from "../../Components/Main/Header";
 import UserList from "../../Components/Admin/UserList";
@@ -26,57 +26,26 @@ const AdminPage = () => {
         fetchData();
     }, []);
 
-    const handleEnableDisableUsers = async () => {
-        try {
-            const promises = selectedUsers.map((email) =>
-                updateUser({
-                    ...data.find((user) => user.email === email),
-                    validated: !data.find((user) => user.email === email).validated,
-                })
-            );
-            await Promise.all(promises);
-
-            setData((prevData) =>
-                prevData.map((user) =>
-                    selectedUsers.includes(user.email)
-                        ? {...user, validated: !user.validated}
-                        : user
-                )
-            );
-            if(selectedUsers.includes(user.email))
-                dispatch({type: "SET_USER", payload: {...user,validated:!user.validated}});
-            console.log("Users enabled/disabled successfully");
-            setSelectedUsers([]);
-        } catch (error) {
-            console.error("Error enabling/disabling users:", error);
-        }
-    };
-    const handleDeleteUsers = async () => {
-        try {
-            const promises = selectedUsers.map((email) => deleteUserProfileByEmail(email));
-            await Promise.all(promises);
-
-            setData((prevData) =>
-                prevData.filter((user) => !selectedUsers.includes(user.email))
-            );
-
-            console.log("Users deleted successfully");
-            setSelectedUsers([]);
-        } catch (error) {
-            console.error("Error deleting users:", error);
-        }
-    };
 
     return (
         <div className="main-page">
             <Header/>
 			<div className="content">
                 <div className="admin-content">
-                    <UserList selectedUsers={selectedUsers} setSelectedUsers={setSelectedUsers} setData={setData} data={data}/>
+
+                    <UserList
+                        user={user}
+                        dispatch={dispatch}
+                        setData={setData}
+                        data={data}
+                    />
+
                     <div className="admin-buttons">
-                        <button className="add-user-button" onClick={()=>navigate("/admin/add")}>Add Users</button>
-                        <button className="delete-user-button" disabled={selectedUsers.length === 0} onClick={handleDeleteUsers}>Delete Users</button>
-                        <button className="toggle-user-button" disabled={selectedUsers.length === 0} onClick={handleEnableDisableUsers}>Enable/Disable Users</button>
+                        <button
+                            className="add-user-button"
+                            onClick={()=>navigate("/admin/add")}>
+                            Add Users
+                        </button>
                     </div>
                 </div>
             </div>

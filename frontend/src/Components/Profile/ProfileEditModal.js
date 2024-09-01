@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/styles/Components/Profile/ProfileEditModal.css";
-import { updateUser } from "../../axios/UserAxios";
+import { updateUserProfileSetCommonInfo } from "../../axios/UserAxios";
 import { useDispatch } from "react-redux";
 
-const ProfileEditModal = ({ isOpen, onClose, user }) => {
+const ProfileEditModal = ({ isOpen, onClose, user, setProfileUser }) => {
     const dispatch = useDispatch();
 
     const [form, setForm] = useState({
-        id: "",
         email: "",
         firstName: "",
         lastName: "",
@@ -15,16 +14,12 @@ const ProfileEditModal = ({ isOpen, onClose, user }) => {
         biography: "",
         age: "",
         gender: "",
-        profilePictureUrl: "",
-        onlineStatus: "",
     });
     const [errors, setErrors] = useState({});
-    const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
         if (user && isOpen) {
             setForm({
-                id: user.id || "",
                 email: user.email || "",
                 firstName: user.firstName || "",
                 lastName: user.lastName || "",
@@ -32,8 +27,6 @@ const ProfileEditModal = ({ isOpen, onClose, user }) => {
                 biography: user.biography || "",
                 age: user.age || "",
                 gender: user.gender || "",
-                profilePictureUrl: user.profilePictureUrl || "",
-                onlineStatus: user.onlineStatus || "",
             });
         }
     }, [user, isOpen]);
@@ -46,13 +39,35 @@ const ProfileEditModal = ({ isOpen, onClose, user }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
-        const updatedUser = { ...user, ...form };
+        const { email, firstName, lastName, userName, biography, age, gender } = form;
+
+        const cleanUpdateData = {
+            firstName: firstName !== user.firstName ? firstName : undefined,
+            lastName: lastName !== user.lastName ? lastName : undefined,
+            userName: userName !== user.userName ? userName : undefined,
+            biography: biography !== user.biography ? biography : undefined,
+            age: age !== user.age ? age : undefined,
+            gender: gender !== user.gender ? gender : undefined,
+        };
+
+        Object.keys(cleanUpdateData).forEach(key => {
+            if (cleanUpdateData[key] === undefined) {
+                delete cleanUpdateData[key];
+            }
+        });
+
+        if (Object.keys(cleanUpdateData).length === 0) {
+            alert("No changes detected.");
+            return;
+        }
+
         try {
-            const responseData = await updateUser(updatedUser);
+            await updateUserProfileSetCommonInfo(email, firstName, lastName, userName, biography, age, gender);
             alert("Profile updated successfully");
-            dispatch({ type: "SET_USER", payload: responseData });
+            const updatedUser = { ...user, ...cleanUpdateData };
+            dispatch({ type: "SET_USER", payload: updatedUser });
+            setProfileUser(updatedUser);
             onClose();
-            window.location.reload();
         } catch (error) {
             if (error.response && error.response.data) {
                 setErrors(error.response.data);
@@ -110,7 +125,7 @@ const ProfileEditModal = ({ isOpen, onClose, user }) => {
                         {errors.gender && <p className="error">{errors.gender}</p>}
                     </div>
 
-                    <button type="submit" disabled={uploading}>{uploading ? "Uploading..." : "Update Profile"}</button>
+                    <button type="submit">Update Profile</button>
                 </form>
 
             </div>

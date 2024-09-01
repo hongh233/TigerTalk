@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import "../../assets/styles/Components/Profile/ProfileStatusButton.css";
 import { MdCheckCircle, MdRemoveCircle, MdAccessTimeFilled } from 'react-icons/md';
 import { IoMdCloseCircle } from "react-icons/io";
-import { updateUser } from "../../axios/UserAxios";
+import {updateUserProfileSetOnlineStatus} from "../../axios/UserAxios";
 import { useDispatch } from "react-redux";
 
 const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
@@ -49,13 +49,11 @@ const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
     };
 
     const handleStatusChange = async (status) => {
-        setShowStatusMenu(false);
-
-        const updatedUser = { ...profileUser, onlineStatus: status };
         try {
-            const responseData = await updateUser(updatedUser);
-            dispatch({ type: "SET_USER", payload: responseData });
-            window.location.reload();
+            await updateUserProfileSetOnlineStatus(profileUser.email, status);
+            dispatch({ type: "SET_USER", payload: { ...profileUser, onlineStatus: status } });
+            profileUser.onlineStatus = status;
+            setShowStatusMenu(false);
         } catch (error) {
             console.error("Error updating user status:", error);
         }
