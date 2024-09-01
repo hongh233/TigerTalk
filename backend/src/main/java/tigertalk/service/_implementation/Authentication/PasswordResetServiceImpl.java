@@ -115,25 +115,15 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
         if (userProfileOptional.isPresent()) {
             UserProfile userProfile = userProfileOptional.get();
-            Optional<String> answerOptional = userProfile.findAnswerForSecurityQuestion(question);
-            if (answerOptional.isPresent()) {
-                String answer = answerOptional.get();
-                if (answer.equals(questionAnswer)) {
-                    return Optional.empty();
-                } else {
-                    return Optional.of("Security questions answers are incorrect.");
-                }
+            if (question.equals(userProfile.getSecurityQuestion()) &&
+                    questionAnswer.equals(userProfile.getSecurityQuestionAnswer())) {
+                return Optional.empty();
             } else {
-                return Optional.of("Fatal Error: Answer doesn't exist for this question");
+                return Optional.of("Security questions answers are incorrect.");
             }
         } else {
             return Optional.of("Fatal Error: Cannot find email specified in the database");
         }
-    }
-
-    @Override
-    public String[] getSecurityQuestions(String email) {
-        return userProfileRepository.findById(email).get().getSecurityQuestions();
     }
 
 }

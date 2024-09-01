@@ -41,11 +41,4 @@ public interface PasswordResetService {
      */
     Optional<String> verifySecurityAnswers(String email, String question, String questionAnswer);
 
-    /**
-     * Retrieves the security questions associated with a given email.
-     *
-     * @param email the email of the user whose security questions are to be retrieved
-     * @return an array of security questions associated with the given email
-     */
-    String[] getSecurityQuestions(String email);
 }

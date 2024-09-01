@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@Table(name = "user_group") // TODO (Bounty) : Change to group_all
+@Table(name = "group_all")
 public class Group {
 
     @Id

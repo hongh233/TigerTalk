@@ -43,12 +43,8 @@ public class GroupSearchServiceImplTest {
         userA.setUserName("userA");
         userA.setEmail("a@dal.ca");
         userA.setPassword("aaaa1A@a");
-        userA.setSecurityQuestions(new String[]{"1", "2", "3"});
-        userA.setSecurityQuestionsAnswer(new String[]{
-                "What was your favourite book as a child?",
-                "In what city were you born?",
-                "What is the name of the hospital where you were born?"
-        });
+        userA.setSecurityQuestion("1");
+        userA.setSecurityQuestionAnswer("What was your favourite book as a child?");
 
         userB = new UserProfile();
         userB.setFirstName("Beach");
@@ -58,12 +54,8 @@ public class GroupSearchServiceImplTest {
         userB.setUserName("userB");
         userB.setEmail("b@dal.ca");
         userB.setPassword("aaaa1A@a");
-        userB.setSecurityQuestions(new String[]{"1", "2", "3"});
-        userB.setSecurityQuestionsAnswer(new String[]{
-                "What was your favourite book as a child?",
-                "In what city were you born?",
-                "What is the name of the hospital where you were born?"
-        });
+        userB.setSecurityQuestion("1");
+        userB.setSecurityQuestionAnswer("What was your favourite book as a child?");
 
         GroupMembership membershipA = new GroupMembership();
         membershipA.setUserProfile(userA);

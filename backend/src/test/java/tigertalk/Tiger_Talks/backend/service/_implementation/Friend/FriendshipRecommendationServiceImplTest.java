@@ -48,12 +48,8 @@ public class FriendshipRecommendationServiceImplTest {
         userB.setUserName("userB");
         userB.setEmail("b@dal.ca");
         userB.setPassword("bbbb1B@b");
-        userB.setSecurityQuestions(new String[]{"1", "2", "3"});
-        userB.setSecurityQuestionsAnswer(new String[]{
-                "What was your favourite book as a child?",
-                "In what city were you born?",
-                "What is the name of the hospital where you were born?"
-        });
+        userB.setSecurityQuestion("1");
+        userB.setSecurityQuestionAnswer("What was your favourite book as a child?");
 
         userC = new UserProfile();
         userC.setFirstName("Clong");
@@ -63,12 +59,8 @@ public class FriendshipRecommendationServiceImplTest {
         userC.setUserName("userC");
         userC.setEmail("c@dal.ca");
         userC.setPassword("cccc1C@c");
-        userC.setSecurityQuestions(new String[]{"1", "2", "3"});
-        userC.setSecurityQuestionsAnswer(new String[]{
-                "What was your favourite book as a child?",
-                "In what city were you born?",
-                "What is the name of the hospital where you were born?"
-        });
+        userC.setSecurityQuestion("1");
+        userC.setSecurityQuestionAnswer("What was your favourite book as a child?");
 
         userD = new UserProfile();
         userD.setFirstName("Dlong");
@@ -78,12 +70,8 @@ public class FriendshipRecommendationServiceImplTest {
         userD.setUserName("userD");
         userD.setEmail("d@dal.ca");
         userD.setPassword("dddd1D@d");
-        userD.setSecurityQuestions(new String[]{"1", "2", "3"});
-        userD.setSecurityQuestionsAnswer(new String[]{
-                "What was your favourite book as a child?",
-                "In what city were you born?",
-                "What is the name of the hospital where you were born?"
-        });
+        userD.setSecurityQuestion("1");
+        userD.setSecurityQuestionAnswer("What was your favourite book as a child?");
 
         lenient().when(userA.getEmail()).thenReturn("a@dal.ca");
         lenient().when(friendshipRepository.findAllFriendsByEmail(userA.getEmail())).thenReturn(List.of(userB));

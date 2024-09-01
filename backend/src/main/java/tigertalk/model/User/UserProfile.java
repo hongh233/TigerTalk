@@ -63,12 +63,12 @@ public class UserProfile {
 
     // authentication variable:
     private String password;
-    private String[] securityQuestions;
-    private String[] securityQuestionsAnswer;
+    private String securityQuestion;
+    private String securityQuestionAnswer;
 
 
     // admin variable:
-    private boolean isValidated = false;
+    private boolean isValidated = true;    // assume everyone is validated after login
     private String userLevel = "user";     // "admin" / "user"
     private String role = "none";          // "none" / "student" / "instructor" / "employee"
     private LocalDateTime userCreateTime = LocalDateTime.now();
@@ -80,7 +80,7 @@ public class UserProfile {
     private String userName;
     private String biography;
     private int age;
-    private String gender;
+    private String gender;                    // "Male" / "Female" / "Other"
 
     // user variable (distributed):
     private String onlineStatus = "offline";  // "available" / "busy" / "away" / "offline"
@@ -89,16 +89,6 @@ public class UserProfile {
 
     public UserProfile() {
     }
-
-    public Optional<String> findAnswerForSecurityQuestion(String securityQuestion) {
-        for (int i = 0; i < securityQuestions.length; i++) {
-            if (securityQuestions[i].equals(securityQuestion)) {
-                return Optional.of(securityQuestionsAnswer[i]);
-            }
-        }
-        return Optional.empty();
-    }
-
 
     public UserProfileDTO toDto() {
         return new UserProfileDTO(
@@ -247,20 +237,18 @@ public class UserProfile {
         isValidated = validated;
     }
 
-    public String[] getSecurityQuestions() {
-        return securityQuestions;
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
     }
 
-    public void setSecurityQuestions(String[] securityQuestions) {
-        this.securityQuestions = securityQuestions;
+    public String getSecurityQuestionAnswer() {
+        return securityQuestionAnswer;
     }
-
-    public String[] getSecurityQuestionsAnswer() {
-        return securityQuestionsAnswer;
-    }
-
-    public void setSecurityQuestionsAnswer(String[] securityQuestionsAnswer) {
-        this.securityQuestionsAnswer = securityQuestionsAnswer;
+    public void setSecurityQuestionAnswer(String securityQuestionAnswer) {
+        this.securityQuestionAnswer = securityQuestionAnswer;
     }
 
     public String getRole() {

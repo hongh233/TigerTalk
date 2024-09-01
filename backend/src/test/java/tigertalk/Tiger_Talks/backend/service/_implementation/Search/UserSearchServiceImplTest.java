@@ -41,12 +41,8 @@ public class UserSearchServiceImplTest {
         userA.setUserName("userA");
         userA.setEmail("a@dal.ca");
         userA.setPassword("aaaa1A@a");
-        userA.setSecurityQuestions(new String[]{"1", "2", "3"});
-        userA.setSecurityQuestionsAnswer(new String[]{
-                "What was your favourite book as a child?",
-                "In what city were you born?",
-                "What is the name of the hospital where you were born?"
-        });
+        userA.setSecurityQuestion("1");
+        userA.setSecurityQuestionAnswer("What was your favourite book as a child?");
 
         userB = new UserProfile();
         userB.setFirstName("Beach");
@@ -56,12 +52,8 @@ public class UserSearchServiceImplTest {
         userB.setUserName("userB");
         userB.setEmail("b@dal.ca");
         userB.setPassword("aaaa1A@a");
-        userB.setSecurityQuestions(new String[]{"1", "2", "3"});
-        userB.setSecurityQuestionsAnswer(new String[]{
-                "What was your favourite book as a child?",
-                "In what city were you born?",
-                "What is the name of the hospital where you were born?"
-        });
+        userB.setSecurityQuestion("1");
+        userB.setSecurityQuestionAnswer("What was your favourite book as a child?");
 
         userC = new UserProfile();
         userC.setFirstName("Charlie");
@@ -71,12 +63,8 @@ public class UserSearchServiceImplTest {
         userC.setUserName("userC");
         userC.setEmail("c@dal.ca");
         userC.setPassword("cccc1C@c");
-        userC.setSecurityQuestions(new String[]{"4", "5", "6"});
-        userC.setSecurityQuestionsAnswer(new String[]{
-                "What was the name of your first pet?",
-                "What was the make and model of your first car?",
-                "What elementary school did you attend?"
-        });
+        userC.setSecurityQuestion("4");
+        userC.setSecurityQuestionAnswer("What was the name of your first pet?");
     }
 
     /**

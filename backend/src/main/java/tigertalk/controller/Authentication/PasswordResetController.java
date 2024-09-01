@@ -111,14 +111,4 @@ public class PasswordResetController {
         }
     }
 
-    /**
-     * Retrieves the security questions for the given email.
-     *
-     * @param email the email of the user
-     * @return ResponseEntity containing an array of security questions
-     */
-    @GetMapping("/getSecurityQuestions")
-    public String[] getSecurityQuestions(@RequestParam("email") String email) {
-        return passwordResetService.getSecurityQuestions(email);
-    }
 }
