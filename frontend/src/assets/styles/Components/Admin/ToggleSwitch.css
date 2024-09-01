@@ -1,0 +1,57 @@
+.admin-page-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+/* Hide default HTML checkbox */
+.admin-page-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.admin-toggle-switch-slider-round {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.admin-toggle-switch-slider-round:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+/* When checked, add a green background */
+.admin-switch-admin input:checked + .admin-toggle-switch-slider-round {
+    background-color: orange;
+}
+
+.admin-switch-activate input:checked + .admin-toggle-switch-slider-round {
+    background-color: #09ad09;
+}
+
+/* When checked, move the slider to the right */
+.admin-page-switch input:checked + .admin-toggle-switch-slider-round:before {
+    transform: translateX(26px);
+}
+
+/* Grey background when not checked */
+.admin-page-switch:not(:checked) .admin-toggle-switch-slider-round {
+    background-color: #989898;
+}
