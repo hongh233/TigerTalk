@@ -50,25 +50,31 @@ export const validateToken = async (email, code) => {
 };
 
 // This axio is used in SecurityQuestionsPage
-export const verifySecurityAnswers = async (answer) => {
+export const verifySecurityAnswers = async (email, question, questionAnswer) => {
     try {
-        const response = await axios.post(`${URL}/api/passwordReset/verifySecurityAnswers`, null, {
-            params: answer,
-        });
+        const response = await axios.post(
+            `${URL}/api/passwordReset/verifySecurityAnswers`,
+            null,
+            {
+                params: {
+                    email,
+                    question,
+                    questionAnswer
+                },
+            }
+        );
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response) {
+            console.error('Server responded with error:', error.response.data);
+            throw new Error(error.response.data);
+        } else if (error.request) {
+            console.error('No response received:', error.request);
+            throw new Error('No response received from server.');
+        } else {
+            console.error('Error setting up request:', error.message);
+            throw new Error('Error in request setup: ' + error.message);
+        }
     }
 };
 
-// This axio is used in SecurityQuestionsPage
-export const getSecurityQuestions = async (email) => {
-    try {
-        const response = await axios.get(`${URL}/api/passwordReset/getSecurityQuestions`, {
-            params: { email },
-        });
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
-};

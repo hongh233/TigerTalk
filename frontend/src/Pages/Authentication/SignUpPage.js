@@ -32,12 +32,8 @@ const SignUpPage = () => {
         email: "",
         password: "",
         confirmPassword: "",
-        securityQuestion1: "",
-        securityAnswer1: "",
-        securityQuestion2: "",
-        securityAnswer2: "",
-        securityQuestion3: "",
-        securityAnswer3: "",
+        securityQuestion: "",
+        securityAnswer: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -45,10 +41,7 @@ const SignUpPage = () => {
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setForm({
-            ...form,
-            [name]: value,
-        });
+        setForm({...form, [name]: value.trim()});
     };
 
     const validate = () => {
@@ -56,26 +49,14 @@ const SignUpPage = () => {
         if (!form.firstName) errors.firstName = "First name is required";
         if (!form.lastName) errors.lastName = "Last name is required";
         if (!form.age) errors.age = "Age is required";
-        else if (!Number.isInteger(Number(form.age)))
-            errors.age = "Age must be an integer";
+        else if (!Number.isInteger(Number(form.age)) || Number(form.age) <= 0) errors.age = "Age must be a positive integer.";
         if (!form.gender) errors.gender = "Gender is required";
         if (!form.userName) errors.userName = "User name is required";
         if (!form.email) errors.email = "Email is required";
         if (!form.password) errors.password = "Password is required";
-        if (form.password !== form.confirmPassword)
-            errors.confirmPassword = "Passwords do not match";
-        if (!form.securityQuestion1)
-            errors.securityQuestion1 = "Security question 1 is required";
-        if (!form.securityAnswer1)
-            errors.securityAnswer1 = "Answer for security question 1 is required";
-        if (!form.securityQuestion2)
-            errors.securityQuestion2 = "Security question 2 is required";
-        if (!form.securityAnswer2)
-            errors.securityAnswer2 = "Answer for security question 2 is required";
-        if (!form.securityQuestion3)
-            errors.securityQuestion3 = "Security question 3 is required";
-        if (!form.securityAnswer3)
-            errors.securityAnswer3 = "Answer for security question 3 is required";
+        if (form.password !== form.confirmPassword) errors.confirmPassword = "Passwords do not match";
+        if (!form.securityQuestion) errors.securityQuestion = "Security question is required";
+        if (!form.securityAnswer) errors.securityAnswer = "Answer for security question is required";
         return errors;
     };
 
@@ -189,48 +170,23 @@ const SignUpPage = () => {
                     </div>
 
                     <div className="form-group">
-                        <select name="securityQuestion1" value={form.securityQuestion1} onChange={handleChange}>
-                            <option value="">Select Security Question 1</option>
-                            {SECURITY_QUESTIONS.slice(0, 5).map((question, index) => (
-                                <option key={index} value={question}>{question}</option>
-                            ))}
+                        <select name="securityQuestion" value={form.securityQuestion} onChange={handleChange}>
+                            <option value="">Select Security Question</option>
+                            {SECURITY_QUESTIONS.map(
+                                (question, index) => (
+                                    <option key={index} value={question}>{question}</option>
+                                ))
+                            }
                         </select>
-                        {errors.securityQuestion1 && (<p className="error-css">{errors.securityQuestion1}</p>)}
+                        {errors.securityQuestion && (<p className="error-css">{errors.securityQuestion}</p>)}
                     </div>
 
                     <div className="form-group">
-                        <input type="text" name="securityAnswer1" placeholder="Answer:" value={form.securityAnswer1} onChange={handleChange}/>
-                        {errors.securityAnswer1 && (<p className="error-css">{errors.securityAnswer1}</p>)}
-                    </div>
-
-                    <div className="form-group">
-                        <select name="securityQuestion2" value={form.securityQuestion2} onChange={handleChange}>
-                            <option value="">Select Security Question 2</option>
-                            {SECURITY_QUESTIONS.slice(5, 10).map((question, index) => (
-                                <option key={index} value={question}>{question}</option>
-                            ))}
-                        </select>
-                        {errors.securityQuestion2 && (<p className="error-css">{errors.securityQuestion2}</p>)}
-                    </div>
-
-                    <div className="form-group">
-                        <input type="text" name="securityAnswer2" placeholder="Answer:" value={form.securityAnswer2} onChange={handleChange}/>
-                        {errors.securityAnswer2 && (<p className="error-css">{errors.securityAnswer2}</p>)}
-                    </div>
-
-                    <div className="form-group">
-                        <select name="securityQuestion3" value={form.securityQuestion3} onChange={handleChange}>
-                            <option value="">Select Security Question 3</option>
-                            {SECURITY_QUESTIONS.slice(10, 15).map((question, index) => (
-                                <option key={index} value={question}>{question}</option>
-                            ))}
-                        </select>
-                        {errors.securityQuestion3 && (<p className="error-css">{errors.securityQuestion3}</p>)}
-                    </div>
-
-                    <div className="form-group">
-                        <input type="text" name="securityAnswer3" placeholder="Answer:" value={form.securityAnswer3} onChange={handleChange}/>
-                        {errors.securityAnswer3 && (<p className="error-css">{errors.securityAnswer3}</p>)}
+                        <input type="text" name="securityAnswer" placeholder="Answer:"
+                               value={form.securityAnswer} onChange={handleChange}/>
+                        {errors.securityAnswer &&
+                            <p className="error-css">{errors.securityAnswer}</p>
+                        }
                     </div>
 
                     <button type="submit">Sign Up</button>

@@ -13,16 +13,8 @@ export const userSignUp = async (form) => {
             userName: form.userName,
             email: form.email,
             password: form.password,
-            securityQuestionsAnswer: [
-                form.securityAnswer1,
-                form.securityAnswer2,
-                form.securityAnswer3,
-            ],
-            securityQuestions: [
-                form.securityQuestion1,
-                form.securityQuestion2,
-                form.securityQuestion3,
-            ],
+            securityQuestionsAnswer: form.securityAnswer,
+            securityQuestions: form.securityQuestion
         });
         return response.data;
     } catch (error) {
