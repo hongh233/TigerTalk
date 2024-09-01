@@ -2,7 +2,6 @@ package tigertalk.service._implementation.Authentication;
 
 import tigertalk.model.User.UserProfile;
 import tigertalk.model.User.UserProfileDTO;
-import tigertalk.model.Utils.OnlineStatus;
 import tigertalk.repository.User.UserProfileRepository;
 import tigertalk.service.Authentication.LogInService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class LogInServiceImpl implements LogInService {
         if (userProfileOptional.isPresent()) {
             UserProfile userProfile = userProfileOptional.get();
             if (userProfile.getPassword().equals(password)) {
-                userProfile.setOnlineStatus(OnlineStatus.AVAILABLE);
+                userProfile.setOnlineStatus("available");
                 userRepository.save(userProfile);
                 return Optional.of(userProfile.toDto());
             } else {
@@ -38,7 +37,7 @@ public class LogInServiceImpl implements LogInService {
         Optional<UserProfile> userProfileOptional = userRepository.findById(email);
         if (userProfileOptional.isPresent()) {
             UserProfile userProfile = userProfileOptional.get();
-            userProfile.setOnlineStatus(OnlineStatus.OFFLINE);
+            userProfile.setOnlineStatus("offline");
             userRepository.save(userProfile);
         }
     }

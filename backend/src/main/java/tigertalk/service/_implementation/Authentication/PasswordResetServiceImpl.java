@@ -12,8 +12,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import static tigertalk.model.Utils.COMPANY_EMAIL;
-import static tigertalk.model.Utils.PASSWORD_TOKEN_EXPIRATION_MINUTES;
 import static tigertalk.model.Utils.RegexCheck.*;
 
 @Service
@@ -51,9 +49,9 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         // Send mail for OTP token
         return new MailClient(
                 new String[]{email},
-                COMPANY_EMAIL,
+                "test@dal.ca",
                 PASSWORD_RESET_SUBJECT,
-                PASSWORD_RESET_MESSAGE.formatted(passwordToken.getToken(), PASSWORD_TOKEN_EXPIRATION_MINUTES)
+                PASSWORD_RESET_MESSAGE.formatted(passwordToken.getToken(), 10)
         ).sendMail(passwordResetMailer);
     }
 

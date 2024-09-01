@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static tigertalk.model.Utils.PASSWORD_TOKEN_EXPIRATION_MINUTES;
 
 @Entity
 public class PasswordToken {
@@ -47,7 +46,7 @@ public class PasswordToken {
     }
 
     public boolean isTokenExpired() {
-        LocalDateTime expirationTime = timestamp.plusMinutes(PASSWORD_TOKEN_EXPIRATION_MINUTES);
+        LocalDateTime expirationTime = timestamp.plusMinutes(10); // PASSWORD_TOKEN_EXPIRATION_MINUTES: 10
         return LocalDateTime.now().isAfter(expirationTime);
     }
 }

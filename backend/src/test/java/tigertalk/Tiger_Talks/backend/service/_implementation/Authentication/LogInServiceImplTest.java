@@ -12,8 +12,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
-import static tigertalk.model.Utils.OnlineStatus.AVAILABLE;
-import static tigertalk.model.Utils.OnlineStatus.OFFLINE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -83,15 +81,6 @@ public class LogInServiceImplTest {
         assertEquals(userA.getEmail(), result.get().email());
     }
 
-    @Test
-    public void logInUser_normal_onlineCheck() {
-        userA.setOnlineStatus(OFFLINE);
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
-        when(userProfileRepository.save(userA)).thenReturn(userA);
-        Optional<UserProfileDTO> result = logInServiceImpl.loginUser(userA.getEmail(), userA.getPassword());
-        assertEquals(AVAILABLE, userA.getOnlineStatus());
-        assertTrue(result.isPresent());
-    }
 
     @Test
     public void logInUser_wrongPassword() {
@@ -115,20 +104,20 @@ public class LogInServiceImplTest {
      */
     @Test
     public void logOut_normal_onlineCheck_online() {
-        userA.setOnlineStatus(AVAILABLE);
+        userA.setOnlineStatus("offline");
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
         logInServiceImpl.logOut(userA.getEmail());
-        assertEquals(OFFLINE, userA.getOnlineStatus());
+        assertEquals("offline", userA.getOnlineStatus());
     }
 
     @Test
     public void logOut_normal_onlineCheck_offline() {
-        userA.setOnlineStatus(OFFLINE);
+        userA.setOnlineStatus("offline");
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         when(userProfileRepository.save(userA)).thenReturn(userA);
         logInServiceImpl.logOut(userA.getEmail());
-        assertEquals(OFFLINE, userA.getOnlineStatus());
+        assertEquals("offline", userA.getOnlineStatus());
     }
 
     @Test

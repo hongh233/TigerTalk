@@ -4,46 +4,6 @@ import java.util.regex.Pattern;
 
 public final class Utils {
     public static final String CROSS_ORIGIN_HOST_NAME = "http://localhost:3000";
-    public static final String COMPANY_EMAIL = "test@dal.ca";
-    public static final String DEFAULT_PROFILE_PICTURE = "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg";
-    public static final String DEFAULT_GROUP_PICTURE = "https://mediaim.expedia.com/destination/7/bb1caab964e8be84036cd5ee7b05e787.jpg?impolicy=fcrop&w=1920&h=480&q=medium";
-    public static final byte PASSWORD_TOKEN_EXPIRATION_MINUTES = 10;
-
-    public static final class ProfileAccessLevel {
-        public static final String PUBLIC = "public";          // Everyone can see your profile
-        public static final String PROTECTED = "protected";    // Only friends can see your profile
-        public static final String PRIVATE = "private";        // No one can see your profile
-    }
-
-    public static final class UserLevel {
-        public static final String ADMIN = "admin";
-        public static final String USER = "user";
-    }
-
-    public static final class Role {
-        public static final String DEFAULT = "default";
-        public static final String STUDENT = "student";
-        public static final String INSTRUCTOR = "instructor";
-        public static final String EMPLOYEE = "employee";
-    }
-
-    public static final class UserStatus {
-        public static final String BLOCKED = "blocked";
-        public static final String PENDING = "pending";
-        public static final String ACTIVE = "active";
-    }
-
-    public static final class OnlineStatus {
-        public static final String AVAILABLE = "available"; // Online
-        public static final String BUSY = "busy";
-        public static final String AWAY = "away";
-        public static final String OFFLINE = "offline";     // Offline
-    }
-
-    public static final class TestGen {
-        public static final int MAX_USERS = 26;
-        public static final int MIN_USERS = 3;
-    }
 
     public static final class RegexCheck {
         public static final Pattern PASSWORD_NORM_LENGTH = Pattern.compile("^.{8,}$");

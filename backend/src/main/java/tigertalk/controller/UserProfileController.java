@@ -22,22 +22,6 @@ public class UserProfileController {
     private UserProfileService userProfileService;
 
     /**
-     * Updates an existing user profile.
-     *
-     * @param userProfile the user profile data transfer object containing updated information
-     * @return ResponseEntity with the updated user profile DTO or an error message
-     */
-    @PutMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestBody UserProfile userProfile) {
-        Optional<String> err = userProfileService.updateUserProfile(userProfile);
-        if (err.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.get());
-        } else {
-            return ResponseEntity.ok(userProfile);
-        }
-    }
-
-    /**
      * Retrieves all user profiles.
      *
      * @return List of all user profiles
@@ -57,9 +41,9 @@ public class UserProfileController {
     public ResponseEntity<?> getUserProfileByEmail(@PathVariable String email) {
         Optional<UserProfileDTO> userProfile = userProfileService.getUserProfileByEmail(email);
         if (userProfile.isPresent()) {
-            return ResponseEntity.ok(userProfile.get());
+            return ResponseEntity.status(200).body(userProfile.get());
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User profile with email " + email + " not found.");
+            return ResponseEntity.status(404).body("User profile with email " + email + " not found.");
         }
     }
 
@@ -73,11 +57,81 @@ public class UserProfileController {
     public ResponseEntity<?> deleteUserProfileByEmail(@PathVariable String email) {
         try {
             userProfileService.deleteUserProfileByEmail(email);
-            return ResponseEntity.ok("User profile with email " + email + " deleted successfully.");
+            return ResponseEntity.status(200).body("User profile with email " + email + " deleted successfully.");
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to delete user profile with email " + email + ": " + e.getMessage());
+            return ResponseEntity.status(400).body("Failed to delete user profile with email " + email + ": " + e.getMessage());
         }
     }
+
+
+    // user controller
+    @PutMapping("/update/commonInfo")
+    public ResponseEntity<String> updateUserProfileSetCommonInfo(
+            @RequestParam String email,
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam String userName,
+            @RequestParam String biography,
+            @RequestParam int age,
+            @RequestParam String gender) {
+        Optional<String> result = userProfileService.updateUserProfile_setCommonInfo(email, firstName, lastName, userName, biography, age, gender);
+        if (result.isPresent()) {
+            return ResponseEntity.status(400).body(result.get());
+        } else {
+            return ResponseEntity.status(200).body("User profile common information updated successfully.");
+        }
+    }
+    @PutMapping("/update/profilePicture")
+    public ResponseEntity<String> updateUserProfileSetProfilePicture(@RequestParam String email, @RequestParam String profilePictureUrl) {
+        Optional<String> result = userProfileService.updateUserProfile_setProfilePicture(email, profilePictureUrl);
+        if (result.isPresent()) {
+            return ResponseEntity.status(400).body(result.get());
+        } else {
+            return ResponseEntity.status(200).body("User profile picture updated successfully.");
+        }
+    }
+    @PutMapping("/update/onlineStatus")
+    public ResponseEntity<String> updateUserProfileSetOnlineStatus(@RequestParam String email, @RequestParam String onlineStatus) {
+        Optional<String> result = userProfileService.updateUserProfile_setOnlineStatus(email, onlineStatus);
+        if (result.isPresent()) {
+            return ResponseEntity.status(400).body(result.get());
+        } else {
+            return ResponseEntity.status(200).body("User online status updated successfully.");
+        }
+    }
+
+
+
+
+    // admin controller
+    @PutMapping("/update/role")
+    public ResponseEntity<String> updateUserProfileSetRole(@RequestParam String email, @RequestParam String role) {
+        Optional<String> result = userProfileService.updateUserProfile_setRole(email, role);
+        if (result.isPresent()) {
+            return ResponseEntity.status(400).body(result.get());
+        } else {
+            return ResponseEntity.status(200).body("User role updated successfully.");
+        }
+    }
+    @PutMapping("/update/validated")
+    public ResponseEntity<String> updateUserProfileSetValidated(@RequestParam String email, @RequestParam boolean validated) {
+        Optional<String> result = userProfileService.updateUserProfile_setValidated(email, validated);
+        if (result.isPresent()) {
+            return ResponseEntity.status(400).body(result.get());
+        } else {
+            return ResponseEntity.status(200).body("User validation status updated successfully.");
+        }
+    }
+    @PutMapping("/update/userLevel")
+    public ResponseEntity<String> updateUserProfileSetUserLevel(@RequestParam String email, @RequestParam String userLevel) {
+        Optional<String> result = userProfileService.updateUserProfile_setUserLevel(email, userLevel);
+        if (result.isPresent()) {
+            return ResponseEntity.status(400).body(result.get());
+        } else {
+            return ResponseEntity.status(200).body("User level updated successfully.");
+        }
+    }
+
 }

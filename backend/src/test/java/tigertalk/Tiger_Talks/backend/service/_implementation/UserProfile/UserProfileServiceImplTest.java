@@ -136,42 +136,6 @@ public class UserProfileServiceImplTest {
         verify(userProfileRepository, times(0)).deleteById("test@dal.ca");
     }
 
-    /**
-     * Test case for updateUserProfile
-     */
-    @Test
-    public void updateUserProfile_successfulUpdate() {
-        UserProfile userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        when(userProfileRepository.save(userA)).thenReturn(userA);
-
-        when(UserProfile.verifyBasics(userA, userProfileRepository, false)).thenReturn(Optional.empty());
-        Optional<String> result = userProfileService.updateUserProfile(userA);
-        assertTrue(result.isEmpty(), "The updateUserProfile method should return an empty optional if successful");
-        verify(userProfileRepository, times(1)).save(userA);
-    }
-
-    @Test
-    public void updateUserProfile_invalidEmail() {
-        UserProfile invalidEmailUserProfile = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.c", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        when(UserProfile.verifyBasics(invalidEmailUserProfile, userProfileRepository, false)).thenReturn(Optional.of("Invalid email address. Please use dal email address!"));
-
-        Optional<String> result = userProfileService.updateUserProfile(invalidEmailUserProfile);
-        assertTrue(result.isPresent(), "An error message should be present");
-        assertEquals("Invalid email address. Please use dal email address!", result.get(),
-                "The error message should be the same");
-        verify(userProfileRepository, times(0)).save(invalidEmailUserProfile);
-    }
-
-    @Test
-    public void updateUserProfile_invalidAge() {
-        UserProfile invalidAgeUserProfile = new UserProfile("Along", "Aside", -1, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        when(UserProfile.verifyBasics(invalidAgeUserProfile, userProfileRepository, false)).thenReturn(Optional.of("Age must be greater than 0"));
-
-        Optional<String> result = userProfileService.updateUserProfile(invalidAgeUserProfile);
-        assertTrue(result.isPresent(), "An error message should be present");
-        assertEquals("Age must be greater than 0", result.get(), "The error message should be the same");
-        verify(userProfileRepository, times(0)).save(invalidAgeUserProfile);
-    }
 
 }
 

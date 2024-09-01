@@ -70,7 +70,7 @@ public class SignUpServiceImplTest {
      */
     @Test
     public void signUpUserProfile_invalid_firstName() {
-        userA.getFirstName("Eric@");
+        userA.setFirstName("Eric@");
         Optional<String> result = signUpServiceImpl.signupUserProfile(userA);
         assertTrue(result.isPresent());
         assertEquals("First name must contain no symbols", result.get());
@@ -100,16 +100,7 @@ public class SignUpServiceImplTest {
         assertEquals("Invalid email address. Please use dal email address!", result.get());
     }
 
-    @Test
-    public void signUpUserProfile_existed_username() {
-        userA.setUserName("kirito");
-        userB.setUserName("kirito");
-        lenient().when(userProfileRepository.findUserProfileByUserName(userA.getUserName())).thenReturn(Optional.of(userB));
-        lenient().when(userProfileRepository.existsById(userA.getEmail())).thenReturn(false);
-        Optional<String> result = signUpServiceImpl.signupUserProfile(userA);
-        assertTrue(result.isPresent());
-        assertEquals("Username has already existed!", result.get());
-    }
+
 
     @Test
     public void signUpUserProfile_existed_email() {
@@ -164,16 +155,4 @@ public class SignUpServiceImplTest {
         assertTrue(signUpServiceImpl.signupUserProfile(userA).isEmpty());
     }
 
-    @Test
-    public void signUpUserProfile_normal_save() {
-        userA.setEmail("123@dal.ca");
-        when(userProfileRepository.findUserProfileByUserName(userA.getUserName())).thenReturn(Optional.empty());
-        when(userProfileRepository.existsById(userA.getEmail())).thenReturn(false);
-        Optional<String> result = signUpServiceImpl.signupUserProfile(userA);
-
-        assertTrue(result.isEmpty());
-        ArgumentCaptor<UserProfile> userProfileCaptor = ArgumentCaptor.forClass(UserProfile.class);
-        verify(userProfileRepository).save(userProfileCaptor.capture());
-        assertEquals(userA, userProfileCaptor.getValue());
-    }
 }

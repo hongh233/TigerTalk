@@ -12,11 +12,11 @@ import tigertalk.model.Notification.Notification;
 import tigertalk.model.Post.Post;
 import tigertalk.model.Post.PostComment;
 import tigertalk.model.Post.PostLike;
-import tigertalk.repository.User.UserProfileRepository;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.*;
-import static tigertalk.model.Utils.*;
-import static tigertalk.model.Utils.RegexCheck.*;
+
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -61,27 +61,32 @@ public class UserProfile {
     private List<GroupPostComment> groupPostCommentList = new LinkedList<>();
 
 
+    // authentication variable:
     private String password;
-    private String userLevel = UserLevel.USER;   // admin / user
-    private String status = UserStatus.PENDING;      // blocked / pending / active
-    private boolean isValidated = false;
     private String[] securityQuestions;
     private String[] securityQuestionsAnswer;
-    private String role = Role.DEFAULT;        // default / student / instructor / employee
-    private String onlineStatus = OnlineStatus.OFFLINE;
-    @Column(unique = true)
-    private String userName;
-    private String personalInterest;
-    private String location;
-    private String postalCode;
-    private String biography;
-    private String profileAccessLevel = ProfileAccessLevel.PRIVATE;  // public / protected / private
-    private String phoneNumber;
-    private int age;
-    private String gender;
+
+
+    // admin variable:
+    private boolean isValidated = false;
+    private String userLevel = "user";     // "admin" / "user"
+    private String role = "none";          // "none" / "student" / "instructor" / "employee"
+    private LocalDateTime userCreateTime = LocalDateTime.now();
+
+
+    // user variable (common):
     private String firstName;
     private String lastName;
-    private String profilePictureUrl = DEFAULT_PROFILE_PICTURE;
+    private String userName;
+    private String biography;
+    private int age;
+    private String gender;
+
+
+    // user variable (distributed):
+    private String onlineStatus = "offline";  // "available" / "busy" / "away" / "offline"
+    private String profilePictureUrl = "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg";
+
 
     public UserProfile(String firstName,
                        String lastName,
@@ -106,216 +111,41 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public static Optional<String> verifyBasics(UserProfile userProfile, UserProfileRepository userProfileRepository, boolean isNewUser ) {
-        if (!NAME_NORM.matcher(userProfile.firstName).matches()) {
-            return Optional.of("First name must contain no symbols");
-        }
-        if (!NAME_NORM.matcher(userProfile.lastName).matches()) {
-            return Optional.of("Last name must contain no symbols");
-        }
-        if (userProfile.age <= 0) {
-            return Optional.of("Age must be greater than 0");
-        }
-        if (!EMAIL_NORM.matcher(userProfile.email).matches()) {
-            return Optional.of("Invalid email address. Please use dal email address!");
-        }
-        if (isNewUser && userProfileRepository.findUserProfileByUserName(userProfile.userName).isPresent()) {
-            return Optional.of("Username has already existed!");
-        }
-        if (isNewUser && userProfileRepository.existsById(userProfile.email)) {
-            return Optional.of("Email has already existed!");
-        }
-        if (!PASSWORD_NORM_LENGTH.matcher(userProfile.password).matches()) {
-            return Optional.of("Password must have a minimum length of 8 characters.");
-        }
-        if (!PASSWORD_NORM_UPPERCASE.matcher(userProfile.password).matches()) {
-            return Optional.of("Password must have at least 1 uppercase character.");
-        }
-        if (!PASSWORD_NORM_LOWERCASE.matcher(userProfile.password).matches()) {
-            return Optional.of("Password must have at least 1 lowercase character.");
-        }
-        if (!PASSWORD_NORM_NUMBER.matcher(userProfile.password).matches()) {
-            return Optional.of("Password must have at least 1 number.");
-        }
-        if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(userProfile.password).matches()) {
-            return Optional.of("Password must have at least 1 special character.");
+    public Optional<String> findAnswerForSecurityQuestion(String securityQuestion) {
+        for (int i = 0; i < securityQuestions.length; i++) {
+            if (securityQuestions[i].equals(securityQuestion)) {
+                return Optional.of(securityQuestionsAnswer[i]);
+            }
         }
         return Optional.empty();
     }
 
-    public List<PostLike> getPostLikeList() {
-        return postLikeList;
+
+    public UserProfileDTO toDto() {
+        return new UserProfileDTO(
+                age,
+                email,
+                isValidated,
+                role,
+                onlineStatus,
+                userName,
+                biography,
+                gender,
+                firstName,
+                lastName,
+                profilePictureUrl,
+                userLevel,
+                userCreateTime
+        );
     }
 
-    public List<GroupPostLike> getGroupPostLikeList() {
-        return groupPostLikeList;
-    }
-
+    // Getter and Setter:
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUserLevel() {
-        return userLevel;
-    }
-
-    public void setUserLevel(String userLevel) {
-        this.userLevel = userLevel;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public boolean isValidated() {
-        return isValidated;
-    }
-
-    public void setValidated(boolean validated) {
-        isValidated = validated;
-    }
-
-    public String[] getSecurityQuestionsAnswer() {
-        return securityQuestionsAnswer;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setSecurityQuestionsAnswer(String[] securityQuestionsAnswer) {
-        this.securityQuestionsAnswer = securityQuestionsAnswer;
-    }
-
-    public String[] getSecurityQuestions() {
-        return securityQuestions;
-    }
-
-    public void setSecurityQuestions(String[] securityQuestions) {
-        this.securityQuestions = securityQuestions;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getOnlineStatus() {
-        return onlineStatus;
-    }
-
-    public void setOnlineStatus(String onlineStatus) {
-        this.onlineStatus = onlineStatus;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPersonalInterest() {
-        return personalInterest;
-    }
-
-    public void setPersonalInterest(String personalInterest) {
-        this.personalInterest = personalInterest;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getBiography() {
-        return biography;
-    }
-
-    public void setBiography(String biography) {
-        this.biography = biography;
-    }
-
-    public String getProfileAccessLevel() {
-        return profileAccessLevel;
-    }
-
-    public void setProfileAccessLevel(String profileAccessLevel) {
-        this.profileAccessLevel = profileAccessLevel;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String firstName() {
-        return firstName;
-    }
-
-    public void getFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public List<Friendship> getSenderFriendshipList() {
@@ -366,21 +196,20 @@ public class UserProfile {
         this.postList = postList;
     }
 
-    public String getProfilePictureUrl() {
-        return profilePictureUrl;
+    public List<GroupPost> getGroupPostList() {
+        return groupPostList;
     }
 
-    public void setProfilePictureUrl(String profilePictureUrl) {
-        this.profilePictureUrl = profilePictureUrl;
+    public void setGroupPostList(List<GroupPost> groupPostList) {
+        this.groupPostList = groupPostList;
     }
 
-
-    public List<GroupMembership> getGroupMembershipList() {
-        return groupMembershipList;
+    public List<PostLike> getPostLikeList() {
+        return postLikeList;
     }
 
-    public void setGroupMembershipList(List<GroupMembership> groupMembershipList) {
-        this.groupMembershipList = groupMembershipList;
+    public void setPostLikeList(List<PostLike> postLikeList) {
+        this.postLikeList = postLikeList;
     }
 
     public List<PostComment> getPostCommentList() {
@@ -391,6 +220,22 @@ public class UserProfile {
         this.postCommentList = postCommentList;
     }
 
+    public List<GroupMembership> getGroupMembershipList() {
+        return groupMembershipList;
+    }
+
+    public void setGroupMembershipList(List<GroupMembership> groupMembershipList) {
+        this.groupMembershipList = groupMembershipList;
+    }
+
+    public List<GroupPostLike> getGroupPostLikeList() {
+        return groupPostLikeList;
+    }
+
+    public void setGroupPostLikeList(List<GroupPostLike> groupPostLikeList) {
+        this.groupPostLikeList = groupPostLikeList;
+    }
+
     public List<GroupPostComment> getGroupPostCommentList() {
         return groupPostCommentList;
     }
@@ -399,56 +244,124 @@ public class UserProfile {
         this.groupPostCommentList = groupPostCommentList;
     }
 
-
-    public List<GroupPost> getGroupPostList() {
-        return groupPostList;
+    public String getPassword() {
+        return password;
     }
 
-    public void setGroupPostList(List<GroupPost> groupPostList) {
-        this.groupPostList = groupPostList;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-
-
-    public Optional<String> findAnswerForSecurityQuestion(String securityQuestion) {
-        for (int i = 0; i < securityQuestions.length; i++) {
-            if (securityQuestions[i].equals(securityQuestion)) {
-                return Optional.of(securityQuestionsAnswer[i]);
-            }
-        }
-        return Optional.empty();
+    public String getUserLevel() {
+        return userLevel;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserProfile other = (UserProfile) o;
-        return this.email.equals(other.email);
+    public void setUserLevel(String userLevel) {
+        this.userLevel = userLevel;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(email);
+    public boolean isValidated() {
+        return isValidated;
     }
 
-    public UserProfileDTO toDto() {
-        return new UserProfileDTO(
-                age,
-                email,
-                status,
-                isValidated,
-                role,
-                onlineStatus,
-                userName,
-                biography,
-                profileAccessLevel,
-                gender,
-                firstName,
-                lastName,
-                profilePictureUrl,
-                userLevel
-        );
+    public void setValidated(boolean validated) {
+        isValidated = validated;
+    }
+
+    public String[] getSecurityQuestions() {
+        return securityQuestions;
+    }
+
+    public void setSecurityQuestions(String[] securityQuestions) {
+        this.securityQuestions = securityQuestions;
+    }
+
+    public String[] getSecurityQuestionsAnswer() {
+        return securityQuestionsAnswer;
+    }
+
+    public void setSecurityQuestionsAnswer(String[] securityQuestionsAnswer) {
+        this.securityQuestionsAnswer = securityQuestionsAnswer;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getOnlineStatus() {
+        return onlineStatus;
+    }
+
+    public void setOnlineStatus(String onlineStatus) {
+        this.onlineStatus = onlineStatus;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        this.profilePictureUrl = profilePictureUrl;
+    }
+
+    public LocalDateTime getUserCreateTime() {
+        return userCreateTime;
+    }
+
+    public void setUserCreateTime(LocalDateTime userCreateTime) {
+        this.userCreateTime = userCreateTime;
     }
 
 }
