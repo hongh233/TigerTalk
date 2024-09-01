@@ -35,25 +35,35 @@ public class GroupSearchServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        userA = new UserProfile(
-                "Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a",
-                new String[]{"1", "2", "3"},
-                new String[]{
-                        "What was your favourite book as a child?",
-                        "In what city were you born?",
-                        "What is the name of the hospital where you were born?"
-                }
-        );
+        userA = new UserProfile();
+        userA.setFirstName("Along");
+        userA.setLastName("Aside");
+        userA.setAge(22);
+        userA.setGender("Male");
+        userA.setUserName("userA");
+        userA.setEmail("a@dal.ca");
+        userA.setPassword("aaaa1A@a");
+        userA.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userA.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
 
-        userB = new UserProfile(
-                "Beach", "Boring", 21, "Male", "userB", "b@dal.ca", "aaaa1A@a",
-                new String[]{"1", "2", "3"},
-                new String[]{
-                        "What was your favourite book as a child?",
-                        "In what city were you born?",
-                        "What is the name of the hospital where you were born?"
-                }
-        );
+        userB = new UserProfile();
+        userB.setFirstName("Beach");
+        userB.setLastName("Boring");
+        userB.setAge(21);
+        userB.setGender("Male");
+        userB.setUserName("userB");
+        userB.setEmail("b@dal.ca");
+        userB.setPassword("aaaa1A@a");
+        userB.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userB.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
 
         GroupMembership membershipA = new GroupMembership();
         membershipA.setUserProfile(userA);

@@ -82,31 +82,10 @@ public class UserProfile {
     private int age;
     private String gender;
 
-
     // user variable (distributed):
     private String onlineStatus = "offline";  // "available" / "busy" / "away" / "offline"
     private String profilePictureUrl = "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg";
 
-
-    public UserProfile(String firstName,
-                       String lastName,
-                       int age,
-                       String gender,
-                       String userName,
-                       String email,
-                       String password,
-                       String[] securityQuestionsAnswer,
-                       String[] securityQuestions) {
-        this.email = email;
-        this.password = password;
-        this.securityQuestionsAnswer = securityQuestionsAnswer;
-        this.securityQuestions = securityQuestions;
-        this.userName = userName;
-        this.age = age;
-        this.gender = gender;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 
     public UserProfile() {
     }

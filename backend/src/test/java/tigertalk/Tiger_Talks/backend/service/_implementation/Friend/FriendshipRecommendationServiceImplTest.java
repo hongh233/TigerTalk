@@ -40,9 +40,51 @@ public class FriendshipRecommendationServiceImplTest {
     @BeforeEach
     public void setUp() {
         userA = Mockito.mock(UserProfile.class);
-        userB = new UserProfile("Blong", "Bside", 23, "Female", "userB", "b@dal.ca", "bbbb1B@b", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        userC = new UserProfile("Clong", "Cside", 24, "Male", "userC", "c@dal.ca", "cccc1C@c", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        userD = new UserProfile("Dlong", "Dside", 25, "Female", "userD", "d@dal.ca", "dddd1D@d", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+        userB = new UserProfile();
+        userB.setFirstName("Blong");
+        userB.setLastName("Bside");
+        userB.setAge(23);
+        userB.setGender("Female");
+        userB.setUserName("userB");
+        userB.setEmail("b@dal.ca");
+        userB.setPassword("bbbb1B@b");
+        userB.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userB.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
+
+        userC = new UserProfile();
+        userC.setFirstName("Clong");
+        userC.setLastName("Cside");
+        userC.setAge(24);
+        userC.setGender("Male");
+        userC.setUserName("userC");
+        userC.setEmail("c@dal.ca");
+        userC.setPassword("cccc1C@c");
+        userC.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userC.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
+
+        userD = new UserProfile();
+        userD.setFirstName("Dlong");
+        userD.setLastName("Dside");
+        userD.setAge(25);
+        userD.setGender("Female");
+        userD.setUserName("userD");
+        userD.setEmail("d@dal.ca");
+        userD.setPassword("dddd1D@d");
+        userD.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userD.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
+
         lenient().when(userA.getEmail()).thenReturn("a@dal.ca");
         lenient().when(friendshipRepository.findAllFriendsByEmail(userA.getEmail())).thenReturn(List.of(userB));
     }

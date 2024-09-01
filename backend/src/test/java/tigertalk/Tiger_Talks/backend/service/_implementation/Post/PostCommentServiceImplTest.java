@@ -57,36 +57,36 @@ public class PostCommentServiceImplTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        userA = new UserProfile(
-                "userD",
-                "number",
-                12,
-                "Male",
-                "userD",
-                "d@dal.ca",
-                "aaaa1A@a",
-                new String[]{"1", "2", "3"},
-                new String[]{
-                        "What was your favourite book as a child?",
-                        "In what city were you born?",
-                        "What is the name of the hospital where you were born?"
-                }
-        );
-        userB = new UserProfile(
-                "Hong",
-                "Huang",
-                12,
-                "other",
-                "a",
-                "hn582183@dal.ca",
-                "aaaa1A@a",
-                new String[]{"1", "2", "3"},
-                new String[]{
-                        "What was your favourite book as a child?",
-                        "In what city were you born?",
-                        "What is the name of the hospital where you were born?"
-                }
-        );
+        userA = new UserProfile();
+        userA.setFirstName("userD");
+        userA.setLastName("number");
+        userA.setAge(12);
+        userA.setGender("Male");
+        userA.setUserName("userD");
+        userA.setEmail("d@dal.ca");
+        userA.setPassword("aaaa1A@a");
+        userA.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userA.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
+
+        userB = new UserProfile();
+        userB.setFirstName("Hong");
+        userB.setLastName("Huang");
+        userB.setAge(12);
+        userB.setGender("other");
+        userB.setUserName("a");
+        userB.setEmail("hn582183@dal.ca");
+        userB.setPassword("aaaa1A@a");
+        userB.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userB.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
+
 
         post = new Post();
         post.setPostId(1);

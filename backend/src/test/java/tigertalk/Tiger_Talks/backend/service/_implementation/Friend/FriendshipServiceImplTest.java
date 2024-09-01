@@ -46,9 +46,51 @@ public class FriendshipServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        userA = new UserProfile("Along", "Aside", 22, "Male", "userA", "a@dal.ca", "aaaa1A@a", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        userB = new UserProfile("Blong", "Bside", 23, "Female", "userB", "b@dal.ca", "bbbb1B@b", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
-        userC = new UserProfile("Clong", "Cside", 24, "Male", "userC", "c@dal.ca", "cccc1C@c", new String[]{"1", "2", "3"}, new String[]{"What was your favourite book as a child?", "In what city were you born?", "What is the name of the hospital where you were born?"});
+        userA = new UserProfile();
+        userA.setFirstName("Along");
+        userA.setLastName("Aside");
+        userA.setAge(22);
+        userA.setGender("Male");
+        userA.setUserName("userA");
+        userA.setEmail("a@dal.ca");
+        userA.setPassword("aaaa1A@a");
+        userA.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userA.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
+
+        userB = new UserProfile();
+        userB.setFirstName("Blong");
+        userB.setLastName("Bside");
+        userB.setAge(23);
+        userB.setGender("Female");
+        userB.setUserName("userB");
+        userB.setEmail("b@dal.ca");
+        userB.setPassword("bbbb1B@b");
+        userB.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userB.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
+
+        userC = new UserProfile();
+        userC.setFirstName("Clong");
+        userC.setLastName("Cside");
+        userC.setAge(24);
+        userC.setGender("Male");
+        userC.setUserName("userC");
+        userC.setEmail("c@dal.ca");
+        userC.setPassword("cccc1C@c");
+        userC.setSecurityQuestions(new String[]{"1", "2", "3"});
+        userC.setSecurityQuestionsAnswer(new String[]{
+                "What was your favourite book as a child?",
+                "In what city were you born?",
+                "What is the name of the hospital where you were born?"
+        });
+
         friendshipAB = new Friendship(userA, userB);
         friendshipAC = new Friendship(userA, userC);
         friendshipBA = new Friendship(userB, userA);
