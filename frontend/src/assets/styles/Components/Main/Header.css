@@ -16,7 +16,6 @@
 
 .header-title {
 	width: 40%;
-	padding-left: 2%;
 }
 
 .home-link {
@@ -88,13 +87,20 @@
 	margin: 0;
 	padding: 5px 0;
 }
-
 .header-profile-popup p:first-child {
 	color: #fff;
 	font-weight: bold;
 }
 .header-profile-popup p:not(:first-child) {
 	color: #ddd;
+}
+.header-profile-popup .navbar-sign-out-button {
+	color: #ddd;
+	cursor: pointer;
+}
+.header-profile-popup .navbar-admin-button {
+	color: #ddd;
+	cursor: pointer;
 }
 
 
@@ -103,80 +109,11 @@
 /************************************** nav bar **************************************/
 
 
-/* navigation bar toggle button style */
-.navbar-toggle-button {
-	background-color: #f6f8fa;
-	border: 1px solid #d1d5da;
-	border-radius: 6px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	transition: background-color 0.2s ease, box-shadow 0.2s ease;
-
-	padding: 8px;
-	margin-left: 9px; /* left right position of toggle button */
-}
-.navbar-toggle-button:hover {
-	background-color: #e1e4e8;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-.navbar-toggle-button:active {
-	background-color: #d1d5da;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-.navbar-toggle-button svg {
-	color: #24292e;
-	width: 24px;
-	height: 24px;
-}
 
 
 
 
 
-
-
-.navbar {
-	width: 60px;
-	position: fixed;
-	top: 6vh;
-
-	display: flex;
-	flex-direction: column;
-	transition: height 0.3s ease-out, transform 0.3s ease-out;
-}
-.navbar-visible {
-	transform: translateX(0);
-}
-.navbar-hidden {
-	transform: translateX(-100%);
-}
-
-
-.navbar a {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 15px;
-	color: #333;
-	text-decoration: none;
-	margin-bottom: 5px;
-	border-radius: 4px;
-	transition: background-color 0.3s;
-
-	width: 100%;
-	box-sizing: border-box;
-}
-
-.navbar a:hover {
-	background-color: #ddd;
-}
-
-.navbar a svg {
-	font-size: 1.8rem;
-}
 
 
 .navbar-icon-box {
@@ -191,7 +128,7 @@
 	border-radius: 4px;
 	transition: background-color 0.3s ease, color 0.3s ease;
 
-	width: 100%;
+	width: 100px;
 	box-sizing: border-box;
 }
 
