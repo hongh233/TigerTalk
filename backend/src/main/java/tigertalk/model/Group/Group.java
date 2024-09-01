@@ -1,5 +1,4 @@
 package tigertalk.model.Group;
-import tigertalk.model.Utils;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -20,7 +19,7 @@ public class Group {
 
     private String interest;
 
-    private String groupImg = Utils.DEFAULT_GROUP_PICTURE;
+    private String groupImg = "https://mediaim.expedia.com/destination/7/bb1caab964e8be84036cd5ee7b05e787.jpg?impolicy=fcrop&w=1920&h=480&q=medium";
 
     private LocalDateTime groupCreateTime = LocalDateTime.now();
 
