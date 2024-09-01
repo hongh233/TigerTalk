@@ -1,6 +1,5 @@
 package tigertalk.controller.Authentication;
 
-import tigertalk.model.Authentication.EmailPassword;
 import tigertalk.service.Authentication.PasswordResetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +33,8 @@ public class PasswordResetController {
         }
     }
 
+
+
     /**
      * Resets the password for the given user.
      *
@@ -42,13 +43,20 @@ public class PasswordResetController {
      */
     @PostMapping("/resetPassword")
     public ResponseEntity<String> resetPassword(@RequestBody EmailPassword emailPassword) {
-        Optional<String> error = passwordResetService.resetPassword(emailPassword);
+        Optional<String> error = passwordResetService.resetPassword(emailPassword.email, emailPassword.password);
         if (error.isPresent()) {
             return ResponseEntity.status(404).body(error.get());
         } else {
             return ResponseEntity.status(200).body("Password was successfully reset");
         }
     }
+    public record EmailPassword(
+            String email,
+            String password
+    ) {
+    }
+
+
 
     /**
      * Sends a password reset token to the given email.

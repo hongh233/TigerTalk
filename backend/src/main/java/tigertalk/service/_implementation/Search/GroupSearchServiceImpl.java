@@ -5,7 +5,7 @@ import tigertalk.model.Group.GroupDTO;
 import tigertalk.model.Group.GroupMembership;
 import tigertalk.model.Utils.RegexCheck;
 import tigertalk.repository.Group.GroupRepository;
-import tigertalk.service.Search.Searchable;
+import tigertalk.service.Search.GroupSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
-public class GroupSearchServiceImpl implements Searchable<GroupDTO> {
+public class GroupSearchServiceImpl implements GroupSearchService {
 
     @Autowired
     private GroupRepository groupRepository;

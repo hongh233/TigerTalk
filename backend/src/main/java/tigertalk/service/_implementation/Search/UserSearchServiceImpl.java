@@ -4,9 +4,9 @@ import tigertalk.model.User.UserProfile;
 import tigertalk.model.User.UserProfileDTO;
 import tigertalk.model.Utils.RegexCheck;
 import tigertalk.repository.User.UserProfileRepository;
-import tigertalk.service.Search.Searchable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tigertalk.service.Search.UserSearchService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * Service for searching user profiles.
  */
 @Service
-public class UserSearchServiceImpl implements Searchable<UserProfileDTO> {
+public class UserSearchServiceImpl implements UserSearchService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;

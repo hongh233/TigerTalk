@@ -1,6 +1,5 @@
 package tigertalk.Tiger_Talks.backend.service._implementation.Authentication;
 
-import tigertalk.model.Authentication.EmailPassword;
 import tigertalk.model.Authentication.PasswordToken;
 import tigertalk.model.User.UserProfile;
 import tigertalk.repository.Authentication.PasswordTokenRepository;
@@ -135,40 +134,35 @@ public class PasswordResetServiceImplTest {
      */
     @Test
     public void resetPassword_invalid_length() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new EmailPassword("user@dal.ca", "aaaa"));
+        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "aaaa");
         assertTrue(result.isPresent());
         assertEquals("Password must have a minimum length of 8 characters.", result.get());
     }
 
     @Test
     public void resetPassword_invalid_noUppercase() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new EmailPassword("user@dal.ca", "aaaaaaaa"));
+        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "aaaaaaaa");
         assertTrue(result.isPresent());
         assertEquals("Password must have at least 1 uppercase character.", result.get());
     }
 
     @Test
     public void resetPassword_invalid_noLowercase() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new EmailPassword("user@dal.ca", "AAAAAAAA"));
+        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "AAAAAAAA");
         assertTrue(result.isPresent());
         assertEquals("Password must have at least 1 lowercase character.", result.get());
     }
 
     @Test
     public void resetPassword_invalid_noNumber() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new EmailPassword("user@dal.ca", "AAAAaaaa"));
+        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "AAAAaaaa");
         assertTrue(result.isPresent());
         assertEquals("Password must have at least 1 number.", result.get());
     }
 
     @Test
     public void resetPassword_invalid_noSpecialCharacter() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new EmailPassword("user@dal.ca", "aaaa1Aaa"));
+        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "aaaa1Aaa");
         assertTrue(result.isPresent());
         assertEquals("Password must have at least 1 special character.", result.get());
     }
@@ -176,14 +170,12 @@ public class PasswordResetServiceImplTest {
     @Test
     public void resetPassword_valid_userExist() {
         when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
-        assertTrue(passwordResetServiceImpl.resetPassword(
-                new EmailPassword(userA.getEmail(), userA.getPassword())).isEmpty());
+        assertTrue(passwordResetServiceImpl.resetPassword(userA.getEmail(), userA.getPassword()).isEmpty());
     }
 
     @Test
     public void resetPassword_valid_userNotExist() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword(
-                new EmailPassword(userB.getEmail(), userA.getPassword()));
+        Optional<String> result = passwordResetServiceImpl.resetPassword(userB.getEmail(), userA.getPassword());
         lenient().when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
         assertTrue(result.isPresent());
         assertEquals("An error occurred while resetting your password. " +

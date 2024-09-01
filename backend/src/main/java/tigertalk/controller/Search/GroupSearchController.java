@@ -1,7 +1,7 @@
 package tigertalk.controller.Search;
 
 import tigertalk.model.Group.GroupDTO;
-import tigertalk.service.Search.Searchable;
+import tigertalk.service.Search.GroupSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +15,7 @@ import java.util.List;
 public class GroupSearchController {
 
     @Autowired
-    private Searchable<GroupDTO> groupSearchService;
+    private GroupSearchService groupSearchService;
 
     /**
      * Searches for public groups by name based on the search query and user email.

@@ -1,6 +1,5 @@
 package tigertalk.service._implementation.Authentication;
 
-import tigertalk.model.Authentication.EmailPassword;
 import tigertalk.model.Authentication.MailClient;
 import tigertalk.model.Authentication.PasswordToken;
 import tigertalk.model.User.UserProfile;
@@ -72,27 +71,27 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     }
 
     @Override
-    public Optional<String> resetPassword(EmailPassword passwordDTO) {
-        if (!PASSWORD_NORM_LENGTH.matcher(passwordDTO.password()).matches()) {
+    public Optional<String> resetPassword(String email, String password) {
+        if (!PASSWORD_NORM_LENGTH.matcher(password).matches()) {
             return Optional.of("Password must have a minimum length of 8 characters.");
         }
-        if (!PASSWORD_NORM_UPPERCASE.matcher(passwordDTO.password()).matches()) {
+        if (!PASSWORD_NORM_UPPERCASE.matcher(password).matches()) {
             return Optional.of("Password must have at least 1 uppercase character.");
         }
-        if (!PASSWORD_NORM_LOWERCASE.matcher(passwordDTO.password()).matches()) {
+        if (!PASSWORD_NORM_LOWERCASE.matcher(password).matches()) {
             return Optional.of("Password must have at least 1 lowercase character.");
         }
-        if (!PASSWORD_NORM_NUMBER.matcher(passwordDTO.password()).matches()) {
+        if (!PASSWORD_NORM_NUMBER.matcher(password).matches()) {
             return Optional.of("Password must have at least 1 number.");
         }
-        if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(passwordDTO.password()).matches()) {
+        if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(password).matches()) {
             return Optional.of("Password must have at least 1 special character.");
         }
 
-        Optional<UserProfile> userOptional = userProfileRepository.findById(passwordDTO.email());
+        Optional<UserProfile> userOptional = userProfileRepository.findById(email);
         if (userOptional.isPresent()) {
             UserProfile user = userOptional.get();
-            user.setPassword(passwordDTO.password());
+            user.setPassword(password);
             userProfileRepository.save(user);
             return Optional.empty();
         } else {
