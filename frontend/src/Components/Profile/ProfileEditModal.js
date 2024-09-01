@@ -36,27 +36,15 @@ const ProfileEditModal = ({ isOpen, onClose, user, setProfileUser }) => {
         setForm({...form, [name]: value});
     };
 
+    // TODO: showing error message when have wrong format of info input
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({});
         const { email, firstName, lastName, userName, biography, age, gender } = form;
 
-        const cleanUpdateData = {
-            firstName: firstName !== user.firstName ? firstName : undefined,
-            lastName: lastName !== user.lastName ? lastName : undefined,
-            userName: userName !== user.userName ? userName : undefined,
-            biography: biography !== user.biography ? biography : undefined,
-            age: age !== user.age ? age : undefined,
-            gender: gender !== user.gender ? gender : undefined,
-        };
-
-        Object.keys(cleanUpdateData).forEach(key => {
-            if (cleanUpdateData[key] === undefined) {
-                delete cleanUpdateData[key];
-            }
-        });
-
-        if (Object.keys(cleanUpdateData).length === 0) {
+        if (firstName === user.firstName && lastName === user.lastName && userName === user.userName &&
+            biography === user.biography && age === user.age && gender === user.gender
+        ) {
             alert("No changes detected.");
             return;
         }
@@ -64,7 +52,7 @@ const ProfileEditModal = ({ isOpen, onClose, user, setProfileUser }) => {
         try {
             await updateUserProfileSetCommonInfo(email, firstName, lastName, userName, biography, age, gender);
             alert("Profile updated successfully");
-            const updatedUser = { ...user, ...cleanUpdateData };
+            const updatedUser = { ...user, ...form };
             dispatch({ type: "SET_USER", payload: updatedUser });
             setProfileUser(updatedUser);
             onClose();
