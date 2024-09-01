@@ -2,8 +2,6 @@ package tigertalk;
 
 import tigertalk.controller.Friend.FriendshipRequestController;
 import tigertalk.model.User.UserProfile;
-import tigertalk.model.Utils.UserLevel;
-import tigertalk.model.Utils.UserStatus;
 import tigertalk.repository.User.UserProfileRepository;
 import tigertalk.service.Authentication.SignUpService;
 import tigertalk.service.Friend.FriendshipRequestService;
@@ -16,18 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
-import static tigertalk.model.Utils.TestGen.MAX_USERS;
-import static tigertalk.model.Utils.TestGen.MIN_USERS;
 
 @RestController
 @RequestMapping("/api/scripts")
 public class Scripts {
-    private static final int NUM_OF_USERS = 26;
-    private static final int NUM_OF_GROUPS = 10;
+
     @Autowired
     private SignUpService signUpService;
     @Autowired
@@ -38,31 +30,204 @@ public class Scripts {
     private UserProfileRepository userProfileRepository;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private FriendshipRequestController friendshipRequestController;
 
     @PostMapping("/setUp")
-    public void run() {
-        bulkSignUp();
-        bulkFriends();
-        bulkGroup();
+    public ResponseEntity<String> run() {
+        UserProfile userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ, userK, userL, userM,
+                userN, userO, userP, userQ, userR, userS, userT, userU, userV, userW, userX, userY, userZ;
+        userA = new UserProfile();userB = new UserProfile();userC = new UserProfile();userD = new UserProfile();
+        userE = new UserProfile();userF = new UserProfile();userG = new UserProfile();userH = new UserProfile();
+        userI = new UserProfile();userJ = new UserProfile();userK = new UserProfile();userL = new UserProfile();
+        userM = new UserProfile();userN = new UserProfile();userO = new UserProfile();userP = new UserProfile();
+        userQ = new UserProfile();userR = new UserProfile();userS = new UserProfile();userT = new UserProfile();
+        userU = new UserProfile();userV = new UserProfile();userW = new UserProfile();userX = new UserProfile();
+        userY = new UserProfile();userZ = new UserProfile();
+
+        userA.setEmail("a@dal.ca");
+        userA.setPassword("aaaa1A@a");
+        userA.setSecurityQuestion("What was your favourite book as a child?");
+        userA.setSecurityQuestionAnswer("1");
+        userA.setValidated(true);
+        userA.setUserLevel("admin");
+        userA.setRole("instructor");
+        userA.setFirstName("Apple");
+        userA.setLastName("Axio");
+        userA.setUserName("Hong");
+        userA.setBiography("dafgiusdgiuadhfilshdlofadf");
+        userA.setAge(32);
+        userA.setGender("Male");
+        userA.setOnlineStatus("offline");
+        userA.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
+
+        userB.setEmail("b@dal.ca");
+        userB.setPassword("aaaa1A@a");
+        userB.setSecurityQuestion("What was your favourite book as a child?");
+        userB.setSecurityQuestionAnswer("1");
+        userB.setValidated(true);
+        userB.setUserLevel("admin");
+        userB.setRole("instructor");
+        userB.setFirstName("Bell");
+        userB.setLastName("Berry");
+        userB.setUserName("Benjamin");
+        userB.setBiography("waibibaboasauahjaskfjaisfs");
+        userB.setAge(32);
+        userB.setGender("Male");
+        userB.setOnlineStatus("offline");
+        userB.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
+
+        userC.setEmail("c@dal.ca");
+        userC.setPassword("aaaa1A@a");
+        userC.setSecurityQuestion("What was your favourite book as a child?");
+        userC.setSecurityQuestionAnswer("1");
+        userC.setValidated(true);
+        userC.setUserLevel("admin");
+        userC.setRole("instructor");
+        userC.setFirstName("Cell");
+        userC.setLastName("Cherry");
+        userC.setUserName("Raphael");
+        userC.setBiography("ashibaufaifauhdidashfiubwi");
+        userC.setAge(32);
+        userC.setGender("Male");
+        userC.setOnlineStatus("offline");
+        userC.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
+
+        userD.setEmail("d@dal.ca");
+        userD.setPassword("aaaa1A@a");
+        userD.setSecurityQuestion("What was your favourite book as a child?");
+        userD.setSecurityQuestionAnswer("1");
+        userD.setValidated(true);
+        userD.setUserLevel("admin");
+        userD.setRole("instructor");
+        userD.setFirstName("Diarea");
+        userD.setLastName("Dollar");
+        userD.setUserName("Tyson");
+        userD.setBiography("tysonloveyousendbyashabfuia");
+        userD.setAge(32);
+        userD.setGender("Male");
+        userD.setOnlineStatus("offline");
+        userD.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
+
+        userE.setEmail("e@dal.ca");
+        userE.setPassword("aaaa1A@a");
+        userE.setSecurityQuestion("What was your favourite book as a child?");
+        userE.setSecurityQuestionAnswer("1");
+        userE.setValidated(true);
+        userE.setUserLevel("admin");
+        userE.setRole("instructor");
+        userE.setFirstName("Ella");
+        userE.setLastName("Eric");
+        userE.setUserName("ShuQiang");
+        userE.setBiography("asafqiufbqifuiafavkjijahiad");
+        userE.setAge(32);
+        userE.setGender("Male");
+        userE.setOnlineStatus("offline");
+        userE.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
+
+        userF.setEmail("f@dal.ca");
+        userF.setPassword("aaaa1A@a");
+        userF.setSecurityQuestion("What was your favourite book as a child?");
+        userF.setSecurityQuestionAnswer("1");
+        userF.setValidated(true);
+        userF.setUserLevel("user");
+        userF.setRole("student");
+        userF.setFirstName("Fuck");
+        userF.setLastName("Ferry");
+        userF.setUserName("Funk");
+        userF.setBiography("uafiaugidsnfajfjhdakfaivahjkfakjgfjkahkjhakbk");
+        userF.setAge(64);
+        userF.setGender("Female");
+        userF.setOnlineStatus("offline");
+        userF.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
+
+        userG.setEmail("g@dal.ca");
+        userG.setPassword("aaaa1A@a");
+        userG.setSecurityQuestion("What was your favourite book as a child?");
+        userG.setSecurityQuestionAnswer("1");
+        userG.setValidated(true);
+        userG.setUserLevel("user");
+        userG.setRole("student");
+        userG.setFirstName("Goal");
+        userG.setLastName("Goat");
+        userG.setUserName("God");
+        userG.setBiography("uafiaugidsnfajfjhdakfaivahjkfakjgfjkahkjhakbk");
+        userG.setAge(64);
+        userG.setGender("Female");
+        userG.setOnlineStatus("offline");
+        userG.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
+
+        userH.setEmail("h@dal.ca");
+        userH.setPassword("aaaa1A@a");
+        userH.setSecurityQuestion("What was your favourite book as a child?");
+        userH.setSecurityQuestionAnswer("1");
+        userH.setValidated(true);
+        userH.setUserLevel("user");
+        userH.setRole("student");
+        userH.setFirstName("Hell");
+        userH.setLastName("Halt");
+        userH.setUserName("Holy");
+        userH.setBiography("uafiaugidsnfajfjhdakfaivahjkfakjgfjkahkjhakbk");
+        userH.setAge(64);
+        userH.setGender("Female");
+        userH.setOnlineStatus("offline");
+        userH.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
+
+        userI.setEmail("i@dal.ca");
+        userI.setPassword("aaaa1A@a");
+        userI.setSecurityQuestion("What was your favourite book as a child?");
+        userI.setSecurityQuestionAnswer("1");
+        userI.setValidated(true);
+        userI.setUserLevel("user");
+        userI.setRole("student");
+        userI.setFirstName("Hell");
+        userI.setLastName("Halt");
+        userI.setUserName("Holy");
+        userI.setBiography("uafiaugidsnfajfjhdakfaivahjkfakjgfjkahkjhakbk");
+        userI.setAge(64);
+        userI.setGender("Female");
+        userI.setOnlineStatus("offline");
+        userI.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
+
+
+        userProfileRepository.save(userA);
+        userProfileRepository.save(userB);
+        userProfileRepository.save(userC);
+        userProfileRepository.save(userD);
+        userProfileRepository.save(userE);
+        userProfileRepository.save(userF);
+        userProfileRepository.save(userG);
+        userProfileRepository.save(userH);
+        userProfileRepository.save(userI);
+
+        return ResponseEntity.ok("Initialize data successfully");
     }
+
 
     @PostMapping("/dropTables")
     public ResponseEntity<String> dropTables() {
         String[] dropTablesSql = {
                 "SET foreign_key_checks = 0;",
-                "DROP TABLE IF EXISTS password_token_impl;",
+
+                "DROP TABLE IF EXISTS password_token;",
+
                 "DROP TABLE IF EXISTS friendship_message;",
                 "DROP TABLE IF EXISTS friendship;",
                 "DROP TABLE IF EXISTS friendship_request;",
                 "DROP TABLE IF EXISTS notification;",
+
+                "DROP TABLE IF EXISTS group_post_like;",
                 "DROP TABLE IF EXISTS group_post_comment;",
                 "DROP TABLE IF EXISTS group_post;",
-                "DROP TABLE IF EXISTS user_group;",
+                "DROP TABLE IF EXISTS group_all;",
                 "DROP TABLE IF EXISTS group_membership;",
+
                 "DROP TABLE IF EXISTS post_like;",
                 "DROP TABLE IF EXISTS post_comment;",
                 "DROP TABLE IF EXISTS post;",
+
                 "DROP TABLE IF EXISTS user_profile;",
+
                 "SET foreign_key_checks = 1;"
         };
         try {
@@ -76,202 +241,4 @@ public class Scripts {
         }
     }
 
-    /**
-     * Test method for signing up user profiles.
-     */
-    public void bulkSignUp() {
-        userProfileRepository.saveAll(Impl.genUsers(NUM_OF_USERS));
-    }
-
-    public void bulkFriends() {
-        FriendshipRequestController fReqController = new FriendshipRequestController(friendshipRequestService);
-
-        Impl.createFriends(
-                NUM_OF_USERS,
-                friendshipRequestService,
-                fReqController::acceptFriendRequest,
-                fReqController::sendFriendRequest
-        );
-    }
-
-    public void bulkGroup() {
-        final String[] interests = {"music", "games", "study", "memes"};
-        int ADMIN_USER = Impl.getAdminUser(NUM_OF_USERS);
-        for (int i = 0; i < NUM_OF_GROUPS; i++) {
-            var groupName = "Group 31" + i;
-            var interest = interests[i % interests.length];
-            if (i > (NUM_OF_GROUPS / 2)) {
-                groupService.createGroup(groupName + interest, "b@dal.ca", true, interest);
-            } else {
-                groupService.createGroup(groupName + interest, ((char) ADMIN_USER) + "@dal.ca", i % 2 == 0, interest);
-            }
-        }
-
-    }
-
-
-    public static class Impl {
-        private final static String[] securityQuestions = {
-                "What was your favourite book as a child?",
-                "In what city were you born?",
-                "What is the name of the hospital where you were born?"};
-        private final static String[] securityQuestionAnswers = {"1", "1", "1"};
-
-        public static List<UserProfile> genUsers(int numOfUsers) {
-            ArrayList<UserProfile> userProfiles = new ArrayList<>();
-            for (int i = 0; i < numOfUsers; i++) {
-                userProfiles.add(new UserProfile(
-                        "user" + alpha(i),
-                        "number",
-                        12,
-                        (i % 3 == 0) ? "Male" : "Female",
-                        "user" + alpha(i),
-                        (char) (alpha(i) ^ 32) + "@dal.ca", // Flip case
-                        "aaaa1A@a",
-                        securityQuestionAnswers,
-                        securityQuestions
-                ));
-            }
-
-            initMembers(userProfiles);
-
-            return userProfiles;
-        }
-
-        /**
-         * Sets up group members
-         * <p>
-         * - Tyson (s@dal.ca)
-         * <p>
-         * - Hongh (a@dal.ca)
-         * <p>
-         * - Raphael (n@dal.ca)
-         * <p>
-         * - Shuqiang (z@dal.ca)
-         * <p>
-         * - Benjamin (b@dal.ca)
-         */
-        private static void initMembers(ArrayList<UserProfile> userProfiles) {
-            assert userProfiles.size() == 26;
-
-            UserProfile Benjamin = userProfiles.get(1);
-            Benjamin.setUserLevel(UserLevel.ADMIN);
-            Benjamin.setValidated(true);
-            Benjamin.setStatus(UserStatus.ACTIVE);
-            Benjamin.setGender("Male");
-            Benjamin.setUserName("Benjamin");
-
-            UserProfile Shuqiang = userProfiles.get(25);
-            Shuqiang.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721170651/lcwcalggdsyvifoo0grn.jpg");
-            Shuqiang.setUserLevel(UserLevel.ADMIN);
-            Shuqiang.setValidated(true);
-            Shuqiang.setStatus(UserStatus.ACTIVE);
-            Shuqiang.setGender("Male");
-            Shuqiang.setUserName("Shuqiang");
-
-            UserProfile Raphael = userProfiles.get(13);
-            Raphael.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721167087/pctpb2ean1jv6ojuz7mm.jpg");
-            Raphael.setUserLevel(UserLevel.ADMIN);
-            Raphael.setValidated(true);
-            Raphael.setStatus(UserStatus.ACTIVE);
-            Raphael.setGender("Male");
-            Raphael.setUserName("Homelander");
-            Raphael.firstName("Not");
-            Raphael.setLastName("UrBusiness");
-            Raphael.setBiography("Spreading Freedom to the world. Especially those with Oil");
-            Raphael.setAge(25);
-            Raphael.setGender("USA");
-
-            UserProfile Tyson = userProfiles.get(18);
-            Tyson.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721672401/w3ztd6nrvaqidsp348wl.avif");
-            Tyson.setUserLevel(UserLevel.ADMIN);
-            Tyson.setValidated(true);
-            Tyson.setStatus(UserStatus.ACTIVE);
-            Tyson.setGender("Male");
-            Tyson.setUserName("Tyson");
-
-            UserProfile Hongh = userProfiles.get(0);
-            Hongh.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1721418379/unaog1gkx1tlauh1bckw.jpg");
-            Hongh.setUserLevel(UserLevel.ADMIN);
-            Hongh.setValidated(true);
-            Hongh.setStatus(UserStatus.ACTIVE);
-            Hongh.setGender("Male");
-            Hongh.setUserName("Hongh");
-        }
-
-        private static int getAdminUser(int numOfUsers) {
-            return alpha((numOfUsers / 2)) ^ 32;
-        }
-
-        public static char alpha(int n) {
-            return (char) ('A' + n);
-        }
-
-        public static void createFriends(int numOfUsers,
-                                         FriendshipRequestService friendshipRequestService,
-                                         Function<Integer, ResponseEntity<String>> acceptFriendRequest,
-                                         BiFunction<String, String, ResponseEntity<String>> sendFriendRequest) {
-            if (numOfUsers > MAX_USERS || MIN_USERS > numOfUsers)
-                throw new IllegalArgumentException("Cannot generate more than 26 and less than 3 users as the names are A-Z check impl to change this behaviour");
-
-            int MAIN_USER = getAdminUser(numOfUsers);
-            Queue<Integer> queue = new LinkedList<>(List.of(MAIN_USER));
-            HashSet<Integer> friends = new HashSet<>();
-
-            while (!queue.isEmpty()) {
-                int curr = queue.remove();
-                if (friends.contains(curr) || curr < (alpha(0) ^ 32) || curr > (alpha(numOfUsers) ^ 32))
-                    continue;
-                friends.add(curr);
-
-                int LF = curr - 2; // Left Friend
-                if (LF >= (alpha(0) ^ 32)) {
-                    createFriendshipReturningRequestID(
-                            (char) MAIN_USER,
-                            queue,
-                            (char) curr,
-                            (char) LF,
-                            sendFriendRequest
-                    );
-                }
-
-                int RF = curr + 2;  // Right Friend
-                if (RF < (alpha(numOfUsers) ^ 32)) {
-                    createFriendshipReturningRequestID(
-                            (char) MAIN_USER,
-                            queue,
-                            (char) curr,
-                            (char) RF,
-                            sendFriendRequest
-                    );
-                }
-            }
-
-
-            var numOfTotalRequests = friendshipRequestService.findNumOfTotalRequests();
-            for (int i = 0; i < numOfTotalRequests; ) {
-                acceptFriendRequest.apply(++i);
-            }
-        }
-
-        private static void createFriendshipReturningRequestID(char MAIN_USER,
-                                                               Queue<Integer> queue,
-                                                               char curr,
-                                                               char friendNum,
-                                                               BiFunction<String, String, ResponseEntity<String>> sendFriendRequest) {
-            sendFriendRequest.apply(
-                    "%c@dal.ca".formatted(curr),
-                    "%c@dal.ca".formatted(friendNum)
-            );
-
-            if (MAIN_USER != friendNum) {
-                sendFriendRequest.apply(
-                        "%c@dal.ca".formatted(MAIN_USER),
-                        "%c@dal.ca".formatted(friendNum)
-                );
-            }
-
-            queue.add((int) friendNum);
-        }
-    }
 }
