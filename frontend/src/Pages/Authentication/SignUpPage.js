@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "../../assets/styles/Pages/Authentication/SignUpPage.css";
-import {userSignUp} from "../../axios/Authentication/SignUpAxios";
+import {checkEmailExists, userSignUp} from "../../axios/Authentication/SignUpAxios";
 import {Link, useNavigate} from "react-router-dom";
 
 
@@ -24,16 +24,13 @@ const SECURITY_QUESTIONS = [
 
 const SignUpPage = () => {
     const [form, setForm] = useState({
-        firstName: "",
-        lastName: "",
-        age: "",
-        gender: "",
-        userName: "",
         email: "",
+        userName: "",
+        gender: "",
         password: "",
         confirmPassword: "",
         securityQuestion: "",
-        securityAnswer: "",
+        securityQuestionAnswer: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -41,78 +38,92 @@ const SignUpPage = () => {
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setForm({...form, [name]: value.trim()});
+        setForm({...form, [name]: value});
     };
 
-    const validate = () => {
+    const validate = async () => {
         let errors = {};
-        if (!form.firstName) errors.firstName = "First name is required";
-        if (!form.lastName) errors.lastName = "Last name is required";
-        if (!form.age) errors.age = "Age is required";
-        else if (!Number.isInteger(Number(form.age)) || Number(form.age) <= 0) errors.age = "Age must be a positive integer.";
-        if (!form.gender) errors.gender = "Gender is required";
-        if (!form.userName) errors.userName = "User name is required";
-        if (!form.email) errors.email = "Email is required";
-        if (!form.password) errors.password = "Password is required";
-        if (form.password !== form.confirmPassword) errors.confirmPassword = "Passwords do not match";
-        if (!form.securityQuestion) errors.securityQuestion = "Security question is required";
-        if (!form.securityAnswer) errors.securityAnswer = "Answer for security question is required";
+
+        // Email check
+        if (!form.email) {
+            errors.email = "Email is required";
+        } else if (!form.email.includes("@")) {
+            errors.email = "Invalid email address. Must contain @";
+        } else {
+            try {
+                const emailExists = await checkEmailExists(form.email);
+                if (emailExists) {
+                    errors.email = "Email already exists. Please choose another.";
+                }
+            } catch (error) {
+                console.error("Error checking email existence:", error);
+                errors.email = "Unable to check email availability. Please try again.";
+            }
+        }
+
+        // Username check
+        if (!form.userName) {
+            errors.userName = "User Name is required";
+        } else if (form.userName.length < 3 || form.userName.length > 20) {
+            errors.userName = "User name must be between 3 and 20 characters long.";
+        } else if (/[^A-Za-z0-9!@#$%^&*<>?]/.test(form.userName)) {
+            errors.userName = "User Name contains invalid characters. Only letters, numbers, and characters !@#$%^&*<>? are allowed.";
+        }
+
+        // Pronouns check
+        if (!form.gender) {
+            errors.gender = "Pronouns is required";
+        }
+
+        // Password check
+        if (!form.password) {
+            errors.password = "Password is required";
+        } else {
+            if (form.password.length < 8 || form.password.length > 30) {
+                errors.password = "Password must be between 8 and 30 characters long.";
+            } else if (!/[A-Z]/.test(form.password)) {
+                errors.password = "Password must have at least 1 uppercase character.";
+            } else if (!/[a-z]/.test(form.password)) {
+                errors.password = "Password must have at least 1 lowercase character.";
+            } else if (!/[0-9]/.test(form.password)) {
+                errors.password = "Password must have at least 1 number.";
+            } else if (!/[!@#$%^&*<>?]/.test(form.password)) {
+                errors.password = "Password must have at least 1 special character, include: !@#$%^&*<>?";
+            } else if (/[^A-Za-z0-9!@#$%^&*<>?]/.test(form.password)) {
+                errors.password = "Password contains invalid characters. Only letters, numbers, and characters !@#$%^&*<>? are allowed.";
+            }
+        }
+        // Password Confirm check
+        if (form.password !== form.confirmPassword) {
+            errors.confirmPassword = "Passwords do not match";
+        }
+
+        // Security Question and Answer check
+        if (!form.securityQuestion) {
+            errors.securityQuestion = "Security question is required";
+        }
+        if (!form.securityQuestionAnswer) {
+            errors.securityQuestionAnswer = "Answer for security question is required";
+        } else if (form.securityQuestionAnswer.length < 5 || form.securityQuestionAnswer.length > 50) {
+            errors.securityQuestionAnswer = "Answer must be between 5 and 50 characters long.";
+        } else if (/[^A-Za-z0-9!@#$%^&*<>? ]/.test(form.securityQuestionAnswer)) {
+            errors.securityQuestionAnswer = "Answer contains invalid characters. Only letters, numbers, space and characters !@#$%^&*<>? are allowed.";
+        }
         return errors;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const errors = validate();
+        const errors = await validate();
         setErrors(errors);
+
         if (Object.keys(errors).length === 0) {
             try {
                 await userSignUp(form);
                 alert("Sign up successfully");
                 navigate("/");
             } catch (error) {
-                if (error.response && error.response.data) {
-                    const serverErrors = {};
-                    const errorMessage = error.response.data;
-
-                    switch (errorMessage) {
-                        case "First name must contain no symbols":
-                            serverErrors.firstName = errorMessage;
-                            break;
-                        case "Last name must contain no symbols":
-                            serverErrors.lastName = errorMessage;
-                            break;
-                        case "Age must be grater than 0":
-                            serverErrors.age = errorMessage;
-                            break;
-                        case "Username has already existed!":
-                            serverErrors.userName = errorMessage;
-                            break;
-                        case "Invalid email address. Please use dal email address!":
-                            serverErrors.email = errorMessage;
-                            break;
-                        case "Email has already existed!":
-                            serverErrors.email = errorMessage;
-                            break;
-                        case "Password must have a minimum length of 8 characters.":
-                            serverErrors.password = errorMessage;
-                            break;
-                        case "Password must have at least 1 uppercase character.":
-                            serverErrors.password = errorMessage;
-                            break;
-                        case "Password must have at least 1 lowercase character.":
-                            serverErrors.password = errorMessage;
-                            break;
-                        case "Password must have at least 1 number.":
-                            serverErrors.password = errorMessage;
-                            break;
-                        case "Password must have at least 1 special character.":
-                            serverErrors.password = errorMessage;
-                            break;
-                        default:
-                           break;
-                    }
-                    setErrors(serverErrors);
-                }
+                alert("An error occurred during signup. Please try again later.");
             }
         }
     };
@@ -122,55 +133,57 @@ const SignUpPage = () => {
             <div className="signup-container">
                 <h1>Create Your Account</h1>
                 <form onSubmit={handleSubmit}>
+
                     <div className="form-group">
-                        <input type="text" name="firstName" placeholder="First name" value={form.firstName} onChange={handleChange}/>
-                        {errors.firstName && <p className="error-css">{errors.firstName}</p>}
+                        <input type="email" name="email" placeholder="Email"
+                               value={form.email} onChange={handleChange}/>
+                        {errors.email &&
+                            <p className="error-css">{errors.email}</p>
+                        }
                     </div>
 
                     <div className="form-group">
-                        <input type="text" name="lastName" placeholder="Last name" value={form.lastName} onChange={handleChange}/>
-                        {errors.lastName && <p className="error-css">{errors.lastName}</p>}
+                        <input type="text" name="userName" placeholder="User Name"
+                               value={form.userName} onChange={handleChange}/>
+                        {errors.userName &&
+                            <p className="error-css">{errors.userName}</p>
+                        }
                     </div>
 
                     <div className="form-group">
-                        <input type="text" name="age" placeholder="Age" value={form.age} onChange={handleChange}/>
-                        {errors.age && <p className="error-css">{errors.age}</p>}
-                    </div>
-
-                    <div className="form-group">
-                        <input type="text" name="userName" placeholder="User name" value={form.userName} onChange={handleChange}/>
-                        {errors.userName && <p className="error-css">{errors.userName}</p>}
-                    </div>
-
-                    <div className="form-group">
-                        <select name="gender" value={form.gender} onChange={handleChange}>
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
+                        <select name="gender"
+                                value={form.gender} onChange={handleChange}>
+                            <option value="">Select Pronouns</option>
+                            <option value="Don't specify">Don't specify</option>
+                            <option value="they/them">they/them</option>
+                            <option value="she/her">she/her</option>
+                            <option value="he/him">he/him</option>
+                            <option value="other">other</option>
                         </select>
-                        {errors.gender && <p className="error-css">{errors.gender}</p>}
+                        {errors.gender &&
+                            <p className="error-css">{errors.gender}</p>
+                        }
                     </div>
 
                     <div className="form-group">
-                        <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange}/>
-                        {errors.email && <p className="error-css">{errors.email}</p>}
+                        <input type="password" name="password" placeholder="Password"
+                               value={form.password} onChange={handleChange}/>
+                        {errors.password &&
+                            <p className="error-css">{errors.password}</p>
+                        }
                     </div>
 
                     <div className="form-group">
-                        <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange}/>
-                        {errors.password && <p className="error-css">{errors.password}</p>}
-                    </div>
-
-                    <div className="form-group">
-                        <input type="password" name="confirmPassword" placeholder="Confirm Password" value={form.confirmPassword} onChange={handleChange}/>
+                        <input type="password" name="confirmPassword" placeholder="Confirm Password"
+                               value={form.confirmPassword} onChange={handleChange}/>
                         {errors.confirmPassword && (
                             <p className="error-css">{errors.confirmPassword}</p>
                         )}
                     </div>
 
                     <div className="form-group">
-                        <select name="securityQuestion" value={form.securityQuestion} onChange={handleChange}>
+                        <select name="securityQuestion"
+                                value={form.securityQuestion} onChange={handleChange}>
                             <option value="">Select Security Question</option>
                             {SECURITY_QUESTIONS.map(
                                 (question, index) => (
@@ -178,14 +191,16 @@ const SignUpPage = () => {
                                 ))
                             }
                         </select>
-                        {errors.securityQuestion && (<p className="error-css">{errors.securityQuestion}</p>)}
+                        {errors.securityQuestion &&
+                            <p className="error-css">{errors.securityQuestion}</p>
+                        }
                     </div>
 
                     <div className="form-group">
-                        <input type="text" name="securityAnswer" placeholder="Answer:"
-                               value={form.securityAnswer} onChange={handleChange}/>
-                        {errors.securityAnswer &&
-                            <p className="error-css">{errors.securityAnswer}</p>
+                        <input type="text" name="securityQuestionAnswer" placeholder="Answer:"
+                               value={form.securityQuestionAnswer} onChange={handleChange}/>
+                        {errors.securityQuestionAnswer &&
+                            <p className="error-css">{errors.securityQuestionAnswer}</p>
                         }
                     </div>
 

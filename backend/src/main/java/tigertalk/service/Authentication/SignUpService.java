@@ -16,5 +16,9 @@ public interface SignUpService {
      * @return an Optional containing a confirmation message or an error message, if the sign-up fails
      */
     Optional<String> signupUserProfile(UserProfile userProfile);
+
+
+
+    boolean checkEmailExists(String email);
 }
 

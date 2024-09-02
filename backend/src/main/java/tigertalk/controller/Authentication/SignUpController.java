@@ -1,13 +1,10 @@
 package tigertalk.controller.Authentication;
 
+import org.springframework.web.bind.annotation.*;
 import tigertalk.model.User.UserProfile;
 import tigertalk.service.Authentication.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -36,4 +33,17 @@ public class SignUpController {
             return ResponseEntity.status(200).body("Successfully saved user to database");
         }
     }
+
+
+    /**
+     * Checks if an email already exists in the database.
+     *
+     * @param email the email to check
+     * @return ResponseEntity with true if email exists, false otherwise
+     */
+    @GetMapping("/checkEmailExists")
+    public boolean checkEmailExists(@RequestParam String email) {
+        return signUpService.checkEmailExists(email);
+    }
+
 }

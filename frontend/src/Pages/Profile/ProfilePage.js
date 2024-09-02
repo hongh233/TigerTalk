@@ -222,8 +222,13 @@ const ProfilePage = () => {
 										<span><strong>Gender:</strong> {profileUser.gender}</span>
 										<span><strong>Role:</strong> {profileUser.role}</span>
 									</p>
-									<p><strong>Full Name:</strong> {profileUser.firstName}{" "}{profileUser.lastName}</p>
-									<p><strong>Bio: </strong>{profileUser.biography}</p>
+									<p>
+										<strong>Full Name: </strong>
+										{profileUser.firstName.trim() || profileUser.lastName.trim() ?
+											`${profileUser.firstName} ${profileUser.lastName}` :
+											"not displayed"}
+									</p>
+									<p><strong></strong>{profileUser.biography}</p>
 								</div>
 							</div>
 

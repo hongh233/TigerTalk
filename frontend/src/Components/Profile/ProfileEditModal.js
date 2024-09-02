@@ -88,13 +88,13 @@ const ProfileEditModal = ({ isOpen, onClose, user, setProfileUser }) => {
                         {errors.lastName && <p className="error">{errors.lastName}</p>}
                     </div>
                     <div className="profile-edit-form-item">
-                        <label>User Name</label>
+                        <label>User Name *</label>
                         <input type="text" name="userName" placeholder="User name" value={form.userName} onChange={handleChange}/>
                         {errors.userName && <p className="error">{errors.userName}</p>}
                     </div>
                     <div className="profile-edit-form-item">
-                        <label>Personal Interest</label>
-                        <input type="text" name="biography" placeholder="Personal Interest" value={form.biography} onChange={handleChange}/>
+                        <label>Biography</label>
+                        <input type="text" name="biography" placeholder="Add a Bio" value={form.biography} onChange={handleChange}/>
                         {errors.biography && <p className="error">{errors.biography}</p>}
                     </div>
                     <div className="profile-edit-form-item">

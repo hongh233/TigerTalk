@@ -21,8 +21,6 @@ import java.util.*;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserProfile {
-    @Id
-    private String email;
 
     // User Sending request to others, e.g. user is A, and A ---> B,C,D , return B,C,D
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -60,30 +58,33 @@ public class UserProfile {
     @OneToMany(mappedBy = "groupPostCommentCreator", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupPostComment> groupPostCommentList = new LinkedList<>();
 
+    @Id
+    private String email;                       // contain @, unique
 
     // authentication variable:
-    private String password;
-    private String securityQuestion;
-    private String securityQuestionAnswer;
+    private String password;                    // 8 <= length <= 30, must have at least 1 uppercase, 1 lowercase, 1 number, 1 special character !@#$%^&*<>? and only contain those
+    private String securityQuestion;            // choose from 15 questions provided from frontend
+    private String securityQuestionAnswer;      // 5 <= length <= 50, only contain A-Za-z0-9!@#$%^&*<>? and space
 
 
     // admin variable:
-    private boolean isValidated = true;    // assume everyone is validated after login
-    private String userLevel = "user";     // "admin" / "user"
-    private String role = "none";          // "none" / "student" / "instructor" / "employee"
+    private boolean isValidated = true;         // everyone is validated by default
+    private String userLevel = "user";          // "admin" / "user"
+    private String role = "none";               // "none" / "student" / "instructor" / "employee"
     private LocalDateTime userCreateTime = LocalDateTime.now();
 
 
     // user variable (common):
-    private String firstName;
-    private String lastName;
-    private String userName;
-    private String biography;
-    private int age;
-    private String gender;                    // "Male" / "Female" / "Other"
+    private String userName;                    // 3 <= length <= 20, only contain A-Za-z0-9!@#$%^&*<>?
+    private String gender;                      // "Don't specify" / "they/them" / "she/her" / "he/him" / "other"
+    private String firstName = "";              // "" means not specify
+    private String lastName = "";               // "" means not specify
+    private String biography = "";              // "" means not specify
+    private int age = 0;                        // 0 means not specify
+
 
     // user variable (distributed):
-    private String onlineStatus = "offline";  // "available" / "busy" / "away" / "offline"
+    private String onlineStatus = "offline";    // "available" / "busy" / "away" / "offline"
     private String profilePictureUrl = "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg";
 
 
