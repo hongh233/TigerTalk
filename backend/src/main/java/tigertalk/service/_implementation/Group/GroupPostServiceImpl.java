@@ -111,7 +111,7 @@ public class GroupPostServiceImpl implements GroupPostService {
         }
         GroupPost groupPost = groupPostOptional.get();
 
-        Optional<UserProfile> userProfileOptional = userProfileRepository.findUserProfileByEmail(userEmail);
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(userEmail);
         if (userProfileOptional.isEmpty()) {
             throw new RuntimeException("User not found");
         }

@@ -32,7 +32,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public Optional<UserProfileDTO> getUserProfileByEmail(String email) {
-        Optional<UserProfile> userProfileOptional = userProfileRepository.findUserProfileByEmail(email);
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
         if (userProfileOptional.isPresent()) {
             UserProfile userProfile = userProfileOptional.get();
             UserProfileDTO userProfileDTO = userProfile.toDto();

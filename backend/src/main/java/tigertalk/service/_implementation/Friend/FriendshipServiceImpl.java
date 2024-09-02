@@ -29,7 +29,7 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Override
     public List<UserProfileDTOFriendship> getAllFriendsDTO(String email) {
-        Optional<UserProfile> userOptional = userProfileRepository.findUserProfileByEmail(email);
+        Optional<UserProfile> userOptional = userProfileRepository.findById(email);
 
         if (userOptional.isEmpty()) {
             throw new IllegalStateException("User not found");
@@ -50,9 +50,9 @@ public class FriendshipServiceImpl implements FriendshipService {
 
     @Override
     public Optional<String> deleteFriendshipByEmail(String senderEmail, String receiverEmail) {
-        UserProfile sender = userProfileRepository.findUserProfileByEmail(senderEmail)
+        UserProfile sender = userProfileRepository.findById(senderEmail)
                 .orElseThrow(() -> new IllegalStateException("Sender not found"));
-        UserProfile receiver = userProfileRepository.findUserProfileByEmail(receiverEmail)
+        UserProfile receiver = userProfileRepository.findById(receiverEmail)
                 .orElseThrow(() -> new IllegalStateException("Receiver not found"));
 
         Optional<Friendship> friendship = friendshipRepository.findBySenderAndReceiver(sender, receiver);

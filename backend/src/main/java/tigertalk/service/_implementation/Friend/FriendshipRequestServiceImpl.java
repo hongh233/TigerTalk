@@ -36,7 +36,7 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     // We have E->A, D->A, get(A) will get E, D
     @Override
     public List<FriendshipRequestDTO> getAllFriendRequests(String email) {
-        Optional<UserProfile> optionalUserProfile = userProfileRepository.findUserProfileByEmail(email);
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(email);
         if (optionalUserProfile.isEmpty()) {
             throw new IllegalStateException("User not found");
         }
@@ -52,9 +52,9 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
 
     @Override
     public Optional<String> sendFriendshipRequest(String senderEmail, String receiverEmail) {
-        UserProfile sender = userProfileRepository.findUserProfileByEmail(senderEmail)
+        UserProfile sender = userProfileRepository.findById(senderEmail)
                 .orElseThrow(() -> new IllegalStateException("Sender not found"));
-        UserProfile receiver = userProfileRepository.findUserProfileByEmail(receiverEmail)
+        UserProfile receiver = userProfileRepository.findById(receiverEmail)
                 .orElseThrow(() -> new IllegalStateException("Receiver not found"));
 
         if (friendshipRepository.findBySenderAndReceiver(sender, receiver).isPresent()) {
@@ -125,13 +125,13 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
 
     @Override
     public boolean areFriendshipRequestExist(String email1, String email2) {
-        Optional<UserProfile> senderOptional = userProfileRepository.findUserProfileByEmail(email1);
+        Optional<UserProfile> senderOptional = userProfileRepository.findById(email1);
         if (senderOptional.isEmpty()) {
             throw new IllegalStateException("Sender not found");
         }
         UserProfile sender = senderOptional.get();
 
-        Optional<UserProfile> receiverOptional = userProfileRepository.findUserProfileByEmail(email2);
+        Optional<UserProfile> receiverOptional = userProfileRepository.findById(email2);
         if (receiverOptional.isEmpty()) {
             throw new IllegalStateException("Receiver not found");
         }
