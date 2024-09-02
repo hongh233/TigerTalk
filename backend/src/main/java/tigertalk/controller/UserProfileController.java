@@ -1,10 +1,8 @@
 package tigertalk.controller;
 
-import tigertalk.model.User.UserProfile;
 import tigertalk.model.User.UserProfileDTO;
 import tigertalk.service.UserProfile.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,9 +72,9 @@ public class UserProfileController {
             @RequestParam String lastName,
             @RequestParam String userName,
             @RequestParam String biography,
-            @RequestParam int age,
+            @RequestParam String birthday,
             @RequestParam String gender) {
-        Optional<String> result = userProfileService.updateUserProfile_setCommonInfo(email, firstName, lastName, userName, biography, age, gender);
+        Optional<String> result = userProfileService.updateUserProfile_setCommonInfo(email, firstName, lastName, userName, biography, birthday, gender);
         if (result.isPresent()) {
             return ResponseEntity.status(400).body(result.get());
         } else {

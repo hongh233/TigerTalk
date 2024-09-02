@@ -20,7 +20,7 @@ public interface UserProfileService {
 
 
     // for all user:
-    public Optional<String> updateUserProfile_setCommonInfo(String email, String firstName, String lastName, String userName, String biography, int age, String gender);
+    public Optional<String> updateUserProfile_setCommonInfo(String email, String firstName, String lastName, String userName, String biography, String birthday, String gender);
     public Optional<String> updateUserProfile_setProfilePicture(String userEmail, String profilePictureUrl);
     public Optional<String> updateUserProfile_setOnlineStatus(String userEmail, String onlineStatus);
 

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static tigertalk.model.Utils.RegexCheck.NAME_NORM;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
@@ -55,17 +54,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 
     @Override
-    public Optional<String> updateUserProfile_setCommonInfo(String email, String firstName, String lastName, String userName, String biography, int age, String gender) {
-        if (!NAME_NORM.matcher(firstName).matches()) {
-            return Optional.of("First name must contain no symbols");
-        }
-        if (!NAME_NORM.matcher(lastName).matches()) {
-            return Optional.of("Last name must contain no symbols");
-        }
-        if (age <= 0) {
-            return Optional.of("Age must be greater than 0");
-        }
-
+    public Optional<String> updateUserProfile_setCommonInfo(String email, String firstName, String lastName, String userName, String biography, String birthday, String gender) {
         Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
         if (userProfileOptional.isEmpty()) {
             return Optional.of("User not found");
@@ -76,7 +65,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfile.setLastName(lastName);
         userProfile.setUserName(userName);
         userProfile.setBiography(biography);
-        userProfile.setAge(age);
+        userProfile.setBirthday(birthday);
         userProfile.setGender(gender);
 
         userProfileRepository.save(userProfile);

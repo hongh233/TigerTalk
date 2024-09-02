@@ -14,6 +14,7 @@ import tigertalk.model.Post.PostComment;
 import tigertalk.model.Post.PostLike;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -64,7 +65,7 @@ public class UserProfile {
     // authentication variable:
     private String password;                    // 8 <= length <= 30, must have at least 1 uppercase, 1 lowercase, 1 number, 1 special character !@#$%^&*<>? and only contain those
     private String securityQuestion;            // choose from 15 questions provided from frontend
-    private String securityQuestionAnswer;      // 5 <= length <= 50, only contain A-Za-z0-9!@#$%^&*<>? and space
+    private String securityQuestionAnswer;      // 5 <= length <= 50, any characters are available
 
 
     // admin variable:
@@ -77,10 +78,10 @@ public class UserProfile {
     // user variable (common):
     private String userName;                    // 3 <= length <= 20, only contain A-Za-z0-9!@#$%^&*<>?
     private String gender;                      // "Don't specify" / "they/them" / "she/her" / "he/him" / "other"
-    private String firstName = "";              // "" means not specify
-    private String lastName = "";               // "" means not specify
-    private String biography = "";              // "" means not specify
-    private int age = 0;                        // 0 means not specify
+    private String firstName = "";              // "" means not specify, 0 <= length <= 50, only advocate a-zA-Z
+    private String lastName = "";               // "" means not specify, 0 <= length <= 50, only advocate a-zA-Z
+    private String biography = "";              // "" means not specify, 0 <= length <= 255, any characters are available
+    private String birthday = "0000-00-00";     // "YYYY-MM-DD", "0000-00-00" represent not specified
 
 
     // user variable (distributed):
@@ -93,7 +94,7 @@ public class UserProfile {
 
     public UserProfileDTO toDto() {
         return new UserProfileDTO(
-                age,
+                birthday,
                 email,
                 isValidated,
                 role,
@@ -105,7 +106,10 @@ public class UserProfile {
                 lastName,
                 profilePictureUrl,
                 userLevel,
-                userCreateTime
+                userCreateTime,
+                postList.size(),
+                senderFriendshipList.size() + receiverFriendshipList.size(),
+                groupMembershipList.size()
         );
     }
 
@@ -284,12 +288,12 @@ public class UserProfile {
         this.biography = biography;
     }
 
-    public int getAge() {
-        return age;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public String getGender() {
