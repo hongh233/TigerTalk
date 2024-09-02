@@ -90,7 +90,7 @@ public class FriendshipServiceImplTest {
      */
     @Test
     public void getAllFriendsDTO_userNotFound() {
-        when(userProfileRepository.findUserProfileByEmail("nonexistent@dal.ca")).thenReturn(Optional.empty());
+        when(userProfileRepository.findById("nonexistent@dal.ca")).thenReturn(Optional.empty());
         Exception exception = assertThrows(
                 IllegalStateException.class,
                 () -> friendshipService.getAllFriendsDTO("nonexistent@dal.ca")
@@ -100,7 +100,7 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void getAllFriendsDTO_success() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB, friendshipAC));
         List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
         assertEquals(2, friends.size());
@@ -110,7 +110,7 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void getAllFriendsDTO_userAsSender() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB));
         List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
         assertEquals(1, friends.size());
@@ -119,7 +119,7 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void getAllFriendsDTO_userAsReceiver() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipBA));
         List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
         assertEquals(1, friends.size());
@@ -128,7 +128,7 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void getAllFriendsDTO_userAsBothSenderAndReceiver() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipCA));
         List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
         assertEquals(1, friends.size());
@@ -137,7 +137,7 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void getAllFriendsDTO_userHasNoFriends() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of());
         List<UserProfileDTOFriendship> friends = friendshipService.getAllFriendsDTO("a@dal.ca");
         assertTrue(friends.isEmpty());
@@ -148,7 +148,7 @@ public class FriendshipServiceImplTest {
      */
     @Test
     public void deleteFriendshipByEmail_senderNotFound() {
-        when(userProfileRepository.findUserProfileByEmail("nonexistent@dal.ca")).thenReturn(Optional.empty());
+        when(userProfileRepository.findById("nonexistent@dal.ca")).thenReturn(Optional.empty());
         Exception exception = assertThrows(
                 IllegalStateException.class,
                 () -> friendshipService.deleteFriendshipByEmail("nonexistent@dal.ca", "b@dal.ca")
@@ -158,8 +158,8 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void deleteFriendshipByEmail_receiverNotFound() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(userProfileRepository.findUserProfileByEmail("nonexistent@dal.ca")).thenReturn(Optional.empty());
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("nonexistent@dal.ca")).thenReturn(Optional.empty());
         Exception exception = assertThrows(
                 IllegalStateException.class,
                 () -> friendshipService.deleteFriendshipByEmail("a@dal.ca", "nonexistent@dal.ca")
@@ -169,8 +169,8 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void deleteFriendshipByEmail_noFriendship() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.empty());
         Optional<String> result = friendshipService.deleteFriendshipByEmail("a@dal.ca", "b@dal.ca");
         assertTrue(result.isPresent());
@@ -179,8 +179,8 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void deleteFriendshipByEmail_success() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(friendshipAB));
         Optional<String> result = friendshipService.deleteFriendshipByEmail("a@dal.ca", "b@dal.ca");
         assertFalse(result.isPresent());
@@ -188,8 +188,8 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void deleteFriendshipByEmail_successWithNotifications() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(friendshipAB));
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
 
@@ -200,8 +200,8 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void deleteFriendshipByEmail_failureSendingNotification() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(friendshipAB));
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.of("Notification service failed"));
 
@@ -213,8 +213,8 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void deleteFriendshipByEmail_verifyNotificationDetails() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(userProfileRepository.findUserProfileByEmail("b@dal.ca")).thenReturn(Optional.of(userB));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
         when(friendshipRepository.findBySenderAndReceiver(userA, userB)).thenReturn(Optional.of(friendshipAB));
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
 
@@ -232,7 +232,7 @@ public class FriendshipServiceImplTest {
      */
     @Test
     public void areFriends_success() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAB));
         boolean result = friendshipService.areFriends("a@dal.ca", "b@dal.ca");
         assertTrue(result);
@@ -240,7 +240,7 @@ public class FriendshipServiceImplTest {
 
     @Test
     public void areFriends_notFriends() {
-        when(userProfileRepository.findUserProfileByEmail("a@dal.ca")).thenReturn(Optional.of(userA));
+        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(friendshipRepository.findBySenderOrReceiver(userA, userA)).thenReturn(List.of(friendshipAC));
         boolean result = friendshipService.areFriends("a@dal.ca", "b@dal.ca");
         assertFalse(result);

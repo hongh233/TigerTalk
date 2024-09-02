@@ -279,7 +279,7 @@ public class PostServiceImplTest {
         PostLike postLike = mock(PostLike.class);
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
+        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.of(userProfile));
         when(postLikeRepository.findByPostAndUserProfile(post, userProfile)).thenReturn(Optional.of(postLike));
         when(postRepository.save(any(Post.class))).thenReturn(post);
 
@@ -299,7 +299,7 @@ public class PostServiceImplTest {
         post.setLikes(new ArrayList<>());
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
+        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.of(userProfile));
         when(postRepository.save(any(Post.class))).thenReturn(post);
         Post result = postServiceImpl.likePost(postId, userEmail);
 
@@ -318,7 +318,7 @@ public class PostServiceImplTest {
         post.setLikes(new ArrayList<>());
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
+        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.of(userProfile));
         when(postRepository.save(any(Post.class))).thenReturn(post);
         Post result = postServiceImpl.likePost(postId, userEmail);
 
@@ -337,7 +337,7 @@ public class PostServiceImplTest {
         post.setLikes(new ArrayList<>());
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(userProfile));
+        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.of(userProfile));
         when(postRepository.save(any(Post.class))).thenReturn(post);
         Post result = postServiceImpl.likePost(postId, userEmail);
 
@@ -364,7 +364,7 @@ public class PostServiceImplTest {
         String userEmail = "test@dal.ca";
         Post post = mock(Post.class);
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.empty());
+        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(
                 RuntimeException.class,
@@ -391,7 +391,7 @@ public class PostServiceImplTest {
         post.setLikes(new ArrayList<>());
 
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
-        when(userProfileRepository.findUserProfileByEmail(userEmail)).thenReturn(Optional.of(liker));
+        when(userProfileRepository.findById(userEmail)).thenReturn(Optional.of(liker));
         when(postLikeRepository.findByPostAndUserProfile(post, liker)).thenReturn(Optional.empty());
         when(notificationService.createNotification(any())).thenReturn(Optional.empty());
 

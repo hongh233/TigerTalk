@@ -77,29 +77,29 @@ public class UserProfileServiceImplTest {
     @Test
     public void getUserProfileByEmail_Success() {
         UserProfile userProfile = new UserProfile();
-        when(userProfileRepository.findUserProfileByEmail("test@dal.ca")).thenReturn(Optional.of(userProfile));
+        when(userProfileRepository.findById("test@dal.ca")).thenReturn(Optional.of(userProfile));
         Optional<UserProfileDTO> result = userProfileService.getUserProfileByEmail("test@dal.ca");
         assertTrue(result.isPresent(), "Result should be present");
         assertNotNull(result.get(), "UserProfileDTO should not be null");
-        verify(userProfileRepository, times(1)).findUserProfileByEmail("test@dal.ca");
+        verify(userProfileRepository, times(1)).findById("test@dal.ca");
     }
 
     @Test
     public void getUserProfileByEmail_NotFound() {
-        when(userProfileRepository.findUserProfileByEmail("test@dal.ca")).thenReturn(Optional.empty());
+        when(userProfileRepository.findById("test@dal.ca")).thenReturn(Optional.empty());
         Optional<UserProfileDTO> result = userProfileService.getUserProfileByEmail("test@dal.ca");
         assertFalse(result.isPresent(), "Result should not be present");
-        verify(userProfileRepository, times(1)).findUserProfileByEmail("test@dal.ca");
+        verify(userProfileRepository, times(1)).findById("test@dal.ca");
     }
 
     @Test
     public void getUserProfileByEmail_Exception() {
-        when(userProfileRepository.findUserProfileByEmail("test@dal.ca")).thenThrow(new RuntimeException("Database error"));
+        when(userProfileRepository.findById("test@dal.ca")).thenThrow(new RuntimeException("Database error"));
         Exception exception = assertThrows(RuntimeException.class, () -> {
             userProfileService.getUserProfileByEmail("test@dal.ca");
         });
         assertEquals("Database error", exception.getMessage(), "Exception message should match");
-        verify(userProfileRepository, times(1)).findUserProfileByEmail("test@dal.ca");
+        verify(userProfileRepository, times(1)).findById("test@dal.ca");
     }
 
     /**
