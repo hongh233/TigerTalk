@@ -106,8 +106,6 @@ const SignUpPage = () => {
             errors.securityQuestionAnswer = "Answer for security question is required";
         } else if (form.securityQuestionAnswer.length < 5 || form.securityQuestionAnswer.length > 50) {
             errors.securityQuestionAnswer = "Answer must be between 5 and 50 characters long.";
-        } else if (/[^A-Za-z0-9!@#$%^&*<>? ]/.test(form.securityQuestionAnswer)) {
-            errors.securityQuestionAnswer = "Answer contains invalid characters. Only letters, numbers, space and characters !@#$%^&*<>? are allowed.";
         }
         return errors;
     };

@@ -181,7 +181,8 @@ const ProfilePage = () => {
 							<div className="profile-page-user-info-container">
 
 								<div className="profile-page-user-info-picture-container" title="Change or add profile picture">
-									<img src={profileUser && profileUser.profilePictureUrl} alt="user profile" className="profile-page-user-info-picture" />
+									<img src={profileUser && profileUser.profilePictureUrl}
+										 alt="user profile" className="profile-page-user-info-picture" />
 									{showSetting && (
 										<>
 											<div
@@ -217,18 +218,28 @@ const ProfilePage = () => {
 									</div>
 
 									<p className="profile-personal-information">
-										<span><strong>Posts: </strong>{posts.length} posts</span>
-										<span><strong>Age:</strong> {profileUser.age}</span>
-										<span><strong>Gender:</strong> {profileUser.gender}</span>
-										<span><strong>Role:</strong> {profileUser.role}</span>
+										<span><strong>Posts: </strong>{profileUser.numOfPosts} posts</span>
+
+										<span><strong>Friends: </strong>{profileUser.numOfFriends} friends</span>
+
+										<span><strong>Groups: </strong>{profileUser.numOfGroups} groups</span>
+
+
 									</p>
-									<p>
-										<strong>Full Name: </strong>
-										{profileUser.firstName.trim() || profileUser.lastName.trim() ?
-											`${profileUser.firstName} ${profileUser.lastName}` :
-											"not displayed"}
+									<p className="profile-personal-information">
+										{(profileUser.firstName !== "" || profileUser.lastName !== "") &&
+											<span><strong>Full Name: </strong>{profileUser.firstName} {profileUser.lastName}</span>
+										}
+
+										{profileUser.birthday !== "0000-00-00" &&
+											<span><strong>Birthday: </strong>{profileUser.birthday}</span>
+										}
+
+										<span><strong>Role: </strong>{profileUser.role}</span>
 									</p>
-									<p><strong></strong>{profileUser.biography}</p>
+
+
+									<p className="profile-biography-paragraph"><strong></strong>{profileUser.biography}</p>
 								</div>
 							</div>
 

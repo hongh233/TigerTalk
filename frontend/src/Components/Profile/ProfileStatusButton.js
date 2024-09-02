@@ -80,7 +80,15 @@ const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
 
     return (
         <h2 className="profile-page-profile-name-status">
-            <div className="profile-status-button-user-name">{profileUser.userName}</div>
+
+            <div className="profile-status-button-user-name">
+                {profileUser.userName}
+            </div>
+
+            {(profileUser.gender !== "Don't specify") &&
+                <span className="profile-user-gender">&middot; {profileUser.gender}</span>
+            }
+
             {paramUserEmail === user.email ? (
                 <span
                     className="profile-page-status-icon"

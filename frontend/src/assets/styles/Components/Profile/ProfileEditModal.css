@@ -67,12 +67,50 @@
     margin-top: 30px;
 }
 
-.profile-edit-form-item {
 
+
+
+.profile-edit-form-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* birthday option */
+.profile-edit-form-item .birthday-setting-box {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+#birthday-setting-large-box div {
+    width: 100%;
+    display: flex;
+    gap: 10px;
 }
 
 
-
+/* biography */
+#profile-edit-form-item-bio {
+    position: relative;
+}
+.profile-edit-form-item textarea {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    resize: none;
+    min-height: 40px;
+    padding: 10px;
+}
+.profile-edit-form-item .remaining-chars {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 12px;
+    color: #666;
+}
 
 
 
@@ -127,3 +165,26 @@ button[type="submit"]:disabled {
         transform: scale(1);
     }
 }
+
+
+
+
+.profile-edit-modal .error-css {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+

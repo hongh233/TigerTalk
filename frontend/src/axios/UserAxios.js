@@ -34,10 +34,10 @@ export const deleteUserProfileByEmail = (email) => {
 };
 
 
-export const updateUserProfileSetCommonInfo = (email, firstName, lastName, userName, biography, age, gender) => {
+export const updateUserProfileSetCommonInfo = (email, firstName, lastName, userName, biography, birthday, gender) => {
 	return axios
 		.put(`${URL}/api/user/update/commonInfo`, null, {
-			params: {email, firstName, lastName, userName, biography, age, gender},
+			params: {email, firstName, lastName, userName, biography, birthday, gender},
 		})
 		.then(response => response.data)
 		.catch(error => {

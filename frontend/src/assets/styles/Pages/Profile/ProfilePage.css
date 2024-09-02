@@ -154,7 +154,10 @@
 	font-size: 16px;
 }
 
-
+.profile-biography-paragraph {
+	word-break: break-all;
+	border: 1px solid black;
+}
 
 
 

@@ -1,6 +1,6 @@
 .profile-page-profile-name-status {
-    font-size: 24px;
-    font-weight: bold;
+    /*font-size: 24px;*/
+    /*font-weight: bold;*/
     margin: 0;
     display: flex;
     align-items: center;
@@ -12,7 +12,13 @@
 
 .profile-status-button-user-name {
 }
-
+.profile-user-gender {
+    font-weight: normal;
+    font-size: 18px;
+    margin-left: 5px;
+    color: #6b6b6b;
+/*    border: 1px black solid;*/
+}
 
 
 /* CSS of status icon and status menu */
