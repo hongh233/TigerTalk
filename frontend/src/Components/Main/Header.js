@@ -8,7 +8,7 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {userLogout} from "../../axios/Authentication/LoginAxios";
 import {BsChatDotsFill} from "react-icons/bs";
 import {FaUserGroup, FaUserLarge} from "react-icons/fa6";
-import {MdAdminPanelSettings} from "react-icons/md";
+import {MdAccountCircle, MdAdminPanelSettings, MdOutlineSecurity} from "react-icons/md";
 
 
 const Header = () => {
@@ -63,23 +63,26 @@ const Header = () => {
 			<NotificationButton />
 
 			<div className="header-profile-picture" onMouseEnter={handleProfileMouseEnter} onMouseLeave={handleProfileMouseLeave}>
-				<a href={`/profile/${user.email}`}>
+				<div>
 					<img src={user.profilePictureUrl} alt="user profile"/>
-				</a>
+				</div>
 				{showProfilePopup && (
 					<div className="header-profile-popup">
-						<p>Tiger Talk Account</p>
-						<p>{user.userName}</p>
-						<p>{user.email}</p>
+						<p className="title">Tiger Talk Account</p>
+						<p className="userName">{user.userName}</p>
+						<p className="email">{user.email}</p>
 						<hr />
-						<div className="navbar-user-profile-button">
+						<div className="navbar-user-image-button-list" onClick={() => navigate(`/profile/${user.email}`)}>
+							<MdAccountCircle /> My Profile
 						</div>
-						<div className="navbar-sign-out-button" onClick={handleLogOut}>
+						<div className="navbar-user-image-button-list" onClick={() => navigate("/security")}>
+							<MdOutlineSecurity /> Security
+						</div>
+						<div className="navbar-user-image-button-list" onClick={handleLogOut}>
 							<FaSignOutAlt /> Logout
 						</div>
 						{user.userLevel === "admin" && (
-							<div className="navbar-admin-button" onClick={() => navigate("/admin")}>
-
+							<div className="navbar-user-image-button-list" onClick={() => navigate("/admin")}>
 								<MdAdminPanelSettings /> Admin
 							</div>
 						)}
