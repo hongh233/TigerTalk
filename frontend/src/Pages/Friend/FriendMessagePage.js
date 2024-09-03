@@ -105,6 +105,7 @@ const FriendMessagePage = () => {
         }
     }, [stompClient, selectedFriend]);
 
+
     useEffect(() => {
         if (stompClient && selectedFriend) {
             const subscribeToMessages = () => {
