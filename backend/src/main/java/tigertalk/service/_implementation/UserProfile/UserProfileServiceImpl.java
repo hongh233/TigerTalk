@@ -115,6 +115,29 @@ public class UserProfileServiceImpl implements UserProfileService {
         return Optional.empty();
     }
 
+    // for all: reset password
+    @Override
+    public Optional<String> updateUserProfile_setSecurityQuestionAndAnswer(String email, String securityQuestion, String securityQuestionAnswer) {
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
+        if (userProfileOptional.isEmpty()) {
+            return Optional.of("User not found");
+        }
+        UserProfile userProfile = userProfileOptional.get();
+        userProfile.setSecurityQuestion(securityQuestion);
+        userProfile.setSecurityQuestionAnswer(securityQuestionAnswer);
+        userProfileRepository.save(userProfile);
+        return Optional.empty();
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     // admin: set role: "none" / "student" / "instructor" / "employee"

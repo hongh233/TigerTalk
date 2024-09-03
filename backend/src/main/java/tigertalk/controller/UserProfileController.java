@@ -108,6 +108,17 @@ public class UserProfileController {
             return ResponseEntity.status(200).body("User password updated successfully.");
         }
     }
+    @PutMapping("/update/securityQuestionAndAnswer")
+    public ResponseEntity<String> updateUserProfileSetSecurityQuestionAndAnswer(@RequestParam String email,
+                                                                                @RequestParam String securityQuestion,
+                                                                                @RequestParam String securityQuestionAnswer) {
+        Optional<String> result = userProfileService.updateUserProfile_setSecurityQuestionAndAnswer(email, securityQuestion, securityQuestionAnswer);
+        if (result.isPresent()) {
+            return ResponseEntity.status(400).body(result.get());
+        } else {
+            return ResponseEntity.status(200).body("User security question and answer updated successfully.");
+        }
+    }
 
 
 

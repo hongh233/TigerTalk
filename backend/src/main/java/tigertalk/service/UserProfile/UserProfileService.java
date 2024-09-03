@@ -24,6 +24,7 @@ public interface UserProfileService {
     public Optional<String> updateUserProfile_setProfilePicture(String userEmail, String profilePictureUrl);
     public Optional<String> updateUserProfile_setOnlineStatus(String userEmail, String onlineStatus);
     public Optional<String> updateUserProfile_setPassword(String email, String password);
+    public Optional<String> updateUserProfile_setSecurityQuestionAndAnswer(String email, String securityQuestion, String securityQuestionAnswer);
 
     // for admin:
     public Optional<String> updateUserProfile_setRole(String userEmail, String role);
