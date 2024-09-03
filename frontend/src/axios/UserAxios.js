@@ -60,12 +60,22 @@ export const updateUserProfileSetProfilePicture = (email, profilePictureUrl) => 
 export const updateUserProfileSetOnlineStatus = (email, onlineStatus) => {
 	return axios
 		.put(`${URL}/api/user/update/onlineStatus`, null, {
-			params: {
-				email, onlineStatus},
+			params: {email, onlineStatus},
 		})
 		.then(response => response.data)
 		.catch(error => {
 			console.error("Error updating user online status", error);
+			throw error;
+		});
+};
+export const updateUserPassword = (email, password) => {
+	return axios
+		.put(`${URL}/api/user/update/password`, null, {
+			params: { email, password },
+		})
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error updating user password", error);
 			throw error;
 		});
 };
@@ -74,6 +84,9 @@ export const updateUserProfileSetOnlineStatus = (email, onlineStatus) => {
 
 
 
+
+
+// admin
 export const updateUserProfileSetRole = (email, role) => {
 	return axios
 		.put(`${URL}/api/user/update/role`, null, {

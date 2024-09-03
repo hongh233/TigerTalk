@@ -4,6 +4,7 @@ import {checkEmailExists, userSignUp} from "../../axios/Authentication/SignUpAxi
 import {Link, useNavigate} from "react-router-dom";
 
 
+
 const SECURITY_QUESTIONS = [
     "What was your favourite book as a child?",
     "What school did you attend for grade nine?",
