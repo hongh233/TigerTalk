@@ -53,6 +53,9 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
 
+
+
+    // for all: set profile basis info
     @Override
     public Optional<String> updateUserProfile_setCommonInfo(String email, String firstName, String lastName, String userName, String biography, String birthday, String gender) {
         Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
@@ -72,7 +75,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         return Optional.empty();
     }
 
-    // all: set profile picture
+    // for all: set profile picture
     @Override
     public Optional<String> updateUserProfile_setProfilePicture(String email, String profilePictureUrl) {
         Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
@@ -85,7 +88,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         return Optional.empty();
     }
 
-    // all: set online status: "available" / "busy" / "away" / "offline"
+    // for all: set online status: "available" / "busy" / "away" / "offline"
     @Override
     public Optional<String> updateUserProfile_setOnlineStatus(String email, String onlineStatus) {
         Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
@@ -94,6 +97,20 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
         UserProfile userProfile = userProfileOptional.get();
         userProfile.setOnlineStatus(onlineStatus);
+        userProfileRepository.save(userProfile);
+        return Optional.empty();
+    }
+
+
+    // for all: reset password
+    @Override
+    public Optional<String> updateUserProfile_setPassword(String email, String password) {
+        Optional<UserProfile> userProfileOptional = userProfileRepository.findById(email);
+        if (userProfileOptional.isEmpty()) {
+            return Optional.of("User not found");
+        }
+        UserProfile userProfile = userProfileOptional.get();
+        userProfile.setPassword(password);
         userProfileRepository.save(userProfile);
         return Optional.empty();
     }

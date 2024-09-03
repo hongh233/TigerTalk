@@ -99,6 +99,17 @@ public class UserProfileController {
             return ResponseEntity.status(200).body("User online status updated successfully.");
         }
     }
+    @PutMapping("/update/password")
+    public ResponseEntity<String> updateUserProfileSetPassword(@RequestParam String email, @RequestParam String password) {
+        Optional<String> result = userProfileService.updateUserProfile_setPassword(email, password);
+        if (result.isPresent()) {
+            return ResponseEntity.status(400).body(result.get());
+        } else {
+            return ResponseEntity.status(200).body("User password updated successfully.");
+        }
+    }
+
+
 
 
 

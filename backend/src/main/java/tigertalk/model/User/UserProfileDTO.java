@@ -17,6 +17,9 @@ public record UserProfileDTO(
         LocalDateTime userCreateTime,
         int numOfPosts,
         int numOfFriends,
-        int numOfGroups
+        int numOfGroups,
+        String securityQuestion,
+        String securityQuestionAnswer,
+        String password
 ) {
 }

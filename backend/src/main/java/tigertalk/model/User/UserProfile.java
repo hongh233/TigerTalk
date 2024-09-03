@@ -14,7 +14,6 @@ import tigertalk.model.Post.PostComment;
 import tigertalk.model.Post.PostLike;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -109,7 +108,10 @@ public class UserProfile {
                 userCreateTime,
                 postList.size(),
                 senderFriendshipList.size() + receiverFriendshipList.size(),
-                groupMembershipList.size()
+                groupMembershipList.size(),
+                securityQuestion,
+                securityQuestionAnswer,
+                password
         );
     }
 
