@@ -38,7 +38,7 @@ public class GroupSearchServiceImplTest {
         userA = new UserProfile();
         userA.setFirstName("Along");
         userA.setLastName("Aside");
-        userA.setAge(22);
+        userA.setBirthday("1980-01-01");
         userA.setGender("Male");
         userA.setUserName("userA");
         userA.setEmail("a@dal.ca");
@@ -49,7 +49,7 @@ public class GroupSearchServiceImplTest {
         userB = new UserProfile();
         userB.setFirstName("Beach");
         userB.setLastName("Boring");
-        userB.setAge(21);
+        userB.setBirthday("1980-01-01");
         userB.setGender("Male");
         userB.setUserName("userB");
         userB.setEmail("b@dal.ca");

@@ -11,11 +11,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SignUpServiceImplTest {
@@ -35,7 +32,7 @@ public class SignUpServiceImplTest {
         userA = new UserProfile();
         userA.setFirstName("Along");
         userA.setLastName("Aside");
-        userA.setAge(22);
+        userA.setBirthday("1980-01-01");
         userA.setGender("Male");
         userA.setUserName("userA");
         userA.setEmail("a@dal.ca");
@@ -46,7 +43,7 @@ public class SignUpServiceImplTest {
         userB = new UserProfile();
         userB.setFirstName("Beach");
         userB.setLastName("Boring");
-        userB.setAge(21);
+        userB.setBirthday("1980-01-01");
         userB.setGender("Male");
         userB.setUserName("userB");
         userB.setEmail("b@dal.ca");

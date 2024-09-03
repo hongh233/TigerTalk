@@ -52,7 +52,7 @@ public class FriendshipRequestServiceImplTest {
         userA = new UserProfile();
         userA.setFirstName("Along");
         userA.setLastName("Aside");
-        userA.setAge(22);
+        userA.setBirthday("1980-01-01");
         userA.setGender("Male");
         userA.setUserName("userA");
         userA.setEmail("a@dal.ca");
@@ -63,7 +63,7 @@ public class FriendshipRequestServiceImplTest {
         userB = new UserProfile();
         userB.setFirstName("Blong");
         userB.setLastName("Bside");
-        userB.setAge(23);
+        userB.setBirthday("1980-01-01");
         userB.setGender("Female");
         userB.setUserName("userB");
         userB.setEmail("b@dal.ca");
@@ -74,7 +74,7 @@ public class FriendshipRequestServiceImplTest {
         userC = new UserProfile();
         userC.setFirstName("Clong");
         userC.setLastName("Cside");
-        userC.setAge(24);
+        userC.setBirthday("1980-01-01");
         userC.setGender("Male");
         userC.setUserName("userC");
         userC.setEmail("c@dal.ca");

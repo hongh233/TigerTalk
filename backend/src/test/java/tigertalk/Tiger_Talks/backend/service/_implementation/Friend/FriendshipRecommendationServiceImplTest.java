@@ -43,7 +43,7 @@ public class FriendshipRecommendationServiceImplTest {
         userB = new UserProfile();
         userB.setFirstName("Blong");
         userB.setLastName("Bside");
-        userB.setAge(23);
+        userB.setBirthday("1980-01-01");
         userB.setGender("Female");
         userB.setUserName("userB");
         userB.setEmail("b@dal.ca");
@@ -54,7 +54,7 @@ public class FriendshipRecommendationServiceImplTest {
         userC = new UserProfile();
         userC.setFirstName("Clong");
         userC.setLastName("Cside");
-        userC.setAge(24);
+        userC.setBirthday("1980-01-01");
         userC.setGender("Male");
         userC.setUserName("userC");
         userC.setEmail("c@dal.ca");
@@ -65,7 +65,7 @@ public class FriendshipRecommendationServiceImplTest {
         userD = new UserProfile();
         userD.setFirstName("Dlong");
         userD.setLastName("Dside");
-        userD.setAge(25);
+        userD.setBirthday("1980-01-01");
         userD.setGender("Female");
         userD.setUserName("userD");
         userD.setEmail("d@dal.ca");

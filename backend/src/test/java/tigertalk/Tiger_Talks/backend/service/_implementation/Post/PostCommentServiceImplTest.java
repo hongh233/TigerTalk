@@ -60,7 +60,7 @@ public class PostCommentServiceImplTest {
         userA = new UserProfile();
         userA.setFirstName("userD");
         userA.setLastName("number");
-        userA.setAge(12);
+        userA.setBirthday("1980-01-01");
         userA.setGender("Male");
         userA.setUserName("userD");
         userA.setEmail("d@dal.ca");
@@ -71,7 +71,7 @@ public class PostCommentServiceImplTest {
         userB = new UserProfile();
         userB.setFirstName("Hong");
         userB.setLastName("Huang");
-        userB.setAge(12);
+        userB.setBirthday("1980-01-01");
         userB.setGender("other");
         userB.setUserName("a");
         userB.setEmail("hn582183@dal.ca");
