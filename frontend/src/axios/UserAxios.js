@@ -79,6 +79,17 @@ export const updateUserPassword = (email, password) => {
 			throw error;
 		});
 };
+export const updateUserSecurityQuestionAndAnswer = (email, securityQuestion, securityQuestionAnswer) => {
+	return axios
+		.put(`${URL}/api/user/update/securityQuestionAndAnswer`, null, {
+			params: { email, securityQuestion, securityQuestionAnswer },
+		})
+		.then((response) => response.data)
+		.catch((error) => {
+			console.error("Error updating user security question and answer", error);
+			throw error;
+		});
+};
 
 
 

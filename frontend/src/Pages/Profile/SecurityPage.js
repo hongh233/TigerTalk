@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../assets/styles/Pages/Profile/SecurityPage.css";
 import Header from "../../Components/Main/Header";
 import { useDispatch, useSelector } from "react-redux";
-import {updateUserPassword} from "../../axios/UserAxios";
+import {updateUserPassword, updateUserSecurityQuestionAndAnswer} from "../../axios/UserAxios";
 import {setUser} from "../../redux/actions/userActions";
 
 const SECURITY_QUESTIONS = [
@@ -69,6 +69,32 @@ const SecurityPage = () => {
         return errors;
     };
 
+    const validateSecurityQuestions = () => {
+        let errors = {};
+
+         if (user.securityQuestion !== oldSecurityQuestion) {
+             errors.oldSecurityQuestion = "Old security question does not match";
+         }
+
+        if (!oldSecurityAnswer) {
+            errors.oldSecurityAnswer = "Answer to the old security question is required";
+        } else if (oldSecurityAnswer !== user.securityQuestionAnswer) {
+            errors.oldSecurityAnswer = "Incorrect answer to the old security question";
+        }
+
+         if (!newSecurityQuestion) {
+             errors.newSecurityQuestion = "New security question is required";
+         }
+
+        if (!newSecurityAnswer) {
+            errors.newSecurityAnswer = "New answer for security question is required";
+        } else if (newSecurityAnswer.length < 5 || newSecurityAnswer.length > 50) {
+            errors.newSecurityAnswer = "Answer must be between 5 and 50 characters long.";
+        }
+
+         return errors;
+    }
+
     const handlePasswordChange = async (e) => {
         e.preventDefault();
         const errors = validatePasswords();
@@ -88,15 +114,27 @@ const SecurityPage = () => {
         }
     };
 
-    const handleSecurityQuestionChange = (e) => {
+    const handleSecurityQuestionChange = async (e) => {
         e.preventDefault();
-        if (oldSecurityAnswer !== user.securityQuestionAnswer) {
-            setErrors({ oldSecurityAnswer: "Incorrect answer to the old security question" });
-            return;
-        }
+        const errors = validateSecurityQuestions();
+        setErrors(errors);
 
-        // TODO: Implement security question update logic
-        console.log("Security question updated to:", newSecurityQuestion);
+        if (Object.keys(errors).length === 0) {
+            try {
+                await updateUserSecurityQuestionAndAnswer(user.email, newSecurityQuestion, newSecurityAnswer);
+                const updatedUser = {
+                    ...user,
+                    securityQuestion: newSecurityQuestion,
+                    securityQuestionAnswer: newSecurityAnswer
+                };
+                dispatch(setUser(updatedUser));
+                alert("Security question and answer updated successfully.");
+                window.location.reload();
+            } catch (error) {
+                console.error("Error updating security question and answer:", error);
+                alert("An error occurred while updating the security question and answer. Please try again.");
+            }
+        }
     };
 
     return (
@@ -159,6 +197,11 @@ const SecurityPage = () => {
                                 </option>
                             ))}
                         </select>
+                        {errors.oldSecurityQuestion && (
+                            <p className="error-css">{errors.oldSecurityQuestion}</p>
+                        )}
+
+
                         <input
                             type="text"
                             placeholder="Old Answer"
@@ -168,6 +211,7 @@ const SecurityPage = () => {
                         {errors.oldSecurityAnswer && (
                             <p className="error-css">{errors.oldSecurityAnswer}</p>
                         )}
+
 
                         <select
                             value={newSecurityQuestion}
@@ -180,12 +224,22 @@ const SecurityPage = () => {
                                 </option>
                             ))}
                         </select>
+                        {errors.newSecurityQuestion && (
+                            <p className="error-css">{errors.newSecurityQuestion}</p>
+                        )}
+
+
                         <input
                             type="text"
                             placeholder="New Answer"
                             value={newSecurityAnswer}
                             onChange={(e) => setNewSecurityAnswer(e.target.value)}
                         />
+                        {errors.newSecurityAnswer && (
+                            <p className="error-css">{errors.newSecurityAnswer}</p>
+                        )}
+
+
                         <button onClick={handleSecurityQuestionChange}>Update Security Question</button>
                     </div>
                 </div>
