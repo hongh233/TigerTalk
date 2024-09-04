@@ -85,7 +85,7 @@ const FriendMessagePage = () => {
     }, []);
 
     useEffect(() => {
-        if (stompClient && selectedFriend) {
+        if (stompClient && selectedFriend && stompClient.connected) {
             const subscription = stompClient.subscribe("/topic/messages", (message) => {
                 const receivedMessage = JSON.parse(message.body);
                 if (receivedMessage.friendshipId === selectedFriend.id) {
@@ -104,6 +104,42 @@ const FriendMessagePage = () => {
             };
         }
     }, [stompClient, selectedFriend]);
+
+
+    useEffect(() => {
+        if (stompClient && selectedFriend) {
+            const subscribeToMessages = () => {
+                if (stompClient.connected) {
+                    const subscription = stompClient.subscribe("/topic/messages", (message) => {
+                        const receivedMessage = JSON.parse(message.body);
+                        if (receivedMessage.friendshipId === selectedFriend.id) {
+                            setMessages((prevMessages) => {
+                                const messageExists = prevMessages.some(msg => msg.messageId === receivedMessage.messageId);
+                                if (!messageExists) {
+                                    return [...prevMessages, receivedMessage];
+                                }
+                                return prevMessages;
+                            });
+                        }
+                    });
+
+                    return () => {
+                        subscription.unsubscribe();
+                    };
+                } else {
+                    // Retry subscription after a short delay if not connected
+                    setTimeout(subscribeToMessages, 500);
+                }
+            };
+
+            const unsubscribe = subscribeToMessages();
+
+            return () => {
+                if (unsubscribe) unsubscribe();
+            };
+        }
+    }, [stompClient, selectedFriend]);
+
 
 	useEffect(() => {
 		scrollToBottom();
