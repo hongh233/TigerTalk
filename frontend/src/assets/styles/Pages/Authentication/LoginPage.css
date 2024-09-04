@@ -20,24 +20,12 @@
     color: #17a2b8;
 }
 
-.login-card p {
+.login-card-second-title {
     margin: 10px 0;
     color: #6c757d;
 }
 
-.login-container .error-css {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px;
-    border: 1px solid #f5c6cb;
-    border-radius: 4px;
-    margin-bottom: 15px;
-}
 
-form {
-    display: flex;
-    flex-direction: column;
-}
 
 form label {
     text-align: left;

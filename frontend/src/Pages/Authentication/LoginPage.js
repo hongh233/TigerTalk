@@ -3,30 +3,44 @@ import "../../assets/styles/Pages/Authentication/LoginPage.css";
 import {userLogin} from "../../axios/Authentication/LoginAxios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import {getCurrentUser} from "../../axios/UserAxios";
 
 
 const LoginPage = () => {
 	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("aaaa1A@a");
-	const [error, setError] = useState("");
+	const [password, setPassword] = useState(""); // test password: aaaa1A@a
+	const [errors, setErrors] = useState("");
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setError("");
+		setErrors({});
 
 		try {
-			const userProfile = await userLogin(email, password);
+			await getCurrentUser(email);
 
-			dispatch({ type: "SET_USER", payload: userProfile });
-			alert("Log in successfully");
-			navigate("/main", { state: { userProfile } });
+			try {
+				const userProfile = await userLogin(email, password);
+				dispatch({ type: "SET_USER", payload: userProfile });
+				alert("Log in successfully");
+				navigate("/main", { state: { userProfile } });
+			} catch (loginError) {
+				if (loginError.response && loginError.response.status === 401) {
+					setErrors((prevErrors) => ({
+						...prevErrors, password: "Invalid password."}));
+				} else {
+					setErrors((prevErrors) => ({
+						...prevErrors, password: "An error occurred during Log In. Please try again later."}));
+				}
+			}
 		} catch (error) {
-			if (error.response && error.response.status === 401) {
-				setError("Invalid email or password.");
+			if (error.response && error.response.status === 404) {
+				setErrors((prevErrors) => ({
+					...prevErrors, email: "User not found. Please check your email."}));
 			} else {
-				setError("An error occurred during Log In. Please try again later.");
+				setErrors((prevErrors) => ({
+					...prevErrors, email: "An error occurred while checking the user. Please try again later."}));
 			}
 		}
 	};
@@ -35,25 +49,31 @@ const LoginPage = () => {
 		<div className="login-container">
 			<div className="login-card">
 				<h2>Welcome Back</h2>
-				<p>Login with Email and Password</p>
-
-				{error && (<div className="error-css"><p>{error}</p></div>)}
+				<p className="login-card-second-title">Login with Email and Password</p>
 
 				<form onSubmit={handleSubmit}>
+
 					<label>Email</label>
-					<input
-						type="email" placeholder="Enter your email" value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						required
-					/>
+					<div>
+						<input
+							type="email"
+							placeholder="Enter your email"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							required
+						/>
+						{errors.email && (<p className="error-css">{errors.email}</p>)}
+					</div>
 
 					<label>Password</label>
-					<input
-						type="password" placeholder="Enter your password" value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						required
-					/>
-					<p>TEST PASSWORD: aaaa1A@a</p>
+					<div>
+						<input
+							type="password" placeholder="Enter your password" value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+						/>
+						{errors.password && (<p className="error-css">{errors.password}</p>)}
+					</div>
 
 					<button type="submit">Login</button>
 				</form>
