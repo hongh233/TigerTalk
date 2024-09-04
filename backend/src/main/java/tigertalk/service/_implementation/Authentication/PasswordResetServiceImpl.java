@@ -35,12 +35,6 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     @Override
     public Optional<String> createAndSendResetMail(String email) {
 
-        // Validate email existence
-        Optional<String> validationError = validateEmailExist(email);
-        if (validationError.isPresent()) {
-            return validationError;
-        }
-
         // Create a request token that will be used
         PasswordToken passwordToken = PasswordToken.createPasswordResetToken(email);
         passwordTokenRepository.save(passwordToken);
@@ -70,40 +64,9 @@ public class PasswordResetServiceImpl implements PasswordResetService {
         }
     }
 
-    @Override
-    public Optional<String> resetPassword(String email, String password) {
-        if (!PASSWORD_NORM_LENGTH.matcher(password).matches()) {
-            return Optional.of("Password must have a minimum length of 8 characters.");
-        }
-        if (!PASSWORD_NORM_UPPERCASE.matcher(password).matches()) {
-            return Optional.of("Password must have at least 1 uppercase character.");
-        }
-        if (!PASSWORD_NORM_LOWERCASE.matcher(password).matches()) {
-            return Optional.of("Password must have at least 1 lowercase character.");
-        }
-        if (!PASSWORD_NORM_NUMBER.matcher(password).matches()) {
-            return Optional.of("Password must have at least 1 number.");
-        }
-        if (!PASSWORD_NORM_SPECIAL_CHARACTER.matcher(password).matches()) {
-            return Optional.of("Password must have at least 1 special character.");
-        }
-
-        Optional<UserProfile> userOptional = userProfileRepository.findById(email);
-        if (userOptional.isPresent()) {
-            UserProfile user = userOptional.get();
-            user.setPassword(password);
-            userProfileRepository.save(user);
-            return Optional.empty();
-        } else {
-            return Optional.of("An error occurred while resetting your password. The email used no longer belongs to any account");
-        }
-    }
 
     @Override
     public Optional<String> validateEmailExist(String email) {
-        if (!EMAIL_NORM.matcher(email).matches()) {
-            return Optional.of("Invalid email address. Please use dal email address!");
-        }
         if (userProfileRepository.findById(email).isEmpty()) {
             return Optional.of("Email does not exist in our system!");
         }

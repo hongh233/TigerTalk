@@ -35,26 +35,6 @@ public class PasswordResetController {
 
 
 
-    /**
-     * Resets the password for the given user.
-     *
-     * @param emailPassword the password reset data transfer object
-     * @return ResponseEntity with a success or error message
-     */
-    @PostMapping("/resetPassword")
-    public ResponseEntity<String> resetPassword(@RequestBody EmailPassword emailPassword) {
-        Optional<String> error = passwordResetService.resetPassword(emailPassword.email, emailPassword.password);
-        if (error.isPresent()) {
-            return ResponseEntity.status(404).body(error.get());
-        } else {
-            return ResponseEntity.status(200).body("Password was successfully reset");
-        }
-    }
-    public record EmailPassword(
-            String email,
-            String password
-    ) {
-    }
 
 
 

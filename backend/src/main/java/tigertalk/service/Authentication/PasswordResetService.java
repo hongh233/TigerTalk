@@ -14,8 +14,6 @@ public interface PasswordResetService {
     Optional<String> validateToken(String token);
 
 
-    Optional<String> resetPassword(String email, String password);
-
     /**
      * Constructs a password OTP token that would be sent to the user's email
      *

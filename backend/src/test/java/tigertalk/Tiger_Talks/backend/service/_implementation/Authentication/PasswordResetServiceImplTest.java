@@ -119,58 +119,7 @@ public class PasswordResetServiceImplTest {
         assertEquals("Token is expired / invalid. Try resending the mail", result.get());
     }
 
-    /**
-     * Test case for resetPassword
-     */
-    @Test
-    public void resetPassword_invalid_length() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "aaaa");
-        assertTrue(result.isPresent());
-        assertEquals("Password must have a minimum length of 8 characters.", result.get());
-    }
 
-    @Test
-    public void resetPassword_invalid_noUppercase() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "aaaaaaaa");
-        assertTrue(result.isPresent());
-        assertEquals("Password must have at least 1 uppercase character.", result.get());
-    }
-
-    @Test
-    public void resetPassword_invalid_noLowercase() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "AAAAAAAA");
-        assertTrue(result.isPresent());
-        assertEquals("Password must have at least 1 lowercase character.", result.get());
-    }
-
-    @Test
-    public void resetPassword_invalid_noNumber() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "AAAAaaaa");
-        assertTrue(result.isPresent());
-        assertEquals("Password must have at least 1 number.", result.get());
-    }
-
-    @Test
-    public void resetPassword_invalid_noSpecialCharacter() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword("user@dal.ca", "aaaa1Aaa");
-        assertTrue(result.isPresent());
-        assertEquals("Password must have at least 1 special character.", result.get());
-    }
-
-    @Test
-    public void resetPassword_valid_userExist() {
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
-        assertTrue(passwordResetServiceImpl.resetPassword(userA.getEmail(), userA.getPassword()).isEmpty());
-    }
-
-    @Test
-    public void resetPassword_valid_userNotExist() {
-        Optional<String> result = passwordResetServiceImpl.resetPassword(userB.getEmail(), userA.getPassword());
-        lenient().when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
-        assertTrue(result.isPresent());
-        assertEquals("An error occurred while resetting your password. " +
-                "The email used no longer belongs to any account", result.get());
-    }
 
     /**
      * Test case for validateEmailExist
