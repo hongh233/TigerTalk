@@ -4,25 +4,15 @@ import { handleGetAllGroups } from "../../axios/Group/GroupAxios";
 import { getAllUsers } from "../../axios/UserAxios";
 import { findUsersByKeyword } from "../../axios/Search/UserSearchAxios";
 import { IoSearch } from "react-icons/io5";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "./DropDown";
 import { filterGroups, filterUsersAlreadyInGroup, filterUsers } from "../../utils/filterFunctions.js";
 
 
-const SearchBar = ({
-	searchType,
-	userEmail,
-	setSearchGroupQuery,
-	setSearchFriendQuery,
-	setSearchMember,
-	dropdownClassName,
-	searchBarClassName,
-	groupMembers,
-	onFocus,
-	onBlur,
-}) => {
+const SearchBar = ({searchType, userEmail, setSearchGroupQuery, setSearchFriendQuery, setSearchMember,
+	dropdownClassName, searchBarClassName, groupMembers, onFocus, onBlur,}) => {
+
 	const [searchQuery, setSearchQuery] = useState("");
 	const [items, setItems] = useState([]);
 	const [showDropdown, setShowDropdown] = useState(false);
@@ -127,8 +117,14 @@ const SearchBar = ({
 		<div className={`search-bar-${searchBarClassName}`}>
 			<div className={`search-bar-${searchBarClassName}-input`}>
 				<div className="search-input-and-button">
-					<input type="text" placeholder="Search..." value={searchQuery} onChange={handleInputChange}
-						onFocus={onFocus} onBlur={onBlur} onKeyDown={handleKeyDown}
+					<input
+						type="text"
+						placeholder="Search..."
+						value={searchQuery}
+						onChange={handleInputChange}
+						onFocus={onFocus}
+						onBlur={onBlur}
+						onKeyDown={handleKeyDown}
 					/>
 					{searchType === "global" && (
 						<div className="header-search-button" onClick={fetchGlobal}><IoSearch /></div>

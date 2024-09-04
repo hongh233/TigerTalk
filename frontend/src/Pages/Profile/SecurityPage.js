@@ -92,7 +92,7 @@ const SecurityPage = () => {
             errors.newSecurityAnswer = "Answer must be between 5 and 50 characters long.";
         }
 
-         return errors;
+        return errors;
     }
 
     const handlePasswordChange = async (e) => {
