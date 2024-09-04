@@ -14,19 +14,6 @@ export const validateEmailExist = async (email) => {
     }
 };
 
-// This axio is used in ResetPasswordPage
-export const resetPassword = async (email, password) => {
-    try {
-        const response = await axios.post(`${URL}/api/passwordReset/resetPassword`, {
-            email,
-            password,
-        });
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
-};
-
 // This axio is used in ForgotPasswordPage
 export const sendToken = async (email) => {
     try {
@@ -56,25 +43,12 @@ export const verifySecurityAnswers = async (email, question, questionAnswer) => 
             `${URL}/api/passwordReset/verifySecurityAnswers`,
             null,
             {
-                params: {
-                    email,
-                    question,
-                    questionAnswer
-                },
+                params: {email, question, questionAnswer},
             }
         );
         return response.data;
     } catch (error) {
-        if (error.response) {
-            console.error('Server responded with error:', error.response.data);
-            throw new Error(error.response.data);
-        } else if (error.request) {
-            console.error('No response received:', error.request);
-            throw new Error('No response received from server.');
-        } else {
-            console.error('Error setting up request:', error.message);
-            throw new Error('Error in request setup: ' + error.message);
-        }
+        throw error;
     }
 };
 

@@ -3,16 +3,8 @@ package tigertalk.model;
 import java.util.regex.Pattern;
 
 public final class Utils {
-    public static final String CROSS_ORIGIN_HOST_NAME = "http://localhost:3000";
 
     public static final class RegexCheck {
-        public static final Pattern PASSWORD_NORM_LENGTH = Pattern.compile("^.{8,}$");
-        public static final Pattern PASSWORD_NORM_UPPERCASE = Pattern.compile("^(?=.*[A-Z]).+$");
-        public static final Pattern PASSWORD_NORM_LOWERCASE = Pattern.compile("^(?=.*[a-z]).+$");
-        public static final Pattern PASSWORD_NORM_NUMBER = Pattern.compile("^(?=.*[0-9]).+$");
-        public static final Pattern PASSWORD_NORM_SPECIAL_CHARACTER = Pattern.compile("^(?=.*[!\"#$%&'()*+,\\-./:;<=>?@\\[\\\\\\]^_`{|}~]).+$");
-        public static final Pattern EMAIL_NORM = Pattern.compile("^[A-Za-z0-9]+" + "@dal\\.ca$");
-        public static final Pattern NAME_NORM = Pattern.compile("^[A-Za-z]*$");
 
         /**
          * Performs an advanced search on the given strings.

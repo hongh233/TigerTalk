@@ -8,12 +8,9 @@ import ProfilePage from "./Pages/Profile/ProfilePage";
 import GroupPage from "./Pages/Group/GroupPage";
 import AdminPage from "./Pages/Admin/AdminPage";
 import AdminAddPage from "./Pages/Admin/AdminAddPage";
-import ForgotPasswordPage from "./Pages/Authentication/ForgetPassword/ForgotPasswordPage";
-import SecurityQuestionsPage from "./Pages/Authentication/ForgetPassword/SecurityQuestionsPage";
-import EmailVerificationPage from "./Pages/Authentication/ForgetPassword/EmailVerificationPage";
+import ForgotPasswordPage from "./Pages/Authentication/ForgotPasswordPage";
 import FriendPage from "./Pages/Friend/FriendPage";
 import ViewGroupPage from "./Pages/Group/ViewGroupPage";
-import ResetPasswordPage from "./Pages/Authentication/ForgetPassword/ResetPasswordPage";
 import AuthenticationFailPage from "./Pages/FailPage/AuthenticationFailPage";
 import FriendMessagePage from "./Pages/Friend/FriendMessagePage";
 import SearchPage from "./Pages/Search/SearchPage";
@@ -97,9 +94,7 @@ const AppRoutes = () => {
 						) : (<AuthenticationFailPage />)}
 				/>
 				<Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-				<Route path="/securityQuestions" element={<SecurityQuestionsPage />} />
-				<Route path="/emailVerification" element={<EmailVerificationPage />} />
-				<Route path="/resetPassword" element={<ResetPasswordPage />} />
+
 			</Routes>
 		</Router>
 	);

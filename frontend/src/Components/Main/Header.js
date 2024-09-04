@@ -54,11 +54,23 @@ const Header = () => {
 
 			<h1 className="header-title"><a href="/main" className="home-link">Tiger Talk</a></h1>
 
-			<SearchBar searchType="global" searchBarClassName={"header"} dropdownClassName={"header"}/>
+			<SearchBar
+				searchType="global"
+				searchBarClassName={"header"}
+				dropdownClassName={"header"}
+			/>
 
-			<NavLink to="/friends/message" className="navbar-icon-box"><BsChatDotsFill /><span className="navbar-icon-text">Chat</span></NavLink>
-			<NavLink to="/friends/friend-list" className="navbar-icon-box"><FaUserLarge /><span className="navbar-icon-text">Friend</span></NavLink>
-			<NavLink to="/group" className="navbar-icon-box"><FaUserGroup /><span className="navbar-icon-text">Group</span></NavLink>
+			<NavLink to="/friends/message" className="navbar-icon-box">
+				<BsChatDotsFill /><span className="navbar-icon-text">Chat</span>
+			</NavLink>
+
+			<NavLink to="/friends/friend-list" className="navbar-icon-box">
+				<FaUserLarge /><span className="navbar-icon-text">Friend</span>
+			</NavLink>
+
+			<NavLink to="/group" className="navbar-icon-box">
+				<FaUserGroup /><span className="navbar-icon-text">Group</span>
+			</NavLink>
 
 			<NotificationButton />
 

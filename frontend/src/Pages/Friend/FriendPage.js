@@ -96,7 +96,11 @@ const FriendPage = () => {
 
 					<div className="friend-request-page-search-and-create">
 						<div className="friend-list-search-bar">
-							<input type="text" placeholder="Search Available Friends..." value={searchFriendQuery} onChange={handleInputChange}/>
+							<input
+								type="text"
+								placeholder="Search Available Friends..."
+								value={searchFriendQuery} onChange={handleInputChange}
+							/>
 						</div>
 
 						<div className="friend-request-list-and-button"
