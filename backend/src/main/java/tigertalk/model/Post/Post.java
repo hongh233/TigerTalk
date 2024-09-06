@@ -13,16 +13,7 @@ import java.util.List;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer postId;
 
-    private String content;
-    private int numOfLike;
-    private String associatedImageURL;
-    private Boolean edited;
-    @Column(nullable = false)
-    private LocalDateTime timestamp = LocalDateTime.now();
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<PostComment> postComments = new ArrayList<>();
@@ -35,6 +26,17 @@ public class Post {
     @JsonBackReference
     private UserProfile userProfile;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer postId;
+
+    private String content;
+    private int numOfLike;
+    private String associatedImageURL;
+    private Boolean edited;
+    @Column(nullable = false)
+    private LocalDateTime timestamp = LocalDateTime.now();
+
     public Post() {
     }
 
@@ -46,20 +48,43 @@ public class Post {
         this.edited = false;
     }
 
-    public String getAssociatedImageURL() {
-        return associatedImageURL;
+    public PostDTO toDto() {
+        return new PostDTO(
+                postId,
+                userProfile.getEmail(),
+                content,
+                timestamp,
+                numOfLike,
+                userProfile.getUserName(),
+                userProfile.getProfilePictureUrl(),
+                associatedImageURL,
+                edited,
+                userProfile.getOnlineStatus()
+        );
     }
 
-    public void setAssociatedImageURL(String associatedImageURL) {
-        this.associatedImageURL = associatedImageURL;
+    public List<PostComment> getPostComments() {
+        return postComments;
     }
 
-    public List<PostLike> getLikes() {
+    public void setPostComments(List<PostComment> postComments) {
+        this.postComments = postComments;
+    }
+
+    public List<PostLike> getPostLikes() {
         return postLikes;
     }
 
-    public void setLikes(List<PostLike> postLikes) {
+    public void setPostLikes(List<PostLike> postLikes) {
         this.postLikes = postLikes;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
     public Integer getPostId() {
@@ -78,22 +103,6 @@ public class Post {
         this.content = content;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-    }
-
     public int getNumOfLike() {
         return numOfLike;
     }
@@ -102,22 +111,12 @@ public class Post {
         this.numOfLike = numOfLike;
     }
 
-    public List<PostComment> getComments() {
-        return postComments;
+    public String getAssociatedImageURL() {
+        return associatedImageURL;
     }
 
-    public void setComments(List<PostComment> postComments) {
-        this.postComments = postComments;
-    }
-
-    public void addComment(PostComment postComment) {
-        postComments.add(postComment);
-        postComment.setPost(this);
-    }
-
-    public void removeComment(PostComment postComment) {
-        postComments.remove(postComment);
-        postComment.setPost(null);
+    public void setAssociatedImageURL(String associatedImageURL) {
+        this.associatedImageURL = associatedImageURL;
     }
 
     public Boolean getEdited() {
@@ -128,17 +127,12 @@ public class Post {
         this.edited = edited;
     }
 
-    public PostDTO toDto() {
-        return new PostDTO(
-                this.getPostId(),
-                this.getUserProfile().getEmail(),
-                this.getContent(),
-                this.getTimestamp(),
-                this.getNumOfLike(),
-                this.getUserProfile().getUserName(),
-                this.getUserProfile().getProfilePictureUrl(),
-                this.getAssociatedImageURL(),
-                this.getEdited()
-        );
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
 }

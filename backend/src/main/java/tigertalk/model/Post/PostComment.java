@@ -8,9 +8,6 @@ import java.time.LocalDateTime;
 
 @Entity
 public class PostComment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer commentId;
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "postId")
@@ -20,6 +17,10 @@ public class PostComment {
     @ManyToOne
     @JoinColumn(name = "comment_sender_user_profile", referencedColumnName = "email")
     private UserProfile commentSenderUserProfile;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer commentId;
 
     private String content;
 
@@ -35,12 +36,16 @@ public class PostComment {
         this.commentSenderUserProfile = commentSenderUserProfile;
     }
 
-    public Integer getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(Integer commentId) {
-        this.commentId = commentId;
+    public PostCommentDTO toDto() {
+        return new PostCommentDTO(
+                commentId,
+                content,
+                timestamp,
+                commentSenderUserProfile.toDto(),
+                post.getUserProfile().toDto(),
+                post.getPostId(),
+                commentSenderUserProfile.getOnlineStatus()
+        );
     }
 
     public Post getPost() {
@@ -49,6 +54,22 @@ public class PostComment {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public UserProfile getCommentSenderUserProfile() {
+        return commentSenderUserProfile;
+    }
+
+    public void setCommentSenderUserProfile(UserProfile commentSenderUserProfile) {
+        this.commentSenderUserProfile = commentSenderUserProfile;
+    }
+
+    public Integer getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public String getContent() {
@@ -68,22 +89,4 @@ public class PostComment {
     }
 
 
-    public UserProfile getCommentSenderUserProfile() {
-        return commentSenderUserProfile;
-    }
-
-    public void setCommentSenderUserProfile(UserProfile commentSenderUserProfile) {
-        this.commentSenderUserProfile = commentSenderUserProfile;
-    }
-
-    public PostCommentDTO toDto() {
-        return new PostCommentDTO(
-                this.getCommentId(),
-                this.getContent(),
-                this.getTimestamp(),
-                this.getCommentSenderUserProfile().toDto(),
-                this.getPost().getUserProfile().toDto(),
-                this.getPost().getPostId()
-        );
-    }
 }

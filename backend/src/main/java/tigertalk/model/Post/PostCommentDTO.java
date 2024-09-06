@@ -20,6 +20,7 @@ public record PostCommentDTO(
         LocalDateTime timestamp,
         UserProfileDTO commentSenderUserProfileDTO,
         UserProfileDTO postSenderUserProfileDTO,
-        Integer postId
+        Integer postId,
+        String onlineStatus
 ) {
 }

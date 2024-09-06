@@ -24,6 +24,7 @@ public record PostDTO(
         String userProfileUserName,
         String profileProfileURL,
         String postImageURL,
-        Boolean edited
+        Boolean edited,
+        String onlineStatus
 ) {
 }

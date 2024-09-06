@@ -146,9 +146,9 @@ public class PostServiceImpl implements PostService {
             Post existingPost = existingPostOptional.get();
 
             existingPost.setUserProfile(post.getUserProfile());
-            existingPost.setComments(post.getComments());
+            existingPost.setPostComments(post.getPostComments());
             existingPost.setAssociatedImageURL(post.getAssociatedImageURL());
-            existingPost.setLikes(post.getLikes());
+            existingPost.setPostLikes(post.getPostLikes());
             existingPost.setNumOfLike(post.getNumOfLike());
             existingPost.setTimestamp(post.getTimestamp());
             existingPost.setContent(post.getContent());
@@ -180,13 +180,13 @@ public class PostServiceImpl implements PostService {
         if (existingLike.isPresent()) {
             postLikeRepository.delete(existingLike.get());
             post.setNumOfLike(post.getNumOfLike() - 1);
-            post.getLikes().remove(existingLike.get());
+            post.getPostLikes().remove(existingLike.get());
             liked = false;
         } else {
             PostLike newPostLike = new PostLike(post, userProfile);
             postLikeRepository.save(newPostLike);
             post.setNumOfLike(post.getNumOfLike() + 1);
-            post.getLikes().add(newPostLike);
+            post.getPostLikes().add(newPostLike);
             liked = true;
         }
 
