@@ -1,10 +1,10 @@
 import React from "react";
-import "../../assets/styles/Components/Group/GroupComment.css";
+import "../../assets/styles/Components/Group/GroupPostComment.css";
 import {formatDate} from "../../utils/formatDate";
 import StatusIcon from "../Main/StatusIcon";
 
 
-const GroupComment = ({ postComment }) => {
+const GroupPostComment = ({ postComment }) => {
 
 	return postComment ? (
 		<div className="comment">
@@ -23,11 +23,13 @@ const GroupComment = ({ postComment }) => {
 					<p>{formatDate(postComment.groupPostCommentCreateTime)}</p>
 				</div>
 			</div>
-			<div className="comment-content"><p>{postComment.groupPostCommentContent}</p></div>
+			<div className="group-comment-content">
+				<p>{postComment.groupPostCommentContent}</p>
+			</div>
 		</div>
 	) : (
 		""
 	);
 };
 
-export default GroupComment;
+export default GroupPostComment;

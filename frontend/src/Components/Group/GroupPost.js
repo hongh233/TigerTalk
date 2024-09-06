@@ -4,7 +4,7 @@ import { handleAddGroupPostComment, handleGetCommentsForOneGroupPost } from "../
 import { handleDeletePostAxios, handleLikeAxios } from "../../axios/Group/GroupPostAxios";
 import { handleGetGroupById } from "../../axios/Group/GroupAxios";
 import {FaComment, FaHeart, FaShareSquare, FaTrash} from "react-icons/fa";
-import GroupComment from "./GroupComment";
+import GroupPostComment from "./GroupPostComment";
 import { formatDate } from "../../utils/formatDate";
 import StatusIcon from "../Main/StatusIcon";
 
@@ -174,7 +174,7 @@ const GroupPost = ({
 							</button>
 						</div>
 						{postComments.map((postComment, index) => (
-							<GroupComment key={index} postComment={postComment} />
+							<GroupPostComment key={index} postComment={postComment} />
 						))}
 					</div>
 				)}
