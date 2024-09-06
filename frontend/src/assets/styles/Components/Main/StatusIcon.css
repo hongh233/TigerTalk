@@ -1,0 +1,8 @@
+.status-adjust-creation-small {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid white;
+}
