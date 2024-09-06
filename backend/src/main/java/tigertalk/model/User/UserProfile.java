@@ -59,7 +59,7 @@ public class UserProfile {
     private List<GroupPostComment> groupPostCommentList = new LinkedList<>();
 
     @Id
-    private String email;                       // contain @, unique
+    private String email;                       // contain @, should be unique
 
     // authentication variable:
     private String password;                    // 8 <= length <= 30, must have at least 1 uppercase, 1 lowercase, 1 number, 1 special character !@#$%^&*<>? and only contain those
