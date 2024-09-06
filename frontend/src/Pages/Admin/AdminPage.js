@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import "../../assets/styles/Pages/Admin/AdminPage.css";
 import {getAllUsers} from "../../axios/UserAxios";
 import {useDispatch, useSelector} from "react-redux";
-import Header from "../../Components/Main/Header";
 import UserList from "../../Components/Admin/UserList";
 import { useNavigate } from "react-router-dom";
 
@@ -29,7 +28,6 @@ const AdminPage = () => {
 
     return (
         <div className="main-page">
-            <Header/>
 			<div className="content">
                 <div className="admin-content">
 

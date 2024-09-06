@@ -3,7 +3,6 @@ import "../assets/styles/Pages/MainPage.css";
 import {createPost, fetchPosts} from "../axios/Post/PostAxios";
 import {getCurrentUser} from "../axios/UserAxios";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../Components/Main/Header";
 import Post from "../Components/Post/Post";
 import PostCreation from "../Components/Post/PostCreation";
 import FriendRecommendations from "../Components/Friend/FriendRecommendations";
@@ -65,16 +64,17 @@ const MainPage = () => {
 
 	return (
 		<div className="main-page">
-			<Header />
 			<div className="content">
 				<div className="main-content">
-					<div className="post-creation-section">
-						<PostCreation addPost={addPost} />
-					</div>
+					<PostCreation addPost={addPost} />
 					<FriendRecommendations />
-					<div className="post-list">
-						{posts.map((post) => (<Post key={post.id} post={post} user={user} removePost={handleDeletePost} />))}
-					</div>
+					{posts.map((post) => (
+						<Post key={post.id}
+							  post={post}
+							  user={user}
+							  removePost={handleDeletePost}
+						/>
+					))}
 					<p>{message}</p>
 				</div>
 			</div>

@@ -9,7 +9,6 @@ import { MdPhotoCamera } from 'react-icons/md';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Post from "../../Components/Post/Post";
-import Header from "../../Components/Main/Header";
 import { formatPost } from "../../utils/formatPost";
 import {uploadImageToCloudinary} from "../../utils/cloudinaryUtils";
 import ProfileStatusButton from "../../Components/Profile/ProfileStatusButton";
@@ -171,7 +170,6 @@ const ProfilePage = () => {
 
 	return (
 		<div className="main-page">
-			<Header />
 			<div className="content">
 
 				{profileUser && (
@@ -219,12 +217,8 @@ const ProfilePage = () => {
 
 									<p className="profile-personal-information">
 										<span><strong>Posts: </strong>{profileUser.numOfPosts} posts</span>
-
 										<span><strong>Friends: </strong>{profileUser.numOfFriends} friends</span>
-
 										<span><strong>Groups: </strong>{profileUser.numOfGroups} groups</span>
-
-
 									</p>
 									<p className="profile-personal-information">
 										{(profileUser.firstName !== "" || profileUser.lastName !== "") &&
@@ -242,15 +236,18 @@ const ProfilePage = () => {
 									<p className="profile-biography-paragraph"><strong></strong>{profileUser.biography}</p>
 								</div>
 							</div>
+						</div>
 
-						</div>
-						<div className="profile-content-post-list">
-							<div className="profile-content-post">
-								{message.length > 0 ? (<p>{message}</p>) : (
-									posts.map((post) => (<Post key={post.id} post={post} user={user} removePost={handleDeletePost}/>))
-								)}
-							</div>
-						</div>
+						{message.length > 0 ? (
+							<p>{message}</p>
+						) : (
+							posts.map((post) => (
+								<Post key={post.id}
+									  post={post}
+									  user={user}
+									  removePost={handleDeletePost}/>
+							))
+						)}
 					</div>
 				)}
 

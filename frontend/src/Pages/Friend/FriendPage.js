@@ -90,7 +90,6 @@ const FriendPage = () => {
 
 	return (
 		<div className="main-page">
-			<Header />
 			<div className="content">
 				<div className="friend-list-content">
 
@@ -98,7 +97,7 @@ const FriendPage = () => {
 						<div className="friend-list-search-bar">
 							<input
 								type="text"
-								placeholder="Search Available Friends..."
+								placeholder="Find Available Friends..."
 								value={searchFriendQuery} onChange={handleInputChange}
 							/>
 						</div>

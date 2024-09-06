@@ -71,14 +71,15 @@ const GroupPage = () => {
 
 	return (
 		<div className="main-page">
-			<Header />
 			<div className="content">
 
 				<div className="group-page-content-control">
 
 					<div className="group-page-search-and-create">
 						<div className="group-page-search-bar">
-							<input type="text" placeholder="Search Available Groups..." onChange={handleInputChange}/>
+							<input type="text"
+								   placeholder="Find Available Groups..."
+								   onChange={handleInputChange}/>
 						</div>
 
 						<button onClick={() => setIsCreateGroupOpen(true)} className="create-group-button">

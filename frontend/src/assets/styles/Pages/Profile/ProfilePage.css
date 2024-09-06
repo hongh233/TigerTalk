@@ -1,28 +1,30 @@
 .profile-main-content {
-	margin-top: 30px;
 	width: 100%;
+	max-width: 1200px;
 	display: flex;
 	flex-direction: column;
+	margin-left: auto;
+	margin-right: auto;
 
-	/*border: 1px solid black;*/
+	padding-top: 20px;
+	padding-left: 30px;
+	padding-right: 30px;
 }
 
 .profile-page-user-info {
-	height: 30%;
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
 	/*border: 1px solid red;*/
 }
 
 .profile-page-user-info-container {
-	display: flex;
 	width: 100%;
 	margin-bottom: 20px;
-
-	/*border: 1px solid blue;*/
+	display: flex;
+	justify-content: space-between;
+	/*border: 3px solid blue;*/
 }
 
 
@@ -105,17 +107,11 @@
 	width: 70%;
 	padding-left: 2%;
 
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 }
-
-
-
 .profile-status-and-edit-button-box {
 	display: flex;
-
-	border: 1px solid black;
 }
-
 
 
 
@@ -156,31 +152,11 @@
 
 .profile-biography-paragraph {
 	word-break: break-all;
-	border: 1px solid black;
-}
-
-
-
-
-.profile-content-post-list {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-
-
-
-.profile-content-post {
-	display: flex;
-	flex-direction: column;
-	width: 100%; /* width of the box wrap several posts */
-	align-items: center;
-	justify-content: center;
-
 	/*border: 1px solid black;*/
 }
+
+
+
 
 @media (max-width: 768px) {
 

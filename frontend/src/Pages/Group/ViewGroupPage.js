@@ -183,7 +183,6 @@ const ViewGroupPage = () => {
 	return (
 		group && (
 			<div className="main-page">
-				<Header />
 				<div className="content">
 
 					<div className="group-content-container">

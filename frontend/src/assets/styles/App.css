@@ -5,3 +5,16 @@ body {
 	height: 100vh;
 	background-color: #f0f2f5;
 }
+
+.app-container {
+	display: flex;
+	height: 100vh;
+}
+
+
+.main-container {
+	width: 100%;
+	overflow-y: auto;
+	transition: margin-left 0.3s ease, padding-top 0.3s ease;
+}
+

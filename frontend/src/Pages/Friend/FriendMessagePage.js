@@ -210,7 +210,6 @@ const FriendMessagePage = () => {
 
 	return (
 		<div className="main-page">
-			<Header />
 			<div className="content">
 
 				<div className="friend-message-content-container">

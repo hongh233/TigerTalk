@@ -69,13 +69,3 @@ input:focus, select:focus {
 }
 
 
-
-
-p {
-    margin-top: 20px;
-    color: #333;
-}
-
-p a:hover {
-    text-decoration: underline;
-}
