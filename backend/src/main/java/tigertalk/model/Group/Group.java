@@ -9,6 +9,12 @@ import java.util.List;
 @Table(name = "group_all")
 public class Group {
 
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupMembership> groupMemberList = new LinkedList<>();
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupPost> groupPostList = new LinkedList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupId;
@@ -23,12 +29,6 @@ public class Group {
 
     private LocalDateTime groupCreateTime = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GroupMembership> groupMemberList = new LinkedList<>();
-
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<GroupPost> groupPostList = new LinkedList<>();
-
     public Group() {
     }
 
@@ -38,63 +38,7 @@ public class Group {
         this.interest = interest;
     }
 
-    public int getGroupId() {
-        return groupId;
-    }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public LocalDateTime getGroupCreateTime() {
-        return groupCreateTime;
-    }
-
-    public void setGroupCreateTime(LocalDateTime groupCreateTime) {
-        this.groupCreateTime = groupCreateTime;
-    }
-
-    public List<GroupMembership> getGroupMemberList() {
-        return groupMemberList;
-    }
-
-    public void setGroupMemberList(List<GroupMembership> groupMemberList) {
-        this.groupMemberList = groupMemberList;
-    }
-
-
-    public List<GroupPost> getGroupPostList() {
-        return groupPostList;
-    }
-
-    public void setGroupPostList(List<GroupPost> messages) {
-        this.groupPostList = messages;
-    }
-
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-    public void setPrivate(boolean aPrivate) {
-        isPrivate = aPrivate;
-    }
-
-
-    public String getGroupImg() {
-        return groupImg;
-    }
-
-    public void setGroupImg(String groupImg) {
-        this.groupImg = groupImg;
-    }
 
     public GroupDTO toDto() {
         String groupCreatorEmail = this.groupMemberList.stream()
@@ -130,4 +74,71 @@ public class Group {
         this.interest = groupDTO.interest();
         this.groupImg = groupDTO.groupImg();
     }
+
+
+
+    public List<GroupMembership> getGroupMemberList() {
+        return groupMemberList;
+    }
+
+    public void setGroupMemberList(List<GroupMembership> groupMemberList) {
+        this.groupMemberList = groupMemberList;
+    }
+
+    public List<GroupPost> getGroupPostList() {
+        return groupPostList;
+    }
+
+    public void setGroupPostList(List<GroupPost> groupPostList) {
+        this.groupPostList = groupPostList;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
+    public String getInterest() {
+        return interest;
+    }
+
+    public void setInterest(String interest) {
+        this.interest = interest;
+    }
+
+    public String getGroupImg() {
+        return groupImg;
+    }
+
+    public void setGroupImg(String groupImg) {
+        this.groupImg = groupImg;
+    }
+
+    public LocalDateTime getGroupCreateTime() {
+        return groupCreateTime;
+    }
+
+    public void setGroupCreateTime(LocalDateTime groupCreateTime) {
+        this.groupCreateTime = groupCreateTime;
+    }
+
 }

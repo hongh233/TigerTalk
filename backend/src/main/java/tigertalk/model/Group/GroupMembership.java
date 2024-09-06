@@ -8,10 +8,6 @@ import java.time.LocalDateTime;
 @Entity
 public class GroupMembership {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int groupMembershipId;
-
     @ManyToOne
     @JoinColumn(name = "groupId")
     private Group group;
@@ -20,6 +16,9 @@ public class GroupMembership {
     @JoinColumn(name = "email")
     private UserProfile userProfile;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int groupMembershipId;
 
     private LocalDateTime joinTime = LocalDateTime.now();
 
@@ -35,46 +34,6 @@ public class GroupMembership {
         this.isCreator = isCreator;
     }
 
-    public int getGroupMembershipId() {
-        return groupMembershipId;
-    }
-    public void setGroupMembershipId(int membershipId) {
-        this.groupMembershipId = membershipId;
-    }
-
-
-    public Group getGroup() {
-        return group;
-    }
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
-
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-    }
-
-
-    public LocalDateTime getJoinTime() {
-        return joinTime;
-    }
-    public void setJoinTime(LocalDateTime joinTime) {
-        this.joinTime = joinTime;
-    }
-
-
-    public boolean isCreator() {
-        return isCreator;
-    }
-    public void setCreator(boolean creator) {
-        isCreator = creator;
-    }
-
-
     public GroupMembershipDTO toDto() {
         return new GroupMembershipDTO(
                 getGroupMembershipId(),
@@ -83,4 +42,45 @@ public class GroupMembership {
                 isCreator()
         );
     }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
+
+    public int getGroupMembershipId() {
+        return groupMembershipId;
+    }
+
+    public void setGroupMembershipId(int groupMembershipId) {
+        this.groupMembershipId = groupMembershipId;
+    }
+
+    public LocalDateTime getJoinTime() {
+        return joinTime;
+    }
+
+    public void setJoinTime(LocalDateTime joinTime) {
+        this.joinTime = joinTime;
+    }
+
+    public boolean isCreator() {
+        return isCreator;
+    }
+
+    public void setCreator(boolean creator) {
+        isCreator = creator;
+    }
+
 }

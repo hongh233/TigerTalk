@@ -7,6 +7,10 @@ import java.time.LocalDateTime;
 @Entity
 public class Notification{
 
+    @ManyToOne
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
+    private UserProfile userProfile;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int notificationId;
@@ -32,10 +36,6 @@ public class Notification{
     // GroupOwnershipTransfer
     private String notificationType;
 
-    @ManyToOne
-    @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
-    private UserProfile userProfile;
-
     public Notification() {
     }
 
@@ -44,6 +44,24 @@ public class Notification{
         this.content = content;
         this.notificationType = type;
         this.createTime = LocalDateTime.now();
+    }
+
+    public NotificationDTO toDto() {
+        return new NotificationDTO(
+                this.getNotificationId(),
+                this.getContent(),
+                this.getCreateTime(),
+                this.getNotificationType(),
+                this.getUserProfile().getEmail()
+        );
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
     public int getNotificationId() {
@@ -70,14 +88,6 @@ public class Notification{
         this.createTime = createTime;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        this.userProfile = userProfile;
-    }
-
     public String getNotificationType() {
         return notificationType;
     }
@@ -86,14 +96,5 @@ public class Notification{
         this.notificationType = notificationType;
     }
 
-    public NotificationDTO toDto() {
-        return new NotificationDTO(
-                this.getNotificationId(),
-                this.getContent(),
-                this.getCreateTime(),
-                this.getNotificationType(),
-                this.getUserProfile().getEmail()
-        );
-    }
 
 }

@@ -33,20 +33,41 @@ public class PasswordToken {
         return passwordToken;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public String getEmail() {
-        return email;
+    public boolean isTokenExpired() {
+        LocalDateTime expirationTime = timestamp.plusMinutes(10); // PASSWORD_TOKEN_EXPIRATION_MINUTES: 10
+        return LocalDateTime.now().isAfter(expirationTime);
     }
 
     public Long getId() {
         return id;
     }
 
-    public boolean isTokenExpired() {
-        LocalDateTime expirationTime = timestamp.plusMinutes(10); // PASSWORD_TOKEN_EXPIRATION_MINUTES: 10
-        return LocalDateTime.now().isAfter(expirationTime);
+    public void setId(Long id) {
+        this.id = id;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
 }

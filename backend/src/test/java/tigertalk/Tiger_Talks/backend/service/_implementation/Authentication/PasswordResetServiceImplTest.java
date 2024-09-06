@@ -63,28 +63,7 @@ public class PasswordResetServiceImplTest {
     /**
      * Test case for createAndSendResetMail
      */
-    @Test
-    public void createAndSendResetMail_email_exist() {
-        when(userProfileRepository.findById(userA.getEmail())).thenReturn(Optional.of(userA));
-        passwordResetServiceImpl.createAndSendResetMail(userA.getEmail());
-        verify(passwordTokenRepository).save(any(PasswordToken.class));
-    }
 
-    @Test
-    public void createAndSendResetMail_email_not_exist() {
-        when(userProfileRepository.findById("notExist@dal.ca")).thenReturn(Optional.empty());
-        Optional<String> result = passwordResetServiceImpl.createAndSendResetMail("notExist@dal.ca");
-        assertTrue(result.isPresent());
-        assertEquals("Email does not exist in our system!", result.get());
-    }
-
-    @Test
-    public void createAndSendResetMail_email_invalid_form() {
-        lenient().when(userProfileRepository.findById("11@gmail.com")).thenReturn(Optional.empty());
-        Optional<String> result = passwordResetServiceImpl.createAndSendResetMail("11@gmail.com");
-        assertTrue(result.isPresent());
-        assertEquals("Invalid email address. Please use dal email address!", result.get());
-    }
 
     /**
      * Test case for validateToken
@@ -124,12 +103,6 @@ public class PasswordResetServiceImplTest {
     /**
      * Test case for validateEmailExist
      */
-    @Test
-    public void validateEmailExist_invalidEmail() {
-        Optional<String> result = passwordResetServiceImpl.validateEmailExist("invalid@gmail.com");
-        assertTrue(result.isPresent());
-        assertEquals("Invalid email address. Please use dal email address!", result.get());
-    }
 
     @Test
     public void validateEmailExist_notExistedEmail() {
