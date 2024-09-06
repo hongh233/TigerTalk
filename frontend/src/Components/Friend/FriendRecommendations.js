@@ -2,6 +2,7 @@ import React from "react";
 import "../../assets/styles/Components/Friend/FriendRecommendations.css";
 import {recommendFriends} from "../../axios/Friend/FriendshipRecommendationAxios";
 import {useSelector} from "react-redux";
+import StatusIcon from "../Main/StatusIcon";
 
 
 const FriendRecommendations = () => {
@@ -30,13 +31,14 @@ const FriendRecommendations = () => {
             </h3>
             <div className="friend-recommendations">
                 <ul>
-                    {recommendations.map((friend, index) => (
+                    {recommendations.map((user, index) => (
                         <li key={index}>
-                            <a href={`/profile/${friend.email}`} className="friend-link">
-                                <div className="recommend-friend-picture">
-                                    <img src={friend.profilePictureUrl} alt={friend.userName} className="friend-avatar"/>
+                            <a href={`/profile/${user.email}`} className="friend-recommend-link">
+                                <div className="common-profile-picture-and-status-icon">
+                                    <img src={user.profilePictureUrl} alt="avatar" />
+                                    <StatusIcon status={user.onlineStatus}/>
                                 </div>
-                                <div className="friend-name"><b>{friend.userName}</b></div>
+                                <div className="friend-recommend-name"><b>{user.userName}</b></div>
                             </a>
                         </li>
                     ))}

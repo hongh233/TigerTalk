@@ -3,6 +3,7 @@ import "../../assets/styles/Components/Post/PostCreation.css";
 import {FaImage} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
+import StatusIcon from "../Main/StatusIcon";
 
 
 const PostCreation = ({ addPost }) => {
@@ -50,27 +51,28 @@ const PostCreation = ({ addPost }) => {
 	};
 
 	return (
-		<>
-			{user && (
-				<div className="post-creation">
-					<div className="post-creation-container">
-						<div className="post-creation-header">
-							<div className="post-creation-profile-picture"><img src={user.profilePictureUrl} alt="avatar" /></div>
-							<div className="post-user-details">{user && <h2>{user.userName}</h2>}</div>
-						</div>
-						<textarea placeholder="What's Happening?" value={postContent} onChange={handleInputChange}></textarea>
-						<div className="post-creation-image-upload">
-							<input type="file" name="profilePicture" onChange={handleFileChange} style={{ display: "none" }} id="fileInput"/>
-							<label htmlFor="fileInput"><FaImage /></label>
-						</div>
+		<div className="post-creation">
+			<div className="post-creation-container">
+				<div className="post-creation-header">
 
-						{uploading && <p>Uploading...</p>}
-						{imageUrl && <img src={imageUrl} alt="Uploaded" width="100" />}
-						<button className="post-creation-button" onClick={handleAddPost}>Post</button>
+					<div className="common-profile-picture-and-status-icon">
+						<img src={user.profilePictureUrl} alt="avatar" />
+						<StatusIcon status={user.onlineStatus}/>
 					</div>
+
+					<div className="post-user-details">{user && <h2>{user.userName}</h2>}</div>
 				</div>
-			)}
-		</>
+				<textarea placeholder="What's Happening?" value={postContent} onChange={handleInputChange}></textarea>
+				<div className="post-creation-image-upload">
+					<input type="file" name="profilePicture" onChange={handleFileChange} style={{ display: "none" }} id="fileInput"/>
+					<label htmlFor="fileInput"><FaImage /></label>
+				</div>
+
+				{uploading && <p>Uploading...</p>}
+				{imageUrl && <img src={imageUrl} alt="Uploaded" width="100" />}
+				<button className="post-creation-button" onClick={handleAddPost}>Post</button>
+			</div>
+		</div>
 	);
 };
 

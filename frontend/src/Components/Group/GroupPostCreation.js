@@ -3,6 +3,7 @@ import "../../assets/styles/Components/Group/GroupPostCreation.css";
 import {FaImage} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
+import StatusIcon from "../Main/StatusIcon";
 
 
 const GroupPostCreation = ({ addPost, onclose, onopen }) => {
@@ -55,13 +56,21 @@ const GroupPostCreation = ({ addPost, onclose, onopen }) => {
 				<div className="group-post-creation">
 					<div className="group-post-creation-container">
 
-						<button className="group-post-creation-close-button" onClick={() => {onclose();onopen();}}>
+						<button className="group-post-creation-close-button"
+								onClick={() => {onclose();onopen();}}>
 							&times;
 						</button>
 
 						<div className="group-post-creation-header">
-							<div className="group-post-creation-profile-picture"><img src={user.profilePictureUrl} alt="avatar" /></div>
-							<div className="group-post-user-details">{user && <h2>{user.userName}</h2>}</div>
+
+							<div className="common-profile-picture-and-status-icon">
+								<img src={user.profilePictureUrl} alt="avatar" />
+								<StatusIcon status={user.onlineStatus} />
+							</div>
+
+							<div className="group-post-user-details">
+								{user && <h2>{user.userName}</h2>}
+							</div>
 						</div>
 						<textarea
 							placeholder="What's Happening?"

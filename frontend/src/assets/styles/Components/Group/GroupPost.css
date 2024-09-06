@@ -57,22 +57,6 @@
 
 
 
-.group-post-profile-picture {
-	margin-right: 10px;
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	background-color: #ccc;
-}
-.group-post-profile-picture img {
-	margin-right: 10px;
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	object-fit: cover;
-}
-
-
 
 
 .group-post-user-details h3 {
@@ -88,6 +72,7 @@
 
 .group-post-content {
 	margin-bottom: 10px;
+	word-break: break-word;
 }
 
 

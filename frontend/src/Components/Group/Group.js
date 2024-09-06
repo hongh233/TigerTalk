@@ -22,7 +22,6 @@ const Group = ({ group }) => {
 
 				<div className="group-creator-details">
 					{group.groupName} {group.isPrivate ? <FaLock /> : <FaLockOpen />}
-					<p>{group.dateCreated}</p>{/*TODO: wait to see what to do here*/}
 				</div>
 
 			</div>

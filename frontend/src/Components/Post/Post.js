@@ -9,6 +9,7 @@ import Comment from "./Comment";
 import { formatDate } from "../../utils/formatDate";
 import { FaShareSquare } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import StatusIcon from "../Main/StatusIcon";
 
 
 const Post = ({ post, user, removePost }) => {
@@ -25,11 +26,7 @@ const Post = ({ post, user, removePost }) => {
 	//get number of comments
 	useEffect(() => {
 		if (post.id) {
-			async function fetchComments() {
-				const fetchedComments = await getCommentFromPostId(post.id);
-				setPostComments(fetchedComments);
-			}
-			fetchComments();
+			(async () => {setPostComments(await getCommentFromPostId(post.id))})();
 		}
 	}, [commentToggle, post.id]);
 
@@ -148,90 +145,94 @@ const Post = ({ post, user, removePost }) => {
 
 	return (
 		<div className="post">
-			<div className="real-post-header">
+			<div className="post-container-template">
 
-				<div className="real-post-profile-picture">
-					<a className="post-user-email" href={`/profile/${post.email}`}>
-						<img src={post.profileProfileURL} alt="avatar" />
-					</a>
-				</div>
+				<div className="real-post-header">
 
-				<div className="post-user-details">
-					<h3>
+					<div className="common-profile-picture-and-status-icon">
 						<a className="post-user-email" href={`/profile/${post.email}`}>
-							{post.userProfileUserName}
+							<img src={post.profileProfileURL} alt="avatar" />
+							<StatusIcon status={post.onlineStatus} />
 						</a>
-					</h3>
-					<p>{formatDate(post.timestamp)}</p>
+					</div>
+
+					<div className="post-user-details">
+						<h3>
+							<a className="post-user-email" href={`/profile/${post.email}`}>
+								{post.userProfileUserName}
+							</a>
+						</h3>
+						<p>{formatDate(post.timestamp)}</p>
+					</div>
+
 				</div>
 
-			</div>
-
-			<div className="post-content">
-				{isEditing ? (
-					<textarea value={editedContent}
-						onChange={(e) => setEditedContent(e.target.value)}
-					/>
-				) : (
-					<p>{renderPostContent(editedContent)}</p>
-				)}
-				{isEdited && <small className="edited-text">(edited)</small>}
-			</div>
-
-			{post.postImageURL && (
-				<div className="post-content-img-container">
-					<div className="post-content-img"><img src={post.postImageURL} alt="Post content" /></div>
-				</div>
-			)}
-
-			<div className="post-function-button-box">
-
-				<button className="post-button" onClick={handleLike}>
-					<FaHeart />{likes}
-				</button>
-
-				<button className="post-button" onClick={handleFetchAndDisplayComments}>
-					<FaComment />{postComments.length > 0 ? postComments.length : ""}
-				</button>
-
-				<button className="post-button" id="post-function-share" onClick={handleShare}>
-					<FaShareSquare />{"share"}
-				</button>
-
-				{user.email === post.email && !isEditing && (
-					<button className="post-button" id="post-function-edit" onClick={handleEditClick}>
-						<FaEdit />{"edit"}
-					</button>
-				)}
-
-				{user.email === post.email && isEditing && (
-					<>
-						<button className="post-button" onClick={handleSaveEdit}>Save</button>
-						<button className="post-button" onClick={handleCancelEdit}>Cancel</button>
-					</>
-				)}
-
-				{isAuthorOrAdmin && (
-					<button className="post-button" id="post-function-delete" onClick={handleDelete}>
-						<FaTrash />{"delete"}
-					</button>
-				)}
-			</div>
-
-			<div className="postComments-section">
-					{postComments && commentToggle && (
-						<div>
-							<div className="post-add-comment">
-								<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
-								<button onClick={handleAddComment}>Send</button>
-							</div>
-							{postComments.slice().reverse().map((postComment, index) => (
-								<Comment key={index} postComment={postComment} />
-							))}
-						</div>
+				<div className="post-content">
+					{isEditing ? (
+						<textarea value={editedContent}
+							onChange={(e) => setEditedContent(e.target.value)}
+						/>
+					) : (
+						<p>{renderPostContent(editedContent)}</p>
 					)}
-			</div>
+					{isEdited && <small className="edited-text">(edited)</small>}
+				</div>
 
+				{post.postImageURL && (
+					<div className="post-content-img-container">
+						<div className="post-content-img"><img src={post.postImageURL} alt="Post content" /></div>
+					</div>
+				)}
+
+				<div className="post-function-button-box">
+
+					<button className="post-button" onClick={handleLike}>
+						<FaHeart />{likes}
+					</button>
+
+					<button className="post-button" onClick={handleFetchAndDisplayComments}>
+						<FaComment />{postComments.length > 0 ? postComments.length : ""}
+					</button>
+
+					<button className="post-button" id="post-function-share" onClick={handleShare}>
+						<FaShareSquare />{"share"}
+					</button>
+
+					{user.email === post.email && !isEditing && (
+						<button className="post-button" id="post-function-edit" onClick={handleEditClick}>
+							<FaEdit />{"edit"}
+						</button>
+					)}
+
+					{user.email === post.email && isEditing && (
+						<>
+							<button className="post-button" onClick={handleSaveEdit}>Save</button>
+							<button className="post-button" onClick={handleCancelEdit}>Cancel</button>
+						</>
+					)}
+
+					{isAuthorOrAdmin && (
+						<button className="post-button" id="post-function-delete" onClick={handleDelete}>
+							<FaTrash />{"delete"}
+						</button>
+					)}
+				</div>
+
+				<div className="postComments-section">
+						{postComments && commentToggle && (
+							<div>
+								<div className="post-add-comment">
+									<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
+									<button onClick={handleAddComment}>Send</button>
+								</div>
+								{postComments.slice().reverse().map((postComment, index) => (
+									<Comment key={index} postComment={postComment} />
+								))}
+							</div>
+						)}
+				</div>
+
+			</div>
 		</div>
 	);
 };

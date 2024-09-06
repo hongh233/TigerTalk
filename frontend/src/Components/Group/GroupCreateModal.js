@@ -13,10 +13,7 @@ const GroupCreateModal = ({ isOpen, onClose, user }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm({
-            ...form,
-            [name]: value,
-        });
+        setForm({...form, [name]: value,});
     };
 
     const validate = () => {

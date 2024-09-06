@@ -1,15 +1,16 @@
 .post-creation {
-	display: flex;
-	flex-direction: column;
 	border-bottom: 1px solid #ddd;
 	background-color: #fff;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+
 	margin-bottom: 20px;
 	/*margin-top: 10px;*/
-	width: 100%;
-	padding: 20px;
+
 	box-sizing: border-box;
 }
 
@@ -35,19 +36,7 @@
 	align-items: center;
 	margin-bottom: 10px; /* adjust */
 }
-.post-creation-profile-picture {
-	margin-right: 10px;
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	background-color: #ccc;
-}
-.post-creation-profile-picture img {
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	object-fit: cover;
-}
+
 .post-user-details h2 {
 	margin: 0;
 	font-size: 1rem;
@@ -133,26 +122,6 @@
 	cursor: pointer;
 	margin-top: 10px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

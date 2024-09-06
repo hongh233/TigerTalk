@@ -2,6 +2,7 @@ import React from "react";
 import "../../assets/styles/Components/Friend/FriendRequest.css";
 import {acceptFriendRequest, rejectFriendRequest} from "../../axios/Friend/FriendshipRequestAxios";
 import {formatDate} from "../../utils/formatDate";
+import StatusIcon from "../Main/StatusIcon";
 
 
 const FriendRequest = ({request}) => {
@@ -34,8 +35,9 @@ const FriendRequest = ({request}) => {
     return (
         <div className="friend-request">
             <div className="friend-request-header">
-                <div className="friend-request-friend-picture">
+                <div className="common-profile-picture-and-status-icon">
                     <img src={request.senderProfilePictureUrl} alt="avatar"/>
+                    <StatusIcon status={request.senderOnlineStatus}/>
                 </div>
                 <div className="friend-request-friend-details">
                     <a href={"/profile/" + request.senderEmail}>{request.senderName}</a>

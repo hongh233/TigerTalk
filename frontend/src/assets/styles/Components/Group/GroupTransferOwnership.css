@@ -123,27 +123,13 @@
 
 
 
-.group-membership-item-friend-picture-transfer {
-    display: flex;
-    align-content: center;
-    width: 50px;
-    height: 50px;
-    margin-left: 4px;
-}
-.group-membership-item-friend-picture-transfer img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-}
 
 
 
 
 
 .group-membership-item-friend-details-transfer {
-    /*border: 1px solid black;*/
-    margin-left: 10px;
+
 }
 .group-membership-item-friend-details-transfer a {
     font-size: 18px;

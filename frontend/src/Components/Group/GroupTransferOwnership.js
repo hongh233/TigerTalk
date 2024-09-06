@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../assets/styles/Components/Group/GroupTransferOwnership.css";
 import { transferGroupOwnership } from "../../axios/Group/GroupAxios";
+import StatusIcon from "../Main/StatusIcon";
 
 
 const GroupTransferOwnership = ({ groupMembershipList, previousOwnerMembershipId, onClose }) => {
@@ -45,8 +46,9 @@ const GroupTransferOwnership = ({ groupMembershipList, previousOwnerMembershipId
                                 className={`group-membership-item-friend-transfer ${selectedMember?.groupMembershipId === member.groupMembershipId ? 'selected' : ''}`}
                             >
                                 <div className="group-membership-item-friend-header-transfer">
-                                    <div className="group-membership-item-friend-picture-transfer">
+                                    <div className="common-profile-picture-and-status-icon">
                                         <img src={member.userProfileDTO.profilePictureUrl} alt="avatar" />
+                                        <StatusIcon status={member.userProfileDTO.onlineStatus}/>
                                     </div>
                                     <div className="group-membership-item-friend-details-transfer">
                                         <a>{member.userProfileDTO.userName}</a>
