@@ -1,0 +1,104 @@
+.navbar {
+    background-color: rgba(34, 47, 62, 0.85);
+    color: #ffffff;
+}
+.navbar-username-email-box #userName {
+    color: #F0C674;
+}
+.navbar-username-email-box #email {
+    color: #B0BEC5;
+}
+.navbar-user-image-button-list {
+    color: #ffffff;
+}
+.navbar-user-image-button-list:hover {
+    background-color: #546E7A;
+}
+.navbar hr {
+    background-color: #a1abc0;
+}
+
+
+
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    width: 350px; /* width of the navbar */
+    height: 100vh; /* height of the navbar */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+/* Section 1: profile picture and related info */
+.navbar-profilePicture-onlineStatus-username-email-box {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.navbar-profilePicture-onlineStatus-box {
+    position: relative;
+    margin-right: 15px;
+    width: 70px;
+    height: 70px;
+}
+.navbar-profilePicture-onlineStatus-box img{
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffffff;
+    width: 100%;
+    height: 100%;
+}
+.navbar-username-email-box {
+    display: flex;
+    flex-direction: column;
+
+    max-width: 160px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    margin-left: 10px;
+}
+.navbar-username-email-box #userName {
+    font-weight: bold;
+    font-size: 27px;
+    margin-bottom: 2px;
+    overflow-wrap: break-word;
+}
+.navbar-username-email-box #email {
+    font-size: 1rem;
+}
+
+
+
+
+
+
+
+
+
+.navbar-user-image-button-list {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.navbar-user-image-button-list svg {
+    margin-right: 18px;
+    font-size: 1.7rem;
+}
+
+.navbar hr {
+    height: 1px;
+    margin: 20px 0;
+}
+
+
