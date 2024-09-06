@@ -1,5 +1,6 @@
 import React from "react";
 import "../../assets/styles/Components/Post/Comment.css";
+import StatusIcon from "../Main/StatusIcon";
 
 
 const Comment = ({ postComment }) => {
@@ -11,9 +12,10 @@ const Comment = ({ postComment }) => {
 	return (
 		<div className="comment">
 			<div className="comment-header">
-				<div className="comment-profile-picture">
+				<div className="common-profile-picture-and-status-icon">
 					<a className="post-user-email" href={`/profile/${postComment.commentSenderUserProfileDTO.email}`}>
 						<img src={postComment.commentSenderUserProfileDTO.profilePictureUrl} alt="Profile"/>
+						<StatusIcon status={postComment.onlineStatus} />
 					</a>
 				</div>
 

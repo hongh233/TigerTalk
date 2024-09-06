@@ -1,15 +1,17 @@
 import React from "react";
 import "../../assets/styles/Components/Group/GroupMembership.css";
 import {formatDate} from "../../utils/formatDate";
+import StatusIcon from "../Main/StatusIcon";
 
 
 const GroupMembership = ({ member, handleDeleteFn, isCreator, groupMembershipId }) => {
     return (
         <div className="group-membership-item-friend">
             <div className="group-membership-item-friend-header">
-                <div className="group-membership-item-friend-picture">
+                <div className="common-profile-picture-and-status-icon">
                     <a href={"/profile/" + member.userProfileDTO.email}>
                         <img src={member.userProfileDTO.profilePictureUrl} alt="avatar"/>
+                        <StatusIcon status={member.userProfileDTO.onlineStatus}/>
                     </a>
                 </div>
                 <div className="group-membership-item-friend-details">

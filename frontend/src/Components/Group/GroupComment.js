@@ -1,6 +1,7 @@
 import React from "react";
 import "../../assets/styles/Components/Group/GroupComment.css";
 import {formatDate} from "../../utils/formatDate";
+import StatusIcon from "../Main/StatusIcon";
 
 
 const GroupComment = ({ postComment }) => {
@@ -8,9 +9,10 @@ const GroupComment = ({ postComment }) => {
 	return postComment ? (
 		<div className="comment">
 			<div className="comment-header">
-				<div className="comment-profile-picture">
+				<div className="common-profile-picture-and-status-icon">
 					<a className="post-user-email" href={`/profile/${postComment.senderEmail}`}>
 						<img src={postComment.groupPostCommentSenderProfilePictureURL} alt="Profile"/>
+						<StatusIcon status={postComment.onlineStatus} />
 					</a>
 				</div>
 
