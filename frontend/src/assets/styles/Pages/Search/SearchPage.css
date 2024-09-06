@@ -1,17 +1,14 @@
 .search-content-container {
-	width: 85%;
+	width: 100%;
 }
-.search-content-section {
+.search-content-section-friend {
 	max-height: 300px;
 	overflow: scroll;
 }
-.global-search-group-list {
-	margin: 0 8%;
+
+.search-content-section-group {
+	max-height: 400px;
+	overflow: scroll;
 }
-.filter-button {
-	margin-right: 5px;
-	background-color: #17a2b8;
-}
-.filter-button:hover {
-	color: #333;
-}
+
+
