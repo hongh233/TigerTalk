@@ -123,12 +123,12 @@ public class GroupPostServiceImpl implements GroupPostService {
         boolean liked;
         if (existingLike.isPresent()) {
             groupPostLikeRepository.delete(existingLike.get());
-            groupPost.getPostLikes().remove(existingLike.get());
+            groupPost.getGroupPostLikes().remove(existingLike.get());
             liked = false;
         } else {
             GroupPostLike newPostLike = new GroupPostLike(groupPost, userProfile);
             groupPostLikeRepository.save(newPostLike);
-            groupPost.getPostLikes().add(newPostLike);
+            groupPost.getGroupPostLikes().add(newPostLike);
             liked = true;
         }
 

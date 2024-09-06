@@ -14,34 +14,4 @@ public record GroupDTO(
         List<GroupMembershipDTO> groupMemberList,
         List<GroupPostDTO> groupPostList
 ) {
-    /**
-     * <h1>For testing purposes only.</h1>
-     *
-     * <p>This constructor is intended for use solely within test suites.
-     * It should never be used to create a GroupDTO outside testing contexts.
-     *
-     * @param groupId   the unique identifier of the group
-     * @param groupName the name of the group
-     * @param groupImg  the URL or path to the group's image
-     * @param isPrivate the privacy status of the group, where {@code true} indicates private and {@code false} indicates public
-     * @param interest  the interest or theme associated with the group
-     */
-    public GroupDTO(int groupId,
-                    String groupName,
-                    String groupImg,
-                    boolean isPrivate,
-                    String interest) {
-        this(
-                groupId,
-                groupName,
-                isPrivate,
-                interest,
-                groupImg,
-                null,
-                null,
-                null,
-                null
-        );
-    }
-
 }

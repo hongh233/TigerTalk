@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 public class GroupPostLike {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+
     @ManyToOne
     @JoinColumn(name = "group_post_id")
     private GroupPost groupPost;
@@ -15,23 +13,41 @@ public class GroupPostLike {
     @JoinColumn(name = "user_profile_id", referencedColumnName = "email")
     private UserProfile userProfile;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    public GroupPostLike() {
+
+    }
+
     public GroupPostLike(GroupPost groupPost, UserProfile userProfile) {
         this.groupPost = groupPost;
         this.userProfile = userProfile;
     }
 
-    public GroupPostLike() {
+    public GroupPost getGroupPost() {
+        return groupPost;
+    }
+
+    public void setGroupPost(GroupPost groupPost) {
+        this.groupPost = groupPost;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public GroupPost getPost() {
-        return groupPost;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public UserProfile getUserProfile() {
-        return userProfile;
-    }
 }

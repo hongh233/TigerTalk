@@ -72,12 +72,13 @@ public class GroupPostComment {
 
     public GroupPostCommentDTO toDto() {
         return new GroupPostCommentDTO(
-                this.getGroupPostCommentId(),
-                this.getContent(),
-                this.getGroupPostCommentCreateTime(),
-                this.groupPostCommentCreator.getUserName(),
-                this.groupPostCommentCreator.getProfilePictureUrl(),
-                this.groupPostCommentCreator.getEmail()
+                groupPostCommentId,
+                content,
+                groupPostCommentCreateTime,
+                groupPostCommentCreator.getUserName(),
+                groupPostCommentCreator.getProfilePictureUrl(),
+                groupPostCommentCreator.getEmail(),
+                groupPostCommentCreator.getOnlineStatus()
         );
     }
 

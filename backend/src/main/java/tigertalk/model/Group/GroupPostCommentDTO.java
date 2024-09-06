@@ -18,6 +18,7 @@ public record GroupPostCommentDTO(
         LocalDateTime groupPostCommentCreateTime,
         String groupPostCommentSenderUserName,
         String groupPostCommentSenderProfilePictureURL,
-        String senderEmail
+        String senderEmail,
+        String onlineStatus
 ) {
 }

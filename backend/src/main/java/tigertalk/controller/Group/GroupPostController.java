@@ -72,7 +72,7 @@ public class GroupPostController {
     public ResponseEntity<?> likePost(@PathVariable Integer groupPostId, @RequestParam String userEmail) {
         try {
             GroupPost updatedPost = groupPostService.likePost(groupPostId, userEmail);
-            return ResponseEntity.status(200).body(updatedPost.getNumOfLike());
+            return ResponseEntity.status(200).body(updatedPost.getGroupPostLikes().size());
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }
