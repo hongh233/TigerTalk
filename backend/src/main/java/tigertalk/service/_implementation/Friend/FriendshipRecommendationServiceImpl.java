@@ -1,7 +1,7 @@
 package tigertalk.service._implementation.Friend;
 
 import tigertalk.model.User.UserProfile;
-import tigertalk.model.User.UserProfileDTOPost;
+import tigertalk.model.User.UserProfileDTO;
 import tigertalk.repository.Friend.FriendshipRepository;
 import tigertalk.repository.User.UserProfileRepository;
 import tigertalk.service.Friend.FriendshipRecommendationService;
@@ -22,7 +22,7 @@ public class FriendshipRecommendationServiceImpl implements FriendshipRecommenda
     @Autowired
     private FriendshipRepository friendshipRepository;
 
-    public List<UserProfileDTOPost> recommendFriends(String email, int numOfFriends) {
+    public List<UserProfileDTO> recommendFriends(String email, int numOfFriends) {
         Optional<UserProfile> myProfileOptional = userProfileRepository.findById(email);
 
         if (myProfileOptional.isPresent()) {
@@ -38,14 +38,14 @@ public class FriendshipRecommendationServiceImpl implements FriendshipRecommenda
             }
 
             Collections.shuffle(potentialFriends);
-            List<UserProfileDTOPost> recommendedFriends = new LinkedList<>();
+            List<UserProfileDTO> recommendedFriends = new LinkedList<>();
 
             int count = 0;
             for (UserProfile userProfile : potentialFriends) {
                 if (count >= numOfFriends) {
                     break;
                 }
-                recommendedFriends.add(new UserProfileDTOPost(userProfile));
+                recommendedFriends.add(userProfile.toDto());
                 count++;
             }
             return recommendedFriends;

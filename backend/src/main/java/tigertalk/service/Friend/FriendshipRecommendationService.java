@@ -1,6 +1,6 @@
 package tigertalk.service.Friend;
 
-import tigertalk.model.User.UserProfileDTOPost;
+import tigertalk.model.User.UserProfileDTO;
 
 import java.util.List;
 
@@ -13,6 +13,6 @@ public interface FriendshipRecommendationService {
      * @param limit the maximum number of friend recommendations to return
      * @return a list of UserProfileDTOPost objects representing the recommended friends
      */
-    List<UserProfileDTOPost> recommendFriends(String email, int limit);
+    List<UserProfileDTO> recommendFriends(String email, int limit);
 
 }

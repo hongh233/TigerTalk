@@ -9,10 +9,6 @@ import java.time.LocalDateTime;
 @Table(name = "friendship_request")
 public class FriendshipRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer friendshipRequestId;
-
     @ManyToOne
     @JoinColumn(name = "sender_email", referencedColumnName = "email")
     @JsonBackReference("sender-friendship-request")
@@ -22,6 +18,10 @@ public class FriendshipRequest {
     @JoinColumn(name = "receiver_email", referencedColumnName = "email")
     @JsonBackReference("receiver-friendship-request")
     private UserProfile receiver;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer friendshipRequestId;
 
     private String senderEmailTemp;
     private String receiverEmailTemp;
@@ -34,6 +34,8 @@ public class FriendshipRequest {
 
     private LocalDateTime createTime = LocalDateTime.now();
 
+    public FriendshipRequest() {
+    }
 
     public FriendshipRequest(UserProfile sender,
                              UserProfile receiver) {
@@ -47,9 +49,36 @@ public class FriendshipRequest {
         this.receiverUserNameTemp = receiver.getUserName();
     }
 
-    public FriendshipRequest() {
+    public FriendshipRequestDTO toDto() {
+        return new FriendshipRequestDTO(
+                this.friendshipRequestId,
+                this.sender.getEmail(),
+                this.sender.getUserName(),
+                this.receiver.getEmail(),
+                this.receiver.getUserName(),
+                this.sender.getProfilePictureUrl(),
+                this.receiver.getProfilePictureUrl(),
+                this.createTime,
+                this.sender.getOnlineStatus(),
+                this.receiver.getOnlineStatus()
+        );
     }
 
+    public UserProfile getSender() {
+        return sender;
+    }
+
+    public void setSender(UserProfile sender) {
+        this.sender = sender;
+    }
+
+    public UserProfile getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(UserProfile receiver) {
+        this.receiver = receiver;
+    }
 
     public Integer getFriendshipRequestId() {
         return friendshipRequestId;
@@ -59,47 +88,21 @@ public class FriendshipRequest {
         this.friendshipRequestId = friendshipRequestId;
     }
 
-    public UserProfile getSender() {
-        return sender;
-    }
-
-    public void setSender(UserProfile userFriendshipSender) {
-        this.sender = userFriendshipSender;
-    }
-
-    public UserProfile getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(UserProfile userFriendshipReceiver) {
-        this.receiver = userFriendshipReceiver;
-    }
-
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-
     public String getSenderEmailTemp() {
         return senderEmailTemp;
     }
 
-    public void setSenderEmailTemp(String senderEmail) {
-        this.senderEmailTemp = senderEmail;
+    public void setSenderEmailTemp(String senderEmailTemp) {
+        this.senderEmailTemp = senderEmailTemp;
     }
 
     public String getReceiverEmailTemp() {
         return receiverEmailTemp;
     }
 
-    public void setReceiverEmailTemp(String receiverEmail) {
-        this.receiverEmailTemp = receiverEmail;
+    public void setReceiverEmailTemp(String receiverEmailTemp) {
+        this.receiverEmailTemp = receiverEmailTemp;
     }
-
 
     public String getSenderProfilePictureUrlTemp() {
         return senderProfilePictureUrlTemp;
@@ -133,17 +136,13 @@ public class FriendshipRequest {
         this.receiverUserNameTemp = receiverUserNameTemp;
     }
 
-    public FriendshipRequestDTO toDto() {
-        return new FriendshipRequestDTO(
-                this.friendshipRequestId,
-                this.sender.getEmail(),
-                this.sender.getUserName(),
-                this.receiver.getEmail(),
-                this.receiver.getUserName(),
-                this.sender.getProfilePictureUrl(),
-                this.receiver.getProfilePictureUrl(),
-                this.createTime
-        );
+    public LocalDateTime getCreateTime() {
+        return createTime;
     }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
 
 }

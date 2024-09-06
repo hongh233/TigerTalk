@@ -1,7 +1,7 @@
 package tigertalk.Tiger_Talks.backend.service._implementation.Friend;
 
 import tigertalk.model.User.UserProfile;
-import tigertalk.model.User.UserProfileDTOPost;
+import tigertalk.model.User.UserProfileDTO;
 import tigertalk.repository.Friend.FriendshipRepository;
 import tigertalk.repository.User.UserProfileRepository;
 import tigertalk.service._implementation.Friend.FriendshipRecommendationServiceImpl;
@@ -83,7 +83,7 @@ public class FriendshipRecommendationServiceImplTest {
     @Test
     public void recommendFriends_userNotFound() {
         when(userProfileRepository.findById("k@dal.ca")).thenReturn(Optional.empty());
-        List<UserProfileDTOPost> recommendations = friendshipRecommendationService.recommendFriends("k@dal.ca", 3);
+        List<UserProfileDTO> recommendations = friendshipRecommendationService.recommendFriends("k@dal.ca", 3);
 
         assertEquals(0, recommendations.size());
     }
@@ -93,7 +93,7 @@ public class FriendshipRecommendationServiceImplTest {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findAll()).thenReturn(List.of(userA, userB));
 
-        List<UserProfileDTOPost> recommendations = friendshipRecommendationService.recommendFriends("a@dal.ca", 3);
+        List<UserProfileDTO> recommendations = friendshipRecommendationService.recommendFriends("a@dal.ca", 3);
 
         assertEquals(0, recommendations.size());
     }
@@ -103,7 +103,7 @@ public class FriendshipRecommendationServiceImplTest {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findAll()).thenReturn(List.of(userA, userB, userC));
 
-        List<UserProfileDTOPost> recommendations = friendshipRecommendationService.recommendFriends("a@dal.ca", 3);
+        List<UserProfileDTO> recommendations = friendshipRecommendationService.recommendFriends("a@dal.ca", 3);
 
         assertEquals(1, recommendations.size());
         assertEquals("c@dal.ca", recommendations.get(0).email());
@@ -114,7 +114,7 @@ public class FriendshipRecommendationServiceImplTest {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(userProfileRepository.findAll()).thenReturn(List.of(userA, userB, userC, userD));
 
-        List<UserProfileDTOPost> recommendations = friendshipRecommendationService.recommendFriends("a@dal.ca", 2);
+        List<UserProfileDTO> recommendations = friendshipRecommendationService.recommendFriends("a@dal.ca", 2);
 
         assertEquals(2, recommendations.size());
         List<String> recommendedEmails = List.of(recommendations.get(0).email(), recommendations.get(1).email());
