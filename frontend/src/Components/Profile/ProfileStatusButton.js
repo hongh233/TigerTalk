@@ -15,22 +15,22 @@ const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
             case "available":
                 return <MdCheckCircle
                     style={{ color: '#4caf50' }}
-                    className="status-adjust-302"
+                    className="status-adjust-animation-temp"
                 />;
             case "busy":
                 return <MdRemoveCircle
                     style={{ color: '#f44336' }}
-                    className="status-adjust-302"
+                    className="status-adjust-animation-temp"
                 />;
             case "away":
                 return <MdAccessTimeFilled
                     style={{ color: '#ff9800' }}
-                    className="status-adjust-302"
+                    className="status-adjust-animation-temp"
                 />;
             default:
                 return <IoMdCloseCircle
                     style={{ color: '#9e9e9e' }}
-                    className="status-adjust-302"
+                    className="status-adjust-animation-temp"
                 />;
         }
     };
@@ -97,6 +97,7 @@ const ProfileStatusButton = ({ profileUser, paramUserEmail, user }) => {
                     onClick={handleToggleClick}
                 >
                     {getStatusClass(profileUser.onlineStatus)}
+
                     {showStatusMenu && (
                         <div
                             className={`status-menu ${showStatusMenu ? 'show' : ''}`}

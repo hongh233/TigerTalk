@@ -1,24 +1,23 @@
 .notification-button {
 	position: relative;
-	margin-left: 20px;
-	width: 20%;
 	display: flex;
 	justify-content: center;
 }
 
 
 .notification-icon-wrapper {
+	margin-right: 20px;
 }
 
 
 .notification-icon {
 	font-size: 30px;
-	color: #17a2b8;
+	color: #1f1f1f;
 	cursor: pointer;
 	transition: color 0.3s ease, transform 0.3s ease;
 }
 .notification-icon:hover {
-	color: #0056b3;
+	color: #444141;
 	transform: scale(1.25);
 }
 
@@ -28,7 +27,7 @@
 .notification-popup {
 	position: absolute;
 	top: 40px;
-	left: 10%;
+	left: -140px; /* +:right,-:left */
 	transform: translateX(-50%);
 	width: 350px;
 	max-height: 300px;

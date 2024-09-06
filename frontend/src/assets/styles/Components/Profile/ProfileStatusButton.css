@@ -9,9 +9,6 @@
 }
 
 
-
-.profile-status-button-user-name {
-}
 .profile-user-gender {
     font-weight: normal;
     font-size: 18px;
@@ -29,10 +26,10 @@
     margin-top: 6px;
     cursor: pointer;
 }
-.profile-page-status-icon .status-adjust-302{
+.status-adjust-animation-temp{
     transition: filter 0.5s ease-in-out, transform 0.5s ease-in-out;
 }
-.profile-page-status-icon .status-adjust-302:hover {
+.status-adjust-animation-temp:hover {
     filter: brightness(1.2);
     transform: scale(1.2);
 }
