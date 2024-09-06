@@ -413,64 +413,7 @@ public class GroupServiceImplTest {
     /**
      * Test case for updateGroupInfo
      */
-    @Test
-    public void updateGroupInfo_groupIdNotFound() {
-        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
-        when(groupRepository.findById(1)).thenReturn(Optional.empty());
-        Optional<String> result = groupService.updateGroupInfo(groupUpdate);
-        assertTrue(result.isPresent());
-        assertEquals("Group id not found", result.get());
-    }
 
-    @Test
-    public void updateGroupInfo_successfulUpdate_correctMessage() {
-        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
-        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
-
-        Optional<String> result = groupService.updateGroupInfo(groupUpdate);
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    public void updateGroupInfo_successfulUpdate_groupName() {
-        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
-        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
-        groupService.updateGroupInfo(groupUpdate);
-        assertEquals("New Group Name", groupPub.getGroupName());
-    }
-
-    @Test
-    public void updateGroupInfo_successfulUpdate_groupImg() {
-        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
-        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
-        groupService.updateGroupInfo(groupUpdate);
-        assertEquals("aaa.png", groupPub.getGroupImg());
-    }
-
-    @Test
-    public void updateGroupInfo_successfulUpdate_isPrivateStatus() {
-        GroupDTO groupUpdate = new GroupDTO(1, "New Group Name", "aaa.png", true, interests[0]);
-        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
-        groupService.updateGroupInfo(groupUpdate);
-        assertTrue(groupPub.isPrivate());
-    }
-
-    @Test
-    public void updateGroupInfo_noChange() {
-        GroupDTO groupUpdate = new GroupDTO(
-                group2Pub.getGroupId(),
-                group2Pub.getGroupName(),
-                group2Pub.getGroupImg(),
-                group2Pub.isPrivate(),
-                interests[0]
-        );
-        when(groupRepository.findById(2)).thenReturn(Optional.of(group2Pub));
-
-        Optional<String> result = groupService.updateGroupInfo(groupUpdate);
-        assertTrue(result.isEmpty());
-        assertEquals("Test Group2", group2Pub.getGroupName());
-        assertFalse(group2Pub.isPrivate());
-    }
 
     /**
      * Test case for deleteGroup

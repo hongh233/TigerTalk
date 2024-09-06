@@ -2,8 +2,6 @@ package tigertalk.service._implementation.Search;
 
 import tigertalk.model.Group.Group;
 import tigertalk.model.Group.GroupDTO;
-import tigertalk.model.Group.GroupMembership;
-import tigertalk.model.Utils.RegexCheck;
 import tigertalk.repository.Group.GroupRepository;
 import tigertalk.service.Search.GroupSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
+
 
 @Service
 public class GroupSearchServiceImpl implements GroupSearchService {
@@ -22,31 +20,15 @@ public class GroupSearchServiceImpl implements GroupSearchService {
 
 
     @Override
-    public List<GroupDTO> search(String searchQuery, String userEmail) {
-        if (searchQuery == null || userEmail == null) {
+    public List<GroupDTO> search(String content) {
+        if (content == null || content.trim().isEmpty()) {
             return Collections.emptyList();
         }
-
-        Pattern intelijRegexPattern = RegexCheck.generate_intelij_matcher_pattern(searchQuery);
-
-        List<Group> allGroups = groupRepository.findAll();
+        List<Group> allSearchedGroups = groupRepository.searchByGroupName(content);
         List<GroupDTO> searchResults = new ArrayList<>();
 
-        for (Group group : allGroups) {
-            boolean matchesSearch = RegexCheck.advancedSearch(group.getGroupName(), searchQuery, intelijRegexPattern);
-            boolean isNotPrivate = !group.isPrivate();
-            boolean isNotMember = true;
-
-            for (GroupMembership membership : group.getGroupMemberList()) {
-                if (membership.getUserProfile().getEmail().equals(userEmail)) {
-                    isNotMember = false;
-                    break;
-                }
-            }
-
-            if (matchesSearch && isNotPrivate && isNotMember) {
-                searchResults.add(group.toDto());
-            }
+        for (Group g : allSearchedGroups) {
+            searchResults.add(g.toDto());
         }
         return searchResults;
     }
