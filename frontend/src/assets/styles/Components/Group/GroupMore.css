@@ -1,14 +1,18 @@
 .group-more-options {
     position: absolute;
-    top: 50px;  /* control the up and down */
-    left: -18px; /* control the left and right (+: right, -:left)*/
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    z-index: 1000;
     display: flex;
     flex-direction: column;
+    top: 50px;  /* control the up and down */
+    left: -85px; /* control the left and right (+: right, -:left)*/
     min-width: 190px;
+
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 5px;
+    border-radius: 8px;
 }
 
 .group-more-options button {

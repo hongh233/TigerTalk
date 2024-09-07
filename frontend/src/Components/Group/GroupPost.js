@@ -9,12 +9,8 @@ import { formatDate } from "../../utils/formatDate";
 import StatusIcon from "../Main/StatusIcon";
 
 
-const GroupPost = ({
-	post,
-	groupId,
-	userEmail,
-	removePost,
-}) => {
+const GroupPost = ({ post, groupId, userEmail, removePost }) => {
+
 	const [numOfLikes, setNumOfLikes] = useState(post.likes || post.numOfLikes);
 	const [postComments, setPostComments] = useState([]);
 	const [newComment, setNewComment] = useState("");
