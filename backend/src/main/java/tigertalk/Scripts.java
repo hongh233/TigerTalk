@@ -35,171 +35,54 @@ public class Scripts {
 
     @PostMapping("/setUp")
     public ResponseEntity<String> run() {
-        UserProfile userA, userB, userC, userD, userE, userF, userG, userH, userI, userJ, userK, userL, userM,
-                userN, userO, userP, userQ, userR, userS, userT, userU, userV, userW, userX, userY, userZ;
-        userA = new UserProfile();userB = new UserProfile();userC = new UserProfile();userD = new UserProfile();
-        userE = new UserProfile();userF = new UserProfile();userG = new UserProfile();userH = new UserProfile();
-        userI = new UserProfile();userJ = new UserProfile();userK = new UserProfile();userL = new UserProfile();
-        userM = new UserProfile();userN = new UserProfile();userO = new UserProfile();userP = new UserProfile();
-        userQ = new UserProfile();userR = new UserProfile();userS = new UserProfile();userT = new UserProfile();
-        userU = new UserProfile();userV = new UserProfile();userW = new UserProfile();userX = new UserProfile();
-        userY = new UserProfile();userZ = new UserProfile();
 
-        userA.setEmail("a@dal.ca");
-        userA.setPassword("aaaa1A@a");
-        userA.setSecurityQuestion("What was your favourite book as a child?");
-        userA.setSecurityQuestionAnswer("1");
-        userA.setValidated(true);
-        userA.setUserLevel("admin");
-        userA.setRole("instructor");
-        userA.setFirstName("Apple");
-        userA.setLastName("Axio");
-        userA.setUserName("Hong");
-        userA.setBiography("dafgiusdgiuadhfilshdlofadf");
-        userA.setAge(32);
-        userA.setGender("Male");
-        userA.setOnlineStatus("offline");
-        userA.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
-
-        userB.setEmail("b@dal.ca");
-        userB.setPassword("aaaa1A@a");
-        userB.setSecurityQuestion("What was your favourite book as a child?");
-        userB.setSecurityQuestionAnswer("1");
-        userB.setValidated(true);
-        userB.setUserLevel("admin");
-        userB.setRole("instructor");
-        userB.setFirstName("Bell");
-        userB.setLastName("Berry");
-        userB.setUserName("Benjamin");
-        userB.setBiography("waibibaboasauahjaskfjaisfs");
-        userB.setAge(32);
-        userB.setGender("Male");
-        userB.setOnlineStatus("offline");
-        userB.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
-
-        userC.setEmail("c@dal.ca");
-        userC.setPassword("aaaa1A@a");
-        userC.setSecurityQuestion("What was your favourite book as a child?");
-        userC.setSecurityQuestionAnswer("1");
-        userC.setValidated(true);
-        userC.setUserLevel("admin");
-        userC.setRole("instructor");
-        userC.setFirstName("Cell");
-        userC.setLastName("Cherry");
-        userC.setUserName("Raphael");
-        userC.setBiography("ashibaufaifauhdidashfiubwi");
-        userC.setAge(32);
-        userC.setGender("Male");
-        userC.setOnlineStatus("offline");
-        userC.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
-
-        userD.setEmail("d@dal.ca");
-        userD.setPassword("aaaa1A@a");
-        userD.setSecurityQuestion("What was your favourite book as a child?");
-        userD.setSecurityQuestionAnswer("1");
-        userD.setValidated(true);
-        userD.setUserLevel("admin");
-        userD.setRole("instructor");
-        userD.setFirstName("Diarea");
-        userD.setLastName("Dollar");
-        userD.setUserName("Tyson");
-        userD.setBiography("tysonloveyousendbyashabfuia");
-        userD.setAge(32);
-        userD.setGender("Male");
-        userD.setOnlineStatus("offline");
-        userD.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
-
-        userE.setEmail("e@dal.ca");
-        userE.setPassword("aaaa1A@a");
-        userE.setSecurityQuestion("What was your favourite book as a child?");
-        userE.setSecurityQuestionAnswer("1");
-        userE.setValidated(true);
-        userE.setUserLevel("admin");
-        userE.setRole("instructor");
-        userE.setFirstName("Ella");
-        userE.setLastName("Eric");
-        userE.setUserName("ShuQiang");
-        userE.setBiography("asafqiufbqifuiafavkjijahiad");
-        userE.setAge(32);
-        userE.setGender("Male");
-        userE.setOnlineStatus("offline");
-        userE.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
-
-        userF.setEmail("f@dal.ca");
-        userF.setPassword("aaaa1A@a");
-        userF.setSecurityQuestion("What was your favourite book as a child?");
-        userF.setSecurityQuestionAnswer("1");
-        userF.setValidated(true);
-        userF.setUserLevel("user");
-        userF.setRole("student");
-        userF.setFirstName("Fuck");
-        userF.setLastName("Ferry");
-        userF.setUserName("Funk");
-        userF.setBiography("uafiaugidsnfajfjhdakfaivahjkfakjgfjkahkjhakbk");
-        userF.setAge(64);
-        userF.setGender("Female");
-        userF.setOnlineStatus("offline");
-        userF.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
-
-        userG.setEmail("g@dal.ca");
-        userG.setPassword("aaaa1A@a");
-        userG.setSecurityQuestion("What was your favourite book as a child?");
-        userG.setSecurityQuestionAnswer("1");
-        userG.setValidated(true);
-        userG.setUserLevel("user");
-        userG.setRole("student");
-        userG.setFirstName("Goal");
-        userG.setLastName("Goat");
-        userG.setUserName("God");
-        userG.setBiography("uafiaugidsnfajfjhdakfaivahjkfakjgfjkahkjhakbk");
-        userG.setAge(64);
-        userG.setGender("Female");
-        userG.setOnlineStatus("offline");
-        userG.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
-
-        userH.setEmail("h@dal.ca");
-        userH.setPassword("aaaa1A@a");
-        userH.setSecurityQuestion("What was your favourite book as a child?");
-        userH.setSecurityQuestionAnswer("1");
-        userH.setValidated(true);
-        userH.setUserLevel("user");
-        userH.setRole("student");
-        userH.setFirstName("Hell");
-        userH.setLastName("Halt");
-        userH.setUserName("Holy");
-        userH.setBiography("uafiaugidsnfajfjhdakfaivahjkfakjgfjkahkjhakbk");
-        userH.setAge(64);
-        userH.setGender("Female");
-        userH.setOnlineStatus("offline");
-        userH.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
-
-        userI.setEmail("i@dal.ca");
-        userI.setPassword("aaaa1A@a");
-        userI.setSecurityQuestion("What was your favourite book as a child?");
-        userI.setSecurityQuestionAnswer("1");
-        userI.setValidated(true);
-        userI.setUserLevel("user");
-        userI.setRole("student");
-        userI.setFirstName("Hell");
-        userI.setLastName("Halt");
-        userI.setUserName("Holy");
-        userI.setBiography("uafiaugidsnfajfjhdakfaivahjkfakjgfjkahkjhakbk");
-        userI.setAge(64);
-        userI.setGender("Female");
-        userI.setOnlineStatus("offline");
-        userI.setProfilePictureUrl("https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg");
-
-
-        userProfileRepository.save(userA);
-        userProfileRepository.save(userB);
-        userProfileRepository.save(userC);
-        userProfileRepository.save(userD);
-        userProfileRepository.save(userE);
-        userProfileRepository.save(userF);
-        userProfileRepository.save(userG);
-        userProfileRepository.save(userH);
-        userProfileRepository.save(userI);
-
+        String[][] userData = {
+                {"a@dal.ca", "FirstA", "LastA", "AAAAA"},
+                {"b@dal.ca", "FirstB", "LastB", "BBBBB"},
+                {"c@dal.ca", "FirstC", "LastC", "CCCCC"},
+                {"d@dal.ca", "FirstD", "LastD", "DDDDD"},
+                {"e@dal.ca", "FirstE", "LastE", "EEEEE"},
+                {"f@dal.ca", "FirstF", "LastF", "FFFFF"},
+                {"g@dal.ca", "FirstG", "LastG", "GGGGG"},
+                {"h@dal.ca", "FirstH", "LastH", "HHHHH"},
+                {"i@dal.ca", "FirstI", "LastI", "IIIII"},
+                {"j@dal.ca", "FirstJ", "LastJ", "JJJJJ"},
+                {"k@dal.ca", "FirstK", "LastK", "KKKKK"},
+                {"l@dal.ca", "FirstL", "LastL", "LLLLL"},
+                {"m@dal.ca", "FirstM", "LastM", "MMMMM"},
+                {"n@dal.ca", "FirstN", "LastN", "NNNNN"},
+                {"o@dal.ca", "FirstO", "LastO", "OOOOO"},
+                {"p@dal.ca", "FirstP", "LastP", "PPPPP"},
+                {"q@dal.ca", "FirstQ", "LastQ", "QQQQQ"},
+                {"r@dal.ca", "FirstR", "LastR", "RRRRR"},
+                {"s@dal.ca", "FirstS", "LastS", "SSSSS"},
+                {"t@dal.ca", "FirstT", "LastT", "TTTTT"},
+                {"u@dal.ca", "FirstU", "LastU", "UUUUU"},
+                {"v@dal.ca", "FirstV", "LastV", "VVVVV"},
+                {"w@dal.ca", "FirstW", "LastW", "WWWWW"},
+                {"x@dal.ca", "FirstX", "LastX", "XXXXX"},
+                {"y@dal.ca", "FirstY", "LastY", "YYYYY"},
+                {"z@dal.ca", "FirstZ", "LastZ", "ZZZZZ"}
+        };
+        for (String[] data : userData) {
+            UserProfile user = new UserProfile(
+                    data[0],
+                    "aaaa1A@a",
+                    "What was your favourite book as a child?",
+                    "11111",
+                    true,
+                    "admin",
+                    "instructor",
+                    data[1],
+                    data[2],
+                    data[3],
+                    "This is a biography example. I am a people!",
+                    "Male",
+                    "offline",
+                    "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg"
+            );
+            userProfileRepository.save(user);
+        }
         return ResponseEntity.ok("Initialize data successfully");
     }
 

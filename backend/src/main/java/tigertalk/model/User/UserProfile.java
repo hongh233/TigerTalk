@@ -91,6 +91,37 @@ public class UserProfile {
     public UserProfile() {
     }
 
+    // Test Constructor
+    public UserProfile(String email,
+                       String password,
+                       String securityQuestion,
+                       String securityQuestionAnswer,
+                       boolean isValidated,
+                       String userLevel,
+                       String role,
+                       String firstName,
+                       String lastName,
+                       String userName,
+                       String biography,
+                       String gender,
+                       String onlineStatus,
+                       String profilePictureUrl) {
+        this.email = email;
+        this.password = password;
+        this.securityQuestion = securityQuestion;
+        this.securityQuestionAnswer = securityQuestionAnswer;
+        this.isValidated = isValidated;
+        this.userLevel = userLevel;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.biography = biography;
+        this.gender = gender;
+        this.onlineStatus = onlineStatus;
+        this.profilePictureUrl = profilePictureUrl;
+    }
+
     public UserProfileDTO toDto() {
         return new UserProfileDTO(
                 birthday,
