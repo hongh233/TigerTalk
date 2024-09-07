@@ -7,7 +7,8 @@ import React from "react";
 /* How to use: set direct parent box to be:
     position: relative;
 */
-const getStatusClass = (status) => {
+const StatusIcon = ({ status }) => {
+
     switch (status) {
         case "available":
             return <MdCheckCircle
@@ -24,7 +25,7 @@ const getStatusClass = (status) => {
                 style={{ color: '#ff9800' }}
                 className="status-adjust-creation-small"
             />;
-        default:
+        case "offline":
             return <IoMdCloseCircle
                 style={{ color: '#9e9e9e' }}
                 className="status-adjust-creation-small"
@@ -32,4 +33,4 @@ const getStatusClass = (status) => {
     }
 };
 
-export default getStatusClass;
+export default StatusIcon;

@@ -4,7 +4,7 @@ import {formatDate} from "../../utils/formatDate";
 import StatusIcon from "../Main/StatusIcon";
 
 
-const FriendshipMembership = ({ user, handleDeleteFn  }) => {
+const FriendshipMembership = ({ user, handleDeleteFn }) => {
 
 
 	return (

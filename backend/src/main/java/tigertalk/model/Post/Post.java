@@ -30,6 +30,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer postId;
 
+//    @Column(columnDefinition ="TEXT")
     private String content;
     private String associatedImageURL;
     private Boolean edited;

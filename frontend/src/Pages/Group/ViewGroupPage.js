@@ -103,7 +103,6 @@ const ViewGroupPage = () => {
 		const fetchAllGroupPosts = async () => {
 			try {
 				const data = await handleGetAllPost(groupId);
-
 				setPosts(data);
 			} catch (error) {
 				console.error("Failed to fetch group posts", error);

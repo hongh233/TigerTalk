@@ -9,6 +9,7 @@ export const formatPost = (array) => {
 		comments: [],
 		profileProfileURL: post.profileProfileURL,
 		postImageURL: post.postImageURL,
-		edited: post.edited
+		edited: post.edited,
+		onlineStatus: post.onlineStatus
 	}));
 };

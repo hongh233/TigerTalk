@@ -9,6 +9,7 @@ public record GroupPostDTO(
         LocalDateTime groupPostCreateTime,
         String groupPostSenderUserName,
         String groupPostSenderProfilePictureURL,
-        String postPictureURL
+        String postPictureURL,
+        String onlineStatus
 ) {
 }

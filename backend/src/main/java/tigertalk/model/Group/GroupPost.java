@@ -30,6 +30,8 @@ public class GroupPost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int groupPostId;
     private LocalDateTime postCreateTime = LocalDateTime.now();
+
+    //    @Column(columnDefinition ="TEXT")
     private String groupPostContent;
     private String groupPostPictureURL;
 
@@ -38,13 +40,14 @@ public class GroupPost {
 
     public GroupPostDTO toDto() {
         return new GroupPostDTO(
-                this.getGroupPostId(),
-                this.userProfile.getEmail(),
-                this.getGroupPostContent(),
-                this.getPostCreateTime(),
-                this.userProfile.getUserName(),
-                this.userProfile.getProfilePictureUrl(),
-                this.getGroupPostPictureURL()
+                groupPostId,
+                userProfile.getEmail(),
+                groupPostContent,
+                postCreateTime,
+                userProfile.getUserName(),
+                userProfile.getProfilePictureUrl(),
+                groupPostPictureURL,
+                userProfile.getOnlineStatus()
         );
     }
 
