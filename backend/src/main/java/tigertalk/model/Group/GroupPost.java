@@ -31,7 +31,7 @@ public class GroupPost {
     private int groupPostId;
     private LocalDateTime postCreateTime = LocalDateTime.now();
 
-    //    @Column(columnDefinition ="TEXT")
+    @Column(columnDefinition ="TEXT")
     private String groupPostContent;
     private String groupPostPictureURL;
 
