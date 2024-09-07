@@ -33,12 +33,12 @@ export const handleGetAllPost = (groupId) => {
         });
 };
 
-export const handleLikeAxios = (postId, userEmail) => {
+export const handleLikeAxios = (postId, likeAction, userEmail) => {
     return axios
-        .put(`${URL}/api/groups/post/like/${postId}?userEmail=${userEmail}`)
+        .put(`${URL}/api/groups/post/like/${postId}/${likeAction}?userEmail=${userEmail}`)
         .then((response) => response.data)
         .catch((error) => {
-            console.error("Error liking post:", error);
+            console.error("Error liking group post:", error);
             throw error;
         });
 };

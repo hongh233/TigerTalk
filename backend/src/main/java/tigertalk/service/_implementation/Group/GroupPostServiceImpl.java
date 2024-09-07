@@ -104,7 +104,7 @@ public class GroupPostServiceImpl implements GroupPostService {
     }
 
     @Override
-    public GroupPost likePost(Integer groupPostId, String userEmail) {
+    public GroupPostLikeDTO likePost(Integer groupPostId, boolean likeAction, String userEmail) {
         Optional<GroupPost> groupPostOptional = groupPostRepository.findById(groupPostId);
         if (groupPostOptional.isEmpty()) {
             throw new RuntimeException("Post not found");
@@ -120,28 +120,36 @@ public class GroupPostServiceImpl implements GroupPostService {
         Optional<GroupPostLike> existingLike = groupPostLikeRepository
                 .findByGroupPostGroupPostIdAndUserProfileEmail(groupPost.getGroupPostId(), userProfile.getEmail());
 
-        boolean liked;
-        if (existingLike.isPresent()) {
-            groupPostLikeRepository.delete(existingLike.get());
-            groupPost.getGroupPostLikes().remove(existingLike.get());
-            liked = false;
+        if (likeAction) {
+            boolean liked;
+            if (existingLike.isPresent()) {
+                groupPostLikeRepository.delete(existingLike.get());
+                groupPost.getGroupPostLikes().remove(existingLike.get());
+                liked = false;
+            } else {
+                GroupPostLike newPostLike = new GroupPostLike(groupPost, userProfile);
+                groupPostLikeRepository.save(newPostLike);
+                groupPost.getGroupPostLikes().add(newPostLike);
+                liked = true;
+            }
+            groupPostRepository.save(groupPost);
+
+            GroupPostLikeDTO result = new GroupPostLikeDTO(groupPost.getGroupPostLikes().size(), liked);
+
+            if (liked) {
+                notificationService.createNotification(
+                        new Notification(
+                                userProfileRepository.findById(groupPost.getUserProfile().getEmail()).get(),
+                                userProfile.getEmail() + " liked your post in group " + groupPost.getGroup().getGroupName(),
+                                "GroupPostLiked"));
+            }
+            return result;
         } else {
-            GroupPostLike newPostLike = new GroupPostLike(groupPost, userProfile);
-            groupPostLikeRepository.save(newPostLike);
-            groupPost.getGroupPostLikes().add(newPostLike);
-            liked = true;
+            if (existingLike.isPresent()) {
+                return new GroupPostLikeDTO(groupPost.getGroupPostLikes().size(), true);
+            } else {
+                return new GroupPostLikeDTO(groupPost.getGroupPostLikes().size(), false);
+            }
         }
-
-        groupPostRepository.save(groupPost);
-
-        if (liked) {
-            notificationService.createNotification(
-                    new Notification(
-                            userProfileRepository.findById(groupPost.getUserProfile().getEmail()).get(),
-                            userProfile.getEmail() + " liked your post in group " + groupPost.getGroup().getGroupName(),
-                            "GroupPostLiked"));
-        }
-
-        return groupPost;
     }
 }

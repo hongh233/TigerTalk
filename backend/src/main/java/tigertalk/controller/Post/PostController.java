@@ -2,9 +2,9 @@ package tigertalk.controller.Post;
 
 import tigertalk.model.Post.Post;
 import tigertalk.model.Post.PostDTO;
+import tigertalk.model.Post.PostLikeDTO;
 import tigertalk.service.Post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -109,18 +109,12 @@ public class PostController {
         }
     }
 
-    /**
-     * Handles HTTP PUT request to like a post.
-     *
-     * @param postId    The ID of the post to like.
-     * @param userEmail The email of the user performing the like action.
-     * @return ResponseEntity with the updated Post if successful, or error message if post or user is not found.
-     */
-    @PutMapping("/like/{postId}")
-    public ResponseEntity<?> likePost(@PathVariable Integer postId, @RequestParam String userEmail) {
+
+    @PutMapping("/like/{postId}/{likeAction}")
+    public ResponseEntity<?> likePost(@PathVariable Integer postId, @PathVariable boolean likeAction, @RequestParam String userEmail) {
         try {
-            Post updatedPost = postService.likePost(postId, userEmail);
-            return ResponseEntity.status(200).body(updatedPost.getNumOfLike());
+            PostLikeDTO result = postService.likePost(postId, likeAction, userEmail);
+            return ResponseEntity.status(200).body(result);
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }

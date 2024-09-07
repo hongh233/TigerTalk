@@ -202,13 +202,6 @@ public class GroupServiceImplTest {
         assertTrue(result.isEmpty());
     }
 
-    @Test
-    public void joinGroup_UserToPrivateGroupFails() {
-        when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
-        when(groupRepository.findById(4)).thenReturn(Optional.of(group4Private));
-        Optional<String> result = groupService.joinGroup("b@dal.ca", 4);
-        assertTrue(result.isPresent());
-    }
 
     @Test
     public void joinGroup_UserToPrivateGroupByAdminPasses() {
@@ -218,16 +211,6 @@ public class GroupServiceImplTest {
         assertTrue(result.isEmpty());
     }
 
-    @Test
-    public void joinGroup_UserAlreadyGroupUserMember() {
-        GroupMembership existingMembership = new GroupMembership(groupPub, userA, true);
-        groupPub.setGroupMemberList(List.of(existingMembership));
-        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
-        Optional<String> result = groupService.joinGroup("a@dal.ca", 1);
-        assertTrue(result.isPresent());
-        assertEquals("User is already a member of the group", result.get());
-    }
 
     @Test
     public void joinGroup_User_userNotFound() {

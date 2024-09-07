@@ -20,7 +20,7 @@ const Post = ({ post, user, removePost }) => {
 	const [editedContent, setEditedContent] = useState(post.content);
 	const [isEdited, setIsEdited] = useState(post.edited);
 	const [commentToggle, setCommentToggle] = useState(false);
-
+	const [isLike, setIsLike] = useState(false);
 	const navigate = useNavigate();
 
 	//get number of comments
@@ -37,10 +37,23 @@ const Post = ({ post, user, removePost }) => {
 			console.error("Post ID or User Email is undefined.");
 			return;
 		}
-
-		const updatedLikes = await handleLikeAxios(postId, userEmail);
-		setLikes(updatedLikes);
+		const responseData = await handleLikeAxios(postId, true, userEmail);
+		setLikes(responseData.numberOfLikes);
+		setIsLike(responseData.isLike);
 	};
+
+	useEffect(() => {
+		const fetchPostLikeDetails = async () => {
+			try {
+				const responseData = await handleLikeAxios(post.id || post.postId, false, user.email);
+				setIsLike(responseData.isLike);
+				setLikes(responseData.numberOfLikes);
+			} catch (error) {
+				console.error("Error fetching post like details:", error);
+			}
+		};
+		fetchPostLikeDetails();
+	}, [post.id, user.email]);
 
 	const handleFetchAndDisplayComments = () => {
 		setCommentToggle((prevState) => !prevState); // Works don't touch
@@ -51,7 +64,7 @@ const Post = ({ post, user, removePost }) => {
 	};
 
 	const handleAddComment = async () => {
-		setCommentToggle(false); // IT works don't touch
+		setCommentToggle(false); // It works don't touch
 		//fetch post owner DTO
 		const postSenderUserProfileDTO = await getCurrentUser(post.email);
 
@@ -187,7 +200,8 @@ const Post = ({ post, user, removePost }) => {
 				<div className="post-function-button-box">
 
 					<button className="post-button" onClick={handleLike}>
-						<FaHeart />{likes}
+						<FaHeart style={{ color: isLike ? "red" : "grey" }} />
+						{likes > 0 ? likes : ""}
 					</button>
 
 					<button className="post-button" onClick={handleFetchAndDisplayComments}>

@@ -15,7 +15,6 @@ import { FaLock, FaLockOpen, FaUsers, FaUserPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import GroupPost from "../../Components/Group/GroupPost";
-import Header from "../../Components/Main/Header";
 import GroupMemberModal from "../../Components/Group/GroupMemberModal";
 import GroupSettingModal from "../../Components/Group/GroupSettingModal";
 import { IoIosMore } from "react-icons/io";
@@ -324,10 +323,8 @@ const ViewGroupPage = () => {
 							<div className="group-post-container">
 								{posts && posts.map((post) => (
 									<GroupPost key={post.groupPostId}
-											   isMember={isMember}
 											   post={post}
 											   groupId={groupId}
-											   groupMembershipId={groupMembershipId}
 											   userEmail={userEmail}
 											   removePost={handleDeletePost}
 									/>

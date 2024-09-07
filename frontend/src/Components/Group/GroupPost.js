@@ -11,27 +11,21 @@ import StatusIcon from "../Main/StatusIcon";
 
 const GroupPost = ({
 	post,
-	isMember,
 	groupId,
-	groupMembershipId,
 	userEmail,
 	removePost,
 }) => {
-	const [likes, setLikes] = useState(post.likes || post.numOfLikes);
+	const [numOfLikes, setNumOfLikes] = useState(post.likes || post.numOfLikes);
 	const [postComments, setPostComments] = useState([]);
 	const [newComment, setNewComment] = useState("");
 	const [isAuthorOrAdmin, setIsAuthorOrAdmin] = useState(false);
 	const [commentToggle, setCommentToggle] = useState(false);
+	const [isLike, setIsLike] = useState(false);
+
 	//get number of comments
 	useEffect(() => {
 		if (post.groupPostId) {
-			async function fetchComments() {
-				const fetchedComments = await handleGetCommentsForOneGroupPost(
-					post.groupPostId
-				);
-				setPostComments(fetchedComments);
-			}
-			fetchComments();
+			(async () => {setPostComments(await handleGetCommentsForOneGroupPost(post.groupPostId))})();
 		}
 	}, [commentToggle, post.groupPostId]);
 
@@ -45,9 +39,9 @@ const GroupPost = ({
 			console.error("Post ID or User Email is undefined.");
 			return;
 		}
-
-		const updatedLikes = await handleLikeAxios(postId, userEmail);
-		setLikes(updatedLikes);
+		const responseData = await handleLikeAxios(postId, true, userEmail);
+		setNumOfLikes(responseData.numberOfLikes);
+		setIsLike(responseData.isLike);
 	};
 
 	const handleAddCommentToAxios = async () => {
@@ -88,7 +82,9 @@ const GroupPost = ({
 		const fetchGroupDetails = async () => {
 			try {
 				const groupData = await handleGetGroupById(groupId);
-
+				const responseData = await handleLikeAxios(post.groupPostId, false, userEmail);
+				setIsLike(responseData.isLike);
+				setNumOfLikes(responseData.numberOfLikes);
 				if (
 					groupData.groupCreatorEmail === userEmail ||
 					userEmail === post.email
@@ -109,7 +105,7 @@ const GroupPost = ({
 			await handleDeletePostAxios(post.groupPostId);
 			removePost(post.groupPostId);
 			setPostComments([]);
-			setLikes("");
+			setNumOfLikes("");
 		}
 	};
 
@@ -141,7 +137,8 @@ const GroupPost = ({
 			<div className="group-post-footer">
 
 				<button className="group-post-button" onClick={handleLike}>
-					<FaHeart />{likes}
+					<FaHeart style={{ color: isLike ? "red" : "grey" }} />
+					{numOfLikes > 0 ? numOfLikes : ""}
 				</button>
 
 				<button className="group-post-button" onClick={handleFetchAndDisplayComments}>

@@ -3,6 +3,7 @@ package tigertalk.service.Post;
 import tigertalk.model.Post.Post;
 import tigertalk.model.Post.PostDTO;
 import org.springframework.stereotype.Service;
+import tigertalk.model.Post.PostLikeDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,17 +75,7 @@ public interface PostService {
     Optional<String> updatePostById(Integer postId, Post post);
 
 
-    /**
-     * Likes or unlikes a post based on the provided postId and userEmail.
-     * If the user has already liked the post, it unlikes it; otherwise, it likes it.
-     * Updates the number of likes on the post accordingly and sends a notification
-     * to the post-owner upon liking.
-     *
-     * @param postId    The ID of the post to like/unlike.
-     * @param userEmail The email of the user performing the action.
-     * @return The updated Post object after liking/unliking.
-     * @throws RuntimeException If the post or user is not found.
-     */
-    Post likePost(Integer postId, String userEmail);
+
+    PostLikeDTO likePost(Integer postId, boolean likeAction, String userEmail);
 
 }

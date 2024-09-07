@@ -2,9 +2,9 @@ package tigertalk.controller.Group;
 
 import tigertalk.model.Group.GroupPost;
 import tigertalk.model.Group.GroupPostDTO;
+import tigertalk.model.Group.GroupPostLikeDTO;
 import tigertalk.service.Group.GroupPostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,20 +61,16 @@ public class GroupPostController {
         return groupPostService.getAllGroupPostsByGroupId(groupId);
     }
 
-    /**
-     * Handles HTTP PUT request to like a post.
-     *
-     * @param groupPostId The ID of the post to like.
-     * @param userEmail   The email of the user performing the like action.
-     * @return ResponseEntity with the updated Post if successful, or error message if post or user is not found.
-     */
-    @PutMapping("/like/{groupPostId}")
-    public ResponseEntity<?> likePost(@PathVariable Integer groupPostId, @RequestParam String userEmail) {
+
+    @PutMapping("/like/{groupPostId}/{likeAction}")
+    public ResponseEntity<?> likeGroupPost(@PathVariable Integer groupPostId, @PathVariable boolean likeAction,  @RequestParam String userEmail) {
         try {
-            GroupPost updatedPost = groupPostService.likePost(groupPostId, userEmail);
-            return ResponseEntity.status(200).body(updatedPost.getGroupPostLikes().size());
+            GroupPostLikeDTO result = groupPostService.likePost(groupPostId, likeAction, userEmail);
+            return ResponseEntity.status(200).body(result);
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         }
     }
+
+
 }

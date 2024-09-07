@@ -4,6 +4,7 @@ import tigertalk.model.Notification.Notification;
 import tigertalk.model.Post.Post;
 import tigertalk.model.Post.PostDTO;
 import tigertalk.model.Post.PostLike;
+import tigertalk.model.Post.PostLikeDTO;
 import tigertalk.model.User.UserProfile;
 import tigertalk.repository.Friend.FriendshipRepository;
 import tigertalk.repository.Post.PostLikeRepository;
@@ -149,7 +150,6 @@ public class PostServiceImpl implements PostService {
             existingPost.setPostComments(post.getPostComments());
             existingPost.setAssociatedImageURL(post.getAssociatedImageURL());
             existingPost.setPostLikes(post.getPostLikes());
-            existingPost.setNumOfLike(post.getNumOfLike());
             existingPost.setTimestamp(post.getTimestamp());
             existingPost.setContent(post.getContent());
 
@@ -161,7 +161,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post likePost(Integer postId, String userEmail) {
+    public PostLikeDTO likePost(Integer postId, boolean likeAction, String userEmail) {
         Optional<Post> postOptional = postRepository.findById(postId);
         if (postOptional.isEmpty()) {
             throw new RuntimeException("Post not found");
@@ -174,36 +174,40 @@ public class PostServiceImpl implements PostService {
         }
         UserProfile userProfile = userProfileOptional.get();
 
-        Optional<PostLike> existingLike = postLikeRepository.findByPostAndUserProfile(post, userProfile);
+        Optional<PostLike> existingLike = postLikeRepository.
+                findByPostAndUserProfile(post, userProfile);
 
-        boolean liked;
-        if (existingLike.isPresent()) {
-            postLikeRepository.delete(existingLike.get());
-            post.setNumOfLike(post.getNumOfLike() - 1);
-            post.getPostLikes().remove(existingLike.get());
-            liked = false;
+        if (likeAction) {
+            boolean liked;
+            if (existingLike.isPresent()) {
+                postLikeRepository.delete(existingLike.get());
+                post.getPostLikes().remove(existingLike.get());
+                liked = false;
+            } else {
+                PostLike newPostLike = new PostLike(post, userProfile);
+                postLikeRepository.save(newPostLike);
+                post.getPostLikes().add(newPostLike);
+                liked = true;
+            }
+            postRepository.save(post);
+
+            PostLikeDTO result = new PostLikeDTO(post.getPostLikes().size(), liked);
+
+            if (liked) {
+                notificationService.createNotification(
+                        new Notification(
+                                post.getUserProfile(),
+                                userProfile.getEmail() + " liked your post.",
+                                "PostLiked"
+                        ));
+            }
+            return result;
         } else {
-            PostLike newPostLike = new PostLike(post, userProfile);
-            postLikeRepository.save(newPostLike);
-            post.setNumOfLike(post.getNumOfLike() + 1);
-            post.getPostLikes().add(newPostLike);
-            liked = true;
+            if (existingLike.isPresent()) {
+                return new PostLikeDTO(post.getPostLikes().size(), true);
+            } else {
+                return new PostLikeDTO(post.getPostLikes().size(), false);
+            }
         }
-
-        postRepository.save(post);
-
-        if (liked) {
-            String content = userProfile.getEmail() + " liked your post.";
-            notificationService.createNotification(
-                    new Notification(
-                            post.getUserProfile(),
-                            content,
-                            "PostLiked"
-                    )
-            );
-        }
-        return post;
     }
-
-
 }

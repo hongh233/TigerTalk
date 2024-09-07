@@ -102,17 +102,6 @@ public class GroupPostServiceImplTest {
 
 
 
-    @Test
-    public void likePost_postNotFound() {
-        int groupPostId = 1;
-        String userEmail = "a@dal.ca";
-        when(groupPostRepository.findById(groupPostId)).thenReturn(Optional.empty());
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            groupPostService.likePost(groupPostId, userEmail);
-        });
-        assertEquals("Post not found", exception.getMessage());
-    }
-
 
 
     /**

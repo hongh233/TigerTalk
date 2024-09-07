@@ -31,7 +31,6 @@ public class Post {
     private Integer postId;
 
     private String content;
-    private int numOfLike;
     private String associatedImageURL;
     private Boolean edited;
     @Column(nullable = false)
@@ -44,7 +43,6 @@ public class Post {
         this.userProfile = userProfile;
         this.content = content;
         this.associatedImageURL = associatedImageURL;
-        this.numOfLike = 0;
         this.edited = false;
     }
 
@@ -54,7 +52,7 @@ public class Post {
                 userProfile.getEmail(),
                 content,
                 timestamp,
-                numOfLike,
+                postLikes.size(),
                 userProfile.getUserName(),
                 userProfile.getProfilePictureUrl(),
                 associatedImageURL,
@@ -101,14 +99,6 @@ public class Post {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public int getNumOfLike() {
-        return numOfLike;
-    }
-
-    public void setNumOfLike(int numOfLike) {
-        this.numOfLike = numOfLike;
     }
 
     public String getAssociatedImageURL() {

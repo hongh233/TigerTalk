@@ -64,9 +64,9 @@ export const handleDeletePostAxios = (postId) => {
 
 
 
-export const handleLikeAxios = (postId, userEmail) => {
+export const handleLikeAxios = (postId, likeAction, userEmail) => {
     return axios
-        .put(`${URL}/posts/like/${postId}?userEmail=${userEmail}`)
+        .put(`${URL}/posts/like/${postId}/${likeAction}?userEmail=${userEmail}`)
         .then((response) => response.data)
         .catch((error) => {
             console.error("Error liking post:", error);

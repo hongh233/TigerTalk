@@ -2,6 +2,7 @@ package tigertalk.service.Group;
 
 import tigertalk.model.Group.GroupPost;
 import tigertalk.model.Group.GroupPostDTO;
+import tigertalk.model.Group.GroupPostLikeDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,5 +45,5 @@ public interface GroupPostService {
      * @return The updated GroupPost object after liking/unliking.
      * @throws RuntimeException If the group post or user is not found.
      */
-    GroupPost likePost(Integer groupPostId, String userEmail);
+    GroupPostLikeDTO likePost(Integer groupPostId, boolean likeAction, String userEmail);
 }
