@@ -191,7 +191,8 @@ const Post = ({ post, user, removePost }) => {
 					</button>
 
 					<button className="post-button" onClick={handleFetchAndDisplayComments}>
-						<FaComment />{postComments.length > 0 ? postComments.length : ""}
+						<FaComment />
+						{commentToggle ? "hide" : (postComments.length > 0 ? postComments.length : "")}
 					</button>
 
 					<button className="post-button" id="post-function-share" onClick={handleShare}>
@@ -222,7 +223,11 @@ const Post = ({ post, user, removePost }) => {
 						{postComments && commentToggle && (
 							<div>
 								<div className="post-add-comment">
-									<input type="text" placeholder="Add a comment..." value={newComment} onChange={handleCommentChange}/>
+									<input type="text"
+										   placeholder="Add a comment..."
+										   value={newComment}
+										   onChange={handleCommentChange}
+									/>
 									<button onClick={handleAddComment}>Send</button>
 								</div>
 								{postComments.slice().reverse().map((postComment, index) => (

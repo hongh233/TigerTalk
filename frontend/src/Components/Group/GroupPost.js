@@ -145,7 +145,8 @@ const GroupPost = ({
 				</button>
 
 				<button className="group-post-button" onClick={handleFetchAndDisplayComments}>
-					<FaComment />{postComments.length > 0 ? postComments.length : ""}
+					<FaComment />
+					{commentToggle ? "hide" : (postComments.length > 0 ? postComments.length : "")}
 				</button>
 
 				<button className="group-post-button" onClick={handleShare}>
