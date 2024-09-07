@@ -40,9 +40,7 @@ public class FriendshipServiceImpl implements FriendshipService {
         List<UserProfileDTOFriendship> friendsDTOList = new ArrayList<>();
 
         for (Friendship friendship : friendships) {
-            UserProfile friend = user.equals(friendship.getSender())
-                    ? friendship.getReceiver()
-                    : friendship.getSender();
+            UserProfile friend = user.equals(friendship.getSender()) ? friendship.getReceiver() : friendship.getSender();
             friendsDTOList.add(new UserProfileDTOFriendship(friend, friendship));
         }
         return friendsDTOList;

@@ -198,7 +198,7 @@ public class GroupServiceImplTest {
     public void joinGroup_User_normal() {
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
-        Optional<String> result = groupService.joinGroupUser("a@dal.ca", 1);
+        Optional<String> result = groupService.joinGroup("a@dal.ca", 1);
         assertTrue(result.isEmpty());
     }
 
@@ -206,7 +206,7 @@ public class GroupServiceImplTest {
     public void joinGroup_UserToPrivateGroupFails() {
         when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
         when(groupRepository.findById(4)).thenReturn(Optional.of(group4Private));
-        Optional<String> result = groupService.joinGroupUser("b@dal.ca", 4);
+        Optional<String> result = groupService.joinGroup("b@dal.ca", 4);
         assertTrue(result.isPresent());
     }
 
@@ -214,7 +214,7 @@ public class GroupServiceImplTest {
     public void joinGroup_UserToPrivateGroupByAdminPasses() {
         when(userProfileRepository.findById("b@dal.ca")).thenReturn(Optional.of(userB));
         when(groupRepository.findById(4)).thenReturn(Optional.of(group4Private));
-        Optional<String> result = groupService.joinGroupAdmin("b@dal.ca", 4);
+        Optional<String> result = groupService.joinGroup("b@dal.ca", 4);
         assertTrue(result.isEmpty());
     }
 
@@ -224,7 +224,7 @@ public class GroupServiceImplTest {
         groupPub.setGroupMemberList(List.of(existingMembership));
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
         when(groupRepository.findById(1)).thenReturn(Optional.of(groupPub));
-        Optional<String> result = groupService.joinGroupUser("a@dal.ca", 1);
+        Optional<String> result = groupService.joinGroup("a@dal.ca", 1);
         assertTrue(result.isPresent());
         assertEquals("User is already a member of the group", result.get());
     }
@@ -233,7 +233,7 @@ public class GroupServiceImplTest {
     public void joinGroup_User_userNotFound() {
         GroupMembership existingMembership = new GroupMembership(groupPub, userA, true);
         groupPub.setGroupMemberList(List.of(existingMembership));
-        Optional<String> result = groupService.joinGroupUser("noFound@dal.ca", 1);
+        Optional<String> result = groupService.joinGroup("noFound@dal.ca", 1);
         assertTrue(result.isPresent());
         assertEquals("User not found", result.get());
     }
@@ -243,7 +243,7 @@ public class GroupServiceImplTest {
         GroupMembership existingMembership = new GroupMembership(groupPub, userA, true);
         groupPub.setGroupMemberList(List.of(existingMembership));
         when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
-        Optional<String> result = groupService.joinGroupUser("a@dal.ca", 1);
+        Optional<String> result = groupService.joinGroup("a@dal.ca", 1);
         assertTrue(result.isPresent());
         assertEquals("Group not found", result.get());
     }
@@ -258,7 +258,7 @@ public class GroupServiceImplTest {
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
         when(groupMembershipRepository.findGroupCreatorByGroupId(1)).thenReturn(Optional.of(creatorMembership));
 
-        groupService.joinGroupUser("b@dal.ca", 1);
+        groupService.joinGroup("b@dal.ca", 1);
 
         ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
         verify(notificationService, times(2)).createNotification(notificationCaptor.capture());
@@ -279,7 +279,7 @@ public class GroupServiceImplTest {
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty());
         when(groupMembershipRepository.findGroupCreatorByGroupId(1)).thenReturn(Optional.of(creatorMembership));
 
-        groupService.joinGroupUser("b@dal.ca", 1);
+        groupService.joinGroup("b@dal.ca", 1);
 
         ArgumentCaptor<Notification> notificationCaptor = ArgumentCaptor.forClass(Notification.class);
         verify(notificationService, times(2)).createNotification(notificationCaptor.capture());
@@ -299,7 +299,7 @@ public class GroupServiceImplTest {
         lenient().when(notificationService.createNotification(any(Notification.class)))
                 .thenReturn(Optional.of("Failed to create notification: Database error"));
         lenient().when(groupMembershipRepository.findGroupCreatorByGroupId(1)).thenReturn(Optional.of(creatorMembership));
-        Optional<String> result = groupService.joinGroupUser("b@dal.ca", 1);
+        Optional<String> result = groupService.joinGroup("b@dal.ca", 1);
         assertTrue(result.isPresent());
         assertEquals("Failed to create notification: Database error", result.get());
     }
@@ -313,7 +313,7 @@ public class GroupServiceImplTest {
         when(notificationService.createNotification(any(Notification.class))).thenReturn(Optional.empty())
                 .thenReturn(Optional.of("Failed to create notification: Database error"));
         when(groupMembershipRepository.findGroupCreatorByGroupId(1)).thenReturn(Optional.of(creatorMembership));
-        Optional<String> result = groupService.joinGroupUser("b@dal.ca", 1);
+        Optional<String> result = groupService.joinGroup("b@dal.ca", 1);
         assertTrue(result.isPresent());
         assertEquals("Failed to create notification: Database error", result.get());
     }

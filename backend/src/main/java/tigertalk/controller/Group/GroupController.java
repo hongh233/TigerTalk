@@ -48,7 +48,7 @@ public class GroupController {
      */
     @PostMapping("/join/{email}/{groupId}")
     public ResponseEntity<String> joinGroup(@PathVariable String email, @PathVariable int groupId) {
-        Optional<String> error = groupService.joinGroupUser(email, groupId);
+        Optional<String> error = groupService.joinGroup(email, groupId);
         if (error.isPresent()) {
             return ResponseEntity.status(400).body(error.get());
         } else {

@@ -2,9 +2,9 @@ import axios from "axios";
 const URL = process.env.REACT_APP_API_URL;
 
 
-export const handleAddUserToGroupByAdmin = (email, groupId) => {
+export const handleAddUsersToGroupByAdmin = (emails, groupId) => {
     return axios
-        .post(`${URL}/api/groups/admin/addUser/${email}/${groupId}`)
+        .post(`${URL}/api/groups/admin/addUsers/${groupId}`, emails)
         .then((response) => response.data)
         .catch((error) => {
             console.error("Error getting group membership id");
