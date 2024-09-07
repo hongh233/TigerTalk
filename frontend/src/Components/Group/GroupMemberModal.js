@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react";
 import "../../assets/styles/Components/Group/GroupMemberModal.css";
-import { handleAddUserToGroupByAdmin } from "../../axios/Group/GroupAdminAxios";
 import { handleDeleteGroupMembership, handleGetGroupMembersByGroupId, handleGetMembershipID } from "../../axios/Group/GroupAxios";
-import SearchBar from "../../Components/Search/SearchBar";
 import GroupMembership from "../../Components/Group/GroupMembership";
+import GroupInvitePeopleModal from "./GroupInvitePeopleModal";
 
 const GroupMemberModal = ({ groupId, isCreator, groupMembershipId }) => {
     const [members, setMembers] = useState(null);
-    const [searchMember, setSearchMember] = useState(null);
+    const [showInviteModal, setShowInviteModal] = useState(false);
 
     useEffect(() => {
         if (groupId) {
@@ -21,21 +20,8 @@ const GroupMemberModal = ({ groupId, isCreator, groupMembershipId }) => {
             };
             getAllMembers();
         }
-        if (searchMember) {
-            const handleAddMember = async (email, groupId) => {
-                try {
-                    if (window.confirm("Are you sure to add this user to the group?")) {
-                        await handleAddUserToGroupByAdmin(email, groupId);
-                        window.alert("User successfully joined the group!");
-                        setSearchMember(null);
-                    }
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-            handleAddMember(searchMember, groupId);
-        }
-    }, [searchMember, groupId]);
+
+    }, [groupId]);
 
     const handleDeleteGroupMember = async (userEmail, groupId) => {
         const userConfirmed = window.confirm(`Are you sure you want to delete ${userEmail}? This action cannot be undone!`);
@@ -45,7 +31,7 @@ const GroupMemberModal = ({ groupId, isCreator, groupMembershipId }) => {
         try {
             const membershipID = await handleGetMembershipID(userEmail, groupId);
             await handleDeleteGroupMembership(membershipID);
-            handleDeleteMember(userEmail); // Call handleDeleteMember after deletion
+            setMembers(members.filter((member) => member.userProfileDTO.email !== userEmail));
             window.alert("Member deleted successfully!");
             window.location.reload();
         } catch (err) {
@@ -54,9 +40,6 @@ const GroupMemberModal = ({ groupId, isCreator, groupMembershipId }) => {
         }
     };
 
-    const handleDeleteMember = (userEmail) => {
-        setMembers(members.filter((member) => member.userProfileDTO.email !== userEmail));
-    };
 
     return (
         <div className="group-member-modal-overlay">
@@ -81,16 +64,22 @@ const GroupMemberModal = ({ groupId, isCreator, groupMembershipId }) => {
                     <hr/>
 
                     <div className="group-member-fixed-add">
-                        <h3>Add People:</h3>
-                        <SearchBar searchType="member"
-                                   setSearchMember={setSearchMember}
-                                   dropdownClassName="member"
-                                   searchBarClassName="member"
-                                   groupMembers={members}
-                        />
+                        <button onClick={() => setShowInviteModal(true)}>
+                            Invite People
+                        </button>
                     </div>
+
                 </div>
 
+                {showInviteModal && (
+                    <div className="group-invite-modal-overlay">
+                        <GroupInvitePeopleModal
+                            members={members}
+                            groupId={groupId}
+                            onClose={() => setShowInviteModal(false)} // Close modal handler
+                        />
+                    </div>
+                )}
 
             </div>
         </div>

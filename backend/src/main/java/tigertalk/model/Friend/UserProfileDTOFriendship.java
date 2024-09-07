@@ -7,7 +7,8 @@ public record UserProfileDTOFriendship(
         String email,
         String userName,
         String profilePictureUrl,
-        LocalDateTime createTime
+        LocalDateTime createTime,
+        String onlineStatus
 ) {
     public UserProfileDTOFriendship(UserProfile userProfile, Friendship friendship) {
         this(
@@ -15,7 +16,8 @@ public record UserProfileDTOFriendship(
                 userProfile.getEmail(),
                 userProfile.getUserName(),
                 userProfile.getProfilePictureUrl(),
-                friendship.getCreateTime()
+                friendship.getCreateTime(),
+                userProfile.getOnlineStatus()
         );
     }
 }
