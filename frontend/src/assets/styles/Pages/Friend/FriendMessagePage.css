@@ -1,19 +1,10 @@
-.friend-message-friend {
-    margin: 10px 0;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+#friend-message-page {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
 }
 
-.friend-message-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
+
 
 
 .friend-message-content-container {
@@ -22,26 +13,100 @@
     height: calc(100vh - 60px);
 }
 
+
+
+
+
+
 .friend-list {
-    width: 25%;
+    width: 250px;
     border-right: 1px solid #ccc;
     overflow-y: auto;
-    height: 100%;
+    padding: 0;
+    margin: 0;
 }
-
 .friend-list ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
 .friend-list li {
     display: flex;
     align-items: center;
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #ccc;
+    width: 100%;
+    padding: 15px;
+    transition: background-color 0.2s ease;
+    background-color: transparent;
+
 }
+.friend-list li:hover, .friend-list li.selected {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+
+
+.friend-message-friend {
+    margin: 10px 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background-color 0.2s ease;
+}
+.friend-message-friend:hover {
+    background-color: transparent;
+}
+
+.friend-message-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: transparent;
+    border: none;
+}
+
+
+
+
+
+
+
+.friend-message-details div {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+
+    display: inline-block;      /* important block, to have ... for too long userName */
+    overflow: hidden;           /* important block, to have ... for too long userName */
+    white-space: nowrap;        /* important block, to have ... for too long userName */
+    text-overflow: ellipsis;    /* important block, to have ... for too long userName */
+    max-width: 140px;           /* important block, to have ... for too long userName */
+}
+.friend-message-details p {
+    margin: 0;
+    color: #666;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 .chat-box {
     flex-grow: 1;
@@ -50,14 +115,19 @@
     position: relative;
     height: 100%;
 }
-
 .chat-header {
     text-align: center;
     font-size: 1.5em;
     font-weight: bold;
-    padding: 10px;
+    padding: 20px;
     border-bottom: 1px solid #ccc;
 }
+
+
+
+
+
+
 
 .messages {
     flex-grow: 1;
@@ -65,17 +135,14 @@
     padding: 10px;
     border: 1px solid #ccc;
 }
-
 .message-left, .message-right {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
-
 .message-left {
     justify-content: flex-start;
 }
-
 .message-right {
     justify-content: flex-end;
 }
@@ -90,42 +157,14 @@
     background-color: #93c7e6;
     margin-left: 10px;
 }
-
 .message-right .message-bubble {
     background-color: #a1e686;
     margin-right: 10px;
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
 
-.message-input {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    padding: 10px;
-    border-top: 1px solid #ccc;
-    width: 100%;
-    box-sizing: border-box;
-}
 
-.emoji-button, .send-button {
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-}
 
-.message-input input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin: 0 10px;
-}
 
 
 
@@ -143,6 +182,49 @@
     object-fit: cover;
     margin-right: 15px;
 }
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.message-input {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+.emoji-button, .send-button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+.message-input input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin: 0 10px;
+}
+
 
 
 

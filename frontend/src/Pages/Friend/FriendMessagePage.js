@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import "../../assets/styles/Pages/Friend/FriendMessagePage.css";
 import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
 import { createMessage, getAllMessagesByFriendshipId } from "../../axios/Friend/FriendshipMessageAxios";
-import Header from "../../Components/Main/Header";
 import { useSelector } from "react-redux";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+import StatusIcon from "../../Components/Main/StatusIcon";
 const URL = process.env.REACT_APP_API_URL;
 
 
@@ -158,6 +158,11 @@ const FriendMessagePage = () => {
 		setSelectedFriend(friend);
 		localStorage.setItem("selectedFriendEmail", friend.email);
 		fetchMessages(friend.id);
+
+		document.querySelectorAll(".friend-list li").forEach((li) => {
+			li.classList.remove("selected");
+		});
+		document.getElementById(`friend-${friend.email}`).classList.add("selected");
 	};
 
 	const handleSendMessage = async () => {
@@ -210,24 +215,26 @@ const FriendMessagePage = () => {
 
 	return (
 		<div className="main-page">
-			<div className="content">
+			<div className="content" id="friend-message-page">
 
 				<div className="friend-message-content-container">
 
 					<div className="friend-list">
-
-						<h2>Messages</h2>
 						<ul>
 							{friends.map((friend) => (
-								<li key={friend.email} onClick={() => handleFriendClick(friend)}>
+								<li key={friend.email}
+									id={`friend-${friend.email}`}
+									onClick={() => handleFriendClick(friend)}>
+
 									<div className="friend-message-friend">
 										<div className="friend-message-header">
-											<div className="friend-message-friend-picture">
+											<div className="common-profile-picture-and-status-icon">
 												<img src={friend.profilePictureUrl} alt="avatar" />
+												<StatusIcon status={friend.onlineStatus} />
 											</div>
 											<div className="friend-message-details">
-												<a href={"/profile/" + friend.email}>{friend.userName}</a>
-												<p>Email: {friend.email}</p>
+												<div>{friend.userName}</div>
+												<p>{friend.email}</p>
 											</div>
 										</div>
 									</div>
@@ -238,7 +245,9 @@ const FriendMessagePage = () => {
 					</div>
 
 					<div className="chat-box">
-						{selectedFriend && (<div className="chat-header">{selectedFriend.userName}</div>)}
+						{selectedFriend && (
+							<div className="chat-header">{selectedFriend.userName}</div>)
+						}
 
 						<div className="messages">
 							{messages.length === 0 ? (
@@ -249,8 +258,9 @@ const FriendMessagePage = () => {
 										className={message.messageSenderEmail === user.email ? "message-right" : "message-left"}>
 
 										{message.messageSenderEmail !== user.email && (
-											<div className="friend-message-friend-picture">
+											<div className="common-profile-picture-and-status-icon">
 												<img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar"/>
+												<StatusIcon status={message.messageSenderOnlineStatus} />
 											</div>
 										)}
 
@@ -259,8 +269,9 @@ const FriendMessagePage = () => {
 										</div>
 
 										{message.messageSenderEmail === user.email && (
-											<div className="friend-message-friend-picture">
-												<img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar"/>
+											<div className="common-profile-picture-and-status-icon">
+												<img src={user.profilePictureUrl} alt="Avatar" className="avatar"/>
+												<StatusIcon status={user.onlineStatus} />
 											</div>
 										)}
 									</div>
