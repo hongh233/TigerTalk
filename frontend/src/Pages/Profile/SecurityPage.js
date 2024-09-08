@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../../assets/styles/Pages/Profile/SecurityPage.css";
-import Header from "../../Components/Main/Header";
 import { useDispatch, useSelector } from "react-redux";
 import {updateUserPassword, updateUserSecurityQuestionAndAnswer} from "../../axios/UserAxios";
 import {setUser} from "../../redux/actions/userActions";

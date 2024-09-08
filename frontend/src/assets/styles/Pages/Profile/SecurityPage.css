@@ -30,15 +30,18 @@
 
 .security-form button {
     padding: 10px;
-    background-color: #4285f4;
-    color: white;
-    border: none;
+    background-color: rgba(66, 133, 244, 0.1);
+    color: #4285f4;
+    border: 2px solid #4285f4;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s, box-shadow 0.3s;
 }
 
 .security-form button:hover {
-    background-color: #3071d1;
+    background-color: rgba(66, 133, 244, 0.2);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
 }
