@@ -77,9 +77,10 @@ public class Scripts {
                     data[2],
                     data[3],
                     "This is a biography example. I am a people!",
-                    "Male",
+                    "they/them",
                     "offline",
-                    "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg"
+                    "https://res.cloudinary.com/dp4j9a7ry/image/upload/v1719765852/rvfq7rtgnni1ahktelff.jpg",
+                    "2010-07-28"
             );
             userProfileRepository.save(user);
         }

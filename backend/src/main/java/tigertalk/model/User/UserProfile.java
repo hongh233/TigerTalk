@@ -105,7 +105,8 @@ public class UserProfile {
                        String biography,
                        String gender,
                        String onlineStatus,
-                       String profilePictureUrl) {
+                       String profilePictureUrl,
+                       String birthday) {
         this.email = email;
         this.password = password;
         this.securityQuestion = securityQuestion;
@@ -120,6 +121,7 @@ public class UserProfile {
         this.gender = gender;
         this.onlineStatus = onlineStatus;
         this.profilePictureUrl = profilePictureUrl;
+        this.birthday = birthday;
     }
 
     public UserProfileDTO toDto() {
