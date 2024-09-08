@@ -251,17 +251,20 @@ const FriendMessagePage = () => {
 
 						<div className="messages">
 							{messages.length === 0 ? (
-								<div>No messages to display</div>
+								<div className="empty-message-text">
+									Looks a little quiet here... Send your first message!
+								</div>
 							) : (
 								messages.map((message) => (
 									<div key={message.messageId}
 										className={message.messageSenderEmail === user.email ? "message-right" : "message-left"}>
 
 										{message.messageSenderEmail !== user.email && (
-											<div className="common-profile-picture-and-status-icon">
+											<a className="common-profile-picture-and-status-icon"
+											   href={`/profile/${message.messageSenderEmail}`}>
 												<img src={message.messageSenderProfilePictureUrl} alt="Avatar" className="avatar"/>
 												<StatusIcon status={message.messageSenderOnlineStatus} />
-											</div>
+											</a>
 										)}
 
 										<div className="message-bubble">
@@ -269,10 +272,11 @@ const FriendMessagePage = () => {
 										</div>
 
 										{message.messageSenderEmail === user.email && (
-											<div className="common-profile-picture-and-status-icon">
+											<a className="common-profile-picture-and-status-icon"
+											   href={`/profile/${user.email}`}>
 												<img src={user.profilePictureUrl} alt="Avatar" className="avatar"/>
 												<StatusIcon status={user.onlineStatus} />
-											</div>
+											</a>
 										)}
 									</div>
 								))
