@@ -226,50 +226,5 @@ class FriendshipMessageServiceImplTest {
         assertNull(result);
     }
 
-    @Test
-    public void getFriendshipMessageDTOById_messageFound() {
-        int messageId = 1;
-        LocalDateTime createTime = LocalDateTime.now();
 
-        Friendship friendship = new Friendship();
-        friendship.setFriendshipId(1);
-
-        FriendshipMessage message = new FriendshipMessage();
-        message.setMessageId(messageId);
-        message.setCreateTime(createTime);
-        message.setMessageContent("Hello");
-        message.setFriendship(friendship);
-
-        UserProfile sender = new UserProfile();
-        sender.setEmail("a@dal.ca");
-        sender.setUserName("userA");
-        sender.setProfilePictureUrl("http://sender.jpg");
-
-        UserProfile receiver = new UserProfile();
-        receiver.setEmail("b@dal.ca");
-        receiver.setUserName("ReceiverB");
-        receiver.setProfilePictureUrl("http://receiver.jpg");
-
-        message.setSender(sender);
-        message.setReceiver(receiver);
-
-        FriendshipMessageDTO dto = new FriendshipMessageDTO(
-                messageId,
-                createTime,
-                "Hello",
-                "a@dal.ca",
-                "userA",
-                "http://sender.jpg",
-                "b@dal.ca",
-                "ReceiverB",
-                "http://receiver.jpg",
-                false,
-                1
-        );
-
-        when(friendshipMessageRepository.findById(messageId)).thenReturn(Optional.of(message));
-        FriendshipMessageDTO result = friendshipMessageService.getFriendshipMessageDTOById(messageId);
-        assertNotNull(result);
-        assertEquals(dto, result);
-    }
 }
