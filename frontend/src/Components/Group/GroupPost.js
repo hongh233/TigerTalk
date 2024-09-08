@@ -115,7 +115,11 @@ const GroupPost = ({ post, groupId, userEmail, removePost }) => {
 					</a>
 				</div>
 				<div className="group-post-user-details">
-					<h3><a className="group-post-user-email" href={`/profile/${post.postSenderEmail}`}>{post.groupPostSenderUserName}</a></h3>
+					<h3>
+						<a className="group-post-user-email" href={`/profile/${post.postSenderEmail}`}>
+							{post.groupPostSenderUserName}
+						</a>
+					</h3>
 					<p>{formatDate(post.groupPostCreateTime)}</p>
 				</div>
 			</div>

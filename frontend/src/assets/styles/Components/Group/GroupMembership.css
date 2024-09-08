@@ -30,7 +30,14 @@
     font-weight: bold;
     color: #333;
     text-decoration: none;
+
+    display: inline-block;      /* important block, to have ... for too long userName */
+    overflow: hidden;           /* important block, to have ... for too long userName */
+    white-space: nowrap;        /* important block, to have ... for too long userName */
+    text-overflow: ellipsis;    /* important block, to have ... for too long userName */
+    max-width: 200px;           /* important block, to have ... for too long userName */
 }
+
 .group-membership-item-friend-details p {
     margin: 0;
     color: #666;
