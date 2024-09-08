@@ -13,7 +13,12 @@ const GroupPostCreation = ({ addPost, onclose, onopen }) => {
 	const [imageUrl, setImageUrl] = useState(null);
 	const user = useSelector((state) => state.user.user);
 
-	const handleAddPost = async () => {
+	const handleAddPost = async (e) => {
+		e.preventDefault();
+		if (!postContent.trim()) {
+			e.target.querySelector("textarea").setCustomValidity("Please type something to continue.");
+			return;
+		}
 		try {
 			await addPost(postContent, imageUrl, tags);
 			setImageUrl(null);
@@ -22,6 +27,13 @@ const GroupPostCreation = ({ addPost, onclose, onopen }) => {
 		} catch (error) {
 			console.error("Error adding post:", error);
 		}
+	};
+
+	const handleInvalid = (e) => {
+		e.target.setCustomValidity("Please type something to continue.");
+	};
+	const handleInput = (e) => {
+		e.target.setCustomValidity("");
 	};
 
 	const handleInputChange = (event) => {
@@ -53,11 +65,16 @@ const GroupPostCreation = ({ addPost, onclose, onopen }) => {
 	return (
 		<>
 			{user && (
-				<div className="group-post-creation">
+				<form className="group-post-creation" onSubmit={handleAddPost}>
 					<div className="group-post-creation-container">
 
-						<button className="group-post-creation-close-button"
-								onClick={() => {onclose();onopen();}}>
+						<button type="button"
+								className="group-post-creation-close-button"
+								onClick={() => {
+									onclose();
+									onopen();
+								}}
+						>
 							&times;
 						</button>
 
@@ -75,21 +92,35 @@ const GroupPostCreation = ({ addPost, onclose, onopen }) => {
 						<textarea
 							placeholder="What's Happening?"
 							value={postContent}
-							onChange={handleInputChange}>
-						</textarea>
+							onChange={handleInputChange}
+							required
+							minLength={1}
+							onInvalid={handleInvalid}
+							onInput={handleInput}
+						></textarea>
+
 						<div className="group-post-creation-image-upload">
-							<input type="file" name="profilePicture" onChange={handleFileChange} style={{ display: "none" }} id="fileInput"/>
-							<label htmlFor="fileInput"><SlPicture /></label>
+							<input type="file"
+								   name="profilePicture"
+								   onChange={handleFileChange}
+								   style={{ display: "none" }}
+								   id="fileInput"/>
+							<label htmlFor="fileInput">
+								<SlPicture />
+							</label>
 						</div>
 
 						{uploading && <p>Uploading...</p>}
-						{imageUrl && <img src={imageUrl} alt="Uploaded" width="100" />}
+						{imageUrl &&
+							<img src={imageUrl} alt="Uploaded" width="100" />
+						}
+
 						<button className="group-post-creation-button"
-								onClick={handleAddPost}>
+								type="submit">
 							Post
 						</button>
 					</div>
-				</div>
+				</form>
 			)}
 		</>
 	);

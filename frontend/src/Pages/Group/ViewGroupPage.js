@@ -164,7 +164,6 @@ const ViewGroupPage = () => {
 
 			// Save the new post to the database
 			await handleCreatePost(newPost);
-			window.alert("Group post posted successfully!");
 			setPosts([newPost, ...posts]);
 			setReload(!reload);
 		} catch (error) {

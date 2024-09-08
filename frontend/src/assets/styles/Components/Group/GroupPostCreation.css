@@ -109,7 +109,7 @@
 .group-post-creation-button {
     align-self: center;
     padding: 10px 20px;
-    background-color: #5e71e3;
+    background-color: #5e71e3 !important;
     color: #fff;
     width: 100px;
     border: none;

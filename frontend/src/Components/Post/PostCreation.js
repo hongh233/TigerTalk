@@ -14,7 +14,12 @@ const PostCreation = ({ addPost }) => {
 	const [imageUrl, setImageUrl] = useState(null);
 	const user = useSelector((state) => state.user.user);
 
-	const handleAddPost = async () => {
+	const handleAddPost = async (e) => {
+		e.preventDefault();
+		if (!postContent.trim()) {
+			e.target.querySelector("textarea").setCustomValidity("Please type something to continue.");
+			return;
+		}
 		try {
 			await addPost(postContent, imageUrl, tags);
 			setImageUrl(null);
@@ -23,6 +28,13 @@ const PostCreation = ({ addPost }) => {
 		} catch (error) {
 			console.error("Error adding post:", error);
 		}
+	};
+
+	const handleInvalid = (e) => {
+		e.target.setCustomValidity("Please type something to continue.");
+	};
+	const handleInput = (e) => {
+		e.target.setCustomValidity("");
 	};
 
 	const handleInputChange = (event) => {
@@ -51,7 +63,7 @@ const PostCreation = ({ addPost }) => {
 	};
 
 	return (
-		<div className="post-creation">
+		<form className="post-creation" onSubmit={handleAddPost}>
 			<div className="post-creation-container">
 				<div className="post-creation-header">
 
@@ -60,25 +72,47 @@ const PostCreation = ({ addPost }) => {
 						<StatusIcon status={user.onlineStatus}/>
 					</div>
 
-					<div className="post-user-details">{user && <h2>{user.userName}</h2>}</div>
+					<div className="post-user-details">
+						{user && <h2>{user.userName}</h2>}
+					</div>
 				</div>
-				<textarea placeholder="What's Happening?" value={postContent} onChange={handleInputChange}></textarea>
+				<textarea placeholder="What's Happening?"
+						  value={postContent}
+						  onChange={handleInputChange}
+						  required
+						  minLength={1}
+						  onInvalid={handleInvalid}
+						  onInput={handleInput}
+				></textarea>
 
 				{/*<div className="post-happy-icon-with-image">*/}
 				{/*	<div className="">*/}
 				{/*		<IoMdHappy />*/}
 				{/*	</div>*/}
 					<div className="post-creation-image-upload">
-						<input type="file" name="profilePicture" onChange={handleFileChange} style={{ display: "none" }} id="fileInput"/>
-						<label htmlFor="fileInput"><SlPicture /></label>
+						<input type="file"
+							   name="profilePicture"
+							   onChange={handleFileChange}
+							   style={{ display: "none" }}
+							   id="fileInput"
+						/>
+						<label htmlFor="fileInput">
+							<SlPicture />
+						</label>
 					</div>
 				{/*</div>*/}
 
 				{uploading && <p>Uploading...</p>}
-				{imageUrl && <img src={imageUrl} alt="Uploaded" width="100" />}
-				<button className="post-creation-button" onClick={handleAddPost}>Post</button>
+				{imageUrl &&
+					<img src={imageUrl} alt="Uploaded" width="100" />
+
+				}
+				<button className="post-creation-button"
+						type="submit">
+					Post
+				</button>
 			</div>
-		</div>
+		</form>
 	);
 };
 
