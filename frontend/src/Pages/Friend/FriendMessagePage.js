@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import StatusIcon from "../../Components/Main/StatusIcon";
+import {IoMdHappy} from "react-icons/io";
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 const URL = process.env.REACT_APP_API_URL;
 
 
@@ -16,8 +19,9 @@ const FriendMessagePage = () => {
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
 	const [stompClient, setStompClient] = useState(null);
-
 	const messagesEndRef = useRef(null);
+	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+	const emojiPickerRef = useRef(null);
 
 	const scrollToBottom = () => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -30,13 +34,9 @@ const FriendMessagePage = () => {
 					const responseData = await getAllFriendsDTO(user.email);
 					if (responseData.length > 0) {
 						setFriends(responseData);
-						const savedFriendEmail = localStorage.getItem(
-							"selectedFriendEmail"
-						);
+						const savedFriendEmail = localStorage.getItem("selectedFriendEmail");
 						if (savedFriendEmail) {
-							const friend = responseData.find(
-								(f) => f.email === savedFriendEmail
-							);
+							const friend = responseData.find((f) => f.email === savedFriendEmail);
 							if (friend) {
 								setSelectedFriend(friend);
 								fetchMessages(friend.id);
@@ -91,17 +91,12 @@ const FriendMessagePage = () => {
                 if (receivedMessage.friendshipId === selectedFriend.id) {
                     setMessages((prevMessages) => {
                         const messageExists = prevMessages.some(msg => msg.messageId === receivedMessage.messageId);
-                        if (!messageExists) {
-                            return [...prevMessages, receivedMessage];
-                        }
+                        if (!messageExists) {return [...prevMessages, receivedMessage];}
                         return prevMessages;
                     });
                 }
             });
-
-            return () => {
-                subscription.unsubscribe();
-            };
+            return () => {subscription.unsubscribe();};
         }
     }, [stompClient, selectedFriend]);
 
@@ -141,9 +136,7 @@ const FriendMessagePage = () => {
     }, [stompClient, selectedFriend]);
 
 
-	useEffect(() => {
-		scrollToBottom();
-	}, [messages]);
+	useEffect(() => {scrollToBottom()}, [messages]);
 
 	const fetchMessages = async (friendshipId) => {
 		try {
@@ -158,10 +151,7 @@ const FriendMessagePage = () => {
 		setSelectedFriend(friend);
 		localStorage.setItem("selectedFriendEmail", friend.email);
 		fetchMessages(friend.id);
-
-		document.querySelectorAll(".friend-list li").forEach((li) => {
-			li.classList.remove("selected");
-		});
+		document.querySelectorAll(".friend-list li").forEach((li) => {li.classList.remove("selected");});
 		document.getElementById(`friend-${friend.email}`).classList.add("selected");
 	};
 
@@ -170,26 +160,16 @@ const FriendMessagePage = () => {
 
 		const message = {
 			messageContent: newMessage,
-			sender: {
-				email: user.email,
-			},
-			receiver: {
-				email: selectedFriend.email,
-			},
-			friendship: {
-				friendshipId: selectedFriend.id,
-			},
+			sender: {email: user.email,},
+			receiver: {email: selectedFriend.email,},
+			friendship: {friendshipId: selectedFriend.id,},
 		};
 
 		try {
 			if (await createMessage(message)) {
 				setNewMessage("");
-
-				const messagesResponseData = await getAllMessagesByFriendshipId(
-					selectedFriend.id
-				);
-				const latestMessage =
-					messagesResponseData[messagesResponseData.length - 1];
+				const messagesResponseData = await getAllMessagesByFriendshipId(selectedFriend.id);
+				const latestMessage = messagesResponseData[messagesResponseData.length - 1];
 				console.log(latestMessage);
 
 				if (latestMessage && stompClient) {
@@ -198,7 +178,6 @@ const FriendMessagePage = () => {
 						destination: "/app/sendMessage",
 						body: JSON.stringify(latestMessage.messageId),
 					});
-
 					setMessages((prevMessages) => [...prevMessages, latestMessage]);
 				}
 			}
@@ -208,10 +187,31 @@ const FriendMessagePage = () => {
 	};
 
 	const handleKeyPress = (e) => {
-		if (e.key === "Enter") {
-			handleSendMessage();
-		}
+		if (e.key === "Enter") {handleSendMessage();}
 	};
+
+	const toggleEmojiPicker = () => {
+		setShowEmojiPicker(!showEmojiPicker);
+	};
+	const addEmoji = (emoji) => {
+		setNewMessage((prevMessage) => prevMessage + emoji.native);
+		setShowEmojiPicker(false);
+	};
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+				setShowEmojiPicker(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [emojiPickerRef]);
+
 
 	return (
 		<div className="main-page">
@@ -246,13 +246,15 @@ const FriendMessagePage = () => {
 
 					<div className="chat-box">
 						{selectedFriend && (
-							<div className="chat-header">{selectedFriend.userName}</div>)
+							<div className="chat-header">
+								<div className="chat-header-inner-box">{selectedFriend.userName}</div>
+							</div>)
 						}
 
 						<div className="messages">
 							{messages.length === 0 ? (
 								<div className="empty-message-text">
-									Looks a little quiet here... Send your first message!
+									Looks like a little quiet here... Send your first message!
 								</div>
 							) : (
 								messages.map((message) => (
@@ -286,7 +288,15 @@ const FriendMessagePage = () => {
 
 						<div className="message-input">
 
-							<button className="emoji-button">😊</button>
+							<button className="emoji-button" onClick={toggleEmojiPicker}>
+								<IoMdHappy size={24} />
+							</button>
+
+							{showEmojiPicker && (
+								<div className="emoji-picker-modal" ref={emojiPickerRef}>
+									<Picker data={data} onEmojiSelect={addEmoji} />
+								</div>
+							)}
 
 							<input
 								type="text"

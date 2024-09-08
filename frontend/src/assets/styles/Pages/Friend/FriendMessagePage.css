@@ -51,7 +51,6 @@
 
 
 
-
 .friend-message-friend {
     margin: 10px 0;
     padding: 0;
@@ -115,14 +114,21 @@
     flex-direction: column;
     position: relative;
     height: 100%;
+    max-width: 75%;
+    min-width: 500px;
 }
 .chat-header {
     text-align: center;
     font-size: 1.5em;
     font-weight: bold;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-bottom: none;
+}
+
+.chat-header-inner-box {
+    display: inline-block;
 }
 
 
@@ -163,6 +169,10 @@
     padding: 10px;
     border-radius: 10px;
     max-width: 60%;
+
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow-wrap: break-word;
 }
 
 .message-left .message-bubble {
@@ -226,21 +236,34 @@
 .emoji-button, .send-button {
     padding: 10px;
     border: 1px solid #ccc;
-    background-color: #007bff;
-    color: white;
+    background-color: transparent;
+    color: black;
     cursor: pointer;
+}
+.emoji-button:hover, .send-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 .message-input input {
     flex-grow: 1;
     padding: 10px;
     border: 1px solid #ccc;
     margin: 0 10px;
+    font-size: 18px;
+    line-height: 1.5;
 }
 
 
 
 
-
+.emoji-picker-modal {
+    position: absolute;
+    bottom: 60px;
+    left: 10px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 8px;
+}
 
 
 

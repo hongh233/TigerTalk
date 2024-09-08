@@ -27,7 +27,9 @@
 		"web-vitals": "^2.1.4",
 		"@mui/material": "^5.13.7",
 		"@emotion/react": "^11.11.1",
-		"@emotion/styled": "^11.11.0"
+		"@emotion/styled": "^11.11.0",
+		"@emoji-mart/data": "^1.1.1",
+		"@emoji-mart/react": "^1.1.1"
 	},
 	"scripts": {
 		"start": "react-scripts start",
