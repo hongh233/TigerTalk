@@ -38,7 +38,9 @@ const FriendRecommendations = () => {
                                     <img src={user.profilePictureUrl} alt="avatar" />
                                     <StatusIcon status={user.onlineStatus}/>
                                 </div>
-                                <div className="friend-recommend-name"><b>{user.userName}</b></div>
+                                <div className="friend-recommend-name">
+                                    <b>{user.userName}</b>
+                                </div>
                             </a>
                         </li>
                     ))}

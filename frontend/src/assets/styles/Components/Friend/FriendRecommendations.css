@@ -34,7 +34,7 @@
     transform: translateY(-5px);
 }
 .friend-recommend-link:hover .friend-recommend-name {
-    color: #17a2b8;
+    color: #007bff;
 }
 .friend-recommend-link .common-profile-picture-and-status-icon {
     left: 7px; /* position of the profile picture */
@@ -46,7 +46,10 @@
     font-size: 14px;
     color: #333;
 
-    /*border: 1px solid black;*/
+    max-width: 70px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 

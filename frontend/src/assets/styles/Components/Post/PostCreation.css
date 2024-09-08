@@ -114,13 +114,16 @@
 .post-creation-button {
 	align-self: center;
 	padding: 10px 20px;
-	background-color: #17a2b8;
+	background-color: #5e71e3;
 	color: #fff;
 	width: 100px;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 	margin-top: 10px;
+
+	font-size: 18px;
+	font-weight: bold;
 }
 
 

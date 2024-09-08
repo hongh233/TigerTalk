@@ -84,7 +84,10 @@ const GroupPostCreation = ({ addPost, onclose, onopen }) => {
 
 						{uploading && <p>Uploading...</p>}
 						{imageUrl && <img src={imageUrl} alt="Uploaded" width="100" />}
-						<button className="group-post-creation-button" onClick={handleAddPost}>Post</button>
+						<button className="group-post-creation-button"
+								onClick={handleAddPost}>
+							Post
+						</button>
 					</div>
 				</div>
 			)}

@@ -9,6 +9,7 @@ import StatusIcon from "../../Components/Main/StatusIcon";
 import {IoMdHappy} from "react-icons/io";
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
+import {LuSendHorizonal} from "react-icons/lu";
 const URL = process.env.REACT_APP_API_URL;
 
 
@@ -307,7 +308,7 @@ const FriendMessagePage = () => {
 							/>
 
 							<button className="send-button" onClick={handleSendMessage}>
-								Send
+								<LuSendHorizonal />
 							</button>
 						</div>
 
