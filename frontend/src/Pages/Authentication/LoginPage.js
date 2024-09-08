@@ -7,8 +7,8 @@ import {getCurrentUser} from "../../axios/UserAxios";
 
 
 const LoginPage = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState(""); // test password: aaaa1A@a
+	const [email, setEmail] = useState("@dal.ca");
+	const [password, setPassword] = useState("aaaa1A@a"); // test password: "aaaa1A@a" / ""
 	const [errors, setErrors] = useState("");
 	const dispatch = useDispatch();
 	const navigate = useNavigate();

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "../../assets/styles/Components/Group/GroupPostCreation.css";
-import {FaImage} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
 import StatusIcon from "../Main/StatusIcon";
+import {SlPicture} from "react-icons/sl";
 
 
 const GroupPostCreation = ({ addPost, onclose, onopen }) => {
@@ -79,7 +79,7 @@ const GroupPostCreation = ({ addPost, onclose, onopen }) => {
 						</textarea>
 						<div className="group-post-creation-image-upload">
 							<input type="file" name="profilePicture" onChange={handleFileChange} style={{ display: "none" }} id="fileInput"/>
-							<label htmlFor="fileInput"><FaImage /></label>
+							<label htmlFor="fileInput"><SlPicture /></label>
 						</div>
 
 						{uploading && <p>Uploading...</p>}

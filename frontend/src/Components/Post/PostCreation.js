@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "../../assets/styles/Components/Post/PostCreation.css";
-import {FaImage} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
 import StatusIcon from "../Main/StatusIcon";
+import {SlPicture} from "react-icons/sl";
+import {IoMdHappy} from "react-icons/io";
 
 
 const PostCreation = ({ addPost }) => {
@@ -38,7 +39,6 @@ const PostCreation = ({ addPost }) => {
 		const file = e.target.files[0];
 		if (file) {
 			setUploading(true);
-
 			try {
 				const imageUrl = await uploadImageToCloudinary(file);
 				setImageUrl(imageUrl);
@@ -63,10 +63,16 @@ const PostCreation = ({ addPost }) => {
 					<div className="post-user-details">{user && <h2>{user.userName}</h2>}</div>
 				</div>
 				<textarea placeholder="What's Happening?" value={postContent} onChange={handleInputChange}></textarea>
-				<div className="post-creation-image-upload">
-					<input type="file" name="profilePicture" onChange={handleFileChange} style={{ display: "none" }} id="fileInput"/>
-					<label htmlFor="fileInput"><FaImage /></label>
-				</div>
+
+				{/*<div className="post-happy-icon-with-image">*/}
+				{/*	<div className="">*/}
+				{/*		<IoMdHappy />*/}
+				{/*	</div>*/}
+					<div className="post-creation-image-upload">
+						<input type="file" name="profilePicture" onChange={handleFileChange} style={{ display: "none" }} id="fileInput"/>
+						<label htmlFor="fileInput"><SlPicture /></label>
+					</div>
+				{/*</div>*/}
 
 				{uploading && <p>Uploading...</p>}
 				{imageUrl && <img src={imageUrl} alt="Uploaded" width="100" />}
