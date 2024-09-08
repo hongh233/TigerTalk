@@ -37,6 +37,12 @@
     font-weight: bold;
     color: #007bff;
     text-decoration: none;
+
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 200px;
 }
 .friend-request-friend-details a:hover {
     text-decoration: underline;

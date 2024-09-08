@@ -1,6 +1,6 @@
 import React from "react";
 import "../../assets/styles/Components/Group/GroupMembership.css";
-import {formatDate} from "../../utils/formatDate";
+import {formatLocalDate} from "../../utils/formatDate";
 import StatusIcon from "../Main/StatusIcon";
 
 
@@ -15,9 +15,11 @@ const GroupMembership = ({ member, handleDeleteFn, isCreator, groupMembershipId 
                     </a>
                 </div>
                 <div className="group-membership-item-friend-details">
-                    <a href={"/profile/" + member.userProfileDTO.email}>{member.userProfileDTO.userName}</a>
-                    <p>Email: {member.userProfileDTO.email}</p>
-                    <p>Join Time: {formatDate(member.joinTime)}</p>
+                    <a href={"/profile/" + member.userProfileDTO.email}>
+                        {member.userProfileDTO.userName}
+                    </a>
+                    <p>{member.userProfileDTO.email}</p>
+                    <p>Join Date: {formatLocalDate(member.joinTime)}</p>
                 </div>
             </div>
             <div className="group-membership-item-friend-actions">

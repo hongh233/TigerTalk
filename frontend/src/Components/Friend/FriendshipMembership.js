@@ -10,13 +10,14 @@ const FriendshipMembership = ({ user, handleDeleteFn }) => {
 	return (
 		<div className="friendship-membership">
 			<div className="friendship-membership-friend-header">
-				<div className="common-profile-picture-and-status-icon">
+				<a className="common-profile-picture-and-status-icon"
+				   href={`/profile/${user.email}`}>
 					<img src={user.profilePictureUrl} alt="avatar" />
 					<StatusIcon status={user.onlineStatus}/>
-				</div>
+				</a>
 				<div className="friendship-membership-friend-details">
 					<a href={"/profile/" + user.email}>{user.userName}</a>
-					<p>Email: {user.email}</p>
+					<p>{user.email}</p>
 					<p>Add Time: {formatDate(user.createTime)}</p>
 				</div>
 			</div>
