@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "../../assets/styles/Pages/Group/GroupPage.css";
 import { handleGetGroupUserIsMember } from "../../axios/Group/GroupAxios";
 import { useSelector } from "react-redux";
-import Header from "../../Components/Main/Header";
 import Group from "../../Components/Group/Group";
 import { filterGroups } from "../../utils/filterFunctions.js";
 import GroupCreateModal from "../../Components/Group/GroupCreateModal";

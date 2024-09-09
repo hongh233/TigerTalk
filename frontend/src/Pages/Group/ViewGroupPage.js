@@ -5,7 +5,8 @@ import {
 	handleDeleteGroup,
 	handleGetGroupById,
 	handleGetMembershipID,
-	handleDeleteGroupMembership, handleGetGroupMembersByGroupId,
+	handleDeleteGroupMembership,
+	handleGetGroupMembersByGroupId,
 } from "../../axios/Group/GroupAxios";
 import {
 	handleGetAllPost,

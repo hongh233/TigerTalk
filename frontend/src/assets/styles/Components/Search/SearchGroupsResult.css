@@ -72,3 +72,63 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+
+
+
+
+
+
+
+
+
+
+.search-groups-group-action-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.group-button {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    color: #333;
+
+    font-size: 16px;
+    min-width: 130px;
+    padding: 10px 20px;
+}
+
+.group-button.join {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.group-button.join:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.group-button.joined {
+    background-color: #e0e0e0;
+    border-color: #d6d6d6;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.group-button.joined:hover {
+    background-color: #e0e0e0;
+    color: #888;
+    box-shadow: none;
+}
+
+
+
+
+
+
