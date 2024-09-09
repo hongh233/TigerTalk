@@ -4,6 +4,8 @@ import {userLogin} from "../../axios/Authentication/LoginAxios";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {getCurrentUser} from "../../axios/UserAxios";
+import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
+import {setFriends} from "../../redux/actions/friendActions";
 
 
 const LoginPage = () => {
@@ -12,10 +14,13 @@ const LoginPage = () => {
 	const [errors, setErrors] = useState("");
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
+
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setErrors({});
+		setLoading(true);
 
 		try {
 			await getCurrentUser(email);
@@ -23,9 +28,14 @@ const LoginPage = () => {
 			try {
 				const userProfile = await userLogin(email, password);
 				dispatch({ type: "SET_USER", payload: userProfile });
+
+				const friends = await getAllFriendsDTO(email);
+				dispatch(setFriends(friends));
+
 				alert("Log in successfully");
-				navigate("/main", { state: { userProfile } });
+				navigate("/main", { state: { userProfile }, replace: true });
 			} catch (loginError) {
+				setLoading(false);
 				if (loginError.response && loginError.response.status === 401) {
 					setErrors((prevErrors) => ({
 						...prevErrors, password: "Invalid password."}));
@@ -37,10 +47,12 @@ const LoginPage = () => {
 		} catch (error) {
 			if (error.response && error.response.status === 404) {
 				setErrors((prevErrors) => ({
-					...prevErrors, email: "User not found. Please check your email."}));
+					...prevErrors,
+					email: "User not found. Please check your email."}));
 			} else {
 				setErrors((prevErrors) => ({
-					...prevErrors, email: "An error occurred while checking the user. Please try again later."}));
+					...prevErrors,
+					email: "An error occurred while checking the user. Please try again later."}));
 			}
 		}
 	};
@@ -48,39 +60,45 @@ const LoginPage = () => {
 	return (
 		<div className="login-container">
 			<div className="login-card">
-				<h2>Welcome Back</h2>
-				<p className="login-card-second-title">Login with Email and Password</p>
+				{loading ? (
+					<p>Loading...</p>
+				) : (
+					<>
+						<h2>Welcome Back</h2>
+						<p className="login-card-second-title">Login with Email and Password</p>
 
-				<form onSubmit={handleSubmit}>
+						<form onSubmit={handleSubmit}>
 
-					<label>Email</label>
-					<div>
-						<input
-							type="email"
-							placeholder="Enter your email"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							required
-						/>
-						{errors.email && (<p className="error-css">{errors.email}</p>)}
-					</div>
+							<label>Email</label>
+							<div>
+								<input
+									type="email"
+									placeholder="Enter your email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									required
+								/>
+								{errors.email && (<p className="error-css">{errors.email}</p>)}
+							</div>
 
-					<label>Password</label>
-					<div>
-						<input
-							type="password" placeholder="Enter your password" value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							required
-						/>
-						{errors.password && (<p className="error-css">{errors.password}</p>)}
-					</div>
+							<label>Password</label>
+							<div>
+								<input
+									type="password" placeholder="Enter your password" value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									required
+								/>
+								{errors.password && (<p className="error-css">{errors.password}</p>)}
+							</div>
 
-					<button type="submit">Login</button>
-				</form>
-				<div className="additional-links">
-					<Link to="/forgotPassword">Forgot Password?</Link>
-					<p>New User? <Link to="/signup">Sign Up Here Instead</Link></p>
-				</div>
+							<button type="submit">Login</button>
+						</form>
+						<div className="additional-links">
+							<Link to="/forgotPassword">Forgot Password?</Link>
+							<p>New User? <Link to="/signup">Sign Up Here Instead</Link></p>
+						</div>
+					</>
+				)}
 			</div>
 		</div>
 	);
