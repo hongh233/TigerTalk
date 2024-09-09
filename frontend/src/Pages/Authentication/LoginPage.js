@@ -59,6 +59,8 @@ const LoginPage = () => {
 					...prevErrors,
 					email: "An error occurred while checking the user. Please try again later."}));
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -66,7 +68,11 @@ const LoginPage = () => {
 		<div className="login-container">
 			<div className="login-card">
 				{loading ? (
-					<p>Loading...</p>
+					<div className="loading-container">
+						<div className="loading-dots">
+							<span>.</span><span>.</span><span>.</span>
+						</div>
+					</div>
 				) : (
 					<>
 						<h2>Welcome Back</h2>

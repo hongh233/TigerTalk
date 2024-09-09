@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f2f5;
+    background-color: transparent;
 }
 
 .login-card {
@@ -72,3 +72,55 @@ form button:hover {
 .additional-links p {
     margin: 5px 0;
 }
+
+
+
+
+
+
+
+
+/* anime */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f0f2f5;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.loading-dots {
+    font-size: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loading-dots span {
+    animation: bounce 1.4s infinite;
+    display: inline-block;
+    margin: 0 5px;
+    color: #333;
+}
+.loading-dots span:nth-child(1) {
+    animation-delay: 0s;
+}
+.loading-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+}
+
+
