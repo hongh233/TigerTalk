@@ -286,7 +286,9 @@ const ViewGroupPage = () => {
 									) : isPrivate ? (
 										<p>This is a private group. You cannot join.</p>
 									) : (
-										<button onClick={joinGroup} className="join-group-button"><FaUserPlus /> Join Group</button>
+										<button onClick={joinGroup} className="join-group-button">
+											<FaUserPlus />&nbsp;&nbsp;Join Group
+										</button>
 									)}
 
 
