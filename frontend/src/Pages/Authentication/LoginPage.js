@@ -74,7 +74,9 @@ const LoginPage = () => {
 
 						<form onSubmit={handleSubmit}>
 
-							<label>Email [Admin: a to z@dal.ca]</label>
+							<label>
+								Email <small style={{color: '#999', fontWeight: 'normal'}}>[Admin: a to z@dal.ca]</small>
+							</label>
 							<div>
 								<input
 									type="email"
@@ -86,7 +88,9 @@ const LoginPage = () => {
 								{errors.email && (<p className="error-css">{errors.email}</p>)}
 							</div>
 
-							<label>Password [Admin: aaaa1A@a]</label>
+							<label>
+								Password <small style={{color: '#999', fontWeight: 'normal'}}>[Admin: aaaa1A@a]</small>
+							</label>
 							<div>
 								<input
 									type="password" placeholder="Enter your password" value={password}
