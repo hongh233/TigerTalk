@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../../assets/styles/Pages/Friend/FriendMessagePage.css";
-import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
 import { createMessage, getAllMessagesByFriendshipId } from "../../axios/Friend/FriendshipMessageAxios";
 import { useSelector } from "react-redux";
 import SockJS from "sockjs-client";
@@ -10,12 +9,14 @@ import {IoMdHappy} from "react-icons/io";
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import {LuSendHorizonal} from "react-icons/lu";
+import {useLocation} from "react-router-dom";
 const URL = process.env.REACT_APP_API_URL;
 
 
 const FriendMessagePage = () => {
+	const location = useLocation();
 	const user = useSelector((state) => state.user.user);
-	const [friends, setFriends] = useState([]);
+	const friends = useSelector((state) => state.friends.friends);
 	const [selectedFriend, setSelectedFriend] = useState(null);
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
@@ -32,22 +33,27 @@ const FriendMessagePage = () => {
 		const fetchFriends = async () => {
 			if (user && user.email) {
 				try {
-					const responseData = await getAllFriendsDTO(user.email);
-					if (responseData.length > 0) {
-						setFriends(responseData);
+					if (friends.length > 0) {
 						const savedFriendEmail = localStorage.getItem("selectedFriendEmail");
-						if (savedFriendEmail) {
-							const friend = responseData.find((f) => f.email === savedFriendEmail);
+						const selectedFriendEmailFromNav = location.state?.selectedFriendEmail;
+
+						if (selectedFriendEmailFromNav) {
+							const friend = friends.find((f) => f.email === selectedFriendEmailFromNav);
+							if (friend) {
+								handleFriendClick(friend);
+							}
+						} else if (savedFriendEmail) {
+							const friend = friends.find((f) => f.email === savedFriendEmail);
 							if (friend) {
 								setSelectedFriend(friend);
 								fetchMessages(friend.id);
 							} else {
-								setSelectedFriend(responseData[0]);
-								fetchMessages(responseData[0].id);
+								setSelectedFriend(friends[0]);
+								fetchMessages(friends[0].id);
 							}
 						} else {
-							setSelectedFriend(responseData[0]);
-							fetchMessages(responseData[0].id);
+							setSelectedFriend(friends[0]);
+							fetchMessages(friends[0].id);
 						}
 					}
 				} catch (error) {
@@ -56,7 +62,7 @@ const FriendMessagePage = () => {
 			}
 		};
 		fetchFriends();
-	}, [user]);
+	}, [user, location.state]);
 
     useEffect(() => {
         const socket = new SockJS(`${URL}/ws`);
@@ -127,15 +133,12 @@ const FriendMessagePage = () => {
                     setTimeout(subscribeToMessages, 500);
                 }
             };
-
             const unsubscribe = subscribeToMessages();
-
             return () => {
                 if (unsubscribe) unsubscribe();
             };
         }
     }, [stompClient, selectedFriend]);
-
 
 	useEffect(() => {scrollToBottom()}, [messages]);
 
@@ -152,7 +155,8 @@ const FriendMessagePage = () => {
 		setSelectedFriend(friend);
 		localStorage.setItem("selectedFriendEmail", friend.email);
 		fetchMessages(friend.id);
-		document.querySelectorAll(".friend-list li").forEach((li) => {li.classList.remove("selected");});
+		document.querySelectorAll(".friend-list li").forEach((li) => {
+			li.classList.remove("selected");});
 		document.getElementById(`friend-${friend.email}`).classList.add("selected");
 	};
 

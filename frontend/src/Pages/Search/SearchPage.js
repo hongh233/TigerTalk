@@ -60,7 +60,7 @@ const SearchPage = () => {
 						<h2>Groups matched with keyword:</h2>
 						<div className="search-content-section-group">
 							{groups && groups.length > 0 ? (
-								<SearchGroupsResult groups={groups}/>
+								<SearchGroupsResult searchedGroups={groups}/>
 							) : (
 								<p>No groups found with this keyword</p>
 							)}

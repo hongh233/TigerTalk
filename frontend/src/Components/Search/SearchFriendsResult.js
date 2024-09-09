@@ -53,7 +53,7 @@ const SearchFriendsResult = ({ searchedUsers }) => {
 			return (
 				<button className="search-friend-action-button"
 						id="chat"
-						onClick={() => navigate("/friends/message")}>
+						onClick={() => navigate("/friends/message", { state: { selectedFriendEmail: searchedUser.email } })}>
 					<BsChatDotsFill />&nbsp;&nbsp;Chat
 				</button>
 			);

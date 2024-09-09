@@ -119,7 +119,7 @@ const ProfilePage = () => {
 	const handleFriendShip = async () => {
 		try {
 			if (isFriend) {
-				navigate("/friends/message");
+				navigate("/friends/message", { state: { selectedFriendEmail: profileUser.email } });
 			} else if (!requestPending) {
 				let params = {
 					senderEmail: user.email,

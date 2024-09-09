@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 
-const SearchGroupsResult = ({ groups }) => {
+const SearchGroupsResult = ({ searchedGroups }) => {
 
     const navigate = useNavigate();
 
     return (
         <div className="search-groups-group">
-            {groups.map((group) => (
+            {searchedGroups.map((group) => (
                 <div className="search-groups-group-header"
                      key={group.groupId}
                      onClick={(groupId) => {navigate(`/group/viewgroup/${group.groupId}`)}}
