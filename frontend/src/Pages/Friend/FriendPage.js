@@ -1,52 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/styles/Pages/Friend/FriendPage.css";
 import { deleteFriendshipByEmail } from "../../axios/Friend/FriendshipAxios";
-import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
 import {FaUserPlus} from "react-icons/fa";
-import { useSelector } from "react-redux";
-import Header from "../../Components/Main/Header";
+import {useDispatch, useSelector} from "react-redux";
 import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
 import { filterUsers } from "../../utils/filterFunctions.js";
 import FriendRequestList from "../../Components/Friend/FriendRequestList";
 import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
 import {Badge} from "@mui/material";
+import {removeFriend} from "../../redux/actions/friendActions";
 
 
 const FriendPage = () => {
 	const user = useSelector((state) => state.user.user);
-	const [friends, setFriends] = useState([]);
-	const [allFriends, setAllFriends] = useState([]);
+	const friends = useSelector((state) => state.friends.friends);
+	const [filteredFriends, setFilteredFriends] = useState(friends);
 	const [searchFriendQuery, setSearchFriendQuery] = useState("");
 	const [showFriendRequestList, setShowFriendRequestList] = useState(false);
 	const [hoverTimeout, setHoverTimeout] = useState(null);
-
-
-	useEffect(() => {
-		const fetchFriends = async () => {
-			if (user && user.email) {
-				try {
-					const responseData = await getAllFriendsDTO(user.email);
-					if (responseData.length > 0) {
-						setAllFriends(responseData);
-						setFriends(responseData);
-					}
-				} catch (error) {
-					console.error("Failed to fetch friends", error);
-				}
-			}
-		};
-
-		fetchFriends();
-	}, [user]);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (searchFriendQuery) {
-			const filteredFriends = filterUsers(allFriends, searchFriendQuery);
-			setFriends(filteredFriends);
+			const result = filterUsers(friends, searchFriendQuery);
+			setFilteredFriends(result);
 		} else {
-			setFriends(allFriends);
+			setFilteredFriends(friends);
 		}
-	}, [searchFriendQuery, allFriends]);
+	}, [searchFriendQuery, friends]);
 
 	const handleInputChange = (e) => {
 		setSearchFriendQuery(e.target.value);
@@ -88,6 +69,19 @@ const FriendPage = () => {
 		fetchFriendRequests();
 	}, [user]);
 
+	const handleFriendDelete = async (friendEmail, friendId) => {
+		const userConfirmed = window.confirm(`Are you sure you want to delete ${friendEmail}?`);
+		if (userConfirmed) {
+			const isDeleted = await deleteFriendshipByEmail(user.email, friendEmail);
+			if (isDeleted) {
+				window.alert("Friend deleted successfully!");
+				dispatch(removeFriend(friendId));
+			} else {
+				window.alert("Failed to delete friend. Please try again.");
+			}
+		}
+	};
+
 	return (
 		<div className="main-page">
 			<div className="content">
@@ -98,7 +92,8 @@ const FriendPage = () => {
 							<input
 								type="text"
 								placeholder="Find Available Friends..."
-								value={searchFriendQuery} onChange={handleInputChange}
+								value={searchFriendQuery}
+								onChange={handleInputChange}
 							/>
 						</div>
 
@@ -121,17 +116,19 @@ const FriendPage = () => {
 						</div>
 					</div>
 
-					{friends.length > 0 ? (
-						friends.map((friend) => (
+					{filteredFriends.length > 0 ? (
+						filteredFriends.map((friend) => (
 							<FriendshipMembership
 								key={friend.email}
 								user={friend}
 								userEmail={user.email}
-								handleDeleteFn={() => deleteFriendshipByEmail(user.email, friend.email)}
+								handleDeleteFn={() => handleFriendDelete(friend.email, friend.id)}
 							/>
 						))
 					) : (
-						<div className="no-friends"><p>There is no friend available.</p></div>
+						<div className="no-friends">
+							<p>There is no friend available.</p>
+						</div>
 					)}
 
 				</div>
