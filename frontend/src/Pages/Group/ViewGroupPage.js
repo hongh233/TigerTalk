@@ -322,14 +322,21 @@ const ViewGroupPage = () => {
 
 						{isMember &&
 							<div className="group-post-container">
-								{posts && posts.map((post) => (
-									<GroupPost key={post.groupPostId}
-											   post={post}
-											   groupId={groupId}
-											   userEmail={userEmail}
-											   removePost={handleDeletePost}
-									/>
-								))}
+								{posts.length === 0 ? (
+									<div className="common-empty-message-text">
+										🤔 It looks like a little quiet here... Create your first group post!
+									</div>
+								) : (
+									posts && posts.map((post) => (
+										<GroupPost key={post.groupPostId}
+												   post={post}
+												   groupId={groupId}
+												   userEmail={userEmail}
+												   removePost={handleDeletePost}
+										/>
+									))
+								)}
+
 							</div>
 						}
 

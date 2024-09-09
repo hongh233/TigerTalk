@@ -263,12 +263,18 @@ const ProfilePage = () => {
 						{message.length > 0 ? (
 							<p>{message}</p>
 						) : (
-							posts.map((post) => (
-								<Post key={post.id}
-									  post={post}
-									  user={user}
-									  removePost={handleDeletePost}/>
-							))
+							posts.length === 0 ? (
+								<div className="common-empty-message-text">
+									🤔 This place looks a bit empty...
+								</div>
+							) : (
+								posts.map((post) => (
+									<Post key={post.id}
+										  post={post}
+										  user={user}
+										  removePost={handleDeletePost}/>
+								))
+							)
 						)}
 					</div>
 				)}

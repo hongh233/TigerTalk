@@ -143,16 +143,6 @@
     padding: 10px;
     border: 1px solid #ccc;
 }
-.empty-message-text {
-    font-size: 1.2em;
-    color: #999;
-    text-align: center;
-    margin-top: 20px;
-    font-style: italic;
-    background-color: #f0f0f5;
-    padding: 10px;
-    border-radius: 10px;
-}
 .message-left, .message-right {
     display: flex;
     align-items: center;

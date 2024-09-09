@@ -258,8 +258,8 @@ const FriendMessagePage = () => {
 
 						<div className="messages">
 							{messages.length === 0 ? (
-								<div className="empty-message-text">
-									Looks like a little quiet here... Send your first message!
+								<div className="common-empty-message-text">
+									🤔 It looks like a little quiet here... Start your first message!
 								</div>
 							) : (
 								messages.map((message) => (
