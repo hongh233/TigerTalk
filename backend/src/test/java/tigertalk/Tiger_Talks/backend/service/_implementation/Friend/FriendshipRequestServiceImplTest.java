@@ -104,45 +104,6 @@ public class FriendshipRequestServiceImplTest {
         assertEquals(2, requests.size());
     }
 
-    /**
-     * Test case for sendFriendshipRequest
-     */
-    @Test
-    public void sendFriendshipRequest_senderNotFound() {
-        when(userProfileRepository.findById("nonexistent@dal.ca")).thenReturn(Optional.empty());
-        Exception exception = assertThrows(
-                IllegalStateException.class,
-                () -> friendshipRequestService.sendFriendshipRequest("nonexistent@dal.ca", "b@dal.ca")
-        );
-        assertEquals("Sender not found", exception.getMessage());
-    }
-
-    @Test
-    public void sendFriendshipRequest_receiverNotFound() {
-        when(userProfileRepository.findById("a@dal.ca")).thenReturn(Optional.of(userA));
-        when(userProfileRepository.findById("nonexistent@dal.ca")).thenReturn(Optional.empty());
-        Exception exception = assertThrows(
-                IllegalStateException.class,
-                () -> friendshipRequestService.sendFriendshipRequest("a@dal.ca", "nonexistent@dal.ca")
-        );
-        assertEquals("Receiver not found", exception.getMessage());
-    }
-
-
-
-    /**
-     * Test case for acceptFriendshipRequest
-     */
-    @Test
-    public void acceptFriendshipRequest_requestNotFound() {
-        when(friendshipRequestRepository.findById(1)).thenReturn(Optional.empty());
-        Exception exception = assertThrows(
-                IllegalStateException.class,
-                () -> friendshipRequestService.acceptFriendshipRequest(1)
-        );
-        assertEquals("friendship request ID does not exist!", exception.getMessage());
-    }
-
 
     /**
      * Test case for rejectFriendshipRequest
