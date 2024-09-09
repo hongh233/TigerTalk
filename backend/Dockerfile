@@ -1,6 +1,6 @@
 FROM openjdk:17-jre-slim
 
-LABEL maintainer="group02@dal.ca"
+LABEL maintainer="hn582183@dal.ca"
 
 COPY target/Tiger_Talks-0.0.1-SNAPSHOT.jar app.jar
 
