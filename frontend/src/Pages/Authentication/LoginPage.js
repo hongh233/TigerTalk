@@ -38,7 +38,6 @@ const LoginPage = () => {
 				const friendshipRequests = await getAllFriendRequests(email);
 				dispatch(setFriendshipRequests(friendshipRequests));
 
-				alert("Log in successfully");
 				navigate("/main", { state: { userProfile }, replace: true });
 			} catch (loginError) {
 				setLoading(false);
@@ -75,7 +74,7 @@ const LoginPage = () => {
 
 						<form onSubmit={handleSubmit}>
 
-							<label>Email</label>
+							<label>Email [Admin: a to z@dal.ca]</label>
 							<div>
 								<input
 									type="email"
@@ -87,7 +86,7 @@ const LoginPage = () => {
 								{errors.email && (<p className="error-css">{errors.email}</p>)}
 							</div>
 
-							<label>Password</label>
+							<label>Password [Admin: aaaa1A@a]</label>
 							<div>
 								<input
 									type="password" placeholder="Enter your password" value={password}
