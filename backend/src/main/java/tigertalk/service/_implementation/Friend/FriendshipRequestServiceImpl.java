@@ -3,6 +3,7 @@ package tigertalk.service._implementation.Friend;
 import tigertalk.model.Friend.Friendship;
 import tigertalk.model.Friend.FriendshipRequest;
 import tigertalk.model.Friend.FriendshipRequestDTO;
+import tigertalk.model.Friend.UserProfileDTOFriendship;
 import tigertalk.model.Notification.Notification;
 import tigertalk.model.User.UserProfile;
 import tigertalk.repository.Friend.FriendshipRepository;
@@ -51,54 +52,34 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     }
 
     @Override
-    public Optional<String> sendFriendshipRequest(String senderEmail, String receiverEmail) {
-        UserProfile sender = userProfileRepository.findById(senderEmail)
-                .orElseThrow(() -> new IllegalStateException("Sender not found"));
-        UserProfile receiver = userProfileRepository.findById(receiverEmail)
-                .orElseThrow(() -> new IllegalStateException("Receiver not found"));
+    public FriendshipRequestDTO sendFriendshipRequest(String senderEmail, String receiverEmail) {
+        UserProfile sender = userProfileRepository.findById(senderEmail).get();
+        UserProfile receiver = userProfileRepository.findById(receiverEmail).get();
 
-        if (friendshipRepository.findBySenderAndReceiver(sender, receiver).isPresent()) {
-            return Optional.of("Friendship has already existed between these users.");
-        }
-        if (friendshipRepository.findBySenderAndReceiver(receiver, sender).isPresent()) {
-            return Optional.of("Friendship has already existed between these users.");
-        }
+        FriendshipRequest friendshipRequest = new FriendshipRequest(sender, receiver);
+        friendshipRequest = friendshipRequestRepository.save(friendshipRequest);
 
-        if (friendshipRequestRepository.findBySenderAndReceiver(sender, receiver).isPresent()) {
-            return Optional.of("Friendship request has already existed between these users.");
-        }
-        if (friendshipRequestRepository.findBySenderAndReceiver(receiver, sender).isPresent()) {
-            return Optional.of("Friendship request has already existed between these users.");
-        }
-
-        friendshipRequestRepository.save(new FriendshipRequest(sender, receiver));
-
-
-        // send notification
-        return notificationService.createNotification(new Notification(
+        notificationService.createNotification(new Notification(
                 receiver,
                 "You have a new friend request from " + senderEmail,
-                "FriendshipRequestSend"));
+                "FriendshipRequestSend"
+        ));
+
+        return friendshipRequest.toDto();
     }
 
     @Override
-    public Optional<String> acceptFriendshipRequest(Integer friendshipRequestId) {
-        FriendshipRequest friendshipRequest = friendshipRequestRepository.findById(friendshipRequestId)
-                .orElseThrow(() -> new IllegalStateException("friendship request ID does not exist!"));
-        friendshipRepository.save(
-                new Friendship(
-                        friendshipRequest.getSender(),
-                        friendshipRequest.getReceiver())
-        );
+    public UserProfileDTOFriendship acceptFriendshipRequest(Integer friendshipRequestId) {
+        FriendshipRequest friendshipRequest = friendshipRequestRepository.findById(friendshipRequestId).get();
+        Friendship friendship = new Friendship(friendshipRequest.getSender(), friendshipRequest.getReceiver());
+        friendship = friendshipRepository.save(friendship);
         friendshipRequestRepository.delete(friendshipRequest);
-
-
-        // send notification
-        return notificationService.createNotification(new Notification(
+        notificationService.createNotification(new Notification(
                 friendshipRequest.getSender(),
                 "Your friend request to " + friendshipRequest.getReceiver().getEmail() + " has been accepted.",
                 "FriendshipRequestAccept"
         ));
+        return new UserProfileDTOFriendship(friendshipRequest.getSender(), friendship);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package tigertalk.service.Friend;
 
 import tigertalk.model.Friend.FriendshipRequestDTO;
+import tigertalk.model.Friend.UserProfileDTOFriendship;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,9 +22,8 @@ public interface FriendshipRequestService {
      * @param senderEmail   Email of the sender
      * @param receiverEmail Email of the receiver
      * @return An error message if any error occurs, otherwise empty.
-     * @Throw IllegalStateException if sender or receiver not exist
      */
-    Optional<String> sendFriendshipRequest(String senderEmail, String receiverEmail);
+    FriendshipRequestDTO sendFriendshipRequest(String senderEmail, String receiverEmail);
 
     /**
      * Accept a friendship request, create a friendship and delete the request
@@ -31,7 +31,7 @@ public interface FriendshipRequestService {
      * @param friendshipRequestId ID of the friendship request to accept
      * @return An error message if any error occurs, otherwise empty.
      */
-    Optional<String> acceptFriendshipRequest(Integer friendshipRequestId);
+    UserProfileDTOFriendship acceptFriendshipRequest(Integer friendshipRequestId);
 
     /**
      * Reject a friendship request and delete the request

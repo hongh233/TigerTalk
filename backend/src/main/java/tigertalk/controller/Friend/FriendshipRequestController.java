@@ -2,8 +2,8 @@ package tigertalk.controller.Friend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import tigertalk.model.Friend.FriendshipRequestDTO;
+import tigertalk.model.Friend.UserProfileDTOFriendship;
 import tigertalk.service.Friend.FriendshipRequestService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,13 +39,9 @@ public class FriendshipRequestController {
      * @return ResponseEntity with a success message or an error message
      */
     @PostMapping("/send")
-    public ResponseEntity<String> sendFriendRequest(@RequestParam String senderEmail, @RequestParam String receiverEmail) {
-        Optional<String> error = friendshipRequestService.sendFriendshipRequest(senderEmail, receiverEmail);
-        if (error.isPresent()) {
-            return ResponseEntity.status(400).body(error.get());
-        } else {
-            return ResponseEntity.status(200).body("Friend request has been sent.");
-        }
+    public ResponseEntity<FriendshipRequestDTO> sendFriendRequest(@RequestParam String senderEmail, @RequestParam String receiverEmail) {
+        FriendshipRequestDTO result = friendshipRequestService.sendFriendshipRequest(senderEmail, receiverEmail);
+        return ResponseEntity.status(200).body(result);
     }
 
     /**
@@ -55,13 +51,9 @@ public class FriendshipRequestController {
      * @return ResponseEntity with a success message or an error message
      */
     @PostMapping("/accept")
-    public ResponseEntity<String> acceptFriendRequest(@RequestParam("id") Integer friendshipRequestId) {
-        Optional<String> error = friendshipRequestService.acceptFriendshipRequest(friendshipRequestId);
-        if (error.isPresent()) {
-            return ResponseEntity.status(404).body(error.get());
-        } else {
-            return ResponseEntity.status(200).body("Friend request has been accepted.");
-        }
+    public ResponseEntity<UserProfileDTOFriendship> acceptFriendRequest(@RequestParam("id") Integer friendshipRequestId) {
+        UserProfileDTOFriendship result = friendshipRequestService.acceptFriendshipRequest(friendshipRequestId);
+        return ResponseEntity.status(200).body(result);
     }
 
     /**
