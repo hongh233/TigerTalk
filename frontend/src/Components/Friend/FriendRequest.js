@@ -3,16 +3,19 @@ import "../../assets/styles/Components/Friend/FriendRequest.css";
 import {acceptFriendRequest, rejectFriendRequest} from "../../axios/Friend/FriendshipRequestAxios";
 import {formatDate} from "../../utils/formatDate";
 import StatusIcon from "../Main/StatusIcon";
+import {addFriend, removeFriendshipRequest} from "../../redux/actions/friendActions";
+import {useDispatch} from "react-redux";
 
 
 const FriendRequest = ({request}) => {
+
+    const dispatch = useDispatch();
     const handleAccept = async () => {
         try {
-            const response = await acceptFriendRequest(request.id);
-            if (response.status === 200) {
-                window.alert("Friend request accepted!");
-                window.location.reload();
-            }
+            const responseData = await acceptFriendRequest(request.id);
+            window.alert("Friend request accepted!");
+            dispatch(addFriend(responseData));
+            dispatch(removeFriendshipRequest(request.id));
         } catch (error) {
             window.alert("Failed to accept friend request. Please try again.");
             console.error(error);
@@ -24,7 +27,7 @@ const FriendRequest = ({request}) => {
             const response = await rejectFriendRequest(request.id);
             if (response.status === 200) {
                 window.alert("Friend request rejected!");
-                window.location.reload();
+                dispatch(removeFriendshipRequest(request.id));
             }
         } catch (error) {
             window.alert("Failed to reject friend request. Please try again.");

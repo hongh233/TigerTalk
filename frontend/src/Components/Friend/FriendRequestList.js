@@ -1,6 +1,6 @@
 import React from "react";
 import "../../assets/styles/Components/Friend/FriendRequestList.css";
-import FriendRequestComponent from "../../Components/Friend/FriendRequest";
+import FriendRequest from "../../Components/Friend/FriendRequest";
 
 
 const FriendRequestList = ({ friendRequests }) => {
@@ -10,7 +10,7 @@ const FriendRequestList = ({ friendRequests }) => {
             <div className="friend-request-list-content">
                 {friendRequests.length > 0 ? (
                     friendRequests.map((request) => (
-                        <FriendRequestComponent
+                        <FriendRequest
                             key={request.friendshipRequestId}
                             request={request}
                         />

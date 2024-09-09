@@ -27,7 +27,8 @@ export const sendFriendRequest = async (params) => {
 
 export const acceptFriendRequest = async (id) => {
     try {
-        return await axios.post(`${URL}/friendshipRequests/accept?id=${id}`);
+        const response = await axios.post(`${URL}/friendshipRequests/accept?id=${id}`);
+        return response.data;
     } catch (error) {
         throw error;
     }

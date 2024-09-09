@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from "react-redux";
 import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
 import { filterUsers } from "../../utils/filterFunctions.js";
 import FriendRequestList from "../../Components/Friend/FriendRequestList";
-import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
 import {Badge} from "@mui/material";
 import {removeFriend} from "../../redux/actions/friendActions";
 
@@ -14,6 +13,7 @@ import {removeFriend} from "../../redux/actions/friendActions";
 const FriendPage = () => {
 	const user = useSelector((state) => state.user.user);
 	const friends = useSelector((state) => state.friends.friends);
+	const friendRequests = useSelector((state) => state.friends.friendshipRequests);
 	const [filteredFriends, setFilteredFriends] = useState(friends);
 	const [searchFriendQuery, setSearchFriendQuery] = useState("");
 	const [showFriendRequestList, setShowFriendRequestList] = useState(false);
@@ -52,22 +52,6 @@ const FriendPage = () => {
 	const handleToggleClick = () => {
 		setShowFriendRequestList((prev) => !prev);
 	};
-
-
-	const [friendRequests, setFriendRequests] = useState([]);
-	useEffect(() => {
-		const fetchFriendRequests = async () => {
-			if (user && user.email) {
-				try {
-					const responseData = await getAllFriendRequests(user.email);
-					setFriendRequests(responseData);
-				} catch (error) {
-					console.error("Failed to fetch friend requests", error);
-				}
-			}
-		};
-		fetchFriendRequests();
-	}, [user]);
 
 	const handleFriendDelete = async (friendEmail, friendId) => {
 		const userConfirmed = window.confirm(`Are you sure you want to delete ${friendEmail}?`);
@@ -130,7 +114,6 @@ const FriendPage = () => {
 							<p>There is no friend available.</p>
 						</div>
 					)}
-
 				</div>
 			</div>
 		</div>
