@@ -124,7 +124,6 @@
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	transition: all 0.3s ease;
 
-	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -144,6 +143,7 @@
 
 
 .edit-profile-button#edit {
+	cursor: pointer;
 	background-color: #4d4d4d;
 	color: #ffffff;
 }
@@ -158,6 +158,7 @@
 	background-color: #ec971f;
 }
 .edit-profile-button#chat {
+	cursor: pointer;
 	background-color: #5bc0de;
 	color: #ffffff;
 }
@@ -165,6 +166,7 @@
 	background-color: #31b0d5;
 }
 .edit-profile-button#add {
+	cursor: pointer;
 	background-color: #5cb85c;
 	color: #ffffff;
 }

@@ -7,10 +7,13 @@
 
 
 .search-result-item {
-	cursor: pointer;
 	border-radius: 8px;
 	background-color: #fff;
 	transition: background-color 0.3s ease, transform 0.3s ease;
+
+	display: flex;
+	justify-content: space-between;
+
 	margin: 5px 0;
 	padding: 10px;
 }
@@ -22,17 +25,25 @@
 
 
 
+
+
+
 .search-friend-profile-header {
 	display: flex;
 	align-items: center;
 }
+.search-friend-profile-header img, .search-friend-profile-header svg {
+	cursor: pointer;
+}
+
+
+
+
 
 
 .search-friend-profile-info {
 	flex: 1;
 }
-
-
 .search-friend-profile-name-status {
 	display: flex;
 	flex-direction: column;
@@ -42,10 +53,76 @@
 	font-weight: bold;
 	font-size: 18px;
 	color: #007bff;
+	cursor: pointer;
+}
+.search-friend-profile-name-status #userName:hover {
+	text-decoration: underline;
 }
 .search-friend-profile-name-status #email {
 	color: #666;
 }
+
+
+
+
+
+.search-friend-action-button {
+	border: none;
+	border-radius: 12px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	padding: 12px;
+	margin: 10px 10px 10px 0;
+	min-width: 150px;
+	font-size: 16px;
+}
+.search-friend-action-button:hover {
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+	transform: scale(1.05);
+	opacity: 0.9;
+}
+
+
+.search-friend-action-button#you {
+	cursor: pointer;
+	background-color: #4d4d4d;
+	color: #ffffff;
+}
+.search-friend-action-button#you:hover {
+	background-color: #333333;
+}
+.search-friend-action-button#pending {
+	background-color: #f0ad4e;
+	color: #ffffff;
+}
+.search-friend-action-button#pending:hover {
+	background-color: #ec971f;
+}
+.search-friend-action-button#chat {
+	cursor: pointer;
+	background-color: #5bc0de;
+	color: #ffffff;
+}
+.search-friend-action-button#chat:hover {
+	background-color: #31b0d5;
+}
+.search-friend-action-button#add {
+	cursor: pointer;
+	background-color: #5cb85c;
+	color: #ffffff;
+}
+.search-friend-action-button#add:hover {
+	background-color: #449d44;
+}
+
+
+
+
 
 
 

@@ -37,28 +37,19 @@ const SearchPage = () => {
 		}
 	}, [searchContent]);
 
-	// const handleSearchInputChange = (e) => {
-	// 	setSearchContent(e.target.value);
-	// };
-
 	return (
 		<div className="main-page">
 			<div className="content">
 
 				<div className="search-content-container">
-					{/*<input*/}
-					{/*	type="text"*/}
-					{/*	placeholder="Search..."*/}
-					{/*	value={searchContent}*/}
-					{/*	onChange={handleSearchInputChange}*/}
-					{/*	className="search-input"*/}
-					{/*/>*/}
 
 					<div>
 						<h2>Users matched with keyword:</h2>
 						<div className="search-content-section-friend">
 							{users && users.length > 0 ? (
-								<SearchFriendsResult users={users}/>
+								<SearchFriendsResult
+									searchedUsers={users}
+								/>
 							) : (
 								<p>No users found with this keyword</p>
 							)}
