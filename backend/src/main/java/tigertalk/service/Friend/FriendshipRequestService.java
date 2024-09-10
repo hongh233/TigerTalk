@@ -15,6 +15,7 @@ public interface FriendshipRequestService {
      * @return a list of FriendshipRequestDTO objects
      */
     List<FriendshipRequestDTO> getAllFriendRequests(String email);
+    List<FriendshipRequestDTO> getAllFriendRequests_doubleSided(String email);
 
     /**
      * Send a friendship request: (sender ---> receiver)
@@ -41,12 +42,6 @@ public interface FriendshipRequestService {
      */
     Optional<String> rejectFriendshipRequest(Integer friendshipRequestId);
 
-    /**
-     * Retrieves the total number of friendship requests in the database.
-     *
-     * @return the number of friendship requests
-     */
-    int findNumOfTotalRequests();
 
     /**
      * Checks if a friendship request exists between two users.

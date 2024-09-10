@@ -142,35 +142,35 @@
 
 
 
-.edit-profile-button#edit {
+.edit-profile-button#Edit {
 	cursor: pointer;
 	background-color: #4d4d4d;
 	color: #ffffff;
 }
-.edit-profile-button#edit:hover {
+.edit-profile-button#Edit:hover {
 	background-color: #333333;
 }
-.edit-profile-button#pending {
+.edit-profile-button#Pending {
 	background-color: #f0ad4e;
 	color: #ffffff;
 }
-.edit-profile-button#pending:hover {
+.edit-profile-button#Pending:hover {
 	background-color: #ec971f;
 }
-.edit-profile-button#chat {
+.edit-profile-button#Chat {
 	cursor: pointer;
 	background-color: #5bc0de;
 	color: #ffffff;
 }
-.edit-profile-button#chat:hover {
+.edit-profile-button#Chat:hover {
 	background-color: #31b0d5;
 }
-.edit-profile-button#add {
+.edit-profile-button#Add {
 	cursor: pointer;
 	background-color: #5cb85c;
 	color: #ffffff;
 }
-.edit-profile-button#add:hover {
+.edit-profile-button#Add:hover {
 	background-color: #449d44;
 }
 

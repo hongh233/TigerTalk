@@ -37,14 +37,31 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     // We have E->A, D->A, get(A) will get E, D
     @Override
     public List<FriendshipRequestDTO> getAllFriendRequests(String email) {
-        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(email);
-        if (optionalUserProfile.isEmpty()) {
-            throw new IllegalStateException("User not found");
-        }
-        UserProfile user = optionalUserProfile.get();
-
+        UserProfile user = userProfileRepository.findById(email).get();
         List<FriendshipRequestDTO> list = new ArrayList<>();
+
         for (FriendshipRequest friendshipRequest : friendshipRequestRepository.findByReceiver(user)) {
+            FriendshipRequestDTO dto = friendshipRequest.toDto();
+            list.add(dto);
+        }
+        return list;
+    }
+
+    /* We have A -> E, E -> J, get all these 6 request relations
+     *         B -> E, E -> K
+     *         C -> E, E -> L
+     */
+    @Override
+    public List<FriendshipRequestDTO> getAllFriendRequests_doubleSided(String email) {
+        UserProfile user = userProfileRepository.findById(email).get();
+        List<FriendshipRequestDTO> list = new ArrayList<>();
+
+        for (FriendshipRequest friendshipRequest : friendshipRequestRepository.findByReceiver(user)) {
+            FriendshipRequestDTO dto = friendshipRequest.toDto();
+            list.add(dto);
+        }
+
+        for (FriendshipRequest friendshipRequest : friendshipRequestRepository.findBySender(user)) {
             FriendshipRequestDTO dto = friendshipRequest.toDto();
             list.add(dto);
         }
@@ -97,11 +114,6 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
         } else {
             throw new IllegalStateException("Friendship request ID does not exist!");
         }
-    }
-
-    @Override
-    public int findNumOfTotalRequests() {
-        return friendshipRequestRepository.findAll().size();
     }
 
     @Override

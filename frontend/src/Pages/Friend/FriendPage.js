@@ -1,33 +1,52 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/styles/Pages/Friend/FriendPage.css";
-import { deleteFriendshipByEmail } from "../../axios/Friend/FriendshipAxios";
+import {deleteFriendshipByEmail, getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
 import {FaUserPlus} from "react-icons/fa";
 import {useDispatch, useSelector} from "react-redux";
 import FriendshipMembership from "../../Components/Friend/FriendshipMembership";
 import { filterUsers } from "../../utils/filterFunctions.js";
 import FriendRequestList from "../../Components/Friend/FriendRequestList";
 import {Badge} from "@mui/material";
-import {removeFriend} from "../../redux/actions/friendActions";
+import {removeFriend, setFriends} from "../../redux/actions/friendActions";
+import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
 
 
 const FriendPage = () => {
 	const user = useSelector((state) => state.user.user);
-	const friends = useSelector((state) => state.friends.friends);
-	const friendRequests = useSelector((state) => state.friends.friendshipRequests);
-	const [filteredFriends, setFilteredFriends] = useState(friends);
+	const [friendsRaw, setFriendsRaw] = useState([]);
+	const [friendRequests, setFriendRequests] = useState([]);
+	const [filteredFriends, setFilteredFriends] = useState([]);
 	const [searchFriendQuery, setSearchFriendQuery] = useState("");
 	const [showFriendRequestList, setShowFriendRequestList] = useState(false);
 	const [hoverTimeout, setHoverTimeout] = useState(null);
 	const dispatch = useDispatch();
 
+
+	const fetchFriendData = async () => {
+		try {
+			const friendsData = await getAllFriendsDTO(user.email);
+			setFilteredFriends(friendsData);
+			setFriendsRaw(friendsData);
+
+			setFriendRequests(await getAllFriendRequests(user.email));
+			dispatch(setFriends(friendsData));
+		} catch (error) {
+			console.error("Failed to fetch friends or friend requests", error);
+		}
+	};
+
+	useEffect(() => {
+		if (user) {fetchFriendData();}
+	}, [user]);
+
+
 	useEffect(() => {
 		if (searchFriendQuery) {
-			const result = filterUsers(friends, searchFriendQuery);
-			setFilteredFriends(result);
+			setFilteredFriends(filterUsers(friendsRaw, searchFriendQuery));
 		} else {
-			setFilteredFriends(friends);
+			setFilteredFriends(friendsRaw);
 		}
-	}, [searchFriendQuery, friends]);
+	}, [searchFriendQuery, friendsRaw]);
 
 	const handleInputChange = (e) => {
 		setSearchFriendQuery(e.target.value);
@@ -95,6 +114,8 @@ const FriendPage = () => {
 							{showFriendRequestList && (
 								<FriendRequestList
 									friendRequests={friendRequests}
+									setFriendRequests={setFriendRequests}
+									fetchFriendData={fetchFriendData}
 								/>
 							)}
 						</div>

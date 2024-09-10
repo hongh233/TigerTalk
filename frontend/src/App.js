@@ -15,15 +15,14 @@ import ViewGroupPage from "./Pages/Group/ViewGroupPage";
 import AuthenticationFailPage from "./Pages/FailPage/AuthenticationFailPage";
 import FriendMessagePage from "./Pages/Friend/FriendMessagePage";
 import SearchPage from "./Pages/Search/SearchPage";
-//REDUX
-import {useDispatch, useSelector} from "react-redux";
-
 import ValidationFailPage from "./Pages/FailPage/ValidationFailPage";
 import AdminFailPage from "./Pages/FailPage/AdminFailPage";
 import SecurityPage from "./Pages/Profile/SecurityPage";
 import Header from "./Components/Main/Header";
 import NavBar from "./Components/Main/Navbar";
-import {clearUser} from "./redux/actions/userActions";
+
+import {useDispatch, useSelector} from "react-redux";
+import {clearUser, setUser} from "./redux/actions/userActions";
 
 const App = () => {
 	const user = useSelector((state) => state.user.user);
@@ -31,14 +30,29 @@ const App = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		sessionStorage.setItem('isPageRefreshed', 'true');
 		const handleBeforeUnload = () => {
-			dispatch(clearUser());
+			if (sessionStorage.getItem('isPageRefreshed') === 'true') {
+				sessionStorage.removeItem('isPageRefreshed');
+			} else {
+				dispatch(clearUser());
+			}
 		};
+
 		window.addEventListener('beforeunload', handleBeforeUnload);
 		return () => {
 			window.removeEventListener('beforeunload', handleBeforeUnload);
 		};
 	}, [dispatch]);
+
+	useEffect(() => {
+		const storedUser = localStorage.getItem('user');
+		if (storedUser) {
+			dispatch(setUser(JSON.parse(storedUser)));
+		}
+	}, [dispatch]);
+
+
 
 	return (
 		<Router>

@@ -5,8 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {getCurrentUser} from "../../axios/UserAxios";
 import {getAllFriendsDTO} from "../../axios/Friend/FriendshipAxios";
-import {setFriends, setFriendshipRequests} from "../../redux/actions/friendActions";
-import {getAllFriendRequests} from "../../axios/Friend/FriendshipRequestAxios";
+import {setFriends} from "../../redux/actions/friendActions";
 
 
 const LoginPage = () => {
@@ -33,10 +32,6 @@ const LoginPage = () => {
 				// Fetch friends and update Redux
 				const friends = await getAllFriendsDTO(email);
 				dispatch(setFriends(friends));
-
-				// Fetch friendship requests and update Redux
-				const friendshipRequests = await getAllFriendRequests(email);
-				dispatch(setFriendshipRequests(friendshipRequests));
 
 				navigate("/main", { state: { userProfile }, replace: true });
 			} catch (loginError) {

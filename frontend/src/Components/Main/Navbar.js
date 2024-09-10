@@ -9,7 +9,7 @@ import {MdAccountCircle, MdAdminPanelSettings, MdOutlineSecurity} from "react-ic
 import {FaSignOutAlt} from "react-icons/fa";
 import {userLogout} from "../../axios/Authentication/LoginAxios";
 import {IoHomeSharp} from "react-icons/io5";
-import {setFriends, setFriendshipRequests} from "../../redux/actions/friendActions";
+import {setFriends} from "../../redux/actions/friendActions";
 
 const NavBar = () => {
     const user = useSelector((state) => state.user.user);
@@ -24,7 +24,6 @@ const NavBar = () => {
                 dispatch({ type: "LOGOUT" });
                 dispatch({ type: "SET_USER", payload: null });
                 dispatch(setFriends([]));
-                dispatch(setFriendshipRequests([]));
                 navigate("/");
             }
         } catch (error) {

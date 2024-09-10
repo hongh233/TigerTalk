@@ -182,22 +182,7 @@ public class FriendshipRequestServiceImplTest {
         assertFalse(result, "Expected false as there is no friendship between a and b");
     }
 
-    /**
-     * Test case for findNumOfTotalRequests
-     */
-    @Test
-    public void findNumOfTotalRequests_success() {
-        when(friendshipRequestRepository.findAll()).thenReturn(List.of(new FriendshipRequest(userA, userB), new FriendshipRequest(userB, userC)));
-        int result = friendshipRequestService.findNumOfTotalRequests();
-        assertEquals(2, result);
-    }
 
-    @Test
-    public void findNumOfTotalRequests_noRequests() {
-        when(friendshipRequestRepository.findAll()).thenReturn(List.of());
-        int result = friendshipRequestService.findNumOfTotalRequests();
-        assertEquals(0, result);
-    }
 
 
 }

@@ -30,6 +30,10 @@ public class FriendshipRequestController {
     public List<FriendshipRequestDTO> getAllFriendRequests(@PathVariable("email") String email) {
         return friendshipRequestService.getAllFriendRequests(email);
     }
+    @GetMapping("/doubleSided/{email}")
+    public List<FriendshipRequestDTO> getAllFriendRequestsDoubleSided(@PathVariable("email") String email) {
+        return friendshipRequestService.getAllFriendRequests_doubleSided(email);
+    }
 
     /**
      * Sends a friendship request from one user to another.

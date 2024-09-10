@@ -308,7 +308,7 @@ const FriendMessagePage = () => {
 								placeholder="Type a message..."
 								value={newMessage}
 								onChange={(e) => setNewMessage(e.target.value)}
-								onKeyPress={handleKeyPress}
+								onKeyDown={handleKeyPress}
 							/>
 
 							<button className="send-button" onClick={handleSendMessage}>

@@ -10,9 +10,8 @@ import java.util.Optional;
 
 public interface FriendshipRequestRepository extends JpaRepository<FriendshipRequest, Integer> {
 
-    List<FriendshipRequest> findByReceiver(
-            @Param("receiver") UserProfile receiver
-    );
+    List<FriendshipRequest> findBySender(@Param("sender") UserProfile sender);
+    List<FriendshipRequest> findByReceiver(@Param("receiver") UserProfile receiver);
 
 
     /*  When the sendersEmail and receiversEmail are different,
@@ -34,11 +33,6 @@ public interface FriendshipRequestRepository extends JpaRepository<FriendshipReq
             @Param("receiver1") UserProfile receiver1,
             @Param("sender2") UserProfile sender2,
             @Param("receiver2") UserProfile receiver2);
-
-
-    Optional<FriendshipRequest> findBySender(
-            @Param("sender") UserProfile sender
-    );
 
 
 }

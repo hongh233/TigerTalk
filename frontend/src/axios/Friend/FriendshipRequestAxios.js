@@ -5,22 +5,19 @@ const URL = process.env.REACT_APP_API_URL;
 
 // This axio is used in FriendRequestPage
 export const getAllFriendRequests = async (email) => {
-    try {
-        const response = await axios.get(`${URL}/friendshipRequests/${email}`);
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
+    const response = await axios.get(`${URL}/friendshipRequests/${email}`);
+    return response.data;
+};
+export const getAllFriendRequestsDoubleSided = async (email) => {
+    const response = await axios.get(`${URL}/friendshipRequests/doubleSided/${email}`);
+    return response.data;
 };
 
 
+
 export const sendFriendRequest = async (params) => {
-    try {
-        const response = await axios.post(`${URL}/friendshipRequests/send`, null, {params});
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
+    const response = await axios.post(`${URL}/friendshipRequests/send`, null, {params});
+    return response.data;
 };
 
 
