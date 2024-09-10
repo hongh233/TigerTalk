@@ -51,7 +51,7 @@ const GroupTransferOwnership = ({ groupMembershipList, previousOwnerMembershipId
                                         <StatusIcon status={member.userProfileDTO.onlineStatus}/>
                                     </div>
                                     <div className="group-membership-item-friend-details-transfer">
-                                        <a>{member.userProfileDTO.userName}</a>
+                                        <div className="userName">{member.userProfileDTO.userName}</div>
                                         <p>Email: {member.userProfileDTO.email}</p>
                                     </div>
                                 </div>

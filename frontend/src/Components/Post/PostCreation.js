@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { uploadImageToCloudinary } from "../../utils/cloudinaryUtils";
 import StatusIcon from "../Main/StatusIcon";
 import {SlPicture} from "react-icons/sl";
-import {IoMdHappy} from "react-icons/io";
 
 
 const PostCreation = ({ addPost }) => {

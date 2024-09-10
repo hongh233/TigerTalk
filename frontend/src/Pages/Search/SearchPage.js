@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "../../assets/styles/Pages/Search/SearchPage.css";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import SearchFriendsResult from "../../Components/Search/SearchFriendsResult";
 import { searchGroups, searchUsers } from "../../axios/Search/SearchAxios";
 import SearchGroupsResult from "../../Components/Search/SearchGroupsResult";
@@ -11,7 +11,6 @@ const SearchPage = () => {
 	const [searchContent, setSearchContent] = useState(location.state?.content || "");
 	const [users, setUsers] = useState([]);
 	const [groups, setGroups] = useState([]);
-	const navigate = useNavigate();
 
 
 	useEffect(() => {

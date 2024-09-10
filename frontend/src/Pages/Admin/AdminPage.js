@@ -10,7 +10,6 @@ const AdminPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
-    const [selectedUsers, setSelectedUsers] = useState([]);
     const [data, setData] = useState([]);
 
     useEffect(() => {

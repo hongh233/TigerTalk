@@ -6,12 +6,12 @@ build_frontend:
   stage: build
   image: node:16
   script:
-    - cd src/main/java/com/group2/Tiger_Talks/frontend/build/
+    - cd frontend/build/
     - npm install
     - npm run build
   artifacts:
     paths:
-      - src/main/java/com/group2/Tiger_Talks/frontend/build/
+      - frontend/build/
 
 
 build_backend:

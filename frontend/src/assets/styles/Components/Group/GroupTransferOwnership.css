@@ -131,7 +131,7 @@
 .group-membership-item-friend-details-transfer {
 
 }
-.group-membership-item-friend-details-transfer a {
+.group-membership-item-friend-details-transfer .userName {
     font-size: 18px;
     font-weight: bold;
     color: #333;

@@ -79,7 +79,7 @@
 .group-membership-item-friend-details-invite {
     margin-left: 10px;
 }
-.group-membership-item-friend-details-invite a {
+.group-membership-item-friend-details-invite .userName {
     font-size: 18px;
     font-weight: bold;
     color: #333;

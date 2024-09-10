@@ -79,7 +79,7 @@ const GroupInvitePeopleModal = ({members, onClose, groupId}) => {
                                     <StatusIcon status={friend.onlineStatus}/>
                                 </div>
                                 <div className="group-membership-item-friend-details-invite">
-                                    <a>{friend.userName}</a>
+                                    <div className="userName">{friend.userName}</div>
                                     <p>{friend.email}</p>
                                 </div>
                             </div>

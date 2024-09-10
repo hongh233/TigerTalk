@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../../assets/styles/Components/Search/SearchFriendsResult.css";
 import StatusIcon from "../Main/StatusIcon";
 import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {getAllFriendRequestsDoubleSided, sendFriendRequest} from "../../axios/Friend/FriendshipRequestAxios";
 import {FaUserPlus} from "react-icons/fa";
 import {MdAccountCircle, MdOutlinePendingActions} from "react-icons/md";
