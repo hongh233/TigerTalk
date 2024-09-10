@@ -10,9 +10,9 @@ To build on your own, follow these instructions:
 
 1. Make sure you have [Maven](https://maven.apache.org/install.html) and [JDK 17](https://www.oracle.com/ca-en/java/technologies/downloads/#java17) installed. Other JDk may not work. 
 
-2. Going to ./backend/src/main/resources, set the application.properties and related files, instruction is written there
+2. Going to `./backend/src/main/resources`, set the application.properties and related files, instruction is written there
 
-3. Going to ./frontend/env, set the REACT_APP_API_URL property, instruction is written there
+3. Going to `./frontend/env`, set the REACT_APP_API_URL property, instruction is written there
 
 4. Open a terminal in the TigerTalk directory and run the following commands:
 <!--------------------------------------- frontend --------------------------------------->
@@ -117,10 +117,15 @@ curl -X POST http://localhost:8085/api/scripts/setUp
 </div>
 
 ---
+## How to Deploy
+
+This project is deployed on AWS. Frontend is on S3 and backend is running on EC2 server. There is a recommended tutorial video on how to do this by Phegon Dev: https://www.youtube.com/watch?v=YC7NBNICGeY
+
+---
 ## Tips
 1.Ensure you have Maven installed on your system. You can check by running `mvn -v` in your terminal. If Maven is not installed, you can download and install it from [Apache Maven's official site](https://maven.apache.org/download.cgi).
 
-2.If you have installed maven but backend code still showing wrong syntax, going to ./backend/pom.xml, right click on it and choose: Add as Maven Project
+2.If you have installed maven but backend code still showing wrong syntax, going to `./backend/pom.xml`, right click on it and choose: Add as Maven Project
 
 2.IntelliJ IDEA is a recommended IDE on this project.
 
