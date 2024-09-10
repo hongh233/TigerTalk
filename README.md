@@ -99,6 +99,10 @@ cd ./backend && mvn clean test -X
 
 ---
 ## Database Setting
+In `./SQL_Query`, there are some quick drop, delete, alter and select queries for developers to manipulate data by hand.
+
+There are also 2 APIs to drop the database, and set up the Mock data. The Mock data contains existed users that emails from a@dal.ca to z@dal.ca.
+To drop all the tables, make sure the backend is running and then call the drop-table API. After doing that, you have to rerun the backend to initialize the database. Then you are able to call the insert-mock-data API. 
 <div class="inline-container">
 <span class="inline-title">Drop Database:</span>
 
@@ -109,7 +113,7 @@ curl -X POST http://localhost:8085/api/scripts/dropTables
 
 
 <div class="inline-container">
-<span class="inline-title">Initialize Database:</span>
+<span class="inline-title">Insert Mock Data:</span>
 
 ```shell
 curl -X POST http://localhost:8085/api/scripts/setUp
@@ -119,7 +123,7 @@ curl -X POST http://localhost:8085/api/scripts/setUp
 ---
 ## How to Deploy
 
-This project is deployed on AWS. Frontend is on S3 and backend is running on EC2 server. There is a recommended tutorial video on how to do this by Phegon Dev: https://www.youtube.com/watch?v=YC7NBNICGeY
+This project is deployed on AWS. Frontend is on S3 and Backend is running on EC2 server. There is a recommended tutorial video on how to do this by Phegon Dev: https://www.youtube.com/watch?v=YC7NBNICGeY
 
 ---
 ## Tips
