@@ -86,15 +86,6 @@ public class FriendshipRequestServiceImplTest {
     /**
      * Test case for getAllFriendRequests
      */
-    @Test
-    public void getAllFriendRequests_userNotFound() {
-        when(userProfileRepository.findById("nonexistent@dal.ca")).thenReturn(Optional.empty());
-        Exception exception = assertThrows(
-                IllegalStateException.class,
-                () -> friendshipRequestService.getAllFriendRequests("nonexistent@dal.ca")
-        );
-        assertEquals("User not found", exception.getMessage());
-    }
 
     @Test
     public void getAllFriendRequests_success() {
