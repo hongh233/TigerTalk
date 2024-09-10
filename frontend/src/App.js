@@ -16,17 +16,29 @@ import AuthenticationFailPage from "./Pages/FailPage/AuthenticationFailPage";
 import FriendMessagePage from "./Pages/Friend/FriendMessagePage";
 import SearchPage from "./Pages/Search/SearchPage";
 //REDUX
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import ValidationFailPage from "./Pages/FailPage/ValidationFailPage";
 import AdminFailPage from "./Pages/FailPage/AdminFailPage";
 import SecurityPage from "./Pages/Profile/SecurityPage";
 import Header from "./Components/Main/Header";
 import NavBar from "./Components/Main/Navbar";
+import {clearUser} from "./redux/actions/userActions";
 
 const App = () => {
 	const user = useSelector((state) => state.user.user);
 	const isLoggedIn = !!user;
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const handleBeforeUnload = () => {
+			dispatch(clearUser());
+		};
+		window.addEventListener('beforeunload', handleBeforeUnload);
+		return () => {
+			window.removeEventListener('beforeunload', handleBeforeUnload);
+		};
+	}, [dispatch]);
 
 	return (
 		<Router>
