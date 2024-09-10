@@ -1,17 +1,20 @@
 # Tiger Talk
 
-The social media platform for Dalhousie University, written in Java, React, Springboot, see the [website](http://hongh651.s3-website.ca-west-1.amazonaws.com): http://hongh651.s3-website.ca-west-1.amazonaws.com
+The social media platform for Dalhousie University, written in Java, React, Springboot, see the [deployment website](http://hongh651.s3-website.ca-west-1.amazonaws.com): 
 
----
-## Contributing
-See [CONTRIBUTING](CONTRIBUTING.md).
-
+http://hongh651.s3-website.ca-west-1.amazonaws.com
 
 ---
 ## Build and Run
-To build on your own, follow these instructions. First, make sure you have [JDK 17](https://www.oracle.com/ca-en/java/technologies/downloads/#java17) installed. Other JDk may not work. Open a terminal in the Group02 directory and run the following commands:
+To build on your own, follow these instructions:
 
+1. Make sure you have [Maven](https://maven.apache.org/install.html) and [JDK 17](https://www.oracle.com/ca-en/java/technologies/downloads/#java17) installed. Other JDk may not work. 
 
+2. Going to ./backend/src/main/resources, set the application.properties and related files, instruction is written there
+
+3. Going to ./frontend/env, set the REACT_APP_API_URL property, instruction is written there
+
+4. Open a terminal in the TigerTalk directory and run the following commands:
 <!--------------------------------------- frontend --------------------------------------->
 
 ### Frontend
@@ -115,13 +118,12 @@ curl -X POST http://localhost:8085/api/scripts/setUp
 
 ---
 ## Tips
-1. Backend Runner is working on Dal MySQL server, it only runs on Dal Internet. To use Dal MySQL server remotely, please install the [VPN Client Software Application](https://dalu.sharepoint.com/sites/its/SitePages/vpn.aspx?_ga=2.182314855.1320124946.1719698724-195095931.1712083041&xsdata=MDV8MDJ8fGE0YjJmZjljZDc2YTRkYjY3YTAyMDhkYzk5MzFmOTRifDYwYjgxOTk5MGI3ZjQxMmQ5MmEzZTE3ZDhhZTllM2UwfDB8MHw2Mzg1NTM2ODcwOTQ2ODgyNTh8VW5rbm93bnxWR1ZoYlhOVFpXTjFjbWwwZVZObGNuWnBZMlY4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazkwYUdWeUlpd2lWMVFpT2pFeGZRPT18MXxMMk5vWVhSekx6RTVPak5oWlRNMU9ESmtMV0psWXpNdE5ETXpaUzA1TVRFMExXRTJNVEZpWTJFNE16UTBZbDlsTVdSbE5tTTFZUzAzTTJKbUxUUmxNREV0T0RRek9TMDRZekppWlRabE1qTXpabVJBZFc1eExtZGliQzV6Y0dGalpYTXZiV1Z6YzJGblpYTXZNVGN4T1RjM01Ua3dPRE0xTVE9PXxjZWFlZGRlODkxMWE0NzY4N2EwMjA4ZGM5OTMxZjk0YnxlYjRjODVjOGU5MzI0NGI5YmZlYzIwODI1MTNmOTFhYw%3D%3D&sdata=MGRUY3Zhb2pyVE0vaXdTM3VJUU1EVWtwWUlQaUhnMVk5bjM5YXlKaklrdz0%3D&ovuser=60b81999-0b7f-412d-92a3-e17d8ae9e3e0%2Chn582183%40dal.ca&OR=Teams-HL&CT=1721367432507&clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI1MC8yNDA2MTMxODQwOCIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D) with your NetID and password.
-2. To work on your own database (local host), change files in this path: /src/main/resources. 
+1.Ensure you have Maven installed on your system. You can check by running `mvn -v` in your terminal. If Maven is not installed, you can download and install it from [Apache Maven's official site](https://maven.apache.org/download.cgi).
 
-   In application.properties, set prod to be dev. 
+2.If you have installed maven but backend code still showing wrong syntax, going to ./backend/pom.xml, right click on it and choose: Add as Maven Project
 
-   In application-dev.properties, feel free to set your database info.
-3. Ensure you have Maven installed on your system. You can check by running `mvn -v` in your terminal. If Maven is not installed, you can download and install it from [Apache Maven's official site](https://maven.apache.org/download.cgi).
+2.IntelliJ IDEA is a recommended IDE on this project.
+
 
 ---
 
