@@ -62,7 +62,7 @@ public class UserProfile {
     private String email;                       // contain @, should be unique
 
     // authentication variable:
-    private String password;                    // 8 <= length <= 30, must have at least 1 uppercase, 1 lowercase, 1 number, 1 special character !@#$%^&*<>? and only contain those
+    private String password;                    // 8 <= length <= 30, only contain A-Za-z0-9!@#$%^&*<>?
     private String securityQuestion;            // choose from 15 questions provided from frontend
     private String securityQuestionAnswer;      // 5 <= length <= 50, any characters are available
 

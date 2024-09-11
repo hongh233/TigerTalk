@@ -64,14 +64,6 @@ const SignUpPage = () => {
         } else {
             if (form.password.length < 8 || form.password.length > 30) {
                 errors.password = "Password must be between 8 and 30 characters long.";
-            } else if (!/[A-Z]/.test(form.password)) {
-                errors.password = "Password must have at least 1 uppercase character.";
-            } else if (!/[a-z]/.test(form.password)) {
-                errors.password = "Password must have at least 1 lowercase character.";
-            } else if (!/[0-9]/.test(form.password)) {
-                errors.password = "Password must have at least 1 number.";
-            } else if (!/[!@#$%^&*<>?]/.test(form.password)) {
-                errors.password = "Password must have at least 1 special character, include: !@#$%^&*<>?";
             } else if (/[^A-Za-z0-9!@#$%^&*<>?]/.test(form.password)) {
                 errors.password = "Password contains invalid characters. Only letters, numbers, and characters !@#$%^&*<>? are allowed.";
             }

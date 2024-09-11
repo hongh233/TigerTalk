@@ -144,14 +144,6 @@ const ForgotPasswordPage = () => {
         } else {
             if (newPassword.length < 8 || newPassword.length > 30) {
                 errors.newPassword = "Password must be between 8 and 30 characters long.";
-            } else if (!/[A-Z]/.test(newPassword)) {
-                errors.newPassword = "Password must have at least 1 uppercase character.";
-            } else if (!/[a-z]/.test(newPassword)) {
-                errors.newPassword = "Password must have at least 1 lowercase character.";
-            } else if (!/[0-9]/.test(newPassword)) {
-                errors.newPassword = "Password must have at least 1 number.";
-            } else if (!/[!@#$%^&*<>?]/.test(newPassword)) {
-                errors.newPassword = "Password must have at least 1 special character, include: !@#$%^&*<>?";
             } else if (/[^A-Za-z0-9!@#$%^&*<>?]/.test(newPassword)) {
                 errors.newPassword = "Password contains invalid characters. Only letters, numbers, and characters !@#$%^&*<>? are allowed.";
             }
