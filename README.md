@@ -48,6 +48,15 @@ cd ./frontend && npm run build
 
 
 <div class="inline-container">
+<span class="inline-title">Test :</span>
+
+```shell
+cd ./frontend && npm run cypress:open
+```
+</div>
+
+
+<div class="inline-container">
 <span class="inline-title">Stop :</span>
 
 ```shell
